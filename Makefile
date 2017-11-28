@@ -15,5 +15,5 @@ ancientRise: $(OBJ)
 	//$(DEPS)
 
 info:
-	$(info $(SOURCES)
+	$(info $(SOURCES))
 	$(info $(OBJ))
