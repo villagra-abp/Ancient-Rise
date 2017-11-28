@@ -3,17 +3,22 @@ LIBS := -lIrrlicht
 CC=g++
 CFLAGS=-I.
 
+EJEC:= AncientRise
+
 SOURCES := $(wildcard *.cpp)
 OBJ := $(subst .cpp,.o,$(SOURCES))
 
-ancientRise: $(OBJ)
+$(EJEC): $(OBJ)
 	$(CC) -o $@ $^ $(LIBS)
 
 %.o: %.cpp 
 	$(CC) -c -o $@ $^ $(CFLAGS)
 
-	//$(DEPS)
 
 info:
-	$(info $(SOURCES)
+	$(info $(SOURCES))
 	$(info $(OBJ))
+
+clean: 
+	rm -f *.o 
+	rm -f $(EJEC)
