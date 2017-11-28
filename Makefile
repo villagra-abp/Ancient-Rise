@@ -19,6 +19,9 @@ info:
 	$(info $(SOURCES))
 	$(info $(OBJ))
 
+
 clean: 
 	rm -f *.o 
 	rm -f $(EJEC)
+
+
