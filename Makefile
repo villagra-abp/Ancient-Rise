@@ -1,4 +1,4 @@
-LIBS := -lIrrlicht
+LIBS := -lIrrlicht -lGL -lX11 -lXxf86vm
 
 CC=g++
 CFLAGS=-I.

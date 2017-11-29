@@ -1,51 +1,8 @@
-/** Example 001 HelloWorld
 
-This Tutorial shows how to set up the IDE for using the Irrlicht Engine and how
-to write a simple HelloWorld program with it. The program will show how to use
-the basics of the VideoDriver, the GUIEnvironment, and the SceneManager.
-Microsoft Visual Studio is used as an IDE, but you will also be able to
-understand everything if you are using a different one or even another
-operating system than windows.
 
-You have to include the header file <irrlicht.h> in order to use the engine. The
-header file can be found in the Irrlicht Engine SDK directory \c include. To let
-the compiler find this header file, the directory where it is located has to be
-specified. This is different for every IDE and compiler you use. Let's explain
-shortly how to do this in Microsoft Visual Studio:
-
-- If you use Version 6.0, select the Menu Extras -> Options.
-  Select the directories tab, and select the 'Include' Item in the combo box.
-  Add the \c include directory of the irrlicht engine folder to the list of
-  directories. Now the compiler will find the Irrlicht.h header file. We also
-  need the irrlicht.lib to be found, so stay in that dialog, select 'Libraries'
-  in the combo box and add the \c lib/VisualStudio directory.
-  \image html "vc6optionsdir.jpg"
-  \image latex "vc6optionsdir.jpg"
-  \image html "vc6include.jpg"
-  \image latex "vc6include.jpg"
-
-- If your IDE is Visual Studio .NET, select Tools -> Options.
-  Select the projects entry and then select VC++ directories. Select 'show
-  directories for include files' in the combo box, and add the \c include
-  directory of the irrlicht engine folder to the list of directories. Now the
-  compiler will find the Irrlicht.h header file. We also need the irrlicht.lib
-  to be found, so stay in that dialog, select 'show directories for Library
-  files' and add the \c lib/VisualStudio directory.
-  \image html "vcnetinclude.jpg"
-  \image latex "vcnetinclude.jpg"
-
-That's it. With your IDE set up like this, you will now be able to develop
-applications with the Irrlicht Engine.
-
-Lets start!
-
-After we have set up the IDE, the compiler will know where to find the Irrlicht
-Engine header files so we can include it now in our code.
-*/
-
-#include <irrlicht/irrlicht.h>
+#include <irrlicht.h>
 #include "Protagonista.h"
-#include "EnemigoBasico.h"
+#include "Enemigo.h"
 #include "Posicion.h"
 #include <iostream>
 
@@ -139,12 +96,7 @@ int main()
 	*/
 
 	// This is the movement speed in units per second.
-	const f32 MOVEMENT_SPEED = 90.f;
-    int saltando=0;
-    int sigilo=0;
-    int correr=0;
-    int direccion=1;
-    f32 vitalidad = 100.f;
+	
 
 
 
@@ -174,7 +126,7 @@ int main()
     MyEventReceiver receiver;
 
 	IrrlichtDevice *device =
-		createDevice( video::EDT_OPENGL, dimension2d<u32>(700, 600),16, false, false, false, &receiver);
+		createDevice( video::EDT_OPENGL, dimension2d<u32>(800, 600),16, false, false, false, &receiver);
 
 	if (!device)
 		return 1;
@@ -201,8 +153,8 @@ int main()
         posiciones[4]=new Posicion(-40.f,0.f,30.f);
 
 
-	//CREAMOS ENEMIGO BASICO
-	EnemigoBasico *enem = new EnemigoBasico(device, smgr, posiciones);
+	//CREAMOS ENEMIGO
+	Enemigo *enem = new Enemigo(device, smgr, posiciones);
 
 
 	/**
@@ -233,7 +185,7 @@ int main()
 
 	**/
 
-	scene::ICameraSceneNode* cam =smgr->addCameraSceneNode(0, vector3df(rec->getPosition().X,50,-120), vector3df(0,5,0));
+	scene::ICameraSceneNode* cam =smgr->addCameraSceneNode(0, vector3df(rec->getPosition().X,50,-140), vector3df(0,5,0));
 	device->getCursorControl()->setVisible(true);
 
 
@@ -274,30 +226,31 @@ int main()
 
 
         prota->salto(frameDeltaTime);
+        prota->ataque(frameDeltaTime);
 
         /* lanza el salto al pulsat w */
 
 		if(receiver.IsKeyDown(irr::KEY_SPACE) && protaPosition.Y<1){
             prota->setSalto(true);
-            prota->setEnergia(-100.f, frameDeltaTime);
+            //prota->setEnergia(-250.f, frameDeltaTime);
 
 		}
 
 
-        /* ajusta la vitalidad a los valores max y min y la muestra por consola */
-        if(prota->getEnergia()>100){
-            prota->setEnergia(100.f, frameDeltaTime);
-        }else if(prota->getEnergia()<0)
-            prota->setEnergia(100.f, frameDeltaTime);
+        /*muestra por consola */
+        
         std::cout<<prota->getEnergia()<<"\n";
 
-        /* 5 veces por segundo registra si pulsamos s para controlar el modo sigilo */
+        /* 5 veces por segundo registra si pulsamos s 
+        para controlar el modo sigilo y recargamos energia*/
 
         if(tiempo>0.2f)
         {
             f32 energia=prota->getEnergia();
 
             time_input=now;
+
+            
 
                 if(receiver.IsKeyDown(irr::KEY_KEY_C)) // AGACHARSE
                 {
@@ -307,10 +260,11 @@ int main()
 
                 if(energia<99.9)
                 {
-                    prota->setEnergia(100.f, frameDeltaTime);
+                    prota->setEnergia(100.f,frameDeltaTime);
                 }
 
         }
+
 
         /* control de correr*/
 
@@ -319,23 +273,43 @@ int main()
             prota->setCorrer(true);
 
             /* baja la vitalidad en funcion del tiempo*/
-
              if(tiempo>0.19f)
             {
-                prota->setEnergia(-100.f, frameDeltaTime);
+                prota->setEnergia(-100.0f,frameDeltaTime);
             }
 
         }else
             prota->setCorrer(false);
 
+        /* hacemos un set de ataque a 2 que es arriba */
+        if(receiver.IsKeyDown(irr::KEY_KEY_W))
+        {
+            //camPosition.X -= MOVEMENT_SPEED * frameDeltaTime;
+            prota->setAtaquePosition(2);
 
+		}
+		else if(receiver.IsKeyDown(irr::KEY_KEY_S))
+		{
+			prota->setAtaquePosition(0);
+
+		}
+		else
+			prota->setAtaquePosition(1);
+		/* inicia el ataque */
+        /* control de ataque*/
+        if(receiver.IsKeyDown(irr::KEY_KEY_P))
+        	{
+            //camPosition.X -= MOVEMENT_SPEED * frameDeltaTime;
+            prota->setAtaque(true);
+
+			}
 
         /* movimiento hacia los lados y control de la velocidad en funcion de
         las variables de correr, sigilo y vitalidad */
 
 		if(receiver.IsKeyDown(irr::KEY_KEY_A))
         {
-            camPosition.X -= MOVEMENT_SPEED * frameDeltaTime;
+            //camPosition.X -= MOVEMENT_SPEED * frameDeltaTime;
             prota->setDireccion(0);
 
              prota->movimiento(frameDeltaTime);
@@ -343,7 +317,7 @@ int main()
 
 		else if(receiver.IsKeyDown(irr::KEY_KEY_D)){
 
-            camPosition.X += MOVEMENT_SPEED * frameDeltaTime;
+            //camPosition.X += MOVEMENT_SPEED * frameDeltaTime;
              prota->setDireccion(1);
 
              prota->movimiento(frameDeltaTime);
@@ -361,7 +335,7 @@ int main()
         /**
         ENEMIGO
         */
-        /*
+
          if(receiver.IsKeyDown(irr::KEY_KEY_K))
         {
            enem->setPatrulla(false);
@@ -370,9 +344,8 @@ int main()
 
             enem->setPatrulla(true);
         }
-        */
+
         enem->Patrulla(frameDeltaTime, posiciones, protaPosition.X);  //INICIAMOS LA PATRULLA DEL ENEMIGO
-        enem->comprobarComportamiento();
 		/*
 		Anything can be drawn between a beginScene() and an endScene()
 		call. The beginScene() call clears the screen with a color and
@@ -422,7 +395,7 @@ int main()
 	device->drop();
 	delete prota;
 	delete enem;
-    //delete [] posiciones;
+    delete [] posiciones;
 
 	return 0;
 }
