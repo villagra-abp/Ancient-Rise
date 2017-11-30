@@ -1,10 +1,11 @@
 #ifndef ENEMIGO_H
 #define ENEMIGO_H
 
-#include <irrlicht/irrlicht.h>
+#include <irrlicht.h>
 #include <iostream>
 #include "Posicion.h"
 #include <vector>
+#include <math.h>
 
 
 
@@ -22,17 +23,25 @@ class Enemigo
 {
     public:
         Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, Posicion *posiciones[]);
-        void Patrulla(const f32 Time, Posicion *posiciones[], float protaPosition);
+        void Patrulla(const f32 Time, Posicion *posiciones[], float protaPosition, bool alarm);
         void Perseguir(vector3df EnemigoPosition, float enemigoX, float protaPosition, const f32 Time);
         void ComprobarDistancia(vector3df EnemigoPosition, int distanciaObjetivoX, const f32 Time);
 
+        bool buscarComida();
+        bool buscarAgua();
+        bool buscarDescanso();
+
+        void actualizarHambre(const f32 Time);
+        void actualizarSed(const f32 Time);
+        void actualizarEnergia();
 
         //Getters y Setters
 
         scene::ISceneNode* getNode();
         bool getEstadoAlarma();
         bool getEstadoAvistadoProta();
-        //bool [] getEstadoEstadisticas();
+        bool getEstadoPatrulla();
+        vector <bool> getEstadoEstadisticas();
 
         void setPatrulla(bool p);
         void setSed(f32 se);
@@ -48,6 +57,7 @@ class Enemigo
         //Posicion *posPatrulla[];  // INDICA TODAS LAS POS DE LA PATRULLA DEL ENEMIGO
         int contadorPatrulla;     // PARA SABER LA POSICION EN LA QUE SE ENCUENTRA EN LA PATRULLA
         int direccion;            // PARA SABER A LA DIRECCION QUE ESTA MIRANDO EL ENEMIGO 0 --> Izquierda, 1 --> Derecha
+        IGUIEnvironment *env;
 
 
         //ESTADISTICAS
@@ -57,11 +67,14 @@ class Enemigo
         f32 salud;
         f32 VELOCIDAD_ENEMIGO;     // VELOCIDAD DEL ENEMIGO
 
+        f32 velHambre;        // INDICA LA VELOCIDAD A LA QUE BAJA EL HAMBRE
+        f32 velSed;           // INDICA LA VELOCIDAD A LA QUE BAJA LA SED
+
         // ESTADOS
         bool patrulla;            // PATRULLANDO O NO
         bool avistadoProta;       // PROTAGONISTA AVISTADO O NO
         bool alarma;              // ALARMA SONANDO O NO
-        bool estadisticas[3];     // ARRAY DE BOOLEANOS CON LAS ESTADISTICAS DEL ENEMIGO
+        vector<bool> estadisticas;     // VECTOR DE BOOLEANOS CON LAS ESTADISTICAS DEL ENEMIGO
 
 };
 

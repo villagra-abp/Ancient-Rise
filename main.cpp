@@ -43,7 +43,7 @@ After we have set up the IDE, the compiler will know where to find the Irrlicht
 Engine header files so we can include it now in our code.
 */
 
-#include <irrlicht/irrlicht.h>
+#include <irrlicht.h>
 #include "Protagonista.h"
 #include "EnemigoBasico.h"
 #include "Posicion.h"
@@ -192,6 +192,9 @@ int main()
 	Protagonista *prota = new Protagonista(device, smgr);
 	scene::ISceneNode  *rec = prota->getNode();
 
+	//vector <Posicion> posiciones;
+	//posiciones.resize(5); 
+
     Posicion *posiciones[5];
 
         posiciones[0]=new Posicion(40.f,0.f,30.f);
@@ -289,7 +292,7 @@ int main()
             prota->setEnergia(100.f, frameDeltaTime);
         }else if(prota->getEnergia()<0)
             prota->setEnergia(100.f, frameDeltaTime);
-        std::cout<<prota->getEnergia()<<"\n";
+       // std::cout<<prota->getEnergia()<<"\n";
 
         /* 5 veces por segundo registra si pulsamos s para controlar el modo sigilo */
 
@@ -361,17 +364,17 @@ int main()
         /**
         ENEMIGO
         */
-        /*
+        bool alarm=false;
          if(receiver.IsKeyDown(irr::KEY_KEY_K))
         {
-           enem->setPatrulla(false);
+            alarm=true;
         }
         else{
 
-            enem->setPatrulla(true);
+            alarm=false;
         }
-        */
-        enem->Patrulla(frameDeltaTime, posiciones, protaPosition.X);  //INICIAMOS LA PATRULLA DEL ENEMIGO
+        
+        enem->Patrulla(frameDeltaTime, posiciones, protaPosition.X, alarm);  //INICIAMOS LA PATRULLA DEL ENEMIGO
         enem->comprobarComportamiento();
 		/*
 		Anything can be drawn between a beginScene() and an endScene()

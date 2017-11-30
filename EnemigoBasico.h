@@ -9,6 +9,11 @@ class EnemigoBasico : public Enemigo
     public:
         EnemigoBasico(IrrlichtDevice *dev, ISceneManager* smgr, Posicion *posiciones[]);
         void comprobarComportamiento();
+        void AvistadoProta();
+        void AlarmaSonando();
+
+
+
         virtual ~EnemigoBasico();
 
     protected:
