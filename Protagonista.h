@@ -48,6 +48,7 @@ class Protagonista
 
     private:
         scene::ISceneNode * rec;
+        scene::ISceneNode * energy;
         f32 energia;
         bool saltando;
         bool sigilo;
@@ -58,6 +59,8 @@ class Protagonista
         int cont_ataque;
         const f32 VELOCIDAD_MOVIMIENTO=90.f;
         core::vector3df protaPosition;
+        core::vector3df energyPosition;
+        core::vector3df energyScale;
 };
 
 #endif // PROTAGONISTA_H

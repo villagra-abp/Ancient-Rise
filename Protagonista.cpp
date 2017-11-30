@@ -12,8 +12,9 @@ Protagonista::Protagonista(IrrlichtDevice *dev, ISceneManager* smgr)
 	desabilitamos la luz en cada modelo (sino los modelos serian negros )
 
 	**/
-
-    rec=smgr->addCubeSceneNode();
+    
+    rec=smgr->addSphereSceneNode();
+    energy=smgr->addCubeSceneNode();
 
     if (rec) /** SI HEMOS CREADO EL CUBO **/
 	{
@@ -21,6 +22,7 @@ Protagonista::Protagonista(IrrlichtDevice *dev, ISceneManager* smgr)
 		//rec->setMaterialTexture(0, driver->getTexture(mediaPath + "wall.bmp"));
 		rec->setMaterialFlag(video::EMF_LIGHTING, true);
 	}
+    
 
     ataca=false;
     saltando=false;
@@ -62,6 +64,16 @@ void Protagonista::salto(const f32 Time)
         protaPosition.Y -= VELOCIDAD_MOVIMIENTO * Time*1.5;
     }
 
+    //barra para mostrar la enegia
+    energyPosition=protaPosition;
+    energyPosition.X-=80;
+    energyPosition.Y=120;
+    energyPosition.Z-=30;
+    energy->setPosition(energyPosition);
+    energyScale=energy->getScale();
+    energyScale.X=energia/10;
+    energyScale.Z=0.1f;
+    energy->setScale(energyScale);
 }
 /**
 FUNCION PARA CONTROLAR EL ATAQUE DEL PROTA
@@ -165,6 +177,7 @@ void Protagonista::movimiento(const f32 Time)
             }else
                 protaPosition.X += VELOCIDAD_MOVIMIENTO * Time*1.5;
     }
+    
 
 }
 /**
