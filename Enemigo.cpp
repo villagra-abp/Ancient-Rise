@@ -19,6 +19,10 @@ Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, Posicion *posiciones[
 
 	contadorPatrulla=0;
 	direccion=0;
+    llegadoObjetivo=false;
+    encontradoAgua=false;
+    encontradoComida=false,
+    encontradoDescanso=false;
 
     //COMPORTAMIENTOS
     patrulla=true;
@@ -26,7 +30,7 @@ Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, Posicion *posiciones[
     alarma=false;
 
 
-    velHambre=-0.3;
+    velHambre=-0.2;
     velSed=-0.5;
 
     estadisticas.resize(3);
@@ -43,7 +47,7 @@ FUNCION DONDE EL ENEMIGO REALIZA LA PATRULLA Y ESTA ATENTO A LAS COSAS QUE SUCED
 PARAMETROS : TIEMPO, ARRAY CON LAS POSICIONES DE LA PATRULLA, POSICION DEL PROTA
 **/
 
-void Enemigo::Patrulla(const f32 Time, Posicion *posiciones[], float protaPosition, bool alarm)
+void Enemigo::Patrulla(const f32 Time, Posicion *posiciones[], float protaPosition, bool alarm, scene::ISceneNode *fuente)
 {
     
 
@@ -131,9 +135,11 @@ void Enemigo::Patrulla(const f32 Time, Posicion *posiciones[], float protaPositi
                 if(contadorPatrulla==4)
                 {
                     contadorPatrulla=0;
+                    
                 }
                 else {
                     contadorPatrulla++;
+                    
                 }
             }
             else{  // AUN NO HEMOS LLEGADO A NINGUN NODO DE LA PATRULLA
@@ -145,17 +151,23 @@ void Enemigo::Patrulla(const f32 Time, Posicion *posiciones[], float protaPositi
 
                 if(estadisticas[0]==true)
                 {
-                    bool encontrado=this->buscarAgua();
+                    this->buscarAgua(fuente, EnemigoPosition, Time);
+
+                    if(encontradoAgua==true)
+                    {
+                        estadisticas[0]=false; // YA NO TENEMOS SED
+                        patrulla=true;
+                    }
                 }
 
                 if(estadisticas[1]==true)
                 {
-                    bool encontrado=this->buscarComida();
+                    this->buscarComida();
                 }
 
                 if(estadisticas[2]==true)
                 {
-                    bool encontrado=this->buscarDescanso();
+                    this->buscarDescanso();
                 }
         }
 
@@ -205,8 +217,9 @@ FUNCION PARA ACTUALIZAR EL ESTADO DEL HAMBRE DEL ENEMIGO EN FUNCION DE LA CANTID
 
 void Enemigo::actualizarHambre(const f32 Time)
 {
-    hambre+=velHambre*Time;
+    //hambre+=velHambre*Time;
 
+    //cout<<hambre<<endl;
     //int r=round(hambre);
     //core::stringw tmp(L"HAMBRE: ");
     //tmp += r;
@@ -220,6 +233,8 @@ FUNCION PARA ACTUALIZAR EL ESTADO DE SED DEL ENEMIGO
 void Enemigo::actualizarSed(const f32 Time)
 {
      sed+=velSed*Time;
+
+     cout<<sed<<endl;
 
 }
 /**
@@ -241,11 +256,25 @@ bool Enemigo::buscarComida()
 
 /**
 FUNCION PARA QUE EL ENEMIGO BUSQUE AGUA CUANDO SU STAT DE SED ES BAJO
+PARAMETROS : POSICION DE LA FUENTE MAS CERCANA, VECTOR DE POSICION DEL ENEMIGO, TIEMPO
 **/
-bool Enemigo::buscarAgua()
+void Enemigo::buscarAgua(scene::ISceneNode *fuente, vector3df EnemigoPosition, const f32 Time)
 {
+    core::vector3df FuentePosition = fuente->getPosition();
 
-    return false;
+    float FuenteX = FuentePosition.X;
+    float EnemigoX = EnemigoPosition.X;
+
+    int distanciaFuente = FuenteX - EnemigoX;  // DISTANCIA HASTA LA FUENTE 
+
+    this->ComprobarDistancia(EnemigoPosition, distanciaFuente, Time);
+
+    if(distanciaFuente==0) // HE LLEGADO A LA FUENTE DE AGUA 
+    {
+        encontradoAgua=true;
+        sed=100.f;   // BEBE AGUA Y RECARGA LA SED
+    }
+
 }
 
 /**

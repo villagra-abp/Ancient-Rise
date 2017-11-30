@@ -208,6 +208,18 @@ int main()
 	EnemigoBasico *enem = new EnemigoBasico(device, smgr, posiciones);
 
 
+
+	// Fuente
+
+	scene::ISceneNode *fuente=smgr->addCubeSceneNode();
+
+    if (fuente) /** SI HEMOS CREADO EL CUBO **/
+	{
+		fuente->setPosition(core::vector3df(-200,0,30));
+		//rec->setMaterialTexture(0, driver->getTexture(mediaPath + "wall.bmp"));
+		fuente->setMaterialFlag(video::EMF_LIGHTING, true);
+	}
+
 	/**
 
 	Para poner texto en el subtitulo de la ventana. Necesita de una 'L' delante del string
@@ -374,7 +386,7 @@ int main()
             alarm=false;
         }
         
-        enem->Patrulla(frameDeltaTime, posiciones, protaPosition.X, alarm);  //INICIAMOS LA PATRULLA DEL ENEMIGO
+        enem->Patrulla(frameDeltaTime, posiciones, protaPosition.X, alarm, fuente);  //INICIAMOS LA PATRULLA DEL ENEMIGO
         enem->comprobarComportamiento();
 		/*
 		Anything can be drawn between a beginScene() and an endScene()

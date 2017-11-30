@@ -23,12 +23,12 @@ class Enemigo
 {
     public:
         Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, Posicion *posiciones[]);
-        void Patrulla(const f32 Time, Posicion *posiciones[], float protaPosition, bool alarm);
+        void Patrulla(const f32 Time, Posicion *posiciones[], float protaPosition, bool alarm, scene::ISceneNode *fuente);
         void Perseguir(vector3df EnemigoPosition, float enemigoX, float protaPosition, const f32 Time);
         void ComprobarDistancia(vector3df EnemigoPosition, int distanciaObjetivoX, const f32 Time);
 
         bool buscarComida();
-        bool buscarAgua();
+        void buscarAgua(scene::ISceneNode *fuente, vector3df EnemigoPosition, const f32 Time);
         bool buscarDescanso();
 
         void actualizarHambre(const f32 Time);
@@ -58,6 +58,10 @@ class Enemigo
         int contadorPatrulla;     // PARA SABER LA POSICION EN LA QUE SE ENCUENTRA EN LA PATRULLA
         int direccion;            // PARA SABER A LA DIRECCION QUE ESTA MIRANDO EL ENEMIGO 0 --> Izquierda, 1 --> Derecha
         IGUIEnvironment *env;
+        bool llegadoObjetivo;     // PARA SABER SI EL ENEMIGO HA LLEGADO AL OBJETIVO O NO
+        bool encontradoAgua;      // PARA SABER SI HA ENCONTRADO AGUA 
+        bool encontradoComida;    // PARA SABER SI HA ENCONTRADO COMIDA
+        bool encontradoDescanso;  // PARA SABER SI HA ENCONTRADO UN SITIO PARA DESCANSAR
 
 
         //ESTADISTICAS
