@@ -42,6 +42,7 @@ class Protagonista
          void setDireccion(int d);
          void setAtaquePosition(int d);
          void setAtaque(bool d);
+         void pintarInterfaz();
 
 
 
@@ -49,7 +50,9 @@ class Protagonista
     private:
         scene::ISceneNode * rec;
         scene::ISceneNode * energy;
+        scene::ISceneNode * life;
         f32 energia;
+        f32 vida;
         bool saltando;
         bool sigilo;
         bool correr;
@@ -61,6 +64,8 @@ class Protagonista
         core::vector3df protaPosition;
         core::vector3df energyPosition;
         core::vector3df energyScale;
+        core::vector3df lifePosition;
+        core::vector3df lifeScale;
 };
 
 #endif // PROTAGONISTA_H

@@ -227,6 +227,8 @@ int main()
 
         prota->salto(frameDeltaTime);
         prota->ataque(frameDeltaTime);
+        prota->pintarInterfaz();
+        //
 
         /* lanza el salto al pulsat w */
 
@@ -260,7 +262,7 @@ int main()
 
                 if(energia<99.9)
                 {
-                    prota->setEnergia(100.f,frameDeltaTime);
+                    prota->setEnergia(150.f,frameDeltaTime);
                 }
 
         }
@@ -275,7 +277,7 @@ int main()
             /* baja la vitalidad en funcion del tiempo*/
              if(tiempo>0.19f)
             {
-                prota->setEnergia(-100.0f,frameDeltaTime);
+                prota->setEnergia(-150.0f,frameDeltaTime);
             }
 
         }else
@@ -338,14 +340,14 @@ int main()
 
          if(receiver.IsKeyDown(irr::KEY_KEY_K))
         {
-           enem->setPatrulla(false);
+           //enem->setPatrulla(false);
         }
         else{
 
-            enem->setPatrulla(true);
+            //enem->setPatrulla(true);
         }
 
-        enem->Patrulla(frameDeltaTime, posiciones, protaPosition.X);  //INICIAMOS LA PATRULLA DEL ENEMIGO
+        //enem->Patrulla(frameDeltaTime, posiciones, protaPosition.X);  //INICIAMOS LA PATRULLA DEL ENEMIGO
 		/*
 		Anything can be drawn between a beginScene() and an endScene()
 		call. The beginScene() call clears the screen with a color and

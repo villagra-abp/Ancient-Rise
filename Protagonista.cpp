@@ -15,6 +15,7 @@ Protagonista::Protagonista(IrrlichtDevice *dev, ISceneManager* smgr)
     
     rec=smgr->addSphereSceneNode();
     energy=smgr->addCubeSceneNode();
+    life=smgr->addCubeSceneNode();
 
     if (rec) /** SI HEMOS CREADO EL CUBO **/
 	{
@@ -23,6 +24,7 @@ Protagonista::Protagonista(IrrlichtDevice *dev, ISceneManager* smgr)
 		rec->setMaterialFlag(video::EMF_LIGHTING, true);
 	}
     
+    life->setMaterialFlag(video::EMF_LIGHTING,false);
 
     ataca=false;
     saltando=false;
@@ -32,10 +34,38 @@ Protagonista::Protagonista(IrrlichtDevice *dev, ISceneManager* smgr)
     cont_ataque=0;
     ataque_position=0;
     energia = 100.f;
+    vida = 100.f;
     protaPosition=rec->getPosition();
+    energyScale=energy->getScale();
+    energyScale.Z=0.1f;
+    lifeScale=life->getScale();
+    lifeScale.Z=0.1f;
+    energy->setScale(energyScale);
+    life->setScale(lifeScale);
 
 }
+/**
+FUNCION PARA DIBUJAR LA INTERFAZ
+**/
+void Protagonista::pintarInterfaz()
+{
+    //barra para mostrar la enegia
+    energyPosition=protaPosition;
+    energyPosition.X-=80;
+    energyPosition.Y=120;
+    energyPosition.Z-=30;
+    energy->setPosition(energyPosition);
+    lifePosition=protaPosition;
+    lifePosition.X-=80;
+    lifePosition.Y=140;
+    lifePosition.Z-=30;
+    life->setPosition(lifePosition);
+    energyScale.X=energia/10;
+    energy->setScale(energyScale);
+    lifeScale.X=vida/10;
+    life->setScale(lifeScale);
 
+}
 /**
 FUNCION PARA CONTROLAR EL SALTO DEL PROTA
 **/
@@ -64,16 +94,7 @@ void Protagonista::salto(const f32 Time)
         protaPosition.Y -= VELOCIDAD_MOVIMIENTO * Time*1.5;
     }
 
-    //barra para mostrar la enegia
-    energyPosition=protaPosition;
-    energyPosition.X-=80;
-    energyPosition.Y=120;
-    energyPosition.Z-=30;
-    energy->setPosition(energyPosition);
-    energyScale=energy->getScale();
-    energyScale.X=energia/10;
-    energyScale.Z=0.1f;
-    energy->setScale(energyScale);
+    
 }
 /**
 FUNCION PARA CONTROLAR EL ATAQUE DEL PROTA
