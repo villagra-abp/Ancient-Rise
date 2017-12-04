@@ -26,6 +26,7 @@ class Protagonista
 
          void salto(const f32 Time);
          void ataque(const f32 Time);
+         void defender(const f32 Time);
          void setEnergia(f32 cantidad, const f32 Time);
          void movimiento(const f32 Time);
 
@@ -41,7 +42,9 @@ class Protagonista
          void setCorrer(bool c);
          void setDireccion(int d);
          void setAtaquePosition(int d);
+         void setDefensaPosition(int d);
          void setAtaque(bool d);
+         void setDefensa(bool d);
          void pintarInterfaz();
 
 
@@ -57,9 +60,12 @@ class Protagonista
         bool sigilo;
         bool correr;
         bool ataca;
+        bool defensa;
         int direccion;      // 0 --> Izquierda, 1 --> Derecha
         int ataque_position;    //0--> abajo.  1--> centro,  2-->arriba
+        int defensa_position;    //0--> abajo.  1--> centro,  2-->arriba
         int cont_ataque;
+        int cont_defensa;
         const f32 VELOCIDAD_MOVIMIENTO=90.f;
         core::vector3df protaPosition;
         core::vector3df energyPosition;

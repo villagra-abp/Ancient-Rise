@@ -226,6 +226,7 @@ int main()
 
 
         prota->salto(frameDeltaTime);
+        prota->defender(frameDeltaTime);
         prota->ataque(frameDeltaTime);
         prota->pintarInterfaz();
         //
@@ -288,23 +289,35 @@ int main()
         {
             //camPosition.X -= MOVEMENT_SPEED * frameDeltaTime;
             prota->setAtaquePosition(2);
+            prota->setDefensaPosition(2);
 
 		}
 		else if(receiver.IsKeyDown(irr::KEY_KEY_S))
 		{
 			prota->setAtaquePosition(0);
+			prota->setDefensaPosition(0);
 
 		}
 		else
+		{
 			prota->setAtaquePosition(1);
+			prota->setDefensaPosition(1);
+		}
 		/* inicia el ataque */
         /* control de ataque*/
         if(receiver.IsKeyDown(irr::KEY_KEY_P))
-        	{
-            //camPosition.X -= MOVEMENT_SPEED * frameDeltaTime;
-            prota->setAtaque(true);
+        {
+            
+        	prota->setAtaque(true);
 
-			}
+		}
+		/* control de ataque*/
+        if(receiver.IsKeyDown(irr::KEY_KEY_K))
+        {
+            
+        	prota->setDefensa(true);
+
+		}
 
         /* movimiento hacia los lados y control de la velocidad en funcion de
         las variables de correr, sigilo y vitalidad */
