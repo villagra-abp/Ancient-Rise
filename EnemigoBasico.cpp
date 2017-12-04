@@ -20,13 +20,11 @@ EnemigoBasico::EnemigoBasico(IrrlichtDevice *dev, ISceneManager* smgr, Posicion 
 /**
 PARA COMPROBAR EN QUE COMPORTAMIENTO ESTA EL ENEMIGO
 **/
-void EnemigoBasico::comprobarComportamiento()
+void EnemigoBasico::Update(scene::ISceneNode *alarma)
 {
 
     if(this->getEstadoPatrulla()==false) // NO ESTA PATRULLANDO
     {
-        vector <bool> estadistica=this->getEstadoEstadisticas();
-
         if(this->getEstadoAvistadoProta()==true)  // PROTA AVISTADO
         {
             this->AvistadoProta(); // CAMBIAMOS AL COMPORTAMIENTO DE AVISTADO PROTA 
@@ -34,7 +32,7 @@ void EnemigoBasico::comprobarComportamiento()
 
         if (this->getEstadoAlarma()==true) // ALARMA SONANDO 
         {
-            this->AlarmaSonando(); // CAMBIAMOS AL COMPORTAMIENTO DE ALARMA SONANDO 
+            this->AlarmaSonando(alarma); // CAMBIAMOS AL COMPORTAMIENTO DE ALARMA SONANDO 
         }
     
     }
@@ -47,6 +45,7 @@ FUNCION PARA VER QUE HACE EL ENEMIGO BASICO CUANDO VE AL PROTAGONISTA
 **/
 void EnemigoBasico::AvistadoProta()
 {
+    
 
 }
 
@@ -54,10 +53,11 @@ void EnemigoBasico::AvistadoProta()
 /**
 FUNCION PARA VER QUE HACE EL ENEMIGO BASICO CUANDO SUENA LA ALARMA
 **/
-void EnemigoBasico::AlarmaSonando()
+void EnemigoBasico::AlarmaSonando(scene::ISceneNode *alarma)
 {
 
-    
+   
+
 }
 
 

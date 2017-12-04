@@ -3,9 +3,9 @@
 
 
 /**
- CONSTRUCTOR
+ CONSTRUCTOR DE ENEMIGO
 */
-Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, Posicion *posiciones[])
+Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, Posicion *posiciones[]):enemigo(nullptr), env(nullptr)
 {
     enemigo=smgr->addCubeSceneNode();
 
@@ -13,13 +13,14 @@ Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, Posicion *posiciones[
 	{
 		enemigo->setPosition(core::vector3df(posiciones[0]->getPosX(),posiciones[0]->getPosY(),posiciones[0]->getPosZ())); // INDICAMOS SU POS INICIAL ( QUE VIENE INDICADA EN EL ARRAY TAMBIEN)
 		enemigo->setMaterialFlag(video::EMF_LIGHTING, false);
+        EnemigoPosition = enemigo->getPosition();
 	}
 
     env = dev->getGUIEnvironment();
 
 	contadorPatrulla=0;
 	direccion=0;
-    llegadoObjetivo=false;
+
     encontradoAgua=false;
     encontradoComida=false,
     encontradoDescanso=false;
@@ -30,8 +31,8 @@ Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, Posicion *posiciones[
     alarma=false;
 
 
-    velHambre=-0.2;
-    velSed=-0.5;
+    velHambre=-0.3;
+    velSed=-1.5;
 
     estadisticas.resize(3);
 
@@ -43,18 +44,19 @@ Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, Posicion *posiciones[
 }
 
 /**
-FUNCION DONDE EL ENEMIGO REALIZA LA PATRULLA Y ESTA ATENTO A LAS COSAS QUE SUCEDEN ALREDEDOR
+FUNCION DONDE EL ENEMIGO REALIZA LA PATRULLA Y ESTA ATENTO A LAS COSAS QUE SUCEDEN ALREDEDOR (UPDATE)
 PARAMETROS : TIEMPO, ARRAY CON LAS POSICIONES DE LA PATRULLA, POSICION DEL PROTA
 **/
 
-void Enemigo::Patrulla(const f32 Time, Posicion *posiciones[], float protaPosition, bool alarm, scene::ISceneNode *fuente)
+void Enemigo::Patrulla(const f32 Time, Posicion *posiciones[], float protaPosition, scene::ISceneNode *fuente, scene::ISceneNode *comida)
 {
     
+        this->setVelocidad(8.f);
+        this->actualizarHambre(); 
+        this->actualizarSed();
+        this->updateTiempo(Time);
 
-        this->actualizarHambre(Time); 
-        this->actualizarSed(Time);
-
-        core::vector3df EnemigoPosition = enemigo->getPosition(); // VECTOR DE POSICION DEL ENEMIGO
+        EnemigoPosition = enemigo->getPosition(); // VOLVEMOS A OBTENER EL VECTOR DE POSICION DEL ENEMIGO POR SI HA CAMBIADO
 
         float enemigoX=EnemigoPosition.X;
         float posPatrullaX = posiciones[contadorPatrulla]->getPosX();
@@ -84,10 +86,8 @@ void Enemigo::Patrulla(const f32 Time, Posicion *posiciones[], float protaPositi
         {
             avistadoProta=false;
 
-            if(alarm==true) // ALARMA SONANDO 
+            if(alarma==true) // ALARMA SONANDO 
             {
-                alarma=true;
-
                 patrulla = false;
                 estadisticas[0]=false;
                 estadisticas[1]=false;
@@ -144,14 +144,14 @@ void Enemigo::Patrulla(const f32 Time, Posicion *posiciones[], float protaPositi
             }
             else{  // AUN NO HEMOS LLEGADO A NINGUN NODO DE LA PATRULLA
 
-                    this->ComprobarDistancia(EnemigoPosition, distanciaNodoX, Time);
+                    this->ComprobarDistancia(distanciaNodoX);
             }
         }
-        else{
+        else{  // COMPORTAMIENTO BUSCAR AGUA/COMIDA
 
-                if(estadisticas[0]==true)
+                if(estadisticas[0]==true)  // NECESITA AGUA 
                 {
-                    this->buscarAgua(fuente, EnemigoPosition, Time);
+                    this->buscarAgua(fuente);
 
                     if(encontradoAgua==true)
                     {
@@ -160,16 +160,23 @@ void Enemigo::Patrulla(const f32 Time, Posicion *posiciones[], float protaPositi
                     }
                 }
 
-                if(estadisticas[1]==true)
+                if(estadisticas[1]==true) // NECESITA COMIDA
                 {
-                    this->buscarComida();
+                    this->buscarComida(comida);
+
+                    if(encontradoComida==true)
+                    {
+                        estadisticas[1]=false; // YA NO TENEMOS HAMBRE
+                        patrulla=true;
+                    }
                 }
 
                 if(estadisticas[2]==true)
                 {
                     this->buscarDescanso();
+
                 }
-        }
+            }
 
 }
 
@@ -178,12 +185,12 @@ void Enemigo::Patrulla(const f32 Time, Posicion *posiciones[], float protaPositi
 FUNCION PARA PERSEGUIR AL PROTAGONISTA
 PARAMETROS : VECTOR3D CON COORDENADAS DEL ENEMIGO, X DEL ENEMIGO, X PROTA, TIEMPO
 **/
-void Enemigo::Perseguir(vector3df EnemigoPosition, float enemigoX, float protaPosition, const f32 Time)
+void Enemigo::Perseguir(float enemigoX, float protaPosition)
 {
     VELOCIDAD_ENEMIGO = 15.f;       //AUMENTAMOS SU VELOCIDAD
     int distanciaProtaX = protaPosition - enemigoX;
 
-    this->ComprobarDistancia(EnemigoPosition, distanciaProtaX, Time);
+    this->ComprobarDistancia(distanciaProtaX);
 
 
 }
@@ -192,18 +199,18 @@ void Enemigo::Perseguir(vector3df EnemigoPosition, float enemigoX, float protaPo
 FUNCION PARA COMPROBAR LA DISTANCIA QUE HAY DESDE EL ENEMIGO AL OBJETIVO Y VER EN QUE DIRECCION MOVERSE
 PARAMETROS : VECTOR3D CON COORDENADAS DEL ENEMIGO, DISTANCIA AL OBJETIVO, TIEMPO
 **/
-void Enemigo::ComprobarDistancia(vector3df EnemigoPosition, int distanciaObjetivoX, const f32 Time)
+void Enemigo::ComprobarDistancia(int distanciaObjetivoX)
 {
 
      if (distanciaObjetivoX<0) // AVANZAMOS HACIA LA IZQUIERDA
      {
-                EnemigoPosition.X-= VELOCIDAD_ENEMIGO * Time*3;
+                EnemigoPosition.X-= VELOCIDAD_ENEMIGO * frameDeltaTime*3;
                 enemigo->setPosition(EnemigoPosition); // CAMBIAMOS LA POSICION
      }
      else{
             if(distanciaObjetivoX>0) // AVANZAMOS HACIA LA DERECHA
             {
-                EnemigoPosition.X+= VELOCIDAD_ENEMIGO * Time*3;
+                EnemigoPosition.X+= VELOCIDAD_ENEMIGO * frameDeltaTime*3;
                 enemigo->setPosition(EnemigoPosition);
             }
         }
@@ -215,26 +222,23 @@ void Enemigo::ComprobarDistancia(vector3df EnemigoPosition, int distanciaObjetiv
 FUNCION PARA ACTUALIZAR EL ESTADO DEL HAMBRE DEL ENEMIGO EN FUNCION DE LA CANTIDAD QUE LE PASEMOS
 **/
 
-void Enemigo::actualizarHambre(const f32 Time)
+void Enemigo::actualizarHambre()
 {
-    //hambre+=velHambre*Time;
+    hambre+=velHambre*frameDeltaTime;
 
-    //cout<<hambre<<endl;
-    //int r=round(hambre);
-    //core::stringw tmp(L"HAMBRE: ");
-    //tmp += r;
-    //env->addStaticText(tmp.c_str(),core::rect<s32>(10,10,260,22), false);
+    //cout<<round(hambre)<<endl;
+
 }
 
 /**
 FUNCION PARA ACTUALIZAR EL ESTADO DE SED DEL ENEMIGO
 **/
 
-void Enemigo::actualizarSed(const f32 Time)
+void Enemigo::actualizarSed()
 {
-     sed+=velSed*Time;
+     sed+=velSed*frameDeltaTime;
 
-     cout<<sed<<endl;
+     //cout<<round(sed)<<endl;
 
 }
 /**
@@ -248,9 +252,25 @@ void Enemigo::actualizarEnergia()
 /**
 FUNCION PARA QUE EL ENEMIGO BUSQUE COMIDA CUANDO SU STAT DE HAMBRE ES BAJO
 **/
-bool Enemigo::buscarComida()
+void Enemigo::buscarComida(scene::ISceneNode *comida)
 {
-    return false;
+
+    this->setVelocidad(15.f);
+
+    core::vector3df comidaPosition = comida->getPosition();
+
+    float ComidaX = comidaPosition.X;
+    float EnemigoX = EnemigoPosition.X;
+
+    int distanciaComida = ComidaX - EnemigoX;  // DISTANCIA HASTA LA COMIDA
+
+    this->ComprobarDistancia(distanciaComida);
+
+    if(distanciaComida==0) // HA LLEGADO HASTA LA COMIDA
+    {
+        encontradoComida=true;
+        hambre=100.f;   // RECARGA EL HAMBRE
+    }
 }
 
 
@@ -258,8 +278,10 @@ bool Enemigo::buscarComida()
 FUNCION PARA QUE EL ENEMIGO BUSQUE AGUA CUANDO SU STAT DE SED ES BAJO
 PARAMETROS : POSICION DE LA FUENTE MAS CERCANA, VECTOR DE POSICION DEL ENEMIGO, TIEMPO
 **/
-void Enemigo::buscarAgua(scene::ISceneNode *fuente, vector3df EnemigoPosition, const f32 Time)
+void Enemigo::buscarAgua(scene::ISceneNode *fuente)
 {
+    this -> setVelocidad(15.f);
+
     core::vector3df FuentePosition = fuente->getPosition();
 
     float FuenteX = FuentePosition.X;
@@ -267,9 +289,9 @@ void Enemigo::buscarAgua(scene::ISceneNode *fuente, vector3df EnemigoPosition, c
 
     int distanciaFuente = FuenteX - EnemigoX;  // DISTANCIA HASTA LA FUENTE 
 
-    this->ComprobarDistancia(EnemigoPosition, distanciaFuente, Time);
+    this->ComprobarDistancia(distanciaFuente);
 
-    if(distanciaFuente==0) // HE LLEGADO A LA FUENTE DE AGUA 
+    if(distanciaFuente==0) // HA LLEGADO A LA FUENTE DE AGUA 
     {
         encontradoAgua=true;
         sed=100.f;   // BEBE AGUA Y RECARGA LA SED
@@ -285,10 +307,17 @@ bool Enemigo::buscarDescanso()
    return false;
 }
 
+void Enemigo::updateTiempo(const f32 Time)
+{
+    frameDeltaTime = Time;
+}
 
 /**
+==============================================
 A PARTIR DE AQUI VAN TODOS LOS GETS Y LOS SETS
+==============================================
 **/
+
 scene::ISceneNode* Enemigo::getNode()
 {
     return enemigo;
@@ -313,6 +342,8 @@ vector <bool> Enemigo::getEstadoEstadisticas()
 {
     return estadisticas;
 }
+
+
 
 void Enemigo::setPatrulla(bool p)
 {
@@ -342,6 +373,17 @@ void Enemigo::setVelocidad(f32 v)
 void Enemigo::setSed(f32 se)
 {
     sed=se;
+}
+
+void Enemigo::setPosition(vector3df position)
+{
+    enemigo->setPosition(position);
+}
+
+void Enemigo::setAlarma(bool a)
+{
+    alarma=a;
+    
 }
 
 Enemigo::~Enemigo()

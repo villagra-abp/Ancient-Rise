@@ -23,16 +23,17 @@ class Enemigo
 {
     public:
         Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, Posicion *posiciones[]);
-        void Patrulla(const f32 Time, Posicion *posiciones[], float protaPosition, bool alarm, scene::ISceneNode *fuente);
-        void Perseguir(vector3df EnemigoPosition, float enemigoX, float protaPosition, const f32 Time);
-        void ComprobarDistancia(vector3df EnemigoPosition, int distanciaObjetivoX, const f32 Time);
+        void Patrulla(const f32 Time, Posicion *posiciones[], float protaPosition, scene::ISceneNode *fuente, scene::ISceneNode *comida);
+        void Perseguir(float enemigoX, float protaPosition);
+        void ComprobarDistancia(int distanciaObjetivoX);
+        void updateTiempo(const f32 Time);
 
-        bool buscarComida();
-        void buscarAgua(scene::ISceneNode *fuente, vector3df EnemigoPosition, const f32 Time);
+        void buscarComida(scene::ISceneNode *comida);
+        void buscarAgua(scene::ISceneNode *fuente);
         bool buscarDescanso();
 
-        void actualizarHambre(const f32 Time);
-        void actualizarSed(const f32 Time);
+        void actualizarHambre();
+        void actualizarSed();
         void actualizarEnergia();
 
         //Getters y Setters
@@ -44,24 +45,27 @@ class Enemigo
         vector <bool> getEstadoEstadisticas();
 
         void setPatrulla(bool p);
+        void setAlarma(bool a);
         void setSed(f32 se);
         void setEnergia(f32 e);
         void setHambre(f32 h);
         void setSalud(f32 s);
         void setVelocidad(f32 v);
+        void setPosition(vector3df position);
 
         virtual ~Enemigo();
 
     private:
         scene::ISceneNode * enemigo;
+        core::vector3df EnemigoPosition; // VECTOR 3D CON LA POSICION DEL ENEMIGO 
         //Posicion *posPatrulla[];  // INDICA TODAS LAS POS DE LA PATRULLA DEL ENEMIGO
         int contadorPatrulla;     // PARA SABER LA POSICION EN LA QUE SE ENCUENTRA EN LA PATRULLA
         int direccion;            // PARA SABER A LA DIRECCION QUE ESTA MIRANDO EL ENEMIGO 0 --> Izquierda, 1 --> Derecha
         IGUIEnvironment *env;
-        bool llegadoObjetivo;     // PARA SABER SI EL ENEMIGO HA LLEGADO AL OBJETIVO O NO
         bool encontradoAgua;      // PARA SABER SI HA ENCONTRADO AGUA 
         bool encontradoComida;    // PARA SABER SI HA ENCONTRADO COMIDA
         bool encontradoDescanso;  // PARA SABER SI HA ENCONTRADO UN SITIO PARA DESCANSAR
+        f32 frameDeltaTime;
 
 
         //ESTADISTICAS

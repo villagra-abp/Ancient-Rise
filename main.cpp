@@ -1,47 +1,3 @@
-/** Example 001 HelloWorld
-
-This Tutorial shows how to set up the IDE for using the Irrlicht Engine and how
-to write a simple HelloWorld program with it. The program will show how to use
-the basics of the VideoDriver, the GUIEnvironment, and the SceneManager.
-Microsoft Visual Studio is used as an IDE, but you will also be able to
-understand everything if you are using a different one or even another
-operating system than windows.
-
-You have to include the header file <irrlicht.h> in order to use the engine. The
-header file can be found in the Irrlicht Engine SDK directory \c include. To let
-the compiler find this header file, the directory where it is located has to be
-specified. This is different for every IDE and compiler you use. Let's explain
-shortly how to do this in Microsoft Visual Studio:
-
-- If you use Version 6.0, select the Menu Extras -> Options.
-  Select the directories tab, and select the 'Include' Item in the combo box.
-  Add the \c include directory of the irrlicht engine folder to the list of
-  directories. Now the compiler will find the Irrlicht.h header file. We also
-  need the irrlicht.lib to be found, so stay in that dialog, select 'Libraries'
-  in the combo box and add the \c lib/VisualStudio directory.
-  \image html "vc6optionsdir.jpg"
-  \image latex "vc6optionsdir.jpg"
-  \image html "vc6include.jpg"
-  \image latex "vc6include.jpg"
-
-- If your IDE is Visual Studio .NET, select Tools -> Options.
-  Select the projects entry and then select VC++ directories. Select 'show
-  directories for include files' in the combo box, and add the \c include
-  directory of the irrlicht engine folder to the list of directories. Now the
-  compiler will find the Irrlicht.h header file. We also need the irrlicht.lib
-  to be found, so stay in that dialog, select 'show directories for Library
-  files' and add the \c lib/VisualStudio directory.
-  \image html "vcnetinclude.jpg"
-  \image latex "vcnetinclude.jpg"
-
-That's it. With your IDE set up like this, you will now be able to develop
-applications with the Irrlicht Engine.
-
-Lets start!
-
-After we have set up the IDE, the compiler will know where to find the Irrlicht
-Engine header files so we can include it now in our code.
-*/
 
 #include <irrlicht.h>
 #include "Protagonista.h"
@@ -68,18 +24,6 @@ using namespace video;
 using namespace io;
 using namespace gui;
 
-/*
-To be able to use the Irrlicht.DLL file, we need to link with the Irrlicht.lib.
-We could set this option in the project settings, but to make it easy, we use a
-pragma comment lib for VisualStudio. On Windows platforms, we have to get rid
-of the console window, which pops up when starting a program with main(). This
-is done by the second pragma. We could also use the WinMain method, though
-losing platform independence then.
-*/
-#ifdef _IRR_WINDOWS_
-#pragma comment(lib, "Irrlicht.lib")
-#pragma comment(linker, "/subsystem:windows /ENTRY:mainCRTStartup")
-#endif
 
 /**
     Clase para poder recoger los eventos ( entrada por teclado )
@@ -192,8 +136,8 @@ int main()
 	Protagonista *prota = new Protagonista(device, smgr);
 	scene::ISceneNode  *rec = prota->getNode();
 
-	//vector <Posicion> posiciones;
-	//posiciones.resize(5); 
+	//vector <Posicion> pos;
+	//pos.resize(1);
 
     Posicion *posiciones[5];
 
@@ -205,8 +149,9 @@ int main()
 
 
 	//CREAMOS ENEMIGO BASICO
-	EnemigoBasico *enem = new EnemigoBasico(device, smgr, posiciones);
+	EnemigoBasico *enem = new EnemigoBasico(device, smgr, posiciones);  // dinamico
 
+	//EnemigoBasico ene(device, smgr, posiciones);  No dinamico
 
 
 	// Fuente
@@ -218,6 +163,28 @@ int main()
 		fuente->setPosition(core::vector3df(-200,0,30));
 		//rec->setMaterialTexture(0, driver->getTexture(mediaPath + "wall.bmp"));
 		fuente->setMaterialFlag(video::EMF_LIGHTING, true);
+	}
+
+	// COMIDA
+
+	scene::ISceneNode *comida=smgr->addCubeSceneNode();
+
+    if (comida) /** SI HEMOS CREADO EL CUBO **/
+	{
+		comida->setPosition(core::vector3df(200,0,30));
+		//rec->setMaterialTexture(0, driver->getTexture(mediaPath + "wall.bmp"));
+		comida->setMaterialFlag(video::EMF_LIGHTING, true);
+	}
+
+	// ALARMA
+
+	scene::ISceneNode *alarma=smgr->addCubeSceneNode();
+
+    if (alarma) /** SI HEMOS CREADO EL CUBO **/
+	{
+		alarma->setPosition(core::vector3df(220,0,30));
+		//rec->setMaterialTexture(0, driver->getTexture(mediaPath + "wall.bmp"));
+		alarma->setMaterialFlag(video::EMF_LIGHTING, false);
 	}
 
 	/**
@@ -376,18 +343,18 @@ int main()
         /**
         ENEMIGO
         */
-        bool alarm=false;
+        
          if(receiver.IsKeyDown(irr::KEY_KEY_K))
         {
-            alarm=true;
+            enem->setAlarma(true);
         }
         else{
 
-            alarm=false;
+            enem->setAlarma(false);
         }
         
-        enem->Patrulla(frameDeltaTime, posiciones, protaPosition.X, alarm, fuente);  //INICIAMOS LA PATRULLA DEL ENEMIGO
-        enem->comprobarComportamiento();
+        enem->Patrulla(frameDeltaTime, posiciones, protaPosition.X, fuente, comida);  //INICIAMOS LA PATRULLA DEL ENEMIGO
+        enem->Update(alarma);
 		/*
 		Anything can be drawn between a beginScene() and an endScene()
 		call. The beginScene() call clears the screen with a color and
@@ -435,9 +402,15 @@ int main()
 
 	**/
 	device->drop();
+	
 	delete prota;
 	delete enem;
-    //delete [] posiciones;
+	for(int i=0;i<5;i++)
+	{
+		delete posiciones[i];
+	}
+
+	//delete *posiciones;
 
 	return 0;
 }
