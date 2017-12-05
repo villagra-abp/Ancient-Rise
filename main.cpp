@@ -1,6 +1,6 @@
 
 
-#include <irrlicht.h>
+#include <irrlicht/irrlicht.h>
 #include "Protagonista.h"
 #include "Enemigo.h"
 #include "Posicion.h"
