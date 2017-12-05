@@ -9,7 +9,7 @@ Behavior::Behavior(): m_eStatus(BH_INVALID)
 
 Status Behavior::tick()
 {
-	if(m_eStatus==BH_RUNNING) // EJECUTANDOSE
+	if(m_eStatus==!BH_RUNNING) 
 	{
 		onInitialize();
 	}
