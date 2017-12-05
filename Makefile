@@ -20,7 +20,7 @@ OBJ = $(patsubst $(SOURCEPATH)/%.cpp, $(BUILDPATH)/%.o, $(SRC))
 
 $(EJEC): prepare $(OBJ)
 	$(warning Creando el ejecutable $@...)
-	$(CC) -o $(EXECUTABLE) $^ $(LIBS) 
+	$(CC) -o $(EXECUTABLE) $(OBJ) $(LIBS) 
 
 
 $(BUILDPATH)/%.o: $(SOURCEPATH)/%.cpp 
