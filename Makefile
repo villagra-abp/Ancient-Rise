@@ -1,4 +1,4 @@
-LIBS := -lIrrlicht
+LIBS := -lIrrlicht -lGL -lX11 -lXxf86vm
 
 CC=g++
 CFLAGS=-I.
@@ -41,4 +41,5 @@ prepare:
 	$(warning Creando la estructura de carpetas)
 	mkdir -p $(BINPATH)
 	mkdir -p $(BUILDPATH)
+
 
