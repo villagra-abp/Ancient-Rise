@@ -397,7 +397,6 @@ int main()
 	device->drop();
 	delete prota;
 	delete enem;
-    delete [] posiciones;
 
 	return 0;
 }
