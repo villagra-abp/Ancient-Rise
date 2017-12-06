@@ -1,8 +1,7 @@
 
-
-#include <irrlicht/irrlicht.h>
+#include <irrlicht.h>
 #include "Protagonista.h"
-#include "Enemigo.h"
+#include "EnemigoBasico.h"
 #include "Posicion.h"
 #include <iostream>
 
@@ -25,18 +24,8 @@ using namespace video;
 using namespace io;
 using namespace gui;
 
-/*
-To be able to use the Irrlicht.DLL file, we need to link with the Irrlicht.lib.
-We could set this option in the project settings, but to make it easy, we use a
-pragma comment lib for VisualStudio. On Windows platforms, we have to get rid
-of the console window, which pops up when starting a program with main(). This
-is done by the second pragma. We could also use the WinMain method, though
-losing platform independence then.
-*/
-#ifdef _IRR_WINDOWS_
-#pragma comment(lib, "Irrlicht.lib")
-#pragma comment(linker, "/subsystem:windows /ENTRY:mainCRTStartup")
-#endif
+
+
 
 /**
     Clase para poder recoger los eventos ( entrada por teclado )
@@ -96,7 +85,12 @@ int main()
 	*/
 
 	// This is the movement speed in units per second.
-	
+	const f32 MOVEMENT_SPEED = 90.f;
+    int saltando=0;
+    int sigilo=0;
+    int correr=0;
+    int direccion=1;
+    f32 vitalidad = 100.f;
 
 
 
@@ -126,7 +120,7 @@ int main()
     MyEventReceiver receiver;
 
 	IrrlichtDevice *device =
-		createDevice( video::EDT_OPENGL, dimension2d<u32>(800, 600),16, false, false, false, &receiver);
+		createDevice( video::EDT_OPENGL, dimension2d<u32>(700, 600),16, false, false, false, &receiver);
 
 	if (!device)
 		return 1;
@@ -144,6 +138,9 @@ int main()
 	Protagonista *prota = new Protagonista(device, smgr);
 	scene::ISceneNode  *rec = prota->getNode();
 
+	//vector <Posicion> pos;
+	//pos.resize(1);
+
     Posicion *posiciones[5];
 
         posiciones[0]=new Posicion(40.f,0.f,30.f);
@@ -153,9 +150,44 @@ int main()
         posiciones[4]=new Posicion(-40.f,0.f,30.f);
 
 
-	//CREAMOS ENEMIGO
-	Enemigo *enem = new Enemigo(device, smgr, posiciones);
+	//CREAMOS ENEMIGO BASICO
+	EnemigoBasico *enem = new EnemigoBasico(device, smgr, posiciones);  // dinamico
 
+	//EnemigoBasico ene(device, smgr, posiciones);  No dinamico
+
+
+	// Fuente
+
+	scene::ISceneNode *fuente=smgr->addCubeSceneNode();
+
+    if (fuente) /** SI HEMOS CREADO EL CUBO **/
+	{
+		fuente->setPosition(core::vector3df(-200,0,30));
+		//rec->setMaterialTexture(0, driver->getTexture(mediaPath + "wall.bmp"));
+		fuente->setMaterialFlag(video::EMF_LIGHTING, true);
+	}
+
+	// COMIDA
+
+	scene::ISceneNode *comida=smgr->addCubeSceneNode();
+
+    if (comida) /** SI HEMOS CREADO EL CUBO **/
+	{
+		comida->setPosition(core::vector3df(200,0,30));
+		//rec->setMaterialTexture(0, driver->getTexture(mediaPath + "wall.bmp"));
+		comida->setMaterialFlag(video::EMF_LIGHTING, true);
+	}
+
+	// ALARMA
+
+	scene::ISceneNode *alarma=smgr->addCubeSceneNode();
+
+    if (alarma) /** SI HEMOS CREADO EL CUBO **/
+	{
+		alarma->setPosition(core::vector3df(220,0,30));
+		//rec->setMaterialTexture(0, driver->getTexture(mediaPath + "wall.bmp"));
+		alarma->setMaterialFlag(video::EMF_LIGHTING, false);
+	}
 
 	/**
 
@@ -185,7 +217,7 @@ int main()
 
 	**/
 
-	scene::ICameraSceneNode* cam =smgr->addCameraSceneNode(0, vector3df(rec->getPosition().X,50,-140), vector3df(0,5,0));
+	scene::ICameraSceneNode* cam =smgr->addCameraSceneNode(0, vector3df(rec->getPosition().X,50,-120), vector3df(0,5,0));
 	device->getCursorControl()->setVisible(true);
 
 
@@ -226,33 +258,30 @@ int main()
 
 
         prota->salto(frameDeltaTime);
-        prota->ataque(frameDeltaTime);
-        prota->pintarInterfaz();
-        //
 
         /* lanza el salto al pulsat w */
 
 		if(receiver.IsKeyDown(irr::KEY_SPACE) && protaPosition.Y<1){
             prota->setSalto(true);
-            //prota->setEnergia(-250.f, frameDeltaTime);
+            prota->setEnergia(-100.f, frameDeltaTime);
 
 		}
 
 
-        /*muestra por consola */
-        
-        std::cout<<prota->getEnergia()<<"\n";
+        /* ajusta la vitalidad a los valores max y min y la muestra por consola */
+        if(prota->getEnergia()>100){
+            prota->setEnergia(100.f, frameDeltaTime);
+        }else if(prota->getEnergia()<0)
+            prota->setEnergia(100.f, frameDeltaTime);
+       // std::cout<<prota->getEnergia()<<"\n";
 
-        /* 5 veces por segundo registra si pulsamos s 
-        para controlar el modo sigilo y recargamos energia*/
+        /* 5 veces por segundo registra si pulsamos s para controlar el modo sigilo */
 
         if(tiempo>0.2f)
         {
             f32 energia=prota->getEnergia();
 
             time_input=now;
-
-            
 
                 if(receiver.IsKeyDown(irr::KEY_KEY_C)) // AGACHARSE
                 {
@@ -262,11 +291,10 @@ int main()
 
                 if(energia<99.9)
                 {
-                    prota->setEnergia(150.f,frameDeltaTime);
+                    prota->setEnergia(100.f, frameDeltaTime);
                 }
 
         }
-
 
         /* control de correr*/
 
@@ -275,43 +303,23 @@ int main()
             prota->setCorrer(true);
 
             /* baja la vitalidad en funcion del tiempo*/
+
              if(tiempo>0.19f)
             {
-                prota->setEnergia(-150.0f,frameDeltaTime);
+                prota->setEnergia(-100.f, frameDeltaTime);
             }
 
         }else
             prota->setCorrer(false);
 
-        /* hacemos un set de ataque a 2 que es arriba */
-        if(receiver.IsKeyDown(irr::KEY_KEY_W))
-        {
-            //camPosition.X -= MOVEMENT_SPEED * frameDeltaTime;
-            prota->setAtaquePosition(2);
 
-		}
-		else if(receiver.IsKeyDown(irr::KEY_KEY_S))
-		{
-			prota->setAtaquePosition(0);
-
-		}
-		else
-			prota->setAtaquePosition(1);
-		/* inicia el ataque */
-        /* control de ataque*/
-        if(receiver.IsKeyDown(irr::KEY_KEY_P))
-        	{
-            //camPosition.X -= MOVEMENT_SPEED * frameDeltaTime;
-            prota->setAtaque(true);
-
-			}
 
         /* movimiento hacia los lados y control de la velocidad en funcion de
         las variables de correr, sigilo y vitalidad */
 
 		if(receiver.IsKeyDown(irr::KEY_KEY_A))
         {
-            //camPosition.X -= MOVEMENT_SPEED * frameDeltaTime;
+            camPosition.X -= MOVEMENT_SPEED * frameDeltaTime;
             prota->setDireccion(0);
 
              prota->movimiento(frameDeltaTime);
@@ -319,7 +327,7 @@ int main()
 
 		else if(receiver.IsKeyDown(irr::KEY_KEY_D)){
 
-            //camPosition.X += MOVEMENT_SPEED * frameDeltaTime;
+            camPosition.X += MOVEMENT_SPEED * frameDeltaTime;
              prota->setDireccion(1);
 
              prota->movimiento(frameDeltaTime);
@@ -337,17 +345,18 @@ int main()
         /**
         ENEMIGO
         */
-
+        
          if(receiver.IsKeyDown(irr::KEY_KEY_K))
         {
-           //enem->setPatrulla(false);
+            enem->setAlarma(true);
         }
         else{
 
-            //enem->setPatrulla(true);
+            enem->setAlarma(false);
         }
-
-        //enem->Patrulla(frameDeltaTime, posiciones, protaPosition.X);  //INICIAMOS LA PATRULLA DEL ENEMIGO
+        
+        enem->Patrulla(frameDeltaTime, posiciones, protaPosition.X, fuente, comida);  //INICIAMOS LA PATRULLA DEL ENEMIGO
+        enem->Update(alarma);
 		/*
 		Anything can be drawn between a beginScene() and an endScene()
 		call. The beginScene() call clears the screen with a color and
@@ -395,8 +404,15 @@ int main()
 
 	**/
 	device->drop();
+	
 	delete prota;
 	delete enem;
+	for(int i=0;i<5;i++)
+	{
+		delete posiciones[i];
+	}
+
+	//delete *posiciones;
 
 	return 0;
 }
