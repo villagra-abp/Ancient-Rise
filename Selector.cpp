@@ -1,37 +1,31 @@
-#include "Selector.h"
+#include <Selector.h>
+
 
 /*
 FUNCION QUE INICIALIZA LA SECUENCIA PARA QUE EMPIECE AL PRINCIPIO DEL ARRAY DE HIJOS
 */
 void Selector::onInitialize()
 {
-	m_Current = m_Children.begin(); // DEVUELVE UN ITERADOR APUNTANDO AL PRIMER ELEMENTO DEL VECTOR
+	m_Current = children.begin(); // DEVUELVE UN ITERADOR APUNTANDO AL PRIMER ELEMENTO DEL VECTOR
 }
 
 /*
-FUNCION QUE PROCESA CADA COMPORTAMIENTO HIJO ,UNO POR UNO, EN LA LISTA SALIENDO SI ALGUNO FALLA. 
-DEVUELVE SUCCESS SI TODOS SE HAN EJECUTADO CORRECTAMENTE 
+FUNCION PARA EJECUTAR LAS TAREAS DE LOS HIJOS. SI ALGUNA SE EJECUTA CON EXITO ENTONCES TERMINA Y DEVUELVE 
+EL ESTADO. SINO CONTINUA EJECUTANDO EL RESTO DE SUS HIJOS HASTA LLEGAR AL FINAL
 */
-Status Selector::update() 
+Status Selector::run()
 {
-	// SEGUIMOS HACIENDOLO HASTA QUE EL COMPORTAMIENTO HIJO DIGA QUE ESTA EJECUTANDOSE
-	while(true)
+
+	Status s = (*m_Current)->run();  // Ejecutamos la tarea del hijo en el que nos encontramos
+
+	if(s!=BH_FAILURE)  // Si la tarea ha tenido exito o sigue ejecutandose devolvemos el estado de la misma, sino seguimos probando a ejecutar el resto
 	{
-		Status s = (*m_Current)->tick();
-
-		// SI EL HIJO TIENE EXITO O SIGUE EJECUTANDOSE, HACE LO MISMO 
-
-		if(s != BH_FAILURE)
-		{
-			return s;
-		}
-
-		// SIGUE BUSCANDO UN COMPORTAMIENTO QUE TENGA EXITOHASTA QUE LLEGUE AL FINAL
-		if(++m_Current == m_Children.end())
-		{
-			return BH_FAILURE;
-		}
+		return s;
 	}
 
-	return BH_INVALID;  // INESPERADA SALIDA DEL BUCLE 
+	// Avanzamos al siguiente hijo y comprobamos que no se haya acabado ya el vector
+	if(++m_Current == children.end())
+	{
+		return BH_FAILURE;
+	}
 }

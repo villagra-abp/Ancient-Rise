@@ -1,5 +1,4 @@
 
-#include <irrlicht.h>
 #include "Protagonista.h"
 #include "EnemigoBasico.h"
 #include "Posicion.h"

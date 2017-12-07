@@ -3,23 +3,27 @@
 
 #include <iostream>
 #include <vector>
-#include <Behavior.h>
+#include <Task.h>
 
 
 using namespace std;
 
-// PARA EVITAR CODIGO REDUNDANTE EN LAS SUBCLASES 
-class Composite : public Behavior
+
+// Clase para poder crear las tareas compuestas ( Selectors, Sequences)
+class Composite: public Task
 {
 	public:
-		void addChild(Behavior* child);
-		void removeChild(Behavior* child);
-		void clearChildren();
+
+		void addChildren(Task *child);
+		virtual ~Composite();
+
+		
 
 
 	protected:
-		typedef vector<Behavior*> Behaviors;
-		Behaviors m_Children;
+		typedef vector<Task*> Tasks;
+		Tasks children; // VECTOR CON TODOS LOS HIJOS QUE TIENE ESTA TAREA 
+		
 };
 
 #endif // COMPOSITE_H
