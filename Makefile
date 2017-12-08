@@ -3,25 +3,43 @@ LIBS := -lIrrlicht -lGL -lX11 -lXxf86vm
 CC=g++
 CFLAGS=-I.
 
+
+# Name of the executable created
 EJEC:= AncientRise
+# Path for the executable
+BINPATH = ./bin
+# Path for the .o files
+BUILDPATH = ./obj
+# Path for the source files
+SOURCEPATH = ./sourcefiles
 
-SOURCES := $(wildcard *.cpp)
-OBJ := $(subst .cpp,.o,$(SOURCES))
+EXECUTABLE = $(BINPATH)/$(EJEC)
+SRC := $(wildcard $(SOURCEPATH)/*.cpp)
+#OBJ := $(subst .cpp,.o,$(SRC))
+OBJ = $(patsubst $(SOURCEPATH)/%.cpp, $(BUILDPATH)/%.o, $(SRC))
 
-$(EJEC): $(OBJ)
-	$(CC) -o $@ $^ $(LIBS)
+$(EJEC): prepare $(OBJ)
+	$(warning Creando el ejecutable $@...)
+	$(CC) -o $(EXECUTABLE) $(OBJ) $(LIBS) 
 
-%.o: %.cpp 
-	$(CC) -c -o $@ $^ $(CFLAGS)
 
+$(BUILDPATH)/%.o: $(SOURCEPATH)/%.cpp 
+	$(warning Creando el binario $@...)
+	#$(CC) -c -o $@ $^ $(CFLAGS)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 info:
-	$(info $(SOURCES))
+	$(info $(SRC))
 	$(info $(OBJ))
 
 
 clean: 
-	rm -f *.o 
-	rm -f $(EJEC)
+	rm -f $(BUILDPATH)/*.o 
+	rm -f $(BINPATH)/$(EJEC)
+
+prepare:
+	$(warning Creando la estructura de carpetas)
+	mkdir -p $(BINPATH)
+	mkdir -p $(BUILDPATH)
 
 
