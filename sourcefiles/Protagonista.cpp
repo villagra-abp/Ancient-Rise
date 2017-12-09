@@ -34,6 +34,7 @@ Protagonista::Protagonista(IrrlichtDevice *dev, ISceneManager* smgr)
     direccion=1;
     cont_ataque=0;
     cont_defensa=0;
+    cont_recarga_enemigo=0;
     ataque_position=0;
     defensa_position=0;
     energia = 100.f;
@@ -67,7 +68,7 @@ void Protagonista::pintarInterfaz()
     energy->setScale(energyScale);
     lifeScale.X=vida/10;
     life->setScale(lifeScale);
-
+    //std::cout<<ataca<<"\n";
 }
 /**
 FUNCION PARA CONTROLAR EL SALTO DEL PROTA
@@ -76,25 +77,37 @@ void Protagonista::salto(const f32 Time)
 {
 
     if(protaPosition.Y<30 && saltando==true){
+        if(correr==true)
+        {
+            protaPosition.Y += VELOCIDAD_MOVIMIENTO * Time*2.;
+        }else
+        {
             protaPosition.Y += VELOCIDAD_MOVIMIENTO * Time*1.5;
-	   if(energia>0)
-	    energia-=30*Time;
-            if(direccion==1){
-                protaPosition.X += VELOCIDAD_MOVIMIENTO * Time*0.2;
-            }
-            else
-                protaPosition.X -= VELOCIDAD_MOVIMIENTO * Time*0.2;
-
+        }
+        
+	    if(energia>0)
+	       setEnergia(-50.f,Time);
+        /*
+        if(direccion==1){
+           protaPosition.X += VELOCIDAD_MOVIMIENTO * Time*0;
         }
         else
-        {
-            saltando=false;
-        }
+            protaPosition.X -= VELOCIDAD_MOVIMIENTO * Time*0;
+        */
+    }
+    else
+    {
+        saltando=false;
+    }
 
     // SIMULA LA GRAVEDAD
     if(protaPosition.Y>0 && saltando==false)
     {
         protaPosition.Y -= VELOCIDAD_MOVIMIENTO * Time*1.5;
+    }
+    if(protaPosition.Y<0)
+    {
+        protaPosition.Y=0;
     }
 
     
@@ -157,6 +170,7 @@ void Protagonista::ataque(const f32 Time)
     else if(cont_ataque>=20){
         protaPosition.Y =0;
         cont_ataque=0;
+        ataca=false;
     }
 
 }
@@ -174,42 +188,42 @@ void Protagonista::defender(const f32 Time)
             if(cont_defensa<20 && defensa_position==1){
                 protaPosition.Y =0;
                 if(cont_defensa>10){
-                    protaPosition.X += 1;
+                    protaPosition.X += 0.5;
                 }else
-                    protaPosition.X -= 1;
+                    protaPosition.X -= 0.5;
             }else if(cont_defensa<20 && defensa_position==2){
                 protaPosition.Y =10;
                 if(cont_defensa>10){
-                    protaPosition.X += 1;
+                    protaPosition.X += 0.5;
                 }else
-                    protaPosition.X -= 1;
+                    protaPosition.X -= 0.5;
             }else if(cont_defensa<20 && defensa_position==0){
                 protaPosition.Y =-10;
                 if(cont_defensa>10){
-                    protaPosition.X += 1;
+                    protaPosition.X += 0.5;
                 }else
-                    protaPosition.X -= 1;
+                    protaPosition.X -= 0.5;
             }
                 
         }else if(defensa==true && direccion==0){
             if(cont_defensa<20 && defensa_position==1){
                 protaPosition.Y =0;
                 if(cont_defensa>10){
-                    protaPosition.X -= 1;
+                    protaPosition.X -= 0.5;
                 }else
-                    protaPosition.X += 1;
+                    protaPosition.X += 0.5;
             }else if(cont_defensa<20 && defensa_position==2){
                 protaPosition.Y =10;
                 if(cont_defensa>10){
-                    protaPosition.X -= 1;
+                    protaPosition.X -= 0.5;
                 }else
-                    protaPosition.X += 1;
+                    protaPosition.X += 0.5;
             }else if(cont_defensa<20 && defensa_position==0){
                 protaPosition.Y =-10;
                 if(cont_defensa>10){
-                    protaPosition.X -= 1;
+                    protaPosition.X -= 0.5;
                 }else
-                    protaPosition.X += 1;
+                    protaPosition.X += 0.5;
             }
     } 
         
@@ -218,6 +232,7 @@ void Protagonista::defender(const f32 Time)
     else if(cont_defensa>=20){
         protaPosition.Y =0;
         cont_defensa=0;
+        defensa=false;
     }
 
 }
@@ -267,8 +282,75 @@ void Protagonista::movimiento(const f32 Time)
 
 }
 /**
+FUNCION PARA COMPROBAR LAS COLISIONES
+**/
+void Protagonista::comprobarColision(Enemigo *enemigo)
+{
+    enemigoPosition=enemigo->getNode()->getPosition();
+    if((enemigoPosition.X-(protaPosition.X+15))<=0 
+        && (enemigoPosition.X-(protaPosition.X+15))>-25
+        && vida<=100 && vida>0 && protaPosition.Y==0){
+        if(ataca)
+        {
+            enemigo->getNode()->setVisible(false);
+        }else if(enemigo->getNode()->isVisible())
+        {
+           vida-=5; 
+        }   
+    }
+    cont_recarga_enemigo++;
+    if(cont_recarga_enemigo>20){
+        enemigo->getNode()->setVisible(true);
+        cont_recarga_enemigo=0;
+    }
+}
+/**
+FUNCION PARA COMPROBAR LA VIDA DEL PROTA
+**/
+bool Protagonista::checkVida()
+{
+    if(vida<=0)
+    {
+        return false;
+    }else
+    {
+        return true;
+    }
+}
+/**
+FUNCION PARA RECUPERAR LA VIDA DEL PROTA
+**/
+void Protagonista::recuperarVida(const f32 Time)
+{
+    if(vida<100)
+        vida+=5* Time;
+    if(vida>100){
+        vida=100;
+    }
+}
+
+void Protagonista::setVida(f32 cantidad,const f32 Time)
+{
+    if(vida<100)
+        vida+=cantidad* Time;
+    if(vida<0){
+        vida=0;
+    }else if(vida>100){
+        vida=100;
+    }
+}
+/**
 FUNCION PARA RECUPERAR EL CANSANCIO DEL PROTA
 **/
+void Protagonista::recuperarEnergia(const f32 Time)
+{
+    if(energia<100)
+        energia+=10* Time;
+    if(energia>=100){
+        energia=100;
+        recuperarVida(Time);
+    }
+}
 
 void Protagonista::setEnergia(f32 cantidad,const f32 Time)
 {
@@ -276,8 +358,7 @@ void Protagonista::setEnergia(f32 cantidad,const f32 Time)
     	energia+=cantidad* Time;
     if(energia<0){
         energia=0;
-    }else if(energia>100){
-        energia=100;
+        setVida(-5,Time);
     }
 }
 

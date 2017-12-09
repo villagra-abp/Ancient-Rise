@@ -28,9 +28,6 @@ git commit --amend  :
 git push  :  
 	Actualizas el repositorio con tu último commit
 	
-git push -u origin local-branch:
-	Evita tener que poner git push --set-upstream origin 
-	
 git pull  :  
 	Descargas los cambios que se hayan hecho en el repositorio
 	
