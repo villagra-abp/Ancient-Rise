@@ -30,6 +30,7 @@ class Task
 		virtual ~Task();
 		virtual void onInitialize()=0;
 		virtual Status run()=0; // Metodo que se utiliza para ejecutar la tarea que devuelve un codigo de estado diciendo si ha tenido exito o no
+		Status getStatus() const;
 
 
 	private:
