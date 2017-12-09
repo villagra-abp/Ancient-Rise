@@ -1,5 +1,4 @@
 
-
 #include <irrlicht/irrlicht.h>
 #include "../headerfiles/Protagonista.h"
 #include "../headerfiles/Enemigo.h"
@@ -101,6 +100,9 @@ int main()
     // CREAMOS PROTA
 	Protagonista *prota = new Protagonista(device, smgr);
 	scene::ISceneNode  *rec = prota->getNode();
+  
+  //vector <Posicion> pos;
+	//pos.resize(1);
 
     Posicion *posiciones[5];
 
@@ -111,8 +113,44 @@ int main()
         posiciones[4]=new Posicion(-40.f,0.f,30.f);
 
 
-	//CREAMOS ENEMIGO
-	Enemigo *enem = new Enemigo(device, smgr, posiciones);
+	//CREAMOS ENEMIGO BASICO
+	EnemigoBasico *enem = new EnemigoBasico(device, smgr, posiciones);  // dinamico
+
+	//EnemigoBasico ene(device, smgr, posiciones);  No dinamico
+
+
+	// Fuente
+
+	scene::ISceneNode *fuente=smgr->addCubeSceneNode();
+
+    if (fuente) /** SI HEMOS CREADO EL CUBO **/
+	{
+		fuente->setPosition(core::vector3df(-200,0,30));
+		//rec->setMaterialTexture(0, driver->getTexture(mediaPath + "wall.bmp"));
+		fuente->setMaterialFlag(video::EMF_LIGHTING, true);
+	}
+
+	// COMIDA
+
+	scene::ISceneNode *comida=smgr->addCubeSceneNode();
+
+    if (comida) /** SI HEMOS CREADO EL CUBO **/
+	{
+		comida->setPosition(core::vector3df(200,0,30));
+		//rec->setMaterialTexture(0, driver->getTexture(mediaPath + "wall.bmp"));
+		comida->setMaterialFlag(video::EMF_LIGHTING, true);
+	}
+
+	// ALARMA
+
+	scene::ISceneNode *alarma=smgr->addCubeSceneNode();
+
+    if (alarma) /** SI HEMOS CREADO EL CUBO **/
+	{
+		alarma->setPosition(core::vector3df(220,0,30));
+		//rec->setMaterialTexture(0, driver->getTexture(mediaPath + "wall.bmp"));
+		alarma->setMaterialFlag(video::EMF_LIGHTING, false);
+	}
 
 
 	/**
@@ -212,20 +250,7 @@ int main()
         cam->setTarget(camPosition);
 
 
-        /**
-        ENEMIGO
-        */
-
-         if(receiver.IsKeyDown(irr::KEY_KEY_K))
-        {
-           //enem->setPatrulla(false);
-        }
-        else{
-
-            //enem->setPatrulla(true);
-        }
-
-        //enem->Patrulla(frameDeltaTime, posiciones, protaPosition.X);  //INICIAMOS LA PATRULLA DEL ENEMIGO
+       
 		/*
 		Anything can be drawn between a beginScene() and an endScene()
 		call. The beginScene() call clears the screen with a color and

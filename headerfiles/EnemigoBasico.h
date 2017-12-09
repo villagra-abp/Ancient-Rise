@@ -1,14 +1,23 @@
 #ifndef ENEMIGOBASICO_H
 #define ENEMIGOBASICO_H
 
-#include "Enemigo.h"
+
+#include "../headerfiles/Enemigo.h"
+
 
 
 class EnemigoBasico : public Enemigo
 {
     public:
         EnemigoBasico(IrrlichtDevice *dev, ISceneManager* smgr, Posicion *posiciones[]);
-        void comprobarComportamiento();
+
+        void Update(scene::ISceneNode *alarma);
+        void AvistadoProta();
+        void AlarmaSonando(scene::ISceneNode *alarma);
+
+
+
+
         virtual ~EnemigoBasico();
 
     protected:

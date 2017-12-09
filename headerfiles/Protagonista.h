@@ -2,6 +2,7 @@
 #define PROTAGONISTA_H
 
 
+
 #include <irrlicht/irrlicht.h>
 #include <iostream>
 #include "../headerfiles/Enemigo.h"
@@ -9,6 +10,7 @@
 
 using namespace irr;
 using namespace std;
+
 
 using namespace core;
 using namespace scene;
@@ -35,16 +37,19 @@ class Protagonista
          void comprobarColision(Enemigo *enemigo);
 
 
+
          //GETTERS Y SETTERS
          void setSalto(bool s);
          core::vector3df getPosition();
          void setPosition(core::vector3df v);
          f32  getEnergia();
          f32  getVida();
+
          bool getSigilo();
          void setSigilo();
          void setCorrer(bool c);
          void setDireccion(int d);
+
          void setAtaquePosition(int d);
          void setDefensaPosition(int d);
          void setAtaque(bool d);
@@ -52,7 +57,7 @@ class Protagonista
          void setEnergia(f32 cantidad, const f32 Time);
          void setVida(f32 cantidad, const f32 Time);
          bool checkVida();
-         
+
 
 
 
@@ -81,6 +86,7 @@ class Protagonista
         core::vector3df energyScale;
         core::vector3df lifePosition;
         core::vector3df lifeScale;
+
 };
 
 #endif // PROTAGONISTA_H

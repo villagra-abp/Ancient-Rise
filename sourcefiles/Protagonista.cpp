@@ -17,6 +17,7 @@ Protagonista::Protagonista(IrrlichtDevice *dev, ISceneManager* smgr)
     energy=smgr->addCubeSceneNode();
     life=smgr->addCubeSceneNode();
 
+
     if (rec) /** SI HEMOS CREADO EL CUBO **/
 	{
 		rec->setPosition(core::vector3df(0,0,30));
@@ -28,6 +29,7 @@ Protagonista::Protagonista(IrrlichtDevice *dev, ISceneManager* smgr)
 
     ataca=false;
     defensa=false;
+
     saltando=false;
     correr=false;
     sigilo=false;
@@ -70,6 +72,7 @@ void Protagonista::pintarInterfaz()
     life->setScale(lifeScale);
     //std::cout<<ataca<<"\n";
 }
+
 /**
 FUNCION PARA CONTROLAR EL SALTO DEL PROTA
 **/
@@ -77,6 +80,7 @@ void Protagonista::salto(const f32 Time)
 {
 
     if(protaPosition.Y<30 && saltando==true){
+
         if(correr==true)
         {
             protaPosition.Y += VELOCIDAD_MOVIMIENTO * Time*2.;
@@ -100,11 +104,13 @@ void Protagonista::salto(const f32 Time)
         saltando=false;
     }
 
+
     // SIMULA LA GRAVEDAD
     if(protaPosition.Y>0 && saltando==false)
     {
         protaPosition.Y -= VELOCIDAD_MOVIMIENTO * Time*1.5;
     }
+
     if(protaPosition.Y<0)
     {
         protaPosition.Y=0;
@@ -278,6 +284,7 @@ void Protagonista::movimiento(const f32 Time)
             }else
                 protaPosition.X += VELOCIDAD_MOVIMIENTO * Time*1.5;
     }
+
     
 
 }
@@ -338,10 +345,12 @@ void Protagonista::setVida(f32 cantidad,const f32 Time)
     }else if(vida>100){
         vida=100;
     }
+
 }
 /**
 FUNCION PARA RECUPERAR EL CANSANCIO DEL PROTA
 **/
+
 void Protagonista::recuperarEnergia(const f32 Time)
 {
     if(energia<100)
@@ -360,6 +369,7 @@ void Protagonista::setEnergia(f32 cantidad,const f32 Time)
         energia=0;
         setVida(-5,Time);
     }
+
 }
 
 /**
@@ -422,6 +432,7 @@ void Protagonista::setDireccion(int d)
 {
     direccion=d;
 }
+
 void Protagonista::setAtaquePosition(int d)
 {
     ataque_position=d;
@@ -444,6 +455,7 @@ void Protagonista::setDefensa(bool d)
     if(cont_defensa==0 && !saltando)
         cont_defensa=1;
 }
+
 Protagonista::~Protagonista()
 {
     //dtor
