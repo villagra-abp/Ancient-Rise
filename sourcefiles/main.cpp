@@ -1,10 +1,12 @@
 
-
 #include <irrlicht/irrlicht.h>
 #include "../headerfiles/Protagonista.h"
 #include "../headerfiles/Enemigo.h"
 #include "../headerfiles/Posicion.h"
+#include "../headerfiles/MyEventReceiver.h"
+#include "../headerfiles/EnemigoBasico.h"
 #include <iostream>
+#include <unistd.h>
 
 
 using namespace irr; // Para poder usar cualquier clase del motor Irrlicht se utiliza el namespace irr
@@ -38,67 +40,23 @@ losing platform independence then.
 #pragma comment(linker, "/subsystem:windows /ENTRY:mainCRTStartup")
 #endif
 
-/**
-    Clase para poder recoger los eventos ( entrada por teclado )
-**/
-class MyEventReceiver : public IEventReceiver
-{
-public:
 
-	virtual bool OnEvent(const SEvent& event)
-	{
-		// Remember whether each key is down or up
-		if (event.EventType == irr::EET_KEY_INPUT_EVENT)
-        {
-           KeyIsDown[event.KeyInput.Key] = event.KeyInput.PressedDown;
-           //keyIsPressed[event.KeyInput.Key] = event.KeyInput.
-        }
-		/*
-		Always return false by default. If you return true you tell the engine
-		that you handled this event completely and the Irrlicht should not
-		process it any further. So for example if you return true for all
-		EET_KEY_INPUT_EVENT events then Irrlicht would not pass on key-events
-		to it's GUI system.
-		*/
-		return false;
-	}
+void timeWait(){
+	static long t=clock();
+	const float fps = 60.f;
 
-	/*
-    Para saber que tecla esta pulsada
-    */
+	long toWait = t + CLOCKS_PER_SEC / fps - clock();
+	if(toWait > 0)
+		usleep(toWait);
 
-	virtual bool IsKeyDown(EKEY_CODE keyCode) const
-	{
-		return KeyIsDown[keyCode];
-	}
-
-	MyEventReceiver()
-	{
-		for (u32 i=0; i<KEY_KEY_CODES_COUNT; ++i)
-			KeyIsDown[i] = false;
-	}
-
-private:
-
-	bool KeyIsDown[KEY_KEY_CODES_COUNT];
-	bool keyIsPressed[KEY_KEY_CODES_COUNT];
-
-};
+	t = clock();
+}
 
 /*
 This is the main method. We can now use main() on every platform.
 */
 int main()
 {
-
-    /**
-        Velocidad de Movimiento NORMAL del prota en unidades por segundo
-	*/
-
-	// This is the movement speed in units per second.
-	
-
-
 
 	/**
 	El irrlicht device es el objeto nucleo que necesitamos para interactuar con el motor de irrlicht
@@ -143,6 +101,9 @@ int main()
     // CREAMOS PROTA
 	Protagonista *prota = new Protagonista(device, smgr);
 	scene::ISceneNode  *rec = prota->getNode();
+  
+  //vector <Posicion> pos;
+	//pos.resize(1);
 
     Posicion *posiciones[5];
 
@@ -153,8 +114,44 @@ int main()
         posiciones[4]=new Posicion(-40.f,0.f,30.f);
 
 
-	//CREAMOS ENEMIGO
-	Enemigo *enem = new Enemigo(device, smgr, posiciones);
+	//CREAMOS ENEMIGO BASICO
+	EnemigoBasico *enem = new EnemigoBasico(device, smgr, posiciones);  // dinamico
+
+	//EnemigoBasico ene(device, smgr, posiciones);  No dinamico
+
+
+	// Fuente
+
+	scene::ISceneNode *fuente=smgr->addCubeSceneNode();
+
+    if (fuente) /** SI HEMOS CREADO EL CUBO **/
+	{
+		fuente->setPosition(core::vector3df(-200,0,30));
+		//rec->setMaterialTexture(0, driver->getTexture(mediaPath + "wall.bmp"));
+		fuente->setMaterialFlag(video::EMF_LIGHTING, true);
+	}
+
+	// COMIDA
+
+	scene::ISceneNode *comida=smgr->addCubeSceneNode();
+
+    if (comida) /** SI HEMOS CREADO EL CUBO **/
+	{
+		comida->setPosition(core::vector3df(200,0,30));
+		//rec->setMaterialTexture(0, driver->getTexture(mediaPath + "wall.bmp"));
+		comida->setMaterialFlag(video::EMF_LIGHTING, true);
+	}
+
+	// ALARMA
+
+	scene::ISceneNode *alarma=smgr->addCubeSceneNode();
+
+    if (alarma) /** SI HEMOS CREADO EL CUBO **/
+	{
+		alarma->setPosition(core::vector3df(220,0,30));
+		//rec->setMaterialTexture(0, driver->getTexture(mediaPath + "wall.bmp"));
+		alarma->setMaterialFlag(video::EMF_LIGHTING, false);
+	}
 
 
 	/**
@@ -203,17 +200,9 @@ int main()
 	u32 then = device->getTimer()->getTime();
 	u32 time_input = device->getTimer()->getTime();
 
-	/*
-	Ok, now we have set up the scene, lets draw everything: We run the
-	device in a while() loop, until the device does not want to run any
-	more. This would be when the user closes the window or presses ALT+F4
-	(or whatever keycode closes a window).
-	*/
-
+	/*bucle del juego*/
 	while(device->run())
 	{
-
-
 		// recojo el frame delta time y el tiempo.
 		const u32 now = device->getTimer()->getTime();
 		const f32 frameDeltaTime = (f32)(now - then) / 1000.f; // Time in seconds
@@ -224,28 +213,19 @@ int main()
 		core::vector3df protaPosition = prota->getPosition();
 		core::vector3df camPosition = cam->getPosition();
 
-
+		/* funciones del prota que realizo en todas las iteraciones*/
         prota->salto(frameDeltaTime);
         prota->defender(frameDeltaTime);
         prota->ataque(frameDeltaTime);
         prota->pintarInterfaz();
-        //
-
-        /* lanza el salto al pulsat w */
-
-		if(receiver.IsKeyDown(irr::KEY_SPACE) && protaPosition.Y<1){
-            prota->setSalto(true);
-            //prota->setEnergia(-250.f, frameDeltaTime);
-
-		}
+        prota->recuperarEnergia(frameDeltaTime);
+        if(!prota->checkVida())
+        	return 0;
 
 
-        /*muestra por consola */
-        
-        std::cout<<prota->getEnergia()<<"\n";
 
         /* 5 veces por segundo registra si pulsamos s 
-        para controlar el modo sigilo y recargamos energia*/
+        para controlar el modo sigilo y controlar colisiones*/
 
         if(tiempo>0.2f)
         {
@@ -253,114 +233,28 @@ int main()
 
             time_input=now;
 
+            receiver.checkSigilo(prota,frameDeltaTime);
+            prota->comprobarColision(enem);
             
-
-                if(receiver.IsKeyDown(irr::KEY_KEY_C)) // AGACHARSE
-                {
-                        prota->setSigilo();
-                        prota->setCorrer(false);
-                }
-
-                if(energia<99.9)
-                {
-                    prota->setEnergia(150.f,frameDeltaTime);
-                }
-
         }
 
-
-        /* control de correr*/
-
-        if(receiver.IsKeyDown(irr::KEY_LSHIFT)){
-
-            prota->setCorrer(true);
-
-            /* baja la vitalidad en funcion del tiempo*/
-             if(tiempo>0.19f)
-            {
-                prota->setEnergia(-150.0f,frameDeltaTime);
-            }
-
-        }else
-            prota->setCorrer(false);
-
-        /* hacemos un set de ataque a 2 que es arriba */
-        if(receiver.IsKeyDown(irr::KEY_KEY_W))
-        {
-            //camPosition.X -= MOVEMENT_SPEED * frameDeltaTime;
-            prota->setAtaquePosition(2);
-            prota->setDefensaPosition(2);
-
-		}
-		else if(receiver.IsKeyDown(irr::KEY_KEY_S))
-		{
-			prota->setAtaquePosition(0);
-			prota->setDefensaPosition(0);
-
-		}
-		else
-		{
-			prota->setAtaquePosition(1);
-			prota->setDefensaPosition(1);
-		}
-		/* inicia el ataque */
-        /* control de ataque*/
-        if(receiver.IsKeyDown(irr::KEY_KEY_P))
-        {
-            
-        	prota->setAtaque(true);
-
-		}
-		/* control de ataque*/
-        if(receiver.IsKeyDown(irr::KEY_KEY_K))
-        {
-            
-        	prota->setDefensa(true);
-
-		}
-
-        /* movimiento hacia los lados y control de la velocidad en funcion de
-        las variables de correr, sigilo y vitalidad */
-
-		if(receiver.IsKeyDown(irr::KEY_KEY_A))
-        {
-            //camPosition.X -= MOVEMENT_SPEED * frameDeltaTime;
-            prota->setDireccion(0);
-
-             prota->movimiento(frameDeltaTime);
-		}
-
-		else if(receiver.IsKeyDown(irr::KEY_KEY_D)){
-
-            //camPosition.X += MOVEMENT_SPEED * frameDeltaTime;
-             prota->setDireccion(1);
-
-             prota->movimiento(frameDeltaTime);
-		}
+        /* comprueba el resto de inputs*/
+        receiver.checkInput(prota,frameDeltaTime);
 
 		/* ajuste de la posicion de la camara y su foco en funcion de la posicion de
 		nuestro protagonita */
 
 		rec->setPosition(protaPosition);
         cam->setPosition(vector3df(protaPosition.X,50,-140));
-        protaPosition.Y=50;
-        cam->setTarget(protaPosition);
+        camPosition=rec->getPosition();
+        camPosition.Y=50;
+        cam->setTarget(camPosition);
 
+        /*CONTROL DE LA PATRULLA*/
 
-        /**
-        ENEMIGO
-        */
-
-         if(receiver.IsKeyDown(irr::KEY_KEY_K))
-        {
-           //enem->setPatrulla(false);
-        }
-        else{
-
-            //enem->setPatrulla(true);
-        }
-
-        //enem->Patrulla(frameDeltaTime, posiciones, protaPosition.X);  //INICIAMOS LA PATRULLA DEL ENEMIGO
+        enem->Patrulla(frameDeltaTime, posiciones, protaPosition.X, fuente, comida);  //INICIAMOS LA PATRULLA DEL ENEMIGO
+        enem->Update(alarma);
+       
 		/*
 		Anything can be drawn between a beginScene() and an endScene()
 		call. The beginScene() call clears the screen with a color and
@@ -389,6 +283,8 @@ int main()
 			lastFPS = fps;
 		}
 
+		timeWait();
+
 	}
 
 	/*
@@ -410,7 +306,7 @@ int main()
 	device->drop();
 	delete prota;
 	delete enem;
-    delete [] posiciones;
+    //delete [] posiciones;
 
 	return 0;
 }
