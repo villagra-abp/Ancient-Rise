@@ -16,6 +16,14 @@ Motorgrafico* Motorgrafico::getInstance(){
     return (instance);
 }
 
+IrrlichtDevice* Motorgrafico::getDevice(){
+	return device;
+}
+
+u32 Motorgrafico::getTime(){
+	return device->getTimer()->getTime();
+}
+
 //Destructor
 Motorgrafico::~Motorgrafico(){
 	device->drop();
@@ -24,16 +32,15 @@ Motorgrafico::~Motorgrafico(){
 //Constructor. Solo accesible desde getInstance
 Motorgrafico::Motorgrafico(int h, int w, bool fullscreen){
 	device =
-		createDevice( video::EDT_OPENGL, core::dimension2d<u32>(h, w),16, fullscreen, false, fullscreen, 0/*&receiver*/);
+		createDevice( video::EDT_OPENGL, core::dimension2d<u32>(h, w),16, fullscreen, false, fullscreen, &receiver);
 
 	driver = device->getVideoDriver();
 	smgr = device->getSceneManager();
 	guienv = device->getGUIEnvironment();
-
+	
     smgr->addCameraSceneNode(0, core::vector3df(0,30,-40), core::vector3df(0,5,0));
 
-	guienv->addStaticText(L"Hello World! This is the Irrlicht Software renderer!",
-        core::rect<s32>(10,10,260,22), true);
+	
 }
 
 
@@ -51,13 +58,17 @@ void Motorgrafico::cursorPersonalizar(string path){
 }
 
 //Dibuja todo lo dibujable
-void Motorgrafico::draw(){
-	driver->beginScene(true, true, video::SColor(255,100,101,140));
+void Motorgrafico::draw(int a, int b, int c, int d){
+	driver->beginScene(true, true, video::SColor(a,b,c,d));
 
 	smgr->drawAll(); // draw the 3d scene
 	device->getGUIEnvironment()->drawAll(); // draw the gui environment (the logo)
 
 	driver->endScene();
+}
+
+void Motorgrafico::suspension(){
+	device->yield();
 }
 
 /*void Motorgrafico::drawGUI(){
@@ -68,12 +79,33 @@ void Motorgrafico::draw(){
 }*/
 
 
-/*Eventlistener* Motorgrafico::getListener(){
-	return receiver;
-}*/
 
 bool Motorgrafico::getVentanaEstado(){
 	return device->run();
+}
+
+Eventlistener Motorgrafico::getListener(){
+	return receiver;
+}
+
+bool Motorgrafico::getVentanaActiva(){
+	return device->isWindowActive();
+}
+
+video::IVideoDriver* Motorgrafico::getDriver(){
+	return driver;
+}
+
+scene::ISceneManager* Motorgrafico::getScene(){
+	return smgr;
+}
+
+gui::IGUIEnvironment* Motorgrafico::getGUI(){
+	return guienv;
+}
+
+int Motorgrafico::getFPS(){
+	return driver->getFPS();
 }
 
 void Motorgrafico::setNombreVentana(string text){

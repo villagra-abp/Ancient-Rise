@@ -1,19 +1,22 @@
-/*#include <irrlicht/irrlicht.h>
+#include <irrlicht/irrlicht.h>
 
-class MyEventReceiver : public IEventReceiver{
+using namespace irr;
+
+class Eventlistener : public IEventReceiver{
 
 public:
 
-	virtual bool OnEvent(const SEvent& event);
+	 bool OnEvent(const SEvent& event);
 
 	/*
     Para saber que tecla esta pulsada
-    *//*
+    */
 
-	virtual bool IsKeyDown(EKEY_CODE keyCode) const;
+	/*virtual*/ bool IsKeyDown(EKEY_CODE keyCode) const;
+	 bool IsKeyDown(char c);
 	
 
-	MyEventReceiver();
+	Eventlistener();
 
 
 private:
@@ -22,4 +25,3 @@ private:
 	bool keyIsPressed[KEY_KEY_CODES_COUNT];
 
 };
-*/
