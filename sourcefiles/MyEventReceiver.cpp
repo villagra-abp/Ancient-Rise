@@ -7,10 +7,10 @@ void MyEventReceiver::checkInput(Protagonista *prota,const f32 frameDeltaTime){
 	
      /* lanza el salto al pulsat w */
 
-		if(IsKeyDown(irr::KEY_SPACE) && prota->getPosition().Y<=0){
+	if(IsKeyDown(irr::KEY_SPACE)){
             saltar(prota,frameDeltaTime);
 
-		}
+	}
         /* control de correr*/
 
         if(IsKeyDown(irr::KEY_LSHIFT)){
