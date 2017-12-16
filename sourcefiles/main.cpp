@@ -1,12 +1,15 @@
 
-#include <irrlicht/irrlicht.h>
+#include <irrlicht.h>
 #include "../headerfiles/Protagonista.h"
 #include "../headerfiles/Enemigo.h"
 #include "../headerfiles/Posicion.h"
 #include "../headerfiles/MyEventReceiver.h"
 #include "../headerfiles/EnemigoBasico.h"
+#include "../headerfiles/Comida.h"
 #include <iostream>
 #include <unistd.h>
+#include "../headerfiles/BehaviorTree.h"
+#include "../headerfiles/Blackboard.h"
 
 
 using namespace irr; // Para poder usar cualquier clase del motor Irrlicht se utiliza el namespace irr
@@ -21,26 +24,14 @@ Estos son los 5 sub namespace del motor de Irrlicht
 4º irr::scene--> Se encuentra toda la gestion de la escena
 5º irr::video--> Contiene clases para acceder al driver del video. Todo el rendererizado 3d o 2d se realiza aqui
 */
+
 using namespace core;
 using namespace scene;
 using namespace video;
 using namespace io;
 using namespace gui;
 
-/*
-To be able to use the Irrlicht.DLL file, we need to link with the Irrlicht.lib.
-We could set this option in the project settings, but to make it easy, we use a
-pragma comment lib for VisualStudio. On Windows platforms, we have to get rid
-of the console window, which pops up when starting a program with main(). This
-is done by the second pragma. We could also use the WinMain method, though
-losing platform independence then.
-*/
-#ifdef _IRR_WINDOWS_
-#pragma comment(lib, "Irrlicht.lib")
-#pragma comment(linker, "/subsystem:windows /ENTRY:mainCRTStartup")
-#endif
-
-
+// FUNCION PARA FIJAR LOS FPS A 60
 void timeWait(){
 	static long t=clock();
 	const float fps = 60.f;
@@ -52,9 +43,8 @@ void timeWait(){
 	t = clock();
 }
 
-/*
-This is the main method. We can now use main() on every platform.
-*/
+
+
 int main()
 {
 
@@ -80,11 +70,10 @@ int main()
     - eventReceiver --> Un objeto para recibir eventos
 	**/
 
-
     MyEventReceiver receiver;
 
 	IrrlichtDevice *device =
-		createDevice( video::EDT_OPENGL, dimension2d<u32>(800, 600),16, false, false, false, &receiver);
+		createDevice( video::EDT_OPENGL, dimension2d<u32>(1000, 800),16, false, false, false, &receiver);
 
 	if (!device)
 		return 1;
@@ -101,24 +90,55 @@ int main()
     // CREAMOS PROTA
 	Protagonista *prota = new Protagonista(device, smgr);
 	scene::ISceneNode  *rec = prota->getNode();
+	scene::ISceneNode* Terrain;
   
-  //vector <Posicion> pos;
-	//pos.resize(1);
+  	// CREAMOS VECTOR DE POSICIONES PARA EL ENEMIGO
+  	typedef vector<Posicion*> patrulla;
+	patrulla pos; 
+  	Posicion *p0 = new Posicion(40.f,0.f,30.f);
+  	pos.push_back(p0);
+  	Posicion *p1 = new Posicion(20.f,0.f,30.f);
+  	pos.push_back(p1);
+  	Posicion *p2 = new Posicion(0.f,0.f,30.f);
+  	pos.push_back(p2);
+  	Posicion *p3 = new Posicion(-20.f,0.f,30.f);
+  	pos.push_back(p3);
+  	Posicion *p4 = new Posicion(-40.f,0.f,30.f);
+  	pos.push_back(p4);
 
-    Posicion *posiciones[5];
+	patrulla pos2; 
+  	Posicion *p5 = new Posicion(60.f,0.f,30.f);
+  	pos2.push_back(p5);
+  	Posicion *p6 = new Posicion(80.f,0.f,30.f);
+  	pos2.push_back(p6);
+  	Posicion *p7 = new Posicion(100.f,0.f,30.f);
+  	pos2.push_back(p7);
 
-        posiciones[0]=new Posicion(40.f,0.f,30.f);
-        posiciones[1]=new Posicion(20.f,0.f,30.f);
-        posiciones[2]=new Posicion(0.f,0.f,30.f);
-        posiciones[3]=new Posicion(-20.f,0.f,30.f);
-        posiciones[4]=new Posicion(-40.f,0.f,30.f);
 
-
+  
+	
+ 
 	//CREAMOS ENEMIGO BASICO
-	EnemigoBasico *enem = new EnemigoBasico(device, smgr, posiciones);  // dinamico
+	EnemigoBasico *enem1 = new EnemigoBasico(device, smgr, pos);  // dinamico
 
 	//EnemigoBasico ene(device, smgr, posiciones);  No dinamico
 
+	EnemigoBasico *enem2 = new EnemigoBasico(device, smgr, pos2); 
+
+	// CREAMOS EL OBJETO COMIDA
+	Posicion p(150.f, 0.f, 30.f);
+	Comida c (smgr, p);
+
+	
+	// CREAMOS LA BLACKBOARD
+	 Blackboard *b=new Blackboard();
+	 b->setEnemigo(enem1);
+	 b->setPos(pos);
+	 b->setVel(enem1->getVelocidad());
+
+	 // CREAMOS EL ARBOL DE COMPORTAMIENTO PASANDOLE LA BLACKBOARD
+	  BehaviorTree beh(1, b);
+	
 
 	// Fuente
 
@@ -129,17 +149,7 @@ int main()
 		fuente->setPosition(core::vector3df(-200,0,30));
 		//rec->setMaterialTexture(0, driver->getTexture(mediaPath + "wall.bmp"));
 		fuente->setMaterialFlag(video::EMF_LIGHTING, true);
-	}
-
-	// COMIDA
-
-	scene::ISceneNode *comida=smgr->addCubeSceneNode();
-
-    if (comida) /** SI HEMOS CREADO EL CUBO **/
-	{
-		comida->setPosition(core::vector3df(200,0,30));
-		//rec->setMaterialTexture(0, driver->getTexture(mediaPath + "wall.bmp"));
-		comida->setMaterialFlag(video::EMF_LIGHTING, true);
+		fuente ->setScale(core::vector3df(3.f,1.f,1.f));
 	}
 
 	// ALARMA
@@ -151,8 +161,18 @@ int main()
 		alarma->setPosition(core::vector3df(220,0,30));
 		//rec->setMaterialTexture(0, driver->getTexture(mediaPath + "wall.bmp"));
 		alarma->setMaterialFlag(video::EMF_LIGHTING, false);
+		alarma ->setScale(core::vector3df(2.f,3.f,1.f));
 	}
 
+
+	scene::ISceneNode* Plataforma= smgr->addCubeSceneNode();
+
+	if (Plataforma) /** SI HEMOS CREADO EL CUBO **/
+	{
+		Plataforma->setPosition(core::vector3df(220,25,30));
+		Plataforma->setScale(core::vector3df(10.f,1.f,5.f));
+		Plataforma->setMaterialFlag(video::EMF_LIGHTING, false);
+	}
 
 	/**
 
@@ -191,6 +211,98 @@ int main()
 
 	*/
 
+	/*TERRENO*/
+	 // add terrain scene node
+
+    //EL TERRENO SE FORMA A PARTIR DE UN MAPA DE ALTURAS
+
+    scene::ITerrainSceneNode* terrain = smgr->addTerrainSceneNode(
+
+        "../resources/terrain-heightmap.bmp",
+
+        0,                  // parent node
+
+        -1,                 // node id
+
+        core::vector3df(-5000, -177, -250),     // position
+
+        core::vector3df(0.f, 0.f, 0.f),     // rotation
+
+        core::vector3df(40.f, 4.4f, 40.f),  // scale
+
+        video::SColor ( 255, 255, 255, 255 ),   // vertexColor
+
+        5,                  // maxLOD
+
+        scene::ETPS_17,             // patchSize
+
+        4                   // smoothFactor
+
+        );
+
+
+
+    	//LE APLICAMOS TEXTURA AL TERRENO
+
+    	terrain->setMaterialFlag(video::EMF_LIGHTING, false);
+
+
+
+    	terrain->setMaterialTexture(0,
+
+            driver->getTexture("../resources/terrain-texture.jpg"));
+
+
+
+    	//LE APLICAMOS RELIEVE
+
+    terrain->setMaterialTexture(1,
+
+            driver->getTexture("../resources/detailmap3.jpg"));
+
+	
+
+	terrain->setMaterialType(video::EMT_DETAIL_MAP);
+
+
+
+    terrain->scaleTexture(1.0f, 20.0f);
+
+
+
+
+
+    //COLISIONES (Aplicado solo a la camara) extraer a clase y aplicar a prota etc 
+
+    // create triangle selector for the terrain
+
+    scene::ITriangleSelector* selector
+
+        = smgr->createTerrainTriangleSelector(terrain, 0);
+
+    terrain->setTriangleSelector(selector);
+
+
+
+     // create collision response animator and attach it to the camera
+
+    scene::ISceneNodeAnimator* anim = smgr->createCollisionResponseAnimator(
+
+        selector, cam, core::vector3df(60,100,60),
+
+        core::vector3df(0,0,0),
+
+        core::vector3df(0,50,0));
+
+    selector->drop();
+
+    cam->addAnimator(anim);
+
+    anim->drop();
+
+/*TERRENO*/
+
+
 	int lastFPS = -1;
 
 	/**
@@ -214,13 +326,19 @@ int main()
 		core::vector3df camPosition = cam->getPosition();
 
 		/* funciones del prota que realizo en todas las iteraciones*/
+		prota->gravedad(frameDeltaTime);
         prota->salto(frameDeltaTime);
         prota->defender(frameDeltaTime);
         prota->ataque(frameDeltaTime);
         prota->pintarInterfaz();
         prota->recuperarEnergia(frameDeltaTime);
+        prota->comprobarColision(Plataforma);
+        //prota->comprobarColision(Plataforma2);
+
+
         if(!prota->checkVida())
         	return 0;
+
 
 
 
@@ -234,7 +352,7 @@ int main()
             time_input=now;
 
             receiver.checkSigilo(prota,frameDeltaTime);
-            prota->comprobarColision(enem);
+            prota->comprobarColision(enem1);
             
         }
 
@@ -252,9 +370,13 @@ int main()
 
         /*CONTROL DE LA PATRULLA*/
 
-        enem->Patrulla(frameDeltaTime, posiciones, protaPosition.X, fuente, comida);  //INICIAMOS LA PATRULLA DEL ENEMIGO
-        enem->Update(alarma);
-       
+        //enem->update(frameDeltaTime, pos, protaPosition.X, fuente, c.getObjeto());  //INICIAMOS LA PATRULLA DEL ENEMIGO
+        //enem->Update(alarma);
+        b->setTime(frameDeltaTime);
+        b->setProta(protaPosition.X);
+
+       	beh.update();
+
 		/*
 		Anything can be drawn between a beginScene() and an endScene()
 		call. The beginScene() call clears the screen with a color and
@@ -305,8 +427,9 @@ int main()
 	**/
 	device->drop();
 	delete prota;
-	delete enem;
-    //delete [] posiciones;
+	delete enem1;
+	delete enem2;
+    delete b;
 
 	return 0;
 }

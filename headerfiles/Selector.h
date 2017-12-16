@@ -16,7 +16,7 @@ class Selector: public Composite
 
 		
 		virtual ~Selector();
-		virtual void onInitialize() override;
+		virtual void onInitialize(Blackboard *b) override;
 		virtual Status run() override;
 
 		

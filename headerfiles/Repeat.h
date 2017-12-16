@@ -15,7 +15,7 @@ class Repeat : public Decorator
 
 		Repeat(Task* child);
 		void setCount(int count);
-		void onInitialize();
+		void onInitialize(Blackboard *b);
 		Status run();
 
 

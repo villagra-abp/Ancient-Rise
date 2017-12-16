@@ -9,7 +9,7 @@
 class EnemigoBasico : public Enemigo
 {
     public:
-        EnemigoBasico(IrrlichtDevice *dev, ISceneManager* smgr, Posicion *posiciones[]);
+        EnemigoBasico(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos);
 
         void Update(scene::ISceneNode *alarma);
         void AvistadoProta();

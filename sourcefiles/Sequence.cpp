@@ -1,6 +1,6 @@
 #include "../headerfiles/Sequence.h"
 
-void Sequence::onInitialize()
+void Sequence::onInitialize(Blackboard *b)
 {
 	m_CurrentChild = children.begin();
 }

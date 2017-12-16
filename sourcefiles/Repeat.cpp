@@ -16,7 +16,7 @@ void Repeat::setCount(int count)
 	m_iLimit=count;
 }
 
-void Repeat::onInitialize()
+void Repeat::onInitialize(Blackboard *b)
 {
 	m_iCounter=0;
 }

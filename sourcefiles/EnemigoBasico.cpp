@@ -4,7 +4,7 @@
 /**
 CONSTRUCTOR DE ENEMIGO BASICO
 **/
-EnemigoBasico::EnemigoBasico(IrrlichtDevice *dev, ISceneManager* smgr, Posicion *posiciones[]):Enemigo(dev, smgr, posiciones)
+EnemigoBasico::EnemigoBasico(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos):Enemigo(dev, smgr, pos)
 {
 
     //ESTADISTICAS ENEMIGO BASICO
@@ -13,7 +13,7 @@ EnemigoBasico::EnemigoBasico(IrrlichtDevice *dev, ISceneManager* smgr, Posicion 
     this->setHambre(100.f);
     this->setSalud(100.f);
     this->setSed(100.f);
-    this->setVelocidad(8.f);
+    this->setVelocidad(15.f);
 
 
 }
@@ -47,7 +47,7 @@ FUNCION PARA VER QUE HACE EL ENEMIGO BASICO CUANDO VE AL PROTAGONISTA
 void EnemigoBasico::AvistadoProta()
 {
     
-
+    
 }
 
 

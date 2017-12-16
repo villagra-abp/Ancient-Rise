@@ -1,4 +1,5 @@
 #include "../headerfiles/Enemigo.h"
+#include "../headerfiles/BehaviorTree.h"
 
 
 
@@ -6,17 +7,19 @@
 
  CONSTRUCTOR DE ENEMIGO
 */
-Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, Posicion *posiciones[]):enemigo(nullptr), env(nullptr)
+Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos):enemigo(nullptr), env(nullptr)
 
 {
     enemigo=smgr->addCubeSceneNode();
 
     if (enemigo) /** SI HEMOS CREADO EL CUBO **/
 	{
-		enemigo->setPosition(core::vector3df(posiciones[0]->getPosX(),posiciones[0]->getPosY(),posiciones[0]->getPosZ())); // INDICAMOS SU POS INICIAL ( QUE VIENE INDICADA EN EL ARRAY TAMBIEN)
+		enemigo->setPosition(core::vector3df(pos[0]->getPosX(),pos[0]->getPosY(),pos[0]->getPosZ())); // INDICAMOS SU POS INICIAL ( QUE VIENE INDICADA EN EL ARRAY TAMBIEN)
 		enemigo->setMaterialFlag(video::EMF_LIGHTING, false);
 
         EnemigoPosition = enemigo->getPosition();
+
+
 	}
 
     env = dev->getGUIEnvironment();
@@ -55,7 +58,7 @@ FUNCION DONDE EL ENEMIGO REALIZA LA PATRULLA Y ESTA ATENTO A LAS COSAS QUE SUCED
 PARAMETROS : TIEMPO, ARRAY CON LAS POSICIONES DE LA PATRULLA, POSICION DEL PROTA
 **/
 
-void Enemigo::Patrulla(const f32 Time, Posicion *posiciones[], float protaPosition, scene::ISceneNode *fuente, scene::ISceneNode *comida)
+void Enemigo::update(const f32 Time, vector<Posicion*> pos, float protaPosition, scene::ISceneNode *fuente, scene::ISceneNode *comida)
 {
     
         this->setVelocidad(8.f);
@@ -66,7 +69,7 @@ void Enemigo::Patrulla(const f32 Time, Posicion *posiciones[], float protaPositi
         EnemigoPosition = enemigo->getPosition(); // VOLVEMOS A OBTENER EL VECTOR DE POSICION DEL ENEMIGO POR SI HA CAMBIADO
 
         float enemigoX=EnemigoPosition.X;
-        float posPatrullaX = posiciones[contadorPatrulla]->getPosX();
+        float posPatrullaX = pos[contadorPatrulla]->getPosX();
 
         int distanciaNodoX= posPatrullaX - enemigoX;     // DISTANCIA EN X AL NODO DE LA PATRULLA
 
@@ -76,6 +79,11 @@ void Enemigo::Patrulla(const f32 Time, Posicion *posiciones[], float protaPositi
          //1º COMPRUEBA SI PROTAGONISTA CERCA (ESTO SIEMPRE SERA LO MAS IMPORTANTE (SIEMPRE LO HARA PRIMERO ) INDEPENDIENTEMENTE DE LO QUE OCURRA)
 
         int distanciaProtaX = protaPosition - enemigoX;      // DISTANCIA EN X AL PROTAGONISTA
+
+    
+
+        
+        /*
 
         if(abs(distanciaProtaX)<20)   // SI PROTA AVISTADO
         {
@@ -155,7 +163,8 @@ void Enemigo::Patrulla(const f32 Time, Posicion *posiciones[], float protaPositi
             else{  // AUN NO HEMOS LLEGADO A NINGUN NODO DE LA PATRULLA
 
 
-                    this->ComprobarDistancia(distanciaNodoX);
+                   this->ComprobarDistancia(distanciaNodoX);
+
             }
         }
         else{  // COMPORTAMIENTO BUSCAR AGUA/COMIDA
@@ -188,6 +197,8 @@ void Enemigo::Patrulla(const f32 Time, Posicion *posiciones[], float protaPositi
 
                 }
             }
+            
+        */
 
 }
 
@@ -365,6 +376,11 @@ bool Enemigo::getEstadoPatrulla()
 vector <bool> Enemigo::getEstadoEstadisticas()
 {
     return estadisticas;
+}
+
+f32 Enemigo::getVelocidad()
+{
+    return VELOCIDAD_ENEMIGO;
 }
 
 

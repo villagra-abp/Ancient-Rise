@@ -23,9 +23,9 @@ using namespace gui;
 class Enemigo
 {
     public:
-        Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, Posicion *posiciones[]);
+        Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos);
 
-        void Patrulla(const f32 Time, Posicion *posiciones[], float protaPosition, scene::ISceneNode *fuente, scene::ISceneNode *comida);
+        void update(const f32 Time, vector<Posicion*> pos, float protaPosition, scene::ISceneNode *fuente, scene::ISceneNode *comida);
         void Perseguir(float enemigoX, float protaPosition);
         void ComprobarDistancia(int distanciaObjetivoX);
         void updateTiempo(const f32 Time);
@@ -44,9 +44,9 @@ class Enemigo
         scene::ISceneNode* getNode();
         bool getEstadoAlarma();
         bool getEstadoAvistadoProta();
-
         bool getEstadoPatrulla();
         vector <bool> getEstadoEstadisticas();
+        f32 getVelocidad();
 
         void setPatrulla(bool p);
         void setAlarma(bool a);
@@ -65,7 +65,6 @@ class Enemigo
         scene::ISceneNode * enemigo;
 
         core::vector3df EnemigoPosition; // VECTOR 3D CON LA POSICION DEL ENEMIGO 
-        //Posicion *posPatrulla[];  // INDICA TODAS LAS POS DE LA PATRULLA DEL ENEMIGO
         int contadorPatrulla;     // PARA SABER LA POSICION EN LA QUE SE ENCUENTRA EN LA PATRULLA
         int direccion;            // PARA SABER A LA DIRECCION QUE ESTA MIRANDO EL ENEMIGO 0 --> Izquierda, 1 --> Derecha
         IGUIEnvironment *env;
@@ -73,6 +72,7 @@ class Enemigo
         bool encontradoComida;    // PARA SABER SI HA ENCONTRADO COMIDA
         bool encontradoDescanso;  // PARA SABER SI HA ENCONTRADO UN SITIO PARA DESCANSAR
         f32 frameDeltaTime;
+
 
 
 

@@ -15,8 +15,6 @@ class Composite: public Task
 	public:
 
 		void addChildren(Task *child);
-		virtual ~Composite();
-
 		
 
 

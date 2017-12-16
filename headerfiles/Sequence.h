@@ -16,7 +16,7 @@ class Sequence: public Composite
 
 		
 		virtual ~Sequence();
-		virtual void onInitialize() override;
+		virtual void onInitialize(Blackboard *b) override;
 		virtual Status run() override;
 
 		

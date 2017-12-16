@@ -3,7 +3,7 @@
 
 
 
-#include <irrlicht/irrlicht.h>
+#include <irrlicht.h>
 #include <iostream>
 #include "../headerfiles/Enemigo.h"
 
@@ -35,6 +35,8 @@ class Protagonista
          void recuperarVida(const f32 Time);
          void pintarInterfaz();
          void comprobarColision(Enemigo *enemigo);
+         bool comprobarColision(scene::ISceneNode* nodo);
+         void gravedad(const f32 Time);
 
 
 
@@ -73,16 +75,20 @@ class Protagonista
         bool correr;
         bool ataca;
         bool defensa;
+        bool estaEnSuelo;
+        bool estaCayendo;
         int direccion;      // 0 --> Izquierda, 1 --> Derecha
         int ataque_position;    //0--> abajo.  1--> centro,  2-->arriba
         int defensa_position;    //0--> abajo.  1--> centro,  2-->arriba
         int cont_ataque;
         int cont_defensa;
+        int cont_salto;
         int cont_recarga_enemigo;
         const f32 VELOCIDAD_MOVIMIENTO=90.f;
         core::vector3df protaPosition;
         core::vector3df enemigoPosition;
         core::vector3df energyPosition;
+        core::vector3df nodoPosition;
         core::vector3df energyScale;
         core::vector3df lifePosition;
         core::vector3df lifeScale;

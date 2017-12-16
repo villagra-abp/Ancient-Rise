@@ -1,4 +1,4 @@
-#include <irrlicht/irrlicht.h>
+#include <irrlicht.h>
 #include "../headerfiles/Protagonista.h"
 #include <iostream>
 

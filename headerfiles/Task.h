@@ -3,9 +3,20 @@
 
 #include <iostream>
 #include <vector>
+#include <irrlicht.h>
+#include "../headerfiles/Enemigo.h"
+#include "../headerfiles/Posicion.h"
+#include "../headerfiles/Blackboard.h"
 
 
 using namespace std;
+using namespace irr;
+
+using namespace core;
+using namespace scene;
+using namespace video;
+using namespace io;
+using namespace gui;
 
 
 enum Status // CADA COMPORTAMIENTO, CUANDO SE EJECUTA, DEVUELVE UN ESTADO QUE ES CRITICO PARA QUE EL EBHAVIOR TREE FUNCIONE
@@ -28,8 +39,9 @@ class Task
 
 		Task();
 		virtual ~Task();
-		virtual void onInitialize()=0;
-		virtual Status run()=0; // Metodo que se utiliza para ejecutar la tarea que devuelve un codigo de estado diciendo si ha tenido exito o no
+		virtual void onInitialize(Blackboard *b)=0;   // El igual a 0 quiere decir que este metodo no se va a implementar aqui (la clase se convierte en abstracta) sino que va a ser 
+										 // implementado en una clase derivada.
+		virtual Status run()=0; 		 // Metodo que se utiliza para ejecutar la tarea que devuelve un codigo de estado diciendo si ha tenido exito o no
 		Status getStatus() const;
 
 

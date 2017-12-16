@@ -7,11 +7,10 @@ Protagonista::Protagonista(IrrlichtDevice *dev, ISceneManager* smgr)
 {
 
     /**
-	Creamos un nodo que va ser movido con las teclas WSAD. Es una esfera que posicionamos
-	en (0,0,30) y le asignamos una texura. Como no tenemos luces dinamicas en esta escena
-	desabilitamos la luz en cada modelo (sino los modelos serian negros )
-
-	**/
+    Creamos un nodo que va ser movido con las teclas WSAD. Es una esfera que posicionamos
+    en (0,0,30) y le asignamos una texura. Como no tenemos luces dinamicas en esta escena
+    desabilitamos la luz en cada modelo (sino los modelos serian negros )
+    **/
     
     rec=smgr->addSphereSceneNode();
     energy=smgr->addCubeSceneNode();
@@ -19,11 +18,11 @@ Protagonista::Protagonista(IrrlichtDevice *dev, ISceneManager* smgr)
 
 
     if (rec) /** SI HEMOS CREADO EL CUBO **/
-	{
-		rec->setPosition(core::vector3df(0,0,30));
-		//rec->setMaterialTexture(0, driver->getTexture(mediaPath + "wall.bmp"));
-		rec->setMaterialFlag(video::EMF_LIGHTING, true);
-	}
+    {
+        rec->setPosition(core::vector3df(0,0,30));
+        //rec->setMaterialTexture(0, driver->getTexture(mediaPath + "wall.bmp"));
+        rec->setMaterialFlag(video::EMF_LIGHTING, true);
+    }
     
     life->setMaterialFlag(video::EMF_LIGHTING,false);
 
@@ -33,9 +32,12 @@ Protagonista::Protagonista(IrrlichtDevice *dev, ISceneManager* smgr)
     saltando=false;
     correr=false;
     sigilo=false;
+    estaEnSuelo=false;
+    estaCayendo=true;
     direccion=1;
     cont_ataque=0;
     cont_defensa=0;
+    cont_salto=0;
     cont_recarga_enemigo=0;
     ataque_position=0;
     defensa_position=0;
@@ -70,52 +72,47 @@ void Protagonista::pintarInterfaz()
     energy->setScale(energyScale);
     lifeScale.X=vida/10;
     life->setScale(lifeScale);
-    //std::cout<<ataca<<"\n";
+    //std::cout<<estaCayendo<<"\n";
 }
-
 /**
-FUNCION PARA CONTROLAR EL SALTO DEL PROTA
+FUNCION PARA CONTROLAR LA GRAVEDAD
 **/
-void Protagonista::salto(const f32 Time)
+void Protagonista::gravedad(const f32 Time)
 {
-
-    if(protaPosition.Y<30 && saltando==true){
-
-        if(correr==true)
-        {
-            protaPosition.Y += VELOCIDAD_MOVIMIENTO * Time*2.;
-        }else
-        {
-            protaPosition.Y += VELOCIDAD_MOVIMIENTO * Time*1.5;
-        }
-        
-	    if(energia>0)
-	       setEnergia(-50.f,Time);
-        /*
-        if(direccion==1){
-           protaPosition.X += VELOCIDAD_MOVIMIENTO * Time*0;
-        }
-        else
-            protaPosition.X -= VELOCIDAD_MOVIMIENTO * Time*0;
-        */
-    }
-    else
-    {
-        saltando=false;
-    }
-
-
     // SIMULA LA GRAVEDAD
-    if(protaPosition.Y>0 && saltando==false)
+    if(protaPosition.Y>0 && saltando==false && estaEnSuelo==false)
     {
         protaPosition.Y -= VELOCIDAD_MOVIMIENTO * Time*1.5;
-    }
+        estaCayendo=true;
+    }else if(estaEnSuelo && protaPosition.Y>=35 && saltando==false)
+    {
+        protaPosition.Y -= VELOCIDAD_MOVIMIENTO * Time*1.5;
+        estaCayendo=true;    
+    }else
+        estaCayendo=false;
 
     if(protaPosition.Y<0)
     {
         protaPosition.Y=0;
     }
 
+}
+/**
+FUNCION PARA CONTROLAR EL SALTO DEL PROTA
+**/
+void Protagonista::salto(const f32 Time)
+{
+
+    if(cont_salto>0 && cont_salto<20){
+        
+        protaPosition.Y+=2;
+        cont_salto++;  
+    }
+    else{
+        //protaPosition.Y =0;
+        cont_salto=0;
+        saltando=false;
+    }
     
 }
 /**
@@ -124,25 +121,29 @@ FUNCION PARA CONTROLAR EL ATAQUE DEL PROTA
 void Protagonista::ataque(const f32 Time)
 {
     //std::cout<<cont_ataque<<"\n";
-    
+    int pos_actual;
+    if(estaEnSuelo){
+        pos_actual=34;
+    }else
+        pos_actual=0;
     
     if(cont_ataque>0 && cont_ataque<20){
         
         if(ataca==true && direccion==1){
             if(cont_ataque<20 && ataque_position==1){
-                protaPosition.Y =0;
+                protaPosition.Y =pos_actual;
                 if(cont_ataque>10){
                     protaPosition.X -= 2;
                 }else
                     protaPosition.X += 2;
             }else if(cont_ataque<20 && ataque_position==2){
-                protaPosition.Y =10;
+                protaPosition.Y =pos_actual+4;
                 if(cont_ataque>10){
                     protaPosition.X -= 2;
                 }else
                     protaPosition.X += 2;
             }else if(cont_ataque<20 && ataque_position==0){
-                protaPosition.Y =-10;
+                protaPosition.Y =pos_actual-4;
                 if(cont_ataque>10){
                     protaPosition.X -= 2;
                 }else
@@ -151,19 +152,19 @@ void Protagonista::ataque(const f32 Time)
                 
         }else if(ataca==true && direccion==0){
             if(cont_ataque<20 && ataque_position==1){
-                protaPosition.Y =0;
+                protaPosition.Y =pos_actual;
                 if(cont_ataque>10){
                     protaPosition.X += 2;
                 }else
                     protaPosition.X -= 2;
             }else if(cont_ataque<20 && ataque_position==2){
-                protaPosition.Y =10;
+                protaPosition.Y =pos_actual+4;
                 if(cont_ataque>10){
                     protaPosition.X += 2;
                 }else
                     protaPosition.X -= 2;
             }else if(cont_ataque<20 && ataque_position==0){
-                protaPosition.Y =-10;
+                protaPosition.Y =pos_actual-4;
                 if(cont_ataque>10){
                     protaPosition.X += 2;
                 }else
@@ -174,7 +175,7 @@ void Protagonista::ataque(const f32 Time)
     cont_ataque++;  
     }
     else if(cont_ataque>=20){
-        protaPosition.Y =0;
+        protaPosition.Y =pos_actual;
         cont_ataque=0;
         ataca=false;
     }
@@ -186,57 +187,62 @@ FUNCION PARA CONTROLAR LA DEFENSA DEL PROTA
 void Protagonista::defender(const f32 Time)
 {
     //std::cout<<cont_ataque<<"\n";
-    
+    int pos_actual;
+    if(estaEnSuelo){
+        pos_actual=34;
+    }else
+        pos_actual=0;
+
     
     if(cont_defensa>0 && cont_defensa<20){
         
         if(defensa==true && direccion==1){
             if(cont_defensa<20 && defensa_position==1){
-                protaPosition.Y =0;
+                protaPosition.Y =pos_actual;
                 if(cont_defensa>10){
-                    protaPosition.X += 0.5;
+                    protaPosition.X += 0.1;
                 }else
-                    protaPosition.X -= 0.5;
+                    protaPosition.X -= 0.1;
             }else if(cont_defensa<20 && defensa_position==2){
-                protaPosition.Y =10;
+                protaPosition.Y =pos_actual+4;
                 if(cont_defensa>10){
-                    protaPosition.X += 0.5;
+                    protaPosition.X += 0.1;
                 }else
-                    protaPosition.X -= 0.5;
+                    protaPosition.X -= 0.1;
             }else if(cont_defensa<20 && defensa_position==0){
-                protaPosition.Y =-10;
+                protaPosition.Y =pos_actual-4;
                 if(cont_defensa>10){
-                    protaPosition.X += 0.5;
+                    protaPosition.X += 0.1;
                 }else
-                    protaPosition.X -= 0.5;
+                    protaPosition.X -= 0.1;
             }
                 
         }else if(defensa==true && direccion==0){
             if(cont_defensa<20 && defensa_position==1){
-                protaPosition.Y =0;
+                protaPosition.Y =pos_actual;
                 if(cont_defensa>10){
-                    protaPosition.X -= 0.5;
+                    protaPosition.X -= 0.1;
                 }else
-                    protaPosition.X += 0.5;
+                    protaPosition.X += 0.1;
             }else if(cont_defensa<20 && defensa_position==2){
-                protaPosition.Y =10;
+                protaPosition.Y =pos_actual+4;
                 if(cont_defensa>10){
-                    protaPosition.X -= 0.5;
+                    protaPosition.X -= 0.1;
                 }else
-                    protaPosition.X += 0.5;
+                    protaPosition.X += 0.1;
             }else if(cont_defensa<20 && defensa_position==0){
-                protaPosition.Y =-10;
+                protaPosition.Y =pos_actual-4;
                 if(cont_defensa>10){
-                    protaPosition.X -= 0.5;
+                    protaPosition.X -= 0.1;
                 }else
-                    protaPosition.X += 0.5;
+                    protaPosition.X += 0.1;
             }
     } 
         
     cont_defensa++;  
     }
     else if(cont_defensa>=20){
-        protaPosition.Y =0;
+        protaPosition.Y =pos_actual;
         cont_defensa=0;
         defensa=false;
     }
@@ -289,7 +295,7 @@ void Protagonista::movimiento(const f32 Time)
 
 }
 /**
-FUNCION PARA COMPROBAR LAS COLISIONES
+FUNCION PARA COMPROBAR LAS COLISIONES CON ENEMIGOS
 **/
 void Protagonista::comprobarColision(Enemigo *enemigo)
 {
@@ -300,7 +306,7 @@ void Protagonista::comprobarColision(Enemigo *enemigo)
         if(ataca)
         {
             enemigo->getNode()->setVisible(false);
-        }else if(enemigo->getNode()->isVisible())
+        }else if(enemigo->getNode()->isVisible() && defensa==false)
         {
            vida-=5; 
         }   
@@ -310,6 +316,41 @@ void Protagonista::comprobarColision(Enemigo *enemigo)
         enemigo->getNode()->setVisible(true);
         cont_recarga_enemigo=0;
     }
+}
+/**
+FUNCION PARA COMPROBAR LAS COLISIONES CON LAS PLATAFORMAS
+**/
+bool Protagonista::comprobarColision(scene::ISceneNode* nodo)
+{
+    nodoPosition=nodo->getPosition();
+    if((nodoPosition.X-(protaPosition.X+15))<=40 
+        && (nodoPosition.X-(protaPosition.X+15))>-70
+        && protaPosition.Y-nodoPosition.Y>0)
+    {
+        if((nodoPosition.X-(protaPosition.X+15))<=30 
+        && (nodoPosition.X-(protaPosition.X+15))>-60)
+        {
+            if(protaPosition.Y-nodoPosition.Y<0)
+            {
+                estaEnSuelo=false;
+                return false;
+            }
+            
+        }else
+        {
+            //protaPosition.Y=nodoPosition.Y+5;
+            estaEnSuelo=true;
+            return true;
+
+        }
+         
+    }else
+    {
+        estaCayendo=true;
+        estaEnSuelo=false;
+        return false;
+    }
+        
 }
 /**
 FUNCION PARA COMPROBAR LA VIDA DEL PROTA
@@ -364,7 +405,7 @@ void Protagonista::recuperarEnergia(const f32 Time)
 void Protagonista::setEnergia(f32 cantidad,const f32 Time)
 {
     if(energia>0 || energia<100)
-    	energia+=cantidad* Time;
+        energia+=cantidad* Time;
     if(energia<0){
         energia=0;
         setVida(-5,Time);
@@ -385,7 +426,13 @@ ACTUALIZA EL VALOR DEL SALTO (TRUE/FALSE)
 **/
 void Protagonista::setSalto(bool s)
 {
-   saltando=s;
+   
+   if(cont_salto==0 &&
+    (protaPosition.Y<=0 ||(estaEnSuelo && protaPosition.Y<=35))){
+        cont_salto=1;
+        saltando=s;
+   }
+    
 }
 
 core::vector3df Protagonista::getPosition()
