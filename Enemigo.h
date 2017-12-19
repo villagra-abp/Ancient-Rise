@@ -7,6 +7,7 @@
 #include <vector>
 #include <math.h>
 
+#include <GameObject.h>
 
 
 using namespace irr;
@@ -43,6 +44,7 @@ class Enemigo
         bool getEstadoAvistadoProta();
         bool getEstadoPatrulla();
         vector <bool> getEstadoEstadisticas();
+        core::vector3df getPosition();
 
         void setPatrulla(bool p);
         void setAlarma(bool a);
@@ -52,6 +54,8 @@ class Enemigo
         void setSalud(f32 s);
         void setVelocidad(f32 v);
         void setPosition(vector3df position);
+
+        virtual bool isPlayer() const override { return false; };
 
         virtual ~Enemigo();
 

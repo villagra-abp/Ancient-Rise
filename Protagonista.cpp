@@ -1,4 +1,5 @@
 #include "Protagonista.h"
+#include "Mundo.h"
 
 /**
  Constructor: CREA UN NODO PASANDOLE POR PARAMETRO EL DEVICE Y EL PUNTERO PARA GESTIONAR LA ESCENA
@@ -17,7 +18,7 @@ Protagonista::Protagonista(IrrlichtDevice *dev, ISceneManager* smgr)
 
     if (rec) /** SI HEMOS CREADO EL CUBO **/
 	{
-		rec->setPosition(core::vector3df(0,0,30));
+		rec->setPosition(core::vector3df(50,0,30));
 		//rec->setMaterialTexture(0, driver->getTexture(mediaPath + "wall.bmp"));
 		rec->setMaterialFlag(video::EMF_LIGHTING, true);
 	}

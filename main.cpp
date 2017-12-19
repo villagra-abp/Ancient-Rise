@@ -134,25 +134,31 @@ int main()
 	ISceneManager* smgr = device->getSceneManager();
 	IGUIEnvironment* guienv = device->getGUIEnvironment();
 
-    // CREAMOS PROTA
+
+	//Creamos e iniciamos el Mundo.
+	Mundo *mundo = new Mundo();
+	mundo.initialize(driver, smgr, guienv);
+
+    // CREAMOS PROTA, SE HARA EN EL INITIALIZE MUNDO
 	Protagonista *prota = new Protagonista(device, smgr);
-	scene::ISceneNode  *rec = prota->getNode();
+	mundo.addGameObject(prota, prota->getPosition());
+	//scene::ISceneNode  *rec = prota->getNode();
 
 	//vector <Posicion> pos;
 	//pos.resize(1);
 
     Posicion *posiciones[5];
 
-        posiciones[0]=new Posicion(40.f,0.f,30.f);
-        posiciones[1]=new Posicion(20.f,0.f,30.f);
-        posiciones[2]=new Posicion(0.f,0.f,30.f);
-        posiciones[3]=new Posicion(-20.f,0.f,30.f);
-        posiciones[4]=new Posicion(-40.f,0.f,30.f);
+        posiciones[0]=new Posicion(90.f,0.f,30.f);
+        posiciones[1]=new Posicion(70.f,0.f,30.f);
+        posiciones[2]=new Posicion(50.f,0.f,30.f);
+        posiciones[3]=new Posicion(30.f,0.f,30.f);
+        posiciones[4]=new Posicion(10.f,0.f,30.f);
 
 
 	//CREAMOS ENEMIGO BASICO
 	EnemigoBasico *enem = new EnemigoBasico(device, smgr, posiciones);  // dinamico
-
+	mundo.addGameObject(enem, enem->getPosition());
 	//EnemigoBasico ene(device, smgr, posiciones);  No dinamico
 
 

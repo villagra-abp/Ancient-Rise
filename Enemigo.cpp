@@ -343,6 +343,12 @@ vector <bool> Enemigo::getEstadoEstadisticas()
     return estadisticas;
 }
 
+core::vector3df Enemigo::getPosition()
+{
+   return EnemigoPosition;
+}
+
+
 
 
 void Enemigo::setPatrulla(bool p)
