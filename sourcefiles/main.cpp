@@ -4,9 +4,11 @@
 #include "../motorgrafico/headerfiles/Objeto.h"
 #include "../motorgrafico/headerfiles/Mapa.h"
 #include "../motorgrafico/headerfiles/Camara.h"
+#include "../motorgrafico/headerfiles/Vector3D.h"
 //#include "../motorgrafico/sourcefiles/Motorgrafico.cpp"
 
 #include <iostream>
+#include <Box2D/Box2D.h>
 
 
 using namespace std;
@@ -36,6 +38,21 @@ int main()
 
 	Camara* camara = new Camara(1);
 
+	Objeto* cubo = new Objeto(0);
+	Objeto* esfera = new Objeto(1);
+
+	Vector3D v(0,0,30);
+
+	cubo->setPosicion(v);
+	v.Z = 60;
+	esfera->setPosicion(v);
+
+	cubo->setMaterial("resources/media/wall.bmp");
+	esfera->setMaterial("resources/media/wall.bmp");
+
+	cubo->setLuz(false);
+	esfera->setLuz(false);
+
 	int lastFPS = -1;
 	u32 then = grafico->getTime();
 
@@ -47,26 +64,27 @@ int main()
 			const f32 frameDeltaTime = (f32)(now-then) / 1000.f; //Time in seconds
 			then = now; 
 			
-			float* nodePosicion = camara->getPosicion();
-			float x = *nodePosicion;
-			float y = *(nodePosicion+1);
-			float z = *(nodePosicion+2);
-
+			Vector3D nodePosicion = camara->getPosicion();
+			Vector3D nodeRotation = camara->getRotation();
 
 			Eventlistener receiver = grafico->getListener();
 			if(receiver.IsKeyDown('w')){
-				z += MOVEMENT_SPEED * frameDeltaTime;
+				nodePosicion.Z += MOVEMENT_SPEED * frameDeltaTime;
 			}
 			else if(receiver.IsKeyDown('s')){
-				z -= MOVEMENT_SPEED * frameDeltaTime;
+				nodePosicion.Z -= MOVEMENT_SPEED * frameDeltaTime;
 			}
 
 			if(receiver.IsKeyDown('a')){
-				x -= MOVEMENT_SPEED*frameDeltaTime;
+				nodeRotation.Y -= MOVEMENT_SPEED*frameDeltaTime;
 			}
 			else if(receiver.IsKeyDown('d'))
-				x += MOVEMENT_SPEED*frameDeltaTime;
-			camara->setPosicion(x,y,z);
+				nodeRotation.Y += MOVEMENT_SPEED*frameDeltaTime;
+			if(receiver.IsKeyDown(3)){
+				grafico->cerrar();
+			}
+			camara->setPosicion(nodePosicion);
+			camara->setRotation(nodeRotation);
 			
 			grafico->draw(255,200,200,200);
 

@@ -71,6 +71,10 @@ void Motorgrafico::suspension(){
 	device->yield();
 }
 
+void Motorgrafico::cerrar(){
+	device->closeDevice();
+}
+
 /*void Motorgrafico::drawGUI(){
 	driver->beginScene(true, true, SColor(255,100,101,140));
 

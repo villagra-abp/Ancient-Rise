@@ -131,10 +131,10 @@ bool Eventlistener::IsKeyDown(char keyCode){
 			flag = this->IsKeyDown(irr::KEY_SPACE);
 			break;
 		case 1: //Ctrl
-			flag = this->IsKeyDown(irr::KEY_CONTROL);
+			flag = this->IsKeyDown(irr::KEY_LCONTROL);
 			break;
 		case 2:	//Shift
-			flag = this->IsKeyDown(irr::KEY_SHIFT);
+			flag = this->IsKeyDown(irr::KEY_LSHIFT);
 			break;
 		case 3://Esc
 			flag = this->IsKeyDown(irr::KEY_ESCAPE);

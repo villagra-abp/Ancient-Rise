@@ -18,15 +18,37 @@ Camara::~Camara(){
 	
 }
 
+float Camara::getFOV(){
+	float fov = node->getFOV();
+
+	return fov;
+}
+
 //Devuelve el puntero al primer miembro de un array de posicion
-float* Camara::getPosicion(){
+Vector3D Camara::getPosicion(){
 	core::vector3df position = node->getPosition();
-	float posicion[3] = {position.X, position.Y, position.Z};
-	float* pepe = &posicion[0];
+	Vector3D pepe(position.X, position.Y, position.Z);
 
 	return pepe;
 }
 
-void Camara::setPosicion(float x, float y, float z){
-	node->setPosition(core::vector3df(x,y,z));
+Vector3D Camara::getRotation(){
+	core::vector3df rot = node->getRotation();
+	Vector3D pepote(rot.X, rot.Y, rot.Z);
+
+	return pepote;
+}
+
+void Camara::setFOV(float fov){
+	node->setFOV(fov);
+}
+
+void Camara::setRotation(Vector3D rot){
+	node->setRotation(core::vector3df(rot.X,rot.Y,rot.Z));
+}
+
+
+
+void Camara::setPosicion(Vector3D pos){
+	node->setPosition(core::vector3df(pos.X,pos.Y,pos.Z));
 }

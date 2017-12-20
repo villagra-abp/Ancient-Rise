@@ -35,6 +35,7 @@ public:
 	void cursorPersonalizar(string path);
 	void draw(int a, int b, int c, int d);
 	void suspension();
+	void cerrar();
 	/*
 	void drawEscena();
 	void drawGUI();
