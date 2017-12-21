@@ -32,25 +32,41 @@ void Pj::visionBuilder (){  //Aplica (y=x*m), con x(max) = visionXmax , m = valo
     float xlength = visionXmax;
     Vector2f pjPos = personaje->getPosition();
 
+    float xprima = visionXmax / 4;
+    float xprima1 = 2 * xprima / 3;
+    //float xprima2 = xprima / 3;
+
+    float yprima = ylength / 2;
+
     
     //2 formas convexas que engloban el area de vision de un personaje. 1-> Mirando Derecha, 2-> Mirando Izquierda  
     // de 6 puntos. O 3 simplificada.
 
     //Facing Right
-    areaVision->setPointCount(3);
+    areaVision->setPointCount(6);
 
     // definiendo puntos ( + 20 para las posiciones hacia la derecha pues punto inicial del pj en esquina sup izq. ancho pj = 20)
     areaVision->setPoint(0, sf::Vector2f(pjPos.x+20, pjPos.y));                     //Punto inicial, altura de los ojos. (MIN X, 1/2 Y)
     areaVision->setPoint(1, sf::Vector2f(pjPos.x+xlength+20, pjPos.y-ylength));     //Altura maxima del rango de vision, Final superior parte triangular ( X, MIN Y)
-    areaVision->setPoint(2, sf::Vector2f(pjPos.x+xlength+20, pjPos.y+ylength));     //Altura minima del rango de vision, Final inferior parte triangular ( X, MAX Y)
+
+    areaVision->setPoint(2, sf::Vector2f(pjPos.x+xlength+xprima1+20, pjPos.y-yprima));
+    areaVision->setPoint(3, sf::Vector2f(pjPos.x+xlength+xprima+20, pjPos.y));
+    areaVision->setPoint(4, sf::Vector2f(pjPos.x+xlength+xprima1+20, pjPos.y+yprima));
+
+    areaVision->setPoint(5, sf::Vector2f(pjPos.x+xlength+20, pjPos.y+ylength));     //Altura minima del rango de vision, Final inferior parte triangular ( X, MAX Y)
     
     //Facing Left
-    areaVisionNeg->setPointCount(3);
+    areaVisionNeg->setPointCount(6);
 
     // definiendo puntos
     areaVisionNeg->setPoint(0, sf::Vector2f(pjPos.x, pjPos.y));                     //Punto inicial, altura de los ojos. (MIN X, 1/2 Y)
     areaVisionNeg->setPoint(1, sf::Vector2f(pjPos.x-xlength, pjPos.y-ylength));     //Altura maxima del rango de vision, Final superior parte triangular ( X, MIN Y)
-    areaVisionNeg->setPoint(2, sf::Vector2f(pjPos.x-xlength, pjPos.y+ylength));     //Altura minima del rango de vision, Final inferior parte triangular ( X, MAX Y)
+    
+    areaVisionNeg->setPoint(2, sf::Vector2f(pjPos.x-xlength-xprima1, pjPos.y-yprima));
+    areaVisionNeg->setPoint(3, sf::Vector2f(pjPos.x-xlength-xprima, pjPos.y));
+    areaVisionNeg->setPoint(4, sf::Vector2f(pjPos.x-xlength-xprima1, pjPos.y+yprima));
+
+    areaVisionNeg->setPoint(5, sf::Vector2f(pjPos.x-xlength, pjPos.y+ylength));     //Altura minima del rango de vision, Final inferior parte triangular ( X, MAX Y)
 }
 
 void Pj::update(float dirx){             //Movimientos del personaje.
