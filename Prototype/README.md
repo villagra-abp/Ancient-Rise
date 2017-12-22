@@ -50,10 +50,10 @@ Tecla **←** - Movimiento hacia Izquierda.
 
 ![AreaVisión](https://i.imgur.com/HJQqPtQ.png) ---> Área de Visión, rango máximo y pendiente modificables.
 
-Tecla **(/ División)** - Reducción del rango en X.
+Tecla **/ División** - Reducción del rango en X.
 
-Tecla (* Multiplicación) - Aumento del rango en X.
+Tecla * Multiplicación - Aumento del rango en X.
 
-Tecla **(- Resta)** - Reducción de la Pendiente.
+Tecla **- Resta** - Reducción de la Pendiente.
 
-Tecla **(+ Suma)** - Aumento de la Pendiente.
+Tecla **+ Suma** - Aumento de la Pendiente.
