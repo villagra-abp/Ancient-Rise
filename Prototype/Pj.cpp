@@ -1,5 +1,6 @@
 #include "Pj.h"
-
+#include <iostream>
+using namespace std;
 
 Pj::Pj(Vector2f position, float xlength, float pendValue){      //CONSTRUCTOR DE PERSONAJE
     
@@ -32,7 +33,7 @@ void Pj::visionBuilder (){  //Aplica (y=x*m), con x(max) = visionXmax , m = valo
     float xlength = visionXmax;
     Vector2f pjPos = personaje->getPosition();
 
-    float xprima = visionXmax / 4;
+    float xprima = visionXmax / 5;  //Podria ser 1/5 de visionXmax
     float xprima1 = 2 * xprima / 3;
     //float xprima2 = xprima / 3;
 
@@ -91,23 +92,73 @@ bool Pj::checkInSigth(Vector2f objPos){
     float pjymax;          // Valor real en la ventana del punto del area con Y Maxima, respecto a la X recibida.
     float xReady;
 
-    if(lastFacedDir){ 	//Mira hacia derecha
-	pjxmin = personaje->getPosition().x + 20;
-	pjxmax = personaje->getPosition().x + 20 + visionXmax;
+    
+    //Valores necesarios para el Anyadido.
+    float ylength = visionXmax * valorPendiente;        
+    float xlength = visionXmax;
+
+    float xprima = visionXmax / 5;  //Podria ser 1/5 de visionXmax
+    float xprima1 = 2 * xprima / 3;
+
+    float pjxmax2 = 0.0;
+    float pjxmin2 = 0.0;
+
+    float yprima = ylength / 2;
+
+    float pend1 = yprima/xprima1;
+    float pend2 = yprima/(xprima - xprima1);
+
+    if(lastFacedDir){   //Mira hacia derecha
+        pjxmin = personaje->getPosition().x + 20;
+        pjxmax = personaje->getPosition().x + 20 + visionXmax;
+        pjxmax2 = pjxmax + xprima;
         xReady = objPos.x - pjxmin;
-    }else{				//Mira hacia izquierda
-	pjxmin = personaje->getPosition().x - visionXmax;
-	pjxmax = personaje->getPosition().x;
+    }else{              //Mira hacia izquierda
+        pjxmin = personaje->getPosition().x - visionXmax;
+        pjxmax = personaje->getPosition().x;
+        pjxmin2 = pjxmin - xprima;
         xReady = -(objPos.x - pjxmax);
     }
 
     if(objPos.x < pjxmax && objPos.x > pjxmin){
         pjymax = xReady * valorPendiente + personaje->getPosition().y;
-	pjymin = personaje->getPosition().y - (pjymax-personaje->getPosition().y);
+        pjymin = personaje->getPosition().y - (pjymax-personaje->getPosition().y);
         
-        if(objPos.y > pjymin && objPos.y < pjymax){
+        if(objPos.y > pjymin && objPos.y < pjymax)
             inSight = true;
-	}
+    
+    }else{  //Segunda parte del area, anyadido.
+
+        if(lastFacedDir){
+            if (objPos.x >= pjxmax && objPos.x < pjxmax2){  
+                if(objPos.x < (pjxmax+xprima1)){
+                    pjymax = -(objPos.x - (pjxmax + xprima1)) * pend1 + personaje->getPosition().y + yprima;
+                    pjymin = personaje->getPosition().y - (pjymax-personaje->getPosition().y);                    
+                }else{
+                    pjymax = -(objPos.x - (pjxmax + xprima)) * pend2 + personaje->getPosition().y;
+                    pjymin = personaje->getPosition().y - (pjymax-personaje->getPosition().y);
+                }
+                
+                if(objPos.y < pjymax && objPos.y > pjymin)
+                    inSight = true;
+                
+            }
+        }else{
+
+            if(objPos.x > pjxmin2 && objPos.x <= pjxmin){
+                if(objPos.x > (pjxmin-xprima1)){
+                    pjymax = (objPos.x - (pjxmin - xprima1)) * pend1 + personaje->getPosition().y + yprima;
+                    pjymin = personaje->getPosition().y - (pjymax-personaje->getPosition().y);                    
+                }else{
+                    pjymax = (objPos.x - (pjxmin - xprima)) * pend2 + personaje->getPosition().y;
+                    pjymin = personaje->getPosition().y - (pjymax-personaje->getPosition().y);
+                }
+                
+                if(objPos.y < pjymax && objPos.y > pjymin)
+                    inSight = true;
+
+            }
+        }
     }
 
     return inSight;
