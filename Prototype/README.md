@@ -32,13 +32,13 @@ Los objetos dentro del área de visión del personaje en el momento actual, todo
 
 ## Referencias y controles
 
-![Personaje](https://i.imgur.com/OraMJHD.png) ---> Personaje, movimiento en el eje X (Izquierda y Derecha).
+* ![Personaje](https://i.imgur.com/OraMJHD.png) ---> Personaje, movimiento en el eje X (Izquierda y Derecha).
 
 Tecla **D** - Movimiento a la Derecha.
 
 Tecla **A** - Movimiento a la Izquierda.
 
-![ObjetoMovible](https://i.imgur.com/kgofYSa.png) ---> Objeto Movible, movimiento en ambos ejes.
+* ![ObjetoMovible](https://i.imgur.com/kgofYSa.png) ---> Objeto Movible, movimiento en ambos ejes.
 
 Tecla **↑** - Movimiento hacia Arriba.
 
@@ -48,7 +48,7 @@ Tecla **→** - Movimiento hacia Derecha.
 
 Tecla **←** - Movimiento hacia Izquierda.
 
-![AreaVisión](https://i.imgur.com/HJQqPtQ.png) ---> Área de Visión, rango máximo y pendiente modificables.
+* ![AreaVisión](https://i.imgur.com/HJQqPtQ.png) ---> Área de Visión, rango máximo y pendiente modificables.
 
 Tecla **(/ División)** - Reducción del rango en X.
 
