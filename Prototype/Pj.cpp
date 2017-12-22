@@ -1,6 +1,4 @@
 #include "Pj.h"
-#include <iostream>
-using namespace std;
 
 Pj::Pj(Vector2f position, float xlength, float pendValue){      //CONSTRUCTOR DE PERSONAJE
     
