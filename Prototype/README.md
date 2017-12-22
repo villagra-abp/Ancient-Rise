@@ -29,3 +29,7 @@ En el caso de que pueda haber algún error con el ejecutable o se quiera realiza
  En el prototipo podremos manejar también al propio personaje, y modificar los parámetros que conforman su área de visión.
 
 Los objetos dentro del área de visión del personaje en el momento actual, todos aquellos que el personaje puede ver, aparecen en la esquina superior izquierda, como podemos apreciar en la vista previa al inicio de éste documento. 
+
+## Referencias y controles
+
+
