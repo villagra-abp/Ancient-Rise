@@ -52,7 +52,7 @@ Tecla **←** - Movimiento hacia Izquierda.
 
 Tecla **(/ División)** - Reducción del rango en X.
 
-Tecla **( * Multiplicación) ** - Aumento del rango en X.
+Tecla (* Multiplicación) - Aumento del rango en X.
 
 Tecla **(- Resta)** - Reducción de la Pendiente.
 
