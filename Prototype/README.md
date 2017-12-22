@@ -3,7 +3,7 @@ Se trata de un prototipo, apoyado para facilitar la depuración en las librería
 
 ## Vista Previa
    ![Demo](https://i.imgur.com/Br8ie9g.gif)
-   ...
+   ```
    Muestra del prototipo en funcionamiento
-   ...
+   ```
 ##
