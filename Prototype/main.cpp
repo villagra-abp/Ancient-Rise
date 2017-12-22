@@ -26,7 +26,7 @@ using namespace sf;
 
 //Tamanyo de la Window (X, Y)
 #define kWinX 800
-#define kWinY 600
+#define kWinY 400
 
 //------------------------------------------------------------------------------
 
