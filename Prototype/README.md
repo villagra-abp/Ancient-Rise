@@ -18,4 +18,9 @@ En el caso de que pueda haber algún error con el ejecutable o se quiera realiza
  ```
  make
  ```
- Se generará un nuevo **PrototipoSensores** que pondremos en funcionamiento de la misma manera que se indicado anteriormente.
+ Se generará un nuevo **PrototipoSensores** que pondremos en funcionamiento de la misma manera, explicada en el primer paso de este apartado *Compilación y funcionamiento*.
+ 
+ Respecto al funcionamiento:
+ Ya que se trata de un prototipo para el sensor de visión, dispondremos en éste de un personaje, representado con un cuadrado, el cual tiene asignado un área, en color blanco, correspondiente a su rango de visión.
+ Con cuatro círculos de diferente color se representan objetos que puedan aparecer en el mapa. Uno de ellos, en concreto el de color cyan, es un objeto movible, del cual podremos modificar su posición.
+ En el prototipo podremos manejar también al propio personaje, y modificar los parámetros que conforman su área de visión.
