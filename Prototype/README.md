@@ -48,7 +48,7 @@ Tecla **→** - Movimiento hacia Derecha.
 
 Tecla **←** - Movimiento hacia Izquierda.
 
-![AreaVisión](https://i.imgur.com/kgofYSa.png) ---> Área de Visión, rango máximo y pendiente modificables.
+![AreaVisión](https://i.imgur.com/HJQqPtQ.png) ---> Área de Visión, rango máximo y pendiente modificables.
 
 Tecla **(/ División)** - Reducción del rango en X.
 
