@@ -87,9 +87,14 @@ void saltar(Protagonista *p,const f32 Time){
 }
 void moverse(Protagonista *p,const f32 Time){
     p->movimiento(Time);
+    if(p->getCorrer()==true)
+    {
+        p->setEnergia(-40.0f,Time);
+    }
 }
 void atacar(Protagonista *p,bool b){
     p->setAtaque(b);
+    p->setEnergia(-5.0f,.5f);
 }
 void defender(Protagonista *p,bool b){
     p->setDefensa(b);
@@ -100,9 +105,7 @@ void relentizar(Protagonista *p,const f32 Time){
 
 }
 void sprintar(Protagonista *p,const f32 Time){
-    p->setCorrer(true);
-    p->setEnergia(-40.0f,Time);
-            
+    p->setCorrer(true);          
 }
 void pos_pelea(Protagonista *p,int n){
     p->setAtaquePosition(n);

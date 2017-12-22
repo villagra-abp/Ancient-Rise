@@ -5,11 +5,19 @@
 Comida::Comida(ISceneManager* smgr, Posicion pos):Objeto()
 {
 
-	objeto = smgr->addCubeSceneNode();
+	comida = smgr->addCubeSceneNode();
 
-	if (objeto)
+	if (comida)
 	{
-		objeto ->setPosition(core::vector3df(pos.getPosX(),pos.getPosY(),pos.getPosZ()));
-		objeto ->setScale(core::vector3df(0.5f,0.5f,0.5f));
+		comida ->setPosition(core::vector3df(pos.getPosX(),pos.getPosY(),pos.getPosZ()));
+		comida ->setScale(core::vector3df(0.5f,0.5f,0.5f));
 	}
 }
+
+
+
+scene::ISceneNode* Comida::getNode()
+{
+    return comida;
+}
+

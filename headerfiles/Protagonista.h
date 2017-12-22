@@ -6,6 +6,9 @@
 #include <irrlicht.h>
 #include <iostream>
 #include "../headerfiles/Enemigo.h"
+#include "../headerfiles/Comida.h"
+#include "../headerfiles/Bebida.h"
+#include "../headerfiles/Trampa.h"
 
 
 using namespace irr;
@@ -35,6 +38,9 @@ class Protagonista
          void recuperarVida(const f32 Time);
          void pintarInterfaz();
          void comprobarColision(Enemigo *enemigo);
+         void comprobarColision(Comida *comida);
+         void comprobarColision(Bebida *bebida);
+         void comprobarColision(Trampa *trampa);
          bool comprobarColision(scene::ISceneNode* nodo);
          void gravedad(const f32 Time);
 
@@ -48,6 +54,7 @@ class Protagonista
          f32  getVida();
 
          bool getSigilo();
+         bool getCorrer();
          void setSigilo();
          void setCorrer(bool c);
          void setDireccion(int d);
@@ -87,6 +94,9 @@ class Protagonista
         const f32 VELOCIDAD_MOVIMIENTO=90.f;
         core::vector3df protaPosition;
         core::vector3df enemigoPosition;
+        core::vector3df comidaPosition;
+        core::vector3df bebidaPosition;
+        core::vector3df trampaPosition;
         core::vector3df energyPosition;
         core::vector3df nodoPosition;
         core::vector3df energyScale;

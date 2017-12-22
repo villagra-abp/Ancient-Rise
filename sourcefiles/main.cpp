@@ -6,6 +6,7 @@
 #include "../headerfiles/MyEventReceiver.h"
 #include "../headerfiles/EnemigoBasico.h"
 #include "../headerfiles/Comida.h"
+#include "../headerfiles/Trampa.h"
 #include <iostream>
 #include <unistd.h>
 #include "../headerfiles/BehaviorTree.h"
@@ -126,10 +127,25 @@ int main()
 	EnemigoBasico *enem2 = new EnemigoBasico(device, smgr, pos2); 
 
 	// CREAMOS EL OBJETO COMIDA
-	Posicion p(150.f, 0.f, 30.f);
-	Comida c (smgr, p);
-
+	Posicion p(-150.f, 0.f, 30.f);
 	
+	Comida *comi = new Comida(smgr, p);
+
+	//CREAMOS EL OBJETO BEBIDA
+
+	Posicion posbebida(-300,0,30.f);
+ 	Bebida *bebi = new Bebida(smgr, posbebida);
+	
+
+
+
+	//CREAMOS EL OBJETO TRAMPA
+
+	Posicion postrampa(330,0,30.f);
+ 	Trampa *tram = new Trampa(smgr, postrampa);
+	
+
+
 	// CREAMOS LA BLACKBOARD
 	 Blackboard *b=new Blackboard();
 	 b->setEnemigo(enem1);
@@ -275,7 +291,7 @@ int main()
     //COLISIONES (Aplicado solo a la camara) extraer a clase y aplicar a prota etc 
 
     // create triangle selector for the terrain
-
+/*
     scene::ITriangleSelector* selector
 
         = smgr->createTerrainTriangleSelector(terrain, 0);
@@ -299,6 +315,7 @@ int main()
     cam->addAnimator(anim);
 
     anim->drop();
+    */
 
 /*TERRENO*/
 
@@ -333,6 +350,12 @@ int main()
         prota->pintarInterfaz();
         prota->recuperarEnergia(frameDeltaTime);
         prota->comprobarColision(Plataforma);
+
+        prota->comprobarColision(comi);
+        prota->comprobarColision(bebi);
+        prota->comprobarColision(tram);
+
+
         //prota->comprobarColision(Plataforma2);
 
 
@@ -353,6 +376,7 @@ int main()
 
             receiver.checkSigilo(prota,frameDeltaTime);
             prota->comprobarColision(enem1);
+            prota->comprobarColision(enem2);
             
         }
 

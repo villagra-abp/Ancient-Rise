@@ -11,10 +11,11 @@ class Comida : public Objeto
 	public:
 
 		Comida(ISceneManager* smgr, Posicion pos);
-		
+		scene::ISceneNode* getNode();
 
 	private:
-
+        scene::ISceneNode * comida;
+        core::vector3df comidaPosition;
 };
 
 #endif // COMIDA_H

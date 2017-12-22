@@ -1,5 +1,6 @@
 #include "../headerfiles/Protagonista.h"
 
+
 /**
  Constructor: CREA UN NODO PASANDOLE POR PARAMETRO EL DEVICE Y EL PUNTERO PARA GESTIONAR LA ESCENA
 **/
@@ -302,7 +303,7 @@ void Protagonista::comprobarColision(Enemigo *enemigo)
     enemigoPosition=enemigo->getNode()->getPosition();
     if((enemigoPosition.X-(protaPosition.X+15))<=0 
         && (enemigoPosition.X-(protaPosition.X+15))>-25
-        && vida<=100 && vida>0 && protaPosition.Y==0){
+        && vida<=100 && vida>0 && protaPosition.Y<10){
         if(ataca)
         {
             enemigo->getNode()->setVisible(false);
@@ -317,6 +318,85 @@ void Protagonista::comprobarColision(Enemigo *enemigo)
         cont_recarga_enemigo=0;
     }
 }
+
+/**
+FUNCION PARA COMPROBAR LAS COLISIONES CON COMIDA
+**/
+
+void Protagonista::comprobarColision(Comida *comida)
+{
+    comidaPosition=comida->getNode()->getPosition();
+    if((comidaPosition.X-(protaPosition.X+15))<=0 
+        && (comidaPosition.X-(protaPosition.X+15))>-20){
+        if(comida->getNode()->isVisible()&& protaPosition.Y<10)
+        {
+           vida+=10;
+            if(vida>100)
+                vida=100;
+
+            int i=rand();
+            while(i>1000)
+            {
+                i=rand();
+            }
+            
+            comidaPosition.X+=i;
+            comida->getNode()->setPosition(bebidaPosition);
+
+        }
+       
+    }
+    //else
+        //comida->getNode()->setVisible(true);
+    
+}
+
+void Protagonista::comprobarColision(Bebida *bebida)
+{
+    bebidaPosition=bebida->getNode()->getPosition();
+    if((bebidaPosition.X-(protaPosition.X+15))<=0 
+        && (bebidaPosition.X-(protaPosition.X+15))>-20){
+        if(bebida->getNode()->isVisible()&& protaPosition.Y<10)
+        {
+           energia+=10;
+            if(energia>100)
+                energia=100;
+
+            //bebida->getNode()->setVisible(false);
+            int i=rand();
+            while(i>1000)
+            {
+                i=rand();
+            }
+            
+            bebidaPosition.X+=i;
+            bebida->getNode()->setPosition(bebidaPosition);
+
+        }
+       
+    }
+    //else
+        //bebida->getNode()->setVisible(true);
+    
+}
+
+void Protagonista::comprobarColision(Trampa *trampa)
+{
+    trampaPosition=trampa->getNode()->getPosition();
+    if((trampaPosition.X-(protaPosition.X+15))<=-5 
+        && (trampaPosition.X-(protaPosition.X+15))>-30
+        && protaPosition.Y<10){
+        
+           vida-=3;
+           //protaPosition.X-=15; //+=15 animacion, rebote de la trampa 
+       
+    }
+    
+    
+}
+
+
+
 /**
 FUNCION PARA COMPROBAR LAS COLISIONES CON LAS PLATAFORMAS
 **/
@@ -338,7 +418,8 @@ bool Protagonista::comprobarColision(scene::ISceneNode* nodo)
             
         }else
         {
-            //protaPosition.Y=nodoPosition.Y+5;
+            if(protaPosition.Y<35)
+                protaPosition.Y=34;
             estaEnSuelo=true;
             return true;
 
@@ -398,7 +479,7 @@ void Protagonista::recuperarEnergia(const f32 Time)
         energia+=10* Time;
     if(energia>=100){
         energia=100;
-        recuperarVida(Time);
+        //recuperarVida(Time);
     }
 }
 
@@ -431,6 +512,7 @@ void Protagonista::setSalto(bool s)
     (protaPosition.Y<=0 ||(estaEnSuelo && protaPosition.Y<=35))){
         cont_salto=1;
         saltando=s;
+        setEnergia(1.f,-15);
    }
     
 }
@@ -456,6 +538,10 @@ f32 Protagonista::getEnergia()
 bool Protagonista::getSigilo()
 {
     return sigilo;
+}
+bool Protagonista::getCorrer()
+{
+    return correr;
 }
 
 void Protagonista::setSigilo()
@@ -488,7 +574,7 @@ void Protagonista::setAtaque(bool d)
 {
 
     ataca=d;
-    if(cont_ataque==0 && !saltando)
+    if(cont_ataque==0 && !saltando && energia>10)
         cont_ataque=1;
 }
 void Protagonista::setDefensaPosition(int d)
