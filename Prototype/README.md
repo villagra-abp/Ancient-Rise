@@ -38,3 +38,12 @@ Tecla **D** - Movimiento a la Derecha.
 
 Tecla **A** - Movimiento a la Izquierda.
 
+![ObjetoMovible](https://i.imgur.com/kgofYSa.png) - Objeto Movible, movimiento en ambos ejes.
+
+Tecla **↑** - Movimiento hacia Arriba.
+
+Tecla **↓** - Movimiento hacia Abajo.
+
+Tecla **→** - Movimiento hacia Derecha.
+
+Tecla **←** - Movimiento hacia Izquierda.
