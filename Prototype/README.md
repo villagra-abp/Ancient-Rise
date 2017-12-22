@@ -2,7 +2,7 @@
 Se trata de un prototipo, apoyado para facilitar la depuración en las librerías de SFML, del sistema de visión que incluirá la inteligencia artificial en la versión final de Ancient Rise.
 
 ## Vista Previa
-   ![Demo](https://i.imgur.com/Br8ie9g.gif)
+   ![Demo](https://gfycat.com/HideousInconsequentialJumpingbean)
    ```
    Muestra del prototipo en funcionamiento
    ```
