@@ -6,4 +6,9 @@ Se trata de un prototipo, apoyado para facilitar la depuración en las librería
    ```
    Muestra del prototipo en funcionamiento
    ```
-## 
+## Compilación y funcionamiento
+
+Para iniciar el prototipo deberá ejecutarse desde un terminal y en la carpeta donde se encuentren los archivos, el ejecutable **PrototipoSensores**. Para ello utilizaremos el siguiente comando en dicho terminal:
+ ```
+ ./PrototipoSensores
+ ```
