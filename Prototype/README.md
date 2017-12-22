@@ -33,6 +33,7 @@ Los objetos dentro del área de visión del personaje en el momento actual, todo
 ## Referencias y controles
 
 ![Personaje](https://i.imgur.com/OraMJHD.png) - Personaje, movimiento en el eje X (Izquierda y Derecha).
+
 Tecla **D** - Movimiento a la Derecha.
 
 Tecla **A** - Movimiento a la Izquierda.
