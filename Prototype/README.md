@@ -20,7 +20,7 @@ En el caso de que pueda haber algún error con el ejecutable o se quiera realiza
  ```
  Se generará un nuevo **PrototipoSensores** que pondremos en funcionamiento de la misma manera, explicada en el primer paso de este apartado *Compilación y funcionamiento*.
  
- Respecto al funcionamiento:
+ Respecto al **funcionamiento**:
  
  Ya que se trata de un prototipo para el sensor de visión, dispondremos en éste de un personaje, representado con un cuadrado, el cual tiene asignado un área, en color blanco, correspondiente a su rango de visión.
  
@@ -47,3 +47,13 @@ Tecla **↓** - Movimiento hacia Abajo.
 Tecla **→** - Movimiento hacia Derecha.
 
 Tecla **←** - Movimiento hacia Izquierda.
+
+![AreaVisión](https://i.imgur.com/kgofYSa.png) ---> Área de Visión, rango máximo y pendiente modificables.
+
+Tecla **/** - Reducción del rango en X.
+
+Tecla ** * ** - Aumento del rango en X.
+
+Tecla **-** - Reducción de la Pendiente.
+
+Tecla **+** - Aumento de la Pendiente.
