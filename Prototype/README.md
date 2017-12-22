@@ -32,4 +32,4 @@ Los objetos dentro del área de visión del personaje en el momento actual, todo
 
 ## Referencias y controles
 
-
+![Personaje](https://i.imgur.com/OraMJHD.png)
