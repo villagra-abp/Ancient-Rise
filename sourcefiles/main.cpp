@@ -1,460 +1,320 @@
-
 #include <irrlicht.h>
-#include "../headerfiles/Protagonista.h"
-#include "../headerfiles/Enemigo.h"
-#include "../headerfiles/Posicion.h"
-#include "../headerfiles/MyEventReceiver.h"
-#include "../headerfiles/EnemigoBasico.h"
-#include "../headerfiles/Comida.h"
-#include "../headerfiles/Trampa.h"
-#include <iostream>
-#include <unistd.h>
-#include "../headerfiles/BehaviorTree.h"
-#include "../headerfiles/Blackboard.h"
+#include <Box2D/Box2D.h>
+#include <Box2D/Common/b2Math.h>
+#include <GL/gl.h>
 
 
-using namespace irr; // Para poder usar cualquier clase del motor Irrlicht se utiliza el namespace irr
-using namespace std;
-
-/*
-Estos son los 5 sub namespace del motor de Irrlicht
-
-1º irr::core--> En este podemos encontrar las clases basicas como vectores, planos, arrays, listas y demas
-2º irr::gui--> Contiene clases utiles para la facil creacion de una interfaz grafica de usuario
-3º irr::io-->  Proporciona interfaces para la entrada/salida. Lectura y escritura de ficheros, acceso a ficheros zip, ficheros xml..
-4º irr::scene--> Se encuentra toda la gestion de la escena
-5º irr::video--> Contiene clases para acceder al driver del video. Todo el rendererizado 3d o 2d se realiza aqui
-*/
-
+using namespace irr;
 using namespace core;
 using namespace scene;
 using namespace video;
 using namespace io;
 using namespace gui;
 
-// FUNCION PARA FIJAR LOS FPS A 60
-void timeWait(){
-	static long t=clock();
-	const float fps = 60.f;
+// draw2DImage source from Lonesome Ducky
+void draw2DImage(irr::video::IVideoDriver *driver, 
+    irr::core::rect<irr::s32> sourceRect, irr::core::position2d<irr::s32> position,
+    irr::core::position2d<irr::s32> rotationPoint, irr::f32 rotation, irr::core::vector2df scale,
+    bool useAlphaChannel, irr::video::SColor color)
+{
 
-	long toWait = t + CLOCKS_PER_SEC / fps - clock();
-	if(toWait > 0)
-		usleep(toWait);
+   irr::video::SMaterial material;
 
-	t = clock();
+   // Store and clear the projection matrix
+   irr::core::matrix4 oldProjMat = driver->getTransform(irr::video::ETS_PROJECTION);
+   driver->setTransform(irr::video::ETS_PROJECTION,irr::core::matrix4());
+
+   // Store and clear the view matrix
+   irr::core::matrix4 oldViewMat = driver->getTransform(irr::video::ETS_VIEW);
+   driver->setTransform(irr::video::ETS_VIEW,irr::core::matrix4());
+
+   // Find the positions of corners
+   irr::core::vector2df corner[4];
+
+   corner[0] = irr::core::vector2df(position.X,position.Y);
+   corner[1] = irr::core::vector2df(position.X+sourceRect.getWidth()*scale.X,position.Y);
+   corner[2] = irr::core::vector2df(position.X,position.Y+sourceRect.getHeight()*scale.Y);
+   corner[3] = irr::core::vector2df(position.X+sourceRect.getWidth()*scale.X,position.Y+sourceRect.getHeight()*scale.Y);
+
+   // Rotate corners
+   if (rotation != 0.0f)
+      for (int x = 0; x < 4; x++)
+         corner[x].rotateBy(rotation,irr::core::vector2df(rotationPoint.X, rotationPoint.Y));
+
+
+   // Find the uv coordinates of the sourceRect
+   irr::core::vector2df uvCorner[4];
+   uvCorner[0] = irr::core::vector2df(sourceRect.UpperLeftCorner.X,sourceRect.UpperLeftCorner.Y);
+   uvCorner[1] = irr::core::vector2df(sourceRect.LowerRightCorner.X,sourceRect.UpperLeftCorner.Y);
+   uvCorner[2] = irr::core::vector2df(sourceRect.UpperLeftCorner.X,sourceRect.LowerRightCorner.Y);
+   uvCorner[3] = irr::core::vector2df(sourceRect.LowerRightCorner.X,sourceRect.LowerRightCorner.Y);
+   for (int x = 0; x < 4; x++) {
+      float uvX = uvCorner[x].X/(float)40;
+      float uvY = uvCorner[x].Y/(float)40;
+      uvCorner[x] = irr::core::vector2df(uvX,uvY);
+   }
+
+   // Vertices for the image
+   irr::video::S3DVertex vertices[4];
+   irr::u16 indices[6] = { 0, 1, 2, 3 ,2 ,1 };
+
+   // Convert pixels to world coordinates
+   float screenWidth = driver->getScreenSize().Width;
+   float screenHeight = driver->getScreenSize().Height;
+   for (int x = 0; x < 4; x++) {
+      float screenPosX = ((corner[x].X/screenWidth)-0.5f)*2.0f;
+      float screenPosY = ((corner[x].Y/screenHeight)-0.5f)*-2.0f;
+      vertices[x].Pos = irr::core::vector3df(screenPosX,screenPosY,1);
+      vertices[x].TCoords = uvCorner[x];
+      vertices[x].Color = color;
+   }
+   material.Lighting = false;
+   material.ZWriteEnable = false;
+   //material.TextureLayer[0].Texture = texture;
+   //material.
+   //material.TextureLayer[0].TextureWrapU = irr::video::ETC_CLAMP;
+   //material.TextureLayer[0].TextureWrapV = irr::video::ETC_CLAMP;
+
+   if (useAlphaChannel)
+      material.MaterialType = irr::video::EMT_TRANSPARENT_ALPHA_CHANNEL;
+   else
+      material.MaterialType = irr::video::EMT_SOLID;
+
+   driver->setMaterial(material);
+   driver->drawIndexedTriangleList(&vertices[0],4,&indices[0],2);
+
+
+   // Restore projection and view matrices
+   driver->setTransform(irr::video::ETS_PROJECTION,oldProjMat);
+   driver->setTransform(irr::video::ETS_VIEW,oldViewMat);
+
 }
 
+
+class bwBody
+{
+    public:
+        bwBody(const b2PolygonShape& bShape, b2Body* const bBody, IrrlichtDevice* const bDevice)
+        {
+            shape = bShape;
+            body = bBody;
+            device = bDevice;
+        }
+
+        void update()
+        {
+            b2Vec2 position = body->GetPosition();
+            float32 angle = body->GetAngle();
+
+            draw2DImage(device->getVideoDriver(),
+                rect<irr::s32>(0,0,120,120), position2d<s32>(position.x-10,position.y-10),
+                position2d<s32>(position.x,position.y), angle*RADTODEG, vector2df(0.18,0.18),
+                false, SColor(255,255,255,255));
+
+            device->getVideoDriver()->draw2DLine(position2d<s32>(position.x,position.y),
+                position2d<s32>(position.x-10,position.y-10), SColor(255, 0, 255, 0));
+
+            const b2Mat22 mat(angle,0.f,0.f,0.f);
+            for(int i=0; i < shape.GetVertexCount(); i++)
+            {
+                //const b2Vec2 vec = body->GetWorldPoint(shape.GetVertex(i));
+                const b2Vec2 vec = body->GetWorldPoint(b2Mul(mat,shape.GetVertex(i)));
+
+
+                // This wireframe drawing is incorrect - Cobra
+                /*device->getVideoDriver()->draw2DLine(position2d<s32>(vec.x,vec.y),
+                    (i+1 != shape.GetVertexCount()) ?
+                    position2d<s32>(body->GetWorldPoint(b2Mul(mat,shape.GetVertex(i+1))).x, body->GetWorldPoint(b2Mul(mat,shape.GetVertex(i+1))).y):
+                    position2d<s32>(body->GetWorldPoint(b2Mul(mat,shape.GetVertex(0))).x,body->GetWorldPoint(b2Mul(mat,shape.GetVertex(0))).y),
+                    SColor(255, 255, 255, 255));*/
+
+                /*device->getVideoDriver()->draw2DVertexPrimitiveList(const void *vertices, u32 vertexCount,
+                    const void *indexList, u32 primCount,
+                    E_VERTEX_TYPE vType=EVT_STANDARD, scene::E_PRIMITIVE_TYPE pType=scene::EPT_TRIANGLES, E_INDEX_TYPE iType=EIT_16BIT)*/
+            }
+        }
+
+    private:
+        b2PolygonShape shape;
+        b2Body* body;
+        IrrlichtDevice* device;
+};
+
+irr::core::array<bwBody*> bodies;
+
+
+void createRigidBox(b2World& world, const vector2d<s32>& pos, IrrlichtDevice* const device)
+{
+    // Define the dynamic body. We set its position and call the body factory.
+   b2BodyDef bodyDef;
+   bodyDef.type = b2_dynamicBody;
+   bodyDef.position.Set(pos.X, pos.Y);
+   b2Body* body = world.CreateBody(&bodyDef);
+
+   // Define another box shape for our dynamic body.
+   b2PolygonShape dynamicBox;
+   dynamicBox.SetAsBox(10.0f, 10.0f);
+
+   // Define the dynamic body fixture.
+   b2FixtureDef fixtureDef;
+   fixtureDef.shape = &dynamicBox;
+
+   // Set the box density to be non-zero, so it will be dynamic.
+   fixtureDef.density = 1.0f;
+
+   // Override the default friction.
+   fixtureDef.friction = 0.3f;
+
+   // Add the shape to the body.
+   body->CreateFixture(&fixtureDef);
+
+   bwBody* bww = new bwBody(dynamicBox, body, device);
+
+   bodies.push_back(bww);
+}
+
+IrrlichtDevice *device = 0;
+
+b2Vec2 gravity(0.0f, 10.0f);
+bool doSleep = true;
+b2World world(gravity);
+
+class MyEventReceiver : public IEventReceiver
+{
+public:
+   virtual bool OnEvent(const SEvent& event)
+   {
+      // Remember the mouse state
+      if (event.EventType == irr::EET_MOUSE_INPUT_EVENT)
+      {
+         switch(event.MouseInput.Event)
+         {
+         case EMIE_LMOUSE_LEFT_UP:
+         {
+            createRigidBox(world, vector2d<s32>(event.MouseInput.X, event.MouseInput.Y), device);
+         }
+            break;
+
+         default:
+            break;
+         }
+      }
+   }
+
+
+   MyEventReceiver()
+   {
+   }
+};
 
 
 int main()
 {
-
-	/**
-	El irrlicht device es el objeto nucleo que necesitamos para interactuar con el motor de irrlicht
-	Por eso la funcion createDevice es la mas importante puesto que es necesario crear el device para
-	poder dibujar cualquier cosa en pantalla
-
-	Tiene 7 parametros:
-
-	-deviceType --> Tipo del device (Null-device, uno de los 2 software renders, OpenGL
-
-    - WindowSize --> Tamaño de la ventana
-
-    - Bits --> Cantidad de bits de colores por pixeles. Puede ser 16 o 32.
-
-    - FUllScreen --> Especifica si queremos que el device se ejecute en pantalla completa o no
-
-    - stencilbuffer --> Especifica si queremos usar el stencil buffer ( para dibujar sombras )
-
-    - vsync --> Especificamos si queremos tener vsync activado, solo es util en pantalla completa
-
-    - eventReceiver --> Un objeto para recibir eventos
-	**/
-
     MyEventReceiver receiver;
+   device = createDevice( video::EDT_SOFTWARE, dimension2d<u32>(640, 480), 16, false, false, false, &receiver);
 
-	IrrlichtDevice *device =
-		createDevice( video::EDT_OPENGL, dimension2d<u32>(1000, 800),16, false, false, false, &receiver);
+   if (!device)
+      return 1;
 
-	if (!device)
-		return 1;
-
-    /**
-	PUNTEROS AL VideoDriver, al SceneManager y al entorno de interfaz de usuario, para no tener que
-	estar llamandolos siempre y solo los llamamos una vez
-	*/
 
-	IVideoDriver* driver = device->getVideoDriver();
-	ISceneManager* smgr = device->getSceneManager();
-	IGUIEnvironment* guienv = device->getGUIEnvironment();
+   device->setWindowCaption(L"Irrlicht/Box2D Sample");
 
-    // CREAMOS PROTA
-	Protagonista *prota = new Protagonista(device, smgr);
-	scene::ISceneNode  *rec = prota->getNode();
-	scene::ISceneNode* Terrain;
-  
-  	// CREAMOS VECTOR DE POSICIONES PARA EL ENEMIGO
-  	typedef vector<Posicion*> patrulla;
-	patrulla pos; 
-  	Posicion *p0 = new Posicion(40.f,0.f,30.f);
-  	pos.push_back(p0);
-  	Posicion *p1 = new Posicion(20.f,0.f,30.f);
-  	pos.push_back(p1);
-  	Posicion *p2 = new Posicion(0.f,0.f,30.f);
-  	pos.push_back(p2);
-  	Posicion *p3 = new Posicion(-20.f,0.f,30.f);
-  	pos.push_back(p3);
-  	Posicion *p4 = new Posicion(-40.f,0.f,30.f);
-  	pos.push_back(p4);
 
-	patrulla pos2; 
-  	Posicion *p5 = new Posicion(60.f,0.f,30.f);
-  	pos2.push_back(p5);
-  	Posicion *p6 = new Posicion(80.f,0.f,30.f);
-  	pos2.push_back(p6);
-  	Posicion *p7 = new Posicion(100.f,0.f,30.f);
-  	pos2.push_back(p7);
+   IVideoDriver* driver = device->getVideoDriver();
+   ISceneManager* smgr = device->getSceneManager();
+   IGUIEnvironment* guienv = device->getGUIEnvironment();
+   ITimer* timer = device->getTimer();
 
 
-  
-	
- 
-	//CREAMOS ENEMIGO BASICO
-	EnemigoBasico *enem1 = new EnemigoBasico(device, smgr, pos);  // dinamico
+   guienv->addStaticText(L"Box2D integrated with Irrlicht",
+      rect<s32>(10,10,130,22), true);
 
-	//EnemigoBasico ene(device, smgr, posiciones);  No dinamico
 
-	EnemigoBasico *enem2 = new EnemigoBasico(device, smgr, pos2); 
+   scene::ICameraSceneNode* cam =smgr->addCameraSceneNode(0, vector3df(0,30,-150), vector3df(0,100,0));
+   cam->setTarget(vector3df(1000,30,0));
+   /////////////////
+   // Box2D Stuff //
+   /////////////////
 
-	// CREAMOS EL OBJETO COMIDA
-	Posicion p(-150.f, 0.f, 30.f);
-	
-	Comida *comi = new Comida(smgr, p);
+   // Define the ground body.
+   b2BodyDef groundBodyDef;
+   groundBodyDef.position.Set(290.0f, 250.0f);
 
-	//CREAMOS EL OBJETO BEBIDA
+   // Call the body factory which allocates memory for the ground body
+   // from a pool and creates the ground box shape (also from a pool).
+   // The body is also added to the world.
+   b2Body* groundBody = world.CreateBody(&groundBodyDef);
 
-	Posicion posbebida(-300,0,30.f);
- 	Bebida *bebi = new Bebida(smgr, posbebida);
-	
+   // Define the ground box shape.
+   b2PolygonShape groundBox;
 
+   // The extents are the half-widths of the box.
+   groundBox.SetAsBox(290.0f, 10.0f);
 
+   // Add the ground fixture to the ground body.
+   groundBody->CreateFixture(&groundBox, 0.0f);
 
-	//CREAMOS EL OBJETO TRAMPA
+   bwBody* bww = new bwBody(groundBox, groundBody, device);
 
-	Posicion postrampa(330,0,30.f);
- 	Trampa *tram = new Trampa(smgr, postrampa);
-	
-
-
-	// CREAMOS LA BLACKBOARD
-	 Blackboard *b=new Blackboard();
-	 b->setEnemigo(enem1);
-	 b->setPos(pos);
-	 b->setVel(enem1->getVelocidad());
-
-	 // CREAMOS EL ARBOL DE COMPORTAMIENTO PASANDOLE LA BLACKBOARD
-	  BehaviorTree beh(1, b);
-	
-
-	// Fuente
-
-	scene::ISceneNode *fuente=smgr->addCubeSceneNode();
-
-    if (fuente) /** SI HEMOS CREADO EL CUBO **/
-	{
-		fuente->setPosition(core::vector3df(-200,0,30));
-		//rec->setMaterialTexture(0, driver->getTexture(mediaPath + "wall.bmp"));
-		fuente->setMaterialFlag(video::EMF_LIGHTING, true);
-		fuente ->setScale(core::vector3df(3.f,1.f,1.f));
-	}
-
-	// ALARMA
-
-	scene::ISceneNode *alarma=smgr->addCubeSceneNode();
-
-    if (alarma) /** SI HEMOS CREADO EL CUBO **/
-	{
-		alarma->setPosition(core::vector3df(220,0,30));
-		//rec->setMaterialTexture(0, driver->getTexture(mediaPath + "wall.bmp"));
-		alarma->setMaterialFlag(video::EMF_LIGHTING, false);
-		alarma ->setScale(core::vector3df(2.f,3.f,1.f));
-	}
-
-
-	scene::ISceneNode* Plataforma= smgr->addCubeSceneNode();
-
-	if (Plataforma) /** SI HEMOS CREADO EL CUBO **/
-	{
-		Plataforma->setPosition(core::vector3df(220,25,30));
-		Plataforma->setScale(core::vector3df(10.f,1.f,5.f));
-		Plataforma->setMaterialFlag(video::EMF_LIGHTING, false);
-	}
-
-	/**
-
-	Para poner texto en el subtitulo de la ventana. Necesita de una 'L' delante del string
-	debido a que lo necesita el motor de irrlicht
-
-	**/
-
-	device->setWindowCaption(L"Mecanicas Basicas: Movimiento");
-
-
-	/**
-
-	Etiqueta de texto utilizando el entorno de GUI. Indicamos en que posicion queremos
-	colocarla (10,10) y (260,20) es la esquina derecha mas baja
-
-	guienv->addStaticText(L"Hello World! This is the Irrlicht Software renderer!",
-		rect<s32>(10,10,260,22), true);
-	**/
-
-
-    /**
-
-	Aqui indicamos la posicion de la camara en el espacio 3d. En este caso,
-	esta mirando desde la posicion (0, 30, -40) a la (0, 5, 0) donde es
-	aproximadamente donde esta el objeto.
-
-	**/
-
-	scene::ICameraSceneNode* cam =smgr->addCameraSceneNode(0, vector3df(rec->getPosition().X,50,-140), vector3df(0,5,0));
-	device->getCursorControl()->setVisible(true);
-
-
-    /**
-	Vamos a dibujar la escena y escribir los fps
-
-	*/
-
-	/*TERRENO*/
-	 // add terrain scene node
-
-    //EL TERRENO SE FORMA A PARTIR DE UN MAPA DE ALTURAS
-
-    scene::ITerrainSceneNode* terrain = smgr->addTerrainSceneNode(
-
-        "../resources/terrain-heightmap.bmp",
-
-        0,                  // parent node
-
-        -1,                 // node id
-
-        core::vector3df(-5000, -177, -250),     // position
-
-        core::vector3df(0.f, 0.f, 0.f),     // rotation
-
-        core::vector3df(40.f, 4.4f, 40.f),  // scale
-
-        video::SColor ( 255, 255, 255, 255 ),   // vertexColor
-
-        5,                  // maxLOD
-
-        scene::ETPS_17,             // patchSize
-
-        4                   // smoothFactor
-
-        );
-
-
-
-    	//LE APLICAMOS TEXTURA AL TERRENO
-
-    	terrain->setMaterialFlag(video::EMF_LIGHTING, false);
-
-
-
-    	terrain->setMaterialTexture(0,
-
-            driver->getTexture("../resources/terrain-texture.jpg"));
-
-
-
-    	//LE APLICAMOS RELIEVE
-
-    terrain->setMaterialTexture(1,
-
-            driver->getTexture("../resources/detailmap3.jpg"));
-
-	
-
-	terrain->setMaterialType(video::EMT_DETAIL_MAP);
-
-
-
-    terrain->scaleTexture(1.0f, 20.0f);
-
-
-
-
-
-    //COLISIONES (Aplicado solo a la camara) extraer a clase y aplicar a prota etc 
-
-    // create triangle selector for the terrain
-/*
-    scene::ITriangleSelector* selector
-
-        = smgr->createTerrainTriangleSelector(terrain, 0);
-
-    terrain->setTriangleSelector(selector);
-
-
-
-     // create collision response animator and attach it to the camera
-
-    scene::ISceneNodeAnimator* anim = smgr->createCollisionResponseAnimator(
-
-        selector, cam, core::vector3df(60,100,60),
-
-        core::vector3df(0,0,0),
-
-        core::vector3df(0,50,0));
-
-    selector->drop();
-
-    cam->addAnimator(anim);
-
-    anim->drop();
-    */
-
-/*TERRENO*/
-
-
-	int lastFPS = -1;
-
-	/**
-	  Para poder hacer un movimiento independiente del framerate, tenemos que saber
-	  cuanto ha pasado desde el ultimo frame
-	*/
-	u32 then = device->getTimer()->getTime();
-	u32 time_input = device->getTimer()->getTime();
-
-	/*bucle del juego*/
-	while(device->run())
-	{
-		// recojo el frame delta time y el tiempo.
-		const u32 now = device->getTimer()->getTime();
-		const f32 frameDeltaTime = (f32)(now - then) / 1000.f; // Time in seconds
-		then = now;
-		f32 tiempo=(f32)(now - time_input)/1000.f;
-
-
-		core::vector3df protaPosition = prota->getPosition();
-		core::vector3df camPosition = cam->getPosition();
-
-		/* funciones del prota que realizo en todas las iteraciones*/
-		prota->gravedad(frameDeltaTime);
-        prota->salto(frameDeltaTime);
-        prota->defender(frameDeltaTime);
-        prota->ataque(frameDeltaTime);
-        prota->pintarInterfaz();
-        prota->recuperarEnergia(frameDeltaTime);
-        prota->comprobarColision(Plataforma);
-
-        prota->comprobarColision(comi);
-        prota->comprobarColision(bebi);
-        prota->comprobarColision(tram);
-
-
-        //prota->comprobarColision(Plataforma2);
-
-
-        if(!prota->checkVida())
-        	return 0;
-
-
-
-
-        /* 5 veces por segundo registra si pulsamos s 
-        para controlar el modo sigilo y controlar colisiones*/
-
-        if(tiempo>0.2f)
+   for(int i=0; i < 11; i++)
+   {
+        for(int j=0; j < 8; j++)
         {
-            f32 energia=prota->getEnergia();
-
-            time_input=now;
-
-            receiver.checkSigilo(prota,frameDeltaTime);
-            prota->comprobarColision(enem1);
-            prota->comprobarColision(enem2);
-            
+            createRigidBox(world,vector2d<s32>(110+(i*45), 230-(j*20)), device);
         }
+   }
 
-        /* comprueba el resto de inputs*/
-        receiver.checkInput(prota,frameDeltaTime);
 
-		/* ajuste de la posicion de la camara y su foco en funcion de la posicion de
-		nuestro protagonita */
+   // Prepare for simulation. Typically we use a time step of 1/60 of a
+   // second (60Hz) and 10 iterations. This provides a high quality simulation
+   // in most game scenarios.
+   float32 timeStep = 1.0f / 250.0f;
+   int32 velocityIterations = 6;
+   int32 positionIterations = 2;
 
-		rec->setPosition(protaPosition);
-        cam->setPosition(vector3df(protaPosition.X,50,-140));
-        camPosition=rec->getPosition();
-        camPosition.Y=50;
-        cam->setTarget(camPosition);
 
-        /*CONTROL DE LA PATRULLA*/
+    f32 TimeStamp = timer->getTime();
+   f32 DeltaTime = timer->getTime() - TimeStamp;
 
-        //enem->update(frameDeltaTime, pos, protaPosition.X, fuente, c.getObjeto());  //INICIAMOS LA PATRULLA DEL ENEMIGO
-        //enem->Update(alarma);
-        b->setTime(frameDeltaTime);
-        b->setProta(protaPosition.X);
 
-       	beh.update();
 
-		/*
-		Anything can be drawn between a beginScene() and an endScene()
-		call. The beginScene() call clears the screen with a color and
-		the depth buffer, if desired. Then we let the Scene Manager and
-		the GUI Environment draw their content. With the endScene()
-		call everything is presented on the screen.
-		*/
+   while(device->run())
+   {
+      driver->beginScene(true, true, SColor(255,100,101,140));
 
-		driver->beginScene(true, true, SColor(255,100,101,140));
+      DeltaTime = timer->getTime() - TimeStamp;
+        TimeStamp = timer->getTime();
 
-		smgr->drawAll(); // draw the 3d scene
-		device->getGUIEnvironment()->drawAll(); // draw the gui environment (the logo)
+      // Instruct the world to perform a single step of simulation.
+      // It is generally best to keep the time step and iterations fixed.
+      world.Step(DeltaTime*timeStep, velocityIterations, positionIterations);
 
-		driver->endScene();
+      // Clear applied body forces. We didn't apply any forces, but you
+      // should know about this function.
+      world.ClearForces();
 
-		int fps = driver->getFPS();
+      for(int i=0; i < bodies.size(); i++)
+      {
+          bodies[i]->update();
+      }
 
-		if (lastFPS != fps)
-		{
-			core::stringw tmp(L"Movement Example - Irrlicht Engine [");
-			tmp += driver->getName();
-			tmp += L"] fps: ";
-			tmp += fps;
+      bww->update();
 
-			device->setWindowCaption(tmp.c_str());
-			lastFPS = fps;
-		}
+      smgr->drawAll();
+      guienv->drawAll();
 
-		timeWait();
+      driver->endScene();
+   }
 
-	}
+   for(int i=0; i < bodies.size(); i++)
+    {
+        delete bodies[i];
+    }
+    bodies.clear();
 
-	/*
-	After we are done with the render loop, we have to delete the Irrlicht
-	Device created before with createDevice(). In the Irrlicht Engine, you
-	have to delete all objects you created with a method or function which
-	starts with 'create'. The object is simply deleted by calling ->drop().
-	See the documentation at irr::IReferenceCounted::drop() for more
-	information.
-	*/
+   delete bww;
 
-	/**
+   device->drop();
 
-	Hay que eliminar el objete device que creamos anteriormente antes de terminar con el bucle de render
-	En el motor de irrlicht todos los objetos que se han creado mediante una funcion que empieza por
-	'create' deben ser eliminados y esto se hace simplemente llamanado a '->drop()'
-
-	**/
-	device->drop();
-	delete prota;
-	delete enem1;
-	delete enem2;
-    delete b;
-
-	return 0;
+   return 0;
 }
-
