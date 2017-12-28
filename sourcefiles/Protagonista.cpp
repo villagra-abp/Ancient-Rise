@@ -1,4 +1,6 @@
 #include "../headerfiles/Protagonista.h"
+#define SCALE 20.0f
+
 
 
 /**
@@ -51,6 +53,55 @@ Protagonista::Protagonista(IrrlichtDevice *dev, ISceneManager* smgr)
     lifeScale.Z=0.1f;
     energy->setScale(energyScale);
     life->setScale(lifeScale);
+
+
+    
+}
+/**
+FUNCION PARA crear el objeto dinamico
+**/
+void Protagonista::CreateBox(b2World& world, float X, float Y)
+{
+
+    BodyDef.position = b2Vec2(X/SCALE, Y/SCALE);
+    BodyDef.type = b2_dynamicBody;
+    Body = world.CreateBody(&BodyDef);
+    Shape.SetAsBox((20.f/2)/SCALE, (20.f/2)/SCALE);
+    b2FixtureDef FixtureDef;
+    FixtureDef.density = 1.f;
+    FixtureDef.friction = 0.7f;
+    FixtureDef.shape = &Shape;
+    Body->CreateFixture(&FixtureDef);
+
+  
+}
+/**
+FUNCION PARA crear el objeto estatico
+**/
+void Protagonista::CreateGround(b2World& world, float X, float Y)
+{
+    b2BodyDef BodyDef;
+    BodyDef.position = b2Vec2(X/SCALE, Y/SCALE);
+    BodyDef.type = b2_staticBody;
+    b2Body* Ground = world.CreateBody(&BodyDef);
+    b2PolygonShape Shape;
+    Shape.SetAsBox((2000000000.f/2)/SCALE, (20.f/2)/SCALE);
+    b2FixtureDef FixtureDef;
+    FixtureDef.density = 0.f;
+    FixtureDef.shape = &Shape;
+    Ground->CreateFixture(&FixtureDef);
+
+}
+/**
+FUNCION PARA actualizar el cuerpo
+**/
+void Protagonista::updateBody(b2World& world)
+{
+    
+    
+    protaPosition.X=Body->GetPosition().x*1;
+    protaPosition.Y=Body->GetPosition().y*1;
+
 
 }
 /**
@@ -105,8 +156,8 @@ void Protagonista::salto(const f32 Time)
 {
 
     if(cont_salto>0 && cont_salto<20){
-        
-        protaPosition.Y+=2;
+        //Body->SetLinearVelocity(b2Vec2(0.f,2000000.f));
+        //protaPosition.Y+=2;
         cont_salto++;  
     }
     else{
@@ -114,7 +165,7 @@ void Protagonista::salto(const f32 Time)
         cont_salto=0;
         saltando=false;
     }
-    
+    std::cout<<Body->GetPosition().x<<"\n";
 }
 /**
 FUNCION PARA CONTROLAR EL ATAQUE DEL PROTA
@@ -261,10 +312,12 @@ void Protagonista::movimiento(const f32 Time)
 
         if(sigilo==true)
         {
-            protaPosition.X -= VELOCIDAD_MOVIMIENTO * Time*0.5;
+            Body->SetLinearVelocity(b2Vec2(-10.f,0.f));
+            //protaPosition.X -= VELOCIDAD_MOVIMIENTO * Time*0.5;
         }else if(correr==true && energia>10.1)
         {
-                protaPosition.X -= VELOCIDAD_MOVIMIENTO * Time*3;
+                Body->SetLinearVelocity(b2Vec2(-100000.f,0.f));
+                //protaPosition.X -= VELOCIDAD_MOVIMIENTO * Time*3;
 
                 if(energia>10)
                 {
@@ -273,7 +326,8 @@ void Protagonista::movimiento(const f32 Time)
                     correr=false;
         }else
         {
-            protaPosition.X -= VELOCIDAD_MOVIMIENTO * Time*1.5;
+            Body->SetLinearVelocity(b2Vec2(-100.f,0.f));
+            //protaPosition.X -= VELOCIDAD_MOVIMIENTO * Time*1.5;
         }
 
     }
@@ -281,15 +335,15 @@ void Protagonista::movimiento(const f32 Time)
     {
          if(sigilo==true)
           {
-                protaPosition.X += VELOCIDAD_MOVIMIENTO * Time*0.5;
+                Body->SetLinearVelocity(b2Vec2(10.f,0.f));
             }else if(correr==true && energia>10.1){
-                protaPosition.X += VELOCIDAD_MOVIMIENTO * Time*3;
+                Body->SetLinearVelocity(b2Vec2(100000.f,0.f));
                 if(energia>10){
                     //vitalidad -=0.3f;
                 }else
                     correr=false;
             }else
-                protaPosition.X += VELOCIDAD_MOVIMIENTO * Time*1.5;
+                Body->SetLinearVelocity(b2Vec2(100.f,0.f));
     }
 
     
@@ -508,13 +562,13 @@ ACTUALIZA EL VALOR DEL SALTO (TRUE/FALSE)
 void Protagonista::setSalto(bool s)
 {
    
-   if(cont_salto==0 &&
-    (protaPosition.Y<=0 ||(estaEnSuelo && protaPosition.Y<=35))){
-        cont_salto=1;
-        saltando=s;
+   if(cont_salto==0){
+    Body->ApplyForceToCenter(b2Vec2(0.f,200.f),true);
+        //cont_salto=1;
+        //saltando=s;
         setEnergia(1.f,-15);
    }
-    
+   cont_salto=0;
 }
 
 core::vector3df Protagonista::getPosition()
@@ -592,4 +646,7 @@ void Protagonista::setDefensa(bool d)
 Protagonista::~Protagonista()
 {
     //dtor
+    //delete rec;
+    //delete energy;
+    //delete life;    
 }

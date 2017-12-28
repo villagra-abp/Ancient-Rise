@@ -5,6 +5,9 @@
 
 #include <irrlicht.h>
 #include <iostream>
+#include <Box2D/Box2D.h>
+#include <Box2D/Common/b2Math.h>
+#include <GL/gl.h>
 #include "../headerfiles/Enemigo.h"
 #include "../headerfiles/Comida.h"
 #include "../headerfiles/Bebida.h"
@@ -43,6 +46,8 @@ class Protagonista
          void comprobarColision(Trampa *trampa);
          bool comprobarColision(scene::ISceneNode* nodo);
          void gravedad(const f32 Time);
+         void CreateGround(b2World& world, float X, float Y);
+         void CreateBox(b2World& world, float X, float Y);
 
 
 
@@ -65,6 +70,7 @@ class Protagonista
          void setDefensa(bool d);
          void setEnergia(f32 cantidad, const f32 Time);
          void setVida(f32 cantidad, const f32 Time);
+         void updateBody(b2World& world);
          bool checkVida();
 
 
@@ -102,6 +108,11 @@ class Protagonista
         core::vector3df energyScale;
         core::vector3df lifePosition;
         core::vector3df lifeScale;
+        b2Body* Body;
+        b2BodyDef BodyDef;
+        b2PolygonShape Shape;
+
+        
 
 };
 

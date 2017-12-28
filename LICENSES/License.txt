@@ -1,0 +1,57 @@
+Acuerdo de licencia del usuario final de PowerQuest(r)
+
+IMPORTANTE: Lea lo siguiente antes de utilizar la copia del software de PowerQuest.
+
+Este documento constituye un acuerdo legal entre usted (un individuo o una empresa) y PowerQuest Corporation (PowerQuest). El uso del software indica la aceptación de estas condiciones. El término "Software" utilizado en esta Licencia se refiere al software incluido en el CD u otro tipo de disco suministrado junto con este Acuerdo de Licencia. El término "Software" no incluye ningún software cubierto por una licencia aparte ofrecida u otorgada por un tercero que no sea PowerQuest.
+
+SI USTED NO ACEPTA LOS TÉRMINOS Y CONDICIONES DE ESTA LICENCIA, DEBERA DESTRUIR O DEVOLVER EL PAQUETE DE SOFTWARE INTACTO, JUNTO CON LOS CD U OTROS TIPOS DE DISCO Y TODOS LOS DEMAS COMPONENTES DE ESTE PRODUCTO AL LUGAR DONDE LO HA ADQUIRIDO PARA QUE SE LE REINTEGRE EL PRECIO DE COMPRA.
+
+1. DERECHOS DE PROPIEDAD. El Software y la documentación adjunta son productos patentados de PowerQuest o sus licenciantes y están protegidos por las leyes nacionales de los EE.UU. y las disposiciones de los tratados internacionales. El Software y todas las copias, modificaciones, traducciones y partes agregadas serán de propiedad exclusiva de PowerQuest o de sus licenciantes.
+
+2. CONCESION DE LA LICENCIA. La licencia para utilizar el Software y la documentación adjunta se le otorga a usted, por lo que sólo tiene derecho a usar el Software de acuerdo con las disposiciones del presente Acuerdo de Licencia. Se considera que el Software está siendo utilizado en un PC cuando está cargado en la memoria temporal o instalado en la memoria permanente. Esta Licencia no puede ser cedida ni transferida en modo alguno sin el consentimiento previo por escrito de PowerQuest. Cualquier transferencia no autorizada será nula.
+
+Usted tendrá autorización para usar UNICAMENTE una copia del Software en el número de equipos para los cuales haya adquirido una licencia, tal como se indica en el certificado de licencia adjunto. Cada copia autorizada del Software puede ser usada solamente en combinación con un solo equipo que sea de su propiedad o alquilado por usted. Si el Software se instala en una red a la que se pueda acceder desde varios PCs, sólo UNO de ellos estará autorizado a utilizarlo. Una vez que un UNICO PC específico haya accedido al Software, éste no podrá ser utilizado en ningún otro PC sin antes adquirir las debidas licencias adicionales. Todas las copias del Software deben incluir avisos de copyright, marcas comerciales y patentes.
+
+La presente licencia le otorga un derecho estrictamente personal. Usted no puede subotorgar licencias, alquilar, vender ni transferir de ninguna otra manera el Software ni ninguna documentación adjunta a ningún tercero. En el caso de una persona física, usted puede utilizar el Software sólo para uso personal; si el licenciatario es una empresa, puede utilizarlo exclusivamente para sus fines internos. Si usted es una oficina de servicios, un integrador, un revendedor u otro tipo de proveedor de servicios y desea usar este software en los PC de sus clientes, debe adquirir una Licencia para Configuración.
+
+COPIA DE SEGURIDAD. Además de las copias autorizadas conforme a este Acuerdo de Licencia, usted puede hacer una sola copia del Software exclusivamente con fines de copia de seguridad.
+
+ACTUALIZACIONES Y ASISTENCIA TÉCNICA. Tiene derecho a recibir asistencia técnica gratuita de acuerdo con lo que se describe en la documentación del software. Tiene derecho a recibir actualizaciones del Software (las actualizaciones deben incluir todos los parches y correcciones de fallos que PowerQuest facilita en la dirección www.powerquest.com), de acuerdo con las políticas de PowerQuest, según se divulguen periódicamente, en condiciones comparables a las ofrecidas a otros usuarios del Software bajo las licencias anuales para técnicos
+
+PLAZO DE VIGENCIA. El plazo de vigencia de la presente licencia comenzará a partir de la fecha de adquisición del Software y se mantendrá hasta el momento de la rescisión. Tendrá la opción de rescindir el presente Acuerdo de Licencia mediante la destrucción del Software y la documentación adjunta, incluidas todas las copias de cualquier tipo.
+
+3. USOS NO AUTORIZADOS. Sin contar con la previa autorización expresa y por escrito de PowerQuest, usted no podrá (a) usar, copiar, modificar, alterar ni transferir, electrónicamente ni por cualquier otro método, el Software o la documentación salvo en los términos expresamente autorizados en el presente Acuerdo de Licencia, ni (b) traducir, programar en reverso, desensamblar, descompilar ni aplicar ningún otro tipo de ingeniería inversa al Software.
+
+4. CONTROLES DE EXPORTACION. Determinados usos del Software por parte del usuario pueden estar sujetos a restricciones según las reglamentaciones de los EE.UU. sobre exportación y uso final de software para PC. Usted acepta cumplir plenamente todas las leyes y reglamentaciones aplicables de los EE.UU., incluyendo las estipulaciones de la Ley de Administración de Exportaciones (Export Administration Act) de 1979 y sus enmiendas periódicas, así como cualquier otra reglamentación promulgada en virtud de la misma.
+
+5. DERECHOS RESTRINGIDOS DEL GOBIERNO DE LOS EE.UU. Si adquiere el Software en nombre de cualquier organismo o entidad del Gobierno de los Estados Unidos, será aplicable la siguiente disposición: Declaramos que el desarrollo del Software y de la documentación ha sido financiado de forma privada, que ninguna parte del mismo es de dominio público ("public domain"), y que el Software y la documentación se suministran con DERECHOS RESTRINGIDOS. Su uso, copia o distribución por parte del Gobierno se encuentran sujetos a las restricciones que se establecen en el apartado (c)(1)(ii) de la cláusula Derechos sobre Datos Técnicos y Software ("Rights in Technical Data and Computer Software") en DFARS 252.227-7013 o los apartados (c)(1) y (2) de los Derechos Restringidos sobre Software Comercial ("Commercial Computer Software-Restricted Rights") en 48 CFR 52.227-19, según sea aplicable. El Contratista/Fabricante es PowerQuest Corporation/P.O. Box 1911/Orem, UT 84059-1911/EE.UU.
+
+6. GARANTIA LIMITADA.
+
+(a) PowerQuest le garantiza a usted, el primer Usuario Final, (i) que el Software funcionará básicamente de acuerdo con lo descrito en la documentación adjunta (no aplicable al software de otros fabricantes) y (ii) que el Software está grabado en los discos correctamente. La vigencia de esta Garantía Limitada es de noventa (90) días contados a partir de la fecha de compra. PowerQuest no garantiza ningún software de otro fabricante suministrado junto con el Software, pero acepta repercutirle a usted cualquier garantía otorgada por el propietario o licenciante, dentro de lo permitido por el propietario o licenciante de dicho software.
+
+(b) La presente Garantía Limitada no cubrirá ningún Software que haya sido alterado, dañado, utilizado o aplicado incorrectamente, o usado de otra manera que no sea la indicada en la presente Licencia o en las instrucciones incluidas con el Software y la documentación adjunta.
+
+(c) La responsabilidad exclusiva de PowerQuest según esta Garantía Limitada, y el único recurso del que usted dispone en virtud de la misma, será la reparación o sustitución de cualquier Software que no cumpla con lo establecido en esta Garantía Limitada o, según el criterio de PowerQuest, el reembolso de la cantidad pagada por el Software. PowerQuest no tendrá responsabilidad alguna en virtud de la presente Garantía Limitada a menos que el Software sea devuelto a PowerQuest o a su representante autorizado, junto con una copia de su recibo, dentro del plazo de vigencia de la garantía. Cualquier Software sustitutorio se garantizará por el resto del plazo de la garantía original o por 30 días, aplicándose siempre el plazo más largo.
+
+(d) ESTA GARANTIA EXCLUYE Y REEMPLAZA CUALQUIER OTRA GARANTIA QUE NO HAYA SIDO ESTABLECIDA EXPRESAMENTE POR LA PRESENTE, YA SEA EXPLICITA O IMPLICITA, INCLUYENDO, PERO SIN LIMITARSE A, CUALQUIER GARANTIA DE COMERCIALIZACION, DE ADECUACION PARA UN FIN EN PARTICULAR, LA NO VIOLACION O LAS GARANTIAS EMERGENTES DEL USO O LA OPERACION COMERCIAL.
+
+(e) ESTA GARANTIA LE OTORGA DERECHOS LEGALES ESPECIFICOS; USTED PUEDE TENER OTROS DERECHOS DEPENDIENDO DEL ESTADO EN EL QUE SE ENCUENTRE.
+
+(f) Si no devuelve la tarjeta de registro adjunta o no cumplimenta el registro electrónico que se incluye con el Software, PowerQuest no podrá suministrarle las actualizaciones correspondientes, en cuyo caso usted asumirá la plena responsabilidad de las posibles consecuencias para el rendimiento y los resultados proporcionados por el Software.
+
+7. LIMITACION DE LA RESPONSABILIDAD. BAJO NINGUNA CIRCUNSTANCIA LA RESPONSABILIDAD DE POWERQUEST RELACIONADA CON EL SOFTWARE SUPERARA LA CANTIDAD DE LAS TARIFAS DE LICENCIA QUE USTED PAGO POR EL MISMO. CON LA EXCEPCION DEL REEMBOLSO DEL PRECIO DE COMPRA EN LOS CASOS PREVISTOS EN LA GARANTIA LIMITADA, NI POWERQUEST NI SUS PROVEEDORES SERAN RESPONSABLES, BAJO NINGUNA CIRCUNSTANCIA, DE DAÑO ALGUNO RESULTANTE, DIRECTA O INDIRECTAMENTE, DEL USO DEL SOFTWARE O DE LA INCAPACIDAD DE USARLO, INCLUYENDO LOS DAÑOS DIRECTOS, INDIRECTOS, ESPECIALES, FORTUITOS O CONSECUENTES, DAÑOS POR PÉRDIDA EN LAS GANANCIAS, INTERRUPCION DE LAS ACTIVIDADES COMERCIALES, PÉRDIDA DE INFORMACION COMERCIAL U OTRA PÉRDIDA PECUNIARIA, PERO SIN LIMITARSE A LOS MISMOS, INCLUSO SI POWERQUEST HUBIESE SIDO ADVERTIDO SOBRE LA POSIBILIDAD DE QUE DICHOS DAÑOS PODRIAN PRODUCIRSE, TANTO SI DICHA RESPONSABILIDAD SE DERIVA DE UN CONTRATO, INCUMPLIMIENTO DEL MISMO, GARANTIA O COMO DE CUALQUIER OTRO FUNDAMENTO BASADO EN LEY O "EQUITY".
+DADO QUE ALGUNOS ESTADOS NO PERMITEN LA EXCLUSION O LA LIMITACION DE RESPONSABILIDADES POR DAÑOS CONSECUENTES O FORTUITOS, ES POSIBLE QUE LA LIMITACION A LA QUE SE HACE REFERENCIA ANTERIORMENTE NO SEA APLICABLE EN SU CASO.
+
+8. SIN CLAUSULA DE RENUNCIA. Ningún incumplimiento por cualquiera de las partes de este Acuerdo de una porción específica del acuerdo en una situación específica constituye una renuncia a los derechos contemplados en el Acuerdo de Licencia. Dicha parte puede seguir exigiendo el cumplimiento del resto del Acuerdo en esa situación y de la totalidad o parte del Acuerdo de Licencia en otras situaciones.
+
+9. El presente Acuerdo de Licencia constituye la totalidad del acuerdo entre usted y PowerQuest con respecto al objeto del presente Acuerdo. El presente Acuerdo de Licencia se rige por las leyes del estado de Utah, EE.UU. Cualquier acción legal resultante de la aplicación de los términos de esta Licencia se ejecutará exclusivamente en los tribunales estatales o federales del estado de Utah, EE.UU. Aún cuando parte del Acuerdo de Licencia se considere nulo, el resto del acuerdo seguirá siendo válido, vinculante y obligatorio.
+
+En caso de que tenga alguna pregunta con respecto al presente Acuerdo, o si desea ponerse en contacto con PowerQuest Corporation por algún otro motivo, escriba a:
+
+PowerQuest Corporation
+P.O. Box 1911
+Orem, UT 84059-1911
+EE.UU.
+
+(c) 1994-2002 PowerQuest Corporation. Todos los derechos reservados. El Software puede estar protegido por patentes de EE.UU., con otras patentes pendientes en los EE.UU. y otros países. PowerQuest es una marca comercial registrada de PowerQuest Corporation.
