@@ -104,8 +104,7 @@ int main()
 
 	//crea los cuerpos para las fisicas
    
-    prota->CreateGround(world, 0.f, -20.f);
-    prota->CreateBox(world, 0.f, 200.f);
+    
   
   	// CREAMOS VECTOR DE POSICIONES PARA EL ENEMIGO
   	typedef vector<Posicion*> patrulla;
@@ -203,6 +202,11 @@ int main()
 		Plataforma->setScale(core::vector3df(10.f,1.f,5.f));
 		Plataforma->setMaterialFlag(video::EMF_LIGHTING, false);
 	}
+
+	//creo el suelo, el bounding box del prota y la plataforma
+	prota->CreateGround(world, 0.f, -150.f,1000*1000);
+    prota->CreateGround(world, 6500.f, 900.f,3000);
+    prota->CreateBox(world, 0.f, 200.f);
 
 	/**
 
@@ -363,12 +367,12 @@ int main()
 
 		/* funciones del prota que realizo en todas las iteraciones*/
 		//prota->gravedad(frameDeltaTime);
-        prota->salto(frameDeltaTime);
+        //prota->salto(frameDeltaTime);
         prota->defender(frameDeltaTime);
         prota->ataque(frameDeltaTime);
         prota->pintarInterfaz();
         prota->recuperarEnergia(frameDeltaTime);
-        prota->comprobarColision(Plataforma);
+        //prota->comprobarColision(Plataforma);
 
         prota->comprobarColision(comi);
         prota->comprobarColision(bebi);

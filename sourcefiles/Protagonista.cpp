@@ -78,14 +78,14 @@ void Protagonista::CreateBox(b2World& world, float X, float Y)
 /**
 FUNCION PARA crear el objeto estatico
 **/
-void Protagonista::CreateGround(b2World& world, float X, float Y)
+void Protagonista::CreateGround(b2World& world, float X, float Y,int largo)
 {
     b2BodyDef BodyDef;
     BodyDef.position = b2Vec2(X/SCALE, Y/SCALE);
     BodyDef.type = b2_staticBody;
     b2Body* Ground = world.CreateBody(&BodyDef);
     b2PolygonShape Shape;
-    Shape.SetAsBox((2000000000.f/2)/SCALE, (20.f/2)/SCALE);
+    Shape.SetAsBox((largo/2)/SCALE, (300.f/2)/SCALE);
     b2FixtureDef FixtureDef;
     FixtureDef.density = 0.f;
     FixtureDef.shape = &Shape;
@@ -165,7 +165,7 @@ void Protagonista::salto(const f32 Time)
         cont_salto=0;
         saltando=false;
     }
-    std::cout<<Body->GetPosition().x<<"\n";
+    std::cout<<correr<<"\n";
 }
 /**
 FUNCION PARA CONTROLAR EL ATAQUE DEL PROTA
@@ -317,8 +317,8 @@ void Protagonista::movimiento(const f32 Time)
             //protaPosition.X -= VELOCIDAD_MOVIMIENTO * Time*0.5;
         }else if(correr==true && energia>10.1)
         {
-                Body->ApplyForceToCenter(b2Vec2(-100000.f,0.f),true);
-                //Body->SetLinearVelocity(b2Vec2(-100000.f,0.f));
+                Body->ApplyForceToCenter(b2Vec2(-10000.f,0.f),true);
+                Body->SetLinearVelocity(b2Vec2(-10000.f,0.f));
                 //protaPosition.X -= VELOCIDAD_MOVIMIENTO * Time*3;
 
                 if(energia>10)
@@ -341,8 +341,8 @@ void Protagonista::movimiento(const f32 Time)
                 Body->ApplyForceToCenter(b2Vec2(10.f,0.f),true);
                //Body->SetLinearVelocity(b2Vec2(10.f,0.f));
             }else if(correr==true && energia>10.1){
-                Body->ApplyForceToCenter(b2Vec2(100000.f,0.f),true);
-               // Body->SetLinearVelocity(b2Vec2(100000.f,0.f));
+                Body->ApplyForceToCenter(b2Vec2(10000.f,0.f),true);
+                Body->SetLinearVelocity(b2Vec2(10000.f,0.f));
                 if(energia>10){
                     //vitalidad -=0.3f;
                 }else
