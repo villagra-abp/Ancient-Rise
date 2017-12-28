@@ -75,7 +75,7 @@ int main()
 	**/
 
 	//Creo la gravedad y el mundo 
-	b2Vec2 gravedad(0.f, -9.8f*4);
+	b2Vec2 gravedad(0.f, -9.8f*10);
     b2World world(gravedad);
     
 
