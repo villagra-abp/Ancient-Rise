@@ -46,7 +46,7 @@ class Protagonista
          void comprobarColision(Trampa *trampa);
          bool comprobarColision(scene::ISceneNode* nodo);
          void gravedad(const f32 Time);
-         void CreateGround(b2World& world, float X, float Y);
+         void CreateGround(b2World& world, float X, float Y,int largo);
          void CreateBox(b2World& world, float X, float Y);
 
 
