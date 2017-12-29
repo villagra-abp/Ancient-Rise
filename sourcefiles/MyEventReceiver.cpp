@@ -23,17 +23,17 @@ void MyEventReceiver::checkInput(Protagonista *prota,const f32 frameDeltaTime){
         /* hacemos un set de ataque a 2 que es arriba */
         if(IsKeyDown(irr::KEY_KEY_W))
         {
-           pos_pelea(prota,2);
+           pos_pelea(prota,7);
 
 		}
 		else if(IsKeyDown(irr::KEY_KEY_S))
 		{
-			pos_pelea(prota,0);
+			pos_pelea(prota,-9);
 
 		}
 		else
 		{
-			pos_pelea(prota,1);
+			pos_pelea(prota,0);
 		}
 
 

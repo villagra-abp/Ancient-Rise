@@ -126,108 +126,33 @@ void Protagonista::pintarInterfaz()
     life->setScale(lifeScale);
     //std::cout<<estaCayendo<<"\n";
 }
-/**
-FUNCION PARA CONTROLAR LA GRAVEDAD
-**/
-void Protagonista::gravedad(const f32 Time)
-{
-    // SIMULA LA GRAVEDAD
-    if(protaPosition.Y>0 && saltando==false && estaEnSuelo==false)
-    {
-        protaPosition.Y -= VELOCIDAD_MOVIMIENTO * Time*1.5;
-        estaCayendo=true;
-    }else if(estaEnSuelo && protaPosition.Y>=35 && saltando==false)
-    {
-        protaPosition.Y -= VELOCIDAD_MOVIMIENTO * Time*1.5;
-        estaCayendo=true;    
-    }else
-        estaCayendo=false;
 
-    if(protaPosition.Y<0)
-    {
-        protaPosition.Y=0;
-    }
-
-}
-/**
-FUNCION PARA CONTROLAR EL SALTO DEL PROTA
-**/
-void Protagonista::salto(const f32 Time)
-{
-
-    if(cont_salto>0 && cont_salto<20){
-        //Body->SetLinearVelocity(b2Vec2(0.f,2000000.f));
-        //protaPosition.Y+=2;
-        cont_salto++;  
-    }
-    else{
-        //protaPosition.Y =0;
-        cont_salto=0;
-        saltando=false;
-    }
-    std::cout<<correr<<"\n";
-}
 /**
 FUNCION PARA CONTROLAR EL ATAQUE DEL PROTA
 **/
 void Protagonista::ataque(const f32 Time)
 {
-    //std::cout<<cont_ataque<<"\n";
-    int pos_actual;
-    if(estaEnSuelo){
-        pos_actual=34;
-    }else
-        pos_actual=0;
-    
+    //std::cout<<ataque_position<<"\n";
+    b2Vec2 pos=Body->GetPosition();
     if(cont_ataque>0 && cont_ataque<20){
-        
-        if(ataca==true && direccion==1){
-            if(cont_ataque<20 && ataque_position==1){
-                protaPosition.Y =pos_actual;
-                if(cont_ataque>10){
-                    protaPosition.X -= 2;
-                }else
-                    protaPosition.X += 2;
-            }else if(cont_ataque<20 && ataque_position==2){
-                protaPosition.Y =pos_actual+4;
-                if(cont_ataque>10){
-                    protaPosition.X -= 2;
-                }else
-                    protaPosition.X += 2;
-            }else if(cont_ataque<20 && ataque_position==0){
-                protaPosition.Y =pos_actual-4;
-                if(cont_ataque>10){
-                    protaPosition.X -= 2;
-                }else
-                    protaPosition.X += 2;
-            }
-                
+        rec->setScale(core::vector3df(1.f,.3f,1.f));
+        Body->SetTransform(b2Vec2(pos.x,pos.y+(ataque_position/10)), 0.f);
+        //Body->SetAngularDamping(ataque_position*5);
+        //Body->ApplyForceToCenter(b2Vec2(0.f,ataque_position*10),true);
+        if(ataca==true && direccion==1)
+        {
+            Body->ApplyForceToCenter(b2Vec2(100.f,0.f),true);
+            
         }else if(ataca==true && direccion==0){
-            if(cont_ataque<20 && ataque_position==1){
-                protaPosition.Y =pos_actual;
-                if(cont_ataque>10){
-                    protaPosition.X += 2;
-                }else
-                    protaPosition.X -= 2;
-            }else if(cont_ataque<20 && ataque_position==2){
-                protaPosition.Y =pos_actual+4;
-                if(cont_ataque>10){
-                    protaPosition.X += 2;
-                }else
-                    protaPosition.X -= 2;
-            }else if(cont_ataque<20 && ataque_position==0){
-                protaPosition.Y =pos_actual-4;
-                if(cont_ataque>10){
-                    protaPosition.X += 2;
-                }else
-                    protaPosition.X -= 2;
-            }
-    } 
+            Body->ApplyForceToCenter(b2Vec2(-100.f,0.f),true);
+            
+        } 
         
-    cont_ataque++;  
+        cont_ataque++;  
     }
     else if(cont_ataque>=20){
-        protaPosition.Y =pos_actual;
+        Body->ApplyForceToCenter(b2Vec2(0.f,-ataque_position*10),true);
+        rec->setScale(core::vector3df(1.f,1.f,1.f));
         cont_ataque=0;
         ataca=false;
     }
@@ -238,63 +163,18 @@ FUNCION PARA CONTROLAR LA DEFENSA DEL PROTA
 **/
 void Protagonista::defender(const f32 Time)
 {
-    //std::cout<<cont_ataque<<"\n";
-    int pos_actual;
-    if(estaEnSuelo){
-        pos_actual=34;
-    }else
-        pos_actual=0;
-
-    
+     //std::cout<<ataque_position<<"\n";
+    b2Vec2 pos=Body->GetPosition();
     if(cont_defensa>0 && cont_defensa<20){
+        Body->SetTransform(b2Vec2(pos.x,pos.y+(ataque_position/40)), 0.f);
+        //Body->ApplyForceToCenter(b2Vec2(0.f,ataque_position*20),true);
+        rec->setScale(core::vector3df(.3f,1.f,1.f));
         
-        if(defensa==true && direccion==1){
-            if(cont_defensa<20 && defensa_position==1){
-                protaPosition.Y =pos_actual;
-                if(cont_defensa>10){
-                    protaPosition.X += 0.1;
-                }else
-                    protaPosition.X -= 0.1;
-            }else if(cont_defensa<20 && defensa_position==2){
-                protaPosition.Y =pos_actual+4;
-                if(cont_defensa>10){
-                    protaPosition.X += 0.1;
-                }else
-                    protaPosition.X -= 0.1;
-            }else if(cont_defensa<20 && defensa_position==0){
-                protaPosition.Y =pos_actual-4;
-                if(cont_defensa>10){
-                    protaPosition.X += 0.1;
-                }else
-                    protaPosition.X -= 0.1;
-            }
-                
-        }else if(defensa==true && direccion==0){
-            if(cont_defensa<20 && defensa_position==1){
-                protaPosition.Y =pos_actual;
-                if(cont_defensa>10){
-                    protaPosition.X -= 0.1;
-                }else
-                    protaPosition.X += 0.1;
-            }else if(cont_defensa<20 && defensa_position==2){
-                protaPosition.Y =pos_actual+4;
-                if(cont_defensa>10){
-                    protaPosition.X -= 0.1;
-                }else
-                    protaPosition.X += 0.1;
-            }else if(cont_defensa<20 && defensa_position==0){
-                protaPosition.Y =pos_actual-4;
-                if(cont_defensa>10){
-                    protaPosition.X -= 0.1;
-                }else
-                    protaPosition.X += 0.1;
-            }
-    } 
-        
-    cont_defensa++;  
+        cont_defensa++;  
     }
     else if(cont_defensa>=20){
-        protaPosition.Y =pos_actual;
+        Body->ApplyForceToCenter(b2Vec2(0.f,-ataque_position*50),true);
+        rec->setScale(core::vector3df(1.f,1.f,1.f));
         cont_defensa=0;
         defensa=false;
     }
@@ -321,10 +201,7 @@ void Protagonista::movimiento(const f32 Time)
                 //Body->SetLinearVelocity(b2Vec2(-10000.f,0.f));
                 //protaPosition.X -= VELOCIDAD_MOVIMIENTO * Time*3;
 
-                if(energia>10)
-                {
-                    //vitalidad -=0.3f;
-                }else
+                if(energia<10)
                     correr=false;
         }else
         {
@@ -343,16 +220,12 @@ void Protagonista::movimiento(const f32 Time)
             }else if(correr==true && energia>10.1){
                 Body->ApplyForceToCenter(b2Vec2(140.f,0.f),true);
                 //Body->SetLinearVelocity(b2Vec2(10000.f,0.f));
-                if(energia>10){
-                    //vitalidad -=0.3f;
-                }else
+                if(energia>10)
                     correr=false;
             }else
                 Body->ApplyForceToCenter(b2Vec2(55.f,0.f),true);
                 //Body->SetLinearVelocity(b2Vec2(50.f,0.f));
-    }
-
-    
+    }  
 
 }
 /**
@@ -455,44 +328,6 @@ void Protagonista::comprobarColision(Trampa *trampa)
     
 }
 
-
-
-/**
-FUNCION PARA COMPROBAR LAS COLISIONES CON LAS PLATAFORMAS
-**/
-bool Protagonista::comprobarColision(scene::ISceneNode* nodo)
-{
-    nodoPosition=nodo->getPosition();
-    if((nodoPosition.X-(protaPosition.X+15))<=40 
-        && (nodoPosition.X-(protaPosition.X+15))>-70
-        && protaPosition.Y-nodoPosition.Y>0)
-    {
-        if((nodoPosition.X-(protaPosition.X+15))<=30 
-        && (nodoPosition.X-(protaPosition.X+15))>-60)
-        {
-            if(protaPosition.Y-nodoPosition.Y<0)
-            {
-                estaEnSuelo=false;
-                return false;
-            }
-            
-        }else
-        {
-            if(protaPosition.Y<35)
-                protaPosition.Y=34;
-            estaEnSuelo=true;
-            return true;
-
-        }
-         
-    }else
-    {
-        estaCayendo=true;
-        estaEnSuelo=false;
-        return false;
-    }
-        
-}
 /**
 FUNCION PARA COMPROBAR LA VIDA DEL PROTA
 **/
@@ -632,7 +467,6 @@ void Protagonista::setAtaquePosition(int d)
 }
 void Protagonista::setAtaque(bool d)
 {
-
     ataca=d;
     if(cont_ataque==0 && !saltando && energia>10)
         cont_ataque=1;

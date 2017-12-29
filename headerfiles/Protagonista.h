@@ -91,8 +91,8 @@ class Protagonista
         bool estaEnSuelo;
         bool estaCayendo;
         int direccion;      // 0 --> Izquierda, 1 --> Derecha
-        int ataque_position;    //0--> abajo.  1--> centro,  2-->arriba
-        int defensa_position;    //0--> abajo.  1--> centro,  2-->arriba
+        float ataque_position;    //0--> abajo.  1--> centro,  2-->arriba
+        float defensa_position;    //0--> abajo.  1--> centro,  2-->arriba
         int cont_ataque;
         int cont_defensa;
         int cont_salto;
