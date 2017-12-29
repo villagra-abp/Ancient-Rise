@@ -75,7 +75,7 @@ int main()
 	**/
 
 	//Creo la gravedad y el mundo 
-	b2Vec2 gravedad(0.f, -9.8f*10);
+	b2Vec2 gravedad(0.f, -9.8f*20);
     b2World world(gravedad);
     
 
@@ -205,7 +205,7 @@ int main()
 
 	//creo el suelo, el bounding box del prota y la plataforma
 	prota->CreateGround(world, 0.f, -150.f,1000*1000);
-    prota->CreateGround(world, 6500.f, 900.f,3000);
+    prota->CreateGround(world, 6600.f, 900.f,3200);
     prota->CreateBox(world, 0.f, 200.f);
 
 	/**

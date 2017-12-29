@@ -312,13 +312,13 @@ void Protagonista::movimiento(const f32 Time)
 
         if(sigilo==true)
         {
-            Body->ApplyForceToCenter(b2Vec2(-10.f,0.f),true);
-            //Body->SetLinearVelocity(b2Vec2(-10.f,0.f));
+            //Body->ApplyForceToCenter(b2Vec2(-35.f,0.f),true);
+            Body->SetLinearVelocity(b2Vec2(-10.f,0.f));
             //protaPosition.X -= VELOCIDAD_MOVIMIENTO * Time*0.5;
         }else if(correr==true && energia>10.1)
         {
-                Body->ApplyForceToCenter(b2Vec2(-10000.f,0.f),true);
-                Body->SetLinearVelocity(b2Vec2(-10000.f,0.f));
+                Body->ApplyForceToCenter(b2Vec2(-140.f,0.f),true);
+                //Body->SetLinearVelocity(b2Vec2(-10000.f,0.f));
                 //protaPosition.X -= VELOCIDAD_MOVIMIENTO * Time*3;
 
                 if(energia>10)
@@ -328,8 +328,8 @@ void Protagonista::movimiento(const f32 Time)
                     correr=false;
         }else
         {
-            Body->ApplyForceToCenter(b2Vec2(-100.f,0.f),true);
-            //Body->SetLinearVelocity(b2Vec2(-100.f,0.f));
+            Body->ApplyForceToCenter(b2Vec2(-55.f,0.f),true);
+            //Body->SetLinearVelocity(b2Vec2(-50.f,0.f));
             //protaPosition.X -= VELOCIDAD_MOVIMIENTO * Time*1.5;
         }
 
@@ -338,18 +338,18 @@ void Protagonista::movimiento(const f32 Time)
     {
          if(sigilo==true)
             {
-                Body->ApplyForceToCenter(b2Vec2(10.f,0.f),true);
-               //Body->SetLinearVelocity(b2Vec2(10.f,0.f));
+                //Body->ApplyForceToCenter(b2Vec2(35.f,0.f),true);
+               Body->SetLinearVelocity(b2Vec2(10.f,0.f));
             }else if(correr==true && energia>10.1){
-                Body->ApplyForceToCenter(b2Vec2(10000.f,0.f),true);
-                Body->SetLinearVelocity(b2Vec2(10000.f,0.f));
+                Body->ApplyForceToCenter(b2Vec2(140.f,0.f),true);
+                //Body->SetLinearVelocity(b2Vec2(10000.f,0.f));
                 if(energia>10){
                     //vitalidad -=0.3f;
                 }else
                     correr=false;
             }else
-                Body->ApplyForceToCenter(b2Vec2(100.f,0.f),true);
-               // Body->SetLinearVelocity(b2Vec2(100.f,0.f));
+                Body->ApplyForceToCenter(b2Vec2(55.f,0.f),true);
+                //Body->SetLinearVelocity(b2Vec2(50.f,0.f));
     }
 
     
@@ -568,8 +568,8 @@ ACTUALIZA EL VALOR DEL SALTO (TRUE/FALSE)
 void Protagonista::setSalto(bool s)
 {
    
-   if(Body->GetLinearVelocity().y>=0 && Body->GetLinearVelocity().y<2){
-    Body->ApplyForceToCenter(b2Vec2(0.f,2500.f),true);
+   if(Body->GetLinearVelocity().y>=0 && Body->GetLinearVelocity().y<0.1f){
+    Body->ApplyForceToCenter(b2Vec2(0.f,5000.f),true);
         //cont_salto=1;
         //saltando=s;
         setEnergia(1.f,-15);
