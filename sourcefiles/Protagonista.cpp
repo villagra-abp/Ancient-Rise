@@ -116,7 +116,7 @@ FUNCION PARA CONTROLAR EL ATAQUE DEL PROTA
 **/
 void Protagonista::ataque(const f32 Time)
 {
-    std::cout<<ataque_position<<"\n";
+    //std::cout<<ataque_position<<"\n";
     b2Vec2 pos=Body->GetPosition();
     if(cont_ataque>0 && cont_ataque<20){
         rec->setScale(core::vector3df(1.f,.3f,1.f));
