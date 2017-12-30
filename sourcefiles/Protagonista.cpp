@@ -24,7 +24,7 @@ Protagonista::Protagonista(IrrlichtDevice *dev, ISceneManager* smgr)
     {
         rec->setPosition(core::vector3df(0,0,30));
         //rec->setMaterialTexture(0, driver->getTexture(mediaPath + "wall.bmp"));
-        rec->setMaterialFlag(video::EMF_LIGHTING, true);
+        rec->setMaterialFlag(video::EMF_LIGHTING, false);
     }
     
     life->setMaterialFlag(video::EMF_LIGHTING,false);
@@ -430,9 +430,10 @@ void Protagonista::setSigilo()
     if(sigilo==false)
     {
         sigilo=true;
+        rec->setMaterialFlag(video::EMF_LIGHTING, true);
     }
     else{
-
+        rec->setMaterialFlag(video::EMF_LIGHTING, false);
         sigilo=false;
     }
 }
