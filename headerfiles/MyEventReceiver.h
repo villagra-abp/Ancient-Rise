@@ -109,6 +109,10 @@ void sprintar(Protagonista *p,const f32 Time){
 }
 void pos_pelea(Protagonista *p,int n){
     p->setAtaquePosition(n);
+    
+}
+void pos_defensa(Protagonista *p,int n){
+    
     p->setDefensaPosition(n);
 
 }

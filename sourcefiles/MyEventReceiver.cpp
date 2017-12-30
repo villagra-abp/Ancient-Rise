@@ -24,16 +24,17 @@ void MyEventReceiver::checkInput(Protagonista *prota,const f32 frameDeltaTime){
         if(IsKeyDown(irr::KEY_KEY_W))
         {
            pos_pelea(prota,7);
-
+           pos_defensa(prota,3);
 		}
 		else if(IsKeyDown(irr::KEY_KEY_S))
 		{
 			pos_pelea(prota,-9);
-
+            pos_defensa(prota,1);
 		}
 		else
 		{
 			pos_pelea(prota,0);
+            pos_defensa(prota,2);
 		}
 
 
@@ -48,7 +49,10 @@ void MyEventReceiver::checkInput(Protagonista *prota,const f32 frameDeltaTime){
         {
 			defender(prota,true);
 
-		}
+		}else
+        {
+            defender(prota,false);
+        }
 
         /* movimiento hacia los lados y control de la velocidad en funcion de
         las variables de correr, sigilo y vitalidad */

@@ -81,22 +81,22 @@ class Protagonista
         scene::ISceneNode * rec;
         scene::ISceneNode * energy;
         scene::ISceneNode * life;
-        f32 energia;
-        f32 vida;
-        bool saltando;
-        bool sigilo;
-        bool correr;
-        bool ataca;
-        bool defensa;
-        bool estaEnSuelo;
-        bool estaCayendo;
-        int direccion;      // 0 --> Izquierda, 1 --> Derecha
-        float ataque_position;    //0--> abajo.  1--> centro,  2-->arriba
-        float defensa_position;    //0--> abajo.  1--> centro,  2-->arriba
-        int cont_ataque;
-        int cont_defensa;
-        int cont_salto;
-        int cont_recarga_enemigo;
+        f32 energia=100.f;
+        f32 vida=100.f;
+        bool saltando=false;
+        bool sigilo=false;
+        bool correr=false;
+        bool ataca=false;
+        bool defensa=false;
+        bool estaEnSuelo=false;
+        bool estaCayendo=true;
+        int direccion=1;      // 0 --> Izquierda, 1 --> Derecha
+        float ataque_position=0;    //0--> abajo.  1--> centro,  2-->arriba
+        float defensa_position=0;    //0--> abajo.  1--> centro,  2-->arriba
+        int cont_ataque=0;
+        int cont_defensa=0;
+        int cont_salto=0;
+        int cont_recarga_enemigo=0;
         const f32 VELOCIDAD_MOVIMIENTO=90.f;
         core::vector3df protaPosition;
         core::vector3df enemigoPosition;

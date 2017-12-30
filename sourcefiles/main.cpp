@@ -378,15 +378,10 @@ int main()
         prota->comprobarColision(bebi);
         prota->comprobarColision(tram);
 
-
         prota->updateBody(world);
-
 
         if(!prota->checkVida())
         	return 0;
-
-
-
 
         /* 5 veces por segundo registra si pulsamos s 
         para controlar el modo sigilo y controlar colisiones*/

@@ -29,23 +29,7 @@ Protagonista::Protagonista(IrrlichtDevice *dev, ISceneManager* smgr)
     
     life->setMaterialFlag(video::EMF_LIGHTING,false);
 
-    ataca=false;
-    defensa=false;
-
-    saltando=false;
-    correr=false;
-    sigilo=false;
-    estaEnSuelo=false;
-    estaCayendo=true;
-    direccion=1;
-    cont_ataque=0;
-    cont_defensa=0;
-    cont_salto=0;
-    cont_recarga_enemigo=0;
-    ataque_position=0;
-    defensa_position=0;
-    energia = 100.f;
-    vida = 100.f;
+    
     protaPosition=rec->getPosition();
     energyScale=energy->getScale();
     energyScale.Z=0.1f;
@@ -132,10 +116,11 @@ FUNCION PARA CONTROLAR EL ATAQUE DEL PROTA
 **/
 void Protagonista::ataque(const f32 Time)
 {
-    //std::cout<<ataque_position<<"\n";
+    std::cout<<ataque_position<<"\n";
     b2Vec2 pos=Body->GetPosition();
     if(cont_ataque>0 && cont_ataque<20){
         rec->setScale(core::vector3df(1.f,.3f,1.f));
+        rec->setRotation(core::vector3df(1.f,ataque_position*100,1.f));
         Body->SetTransform(b2Vec2(pos.x,pos.y+(ataque_position/10)), 0.f);
         //Body->SetAngularDamping(ataque_position*5);
         //Body->ApplyForceToCenter(b2Vec2(0.f,ataque_position*10),true);
@@ -153,6 +138,7 @@ void Protagonista::ataque(const f32 Time)
     else if(cont_ataque>=20){
         Body->ApplyForceToCenter(b2Vec2(0.f,-ataque_position*10),true);
         rec->setScale(core::vector3df(1.f,1.f,1.f));
+        rec->setRotation(core::vector3df(1.f,-ataque_position*100,1.f));
         cont_ataque=0;
         ataca=false;
     }
@@ -165,15 +151,15 @@ void Protagonista::defender(const f32 Time)
 {
      //std::cout<<ataque_position<<"\n";
     b2Vec2 pos=Body->GetPosition();
-    if(cont_defensa>0 && cont_defensa<20){
-        Body->SetTransform(b2Vec2(pos.x,pos.y+(ataque_position/40)), 0.f);
+    if(cont_defensa>0){
+        //Body->SetTransform(b2Vec2(pos.x,pos.y+(ataque_position/30)), 0.f);
         //Body->ApplyForceToCenter(b2Vec2(0.f,ataque_position*20),true);
-        rec->setScale(core::vector3df(.3f,1.f,1.f));
+        rec->setScale(core::vector3df(.3f,defensa_position,1.f));
         
-        cont_defensa++;  
+        
     }
-    else if(cont_defensa>=20){
-        Body->ApplyForceToCenter(b2Vec2(0.f,-ataque_position*50),true);
+    else {
+        //Body->ApplyForceToCenter(b2Vec2(0.f,-ataque_position*10),true);
         rec->setScale(core::vector3df(1.f,1.f,1.f));
         cont_defensa=0;
         defensa=false;
@@ -384,7 +370,7 @@ void Protagonista::setEnergia(f32 cantidad,const f32 Time)
         energia+=cantidad* Time;
     if(energia<0){
         energia=0;
-        setVida(-5,Time);
+        //setVida(-5,Time);
     }
 
 }
@@ -479,8 +465,13 @@ void Protagonista::setDefensa(bool d)
 {
 
     defensa=d;
-    if(cont_defensa==0 && !saltando)
+    if(defensa && !saltando)
+    {
         cont_defensa=1;
+    }else
+    {
+        cont_defensa=0;
+    }
 }
 
 Protagonista::~Protagonista()
