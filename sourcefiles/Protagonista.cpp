@@ -220,8 +220,8 @@ FUNCION PARA COMPROBAR LAS COLISIONES CON ENEMIGOS
 void Protagonista::comprobarColision(Enemigo *enemigo)
 {
     enemigoPosition=enemigo->getNode()->getPosition();
-    if((enemigoPosition.X-(protaPosition.X+15))<=0 
-        && (enemigoPosition.X-(protaPosition.X+15))>-25
+    if((enemigoPosition.X-(protaPosition.X+10))<0 
+        && (enemigoPosition.X-(protaPosition.X+10))>-20
         && vida<=100 && vida>0 && protaPosition.Y<10){
         if(ataca)
         {
@@ -245,8 +245,8 @@ FUNCION PARA COMPROBAR LAS COLISIONES CON COMIDA
 void Protagonista::comprobarColision(Comida *comida)
 {
     comidaPosition=comida->getNode()->getPosition();
-    if((comidaPosition.X-(protaPosition.X+15))<=0 
-        && (comidaPosition.X-(protaPosition.X+15))>-20){
+    if((comidaPosition.X-(protaPosition.X+10))<-5 
+        && (comidaPosition.X-(protaPosition.X+10))>-15){
         if(comida->getNode()->isVisible()&& protaPosition.Y<10)
         {
            vida+=10;
@@ -273,8 +273,8 @@ void Protagonista::comprobarColision(Comida *comida)
 void Protagonista::comprobarColision(Bebida *bebida)
 {
     bebidaPosition=bebida->getNode()->getPosition();
-    if((bebidaPosition.X-(protaPosition.X+15))<=0 
-        && (bebidaPosition.X-(protaPosition.X+15))>-20){
+    if((bebidaPosition.X-(protaPosition.X+10))<=-5 
+        && (bebidaPosition.X-(protaPosition.X+10))>-15){
         if(bebida->getNode()->isVisible()&& protaPosition.Y<10)
         {
            energia+=10;
@@ -302,11 +302,11 @@ void Protagonista::comprobarColision(Bebida *bebida)
 void Protagonista::comprobarColision(Trampa *trampa)
 {
     trampaPosition=trampa->getNode()->getPosition();
-    if((trampaPosition.X-(protaPosition.X+15))<=-5 
-        && (trampaPosition.X-(protaPosition.X+15))>-30
+    if((trampaPosition.X-(protaPosition.X+10))<8 
+        && (trampaPosition.X-(protaPosition.X+10))>-28
         && protaPosition.Y<10){
         
-           vida-=3;
+           vida-=0.3f;
            //protaPosition.X-=15; //+=15 animacion, rebote de la trampa 
        
     }
@@ -330,14 +330,6 @@ bool Protagonista::checkVida()
 /**
 FUNCION PARA RECUPERAR LA VIDA DEL PROTA
 **/
-void Protagonista::recuperarVida(const f32 Time)
-{
-    if(vida<100)
-        vida+=5* Time;
-    if(vida>100){
-        vida=100;
-    }
-}
 
 void Protagonista::setVida(f32 cantidad,const f32 Time)
 {
@@ -351,19 +343,8 @@ void Protagonista::setVida(f32 cantidad,const f32 Time)
 
 }
 /**
-FUNCION PARA RECUPERAR EL CANSANCIO DEL PROTA
+METODO PARA GESTIONAR LA ENERGIA
 **/
-
-void Protagonista::recuperarEnergia(const f32 Time)
-{
-    if(energia<100)
-        energia+=10* Time;
-    if(energia>=100){
-        energia=100;
-        //recuperarVida(Time);
-    }
-}
-
 void Protagonista::setEnergia(f32 cantidad,const f32 Time)
 {
     if(energia>0 || energia<100)
@@ -371,65 +352,40 @@ void Protagonista::setEnergia(f32 cantidad,const f32 Time)
     if(energia<0){
         energia=0;
         //setVida(-5,Time);
-    }
+    }else if(energia>100)
+        energia=100;
 
 }
-
 /**
-DEVUELVE EL NODO QUE HEMOS CREADO
-**/
-scene::ISceneNode* Protagonista::getNode()
-{
-    return rec;
-}
-
-/**
-ACTUALIZA EL VALOR DEL SALTO (TRUE/FALSE)
+METODO PARA GESTIONAR EL SALTO
 **/
 void Protagonista::setSalto(bool s)
 {
-   b2Vec2 velocidad=Body->GetLinearVelocity();
-   std::cout<<velocidad.y<<"\n";
-   if(velocidad.y>=0 && velocidad.y<0.5f){
-        if(correr)
+    
+    b2Vec2 velocidad=Body->GetLinearVelocity();
+    std::cout<<velocidad.y<<"\n";
+    if(velocidad.y>=-5 && velocidad.y<5 && s && !saltando && !sigilo){
+        if(correr && energia>10)
         {
             Body->ApplyForceToCenter(b2Vec2(0.f,10000.f),true);
-        }else
+        }else if(energia<10)
         {
-            Body->ApplyForceToCenter(b2Vec2(0.f,6000.f),true);
-        }    
+            Body->ApplyForceToCenter(b2Vec2(0.f,2500.f),true);
+        }
+        else
+            Body->ApplyForceToCenter(b2Vec2(0.f,6000.f),true);    
         //cont_salto=1;
         //saltando=s;
         setEnergia(1.f,-15);
-   }
-   
+    }
+    saltando=s;
 }
-
-core::vector3df Protagonista::getPosition()
-{
-   return protaPosition;
-}
-
 /**
 ACTUALIZA LA POSICION DEL PROTA
 **/
 void Protagonista::setPosition(core::vector3df v)
 {
    protaPosition=v;
-}
-
-f32 Protagonista::getEnergia()
-{
-    return energia;
-}
-
-bool Protagonista::getSigilo()
-{
-    return sigilo;
-}
-bool Protagonista::getCorrer()
-{
-    return correr;
 }
 
 void Protagonista::setSigilo()
@@ -481,6 +437,35 @@ void Protagonista::setDefensa(bool d)
         cont_defensa=0;
     }
 }
+/**
+DEVUELVE EL NODO QUE HEMOS CREADO
+**/
+scene::ISceneNode* Protagonista::getNode()
+{
+    return rec;
+}
+
+
+
+core::vector3df Protagonista::getPosition()
+{
+   return protaPosition;
+}
+
+f32 Protagonista::getEnergia()
+{
+    return energia;
+}
+
+bool Protagonista::getSigilo()
+{
+    return sigilo;
+}
+bool Protagonista::getCorrer()
+{
+    return correr;
+}
+
 
 Protagonista::~Protagonista()
 {

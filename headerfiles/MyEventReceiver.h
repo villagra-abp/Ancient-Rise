@@ -81,8 +81,8 @@ private:
 /**
     Funciines para poder las acciones de las teclas
 **/
-void saltar(Protagonista *p,const f32 Time){
-    p->setSalto(true);
+void saltar(Protagonista *p,const f32 Time, bool salta){
+    p->setSalto(salta);
   //prota->setEnergia(-250.f, frameDeltaTime);
 }
 void moverse(Protagonista *p,const f32 Time){

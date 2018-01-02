@@ -388,7 +388,7 @@ int main()
         prota->defender(frameDeltaTime);
         prota->ataque(frameDeltaTime);
         prota->pintarInterfaz();
-        prota->recuperarEnergia(frameDeltaTime);
+        prota->setEnergia(5,frameDeltaTime);
         //prota->comprobarColision(Plataforma);
 
         prota->comprobarColision(comi);
