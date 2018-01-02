@@ -363,7 +363,7 @@ void Protagonista::setSalto(bool s)
 {
     
     b2Vec2 velocidad=Body->GetLinearVelocity();
-    std::cout<<velocidad.y<<"\n";
+    //std::cout<<velocidad.y<<"\n";
     if(velocidad.y>=-5 && velocidad.y<5 && s && !saltando && !sigilo){
         if(correr && energia>10)
         {
