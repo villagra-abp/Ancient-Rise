@@ -1,5 +1,4 @@
-LIBS := -lIrrlicht -lGL -lX11 -lXxf86vm
-
+LIBS := -lIrrlicht -lGL -lX11 -lXxf86vm -lBox2D
 CC=g++
 CFLAGS=-I.
 

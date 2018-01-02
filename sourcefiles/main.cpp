@@ -1,5 +1,8 @@
 
 #include <irrlicht.h>
+#include <Box2D/Box2D.h>
+#include <Box2D/Common/b2Math.h>
+#include <GL/gl.h>
 #include "../headerfiles/Protagonista.h"
 #include "../headerfiles/Enemigo.h"
 #include "../headerfiles/Posicion.h"
@@ -71,6 +74,12 @@ int main()
     - eventReceiver --> Un objeto para recibir eventos
 	**/
 
+	//Creo la gravedad y el mundo 
+	b2Vec2 gravedad(0.f, -9.8f*20);
+    b2World world(gravedad);
+    
+
+
     MyEventReceiver receiver;
 
 	IrrlichtDevice *device =
@@ -92,6 +101,10 @@ int main()
 	Protagonista *prota = new Protagonista(device, smgr);
 	scene::ISceneNode  *rec = prota->getNode();
 	scene::ISceneNode* Terrain;
+
+	//crea los cuerpos para las fisicas
+   
+    
   
   	// CREAMOS VECTOR DE POSICIONES PARA EL ENEMIGO
   	typedef vector<Posicion*> patrulla;
@@ -189,6 +202,28 @@ int main()
 		Plataforma->setScale(core::vector3df(10.f,1.f,5.f));
 		Plataforma->setMaterialFlag(video::EMF_LIGHTING, false);
 	}
+	scene::ISceneNode* Plataforma2= smgr->addCubeSceneNode();
+
+	if (Plataforma2) /** SI HEMOS CREADO EL CUBO **/
+	{
+		Plataforma2->setPosition(core::vector3df(320,55,30));
+		Plataforma2->setScale(core::vector3df(10.f,1.f,5.f));
+		Plataforma2->setMaterialFlag(video::EMF_LIGHTING, false);
+	}
+	scene::ISceneNode* Plataforma3= smgr->addCubeSceneNode();
+
+	if (Plataforma3) /** SI HEMOS CREADO EL CUBO **/
+	{
+		Plataforma3->setPosition(core::vector3df(420,85,30));
+		Plataforma3->setScale(core::vector3df(10.f,1.f,5.f));
+		Plataforma3->setMaterialFlag(video::EMF_LIGHTING, false);
+	}
+	//creo el suelo, el bounding box del prota y la plataforma
+	prota->CreateGround(world, 0.f, -150.f,1000*1000);
+    prota->CreateGround(world, 6600.f, 900.f,3200);
+    prota->CreateGround(world, 9600.f, 1800.f,3200);
+    prota->CreateGround(world, 12600.f, 2700.f,3200);
+    prota->CreateBox(world, 0.f, 200.f);
 
 	/**
 
@@ -342,28 +377,28 @@ int main()
 		core::vector3df protaPosition = prota->getPosition();
 		core::vector3df camPosition = cam->getPosition();
 
+		//pasos de las fisicas en el mundo
+		world.Step(1/60.f, 8, 3);
+		//reinicio las fuerzas en el mundo
+		world.ClearForces();
+
 		/* funciones del prota que realizo en todas las iteraciones*/
-		prota->gravedad(frameDeltaTime);
-        prota->salto(frameDeltaTime);
+		//prota->gravedad(frameDeltaTime);
+        //prota->salto(frameDeltaTime);
         prota->defender(frameDeltaTime);
         prota->ataque(frameDeltaTime);
         prota->pintarInterfaz();
-        prota->recuperarEnergia(frameDeltaTime);
-        prota->comprobarColision(Plataforma);
+        prota->setEnergia(5,frameDeltaTime);
+        //prota->comprobarColision(Plataforma);
 
         prota->comprobarColision(comi);
         prota->comprobarColision(bebi);
         prota->comprobarColision(tram);
 
-
-        //prota->comprobarColision(Plataforma2);
-
+        prota->updateBody(world);
 
         if(!prota->checkVida())
         	return 0;
-
-
-
 
         /* 5 veces por segundo registra si pulsamos s 
         para controlar el modo sigilo y controlar colisiones*/

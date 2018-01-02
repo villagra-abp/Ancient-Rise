@@ -8,9 +8,9 @@ void MyEventReceiver::checkInput(Protagonista *prota,const f32 frameDeltaTime){
      /* lanza el salto al pulsat w */
 
 	if(IsKeyDown(irr::KEY_SPACE)){
-            saltar(prota,frameDeltaTime);
-
-	}
+        saltar(prota,frameDeltaTime,true);
+	}else
+        saltar(prota,frameDeltaTime,false);
         /* control de correr*/
 
         if(IsKeyDown(irr::KEY_LSHIFT)){
@@ -23,17 +23,18 @@ void MyEventReceiver::checkInput(Protagonista *prota,const f32 frameDeltaTime){
         /* hacemos un set de ataque a 2 que es arriba */
         if(IsKeyDown(irr::KEY_KEY_W))
         {
-           pos_pelea(prota,2);
-
+           pos_pelea(prota,7);
+           pos_defensa(prota,3);
 		}
 		else if(IsKeyDown(irr::KEY_KEY_S))
 		{
-			pos_pelea(prota,0);
-
+			pos_pelea(prota,-9);
+            pos_defensa(prota,1);
 		}
 		else
 		{
-			pos_pelea(prota,1);
+			pos_pelea(prota,0);
+            pos_defensa(prota,2);
 		}
 
 
@@ -48,7 +49,10 @@ void MyEventReceiver::checkInput(Protagonista *prota,const f32 frameDeltaTime){
         {
 			defender(prota,true);
 
-		}
+		}else
+        {
+            defender(prota,false);
+        }
 
         /* movimiento hacia los lados y control de la velocidad en funcion de
         las variables de correr, sigilo y vitalidad */
