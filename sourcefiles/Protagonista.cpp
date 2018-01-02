@@ -1,8 +1,6 @@
 #include "../headerfiles/Protagonista.h"
 #define SCALE 30.0f
 
-
-
 /**
  Constructor: CREA UN NODO PASANDOLE POR PARAMETRO EL DEVICE Y EL PUNTERO PARA GESTIONAR LA ESCENA
 **/
@@ -52,10 +50,11 @@ void Protagonista::CreateBox(b2World& world, float X, float Y)
     Body = world.CreateBody(&BodyDef);
     Shape.SetAsBox((20.f/2)/SCALE, (20.f/2)/SCALE);
     b2FixtureDef FixtureDef;
-    FixtureDef.density = 1.f;
-    FixtureDef.friction = 0.7f;
+    FixtureDef.density = 1.2f;
+    FixtureDef.friction = 0.35f;
     FixtureDef.shape = &Shape;
     Body->CreateFixture(&FixtureDef);
+    //std::cout<<Body->GetMass()<<"\n";
 
   
 }
@@ -72,6 +71,7 @@ void Protagonista::CreateGround(b2World& world, float X, float Y,int largo)
     Shape.SetAsBox((largo/2)/SCALE, (300.f/2)/SCALE);
     b2FixtureDef FixtureDef;
     FixtureDef.density = 0.f;
+    FixtureDef.friction = 0.65f;
     FixtureDef.shape = &Shape;
     Ground->CreateFixture(&FixtureDef);
 
@@ -179,11 +179,11 @@ void Protagonista::movimiento(const f32 Time)
         if(sigilo==true)
         {
             //Body->ApplyForceToCenter(b2Vec2(-35.f,0.f),true);
-            Body->SetLinearVelocity(b2Vec2(-10.f,0.f));
+            Body->SetLinearVelocity(b2Vec2(-15.f,0.f));
             //protaPosition.X -= VELOCIDAD_MOVIMIENTO * Time*0.5;
         }else if(correr==true && energia>10.1)
         {
-                Body->ApplyForceToCenter(b2Vec2(-140.f,0.f),true);
+                Body->ApplyForceToCenter(b2Vec2(-150.f,0.f),true);
                 //Body->SetLinearVelocity(b2Vec2(-10000.f,0.f));
                 //protaPosition.X -= VELOCIDAD_MOVIMIENTO * Time*3;
 
@@ -191,7 +191,7 @@ void Protagonista::movimiento(const f32 Time)
                     correr=false;
         }else
         {
-            Body->ApplyForceToCenter(b2Vec2(-55.f,0.f),true);
+            Body->ApplyForceToCenter(b2Vec2(-60.f,0.f),true);
             //Body->SetLinearVelocity(b2Vec2(-50.f,0.f));
             //protaPosition.X -= VELOCIDAD_MOVIMIENTO * Time*1.5;
         }
@@ -202,14 +202,14 @@ void Protagonista::movimiento(const f32 Time)
          if(sigilo==true)
             {
                 //Body->ApplyForceToCenter(b2Vec2(35.f,0.f),true);
-               Body->SetLinearVelocity(b2Vec2(10.f,0.f));
+               Body->SetLinearVelocity(b2Vec2(15.f,0.f));
             }else if(correr==true && energia>10.1){
-                Body->ApplyForceToCenter(b2Vec2(140.f,0.f),true);
+                Body->ApplyForceToCenter(b2Vec2(150.f,0.f),true);
                 //Body->SetLinearVelocity(b2Vec2(10000.f,0.f));
-                if(energia>10)
+                if(energia<10)
                     correr=false;
             }else
-                Body->ApplyForceToCenter(b2Vec2(55.f,0.f),true);
+                Body->ApplyForceToCenter(b2Vec2(60.f,0.f),true);
                 //Body->SetLinearVelocity(b2Vec2(50.f,0.f));
     }  
 
@@ -388,9 +388,16 @@ ACTUALIZA EL VALOR DEL SALTO (TRUE/FALSE)
 **/
 void Protagonista::setSalto(bool s)
 {
-   
-   if(Body->GetLinearVelocity().y>=0 && Body->GetLinearVelocity().y<0.1f){
-    Body->ApplyForceToCenter(b2Vec2(0.f,5000.f),true);
+   b2Vec2 velocidad=Body->GetLinearVelocity();
+   std::cout<<velocidad.y<<"\n";
+   if(velocidad.y>=0 && velocidad.y<0.5f){
+        if(correr)
+        {
+            Body->ApplyForceToCenter(b2Vec2(0.f,10000.f),true);
+        }else
+        {
+            Body->ApplyForceToCenter(b2Vec2(0.f,6000.f),true);
+        }    
         //cont_salto=1;
         //saltando=s;
         setEnergia(1.f,-15);

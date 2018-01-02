@@ -202,10 +202,27 @@ int main()
 		Plataforma->setScale(core::vector3df(10.f,1.f,5.f));
 		Plataforma->setMaterialFlag(video::EMF_LIGHTING, false);
 	}
+	scene::ISceneNode* Plataforma2= smgr->addCubeSceneNode();
 
+	if (Plataforma2) /** SI HEMOS CREADO EL CUBO **/
+	{
+		Plataforma2->setPosition(core::vector3df(320,55,30));
+		Plataforma2->setScale(core::vector3df(10.f,1.f,5.f));
+		Plataforma2->setMaterialFlag(video::EMF_LIGHTING, false);
+	}
+	scene::ISceneNode* Plataforma3= smgr->addCubeSceneNode();
+
+	if (Plataforma3) /** SI HEMOS CREADO EL CUBO **/
+	{
+		Plataforma3->setPosition(core::vector3df(420,85,30));
+		Plataforma3->setScale(core::vector3df(10.f,1.f,5.f));
+		Plataforma3->setMaterialFlag(video::EMF_LIGHTING, false);
+	}
 	//creo el suelo, el bounding box del prota y la plataforma
 	prota->CreateGround(world, 0.f, -150.f,1000*1000);
     prota->CreateGround(world, 6600.f, 900.f,3200);
+    prota->CreateGround(world, 9600.f, 1800.f,3200);
+    prota->CreateGround(world, 12600.f, 2700.f,3200);
     prota->CreateBox(world, 0.f, 200.f);
 
 	/**
