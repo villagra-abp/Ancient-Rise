@@ -3,7 +3,7 @@
 
 
 
-#include <irrlicht.h>
+#include <irrlicht/irrlicht.h>
 #include <iostream>
 #include <Box2D/Box2D.h>
 #include <Box2D/Common/b2Math.h>

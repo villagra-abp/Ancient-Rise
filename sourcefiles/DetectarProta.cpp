@@ -1,11 +1,11 @@
 #include "../headerfiles/DetectarProta.h"
 
 
-Status DetectarProta::run()
+Status DetectarProta::run(Enemigo *e)
 {
 	protaPosition = board->getProta();
 
-	scene::ISceneNode* enemigoNode = enemigo->getNode();
+	scene::ISceneNode* enemigoNode = e->getNode();
 
     core::vector3df EnemigoPosition = enemigoNode->getPosition(); // VOLVEMOS A OBTENER EL VECTOR DE POSICION DEL ENEMIGO POR SI HA CAMBIADO
 
@@ -13,12 +13,16 @@ Status DetectarProta::run()
 
     int distanciaProtaX = protaPosition - enemigoX;      // DISTANCIA EN X AL PROTAGONISTA
 
-    if(abs(distanciaProtaX)<20)   // SI PROTA AVISTADO
+    if(e->getVisto())   // SI PROTA AVISTADO
      {
-     	return BH_SUCCESS;
+        //e->setAvistadoProta(true);
+
+        return BH_SUCCESS;
      }
      else
      {
+        //e->setAvistadoProta(false);
+        
      	return BH_FAILURE;
      }
 
@@ -30,7 +34,6 @@ Status DetectarProta::run()
 
 void DetectarProta::onInitialize(Blackboard *b)
 {
-	enemigo = b->getEnem();
 	board = b;
 }
 

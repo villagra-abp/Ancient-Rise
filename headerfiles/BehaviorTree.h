@@ -1,44 +1,30 @@
 #ifndef BEHAVIORTREE_H
 #define BEHAVIORTREE_H
 
-#include <iostream>
-#include <vector>
-#include <irrlicht.h>
-#include "../headerfiles/AvanzarPatrulla.h"
-#include "../headerfiles/DetectarProta.h"
-#include "../headerfiles/Selector.h"
+
+#include "../headerfiles/Sequence.h"
+#include "../headerfiles/Enemigo.h"
 
 
-
-using namespace std;
-using namespace irr;
-
-using namespace core;
-using namespace scene;
-using namespace video;
-using namespace io;
-using namespace gui;
-
-
-
-
-
+// Clase para construir la estructura del behavior tree para todos los tipos de enemigos
 class BehaviorTree
 {
 	public:
 
-		BehaviorTree(int t, Blackboard *b);
-		void update();
+		BehaviorTree(int c, Blackboard *b);
+		void update(Enemigo *e);
 
 		virtual ~BehaviorTree();
 
 	private:
 
-		//Task* m_pRoot;
+		Composite* m_pRoot; 					// Tarea raiz ( a partir de la cual se ejecutan todas las demas del arbol)
 		int tipo;
 		Blackboard *board;
-		Selector sel;
-
+		typedef vector<Composite*> Composites;
+		Composites comp; 						// Vector con todos los composites que contiene el arbol
+		typedef vector<Task*> Tasks;
+		Tasks task;
 		
 };
 

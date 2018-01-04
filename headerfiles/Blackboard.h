@@ -1,41 +1,34 @@
 #ifndef BLACKBOARD_H
 #define BLACKBOARD_H
 
-#include <string>
 #include "../headerfiles/Enemigo.h"
+#include "../headerfiles/Objeto.h"
 
 
-
-
-
-
+/*
+Clase para poder almacenar informacion que puedan necesitar los arboles 
+*/
 class Blackboard
 {
 	public:
 
 		Blackboard();
 		
-		void setEnemigo(Enemigo* e);
 		void setProta(float pX);
 		void setTime(const f32 T);
-		void setVel(f32 vel);
-		void setPos(vector<Posicion*> pos);
+		void setFuente(Objeto* f);
 
-
-		Enemigo* getEnem();
 		float getProta();
 		f32 getTime();
-		f32 getVel();
-		vector<Posicion*> getPos();
+		Objeto* getFuente();
 
 		virtual ~Blackboard();
 
 	private:
+		
 		float protaX;
 		f32 time;
-		f32 velocidadEnemigo;
-		vector<Posicion*> posPatrulla;
-		Enemigo* enemBasico;
+		Objeto *o;
 };
 
 #endif // BLACKBOARD_H

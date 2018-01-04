@@ -21,9 +21,9 @@ void Repeat::onInitialize(Blackboard *b)
 	m_iCounter=0;
 }
 
-Status Repeat::run()
+Status Repeat::run(Enemigo *e)
 {
-	m_pChild->run();
+	m_pChild->run(e);
 
 	if(m_pChild->getStatus() == BH_RUNNING)  
 	{

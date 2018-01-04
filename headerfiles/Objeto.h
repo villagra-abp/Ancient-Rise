@@ -1,7 +1,7 @@
 #ifndef OBJETO_H
 #define OBJETO_H
 
-#include <irrlicht.h>
+#include <irrlicht/irrlicht.h>
 #include <iostream>
 #include <vector>
 
@@ -29,7 +29,10 @@ class Objeto
 
 		//getters y setters
 
+		core::vector3df getVector3df();
+		
 		void setRecogido(bool r);
+		void setActivado(bool a);
 
 
 		scene::ISceneNode* getObjeto();
@@ -44,6 +47,7 @@ class Objeto
 	protected:
 
 		bool recogido;  				// Para saber si hemos cogido el objeto o no
+		bool activado;					// Para saber si el objeto ha sido activado o no
 		scene::ISceneNode * objeto;
 		int tipo;  						// Para saber que tipo de objeto es 
  

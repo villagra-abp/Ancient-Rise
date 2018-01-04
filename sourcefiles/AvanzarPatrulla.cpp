@@ -4,14 +4,16 @@
 
 
 
-Status AvanzarPatrulla::run()
+Status AvanzarPatrulla::run(Enemigo *e)
 {
     
     protaPosition = board->getProta();
     frameDeltaTime = board->getTime();
-    VELOCIDAD_ENEMIGO = board->getVel();
+    e->setVelocidad(e->getVelNormal());                                      // ACTUALIZAMOS LA VELOCIDAD DEL ENEMIGO
 
-    scene::ISceneNode* enemigoNode = enemigo->getNode();
+    pos = e->getPosicion();
+
+    scene::ISceneNode* enemigoNode = e->getNode();
 
     core::vector3df EnemigoPosition = enemigoNode->getPosition(); // VOLVEMOS A OBTENER EL VECTOR DE POSICION DEL ENEMIGO POR SI HA CAMBIADO
 
@@ -40,18 +42,22 @@ Status AvanzarPatrulla::run()
 
             if (distanciaNodoX<0) // AVANZAMOS HACIA LA IZQUIERDA
             {
-                EnemigoPosition.X-= VELOCIDAD_ENEMIGO * frameDeltaTime*3;
+                EnemigoPosition.X-= e->getVelocidad() * frameDeltaTime*3;
 
-                enemigo->setPosition(EnemigoPosition); // CAMBIAMOS LA POSICION
+                e->setPosition(EnemigoPosition); // CAMBIAMOS LA POSICION
+
+                e->setLastFacedDir(false);
 
             }
             else{
                 if(distanciaNodoX>0) // AVANZAMOS HACIA LA DERECHA
                 {
 
-                    EnemigoPosition.X+= VELOCIDAD_ENEMIGO * frameDeltaTime*3;
+                    EnemigoPosition.X+= e->getVelocidad() * frameDeltaTime*3;
 
-                    enemigo->setPosition(EnemigoPosition);
+                    e->setPosition(EnemigoPosition);
+
+                    e->setLastFacedDir(true);
                 }
             }
          }
@@ -65,8 +71,6 @@ Status AvanzarPatrulla::run()
 void AvanzarPatrulla::onInitialize(Blackboard *b)
 {
     contadorPatrulla=0;
-    enemigo = b->getEnem();
-    pos = b->getPos();
     board = b;
 }
 

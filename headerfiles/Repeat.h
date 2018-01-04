@@ -16,7 +16,7 @@ class Repeat : public Decorator
 		Repeat(Task* child);
 		void setCount(int count);
 		void onInitialize(Blackboard *b);
-		Status run();
+		Status run(Enemigo *e);
 
 
 	protected:

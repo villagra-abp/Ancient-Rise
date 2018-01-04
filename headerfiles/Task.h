@@ -3,10 +3,10 @@
 
 #include <iostream>
 #include <vector>
-#include <irrlicht.h>
-#include "../headerfiles/Enemigo.h"
-#include "../headerfiles/Posicion.h"
+#include <irrlicht/irrlicht.h>
+//#include "../headerfiles/Posicion.h"
 #include "../headerfiles/Blackboard.h"
+
 
 
 using namespace std;
@@ -41,8 +41,9 @@ class Task
 		virtual ~Task();
 		virtual void onInitialize(Blackboard *b)=0;   // El igual a 0 quiere decir que este metodo no se va a implementar aqui (la clase se convierte en abstracta) sino que va a ser 
 										 // implementado en una clase derivada.
-		virtual Status run()=0; 		 // Metodo que se utiliza para ejecutar la tarea que devuelve un codigo de estado diciendo si ha tenido exito o no
+		virtual Status run(Enemigo *e)=0; 		 // Metodo que se utiliza para ejecutar la tarea que devuelve un codigo de estado diciendo si ha tenido exito o no
 		Status getStatus() const;
+		Status setStatus(Status s);
 
 
 	private:

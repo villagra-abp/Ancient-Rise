@@ -252,15 +252,11 @@ void Protagonista::comprobarColision(Comida *comida)
            vida+=10;
             if(vida>100)
                 vida=100;
-
-            int i=rand();
-            while(i>1000)
-            {
-                i=rand();
-            }
             
-            comidaPosition.X+=i;
-            comida->getNode()->setPosition(bebidaPosition);
+            comidaPosition.X+=500;
+		if(comidaPosition.X>2500)
+			comidaPosition.X=-1900;
+            comida->getNode()->setPosition(comidaPosition);
 
         }
        
@@ -282,13 +278,10 @@ void Protagonista::comprobarColision(Bebida *bebida)
                 energia=100;
 
             //bebida->getNode()->setVisible(false);
-            int i=rand();
-            while(i>1000)
-            {
-                i=rand();
-            }
             
-            bebidaPosition.X+=i;
+            bebidaPosition.X+=400;
+		if(bebidaPosition.X>2200)
+			bebidaPosition.X=-1800;
             bebida->getNode()->setPosition(bebidaPosition);
 
         }
