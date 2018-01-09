@@ -1,9 +1,10 @@
 #ifndef OBJETO_H
 #define OBJETO_H
 
-#include <irrlicht/irrlicht.h>
+#include <irrlicht.h>
 #include <iostream>
 #include <vector>
+#include <SFML/Graphics.hpp>
 
 #include "../headerfiles/Posicion.h"
 
@@ -30,6 +31,7 @@ class Objeto
 		//getters y setters
 
 		core::vector3df getVector3df();
+		bool  getActivado();
 		
 		void setRecogido(bool r);
 		void setActivado(bool a);

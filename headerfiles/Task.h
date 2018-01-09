@@ -3,9 +3,11 @@
 
 #include <iostream>
 #include <vector>
-#include <irrlicht/irrlicht.h>
+#include <irrlicht.h>
+#include <SFML/Graphics.hpp>
 //#include "../headerfiles/Posicion.h"
 #include "../headerfiles/Blackboard.h"
+
 
 
 
@@ -28,7 +30,7 @@ enum Status // CADA COMPORTAMIENTO, CUANDO SE EJECUTA, DEVUELVE UN ESTADO QUE ES
 	BH_INVALID,
     BH_SUCCESS, // COMPLETION STATUS --> INDICA QUE TODO HA IDO COMO SE ESPERABA ( LO DEVUELVEN LAS ACCIONES )
     BH_FAILURE, // COMPLETION STATUS --> INDICA QUE ALGO HA IDO MAL
-    BH_RUNNING, // INDICACION DE EJECUCION --> INDICA QUE LA EJECUCION ESTA EN MARCHA 
+    BH_RUNNING, // INDICACION DE EJECUCION --> INDICA QUE LA EJECUCION ESTA EN MARCHA, LA TAREA AUN SE ESTA EJECUTANDO
 	BH_ABORTED,
 };
 

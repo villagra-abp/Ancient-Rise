@@ -1,4 +1,4 @@
-#include <irrlicht/irrlicht.h>
+#include <irrlicht.h>
 #include "../headerfiles/Protagonista.h"
 #include <iostream>
 
@@ -73,52 +73,21 @@ public:
     }
     void checkInput(Protagonista *prota,const f32 Time);
     void checkSigilo(Protagonista *prota,const f32 Time);
+    void saltar(Protagonista *p,const f32 Time, bool salta);
+    void moverse(Protagonista *p,const f32 Time);
+    void atacar(Protagonista *p,bool b);
+    void defender(Protagonista *p,bool b);
+    void relentizar(Protagonista *p,const f32 Time);
+    void sprintar(Protagonista *p,const f32 Time);
+    void pos_pelea(Protagonista *p,int n);
+    void pos_defensa(Protagonista *p,int n);
+    void direccion(Protagonista *p,int n);
+    //void checkCombate(Protagonista *prota);
 
 private:
 
     bool KeyIsDown[KEY_KEY_CODES_COUNT];
     bool keyIsPressed[KEY_KEY_CODES_COUNT];
-/**
-    Funciines para poder las acciones de las teclas
-**/
-void saltar(Protagonista *p,const f32 Time, bool salta){
-    p->setSalto(salta);
-  //prota->setEnergia(-250.f, frameDeltaTime);
-}
-void moverse(Protagonista *p,const f32 Time){
-    p->movimiento(Time);
-    if(p->getCorrer()==true)
-    {
-        p->setEnergia(-40.0f,Time);
-    }
-}
-void atacar(Protagonista *p,bool b){
-    p->setAtaque(b);
-    p->setEnergia(-5.0f,.5f);
-}
-void defender(Protagonista *p,bool b){
-    p->setDefensa(b);
-}
-void relentizar(Protagonista *p,const f32 Time){
-    p->setSigilo();
-    p->setCorrer(false);
 
-}
-void sprintar(Protagonista *p,const f32 Time){
-    p->setCorrer(true);          
-}
-void pos_pelea(Protagonista *p,int n){
-    p->setAtaquePosition(n);
-    
-}
-void pos_defensa(Protagonista *p,int n){
-    
-    p->setDefensaPosition(n);
-
-}
-void direccion(Protagonista *p,int n){
-    p->setDireccion(n);
-
-}
 
 };

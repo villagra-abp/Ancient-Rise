@@ -21,7 +21,7 @@ class BehaviorTree
 		Composite* m_pRoot; 					// Tarea raiz ( a partir de la cual se ejecutan todas las demas del arbol)
 		int tipo;
 		Blackboard *board;
-		typedef vector<Composite*> Composites;
+		typedef vector<Task*> Composites;
 		Composites comp; 						// Vector con todos los composites que contiene el arbol
 		typedef vector<Task*> Tasks;
 		Tasks task;

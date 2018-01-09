@@ -24,7 +24,7 @@ void Repeat::onInitialize(Blackboard *b)
 Status Repeat::run(Enemigo *e)
 {
 	m_pChild->run(e);
-
+	
 	if(m_pChild->getStatus() == BH_RUNNING)  
 	{
 		return BH_RUNNING;

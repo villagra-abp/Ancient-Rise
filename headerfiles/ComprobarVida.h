@@ -3,7 +3,7 @@
 
 #include "../headerfiles/Task.h"
 
-// Tarea (Condicion) para comprobar la vida del enemigo de tal manera que si es baja devolvera SUCCESS
+// Tarea (Condicion) para comprobar la vida del enemigo de tal manera que si es baja devolvera SUCCESS y tendra que huir
 class ComprobarVida : public Task
 {
 	public:

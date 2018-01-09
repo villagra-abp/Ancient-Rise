@@ -5,14 +5,14 @@
 CONSTRUCTOR DE ENEMIGO BASICO
 Parametros : Irrlicht objetos, vector con posiciones para la patrulla, entero para indicar si melee/distancia, Blackboard con datos necesarios para el arbol
 **/
-EnemigoBasico::EnemigoBasico(IrrlichtDevice *dev, ISceneManager *smgr, vector<Posicion*> pos, float xlength, float pendValue, int t, Blackboard *b):Enemigo(dev, smgr, pos, xlength, pendValue), black(nullptr)
+EnemigoBasico::EnemigoBasico(IrrlichtDevice *dev, ISceneManager *smgr, vector<Posicion*> pos, float xlength, float pendValue, int t, Blackboard *b, b2World& world):Enemigo(dev, smgr, pos, xlength, pendValue), black(nullptr)
 {
 
     //ESTABLECEMOS LAS ESTADISTICAS ENEMIGO BASICO
 
     this->setEnergia(ENERGIA_MAX);
     this->setHambre(100.f);
-    this->setSalud(29.f);
+    this->setSalud(100.f);
     this->setSed(100.f);
     this->setVelocidad(VELOCIDAD_NORMAL);
 
@@ -29,24 +29,31 @@ EnemigoBasico::EnemigoBasico(IrrlichtDevice *dev, ISceneManager *smgr, vector<Po
     this->setVelHambre(-0.3);
     this->setVelSed(-0.5);
 
+
+    //this->CreateBox(world, posPatrulla[0]->getPosX()*30, posPatrulla[0]->getPosY()*30);
+
+   // velocidad2d = Body->GetLinearVelocity();
+
+    //velocidad2d.x = 40.f;
+
+
 }
 
 /**
 PARA COMPROBAR EN QUE COMPORTAMIENTO ESTA EL ENEMIGO
 **/
-void EnemigoBasico::Update(core::vector3df prota, Objeto* alarma)
+void EnemigoBasico::Update(core::vector3df prota)
 {
 	this->update(prota);                                     // Llamamos tambien al update de la clase general del enemigo y actualizamos los valores de sed - hambre del mismo
   this->comprobarEnergia();
 
   comportamiento->update(this);                           // Empezamos a ejecutar el arbol de comportamiento del enemigo
 
-  /*
-	if(this->getAvistadoProta() == true)
-	{
-		this->AvistadoProta(prota, alarma);
-	}
-	*/
+  //EnemigoPosition.X=Body->GetPosition().x*1;
+  //EnemigoPosition.Y=Body->GetPosition().y*1;
+
+  //enemigo->setPosition(EnemigoPosition);
+
 }
 
 
@@ -71,83 +78,31 @@ void EnemigoBasico::comprobarEnergia()
 
 }
 
+
 /**
-FUNCION PARA VER QUE HACE EL ENEMIGO BASICO CUANDO VE AL PROTAGONISTA
+FUNCION PARA crear el objeto dinamico
 **/
-void EnemigoBasico::AvistadoProta(core::vector3df prota, Objeto* alarma)
+
+void EnemigoBasico::CreateBox(b2World& world, float X, float Y)
 {
+
+    BodyDef.position = b2Vec2(X/SCALE, Y/SCALE);
+    BodyDef.type = b2_dynamicBody;
+    Body = world.CreateBody(&BodyDef);
+    Shape.SetAsBox((20.f/2)/SCALE, (20.f/2)/SCALE);
+    b2FixtureDef FixtureDef;
+    FixtureDef.density = 1.2f;
+    FixtureDef.friction = 0.35f;
+    FixtureDef.shape = &Shape;
+    Body->CreateFixture(&FixtureDef);
+
   
-    // HUIR - ATACAR - ACTIVAR ALARMA
-   
-   if(this->getSalud() <=30)     // HUIR
-   {
-      
-      this->setVelocidad(25.f);  // La velocidad del enemigo aumenta
-
-
-      core::vector3df posicionE = enemigo->getPosition();
-
-      if(prota.X <= posicionE.X)  // Si el protagonista esta a la izquierda, el enemigo huye hacia la derecha 
-      {
-          posicionE.X += VELOCIDAD_ENEMIGO * frameDeltaTime*3;
-
-          enemigo->setPosition(posicionE);
-      }
-      else               
-      {
-          posicionE.X -= VELOCIDAD_ENEMIGO * frameDeltaTime*3;
-
-          enemigo->setPosition(posicionE);
-      }
-
-   }
-   else
-   {
-    /*
-      this->setVelocidad(25.f);
-
-      core::vector3df alarmaPosition = alarma->getVector3df();
-
-      float distanciaAlarma = alarmaPosition.X - EnemigoPosition.X;
-
-       if (distanciaAlarma<0) // AVANZAMOS HACIA LA IZQUIERDA
-            {
-                EnemigoPosition.X-= VELOCIDAD_ENEMIGO * frameDeltaTime*3;
-
-                enemigo->setPosition(EnemigoPosition); // CAMBIAMOS LA POSICION
-
-            }
-            else{
-                if(distanciaAlarma>0) // AVANZAMOS HACIA LA DERECHA
-                {
-
-                    EnemigoPosition.X+= VELOCIDAD_ENEMIGO * frameDeltaTime*3;
-
-                    enemigo->setPosition(EnemigoPosition);
-                }
-               }
-      */
-   }
-
-
 }
-
-
-/**
-FUNCION PARA VER QUE HACE EL ENEMIGO BASICO CUANDO SUENA LA ALARMA
-**/
-void EnemigoBasico::AlarmaSonando(scene::ISceneNode *alarma)
-{
-
-   
-
-}
-
 
 
 EnemigoBasico::~EnemigoBasico()
 {
     //dtor
-
-  delete comportamiento;
+  comportamiento = nullptr;
+  //delete comportamiento;
 }

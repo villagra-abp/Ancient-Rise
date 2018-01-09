@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <unistd.h>
-#include <irrlicht/irrlicht.h>
+#include <irrlicht.h>
 
 using namespace irr; // Para poder usar cualquier clase del motor Irrlicht se utiliza el namespace irr
 using namespace std;
@@ -74,10 +74,11 @@ int main()
 	/* CREAMOS IRRLICHT DEVICE */
 
 	IrrlichtDevice *device =
-		createDevice( video::EDT_OPENGL, dimension2d<u32>(1000, 800),16, false, false, false, &receiver);
+		createDevice( video::EDT_OPENGL, dimension2d<u32>(1400, 900),16, false, false, false, &receiver);
 
 	if (!device)
 		return 1;
+	
 
 	/* CREAMOS MUNDO DEL JUEGO */
 

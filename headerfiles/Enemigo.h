@@ -5,13 +5,16 @@
 
 #include "../headerfiles/Posicion.h"
 #include "../headerfiles/Objeto.h"
-//#include "../headerfiles/BehaviorTree.h"
+#include <Box2D/Box2D.h>
+#include <Box2D/Common/b2Math.h>
+#include <GL/gl.h>
 
-#include <irrlicht/irrlicht.h>
+#include <irrlicht.h>
 #include <iostream>
 #include <vector>
 #include <math.h>
 #include <unistd.h>
+#include <ctime>
 
 using namespace irr;
 using namespace std;
@@ -21,6 +24,8 @@ using namespace scene;
 using namespace video;
 using namespace io;
 using namespace gui;
+
+#define SCALE 30.0f
 
 class BehaviorTree;
 
@@ -32,17 +37,17 @@ class Enemigo
 
         void update(core::vector3df prota);
         void updateTiempo(const f32 Time);
-        void buscarComida(scene::ISceneNode *comida);
         void actualizarHambre();
         void actualizarSed();
         virtual void comprobarEnergia()=0;
         bool checkInSight(core::vector3df objPos);
-
+        virtual void CreateBox(b2World& world, float X, float Y)=0;
 
         /* Getters y Setters */
         f32 getVelocidad();
         f32 getSed();
         f32 getSalud();
+        f32 getHambre();
         const f32 getVelNormal();
 
         int getTipo();
@@ -52,6 +57,14 @@ class Enemigo
         float getXRange();
         float getYPend();
         bool getVisto();
+        bool getLastFaceDir();
+        b2Body* getBody();
+        b2Vec2 getVelocidad2d();
+        bool getUltDirecVisto();
+        int getDefensaPosition();
+        int getAtaquePosition();
+        bool getDefiende();
+        bool getAtaca();
 
         void setSed(f32 se);
         void setEnergia(f32 e);
@@ -65,6 +78,7 @@ class Enemigo
         void setXRange(float xRange);
         void setYPend(float yPend);
         void setLastFacedDir(bool dirx);
+        void setUltDirecVisto(bool v);
       
 
         virtual ~Enemigo();
@@ -77,18 +91,16 @@ class Enemigo
         IGUIEnvironment *env;
         bool encontradoComida;                      // PARA SABER SI HA ENCONTRADO COMIDA
         f32 frameDeltaTime;
-        bool avistadoProta;
-        vector<Posicion*> posPatrulla;
+        vector<Posicion*> posPatrulla;              // Vector con las posiciones de su patrulla
 
-        const f32 VELOCIDAD_NORMAL = 15.f;          // Constante para saber cual es la velocidad normal de los enemigos que no consume energia
+        BehaviorTree *comportamiento;               // Comportamiento del enemigo
 
-        BehaviorTree *comportamiento;
-
-        /* PARA VISION */
-        bool lastFacedDir;
+        /* PARA LA VISION */
+        bool lastFacedDir;                          // Para saber a que lado esta mirando el enemigo  (True -> Derecha / False -> Izquierda)
         float visionXmax;
         float valorPendiente;
-        bool visto;
+        bool visto;     
+        bool direccVistoUlt;                        // Para saber por que lado vio por ultima vez al protagonista (True -> Derecha / False -> Izquierda)                   
 
         /* ESTADISTICAS DEL ENEMIGO */
         f32 energia;
@@ -96,11 +108,27 @@ class Enemigo
         f32 hambre;
         f32 salud;
         f32 VELOCIDAD_ENEMIGO;                      // VELOCIDAD DEL ENEMIGO
-
-
         f32 velHambre;                              // INDICA LA VELOCIDAD A LA QUE BAJA EL HAMBRE
         f32 velSed;                                 // INDICA LA VELOCIDAD A LA QUE BAJA LA SED
-        int tipo;                                   // Indica el tipo de enemigo ( 1 = Melee 2 = Distancia)                   
+        int tipo;                                   // Indica el tipo de enemigo ( 1 = Melee 2 = Distancia)          
+        const f32 VELOCIDAD_NORMAL = 15.f;          // Constante para saber cual es la velocidad normal de los enemigos que no consume energia   
+
+        b2Vec2 velocidad2d;
+
+         /* BOX2D */
+        b2Body* Body;
+        b2BodyDef BodyDef;
+        b2PolygonShape Shape;
+
+        /* COMBATE */
+
+        int posAtaque;
+        int posDefensa;
+        bool atacando;
+        bool defendiendo;
+
+        bool combate;                               // PARA SABER SI ESTA COMBATIENDO O NO
+        
 
 
 

@@ -14,7 +14,6 @@ class Comida : public Objeto
 		scene::ISceneNode* getNode();
 
 	private:
-        scene::ISceneNode * comida;
         core::vector3df comidaPosition;
 };
 

@@ -5,7 +5,7 @@
 Status ComprobarSed::run(Enemigo *e)
 {
 
-	if(e->getSed()<=35)
+	if(e->getSed()<=45)
 	{
 		return BH_SUCCESS;
 	}

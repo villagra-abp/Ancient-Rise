@@ -6,7 +6,7 @@
 
 
 /*
-Clase para poder almacenar informacion que puedan necesitar los arboles 
+Clase para poder almacenar informacion que puedan necesitar los arboles de comportamiento
 */
 class Blackboard
 {
@@ -17,10 +17,15 @@ class Blackboard
 		void setProta(float pX);
 		void setTime(const f32 T);
 		void setFuente(Objeto* f);
+		void setComida(Objeto *c);
+		void setAlarma(Objeto* a);
+
 
 		float getProta();
 		f32 getTime();
 		Objeto* getFuente();
+		Objeto* getComida();
+		Objeto* getAlarma();
 
 		virtual ~Blackboard();
 
@@ -28,7 +33,9 @@ class Blackboard
 		
 		float protaX;
 		f32 time;
-		Objeto *o;
+		Objeto *fuente;
+		Objeto *comida;
+		Objeto *alarma;
 };
 
 #endif // BLACKBOARD_H

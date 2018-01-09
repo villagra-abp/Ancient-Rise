@@ -16,6 +16,7 @@ class EnemigoAvanzado : public Enemigo
 
         void Update();
         virtual void comprobarEnergia() override;
+        virtual void CreateBox(b2World& world, float X, float Y) override;
 
         virtual ~EnemigoAvanzado();
 

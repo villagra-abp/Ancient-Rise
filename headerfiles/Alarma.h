@@ -10,7 +10,17 @@ class Alarma : public Objeto
 
 	public:
 		Alarma(ISceneManager* smgr, Posicion pos);
+		void update();
+		void checkActivada();
+		void startClock();
 		virtual ~Alarma();
+
+
+
+	private:
+
+		sf::Clock reloj; 		  			// Reloj para controlar el tiempo que tiene que estar activada la alarma
+	    int contador; 			  			// Para reiniciar el reloj cuando toca
 
 
 

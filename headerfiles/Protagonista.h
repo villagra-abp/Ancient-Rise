@@ -3,7 +3,7 @@
 
 
 
-#include <irrlicht/irrlicht.h>
+#include <irrlicht.h>
 #include <iostream>
 #include <Box2D/Box2D.h>
 #include <Box2D/Common/b2Math.h>
@@ -111,6 +111,10 @@ class Protagonista
         b2Body* Body;
         b2BodyDef BodyDef;
         b2PolygonShape Shape;
+
+
+        /* COMBATE */
+        bool combate;            // PARA SABER SI ESTA COMBATIENDO O NO
 
         
 

@@ -13,12 +13,12 @@ Clase que define el tipo mas basico de enemigo que puede haber, que puede ser a 
 class EnemigoBasico : public Enemigo
 {
     public:
-        EnemigoBasico(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos, float xlength, float pendValue, int t, Blackboard *b);
+        EnemigoBasico(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos, float xlength, float pendValue, int t, Blackboard *b, b2World& world);
 
-        void Update(core::vector3df prota, Objeto* alarma);
-        void AvistadoProta(core::vector3df prota, Objeto* alarma);
+        void Update(core::vector3df prota);
         void AlarmaSonando(scene::ISceneNode *alarma);
         virtual void comprobarEnergia() override;
+        virtual void CreateBox(b2World& world, float X, float Y) override;
 
 
 

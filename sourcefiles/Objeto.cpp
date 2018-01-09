@@ -23,7 +23,7 @@ void Objeto::setRecogido(bool r) {	recogido=r;  }   // Actualiza el valor de rec
 void Objeto::setActivado(bool a) { activado = a ;}
 
 core::vector3df Objeto::getVector3df(){	return objeto->getPosition();}
-
+bool Objeto::getActivado(){ return activado; }
 
 
 scene::ISceneNode* Objeto::getObjeto() { return objeto; }

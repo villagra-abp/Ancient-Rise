@@ -2,7 +2,7 @@
 
 
 
-Blackboard::Blackboard()
+Blackboard::Blackboard():comida(nullptr), fuente(nullptr), alarma(nullptr)
 {
 
 }
@@ -21,10 +21,18 @@ float Blackboard::getProta()
 
 Objeto* Blackboard::getFuente()
 {
-	return o;
+	return fuente;
 }
 
+Objeto* Blackboard::getComida()
+{
+	return comida;
+}
 
+Objeto* Blackboard::getAlarma()
+{
+	return alarma;
+}
 
 
 
@@ -41,11 +49,29 @@ void Blackboard::setProta(float pX)
 
 void Blackboard::setFuente(Objeto* f)
 {
-	o = f;
+	fuente= f;
+}
+
+void Blackboard::setComida(Objeto *c)
+{
+	comida = c;
+}
+
+void Blackboard::setAlarma(Objeto *a)
+{
+	alarma = a;
 }
 
 
 Blackboard::~Blackboard()
 {
     //dtor
+	comida = nullptr;
+	fuente = nullptr;
+	alarma = nullptr;
+
+
+    delete comida;
+    delete fuente;
+    delete alarma;
 }

@@ -2,10 +2,9 @@
 #define COMPROBARSED_H
 
 #include "../headerfiles/Task.h"
-#include "../headerfiles/Blackboard.h"
 
 
-// Tarea para comprobar si el enemigo tiene sed
+// Tarea (Condicion) para comprobar si el enemigo tiene sed
 class ComprobarSed : public Task
 {
 	public:

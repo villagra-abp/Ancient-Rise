@@ -42,6 +42,26 @@ void EnemigoElite::comprobarEnergia()
 
 }
 
+/**
+FUNCION PARA crear el objeto dinamico
+**/
+
+void EnemigoElite::CreateBox(b2World& world, float X, float Y)
+{
+
+    BodyDef.position = b2Vec2(X/SCALE, Y/SCALE);
+    BodyDef.type = b2_dynamicBody;
+    Body = world.CreateBody(&BodyDef);
+    Shape.SetAsBox((20.f/2)/SCALE, (20.f/2)/SCALE);
+    b2FixtureDef FixtureDef;
+    FixtureDef.density = 1.2f;
+    FixtureDef.friction = 0.35f;
+    FixtureDef.shape = &Shape;
+    Body->CreateFixture(&FixtureDef);
+
+  
+}
+
 
 EnemigoElite::~EnemigoElite()
 {

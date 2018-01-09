@@ -3,7 +3,7 @@
 
 #include "../headerfiles/Task.h"
 
-// Tarea (Condicion) para saber si hemos visto al protagonista
+// Tarea (Condicion) para saber si hemos visto al protagonista mediante la vision de los enemigos 
 class DetectarProta : public Task
 {
 	public:
@@ -15,11 +15,8 @@ class DetectarProta : public Task
 
 	private:
 		
-		Blackboard *board;
-	    float protaPosition;
+		Blackboard *board; 									// Blackboard con info
 
-	
-		
 };
 
 #endif // DETECTARPROTA_H

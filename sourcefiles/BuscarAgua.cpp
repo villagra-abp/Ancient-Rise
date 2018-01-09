@@ -4,31 +4,30 @@
 
 Status BuscarAgua::run(Enemigo *e)
 {
-    
-	frameDeltaTime = board->getTime();
-
-    e->setVelocidad(25.f);
-
-	scene::ISceneNode* enemigoNode = e->getNode();
-
+    // DATOS DEL ENEMIGO
+	enemigoNode = e->getNode();
     core::vector3df EnemigoPosition = enemigoNode->getPosition(); 
-
     float enemigoX=EnemigoPosition.X;
 
-    scene::ISceneNode* fuenteNode = f->getObjeto();
-
+    // DATOS DE LA FUENTE
+    fuenteNode = f->getObjeto();
     core::vector3df fuentePosition = fuenteNode->getPosition(); 
-
     float fuenteX=fuentePosition.X;
 
     int distanciaFuente = fuenteX - enemigoX;  // Calculamos la distancia hasta la fuente
 
+    frameDeltaTime = board->getTime();
+
+    e->setVelocidad(25.f);
+
     if (distanciaFuente<0) // AVANZAMOS HACIA LA IZQUIERDA
      {
 
-                EnemigoPosition.X-= e->getVelocidad() * frameDeltaTime*3;
+            EnemigoPosition.X-= e->getVelocidad() * frameDeltaTime*3;
 
-                e->setPosition(EnemigoPosition); // CAMBIAMOS LA POSICION
+            e->setPosition(EnemigoPosition); // CAMBIAMOS LA POSICION
+
+            e->setLastFacedDir(false);                                   
      }
      else{
             if(distanciaFuente>0) // AVANZAMOS HACIA LA DERECHA
@@ -37,10 +36,21 @@ Status BuscarAgua::run(Enemigo *e)
                 EnemigoPosition.X+= e->getVelocidad() * frameDeltaTime*3;
 
                 e->setPosition(EnemigoPosition);
+
+                e->setLastFacedDir(true);                                    
             }
             else // Si hemos llegado
             {
-                e->setSed(100.f);
+                 /* RELOJ BEBER AGUA */
+                 this->startClock();                             // INICIAMOS EL RELOJ (O RESEATEAMOS)
+
+                 int time = reloj.getElapsedTime().asSeconds();  // OBTENEMOS SU DURACION EN SEGUNDOS
+
+                 if(time>4)     // BEBIENDO
+                 {
+                     e->setSed(100.f);       // RECUPERAMOS SED
+                     contador  = 0;
+                 }
             }
         }
 
@@ -48,15 +58,30 @@ Status BuscarAgua::run(Enemigo *e)
 
 }
 
+void BuscarAgua::startClock()
+{
+    if(contador==0)
+    {
+        reloj.restart();
+        contador = contador +1;
+    }
+}
 
 void BuscarAgua::onInitialize(Blackboard *b)
 {
    f = b->getFuente();
    board = b;
+   contador = 0;
 }
 
 
 BuscarAgua::~BuscarAgua()
 {
-    
+    board = nullptr;
+    f = nullptr;
+    enemigoNode = nullptr;
+    fuenteNode = nullptr;
+
+    //delete board;
+    //delete f;
 }

@@ -36,6 +36,8 @@ Protagonista::Protagonista(IrrlichtDevice *dev, ISceneManager* smgr)
     energy->setScale(energyScale);
     life->setScale(lifeScale);
 
+    combate = false;
+
 
     
 }
@@ -53,7 +55,9 @@ void Protagonista::CreateBox(b2World& world, float X, float Y)
     FixtureDef.density = 1.2f;
     FixtureDef.friction = 0.35f;
     FixtureDef.shape = &Shape;
+    FixtureDef.isSensor = false;
     Body->CreateFixture(&FixtureDef);
+    Body->SetUserData( rec );
     //std::cout<<Body->GetMass()<<"\n";
 
   
@@ -108,7 +112,8 @@ void Protagonista::pintarInterfaz()
     energy->setScale(energyScale);
     lifeScale.X=vida/10;
     life->setScale(lifeScale);
-    //std::cout<<estaCayendo<<"\n";
+    //scene::ISceneNode * rct=static_cast<scene::ISceneNode *>(Body->GetUserData());
+    //std::cout<<rct->getPosition().X<<"\n";
 }
 
 /**
@@ -119,16 +124,19 @@ void Protagonista::ataque(const f32 Time)
     //std::cout<<ataque_position<<"\n";
     b2Vec2 pos=Body->GetPosition();
     if(cont_ataque>0 && cont_ataque<20){
+        ataca=true;
+        energia-=0.5f;
         rec->setScale(core::vector3df(1.f,.3f,1.f));
-        rec->setRotation(core::vector3df(1.f,ataque_position*100,1.f));
-        Body->SetTransform(b2Vec2(pos.x,pos.y+(ataque_position/10)), 0.f);
-        //Body->SetAngularDamping(ataque_position*5);
-        //Body->ApplyForceToCenter(b2Vec2(0.f,ataque_position*10),true);
-        if(ataca==true && direccion==1)
+        //rec->setRotation(core::vector3df(1.f,ataque_position*100,1.f));
+        if(ataque_position!=0){
+            Body->SetTransform(b2Vec2(pos.x,pos.y+(ataque_position+2)/3), 0.f);
+        }else
+            Body->SetTransform(b2Vec2(pos.x,pos.y-0.8f), 0.f);
+        if(direccion==1)
         {
             Body->ApplyForceToCenter(b2Vec2(100.f,0.f),true);
             
-        }else if(ataca==true && direccion==0){
+        }else if(direccion==0){
             Body->ApplyForceToCenter(b2Vec2(-100.f,0.f),true);
             
         } 
@@ -136,9 +144,9 @@ void Protagonista::ataque(const f32 Time)
         cont_ataque++;  
     }
     else if(cont_ataque>=20){
-        Body->ApplyForceToCenter(b2Vec2(0.f,-ataque_position*10),true);
+        //Body->ApplyForceToCenter(b2Vec2(0.f,(-ataque_position+1)*10),true);
         rec->setScale(core::vector3df(1.f,1.f,1.f));
-        rec->setRotation(core::vector3df(1.f,-ataque_position*100,1.f));
+        //rec->setRotation(core::vector3df(1.f,-ataque_position*100,1.f));
         cont_ataque=0;
         ataca=false;
     }
@@ -154,7 +162,7 @@ void Protagonista::defender(const f32 Time)
     if(cont_defensa>0){
         //Body->SetTransform(b2Vec2(pos.x,pos.y+(ataque_position/30)), 0.f);
         //Body->ApplyForceToCenter(b2Vec2(0.f,ataque_position*20),true);
-        rec->setScale(core::vector3df(.3f,defensa_position,1.f));
+        rec->setScale(core::vector3df(.3f,defensa_position+1,1.f));
         
         
     }
@@ -173,26 +181,30 @@ FUNCION PARA CONTROLAR EL MOVIMIENTO DEL PROTA
 
 void Protagonista::movimiento(const f32 Time)
 {
+    b2Vec2 velo=Body->GetLinearVelocity();
     if(direccion==0) // MOVIMIENTO HACIA LA IZQUIERDA
     {
 
         if(sigilo==true)
         {
+            velo.x=-10.f;
             //Body->ApplyForceToCenter(b2Vec2(-35.f,0.f),true);
-            Body->SetLinearVelocity(b2Vec2(-15.f,0.f));
+            Body->SetLinearVelocity(velo);
             //protaPosition.X -= VELOCIDAD_MOVIMIENTO * Time*0.5;
         }else if(correr==true && energia>10.1)
         {
-                Body->ApplyForceToCenter(b2Vec2(-150.f,0.f),true);
-                //Body->SetLinearVelocity(b2Vec2(-10000.f,0.f));
-                //protaPosition.X -= VELOCIDAD_MOVIMIENTO * Time*3;
+            velo.x=-90.f;
+            Body->ApplyForceToCenter(b2Vec2(-150.f,0.f),true);
+             //Body->SetLinearVelocity(velo);
+            //protaPosition.X -= VELOCIDAD_MOVIMIENTO * Time*3;
 
-                if(energia<10)
-                    correr=false;
+            if(energia<10)
+                correr=false;
         }else
         {
-            Body->ApplyForceToCenter(b2Vec2(-60.f,0.f),true);
-            //Body->SetLinearVelocity(b2Vec2(-50.f,0.f));
+            velo.x=-40.f;
+            //Body->ApplyForceToCenter(b2Vec2(-60.f,0.f),true);
+            Body->SetLinearVelocity(velo);
             //protaPosition.X -= VELOCIDAD_MOVIMIENTO * Time*1.5;
         }
 
@@ -201,16 +213,21 @@ void Protagonista::movimiento(const f32 Time)
     {
          if(sigilo==true)
             {
+                velo.x=10.f;
                 //Body->ApplyForceToCenter(b2Vec2(35.f,0.f),true);
-               Body->SetLinearVelocity(b2Vec2(15.f,0.f));
+               Body->SetLinearVelocity(velo);
             }else if(correr==true && energia>10.1){
+                velo.x=90.f;
                 Body->ApplyForceToCenter(b2Vec2(150.f,0.f),true);
-                //Body->SetLinearVelocity(b2Vec2(10000.f,0.f));
+                //Body->SetLinearVelocity(velo);
                 if(energia<10)
                     correr=false;
-            }else
-                Body->ApplyForceToCenter(b2Vec2(60.f,0.f),true);
-                //Body->SetLinearVelocity(b2Vec2(50.f,0.f));
+            }else{
+                velo.x=40.f;
+                //Body->ApplyForceToCenter(b2Vec2(60.f,0.f),true);
+                Body->SetLinearVelocity(velo);
+            }
+                
     }  
 
 }
@@ -220,15 +237,21 @@ FUNCION PARA COMPROBAR LAS COLISIONES CON ENEMIGOS
 void Protagonista::comprobarColision(Enemigo *enemigo)
 {
     enemigoPosition=enemigo->getNode()->getPosition();
+    int defensaEnemigo=enemigo->getDefensaPosition();
+    int ataqueEnemigo=enemigo->getAtaquePosition();
+    bool medefiende=enemigo->getDefiende();
+    bool meataca=enemigo->getAtaca();
     if((enemigoPosition.X-(protaPosition.X+10))<0 
         && (enemigoPosition.X-(protaPosition.X+10))>-20
         && vida<=100 && vida>0 && protaPosition.Y<10){
         if(ataca)
         {
-            enemigo->getNode()->setVisible(false);
+            if(medefiende && (int)ataque_position!=defensaEnemigo)
+                enemigo->getNode()->setVisible(false);
         }else if(enemigo->getNode()->isVisible() && defensa==false)
         {
-           vida-=5; 
+            if(meataca && (int)defensa_position!=ataqueEnemigo)
+                vida-=5; 
         }   
     }
     cont_recarga_enemigo++;
@@ -254,8 +277,8 @@ void Protagonista::comprobarColision(Comida *comida)
                 vida=100;
             
             comidaPosition.X+=500;
-		if(comidaPosition.X>2500)
-			comidaPosition.X=-1900;
+        if(comidaPosition.X>2500)
+            comidaPosition.X=-1900;
             comida->getNode()->setPosition(comidaPosition);
 
         }
@@ -280,8 +303,8 @@ void Protagonista::comprobarColision(Bebida *bebida)
             //bebida->getNode()->setVisible(false);
             
             bebidaPosition.X+=400;
-		if(bebidaPosition.X>2200)
-			bebidaPosition.X=-1800;
+        if(bebidaPosition.X>2200)
+            bebidaPosition.X=-1800;
             bebida->getNode()->setPosition(bebidaPosition);
 
         }
@@ -299,7 +322,7 @@ void Protagonista::comprobarColision(Trampa *trampa)
         && (trampaPosition.X-(protaPosition.X+10))>-28
         && protaPosition.Y<10){
         
-           vida-=0.3f;
+           vida-=0.4f;
            //protaPosition.X-=15; //+=15 animacion, rebote de la trampa 
        
     }
@@ -410,9 +433,10 @@ void Protagonista::setAtaquePosition(int d)
 }
 void Protagonista::setAtaque(bool d)
 {
-    ataca=d;
-    if(cont_ataque==0 && !saltando && energia>10)
+    //ataca=d;
+    if(cont_ataque==0 && !saltando && energia>10){
         cont_ataque=1;
+    }
 }
 void Protagonista::setDefensaPosition(int d)
 {

@@ -24,17 +24,24 @@ Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos
 
     env = dev->getGUIEnvironment();
 
-    encontradoComida=false,
-    avistadoProta = false;
-
      //Parametros para el rango de vision del personaje.
     lastFacedDir = true;
     visionXmax = xlength;
     valorPendiente = pendValue;
     visto = false;
-
+    direccVistoUlt = false;
 
     posPatrulla = pos;                  // Guardamos el vector con las posiciones de la patrulla del enemigo
+
+    posAtaque = 1;
+    posDefensa = posAtaque;
+
+    atacando = true;
+    defendiendo = true;
+
+   // combatiendo = false;
+
+
 
 }
 
@@ -44,10 +51,16 @@ void Enemigo::update(core::vector3df prota)
         this->actualizarHambre(); 
         this->actualizarSed();
 
-        if(this->checkInSight(prota)){
+        if(this->checkInSight(prota)){              // COMPROBAMOS SI HEMOS VISTO AL PROTAGONISTA 
             visto = true;
+
+            //cout<<"visto"<<endl;
+            
         }else{
             visto = false;
+
+            //cout<<"NOvisto"<<endl;
+            
 
         }
 
@@ -78,37 +91,16 @@ void Enemigo::actualizarSed()
 
 }
 
-
-
-/**
-FUNCION PARA QUE EL ENEMIGO BUSQUE COMIDA CUANDO SU STAT DE HAMBRE ES BAJO
-**/
-void Enemigo::buscarComida(scene::ISceneNode *comida)
-{
-
-    this->setVelocidad(15.f);
-
-    core::vector3df comidaPosition = comida->getPosition();
-
-    float ComidaX = comidaPosition.X;
-    float EnemigoX = EnemigoPosition.X;
-
-    int distanciaComida = ComidaX - EnemigoX;  // DISTANCIA HASTA LA COMIDA
-
-    //this->ComprobarDistancia(distanciaComida);
-
-    if(distanciaComida==0) // HA LLEGADO HASTA LA COMIDA
-    {
-        encontradoComida=true;
-        hambre=100.f;   // RECARGA EL HAMBRE
-    }
-}
-
 void Enemigo::updateTiempo(const f32 Time)
 {
     frameDeltaTime = Time;
 }
 
+
+/**
+FUNCION QUE SIRVE PARA SABER SI UN DETERMINADO OBJETO DEL JUEGO ESTA DENTRO DEL AREA DE VISION DEFINIDO PARA EL ENEMIGO. 
+DEVUELVE TRUE EN EL CASO DE ESTARLO
+**/
 bool Enemigo::checkInSight(core::vector3df objPos){
     bool inSight = false;  //Valor para retorno, si la posicion recibida se encuentra
     // dentro del rango de vision sera TRUE.
@@ -197,8 +189,6 @@ bool Enemigo::checkInSight(core::vector3df objPos){
 A PARTIR DE AQUI VAN TODOS LOS GETS Y LOS SETS
 ==============================================
 **/
-
-
 scene::ISceneNode* Enemigo::getNode()
 {
     return enemigo;
@@ -215,14 +205,14 @@ f32 Enemigo::getSed()
     return sed;
 }
 
-bool Enemigo::getAvistadoProta()
-{
-    return avistadoProta;
-}
-
 f32 Enemigo::getSalud()
 {
     return salud;
+}
+
+f32 Enemigo::getHambre()
+{
+    return hambre;
 }
 
 vector<Posicion*> Enemigo::getPosicion()
@@ -251,7 +241,45 @@ float Enemigo::getYPend(){
 bool Enemigo::getVisto(){
     return visto;
 }
+bool Enemigo::getLastFaceDir()
+{
+    return lastFacedDir;
+}
 
+b2Body* Enemigo::getBody()
+{
+    return Body;
+}
+
+b2Vec2 Enemigo::getVelocidad2d()
+{
+    return velocidad2d;
+}
+
+bool Enemigo::getUltDirecVisto()
+{
+    return direccVistoUlt;
+}
+
+int Enemigo::getDefensaPosition()
+{
+    return posDefensa;
+}
+
+int Enemigo::getAtaquePosition()
+{
+    return posAtaque;
+}
+
+bool Enemigo::getDefiende()
+{
+    return defendiendo;
+}
+
+bool Enemigo::getAtaca()
+{
+    return atacando;
+}
 
 
 void Enemigo::setSalud(f32 s)
@@ -272,6 +300,8 @@ void Enemigo::setHambre(f32 h)
 void Enemigo::setVelocidad(f32 v)
 {
     VELOCIDAD_ENEMIGO=v;
+
+   // velocidad2d.x = v;
 }
 
 void Enemigo::setSed(f32 se)
@@ -282,11 +312,7 @@ void Enemigo::setSed(f32 se)
 void Enemigo::setPosition(vector3df position)
 {
     enemigo->setPosition(position);
-}
-
-void Enemigo::setAvistadoProta(bool a)
-{
-    avistadoProta = a;
+    EnemigoPosition = position;
 }
 
 void Enemigo::setVelHambre(f32 v)
@@ -301,6 +327,11 @@ void Enemigo::setVelSed(f32 v)
 
 void Enemigo::setLastFacedDir(bool dirx){
     lastFacedDir = dirx;
+}
+
+void Enemigo::setUltDirecVisto(bool v)
+{
+    direccVistoUlt = v;
 }
 
 

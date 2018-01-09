@@ -15,6 +15,7 @@ class EnemigoElite : public Enemigo
 
         void Update(core::vector3df prota, Objeto* alarma);
         virtual void comprobarEnergia() override;
+        virtual void CreateBox(b2World& world, float X, float Y) override;
 
 
 

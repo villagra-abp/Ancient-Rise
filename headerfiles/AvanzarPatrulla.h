@@ -12,6 +12,7 @@ class AvanzarPatrulla : public Task
 		
 		virtual Status run(Enemigo *e) override;   			// Hasta que no ponga el override y se declare los metodos abstractos, la clase no deja de ser abstracta al igual que la de su padre
 		virtual void onInitialize(Blackboard *b) override;
+		void startClock();
 		virtual ~AvanzarPatrulla();
 
 
@@ -22,6 +23,9 @@ class AvanzarPatrulla : public Task
 		float protaPosition;	  
 		f32 frameDeltaTime;		  // Tiempo
 		Blackboard *board;		  // Blackboard con los datos necesarios
+		scene::ISceneNode* enemigoNode;
+		sf::Clock reloj; 		  			// Reloj para controlar el tiempo que esta parado el enemigo en una posicion de la patrulla
+	    int contadorReloj; 			  			// Para reiniciar el reloj cuando toca
 
 	
 		

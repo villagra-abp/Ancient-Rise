@@ -22,7 +22,7 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
  debido a que lo necesita el motor de irrlicht
 **/
 
-	device->setWindowCaption(L"BehaviorTree : Patrulla");
+	device->setWindowCaption(L"Ancient Rise");
 
 	
 
@@ -36,7 +36,7 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
     	prota->CreateGround(world, 6600.f, 900.f,3200);
     	prota->CreateGround(world, 9600.f, 1800.f,3200);
     	prota->CreateGround(world, 12600.f, 2700.f,3200);
-    	prota->CreateBox(world, 0.f, 200.f);
+    	prota->CreateBox(world, -5000.f, 0.f);
 
 
 /* CREAMOS VECTOR DE POSICIONES PARA EL ENEMIGO */
@@ -45,13 +45,13 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 
 /* CREAMOS OBJETOS */
 
-	Posicion pC(-150.f, 0.f, 30.f);
+	Posicion pC(150.f, 0.f, 30.f);
 	c = new Comida(smgr, pC);
 
-	Posicion pF(-190.f,0.f,30.f);
+	Posicion pF(-190.f,0.f,40.f);
 	f = new Fuente(smgr, pF);
 
-	Posicion pA(300.f,0.f,30.f);
+	Posicion pA(140.f,0.f,40.f);
 	a = new Alarma(smgr, pA);
 
 	Posicion posbebida(-300,0,30.f);
@@ -63,16 +63,18 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 /* CREAMOS LA BLACKBOARD */
 
 	b=new Blackboard();
-	b->setFuente(f);
+	 b->setFuente(f);
+	 b->setComida(c);
+	 b->setAlarma(a);
 
 /* CREAMOS ENEMIGOS BASICOS */
-
-	enem1 = new EnemigoBasico(device, smgr, pos, 100.0, 0.36, 1, b);
+	
+	enem1 = new EnemigoBasico(device, smgr, pos, 100.0, 0.36, 2, b, world);
 	enemB.push_back(enem1);
 
-	enem2 = new EnemigoBasico(device, smgr, pos2, 100.0, 0.36, 1, b);
+	enem2 = new EnemigoBasico(device, smgr, pos2, 100.0, 0.36, 1, b, world);
 	enemB.push_back(enem2);
-
+	
 /* CREAMOS PLATAFORMAS */
 
 	Plataforma = smgr->addCubeSceneNode();
@@ -128,24 +130,24 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 }	
 
 void Mundo::posBuilder(){	//CONSTRUCTOR DE POSICIONES DE ENEMIGOS
-	Posicion *p0, *p1, *p2, *p3, *p4, *p5, *p6, *p7;
 
-	p0 = new Posicion(40.f,0.f,30.f);
+	Posicion *p0 = new Posicion(40.f,0.f,30.f);
   	pos.push_back(p0);
-  	p1 = new Posicion(0.f,0.f,30.f);
+  	Posicion *p1 = new Posicion(0.f,0.f,30.f);
   	pos.push_back(p1);
-  	p2 = new Posicion(-40.f,0.f,30.f);
+  	Posicion *p2 = new Posicion(-40.f,0.f,30.f);
   	pos.push_back(p2);
-  	p3 = new Posicion(-60.f,0.f,30.f);
+  	Posicion *p3 = new Posicion(-60.f,0.f,30.f);
   	pos.push_back(p3);
-  	p4 = new Posicion(-80.f,0.f,30.f);
-  	pos.push_back(p4);	 
-  	p5 = new Posicion(60.f,0.f,30.f);
+  	Posicion *p4 = new Posicion(-80.f,0.f,30.f);
+	pos.push_back(p4);
+
+	Posicion *p5 = new Posicion(60.f,0.f,30.f);
   	pos2.push_back(p5);
-  	p6 = new Posicion(80.f,0.f,30.f);
+  	Posicion *p6 = new Posicion(80.f,0.f,30.f);
   	pos2.push_back(p6);
-  	p7 = new Posicion(100.f,0.f,30.f);
-  	pos2.push_back(p7);
+  	Posicion *p7 = new Posicion(100.f,0.f,30.f);
+	pos2.push_back(p7);
 }
 
 void Mundo::terrainBuilder(){	//CONSTRUCTOR DEL TERRENOS Y COLISIONES DE CAMARA
@@ -239,13 +241,16 @@ void Mundo::update(){
     b->setTime(frameDeltaTime);
     b->setProta(protaPosition.X);
 
+    /* ALARMA UPDATE*/
+    a->update();
+
 
     /* UPDATE DE LOS ENEMIGOS */
-
+    
     for(int i=0; i<enemB.size();i++)
     {
        	enemB[i]->updateTiempo(frameDeltaTime);
-     	enemB[i]->Update(prota->getPosition(), a);
+     	enemB[i]->Update(prota->getPosition());
     }
 
     /* DRAW SCENE */
@@ -277,8 +282,8 @@ void Mundo::protaUpdate(const u32 now, const f32 frameDeltaTime, f32 tiempo){
 
         prota->updateBody(world);
 
-    if(!prota->checkVida());
-       	//return 0;
+     if(!prota->checkVida())
+		device->closeDevice();
 
     if(tiempo>0.2f)
     {
@@ -360,7 +365,7 @@ void Mundo::draw(){
 Mundo::~Mundo()	//DESTRUCTOR
 {
 	delete prota;
-		
+	
 	for(int cont=0; cont<enemB.size();cont++)
 	{
 		delete enemB[cont];
