@@ -22,7 +22,7 @@
 
 #include <iostream>
 #include <unistd.h>
-#include <irrlicht.h>
+#include <irrlicht/irrlicht.h>
 #include <vector>
 
 using namespace irr; // Para poder usar cualquier clase del motor Irrlicht se utiliza el namespace irr
@@ -112,6 +112,9 @@ class Mundo
     	scene::ISceneNode* Plataforma;
 	scene::ISceneNode* Plataforma2;
 	scene::ISceneNode* Plataforma3;
+    scene::ISceneNode* Plataforma4;
+    
+
 
     	//CAMARA
     	scene::ICameraSceneNode* cam;

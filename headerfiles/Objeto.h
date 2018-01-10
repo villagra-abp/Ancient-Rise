@@ -1,7 +1,7 @@
 #ifndef OBJETO_H
 #define OBJETO_H
 
-#include <irrlicht.h>
+#include <irrlicht/irrlicht.h>
 #include <iostream>
 #include <vector>
 #include <SFML/Graphics.hpp>

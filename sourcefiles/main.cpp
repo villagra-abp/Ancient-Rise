@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <unistd.h>
-#include <irrlicht.h>
+#include <irrlicht/irrlicht.h>
 
 using namespace irr; // Para poder usar cualquier clase del motor Irrlicht se utiliza el namespace irr
 using namespace std;

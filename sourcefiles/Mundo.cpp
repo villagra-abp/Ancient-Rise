@@ -45,20 +45,20 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 
 /* CREAMOS OBJETOS */
 
-	Posicion pC(150.f, 0.f, 30.f);
-	c = new Comida(smgr, pC);
+	Posicion pC(-40.f, 0.f, 30.f);
+	c = new Comida(device, smgr, pC);
 
 	Posicion pF(-190.f,0.f,40.f);
-	f = new Fuente(smgr, pF);
+	f = new Fuente(device, smgr, pF);
 
 	Posicion pA(140.f,0.f,40.f);
-	a = new Alarma(smgr, pA);
+	a = new Alarma(device, smgr, pA);
 
 	Posicion posbebida(-300,0,30.f);
- 	bebida = new Bebida(smgr, posbebida);
+ 	bebida = new Bebida(device, smgr, posbebida);
 
-	Posicion postrampa(330,0,30.f);
- 	t = new Trampa(smgr, postrampa);
+	Posicion postrampa(520,0,30.f);
+ 	t = new Trampa(device, smgr, postrampa);
 
 /* CREAMOS LA BLACKBOARD */
 
@@ -84,6 +84,7 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 		Plataforma->setPosition(core::vector3df(220,25,30));
 		Plataforma->setScale(core::vector3df(10.f,1.f,5.f));
 		Plataforma->setMaterialFlag(video::EMF_LIGHTING, false);
+		Plataforma->setMaterialTexture(0,driver->getTexture("../resources/plataf.bmp"));
 	}
 
 	Plataforma2= smgr->addCubeSceneNode();
@@ -93,6 +94,7 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 		Plataforma2->setPosition(core::vector3df(320,55,30));
 		Plataforma2->setScale(core::vector3df(10.f,1.f,5.f));
 		Plataforma2->setMaterialFlag(video::EMF_LIGHTING, false);
+		Plataforma2->setMaterialTexture(0,driver->getTexture("../resources/plataf.bmp"));
 	}
 
 	Plataforma3= smgr->addCubeSceneNode();
@@ -102,7 +104,23 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 		Plataforma3->setPosition(core::vector3df(420,85,30));
 		Plataforma3->setScale(core::vector3df(10.f,1.f,5.f));
 		Plataforma3->setMaterialFlag(video::EMF_LIGHTING, false);
+		Plataforma3->setMaterialTexture(0,driver->getTexture("../resources/plataf.bmp"));
 	}
+
+	Plataforma4= smgr->addCubeSceneNode();
+
+	if (Plataforma4) /** SI HEMOS CREADO EL CUBO **/
+	{
+		Plataforma4->setPosition(core::vector3df(570,85,30));
+		Plataforma4->setScale(core::vector3df(5.f,1.f,5.f));
+		Plataforma4->setMaterialFlag(video::EMF_LIGHTING, false);
+		Plataforma4->setMaterialTexture(0,driver->getTexture("../resources/plataf.bmp"));
+	}
+
+
+
+	
+
 
 /** ESTABLECEMOS LA CAMARA
  Aqui indicamos la posicion de la camara en el espacio 3d. En este caso,

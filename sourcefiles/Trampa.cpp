@@ -2,15 +2,20 @@
 
 
 
-Trampa::Trampa(ISceneManager* smgr, Posicion pos):Objeto()
+Trampa::Trampa(IrrlichtDevice *dev, ISceneManager* smgr, Posicion pos):Objeto()
 {
 
-	trampa = smgr->addCubeSceneNode();
+	objeto = smgr->addCubeSceneNode();
 
-	if (trampa)
+	if (objeto)
 	{
-		trampa ->setPosition(core::vector3df(pos.getPosX(),pos.getPosY(),pos.getPosZ()));
-		trampa ->setScale(core::vector3df(2.5f,1.5f,2.5f));
+
+		driver = dev->getVideoDriver();
+		objeto ->setPosition(core::vector3df(pos.getPosX(),pos.getPosY(),pos.getPosZ()));
+		objeto ->setScale(core::vector3df(2.5f,1.5f,2.5f));
+		objeto ->setMaterialFlag(video::EMF_LIGHTING, false);
+		objeto ->setMaterialTexture(0,driver->getTexture("../resources/pinchos.jpeg"));
+
 	}
 }
 
@@ -18,6 +23,6 @@ Trampa::Trampa(ISceneManager* smgr, Posicion pos):Objeto()
 
 scene::ISceneNode* Trampa::getNode()
 {
-    return trampa;
+    return objeto;
 }
 

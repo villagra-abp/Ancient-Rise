@@ -14,8 +14,10 @@ Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos
 
     if (enemigo) /** SI HEMOS CREADO EL CUBO **/
 	{
+        driver = dev->getVideoDriver();
 		enemigo->setPosition(core::vector3df(pos[0]->getPosX(),pos[0]->getPosY(),pos[0]->getPosZ())); // INDICAMOS SU POS INICIAL ( QUE VIENE INDICADA EN EL ARRAY TAMBIEN)
-		enemigo->setMaterialFlag(video::EMF_LIGHTING, false);
+		enemigo ->setMaterialFlag(video::EMF_LIGHTING, false);
+        enemigo ->setMaterialTexture(0,driver->getTexture("../resources/activada.jpeg"));
 
         EnemigoPosition = enemigo->getPosition();
 

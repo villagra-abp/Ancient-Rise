@@ -2,15 +2,18 @@
 
 
 
-Alarma::Alarma(ISceneManager* smgr, Posicion pos):Objeto()
+Alarma::Alarma(IrrlichtDevice *dev, ISceneManager* smgr, Posicion pos):Objeto()
 {
 	objeto = smgr->addCubeSceneNode();
 
 	if (objeto)
 	{
+		driver = dev->getVideoDriver();
 		objeto ->setPosition(core::vector3df(pos.getPosX(),pos.getPosY(),pos.getPosZ()));
-		objeto->setMaterialFlag(video::EMF_LIGHTING, false);
 		objeto ->setScale(core::vector3df(1.f,6.f,1.f));
+		objeto ->setMaterialFlag(video::EMF_LIGHTING, false);
+		objeto ->setMaterialTexture(0,driver->getTexture("../resources/desactivada.jpeg"));
+
 	}
 
 	contador = 0;
@@ -31,7 +34,8 @@ void Alarma::checkActivada()
 {
 	if( activado == true)
 	{
-		objeto->setMaterialFlag(video::EMF_LIGHTING, true);
+		objeto ->setMaterialFlag(video::EMF_LIGHTING, false);
+		objeto ->setMaterialTexture(0,driver->getTexture("../resources/activada.jpeg"));
 
 		this->startClock();
 
@@ -40,7 +44,8 @@ void Alarma::checkActivada()
 		if(time>8) 		// DURACION ALARMA ACTIVADA
 		{
 			activado = false;
-			objeto->setMaterialFlag(video::EMF_LIGHTING, false);
+			objeto ->setMaterialFlag(video::EMF_LIGHTING, false);
+			objeto ->setMaterialTexture(0,driver->getTexture("../resources/desactivada.jpeg"));
 			contador = 0; 		// Reseteo reloj
 		}
 	}

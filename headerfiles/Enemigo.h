@@ -9,7 +9,7 @@
 #include <Box2D/Common/b2Math.h>
 #include <GL/gl.h>
 
-#include <irrlicht.h>
+#include <irrlicht/irrlicht.h>
 #include <iostream>
 #include <vector>
 #include <math.h>
@@ -85,7 +85,7 @@ class Enemigo
 
     protected:
         scene::ISceneNode * enemigo;
-
+        IVideoDriver*       driver;
         core::vector3df EnemigoPosition;            // VECTOR 3D CON LA POSICION DEL ENEMIGO 
         int contadorPatrulla;                       // PARA SABER LA POSICION EN LA QUE SE ENCUENTRA EN LA PATRULLA
         IGUIEnvironment *env;
