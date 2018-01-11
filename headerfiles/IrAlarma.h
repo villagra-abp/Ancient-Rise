@@ -18,6 +18,7 @@ class IrAlarma : public Task
 		Blackboard *board;
 	    f32 frameDeltaTime;		  // Tiempo
 	    Objeto *a;
+	    scene::ISceneNode* enemigoNode;
 	
 		
 };

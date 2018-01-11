@@ -39,9 +39,6 @@ EnemigoBasico::EnemigoBasico(IrrlichtDevice *dev, ISceneManager *smgr, vector<Po
 
 }
 
-/**
-PARA COMPROBAR EN QUE COMPORTAMIENTO ESTA EL ENEMIGO
-**/
 void EnemigoBasico::Update(core::vector3df prota)
 {
 	this->update(prota);                                     // Llamamos tambien al update de la clase general del enemigo y actualizamos los valores de sed - hambre del mismo
@@ -104,5 +101,6 @@ EnemigoBasico::~EnemigoBasico()
 {
     //dtor
   comportamiento = nullptr;
+  black = nullptr;
   //delete comportamiento;
 }

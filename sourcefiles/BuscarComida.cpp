@@ -19,6 +19,7 @@ Status BuscarComida::run(Enemigo *e)
     frameDeltaTime = board->getTime();
 
     e->setVelocidad(25.f);
+    e->setCombate(false);
 
     if (distanciaComida<0) // AVANZAMOS HACIA LA IZQUIERDA
      {

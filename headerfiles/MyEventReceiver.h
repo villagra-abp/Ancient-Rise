@@ -1,4 +1,4 @@
-#include <irrlicht/irrlicht.h>
+#include <irrlicht.h>
 #include "../headerfiles/Protagonista.h"
 #include <iostream>
 
@@ -73,11 +73,12 @@ public:
     }
     void checkInput(Protagonista *prota,const f32 Time);
     void checkSigilo(Protagonista *prota,const f32 Time);
+    void checkCombate(Protagonista *prota);
     void saltar(Protagonista *p,const f32 Time, bool salta);
     void moverse(Protagonista *p,const f32 Time);
     void atacar(Protagonista *p,bool b);
     void defender(Protagonista *p,bool b);
-    void relentizar(Protagonista *p,const f32 Time);
+    void ralentizar(Protagonista *p,const f32 Time);
     void sprintar(Protagonista *p,const f32 Time);
     void pos_pelea(Protagonista *p,int n);
     void pos_defensa(Protagonista *p,int n);

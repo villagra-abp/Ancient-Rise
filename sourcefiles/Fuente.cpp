@@ -13,7 +13,7 @@ Fuente::Fuente(IrrlichtDevice *dev, ISceneManager* smgr, Posicion pos):Objeto()
 	{
 		driver = dev->getVideoDriver();
 		objeto->setPosition(core::vector3df(pos.getPosX(),pos.getPosY(),pos.getPosZ()));
-		objeto ->setScale(core::vector3df(3.f,1.f,1.f));
+		objeto ->setScale(core::vector3df(2.5f,1.f,1.f));
 		objeto ->setMaterialFlag(video::EMF_LIGHTING, false);
 		objeto ->setMaterialTexture(0,driver->getTexture("../resources/gota.jpg"));
 

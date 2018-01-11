@@ -3,6 +3,7 @@
 
 
 #include "../headerfiles/Enemigo.h"
+#include "../headerfiles/BehaviorTree.h"
 
 
 /*
@@ -11,9 +12,9 @@ Clase que define el tipo de enemigo mas fuerte, con mecanicas especiales. Dos ti
 class EnemigoElite : public Enemigo
 {
     public:
-        EnemigoElite(IrrlichtDevice *dev, ISceneManager *smgr, vector<Posicion*> pos, float xlength, float pendValue, int t);
+        EnemigoElite(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos, float xlength, float pendValue, int t, Blackboard *b, b2World& world);
 
-        void Update(core::vector3df prota, Objeto* alarma);
+        void Update(core::vector3df prota);
         virtual void comprobarEnergia() override;
         virtual void CreateBox(b2World& world, float X, float Y) override;
 
@@ -23,7 +24,7 @@ class EnemigoElite : public Enemigo
         virtual ~EnemigoElite();
 
     private:
-
+    	Blackboard *black;
     	const f32 ENERGIA_MAX=100.f;
 
 

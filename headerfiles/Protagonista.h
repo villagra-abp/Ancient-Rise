@@ -3,7 +3,7 @@
 
 
 
-#include <irrlicht/irrlicht.h>
+#include <irrlicht.h>
 #include <iostream>
 #include <Box2D/Box2D.h>
 #include <Box2D/Common/b2Math.h>
@@ -60,6 +60,7 @@ class Protagonista
 
          bool getSigilo();
          bool getCorrer();
+
          void setSigilo();
          void setCorrer(bool c);
          void setDireccion(int d);
@@ -73,6 +74,12 @@ class Protagonista
          void updateBody(b2World& world);
          bool checkVida();
 
+         /* COMBATE */
+         bool getCombate();
+         void setCombate();
+         void setPosCombate(int n);
+         int getPosCombate();
+         void checkPosCombate();
 
 
 
@@ -86,11 +93,10 @@ class Protagonista
         bool saltando=false;
         bool sigilo=false;
         bool correr=false;
-        bool ataca=false;
         bool defensa=false;
         bool estaEnSuelo=false;
         bool estaCayendo=true;
-        int direccion=1;      // 0 --> Izquierda, 1 --> Derecha
+        int direccion=1;      // Para saber la direccion a la que esta mirando el prota (0 --> Izquierda, 1 --> Derecha)
         float ataque_position=0;    //0--> abajo.  1--> centro,  2-->arriba
         float defensa_position=0;    //0--> abajo.  1--> centro,  2-->arriba
         int cont_ataque=0;
@@ -115,7 +121,8 @@ class Protagonista
 
         /* COMBATE */
         bool combate;            // PARA SABER SI ESTA COMBATIENDO O NO
-
+        int pos_combate;        // INDICA LA POSICION DE COMBATE (1 = ARRIBA, 2 = CENTRO, 3 = ABAJO)
+        bool ataca=false;       // PROTA ATACANDO O NO
         
 
 };

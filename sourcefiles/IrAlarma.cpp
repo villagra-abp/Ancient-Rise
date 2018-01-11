@@ -8,7 +8,7 @@ Status IrAlarma::run(Enemigo *e)
    float alarmaX=alarmaPosition.X;
 
    	// DATOS  ENEMIGO
-   scene::ISceneNode* enemigoNode = e->getNode();
+   enemigoNode = e->getNode();
    core::vector3df EnemigoPosition = enemigoNode->getPosition(); 
    float enemigoX=EnemigoPosition.X;
 
@@ -26,6 +26,8 @@ Status IrAlarma::run(Enemigo *e)
         EnemigoPosition.X-= e->getVelocidad() * frameDeltaTime;
 
         e->setPosition(EnemigoPosition);
+
+        e->setLastFacedDir(false);                                    // INDICAMOS QUE EL ENEMIGO ESTA MIRANDO A LA IZQUIERDA 
     }
     else{
            if(distanciaAlarma>0) // AVANZAMOS HACIA LA DERECHA
@@ -34,6 +36,8 @@ Status IrAlarma::run(Enemigo *e)
                EnemigoPosition.X+= e->getVelocidad() * frameDeltaTime;
 
                e->setPosition(EnemigoPosition);
+
+                e->setLastFacedDir(true);                                // INDICAMOS QUE EL ENEMIGO ESTA MIRANDO A LA DERECHA
            }
           
        }
@@ -59,7 +63,8 @@ IrAlarma::~IrAlarma()
 {
     board = nullptr;
     a = nullptr;
+    enemigoNode = nullptr;
 
-    delete board;
-    delete a;
+    //delete board;
+    //delete a;
 }

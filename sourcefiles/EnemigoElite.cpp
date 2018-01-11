@@ -1,7 +1,7 @@
 #include "../headerfiles/EnemigoElite.h"
 
 
-EnemigoElite::EnemigoElite(IrrlichtDevice *dev, ISceneManager *smgr, vector<Posicion*> pos, float xlength, float pendValue, int t):Enemigo(dev, smgr, pos, xlength, pendValue)
+EnemigoElite::EnemigoElite(IrrlichtDevice *dev, ISceneManager *smgr, vector<Posicion*> pos, float xlength, float pendValue, int t, Blackboard *b, b2World& world):Enemigo(dev, smgr, pos, xlength, pendValue), black(nullptr)
 {
 
     //ESTABLECEMOS LAS ESTADISTICAS ENEMIGO AVANZADO
@@ -14,11 +14,31 @@ EnemigoElite::EnemigoElite(IrrlichtDevice *dev, ISceneManager *smgr, vector<Posi
 
     tipo = t;
 
-    //black = b;                                             // Guardamos la blackboard 
+    enemigo->setMaterialFlag(video::EMF_LIGHTING, true);
+
+    black = b;                                             // Guardamos la blackboard 
+
+    /* CREAMOS EL ARBOL DE COMPORTAMIENTO DEL ENEMIGO ELITE PASANDOLE LA BLACKBOARD */
+
+    comportamiento = new BehaviorTree(2, b);  
 
      /* Velocidad a la que bajan las estadisticas del enemigo */
     this->setVelHambre(-0.1);
     this->setVelSed(-0.2);
+
+}
+
+void EnemigoElite::Update(core::vector3df prota)
+{
+  this->update(prota);                                     // Llamamos tambien al update de la clase general del enemigo y actualizamos los valores de sed - hambre del mismo
+  this->comprobarEnergia();
+
+  comportamiento->update(this);                           // Empezamos a ejecutar el arbol de comportamiento del enemigo
+
+  //EnemigoPosition.X=Body->GetPosition().x*1;
+  //EnemigoPosition.Y=Body->GetPosition().y*1;
+
+  //enemigo->setPosition(EnemigoPosition);
 
 }
 
@@ -65,5 +85,6 @@ void EnemigoElite::CreateBox(b2World& world, float X, float Y)
 
 EnemigoElite::~EnemigoElite()
 {
-
+    black = nullptr;
+    comportamiento = nullptr;
 }

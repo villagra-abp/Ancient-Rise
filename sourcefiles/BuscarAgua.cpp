@@ -19,6 +19,7 @@ Status BuscarAgua::run(Enemigo *e)
     frameDeltaTime = board->getTime();
 
     e->setVelocidad(25.f);
+    e->setCombate(false);
 
     if (distanciaFuente<0) // AVANZAMOS HACIA LA IZQUIERDA
      {

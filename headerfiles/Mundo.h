@@ -22,7 +22,8 @@
 
 #include <iostream>
 #include <unistd.h>
-#include <irrlicht/irrlicht.h>
+#include <irrlicht.h>
+#include <SFML/Graphics.hpp>
 #include <vector>
 
 using namespace irr; // Para poder usar cualquier clase del motor Irrlicht se utiliza el namespace irr
@@ -50,6 +51,7 @@ class Mundo
     	//DEFINICION DE TIPOS
     	typedef vector<Posicion*> patrulla;
     	typedef vector<EnemigoBasico*> enemigosBasicos;
+        typedef vector<EnemigoElite*> enemigosElites;
 
     	//CONSTRUCTOR Y DESTRUCTOR
         Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver);
@@ -92,14 +94,14 @@ class Mundo
     	scene::ISceneNode* 	Terrain;
 
     	//POSICIONES ENEMIGOS
-    	patrulla pos, pos2;	//Vector de posiciones  1 y 2
+    	patrulla pos, pos2, pos3;	//Vector de posiciones para los enemigos
 
     	//OBJETOS
     	Comida *c;
     	Fuente *f;
     	Alarma *a;
-	Trampa *t;
-	Bebida *bebida;
+	    Trampa *t;
+	    Bebida *bebida;
 
     	//BLACKBOARD
     	Blackboard *b;
@@ -108,13 +110,13 @@ class Mundo
     	enemigosBasicos enemB;	//Vector de enemigos Basicos
     	EnemigoBasico 	*enem1, *enem2;
 
+        enemigosElites enemE;
+        EnemigoElite *enemE1;
+
     	//PLATAFORMAS
     	scene::ISceneNode* Plataforma;
-	scene::ISceneNode* Plataforma2;
-	scene::ISceneNode* Plataforma3;
-    scene::ISceneNode* Plataforma4;
-    
-
+	    scene::ISceneNode* Plataforma2;
+	    scene::ISceneNode* Plataforma3;
 
     	//CAMARA
     	scene::ICameraSceneNode* cam;
@@ -131,9 +133,16 @@ class Mundo
     	u32 then;
     	u32 time_input;
 
-	//MUNDO BOX2D
-	b2Vec2 gravedad=b2Vec2(0.f, -9.8f*20);
-	b2World world=b2World(gravedad);
+    	//MUNDO BOX2D
+    	b2Vec2 gravedad=b2Vec2(0.f, -9.8f*20);
+    	b2World world=b2World(gravedad);
+
+         /* VARIABLES PARA RECUPERACION DE ENERGIA PROTAGONISTA */
+        float energiaAnterior;
+        float energiaActual;
+        float energiaDelta;
+        sf::Clock relojDescanso;
+        float tiempoTrans;
 
 
     private:

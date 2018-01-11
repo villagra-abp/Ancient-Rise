@@ -20,7 +20,7 @@ BehaviorTree::BehaviorTree(int c, Blackboard *b):board(b)
 	/* Seleccionamos el comportamiento del enemigo */
 	switch (c)
 	{
-		case 1: /* Comportamiento Enemigos Basicos */
+		case 1: /* Comportamiento Enemigos Basicos/Avanzados*/
 		 {
 			/* CREACION DE TAREAS */
 			AvanzarPatrulla *avanzarP = new AvanzarPatrulla();  	// Patrulla
@@ -163,8 +163,74 @@ BehaviorTree::BehaviorTree(int c, Blackboard *b):board(b)
 
 			break;
 		}
-		case 2: /* Comportamiento Enemigos Avanzados */
-		{
+		case 2: /* Comportamiento Enemigos Elites */
+		{	
+			/* CREACION DE TAREAS */
+			AvanzarPatrulla *avanzarP = new AvanzarPatrulla();  	// Patrulla
+			DetectarProta *detectP = new DetectarProta();  			// Deteccion Protagonista
+			ComprobarSed *checkSed = new ComprobarSed();			// Comprobacion sed
+			ComprobarHambre *checkHambre = new ComprobarHambre();   // COmprobacion hambre
+			BuscarAgua *bAgua = new BuscarAgua();					// Busqueda de agua
+			BuscarComida *bComida = new BuscarComida(); 			// Busqueda de comida
+
+
+			/* INICIALIZACIONES DE TAREAS */
+			avanzarP->onInitialize(b); 
+			detectP->onInitialize(b);
+			checkSed->onInitialize(b);
+			bAgua->onInitialize(b);
+			checkHambre->onInitialize(b);
+			bComida->onInitialize(b);
+
+			/* Sequencia para comprobar si detectamos al prota y ver que hacer */
+			Sequence *seqDetect = new Sequence();
+			seqDetect->addChildren(detectP);
+			seqDetect->onInitialize(board);
+
+			/*    BUSQUEDA DE AGUA		*/ 
+
+			/* Sequencia para comprobar sed y buscar agua */
+			Sequence *seqSed = new Sequence(); 				
+			
+			seqSed->addChildren(checkSed); 							// Añadimos sus hijos
+			seqSed->addChildren(bAgua);
+			seqSed->onInitialize(board);
+
+
+			/*    BUSQUEDA DE COMIDA	*/ 
+
+			/* Sequencia para comprobar hambre y buscar comida */
+			Sequence *seqHambre = new Sequence(); 
+
+			seqHambre->addChildren(checkHambre);
+			seqHambre->addChildren(bComida);
+			seqHambre->onInitialize(board);
+
+			/*    RAIZ DEL ARBOL		*/ 
+
+			Selector *s1 = new Selector();
+			m_pRoot=s1;												// Tarea raiz del arbol
+
+			m_pRoot->addChildren(seqDetect);
+			m_pRoot->addChildren(seqSed);							
+			m_pRoot->addChildren(seqHambre); 						
+			m_pRoot->addChildren(avanzarP);
+			m_pRoot->onInitialize(board);
+
+
+			// Metemos todos los composites/Decoradores en el vector
+			comp.push_back(seqDetect);
+			comp.push_back(seqSed);
+			comp.push_back(seqHambre);
+
+			// Metemos todos las tareas en el vector
+			task.push_back(avanzarP);
+			task.push_back(detectP);
+			task.push_back(checkSed);
+			task.push_back(bAgua);
+			task.push_back(checkHambre);
+			task.push_back(bComida);
+
 			break;
 		}
 

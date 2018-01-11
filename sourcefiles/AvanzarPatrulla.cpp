@@ -6,7 +6,6 @@
 
 Status AvanzarPatrulla::run(Enemigo *e)
 {
-    
     protaPosition = board->getProta();
 
     pos = e->getPosicion();
@@ -21,6 +20,7 @@ Status AvanzarPatrulla::run(Enemigo *e)
 
     frameDeltaTime = board->getTime();
     e->setVelocidad(e->getVelNormal());                                      // ACTUALIZAMOS LA VELOCIDAD DEL ENEMIGO
+    e->setCombate(false);
 
     if(distanciaNodoX==0) // SI ESTAMOS EN UNO DE LOS NODOS DE LA PATRULLA BUSCAMOS EL SIGUIENTE NODO
     {

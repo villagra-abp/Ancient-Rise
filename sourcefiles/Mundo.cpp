@@ -69,12 +69,18 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 
 /* CREAMOS ENEMIGOS BASICOS */
 	
-	enem1 = new EnemigoBasico(device, smgr, pos, 100.0, 0.36, 2, b, world);
+	enem1 = new EnemigoBasico(device, smgr, pos, 100.0, 0.6, 2, b, world);
 	enemB.push_back(enem1);
 
 	enem2 = new EnemigoBasico(device, smgr, pos2, 100.0, 0.36, 1, b, world);
 	enemB.push_back(enem2);
 	
+
+/* CREAMOS ENEMIGOS ELITES */
+
+	//enemE1 = new EnemigoElite(device, smgr, pos3, 100.0, 0.36, 2, b, world);
+	//enemE.push_back(enemE1);
+
 /* CREAMOS PLATAFORMAS */
 
 	Plataforma = smgr->addCubeSceneNode();
@@ -106,21 +112,6 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 		Plataforma3->setMaterialFlag(video::EMF_LIGHTING, false);
 		Plataforma3->setMaterialTexture(0,driver->getTexture("../resources/plataf.bmp"));
 	}
-
-	Plataforma4= smgr->addCubeSceneNode();
-
-	if (Plataforma4) /** SI HEMOS CREADO EL CUBO **/
-	{
-		Plataforma4->setPosition(core::vector3df(570,85,30));
-		Plataforma4->setScale(core::vector3df(5.f,1.f,5.f));
-		Plataforma4->setMaterialFlag(video::EMF_LIGHTING, false);
-		Plataforma4->setMaterialTexture(0,driver->getTexture("../resources/plataf.bmp"));
-	}
-
-
-
-	
-
 
 /** ESTABLECEMOS LA CAMARA
  Aqui indicamos la posicion de la camara en el espacio 3d. En este caso,
@@ -166,6 +157,17 @@ void Mundo::posBuilder(){	//CONSTRUCTOR DE POSICIONES DE ENEMIGOS
   	pos2.push_back(p6);
   	Posicion *p7 = new Posicion(100.f,0.f,30.f);
 	pos2.push_back(p7);
+
+
+	Posicion *p8 = new Posicion(200.f,0.f,30.f);
+  	pos3.push_back(p8);
+  	Posicion *p9 = new Posicion(150.f,0.f,30.f);
+  	pos3.push_back(p9);
+  	Posicion *p10 = new Posicion(60.f,0.f,30.f);
+  	pos3.push_back(p10);
+  	Posicion *p11 = new Posicion(0.f,0.f,30.f);
+  	pos3.push_back(p11);
+
 }
 
 void Mundo::terrainBuilder(){	//CONSTRUCTOR DEL TERRENOS Y COLISIONES DE CAMARA
@@ -271,6 +273,12 @@ void Mundo::update(){
      	enemB[i]->Update(prota->getPosition());
     }
 
+    for(int i2=0; i2<enemE.size();i2++)
+    {
+    	enemE[i2]->updateTiempo(frameDeltaTime);
+     	enemE[i2]->Update(prota->getPosition());
+    }
+
     /* DRAW SCENE */
 
     this->draw();
@@ -285,31 +293,31 @@ void Mundo::protaUpdate(const u32 now, const f32 frameDeltaTime, f32 tiempo){
 	core::vector3df protaPosition = prota->getPosition();
 
 	
-	
+	energiaAnterior = prota->getEnergia();
 	//prota->gravedad(frameDeltaTime);
-    	//prota->salto(frameDeltaTime);
-    	prota->defender(frameDeltaTime);
-    	prota->ataque(frameDeltaTime);
-    	prota->pintarInterfaz();
-    	prota->setEnergia(5,frameDeltaTime);
-    	//prota->comprobarColision(Plataforma);
-    	//prota->comprobarColision(Plataforma2);
+    //prota->salto(frameDeltaTime);
+    //prota->defender(frameDeltaTime);
+    prota->ataque(frameDeltaTime);
+    prota->pintarInterfaz();
+    //prota->comprobarColision(Plataforma);
+    //prota->comprobarColision(Plataforma2);
 	prota->comprobarColision(c);
-        prota->comprobarColision(bebida);
-        prota->comprobarColision(t);
+    prota->comprobarColision(bebida);
+    prota->comprobarColision(t);
 
-        prota->updateBody(world);
+    prota->updateBody(world);
 
-     if(!prota->checkVida())
+    if(!prota->checkVida())
 		device->closeDevice();
 
-    if(tiempo>0.2f)
+    if(tiempo>0.2f) 	// EVITAMOS QUE LO HAYA DENTRO SE HAGA MENOS VECES POR SEGUNDO
     {
         f32 energia=prota->getEnergia();
 
         time_input=now;
 
         receiver->checkSigilo(prota,frameDeltaTime);
+        receiver->checkCombate(prota);
 
         for(int i2=0; i2<enemB.size();i2++)
         {
@@ -318,8 +326,26 @@ void Mundo::protaUpdate(const u32 now, const f32 frameDeltaTime, f32 tiempo){
             
     }
 
-
+    if(prota->getCombate())
+    {
+    	prota->checkPosCombate();
+    }
     receiver->checkInput(prota,frameDeltaTime);
+
+    energiaActual = prota->getEnergia();
+    energiaDelta = energiaActual - energiaAnterior;
+
+    if(energiaDelta < 0){
+    	relojDescanso.restart();
+    }
+
+    tiempoTrans = relojDescanso.getElapsedTime().asSeconds();
+    if(tiempoTrans > 0.8f)	
+    	prota->setEnergia(25,frameDeltaTime);  //CAMBIO 5 a 15
+    else
+    	prota->setEnergia(2, frameDeltaTime);
+
+
 }
 
 void Mundo::camUpdate(const f32 frameDeltaTime){
@@ -327,9 +353,9 @@ void Mundo::camUpdate(const f32 frameDeltaTime){
 	core::vector3df camPosition = cam->getPosition();
 
 	rec->setPosition(protaPosition);
-    cam->setPosition(vector3df(protaPosition.X,50,-140));
+    cam->setPosition(vector3df(protaPosition.X,protaPosition.Y+30,-140)); // cambio 5O A ProtaPosition.Y
     camPosition=rec->getPosition();
-    camPosition.Y=50;
+    camPosition.Y=protaPosition.Y+30;
     cam->setTarget(camPosition);
 }
 
@@ -388,11 +414,17 @@ Mundo::~Mundo()	//DESTRUCTOR
 	{
 		delete enemB[cont];
 	}
+	for(int cont2=0; cont2<enemE.size();cont2++)
+	{
+		delete enemE[cont2];
+	}
 
 	enemB.clear();
+	enemE.clear();
 
 	pos.clear();
 	pos2.clear();
+	pos3.clear();
 
     delete b;
     delete c;

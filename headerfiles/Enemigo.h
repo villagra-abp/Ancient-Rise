@@ -5,11 +5,13 @@
 
 #include "../headerfiles/Posicion.h"
 #include "../headerfiles/Objeto.h"
+#include "../headerfiles/Blackboard.h"
 #include <Box2D/Box2D.h>
 #include <Box2D/Common/b2Math.h>
 #include <GL/gl.h>
+#include <SFML/Graphics.hpp>
 
-#include <irrlicht/irrlicht.h>
+#include <irrlicht.h>
 #include <iostream>
 #include <vector>
 #include <math.h>
@@ -61,10 +63,12 @@ class Enemigo
         b2Body* getBody();
         b2Vec2 getVelocidad2d();
         bool getUltDirecVisto();
-        int getDefensaPosition();
-        int getAtaquePosition();
-        bool getDefiende();
-        bool getAtaca();
+        IVideoDriver* getDriver();
+
+        //int getDefensaPosition();
+        //int getAtaquePosition();
+        //bool getDefiende();
+        //bool getAtaca();
 
         void setSed(f32 se);
         void setEnergia(f32 e);
@@ -79,6 +83,13 @@ class Enemigo
         void setYPend(float yPend);
         void setLastFacedDir(bool dirx);
         void setUltDirecVisto(bool v);
+        bool recordarProta();
+
+        /* COMBATE */   
+        void setCombate(bool b);
+        bool getCombate();
+        void setPosCombate(int n);
+        int getPosCombate();
       
 
         virtual ~Enemigo();
@@ -120,14 +131,15 @@ class Enemigo
         b2BodyDef BodyDef;
         b2PolygonShape Shape;
 
+        /* MEMORIA */ 
+        sf::Clock reloj;                    // Reloj para controlar el tiempo que tiene que estar huyendo
+        int contador;                       // Para reiniciar el reloj cuando toca
+        bool memoria;
+
         /* COMBATE */
-
-        int posAtaque;
-        int posDefensa;
-        bool atacando;
-        bool defendiendo;
-
-        bool combate;                               // PARA SABER SI ESTA COMBATIENDO O NO
+        bool combate;            // PARA SABER SI ESTA COMBATIENDO O NO
+        int pos_combate;        // INDICA LA POSICION DE COMBATE (1 = ARRIBA, 2 = CENTRO, 3 = ABAJO)
+        bool ataca=false;       // PROTA ATACANDO O NO
         
 
 
