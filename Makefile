@@ -1,7 +1,9 @@
-LIBS := -lIrrlicht -lGL -lX11 -lXxf86vm -lBox2D
-
+LIBS := -lIrrlicht -lGL -lX11 -lXxf86vm -lBox2D -lfmod -lfmodstudio
 CC=g++
-CFLAGS=-I.
+CFLAGS= -I. -I./inc
+PATHS:= -Llib/
+
+
 
 
 # Name of the executable created
@@ -22,9 +24,13 @@ MOTORSRC := $(wildcard $(MOTORPATH)/*.cpp)
 OBJ = $(patsubst $(SOURCEPATH)/%.cpp, $(BUILDPATH)/%.o, $(SRC))
 MOTOR := $(patsubst $(MOTORPATH)/%.cpp, $(BUILDPATH)/%.o, $(MOTORSRC))
 
+
+#FMODSTUDIO
+#WL:= -Wl,-rpath=\$$ORIGIN/$(dir ${LOWLEVEL_FMOD_LIB}),-rpath=\$$ORIGIN/$(dir ${STUDIO_FMOD_LIB}) ${LOWLEVEL_FMOD_LIB} ${STUDIO_FMOD_LIB}
+
 $(EJEC): prepare $(OBJ) $(MOTOR)
 	$(warning Creando el ejecutable $@...)
-	$(CC) -o $(EXECUTABLE) $(OBJ) $(MOTOR) $(LIBS) 
+	$(CC) -o $(EXECUTABLE) $(OBJ) $(MOTOR) $(LIBS) $(PATHS) 
 
 
 $(BUILDPATH)/%.o: $(SOURCEPATH)/%.cpp 

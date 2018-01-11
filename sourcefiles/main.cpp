@@ -1,4 +1,7 @@
-
+#include <fmod.hpp>
+#include <fmod_studio.hpp>
+#include <fmod_errors.h>
+#include <cstddef>
 
 #include "../motorgrafico/headerfiles/Motorgrafico.h"
 #include "../motorgrafico/headerfiles/Objeto.h"
@@ -8,6 +11,7 @@
 //#include "../motorgrafico/sourcefiles/Motorgrafico.cpp"
 
 #include <iostream>
+#include <cstdio>
 #include <Box2D/Box2D.h>
 
 
@@ -20,6 +24,42 @@ This is the main method. We can now use main() on every platform.
 */
 int main()
 {
+
+FMOD_RESULT result;
+FMOD::Studio::System* system = NULL;
+
+result = FMOD::Studio::System::create(&system);
+if(result != FMOD_OK){
+	printf("FMOD error! (%d) %s\n", result, FMOD_ErrorString(result));
+    exit(-1);
+} 
+
+result = system->initialize(512, FMOD_STUDIO_INIT_NORMAL, FMOD_INIT_NORMAL, 0);
+if(result != FMOD_OK){
+	printf("FMOD error! (%d) %s\n", result, FMOD_ErrorString(result));
+    exit(-1);
+} 
+
+FMOD::System *lowLevelSystem;
+result = system->getLowLevelSystem(&lowLevelSystem);
+if(result != FMOD_OK){
+	printf("FMOD error! (%d) %s\n", result, FMOD_ErrorString(result));
+    exit(-1);
+} 
+
+FMOD::Channel *channel = NULL;
+
+FMOD::Sound *sound;
+
+const char* name = "resources/sonido/boss3/boss3_NANI.wav";
+
+result = lowLevelSystem->createSound(name,FMOD_DEFAULT,0,&sound);
+
+if(result != FMOD_OK){
+	printf("FMOD error! (%d) %s\n", result, FMOD_ErrorString(result));
+    exit(-1);
+}
+
 
 	const path mapa = "resources/media/map-20kdm2.pk3";
 
@@ -60,6 +100,7 @@ int main()
 
 	while(grafico->getVentanaEstado()){
 		if (grafico->getVentanaActiva()){
+			system->update();
 			const u32 now = grafico->getTime();
 			const f32 frameDeltaTime = (f32)(now-then) / 1000.f; //Time in seconds
 			then = now; 
@@ -70,6 +111,16 @@ int main()
 			Eventlistener receiver = grafico->getListener();
 			if(receiver.IsKeyDown('w')){
 				nodePosicion.Z += MOVEMENT_SPEED * frameDeltaTime;
+				bool *isplaying;
+				if(channel == NULL){
+					lowLevelSystem->playSound(sound,0,false, &channel);
+				}
+				else{
+					result = channel->isPlaying(isplaying);
+					if(result == FMOD_ERR_INVALID_HANDLE){
+						lowLevelSystem->playSound(sound,0,false, &channel);
+					}
+				}
 			}
 			else if(receiver.IsKeyDown('s')){
 				nodePosicion.Z -= MOVEMENT_SPEED * frameDeltaTime;
@@ -107,7 +158,7 @@ int main()
 	delete grafico;
 	delete mapita;
 	delete camara;
-
+	system->release();
 	return 0;
 }
 
