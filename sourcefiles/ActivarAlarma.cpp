@@ -18,6 +18,7 @@ Status ActivarAlarma::run(Enemigo *e)
    frameDeltaTime = board->getTime();
 
    e->setVelocidad(25.f);
+   e->setCombate(false);
 
    /* COMPROBAMOS LA DISTANCIA A LA QUE ESTA LA ALARMA Y AVANZAMOS HACIA ELLA */
    

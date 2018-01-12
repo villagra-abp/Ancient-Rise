@@ -15,6 +15,7 @@ Status AlarmaSonando::run(Enemigo *e)
 
 
    int distanciaAlarma = alarmaX - enemigoX;
+   e->setCombate(false);
 
    if( distanciaAlarma<50  && a->getActivado()!=false )    	// Alarma cerca y activada
    {

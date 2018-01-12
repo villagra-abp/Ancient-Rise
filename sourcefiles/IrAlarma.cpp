@@ -19,11 +19,12 @@ Status IrAlarma::run(Enemigo *e)
   frameDeltaTime = board->getTime();
 
    e->setVelocidad(25.f);
+   e->setCombate(false);
 
    if (distanciaAlarma<0) // AVANZAMOS HACIA LA IZQUIERDA
     {
 
-        EnemigoPosition.X-= e->getVelocidad() * frameDeltaTime;
+        EnemigoPosition.X-= e->getVelocidad() * frameDeltaTime*2;
 
         e->setPosition(EnemigoPosition);
 
@@ -33,7 +34,7 @@ Status IrAlarma::run(Enemigo *e)
            if(distanciaAlarma>0) // AVANZAMOS HACIA LA DERECHA
            {
 
-               EnemigoPosition.X+= e->getVelocidad() * frameDeltaTime;
+               EnemigoPosition.X+= e->getVelocidad() * frameDeltaTime*2;
 
                e->setPosition(EnemigoPosition);
 
@@ -44,12 +45,9 @@ Status IrAlarma::run(Enemigo *e)
 
     if(distanciaAlarma==0)
     {
-      return BH_SUCCESS;
     }
-    else
-    {
-      return BH_FAILURE;
-    }
+    
+return BH_SUCCESS;
 
 }
 

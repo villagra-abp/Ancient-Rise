@@ -41,7 +41,7 @@ void Alarma::checkActivada()
 
 		int time = reloj.getElapsedTime().asSeconds();  // OBTENEMOS SU DURACION EN SEGUNDOS
 
-		if(time>8) 		// DURACION ALARMA ACTIVADA
+		if(time>35) 		// DURACION ALARMA ACTIVADA
 		{
 			activado = false;
 			objeto ->setMaterialFlag(video::EMF_LIGHTING, false);

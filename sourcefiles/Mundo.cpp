@@ -45,13 +45,13 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 
 /* CREAMOS OBJETOS */
 
-	Posicion pC(-40.f, 0.f, 30.f);
+	Posicion pC(-220.f, 0.f, 30.f);
 	c = new Comida(device, smgr, pC);
 
 	Posicion pF(-190.f,0.f,40.f);
 	f = new Fuente(device, smgr, pF);
 
-	Posicion pA(140.f,0.f,40.f);
+	Posicion pA(60.f,0.f,40.f);
 	a = new Alarma(device, smgr, pA);
 
 	Posicion posbebida(-300,0,30.f);
@@ -151,11 +151,11 @@ void Mundo::posBuilder(){	//CONSTRUCTOR DE POSICIONES DE ENEMIGOS
   	Posicion *p4 = new Posicion(-80.f,0.f,30.f);
 	pos.push_back(p4);
 
-	Posicion *p5 = new Posicion(60.f,0.f,30.f);
+	Posicion *p5 = new Posicion(160.f,0.f,30.f);
   	pos2.push_back(p5);
-  	Posicion *p6 = new Posicion(80.f,0.f,30.f);
+  	Posicion *p6 = new Posicion(180.f,0.f,30.f);
   	pos2.push_back(p6);
-  	Posicion *p7 = new Posicion(100.f,0.f,30.f);
+  	Posicion *p7 = new Posicion(200.f,0.f,30.f);
 	pos2.push_back(p7);
 
 
