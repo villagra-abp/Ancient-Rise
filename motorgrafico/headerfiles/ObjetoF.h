@@ -7,12 +7,12 @@ using namespace irr;
 using namespace std;
 using namespace io;
 
-class Objeto {
+class ObjetoF {
 public:
 
-	virtual ~Objeto();
-	Objeto(path s);
-	Objeto(int t);
+	virtual ~ObjetoF();
+	ObjetoF(path s);
+	ObjetoF(int t);
 
 
 

@@ -3,186 +3,340 @@
 
 
 /**
- CONSTRUCTOR
+
+ CONSTRUCTOR DE ENEMIGO
+ Parametros : Objetos Irrlicht, vector con posiciones de la patrulla
 */
-Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, Posicion *posiciones[])
+Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos, float xlength, float pendValue):enemigo(nullptr), env(nullptr), driver(nullptr)
+
 {
     enemigo=smgr->addCubeSceneNode();
 
     if (enemigo) /** SI HEMOS CREADO EL CUBO **/
-	{
-		enemigo->setPosition(core::vector3df(posiciones[0]->getPosX(),posiciones[0]->getPosY(),posiciones[0]->getPosZ())); // INDICAMOS SU POS INICIAL ( QUE VIENE INDICADA EN EL ARRAY TAMBIEN)
+	{  
+         driver = dev->getVideoDriver();
+		enemigo->setPosition(core::vector3df(pos[0]->getPosX(),pos[0]->getPosY(),pos[0]->getPosZ())); // INDICAMOS SU POS INICIAL ( QUE VIENE INDICADA EN EL ARRAY TAMBIEN)
 		enemigo->setMaterialFlag(video::EMF_LIGHTING, false);
+        enemigo ->setMaterialTexture(0,driver->getTexture("resources/verde.jpg"));
+
+        EnemigoPosition = enemigo->getPosition();
+
+
 	}
 
-	contadorPatrulla=0;
-	direccion=0;
+    env = dev->getGUIEnvironment();
 
-    //COMPORTAMIENTOS
-    patrulla=true;
-    avistadoProta=false;
-    alarma=false;
+     //Parametros para el rango de vision del personaje.
+    lastFacedDir = true;
+    visionXmax = xlength;
+    valorPendiente = pendValue;
+    visto = false;
+    direccVistoUlt = false;
 
-    estadisticas[0]=false; // SED = FALSE
-    estadisticas[1]=false; // HAMBRE
-    estadisticas[2]=false; // ENERGIA
+    posPatrulla = pos;                  // Guardamos el vector con las posiciones de la patrulla del enemigo
+
+    //posAtaque = 1;
+    //posDefensa = posAtaque;
+
+    //atacando = true;
+    //defendiendo = true;
+
+    combate = false;
+    pos_combate = 2; 
+    contador = 0;
+
+    memoria = false;
 
 
 }
 
-/**
-FUNCION DONDE EL ENEMIGO REALIZA LA PATRULLA Y ESTA ATENTO A LAS COSAS QUE SUCEDEN ALREDEDOR
-PARAMETROS : TIEMPO, ARRAY CON LAS POSICIONES DE LA PATRULLA, POSICION DEL PROTA
-**/
-
-void Enemigo::Patrulla(const f32 Time, Posicion *posiciones[], float protaPosition)
+/* Update para todos los enemigos para actualizar los valores del hambre y la sed */
+void Enemigo::update(core::vector3df prota)
 {
-    /*
-    VELOCIDAD_ENEMIGO = 8.f;
+        this->actualizarHambre(); 
+        this->actualizarSed();
 
-    core::vector3df EnemigoPosition = enemigo->getPosition(); // VECTOR DE POSICION DEL ENEMIGO
-
-    float enemigoX=EnemigoPosition.X;
-    float posPatrullaX = posiciones[contadorPatrulla]->getPosX();
-
-    int distanciaObjetivoX= posPatrullaX - enemigoX;     // DISTANCIA EN X AL OBJETIVO DE LA PATRULLA
-    int distanciaProtaX = protaPosition - enemigoX;      // DISTANCIA EN X AL PROTAGONISTA
-
-
-    // EL ENEMIGO COMPRUEBA TODO EN TODO MOMENTO( SI PROTAGONISTA CERCA - SI ESTADISTICAS BAJAS - SI ALARMA SONANDO )
-
-    if(energia<30.f || sed>50.f || hambre >50.f)  // 1º ESTADISTICAS
-    {
-
-    }
-    else {  // 2º PROTA CERCA
-
-           //if(abs(distanciaProtaX)<40)
-            //{
-               // patrulla=false;
-            //}
-
-    }
-
-        if(patrulla!=false)  // SOLAMENTE SI NO HA SUCEDIDO NADA ( AVISTADO OBJETIVO, ESTADISTICAS BAJAS O ALARMA) ESTAMOS EN COMPORTAMIENTO DE PATRULLA
-        {
-            if(distanciaObjetivoX==0) // SI ESTAMOS EN LA POS DE LA PATRULLA AVANZAMOS A LA SIGUIENTE POS
+        if(this->checkInSight(prota)){              // COMPROBAMOS SI HEMOS VISTO AL PROTAGONISTA 
+            visto = true;
+             enemigo->setMaterialTexture(0,driver->getTexture("resources/activada.jpeg"));  
+             contador = 0;
+            //cout<<"visto"<<endl;
+            
+        }else{
+            if(this->recordarProta())
             {
-                if(contadorPatrulla==4)
-                {
-                    contadorPatrulla=0;
-                }
-                else {
-                    contadorPatrulla++;
-                }
+                visto = false;
+                enemigo->setMaterialTexture(0,driver->getTexture("resources/verde.jpg"));
+
+                //cout<<"NOvisto"<<endl;
             }
-            else{
-
-                    this->ComprobarDistancia(EnemigoPosition, distanciaObjetivoX, Time);
-            }
+            
         }
-        else{ // CAMBIAMOS DE COMPORTAMIENTO --> PERSEGUIR
 
+        core::vector3df pos = enemigo->getPosition(); 
 
-                this->Perseguir(EnemigoPosition, enemigoX, protaPosition, Time);
-
-        }
-        */
-
-        core::vector3df EnemigoPosition = enemigo->getPosition(); // VECTOR DE POSICION DEL ENEMIGO
-
-        float enemigoX=EnemigoPosition.X;
-        float posPatrullaX = posiciones[contadorPatrulla]->getPosX();
-
-        int distanciaNodoX= posPatrullaX - enemigoX;     // DISTANCIA EN X AL NODO DE LA PATRULLA
-
-
-        if(patrulla==true) // COMPORTAMIENTO DE PATRULLA
+        if(combate == true)
         {
-            if(distanciaNodoX==0) // SI ESTAMOS EN UNO DE LOS NODOS DE LA PATRULLA BUSCAMOS EL SIGUIENTE NODO
+            if( pos_combate == 1)
             {
-                if(contadorPatrulla==4)
-                {
-                    contadorPatrulla=0;
-                }
-                else {
-                    contadorPatrulla++;
-                }
+                pos.Y = 10.f;
             }
-            else{  // AUN NO HEMOS LLEGADO A NINGUN NODO DE LA PATRULLA
-
-                    this->ComprobarDistancia(EnemigoPosition, distanciaNodoX, Time);
+            else
+            {
+                if(pos_combate == 2)
+                {
+                    pos.Y = 5.f;
+                }
+                else
+                {
+                    pos.Y = 0.f;
+                }
             }
         }
         else
         {
-
+            pos.Y = 0.f;
         }
 
+        enemigo->setPosition(pos);
+
 }
 
 
 /**
-FUNCION PARA PERSEGUIR AL PROTAGONISTA
-PARAMETROS : VECTOR3D CON COORDENADAS DEL ENEMIGO, X DEL ENEMIGO, X PROTA, TIEMPO
+FUNCION PARA ACTUALIZAR EL ESTADO DEL HAMBRE DEL ENEMIGO EN FUNCION DE LA CANTIDAD QUE LE PASEMOS
 **/
-void Enemigo::Perseguir(vector3df EnemigoPosition, float enemigoX, float protaPosition, const f32 Time)
+
+void Enemigo::actualizarHambre()
 {
-    VELOCIDAD_ENEMIGO = 15.f;       //AUMENTAMOS SU VELOCIDAD
-    int distanciaProtaX = protaPosition - enemigoX;
+    hambre+=velHambre*frameDeltaTime;
 
-    this->ComprobarDistancia(EnemigoPosition, distanciaProtaX, Time);
-
+    //cout<<round(hambre)<<endl;
 
 }
 
 /**
-FUNCION PARA COMPROBAR LA DISTANCIA QUE HAY DESDE EL ENEMIGO AL OBJETIVO Y VER EN QUE DIRECCION MOVERSE
-PARAMETROS : VECTOR3D CON COORDENADAS DEL ENEMIGO, DISTANCIA AL OBJETIVO, TIEMPO
+FUNCION PARA ACTUALIZAR EL ESTADO DE SED DEL ENEMIGO
 **/
-void Enemigo::ComprobarDistancia(vector3df EnemigoPosition, int distanciaObjetivoX, const f32 Time)
+
+void Enemigo::actualizarSed()
+{
+     sed+=velSed*frameDeltaTime;
+
+     //cout<<round(sed)<<endl;
+
+}
+
+void Enemigo::updateTiempo(const f32 Time)
+{
+    frameDeltaTime = Time;
+}
+
+/*
+FUNCION PARA RECORDAR DURANTE UNOS SEGUNDOS AL PROTA DESPUES DE PERDERLE DE VISTA UNOS SEGUNDOS
+*/
+bool Enemigo::recordarProta()
 {
 
-     if (distanciaObjetivoX<0) // AVANZAMOS HACIA LA IZQUIERDA
-     {
-                EnemigoPosition.X-= VELOCIDAD_ENEMIGO * Time*3;
-                enemigo->setPosition(EnemigoPosition); // CAMBIAMOS LA POSICION
-     }
-     else{
-            if(distanciaObjetivoX>0) // AVANZAMOS HACIA LA DERECHA
-            {
-                EnemigoPosition.X+= VELOCIDAD_ENEMIGO * Time*3;
-                enemigo->setPosition(EnemigoPosition);
+    if(contador==0)
+    {
+        reloj.restart();
+        contador = contador +1;
+    }
+
+    int time = reloj.getElapsedTime().asSeconds();
+    //cout<<time<<endl;
+    if(time>4)
+    {
+        memoria = true;
+    }
+    else
+    {
+        memoria = false;
+    }
+
+    return memoria;
+}
+
+/**
+FUNCION QUE SIRVE PARA SABER SI UN DETERMINADO OBJETO DEL JUEGO ESTA DENTRO DEL AREA DE VISION DEFINIDO PARA EL ENEMIGO. 
+DEVUELVE TRUE EN EL CASO DE ESTARLO
+**/
+bool Enemigo::checkInSight(core::vector3df objPos){
+    bool inSight = false;  //Valor para retorno, si la posicion recibida se encuentra
+    // dentro del rango de vision sera TRUE.
+
+    float pjxmin;          // Valor real en la ventana del punto del area con X Minima.
+    float pjxmax;          // Valor real en la ventana del punto del area con X Maxima.
+    float pjymin;          // Valor real en la ventana del punto del area con Y Minima, respecto a la X recibida.        
+    float pjymax;          // Valor real en la ventana del punto del area con Y Maxima, respecto a la X recibida.
+    float xReady;
+
+    
+    //Valores necesarios para el Anyadido.
+    float ylength = visionXmax * valorPendiente;        
+    float xlength = visionXmax;
+
+    float xprima = visionXmax / 5;  //Podria ser 1/5 de visionXmax
+    float xprima1 = 2 * xprima / 3;
+
+    float pjxmax2 = 0.0;
+    float pjxmin2 = 0.0;
+
+    float yprima = ylength / 2;
+
+    float pend1 = yprima/xprima1;
+    float pend2 = yprima/(xprima - xprima1);
+
+    //std::cout << enemigo->getPosition().X << endl;
+    if(lastFacedDir){   //Mira hacia derecha
+        pjxmin = enemigo->getPosition().X;
+        pjxmax = enemigo->getPosition().X + visionXmax;
+        pjxmax2 = pjxmax + xprima;
+        xReady = objPos.X - pjxmin;
+    }else{              //Mira hacia izquierda
+        pjxmin = enemigo->getPosition().X - visionXmax;
+        pjxmax = enemigo->getPosition().X;
+        pjxmin2 = pjxmin - xprima;
+        xReady = -(objPos.X - pjxmax);
+    }
+
+    if(objPos.X < pjxmax && objPos.X > pjxmin){
+        pjymax = xReady * valorPendiente + EnemigoPosition.Y;
+        pjymin = EnemigoPosition.Y - (pjymax - EnemigoPosition.Y);
+        
+        if(objPos.Y > pjymin && objPos.Y < pjymax)
+            inSight = true;
+    
+    }else{  //Segunda parte del area, anyadido.
+
+        if(lastFacedDir){
+            if (objPos.X >= pjxmax && objPos.X < pjxmax2){  
+                if(objPos.X < (pjxmax+xprima1)){
+                    pjymax = -(objPos.X - (pjxmax + xprima1)) * pend1 + EnemigoPosition.Y + yprima;
+                    pjymin = EnemigoPosition.Y - (pjymax - EnemigoPosition.Y);                    
+                }else{
+                    pjymax = -(objPos.X - (pjxmax + xprima)) * pend2 + EnemigoPosition.Y;
+                    pjymin = EnemigoPosition.Y - (pjymax - EnemigoPosition.Y);
+                }
+                
+                if(objPos.Y < pjymax && objPos.Y > pjymin)
+                    inSight = true;
+                
+            }
+        }else{
+
+            if(objPos.X > pjxmin2 && objPos.X <= pjxmin){
+                if(objPos.X > (pjxmin-xprima1)){
+                    pjymax = (objPos.X - (pjxmin - xprima1)) * pend1 + EnemigoPosition.Y + yprima;
+                    pjymin = EnemigoPosition.Y - (pjymax-EnemigoPosition.Y);                    
+                }else{
+                    pjymax = (objPos.X - (pjxmin - xprima)) * pend2 + EnemigoPosition.Y;
+                    pjymin = EnemigoPosition.Y - (pjymax-EnemigoPosition.Y);
+                }
+                
+                if(objPos.Y < pjymax && objPos.Y > pjymin)
+                    inSight = true;
+
             }
         }
+    }
 
+    return inSight;
 }
 
-
-
 /**
+==============================================
 A PARTIR DE AQUI VAN TODOS LOS GETS Y LOS SETS
+==============================================
 **/
 scene::ISceneNode* Enemigo::getNode()
 {
     return enemigo;
 }
 
-bool Enemigo::getEstadoAlarma()
+
+f32 Enemigo::getVelocidad()
 {
-    return alarma;
+    return VELOCIDAD_ENEMIGO;
 }
 
-bool Enemigo::getEstadoAvistadoProta()
+f32 Enemigo::getSed()
 {
-    return avistadoProta;
+    return sed;
 }
 
-
-void Enemigo::setPatrulla(bool p)
+f32 Enemigo::getSalud()
 {
-    patrulla=p;
+    return salud;
 }
+
+f32 Enemigo::getHambre()
+{
+    return hambre;
+}
+
+vector<Posicion*> Enemigo::getPosicion()
+{
+    return posPatrulla;
+}
+
+const f32 Enemigo::getVelNormal()
+{
+    return VELOCIDAD_NORMAL;
+}
+
+int Enemigo::getTipo()
+{
+    return tipo;
+}
+
+float Enemigo::getXRange(){
+    return visionXmax;
+}
+
+float Enemigo::getYPend(){
+    return valorPendiente;
+}
+
+bool Enemigo::getVisto(){
+    return visto;
+}
+bool Enemigo::getLastFaceDir()
+{
+    return lastFacedDir;
+}
+
+b2Body* Enemigo::getBody()
+{
+    return Body;
+}
+
+b2Vec2 Enemigo::getVelocidad2d()
+{
+    return velocidad2d;
+}
+
+bool Enemigo::getUltDirecVisto()
+{
+    return direccVistoUlt;
+}
+
+IVideoDriver* Enemigo::getDriver()
+{
+    return driver;
+}
+
+int Enemigo::getPosCombate()
+{
+    return pos_combate;
+}
+
+bool Enemigo::getCombate()
+{
+    return combate;
+}
+
 
 void Enemigo::setSalud(f32 s)
 {
@@ -202,12 +356,50 @@ void Enemigo::setHambre(f32 h)
 void Enemigo::setVelocidad(f32 v)
 {
     VELOCIDAD_ENEMIGO=v;
+
+   // velocidad2d.x = v;
 }
 
 void Enemigo::setSed(f32 se)
 {
     sed=se;
 }
+
+void Enemigo::setPosition(vector3df position)
+{
+    enemigo->setPosition(position);
+    EnemigoPosition = position;
+}
+
+void Enemigo::setVelHambre(f32 v)
+{
+    velHambre = v;
+}
+
+void Enemigo::setVelSed(f32 v)
+{
+    velSed = v;
+}
+
+void Enemigo::setLastFacedDir(bool dirx){
+    lastFacedDir = dirx;
+}
+
+void Enemigo::setUltDirecVisto(bool v)
+{
+    direccVistoUlt = v;
+}
+
+void Enemigo::setCombate(bool b)
+{
+    combate = b;
+}
+
+void Enemigo::setPosCombate(int n)
+{
+    pos_combate = n;
+}
+
 
 Enemigo::~Enemigo()
 {
