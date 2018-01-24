@@ -1,20 +1,22 @@
 #include "../headerfiles/Enemigo.h"
 
 
-
 /**
 
  CONSTRUCTOR DE ENEMIGO
  Parametros : Objetos Irrlicht, vector con posiciones de la patrulla
 */
-Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos, float xlength, float pendValue):enemigo(nullptr), env(nullptr), driver(nullptr)
+Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos, float xlength, float pendValue, const Entorno* e) 
+: enemigo(nullptr), env(nullptr), driver(nullptr), ent(e)
 
 {
+    GameObject::setTipo(ENEMY);
+
     enemigo=smgr->addCubeSceneNode();
 
     if (enemigo) /** SI HEMOS CREADO EL CUBO **/
 	{  
-         driver = dev->getVideoDriver();
+        driver = dev->getVideoDriver();
 		enemigo->setPosition(core::vector3df(pos[0]->getPosX(),pos[0]->getPosY(),pos[0]->getPosZ())); // INDICAMOS SU POS INICIAL ( QUE VIENE INDICADA EN EL ARRAY TAMBIEN)
 		enemigo->setMaterialFlag(video::EMF_LIGHTING, false);
         enemigo ->setMaterialTexture(0,driver->getTexture("resources/verde.jpg"));
@@ -56,19 +58,31 @@ void Enemigo::update(core::vector3df prota)
         this->actualizarHambre(); 
         this->actualizarSed();
 
-        if(this->checkInSight(prota)){              // COMPROBAMOS SI HEMOS VISTO AL PROTAGONISTA 
+        /*for(int i = 0; i < ent->getSize(); i++){
+            cout << ent->getGameObject(i)->getPosition().X << ", " ; 
+        }
+        cout << endl;*/
+        
+        //COMPROBAMOS GAMEOBJECTS DENTRO DE LA VISTA
+        vistos.clear();
+
+        for(int i = 0; i < ent->getSize(); i++){
+            if(this->checkInSight(ent->getGameObject(i)->getPosition())){
+                vistos.push_back(ent->getGameObject(i));
+            }
+        }
+
+        // COMPROBAMOS SI HEMOS VISTO AL PROTAGONISTA 
+        if(this->checkInSight(prota)){              
             visto = true;
              enemigo->setMaterialTexture(0,driver->getTexture("resources/activada.jpeg"));  
              contador = 0;
-            //cout<<"visto"<<endl;
             
         }else{
             if(this->recordarProta())
             {
                 visto = false;
                 enemigo->setMaterialTexture(0,driver->getTexture("resources/verde.jpg"));
-
-                //cout<<"NOvisto"<<endl;
             }
             
         }
@@ -245,6 +259,24 @@ bool Enemigo::checkInSight(core::vector3df objPos){
     return inSight;
 }
 
+/** FUNCION PARA SABER SI UN DETERMINADO GAMEOBJECT HA SIDO INCLUIDO EN EL VECTOR DE VISTOS DE ESTE ENEMIGO 
+DEVUELVE TRUE SI SE ENCUENTRA DENTRO DEL VECTOR **/
+bool Enemigo::see(GameObject* o){
+    bool seeing = false;
+
+    for(int i = 0; i < vistos.size(); i++){
+        if(vistos[i] == o){
+            /*if(vistos[i]->getTipo() == ALARMA){
+                cout << "Es ALARMA" << endl;
+            }*/
+            seeing = true;
+        }
+    }
+
+    //cout << "viendo : " << seeing<< endl;
+    return seeing;
+}
+
 /**
 ==============================================
 A PARTIR DE AQUI VAN TODOS LOS GETS Y LOS SETS
@@ -403,5 +435,5 @@ void Enemigo::setPosCombate(int n)
 
 Enemigo::~Enemigo()
 {
-    //dtor
+    vistos.clear();
 }

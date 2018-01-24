@@ -17,7 +17,7 @@ class CheckAlarmaDes : public Task
 		
 		Blackboard *board;
 	    f32 frameDeltaTime;		  // Tiempo
-	    Objeto *a;
+	    vector<Objeto*> a;
 	    scene::ISceneNode* enemigoNode;
 	
 		

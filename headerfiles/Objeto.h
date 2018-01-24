@@ -1,26 +1,13 @@
 #ifndef OBJETO_H
 #define OBJETO_H
 
-#include <irrlicht/irrlicht.h>
-#include <iostream>
-#include <vector>
-#include <SFML/Graphics.hpp>
 
-#include "../headerfiles/Posicion.h"
-
-using namespace irr;
-using namespace std;
-
-using namespace core;
-using namespace scene;
-using namespace video;
-using namespace io;
-using namespace gui;
+#include "../headerfiles/GameObject.h"
 
 
 // Clase Objeto base para todos los objetos consumibles del juego
 
-class Objeto 
+class Objeto : public GameObject
 {
 
 	public:
@@ -40,11 +27,7 @@ class Objeto
 		scene::ISceneNode* getObjeto();
 
 
-
-
-
-
-
+		virtual core::vector3df getPosition() const override { return objeto->getPosition(); }	//Devuelve la posicion.
 
 	protected:
 

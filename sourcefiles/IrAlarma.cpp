@@ -2,21 +2,26 @@
 
 Status IrAlarma::run(Enemigo *e)
 {   
-	// Datos Alarma
-	 a = board->getAlarma();
-   core::vector3df alarmaPosition = a->getVector3df(); 
-   float alarmaX=alarmaPosition.X;
-
-   	// DATOS  ENEMIGO
+	 	// DATOS  ENEMIGO
    enemigoNode = e->getNode();
    core::vector3df EnemigoPosition = enemigoNode->getPosition(); 
    float enemigoX=EnemigoPosition.X;
 
+  // Habra que ampliar el bucle para contemplar todas las distancias hacia las alarmas que esten sonando
+  // y acudir a la mas cercana
+  
+   for (int i = 0; i < a.size(); i++){
+      alarmaPosition = a[i]->getVector3df();
+      alarmaX=alarmaPosition.X;
 
-   int distanciaAlarma = alarmaX - enemigoX;
+      distanciaAlarma = alarmaX - enemigoX;
 
+      if( abs(distanciaAlarma)<100 && a[i]->getActivado() ) {  // Si alarma dentro de RANGO DE ESCUCHA y esta activada 
+        i = a.size();
+      }
+   }
 
-  frameDeltaTime = board->getTime();
+   frameDeltaTime = board->getTime();
 
    e->setVelocidad(25.f);
    e->setCombate(false);
@@ -55,13 +60,22 @@ return BH_SUCCESS;
 void IrAlarma::onInitialize(Blackboard *b)
 {
 	board = b;
+  a = board->getAlarma();
+  alarmaX = 0.0;
+  distanciaAlarma = 0;
 }
 
 IrAlarma::~IrAlarma()
 {
     board = nullptr;
-    a = nullptr;
     enemigoNode = nullptr;
+
+    for(int i = 0 ; i < a.size(); i++){
+      a[i] = nullptr;
+      delete a[i];  //No se si es necesario
+    }
+
+    a.clear();
 
     //delete board;
     //delete a;

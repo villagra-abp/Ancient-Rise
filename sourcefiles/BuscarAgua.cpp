@@ -3,18 +3,29 @@
 
 
 Status BuscarAgua::run(Enemigo *e)
-{
+{   
     // DATOS DEL ENEMIGO
 	enemigoNode = e->getNode();
     core::vector3df EnemigoPosition = enemigoNode->getPosition(); 
     float enemigoX=EnemigoPosition.X;
 
-    // DATOS DE LA FUENTE
-    fuenteNode = f->getObjeto();
-    core::vector3df fuentePosition = fuenteNode->getPosition(); 
-    float fuenteX=fuentePosition.X;
+    //BUSCAR FUENTE MAS CERCANA
+    fuentePosition = f[0]->getVector3df();
+    fuenteX = fuentePosition.X;
+    distanciaFuente = fuenteX - enemigoX;  // Calculamos la distancia hasta la fuente
 
-    int distanciaFuente = fuenteX - enemigoX;  // Calculamos la distancia hasta la fuente
+       for (int i = 1; i < f.size(); i++){
+          
+          fuentePosition = f[i]->getVector3df();
+          fuenteX=fuentePosition.X;
+
+          distanciaFaux = fuenteX - enemigoX;
+
+          if( abs(distanciaFaux) < abs(distanciaFuente)) {
+            distanciaFuente = distanciaFaux;
+          }
+       }
+    
 
     frameDeltaTime = board->getTime();
 
@@ -79,9 +90,15 @@ void BuscarAgua::onInitialize(Blackboard *b)
 BuscarAgua::~BuscarAgua()
 {
     board = nullptr;
-    f = nullptr;
     enemigoNode = nullptr;
     fuenteNode = nullptr;
+
+    for(int i = 0 ; i < f.size(); i++){
+      f[i] = nullptr;
+      delete f[i];  //No se si es necesario
+    }
+
+    f.clear();
 
     //delete board;
     //delete f;

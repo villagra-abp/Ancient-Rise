@@ -4,6 +4,7 @@
 
 Comida::Comida(IrrlichtDevice *dev, ISceneManager* smgr, Posicion pos):Objeto()
 {
+	GameObject::setTipo(COMIDA);
 
 	objeto = smgr->addSphereSceneNode();
 
@@ -24,4 +25,3 @@ scene::ISceneNode* Comida::getNode()
 {
     return objeto;
 }
-

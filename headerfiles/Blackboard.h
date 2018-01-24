@@ -11,6 +11,7 @@ Clase para poder almacenar informacion que puedan necesitar los arboles de compo
 class Blackboard
 {
 	public:
+		typedef vector<Objeto*> vecObjetos;
 
 		Blackboard();
 		
@@ -23,9 +24,9 @@ class Blackboard
 
 		float getProta();
 		f32 getTime();
-		Objeto* getFuente();
-		Objeto* getComida();
-		Objeto* getAlarma();
+		vector<Objeto*> getFuente();
+		vector<Objeto*> getComida();
+		vector<Objeto*> getAlarma();
 
 		virtual ~Blackboard();
 
@@ -33,9 +34,9 @@ class Blackboard
 		
 		float protaX;
 		f32 time;
-		Objeto *fuente;
-		Objeto *comida;
-		Objeto *alarma;
+		vecObjetos fuentes;
+		vecObjetos comidas;
+		vecObjetos alarmas;
 };
 
 #endif // BLACKBOARD_H
