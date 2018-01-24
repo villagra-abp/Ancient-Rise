@@ -39,8 +39,13 @@ Protagonista::Protagonista(IrrlichtDevice *dev, ISceneManager* smgr)
     combate = false;
     pos_combate = 2; 
 
-    sonido = Sonido::getInstance();
-    
+    sonido = GestorSonido::getInstance();
+
+    nani = sonido->create2DSound(sonido->SOUND_BOSS3_NANI);
+    omae = sonido->create2DSound(sonido->SOUND_BOSS3_OMAE);
+    grito = sonido->create2DSound(sonido->SOUND_BOSS3_GRITO1);
+    risa = sonido->create3DSound(sonido->SOUND_BOSS3_RISA);
+
 }
 /**
 FUNCION PARA crear el objeto dinamico
@@ -426,22 +431,24 @@ METODO PARA GESTIONAR EL SALTO
 **/
 void Protagonista::setSalto(bool s)
 {
-    
+            
+    //sonido->playSound(risa);
     b2Vec2 velocidad=Body->GetLinearVelocity();
     //std::cout<<velocidad.y<<"\n";
     if(velocidad.y>=-5 && velocidad.y<5 && s && !saltando && !sigilo){
         if(correr && energia>10)
-        {
-            sonido->playSound(sonido->SOUND_BOSS3_OMAE);
+        {   
+            sonido->playSound(omae);
             Body->ApplyForceToCenter(b2Vec2(0.f,10000.f),true);
         }else if(energia<10)
         {
-            sonido->playSound(sonido->SOUND_BOSS3_GRITO1);
+            sonido->playSound(grito);
             Body->ApplyForceToCenter(b2Vec2(0.f,2500.f),true);
         }
-        else
-            sonido->playSound(sonido->SOUND_BOSS3_NANI);
+        else{
+            sonido->playSound(nani);
             Body->ApplyForceToCenter(b2Vec2(0.f,6000.f),true);    
+        }
         //cont_salto=1;
         //saltando=s;
         setEnergia(1.f,-15);

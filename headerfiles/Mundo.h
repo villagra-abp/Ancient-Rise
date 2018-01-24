@@ -18,6 +18,9 @@
 #include "../headerfiles/Blackboard.h"
 #include "../headerfiles/BehaviorTree.h"
 
+#include "../motorsonido/headerfiles/GestorSonido.h"
+
+
 
 #include <iostream>
 #include <unistd.h>
@@ -143,6 +146,11 @@ class Mundo
         float energiaDelta;
         sf::Clock relojDescanso;
         float tiempoTrans;
+
+        //Sonido
+
+        GestorSonido* sonido;
+        Reverb* reverbCueva;
 
 
     private:

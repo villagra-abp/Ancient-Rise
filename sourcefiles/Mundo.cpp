@@ -24,11 +24,16 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 
 	device->setWindowCaption(L"Ancient Rise");
 
-	
+/*CREAMOS GESTOR DE SONIDO*/
+	sonido = GestorSonido::getInstance();
+	reverbCueva = sonido->create3DReverb();
+	reverbCueva->setAtributos3D(0.0f,0.0f,0.0f, 10.0f, 2000.0f);
+	reverbCueva->setTipo(sonido->REVERB_CUEVA);
 
 /* CREAMOS PROTA */
 
 	prota = new Protagonista(device, smgr);
+
 	rec = prota->getNode();
 
 	//creo el suelo, el bounding box del prota y la plataforma
@@ -287,6 +292,10 @@ void Mundo::update(){
 
     this->fpsControl();
 
+    /*UPDATE DE SONIDO*/
+    sonido->update();
+	sonido->setListener(prota->getPosition().X, prota->getPosition().Y, prota->getPosition().Z);
+
 }
 
 void Mundo::protaUpdate(const u32 now, const f32 frameDeltaTime, f32 tiempo){
@@ -432,4 +441,5 @@ Mundo::~Mundo()	//DESTRUCTOR
     delete a;
     delete bebida;
     delete t;
+    delete sonido;
 }

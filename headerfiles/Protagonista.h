@@ -12,7 +12,8 @@
 #include "../headerfiles/Comida.h"
 #include "../headerfiles/Bebida.h"
 #include "../headerfiles/Trampa.h"
-#include "../headerfiles/Sonido.h"
+#include "../motorsonido/headerfiles/GestorSonido.h"
+
 
 
 using namespace irr;
@@ -125,7 +126,12 @@ class Protagonista
         int pos_combate;        // INDICA LA POSICION DE COMBATE (1 = ARRIBA, 2 = CENTRO, 3 = ABAJO)
         bool ataca=false;       // PROTA ATACANDO O NO
         /*Sonido*/
-        Sonido* sonido;
+        GestorSonido* sonido;
+
+        Sonido* nani;
+        Sonido* omae;
+        Sonido* grito;
+        Sonido* risa;
 
 };
 

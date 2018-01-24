@@ -17,7 +17,6 @@
 
 //=======
 #include "../headerfiles/Mundo.h"
-#include "../headerfiles/Sonido.h"
 
 
 #include <iostream>
@@ -223,11 +222,6 @@ if(result != FMOD_OK){
 	if (!device)
 		return 1;
 
-	/*FMOD Inicializar*/
-	
-	Sonido* sonido = Sonido::getInstance();
-
-
 
 	/* CREAMOS MUNDO DEL JUEGO */
 
@@ -240,7 +234,6 @@ if(result != FMOD_OK){
 	while(device->run())
 	{
 		/* ACTUALIZAMOS EL MUNDO */
-		sonido->update();
 		mundo->update();
 
 	}
@@ -262,7 +255,6 @@ if(result != FMOD_OK){
 
 	**/
 
-	delete sonido;
 	device->drop();
 }
 
