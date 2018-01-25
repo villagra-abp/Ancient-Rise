@@ -29,7 +29,7 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 	reverbCueva = sonido->create3DReverb();
 	reverbCueva->setAtributos3D(0.0f,0.0f,0.0f, 10.0f, 2000.0f);
 	reverbCueva->setTipo(sonido->REVERB_CUEVA);
-
+	musicaBosque = sonido->createMusic(sonido->SOUND_MUSIC_BOSQUE);
 /* CREAMOS PROTA */
 
 	prota = new Protagonista(device, smgr);
@@ -293,6 +293,7 @@ void Mundo::update(){
     this->fpsControl();
 
     /*UPDATE DE SONIDO*/
+    sonido->playSound(musicaBosque);
     sonido->update();
 	sonido->setListener(prota->getPosition().X, prota->getPosition().Y, prota->getPosition().Z);
 

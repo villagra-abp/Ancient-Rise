@@ -151,6 +151,7 @@ class Mundo
 
         GestorSonido* sonido;
         Reverb* reverbCueva;
+        Sonido* musicaBosque;
 
 
     private:

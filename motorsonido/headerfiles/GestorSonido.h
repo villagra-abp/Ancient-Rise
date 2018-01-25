@@ -25,7 +25,7 @@ class GestorSonido{
 
 		Sonido* create2DSound(const char* name);
 		Sonido* create3DSound(const char* name);
-	//	Sonido* createMusic(const char* name);
+		Sonido* createMusic(const char* name);
 		Reverb* create3DReverb();
 		void playSound(Sonido* sonido);
 		void update();
@@ -37,6 +37,7 @@ class GestorSonido{
 		const char* SOUND_BOSS3_OMAE = "resources/sonido/boss3/boss3_omaewa.wav";
 		const char* SOUND_BOSS3_RISA = "resources/sonido/boss3/boss3_risa.wav";
 		const char* SOUND_BOSS3_GRITO1 = "resources/sonido/boss3/boss3_grito1.wav";
+		const char* SOUND_MUSIC_BOSQUE = "resources/sonido/bs/musica_bosque.mp3";
 
 		//Tipos de rever
 		const char* REVERB_CUEVA = "cueva";
