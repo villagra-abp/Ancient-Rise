@@ -4,12 +4,6 @@ Status Huir::run(Enemigo *e)
 {   
     /* INFO DEL ENEMIGO */
     enemigoNode = e->getNode();
-    core::vector3df EnemigoPosition = enemigoNode->getPosition(); // VOLVEMOS A OBTENER EL VECTOR DE POSICION DEL ENEMIGO POR SI HA CAMBIADO
-    float enemigoX=EnemigoPosition.X;
-
-
-    frameDeltaTime = board->getTime();
-    e->setVelocidad(25.f);
 
      /* RELOJ HUIR */
     this->startClock();                             // INICIAMOS EL RELOJ (O RESEATEAMOS)
@@ -25,27 +19,20 @@ Status Huir::run(Enemigo *e)
     }
     else
     {
-        if(e->getUltDirecVisto()==true)   // Visto Prota a la derecha, enemigo huye hacia la izquierda
+        if(e->getLastFaceDir()==true)   // Visto Prota a la derecha, enemigo huye hacia la izquierda
         {
+            //e->setLastFacedDir(false);                                     // AHORA ESTA MIRANDO A LA IZQUIERDA
 
-            EnemigoPosition.X-= e->getVelocidad() * frameDeltaTime;
+             e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
+             e->getBody()->ApplyForceToCenter(b2Vec2(-300.f,0.f),true);             // Fuerza para correr
 
-            e->setLastFacedDir(false);                                     // AHORA ESTA MIRANDO A LA IZQUIERDA
-
-             //e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
-            // e->getBody()->ApplyForceToCenter(b2Vec2(-150.f,0.f),true);             // Fuerza para correr
-
-            e->setPosition(EnemigoPosition);
         }
         else{   // Visto a la izquierda, se mueve hacia la derecha
 
-                 EnemigoPosition.X+= e->getVelocidad() * frameDeltaTime;
-                 e->setLastFacedDir(true); 
+                 //e->setLastFacedDir(true); 
 
-                 //e->getBody()->SetLinearVelocity(e->getVelocidad2d());
-                 //e->getBody()->ApplyForceToCenter(b2Vec2(150.f,0.f),true);             // Fuerza para correr
-
-                 e->setPosition(EnemigoPosition); // CAMBIAMOS LA POSICION
+                 e->getBody()->SetLinearVelocity(e->getVelocidad2d());
+                 e->getBody()->ApplyForceToCenter(b2Vec2(300.f,0.f),true);             // Fuerza para correr
         }
     }
 
@@ -72,6 +59,4 @@ Huir::~Huir()
     board = nullptr;
     enemigoNode = nullptr;
 
-
-    //delete board;
 }

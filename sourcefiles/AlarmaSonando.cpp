@@ -1,9 +1,9 @@
 #include "../headerfiles/AlarmaSonando.h"
-#include <ctime>
+
 
 Status AlarmaSonando::run(Enemigo *e)
 {   
-   	// DATOS  ENEMIGO
+    // DATOS  ENEMIGO
    enemigoNode = e->getNode();
    core::vector3df EnemigoPosition = enemigoNode->getPosition(); 
    float enemigoX=EnemigoPosition.X;
@@ -20,8 +20,6 @@ Status AlarmaSonando::run(Enemigo *e)
       alarmaX=alarmaPosition.X;
       distanciaAlarma = alarmaX - enemigoX;
 
-      //cout << "Enemigo: "<< e << "Distancia con alarma " << i << ": " << abs(distanciaAlarma) << endl;
-
       if( abs(distanciaAlarma)<100  && a[i]->getActivado() ) {  // Alarma cerca (RANGO DE ESCUCHA) y activada
         return BH_SUCCESS;
       }
@@ -33,7 +31,7 @@ Status AlarmaSonando::run(Enemigo *e)
 
 void AlarmaSonando::onInitialize(Blackboard *b)
 {
-	board = b;
+  board = b;
   a = board->getAlarma();
   alarmaX = 0.0;
   distanciaAlarma = 0;

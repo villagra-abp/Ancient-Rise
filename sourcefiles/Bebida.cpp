@@ -5,7 +5,6 @@
 Bebida::Bebida(IrrlichtDevice *dev, ISceneManager* smgr, Posicion pos):Objeto()
 {
 	GameObject::setTipo(BEBIDA);
-
 	objeto = smgr->addCubeSceneNode();
 
 	if (objeto)

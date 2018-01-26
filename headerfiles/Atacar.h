@@ -17,7 +17,6 @@ class Atacar : public Task
 	private:
 		
 		Blackboard *board;
-	    f32 frameDeltaTime;		  // Tiempo
 	    scene::ISceneNode* enemigoNode;
 	    int separacionAtaque; 				// Separacion que tiene que haber entre el enemigo y el prota en funcion de si utiliza un arma 
 	    									// a distancia o cuerpo a cuerpo

@@ -5,7 +5,7 @@
 Status BuscarComida::run(Enemigo *e)
 {
     // DATOS DEL ENEMIGO
-	enemigoNode = e->getNode();
+    enemigoNode = e->getNode();
     core::vector3df EnemigoPosition = enemigoNode->getPosition(); 
     float enemigoX=EnemigoPosition.X;
 
@@ -13,6 +13,7 @@ Status BuscarComida::run(Enemigo *e)
     comidaPosition = c[0]->getVector3df();
     comidaX = comidaPosition.X;
     distanciaComida = comidaX - enemigoX;  // Calculamos la distancia hasta la fuente
+    int pos = 0;
 
        for (int i = 1; i < c.size(); i++){
           
@@ -23,30 +24,26 @@ Status BuscarComida::run(Enemigo *e)
 
           if( abs(distanciaCaux) < abs(distanciaComida)) {
             distanciaComida = distanciaCaux;
+            pos = i;
           }
        }
 
-    frameDeltaTime = board->getTime();
-
-    e->setVelocidad(25.f);
     e->setCombate(false);
 
     if (distanciaComida<0) // AVANZAMOS HACIA LA IZQUIERDA
      {
-        EnemigoPosition.X-= e->getVelocidad() * frameDeltaTime*3;
-
-        e->setPosition(EnemigoPosition); // CAMBIAMOS LA POSICION
+         e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
+        e->getBody()->ApplyForceToCenter(b2Vec2(-300.f,0.f),true);             // Fuerza para correr
 
         e->setLastFacedDir(false); 
      }
      else{
             if(distanciaComida>0) // AVANZAMOS HACIA LA DERECHA
             {
-                EnemigoPosition.X+= e->getVelocidad() * frameDeltaTime*3;
+                e->getBody()->SetLinearVelocity(e->getVelocidad2d());
+                e->getBody()->ApplyForceToCenter(b2Vec2(300.f,0.f),true);             // Fuerza para correr
 
-                e->setPosition(EnemigoPosition);
-
-                e->setLastFacedDir(true);    
+                e->setLastFacedDir(true);   
             }
             else // Si hemos llegado
             {
@@ -55,9 +52,12 @@ Status BuscarComida::run(Enemigo *e)
 
                  int time = reloj.getElapsedTime().asSeconds();  // OBTENEMOS SU DURACION EN SEGUNDOS
 
+                  c[pos]->setActivando(true);
+
                  if(time>2)     // COMIENDO
                  {
                      e->setHambre(100.f);       // RECUPERAMOS HAMBRE
+                     c[pos]->setActivando(true);
                      contador  = 0;
                  }
             }

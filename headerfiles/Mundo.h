@@ -17,18 +17,6 @@
 
 #include "../motorsonido/headerfiles/GestorSonido.h"
 
-
-/*
-#include <iostream>
-#include <unistd.h>
-#include <irrlicht/irrlicht.h>
-#include <SFML/Graphics.hpp>
-#include <vector>
-
-using namespace irr; // Para poder usar cualquier clase del motor Irrlicht se utiliza el namespace irr
-using namespace std;
-=======*/
-
 /*
 Estos son los 5 sub namespace del motor de Irrlicht
 
@@ -53,7 +41,8 @@ class Mundo : public Entorno
     	typedef vector<EnemigoBasico*> enemigosBasicos;
         typedef vector<EnemigoElite*> enemigosElites;
         typedef vector<GameObject*> GameObjects;
-
+        typedef vector<Objeto*> objetos;
+        
     	//CONSTRUCTOR Y DESTRUCTOR
         Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver);
         virtual ~Mundo();
@@ -106,10 +95,13 @@ class Mundo : public Entorno
 
     	//OBJETOS
     	Comida *c, *c2;
-    	Fuente *f, *f2;
-    	Alarma *a, *a2;
-	    Trampa *t;
-	    Bebida *bebida;
+        Fuente *f, *f2;
+        Alarma *a, *a2;
+        Trampa *t;
+        Bebida *bebida;
+        vector<Objeto*> alarmas;
+        vector<Objeto*> fuentes;
+        vector<Objeto*> comidas;
 
     	//BLACKBOARD
     	Blackboard *b;
@@ -152,8 +144,7 @@ class Mundo : public Entorno
         sf::Clock relojDescanso;
         float tiempoTrans;
 
-        //Sonido
-
+        //SONIDO
         GestorSonido* sonido;
         Reverb* reverbCueva;
         Sonido* musicaBosque;

@@ -1,4 +1,5 @@
 #include "../headerfiles/EnemigoBasico.h"
+#include "../headerfiles/BehaviorTree.h"
 
 
 /**
@@ -16,7 +17,9 @@ EnemigoBasico::EnemigoBasico(IrrlichtDevice *dev, ISceneManager *smgr, vector<Po
     this->setSed(100.f);
     this->setVelocidad(VELOCIDAD_NORMAL);
 
-    tipo = t;
+    tipo = t;                                             // Tipo de combate que usa (Distancia o Cuerpo a Cuerpo)
+    claseEnemigo = 1;                                     // EnemigoBasico
+
 
     black = b;                                             // Guardamos la blackboard 
 
@@ -30,11 +33,11 @@ EnemigoBasico::EnemigoBasico(IrrlichtDevice *dev, ISceneManager *smgr, vector<Po
     this->setVelSed(-0.5);
 
 
-    //this->CreateBox(world, posPatrulla[0]->getPosX()*30, posPatrulla[0]->getPosY()*30);
+    this->CreateBox(world, posPatrulla[0]->getPosX()*30, posPatrulla[0]->getPosY()*30);
 
-   // velocidad2d = Body->GetLinearVelocity();
+    velocidad2d = Body->GetLinearVelocity();
 
-    //velocidad2d.x = 40.f;
+    velocidad2d.x = 25.f;
 
 
 }
@@ -46,10 +49,10 @@ void EnemigoBasico::Update(core::vector3df prota)
 
   comportamiento->update(this);                           // Empezamos a ejecutar el arbol de comportamiento del enemigo
 
-  //EnemigoPosition.X=Body->GetPosition().x*1;
-  //EnemigoPosition.Y=Body->GetPosition().y*1;
+  EnemigoPosition.X=Body->GetPosition().x*1;              // Establecemos su velocidad con el body
+  EnemigoPosition.Y=Body->GetPosition().y*1;
 
-  //enemigo->setPosition(EnemigoPosition);
+  enemigo->setPosition(EnemigoPosition);
 
 }
 
@@ -91,6 +94,7 @@ void EnemigoBasico::CreateBox(b2World& world, float X, float Y)
     FixtureDef.density = 1.2f;
     FixtureDef.friction = 0.35f;
     FixtureDef.shape = &Shape;
+    FixtureDef.filter.groupIndex = GROUP_ENEMIGOS;
     Body->CreateFixture(&FixtureDef);
 
   

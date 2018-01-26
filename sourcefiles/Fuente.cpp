@@ -7,7 +7,6 @@ CONSTRUCTOR DE OBJETO para inicializar los valores comunes de todos los objetos 
 Fuente::Fuente(IrrlichtDevice *dev, ISceneManager* smgr, Posicion pos):Objeto()
 {
 	GameObject::setTipo(FUENTE);
-
 	objeto = smgr->addCubeSceneNode();
 
 	if (objeto)

@@ -2,7 +2,7 @@
 
 
 
-Blackboard::Blackboard()
+Blackboard::Blackboard():enemBActual(nullptr)
 {
 
 }
@@ -34,6 +34,16 @@ vector<Objeto*> Blackboard::getAlarma()
 	return alarmas;
 }
 
+vector<EnemigoBasico*> Blackboard::getEnemB()
+{
+	return enemigosB;
+}
+
+EnemigoBasico* Blackboard::getEnemBActual()
+{
+	return enemBActual;
+}
+
 
 
 
@@ -47,19 +57,29 @@ void Blackboard::setProta(float pX)
 	protaX = pX;
 }
 
-void Blackboard::setFuente(Objeto* f)
+void Blackboard::setFuente(vector<Objeto*> f)
 {
-	fuentes.push_back(f);
+	fuentes = f;
 }
 
-void Blackboard::setComida(Objeto *c)
+void Blackboard::setComida(vector<Objeto*> c)
 {
-	comidas.push_back(c);
+	comidas = c;
 }
 
-void Blackboard::setAlarma(Objeto *a)
+void Blackboard::setAlarma(vector<Objeto*> a)
 {
-	alarmas.push_back(a);
+	alarmas = a;
+}
+
+void Blackboard::setEnemB(EnemigoBasico *e)
+{
+	enemigosB.push_back(e);
+}
+
+void Blackboard::setEnemBActual(EnemigoBasico *e)
+{
+	enemBActual = e;
 }
 
 

@@ -1,6 +1,7 @@
 #include "../headerfiles/Enemigo.h"
 
 
+
 /**
 
  CONSTRUCTOR DE ENEMIGO
@@ -8,15 +9,13 @@
 */
 Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos, float xlength, float pendValue, const Entorno* e) 
 : enemigo(nullptr), env(nullptr), driver(nullptr), ent(e)
-
 {
     GameObject::setTipo(ENEMY);
-
     enemigo=smgr->addCubeSceneNode();
 
     if (enemigo) /** SI HEMOS CREADO EL CUBO **/
 	{  
-        driver = dev->getVideoDriver();
+         driver = dev->getVideoDriver();
 		enemigo->setPosition(core::vector3df(pos[0]->getPosX(),pos[0]->getPosY(),pos[0]->getPosZ())); // INDICAMOS SU POS INICIAL ( QUE VIENE INDICADA EN EL ARRAY TAMBIEN)
 		enemigo->setMaterialFlag(video::EMF_LIGHTING, false);
         enemigo ->setMaterialTexture(0,driver->getTexture("resources/verde.jpg"));
@@ -37,32 +36,23 @@ Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos
 
     posPatrulla = pos;                  // Guardamos el vector con las posiciones de la patrulla del enemigo
 
-    //posAtaque = 1;
-    //posDefensa = posAtaque;
-
-    //atacando = true;
-    //defendiendo = true;
-
     combate = false;
     pos_combate = 2; 
     contador = 0;
 
     memoria = false;
 
+    orden = 0;                                            // Ninguna orden recibida
+
 
 }
 
-/* Update para todos los enemigos para actualizar los valores del hambre y la sed */
+/* Update para todos los enemigos*/
 void Enemigo::update(core::vector3df prota)
 {
         this->actualizarHambre(); 
         this->actualizarSed();
 
-        /*for(int i = 0; i < ent->getSize(); i++){
-            cout << ent->getGameObject(i)->getPosition().X << ", " ; 
-        }
-        cout << endl;*/
-        
         //COMPROBAMOS GAMEOBJECTS DENTRO DE LA VISTA
         vistos.clear();
 
@@ -147,10 +137,12 @@ void Enemigo::updateTiempo(const f32 Time)
 }
 
 /*
-FUNCION PARA RECORDAR DURANTE UNOS SEGUNDOS AL PROTA DESPUES DE PERDERLE DE VISTA UNOS SEGUNDOS
+FUNCION PARA RECORDAR DURANTE UNOS SEGUNDOS AL PROTA DESPUES DE PERDERLE DE VISTA
 */
 bool Enemigo::recordarProta()
 {
+
+    memoria = true;
 
     if(contador==0)
     {
@@ -159,12 +151,8 @@ bool Enemigo::recordarProta()
     }
 
     int time = reloj.getElapsedTime().asSeconds();
-    //cout<<time<<endl;
-    if(time>4)
-    {
-        memoria = true;
-    }
-    else
+
+    if(time>5)      // Si pasan mas de 5 segundos desde que me vio, entonces ya no me ve
     {
         memoria = false;
     }
@@ -266,14 +254,9 @@ bool Enemigo::see(GameObject* o){
 
     for(int i = 0; i < vistos.size(); i++){
         if(vistos[i] == o){
-            /*if(vistos[i]->getTipo() == ALARMA){
-                cout << "Es ALARMA" << endl;
-            }*/
             seeing = true;
         }
     }
-
-    //cout << "viendo : " << seeing<< endl;
     return seeing;
 }
 
@@ -323,6 +306,11 @@ int Enemigo::getTipo()
     return tipo;
 }
 
+int Enemigo::getClaseEnemigo()
+{
+    return claseEnemigo;
+}
+
 float Enemigo::getXRange(){
     return visionXmax;
 }
@@ -369,6 +357,11 @@ bool Enemigo::getCombate()
     return combate;
 }
 
+int Enemigo::getOrden()
+{
+    return orden;
+}
+
 
 void Enemigo::setSalud(f32 s)
 {
@@ -387,9 +380,9 @@ void Enemigo::setHambre(f32 h)
 
 void Enemigo::setVelocidad(f32 v)
 {
-    VELOCIDAD_ENEMIGO=v;
+    //VELOCIDAD_ENEMIGO=v;
 
-   // velocidad2d.x = v;
+    velocidad2d.x = v;
 }
 
 void Enemigo::setSed(f32 se)
@@ -432,8 +425,14 @@ void Enemigo::setPosCombate(int n)
     pos_combate = n;
 }
 
+void Enemigo::setOrden(int o)
+{
+    orden = o;
+}
+
 
 Enemigo::~Enemigo()
 {
-    vistos.clear();
+    //dtor
+     vistos.clear();
 }

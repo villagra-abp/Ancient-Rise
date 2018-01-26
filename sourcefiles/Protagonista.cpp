@@ -31,10 +31,13 @@ Protagonista::Protagonista(IrrlichtDevice *dev, ISceneManager* smgr)
 
     
     protaPosition=rec->getPosition();
+    
     energyScale=energy->getScale();
     energyScale.Z=0.1f;
+    
     lifeScale=life->getScale();
     lifeScale.Z=0.1f;
+    
     energy->setScale(energyScale);
     life->setScale(lifeScale);
 
@@ -64,6 +67,7 @@ void Protagonista::CreateBox(b2World& world, float X, float Y)
     FixtureDef.friction = 0.35f;
     FixtureDef.shape = &Shape;
     FixtureDef.isSensor = false;
+    FixtureDef.filter.groupIndex = GROUP_PLAYER;
     Body->CreateFixture(&FixtureDef);
     Body->SetUserData( rec );
     //std::cout<<Body->GetMass()<<"\n";
@@ -120,8 +124,6 @@ void Protagonista::pintarInterfaz()
     energy->setScale(energyScale);
     lifeScale.X=vida/10;
     life->setScale(lifeScale);
-    //scene::ISceneNode * rct=static_cast<scene::ISceneNode *>(Body->GetUserData());
-    //std::cout<<rct->getPosition().X<<"\n";
 }
 
 /**
@@ -129,12 +131,11 @@ FUNCION PARA CONTROLAR EL ATAQUE DEL PROTA
 **/
 void Protagonista::ataque(const f32 Time)
 {
-    //std::cout<<ataque_position<<"\n";
+
     b2Vec2 pos=Body->GetPosition();
+
     if(ataca == true && cont_ataque<20){
         energia-=0.5f;
-       //rec->setScale(core::vector3df(1.f,.3f,1.f));
-        //rec->setRotation(core::vector3df(1.f,ataque_position*100,1.f));
         if(ataque_position!=0){
             Body->SetTransform(b2Vec2(pos.x,pos.y+(ataque_position+2)/3), 0.f);
         }else
@@ -151,35 +152,10 @@ void Protagonista::ataque(const f32 Time)
         cont_ataque++;  
     }
     else if(cont_ataque>=20){
-        //Body->ApplyForceToCenter(b2Vec2(0.f,(-ataque_position+1)*10),true);
-        //rec->setScale(core::vector3df(1.f,1.f,1.f));
-        //rec->setRotation(core::vector3df(1.f,-ataque_position*100,1.f));
         cont_ataque=0;
         ataca=false;
     }
     
-}
-/**
-FUNCION PARA CONTROLAR LA DEFENSA DEL PROTA
-**/
-void Protagonista::defender(const f32 Time)
-{
-     //std::cout<<ataque_position<<"\n";
-    b2Vec2 pos=Body->GetPosition();
-    if(cont_defensa>0){
-        //Body->SetTransform(b2Vec2(pos.x,pos.y+(ataque_position/30)), 0.f);
-        //Body->ApplyForceToCenter(b2Vec2(0.f,ataque_position*20),true);
-        rec->setScale(core::vector3df(.3f,defensa_position+1,1.f));
-        
-        
-    }
-    else {
-        //Body->ApplyForceToCenter(b2Vec2(0.f,-ataque_position*10),true);
-        rec->setScale(core::vector3df(1.f,1.f,1.f));
-        cont_defensa=0;
-        defensa=false;
-    }
-
 }
 
 /**
@@ -242,32 +218,7 @@ void Protagonista::movimiento(const f32 Time)
 FUNCION PARA COMPROBAR LAS COLISIONES CON ENEMIGOS
 **/
 void Protagonista::comprobarColision(Enemigo *enemigo)
-{/*
-    enemigoPosition=enemigo->getNode()->getPosition();
-    int defensaEnemigo=enemigo->getDefensaPosition();
-    int ataqueEnemigo=enemigo->getAtaquePosition();
-    bool medefiende=enemigo->getDefiende();
-    bool meataca=enemigo->getAtaca();
-    if((enemigoPosition.X-(protaPosition.X+10))<0 
-        && (enemigoPosition.X-(protaPosition.X+10))>-20
-        && vida<=100 && vida>0 && protaPosition.Y<10){
-        if(ataca)
-        {
-            if(medefiende && (int)ataque_position!=defensaEnemigo)
-                enemigo->getNode()->setVisible(false);
-        }else if(enemigo->getNode()->isVisible() && defensa==false)
-        {
-            if(meataca && (int)defensa_position!=ataqueEnemigo)
-                vida-=5; 
-        }   
-    }
-    cont_recarga_enemigo++;
-    if(cont_recarga_enemigo>20){
-        enemigo->getNode()->setVisible(true);
-        cont_recarga_enemigo=0;
-    }
-    */
-
+{
     enemigoPosition=enemigo->getNode()->getPosition();
 
     if((enemigoPosition.X-(protaPosition.X+10))<0 
@@ -468,6 +419,7 @@ void Protagonista::setSalto(bool s)
     }
     saltando=s;
 }
+
 /**
 ACTUALIZA LA POSICION DEL PROTA
 **/
@@ -502,18 +454,8 @@ void Protagonista::setDireccion(int d)
     direccion=d;
 }
 
-void Protagonista::setAtaquePosition(int d)
-{
-    ataque_position=d;
-}
 void Protagonista::setAtaque(bool d)
 {
-    //ataca=d;
-    /*
-    if(cont_ataque==0 && !saltando && energia>10){
-        cont_ataque=1;
-    }
-    */
 
     ataca = d;
     if(ataca == true)
@@ -524,22 +466,6 @@ void Protagonista::setAtaque(bool d)
         }
     }
 
-}
-void Protagonista::setDefensaPosition(int d)
-{
-    defensa_position=d;
-}
-void Protagonista::setDefensa(bool d)
-{
-
-    defensa=d;
-    if(defensa && !saltando)
-    {
-        cont_defensa=1;
-    }else
-    {
-        cont_defensa=0;
-    }
 }
 
 void Protagonista::setCombate()
@@ -556,6 +482,7 @@ void Protagonista::setCombate()
         rec->setMaterialFlag(video::EMF_LIGHTING, true);
     }
 }
+
 /**
 DEVUELVE EL NODO QUE HEMOS CREADO
 **/
@@ -569,10 +496,10 @@ bool Protagonista::getCombate()
     return combate;
 }
 
-/*core::vector3df Protagonista::getPosition()
+core::vector3df Protagonista::getPosition()
 {
    return protaPosition;
-}*/
+}
 
 f32 Protagonista::getEnergia()
 {
@@ -597,7 +524,7 @@ int Protagonista::getPosCombate()
 Protagonista::~Protagonista()
 {
     //dtor
-    //delete rec;
-    //delete energy;
-    //delete life;    
+    rec = nullptr;
+    energy = nullptr;
+    life = nullptr;  
 }

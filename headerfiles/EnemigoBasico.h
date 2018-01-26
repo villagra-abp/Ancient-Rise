@@ -3,9 +3,8 @@
 
 
 #include "../headerfiles/Enemigo.h"
-#include "../headerfiles/BehaviorTree.h"
 
-
+class Blackboard;
 /*
 Clase que define el tipo mas basico de enemigo que puede haber, que puede ser a melee o a distancia
 */
@@ -13,6 +12,7 @@ class EnemigoBasico : public Enemigo
 {
     public:
         EnemigoBasico(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos, float xlength, float pendValue, int t, const Entorno* e, Blackboard *b, b2World& world);
+
 
         void Update(core::vector3df prota);
         void AlarmaSonando(scene::ISceneNode *alarma);

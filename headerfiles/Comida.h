@@ -4,6 +4,7 @@
 #include "../headerfiles/Objeto.h"
 
 
+
 class Comida : public Objeto
 {
 

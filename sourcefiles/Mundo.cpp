@@ -53,26 +53,32 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 
 	Posicion pC(-220.f, 0.f, 30.f);
 	c = new Comida(device, smgr, pC);
+	comidas.push_back(c);
 	addGameObject(c);
 
 	Posicion pC2(190.f, 0.f, 30.f);
 	c2 = new Comida(device, smgr, pC2);
+	comidas.push_back(c2);
 	addGameObject(c2);
 
 	Posicion pF(-190.f,0.f,40.f);
 	f = new Fuente(device, smgr, pF);
+	fuentes.push_back(f);
 	addGameObject(f);
 
 	Posicion pF2(320.f,0.f,40.f);
 	f2 = new Fuente(device, smgr, pF2);
+	fuentes.push_back(f2);
 	addGameObject(f2);
 
 	Posicion pA(120.f,0.f,40.f);
 	a = new Alarma(device, smgr, pA);
+	alarmas.push_back(a);
 	addGameObject(a);
 
 	Posicion pA2(-160.f,0.f,40.f);
 	a2 = new Alarma(device, smgr, pA2);
+	alarmas.push_back(a2);
 	addGameObject(a2);
 
 	Posicion posbebida(-300,0,30.f);
@@ -83,32 +89,35 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
  	t = new Trampa(device, smgr, postrampa);
  	addGameObject(t);
 
+
 /* CREAMOS LA BLACKBOARD */
 
 	b=new Blackboard();
-	 b->setFuente(f);
-	 b->setFuente(f2);
-	 b->setComida(c);
-	 b->setComida(c2);
-	 b->setAlarma(a);
-	 b->setAlarma(a2);
+	 b->setFuente(fuentes);
+	 b->setComida(comidas);
+	 b->setAlarma(alarmas);
 
 /* CREAMOS ENEMIGOS BASICOS */
 	
-	enem1 = new EnemigoBasico(device, smgr, pos, 80.0, 0.8, 2, this, b, world);
+	enem1 = new EnemigoBasico(device, smgr, pos, 80.0, 0.8, 1, this, b, world);
 	enemB.push_back(enem1);
 	addGameObject(enem1);
 
-	enem2 = new EnemigoBasico(device, smgr, pos2, 80.0, 0.8, 2, this, b, world);
+	enem2 = new EnemigoBasico(device, smgr, pos2, 80.0, 0.8, 1, this, b, world);
 	enemB.push_back(enem2);
 	addGameObject(enem2); 
+	
+	for(int i=0;i<enemB.size();i++)
+	{
+		b->setEnemB(enemB[i]);
+	} 
 
 	
 
 /* CREAMOS ENEMIGOS ELITES */
 
-	//enemE1 = new EnemigoElite(device, smgr, pos3, 100.0, 0.36, 2, b, world);
-	//enemE.push_back(enemE1);
+	enemE1 = new EnemigoElite(device, smgr, pos3, 120.0, 0.8, 2, this, b, world);
+	enemE.push_back(enemE1);
 
 /* CREAMOS PLATAFORMAS */
 
@@ -164,6 +173,44 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 	then = device->getTimer()->getTime();
 	time_input = device->getTimer()->getTime();
 
+/** Informacion del mando conectado o si no hay ningun mando conectado
+**/
+    core::array<SJoystickInfo> joystickInfo;
+    if(device->activateJoysticks(joystickInfo)&&joystickInfo.size()>0)
+    {
+        receiver->setMando(true);
+        std::cout << "Joystick support is enabled and " << joystickInfo.size() << " joystick(s) are present." << std::endl;
+
+        for(u32 joystick = 0; joystick < joystickInfo.size(); ++joystick)
+        {
+            std::cout << "Joystick " << joystick << ":" << std::endl;
+            std::cout << "\tName: '" << joystickInfo[joystick].Name.c_str() << "'" << std::endl;
+            std::cout << "\tAxes: " << joystickInfo[joystick].Axes << std::endl;
+            std::cout << "\tButtons: " << joystickInfo[joystick].Buttons << std::endl;
+
+            std::cout << "\tHat is: ";
+
+            switch(joystickInfo[joystick].PovHat)
+            {
+            case SJoystickInfo::POV_HAT_PRESENT:
+                std::cout << "present" << std::endl;
+                break;
+
+            case SJoystickInfo::POV_HAT_ABSENT:
+                std::cout << "absent" << std::endl;
+                break;
+
+            case SJoystickInfo::POV_HAT_UNKNOWN:
+            default:
+                std::cout << "unknown" << std::endl;
+                break;
+            }
+        }
+    }
+    else
+     {
+        std::cout << "Joystick support is not enabled." << std::endl;
+     } 
 }	
 
 void Mundo::posBuilder(){	//CONSTRUCTOR DE POSICIONES DE ENEMIGOS
@@ -235,30 +282,6 @@ void Mundo::terrainBuilder(){	//CONSTRUCTOR DEL TERRENOS Y COLISIONES DE CAMARA
 	terrain->setMaterialType(video::EMT_DETAIL_MAP);
     terrain->scaleTexture(1.0f, 20.0f);
 
-    /** COLISIONES 
-
-    (Aplicado solo a la camara) extraer a clase y aplicar a prota etc 
-	create triangle selector for the terrain 
-
-	
-
-    selector = smgr->createTerrainTriangleSelector(terrain, 0);
-    terrain->setTriangleSelector(selector);
-
-    // create collision response animator and attach it to the camera
-
-    anim = smgr->createCollisionResponseAnimator(
-
-        selector, cam, core::vector3df(60,100,60),
-
-        core::vector3df(0,0,0),
-
-        core::vector3df(0,50,0));
-
-    selector->drop();
-    cam->addAnimator(anim);
-    anim->drop();
-**/
 }
 
 void Mundo::update(){
@@ -326,15 +349,11 @@ void Mundo::update(){
 void Mundo::protaUpdate(const u32 now, const f32 frameDeltaTime, f32 tiempo){
 	core::vector3df protaPosition = prota->getPosition();
 
-	
 	energiaAnterior = prota->getEnergia();
-	//prota->gravedad(frameDeltaTime);
-    //prota->salto(frameDeltaTime);
-    //prota->defender(frameDeltaTime);
+
     prota->ataque(frameDeltaTime);
     prota->pintarInterfaz();
-    //prota->comprobarColision(Plataforma);
-    //prota->comprobarColision(Plataforma2);
+
 	prota->comprobarColision(c);
     prota->comprobarColision(bebida);
     prota->comprobarColision(t);
@@ -344,14 +363,13 @@ void Mundo::protaUpdate(const u32 now, const f32 frameDeltaTime, f32 tiempo){
     if(!prota->checkVida())
 		device->closeDevice();
 
-    if(tiempo>0.2f) 	// EVITAMOS QUE LO HAYA DENTRO SE HAGA MENOS VECES POR SEGUNDO
+    if(tiempo>0.2f) 	// HACEMOS QUE LO QUE HAYA DENTRO SE HAGA MENOS VECES POR SEGUNDO
     {
         f32 energia=prota->getEnergia();
 
         time_input=now;
 
-        receiver->checkSigilo(prota,frameDeltaTime);
-        receiver->checkCombate(prota);
+        receiver->checkCombate(prota); 						// Comprobamos si hemos pulsado la tecla de combate (K)
 
         for(int i2=0; i2<enemB.size();i2++)
         {
@@ -360,12 +378,18 @@ void Mundo::protaUpdate(const u32 now, const f32 frameDeltaTime, f32 tiempo){
             
     }
 
-    if(prota->getCombate())
+    if(prota->getCombate())  // Si combate activado entonces comprobamos las posiciones de combate
     {
     	prota->checkPosCombate();
     }
+    else
+    {
+    	receiver->checkSigilo(prota);  						// Comprobamos si hemos pulsado la tecla de sigilo (C)
+    }
+
     receiver->checkInput(prota,frameDeltaTime);
 
+    /* Velocidad Barra de Energia */
     energiaActual = prota->getEnergia();
     energiaDelta = energiaActual - energiaAnterior;
 
@@ -374,6 +398,7 @@ void Mundo::protaUpdate(const u32 now, const f32 frameDeltaTime, f32 tiempo){
     }
 
     tiempoTrans = relojDescanso.getElapsedTime().asSeconds();
+    
     if(tiempoTrans > 0.8f)	
     	prota->setEnergia(25,frameDeltaTime);  //CAMBIO 5 a 15
     else

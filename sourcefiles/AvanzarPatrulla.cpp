@@ -18,8 +18,6 @@ Status AvanzarPatrulla::run(Enemigo *e)
 
     int distanciaNodoX= posPatrullaX - enemigoX;     // DISTANCIA EN X AL NODO DE LA PATRULLA
 
-    frameDeltaTime = board->getTime();
-    e->setVelocidad(e->getVelNormal());                                      // ACTUALIZAMOS LA VELOCIDAD DEL ENEMIGO
     e->setCombate(false);
 
     if(distanciaNodoX==0) // SI ESTAMOS EN UNO DE LOS NODOS DE LA PATRULLA BUSCAMOS EL SIGUIENTE NODO
@@ -37,11 +35,7 @@ Status AvanzarPatrulla::run(Enemigo *e)
 
             if (distanciaNodoX<0) // AVANZAMOS HACIA LA IZQUIERDA
             {
-                EnemigoPosition.X-= e->getVelocidad() * frameDeltaTime*3;
-
-                e->setPosition(EnemigoPosition); // CAMBIAMOS LA POSICION
-
-                //e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));    // Velocidad Normal
+                e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));    // Velocidad Normal
 
                 e->setLastFacedDir(false);                                    // INDICAMOS QUE EL ENEMIGO ESTA MIRANDO A LA IZQUIERDA                           
 
@@ -49,12 +43,7 @@ Status AvanzarPatrulla::run(Enemigo *e)
             else{
                 if(distanciaNodoX>0) // AVANZAMOS HACIA LA DERECHA
                 {
-
-                    EnemigoPosition.X+= e->getVelocidad() * frameDeltaTime*3;
-
-                    e->setPosition(EnemigoPosition);
-
-                    //e->getBody()->SetLinearVelocity(e->getVelocidad2d());
+                    e->getBody()->SetLinearVelocity(e->getVelocidad2d());
                     
                     e->setLastFacedDir(true);                                // INDICAMOS QUE EL ENEMIGO ESTA MIRANDO A LA DERECHA  
                 }

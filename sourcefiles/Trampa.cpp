@@ -5,7 +5,6 @@
 Trampa::Trampa(IrrlichtDevice *dev, ISceneManager* smgr, Posicion pos):Objeto()
 {
 	GameObject::setTipo(TRAMPA);
-
 	objeto = smgr->addCubeSceneNode();
 
 	if (objeto)

@@ -1,20 +1,40 @@
 #include "../headerfiles/ComprobarVida.h"
 #include "../headerfiles/EnemigoBasico.h"
-#include <ctime>
-#include <typeinfo>  
+#include <ctime> 
 
 Status ComprobarVida::run(Enemigo *e)
 {
-	// Falta Ver como hacer para hacer distintas cosas en funcion del tipo de enemigo
+	//Comprobamos que clase de enemigo es
+    switch(e->getClaseEnemigo())
+    {
+        case(1):  /* Enemigo Basico */
+        {
+            if(e->getSalud()<30)              // Vida por debajo de 30
+            {
+                return BH_SUCCESS;
+            }
+            else
+            {
+                return BH_FAILURE;
+            }
 
-    if(e->getSalud()<=30)              // Vida por debajo de 30
-    {
-        return BH_SUCCESS;
-    }
-    else
-    {
-        return BH_FAILURE;
-    }
+            break;
+        }
+
+        case(2): /* Enemigo Avanzado */
+        {
+            if(e->getSalud()<20)
+            {
+                return BH_SUCCESS;
+            }
+            else
+            {
+                return BH_FAILURE;
+            }
+            break;
+        }
+
+    }  
 }
 
 

@@ -2,7 +2,7 @@
 
 Status IrAlarma::run(Enemigo *e)
 {   
-	 	// DATOS  ENEMIGO
+    // DATOS  ENEMIGO
    enemigoNode = e->getNode();
    core::vector3df EnemigoPosition = enemigoNode->getPosition(); 
    float enemigoX=EnemigoPosition.X;
@@ -20,18 +20,14 @@ Status IrAlarma::run(Enemigo *e)
         i = a.size();
       }
    }
-
-   frameDeltaTime = board->getTime();
-
-   e->setVelocidad(25.f);
+   
    e->setCombate(false);
 
    if (distanciaAlarma<0) // AVANZAMOS HACIA LA IZQUIERDA
     {
 
-        EnemigoPosition.X-= e->getVelocidad() * frameDeltaTime*2;
-
-        e->setPosition(EnemigoPosition);
+        e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
+        e->getBody()->ApplyForceToCenter(b2Vec2(-150.f,0.f),true);             // Fuerza para correr
 
         e->setLastFacedDir(false);                                    // INDICAMOS QUE EL ENEMIGO ESTA MIRANDO A LA IZQUIERDA 
     }
@@ -39,10 +35,9 @@ Status IrAlarma::run(Enemigo *e)
            if(distanciaAlarma>0) // AVANZAMOS HACIA LA DERECHA
            {
 
-               EnemigoPosition.X+= e->getVelocidad() * frameDeltaTime*2;
-
-               e->setPosition(EnemigoPosition);
-
+                e->getBody()->SetLinearVelocity(e->getVelocidad2d());
+                e->getBody()->ApplyForceToCenter(b2Vec2(150.f,0.f),true);             // Fuerza para correr
+                
                 e->setLastFacedDir(true);                                // INDICAMOS QUE EL ENEMIGO ESTA MIRANDO A LA DERECHA
            }
           
@@ -59,7 +54,7 @@ return BH_SUCCESS;
 
 void IrAlarma::onInitialize(Blackboard *b)
 {
-	board = b;
+  board = b;
   a = board->getAlarma();
   alarmaX = 0.0;
   distanciaAlarma = 0;
