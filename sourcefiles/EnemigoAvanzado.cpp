@@ -1,7 +1,7 @@
 #include "../headerfiles/EnemigoAvanzado.h"
 
 
-EnemigoAvanzado::EnemigoAvanzado(IrrlichtDevice *dev, ISceneManager *smgr, vector<Posicion*> pos, float xlength, float pendValue, int t):Enemigo(dev, smgr, pos, xlength, pendValue)
+EnemigoAvanzado::EnemigoAvanzado(IrrlichtDevice *dev, ISceneManager *smgr, vector<Posicion*> pos, float xlength, float pendValue, int t, const Entorno* e):Enemigo(dev, smgr, pos, xlength, pendValue, e)
 {
 
     //ESTABLECEMOS LAS ESTADISTICAS ENEMIGO AVANZADO

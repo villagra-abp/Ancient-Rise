@@ -4,18 +4,20 @@
 
 Alarma::Alarma(IrrlichtDevice *dev, ISceneManager* smgr, Posicion pos):Objeto()
 {
+	GameObject::setTipo(ALARMA);
+
 	objeto = smgr->addCubeSceneNode();
 
 	if (objeto)
 	{
 		driver = dev->getVideoDriver();
 		objeto ->setPosition(core::vector3df(pos.getPosX(),pos.getPosY(),pos.getPosZ()));
-		objeto ->setScale(core::vector3df(1.f,6.f,1.f));
+		objeto ->setScale(core::vector3df(1.f,3.f,1.f));
 		objeto ->setMaterialFlag(video::EMF_LIGHTING, false);
 		objeto ->setMaterialTexture(0,driver->getTexture("resources/desactivada.jpeg"));
 
 	}
-
+	cout << objeto-> getPosition().X << endl;
 	contador = 0;
 }
 
@@ -58,6 +60,10 @@ void Alarma::startClock()
         reloj.restart();
         contador = contador +1;
     }
+}
+
+int getContador(){
+	return 8;
 }
 
 Alarma::~Alarma()

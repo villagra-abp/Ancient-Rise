@@ -7,12 +7,14 @@
 Protagonista::Protagonista(IrrlichtDevice *dev, ISceneManager* smgr)
 {
 
+    GameObject::setTipo(PROTA);
+
     /**
     Creamos un nodo que va ser movido con las teclas WSAD. Es una esfera que posicionamos
     en (0,0,30) y le asignamos una texura. Como no tenemos luces dinamicas en esta escena
     desabilitamos la luz en cada modelo (sino los modelos serian negros )
-    **/
-    
+    **/ 
+
     rec=smgr->addSphereSceneNode();
     energy=smgr->addCubeSceneNode();
     life=smgr->addCubeSceneNode();
@@ -567,10 +569,10 @@ bool Protagonista::getCombate()
     return combate;
 }
 
-core::vector3df Protagonista::getPosition()
+/*core::vector3df Protagonista::getPosition()
 {
    return protaPosition;
-}
+}*/
 
 f32 Protagonista::getEnergia()
 {

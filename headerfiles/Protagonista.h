@@ -13,7 +13,7 @@
 #include "../headerfiles/Bebida.h"
 #include "../headerfiles/Trampa.h"
 #include "../motorsonido/headerfiles/GestorSonido.h"
-
+#include "../headerfiles/GameObject.h"
 
 
 using namespace irr;
@@ -27,7 +27,7 @@ using namespace io;
 using namespace gui;
 
 
-class Protagonista
+class Protagonista : public GameObject
 {
     public:
         Protagonista(IrrlichtDevice *dev, ISceneManager* smgr);
@@ -54,8 +54,8 @@ class Protagonista
 
 
          //GETTERS Y SETTERS
+         virtual core::vector3df getPosition() const override{ return protaPosition; }
          void setSalto(bool s);
-         core::vector3df getPosition();
          void setPosition(core::vector3df v);
          f32  getEnergia();
          f32  getVida();

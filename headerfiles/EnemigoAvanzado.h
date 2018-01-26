@@ -12,7 +12,7 @@ class EnemigoAvanzado : public Enemigo
 
 	public:
 
-        EnemigoAvanzado(IrrlichtDevice *dev, ISceneManager *smgr, vector<Posicion*> pos, float xlength, float pendValue, int t);
+        EnemigoAvanzado(IrrlichtDevice *dev, ISceneManager *smgr, vector<Posicion*> pos, float xlength, float pendValue, int t, const Entorno* e);
 
         void Update();
         virtual void comprobarEnergia() override;

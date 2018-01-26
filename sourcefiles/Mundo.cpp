@@ -33,15 +33,16 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 /* CREAMOS PROTA */
 
 	prota = new Protagonista(device, smgr);
+	addGameObject(prota);
 
 	rec = prota->getNode();
 
 	//creo el suelo, el bounding box del prota y la plataforma
 	prota->CreateGround(world, 0.f, -150.f,1000*1000);
-    	prota->CreateGround(world, 6600.f, 900.f,3200);
-    	prota->CreateGround(world, 9600.f, 1800.f,3200);
-    	prota->CreateGround(world, 12600.f, 2700.f,3200);
-    	prota->CreateBox(world, -5000.f, 0.f);
+    prota->CreateGround(world, 6600.f, 900.f,3200);
+    prota->CreateGround(world, 9600.f, 1800.f,3200);
+    prota->CreateGround(world, 12600.f, 2700.f,3200);
+    prota->CreateBox(world, -5000.f, 0.f);
 
 
 /* CREAMOS VECTOR DE POSICIONES PARA EL ENEMIGO */
@@ -52,33 +53,56 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 
 	Posicion pC(-220.f, 0.f, 30.f);
 	c = new Comida(device, smgr, pC);
+	addGameObject(c);
+
+	Posicion pC2(190.f, 0.f, 30.f);
+	c2 = new Comida(device, smgr, pC2);
+	addGameObject(c2);
 
 	Posicion pF(-190.f,0.f,40.f);
 	f = new Fuente(device, smgr, pF);
+	addGameObject(f);
 
-	Posicion pA(60.f,0.f,40.f);
+	Posicion pF2(320.f,0.f,40.f);
+	f2 = new Fuente(device, smgr, pF2);
+	addGameObject(f2);
+
+	Posicion pA(120.f,0.f,40.f);
 	a = new Alarma(device, smgr, pA);
+	addGameObject(a);
+
+	Posicion pA2(-160.f,0.f,40.f);
+	a2 = new Alarma(device, smgr, pA2);
+	addGameObject(a2);
 
 	Posicion posbebida(-300,0,30.f);
  	bebida = new Bebida(device, smgr, posbebida);
+ 	addGameObject(bebida);
 
 	Posicion postrampa(520,0,30.f);
  	t = new Trampa(device, smgr, postrampa);
+ 	addGameObject(t);
 
 /* CREAMOS LA BLACKBOARD */
 
 	b=new Blackboard();
 	 b->setFuente(f);
+	 b->setFuente(f2);
 	 b->setComida(c);
+	 b->setComida(c2);
 	 b->setAlarma(a);
+	 b->setAlarma(a2);
 
 /* CREAMOS ENEMIGOS BASICOS */
 	
-	enem1 = new EnemigoBasico(device, smgr, pos, 100.0, 0.6, 2, b, world);
+	enem1 = new EnemigoBasico(device, smgr, pos, 80.0, 0.8, 2, this, b, world);
 	enemB.push_back(enem1);
+	addGameObject(enem1);
 
-	enem2 = new EnemigoBasico(device, smgr, pos2, 100.0, 0.36, 1, b, world);
+	enem2 = new EnemigoBasico(device, smgr, pos2, 80.0, 0.8, 2, this, b, world);
 	enemB.push_back(enem2);
+	addGameObject(enem2); 
+
 	
 
 /* CREAMOS ENEMIGOS ELITES */
@@ -139,7 +163,6 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 
 	then = device->getTimer()->getTime();
 	time_input = device->getTimer()->getTime();
-
 
 }	
 
@@ -268,6 +291,7 @@ void Mundo::update(){
 
     /* ALARMA UPDATE*/
     a->update();
+    a2->update();
 
 
     /* UPDATE DE LOS ENEMIGOS */
@@ -416,6 +440,20 @@ void Mundo::draw(){
 	driver->endScene();
 }
 
+void Mundo::addGameObject (GameObject* o){
+	gos.push_back(o);
+}
+
+GameObject* Mundo::getGameObject(uint8_t pos) const{
+	GameObject* o = nullptr;
+
+	if(pos < gos.size() && gos[pos] != nullptr){
+		o = gos[pos];
+	}
+
+	return o;
+}
+
 Mundo::~Mundo()	//DESTRUCTOR
 {
 	delete prota;
@@ -440,6 +478,7 @@ Mundo::~Mundo()	//DESTRUCTOR
     delete c;
     delete f;
     delete a;
+    delete a2;
     delete bebida;
     delete t;
     delete sonido;

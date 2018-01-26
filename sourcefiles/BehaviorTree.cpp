@@ -63,7 +63,7 @@ BehaviorTree::BehaviorTree(int c, Blackboard *b):board(b)
 
 			seqCVida->addChildren(cVida);
 			seqCVida->addChildren(huir);
-			seqCVida->onInitialize(board);		
+			seqCVida->onInitialize(board);	
 
 			/* Sequencia para comprobar si hay una alarma cerca y desactivada y activarla */
 

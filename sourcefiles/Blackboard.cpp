@@ -2,7 +2,7 @@
 
 
 
-Blackboard::Blackboard():comida(nullptr), fuente(nullptr), alarma(nullptr)
+Blackboard::Blackboard()
 {
 
 }
@@ -19,19 +19,19 @@ float Blackboard::getProta()
 }
 
 
-Objeto* Blackboard::getFuente()
+vector<Objeto*> Blackboard::getFuente()
 {
-	return fuente;
+	return fuentes;
 }
 
-Objeto* Blackboard::getComida()
+vector<Objeto*> Blackboard::getComida()
 {
-	return comida;
+	return comidas;
 }
 
-Objeto* Blackboard::getAlarma()
+vector<Objeto*> Blackboard::getAlarma()
 {
-	return alarma;
+	return alarmas;
 }
 
 
@@ -49,29 +49,40 @@ void Blackboard::setProta(float pX)
 
 void Blackboard::setFuente(Objeto* f)
 {
-	fuente= f;
+	fuentes.push_back(f);
 }
 
 void Blackboard::setComida(Objeto *c)
 {
-	comida = c;
+	comidas.push_back(c);
 }
 
 void Blackboard::setAlarma(Objeto *a)
 {
-	alarma = a;
+	alarmas.push_back(a);
 }
 
 
 Blackboard::~Blackboard()
-{
-    //dtor
-	comida = nullptr;
-	fuente = nullptr;
-	alarma = nullptr;
+{	
+	for(int i = 0 ; i < alarmas.size(); i++){
+		alarmas[i] = nullptr;
+		delete alarmas[i];
+	}
 
+	alarmas.clear();
 
-    delete comida;
-    delete fuente;
-    delete alarma;
+	for(int i = 0 ; i < comidas.size(); i++){
+		comidas[i] = nullptr;
+		delete comidas[i];
+	}
+
+	comidas.clear();
+
+	for(int i = 0 ; i < fuentes.size(); i++){
+		fuentes[i] = nullptr;
+		delete fuentes[i];
+	}
+
+	fuentes.clear();
 }

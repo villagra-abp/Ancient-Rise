@@ -4,7 +4,6 @@
 #include "../headerfiles/Objeto.h"
 
 
-
 class Bebida : public Objeto
 {
 

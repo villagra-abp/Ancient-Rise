@@ -9,12 +9,22 @@ Status BuscarComida::run(Enemigo *e)
     core::vector3df EnemigoPosition = enemigoNode->getPosition(); 
     float enemigoX=EnemigoPosition.X;
 
-    // DATOS DE LA COMIDA
-    comidaNode = c->getObjeto();
-    core::vector3df comidaPosition = comidaNode->getPosition(); 
-    float comidaX=comidaPosition.X;
+    //BUSCAR COMIDA MAS CERCANA
+    comidaPosition = c[0]->getVector3df();
+    comidaX = comidaPosition.X;
+    distanciaComida = comidaX - enemigoX;  // Calculamos la distancia hasta la fuente
 
-    int distanciaComida = comidaX - enemigoX;  // Calculamos la distancia hasta la fuente
+       for (int i = 1; i < c.size(); i++){
+          
+          comidaPosition = c[i]->getVector3df();
+          comidaX=comidaPosition.X;
+
+          distanciaCaux = comidaX - enemigoX;
+
+          if( abs(distanciaCaux) < abs(distanciaComida)) {
+            distanciaComida = distanciaCaux;
+          }
+       }
 
     frameDeltaTime = board->getTime();
 
@@ -76,9 +86,15 @@ void BuscarComida::onInitialize(Blackboard *b)
 BuscarComida::~BuscarComida()
 {
     board = nullptr;
-    c = nullptr;
     enemigoNode = nullptr;
     comidaNode = nullptr;
+
+    for(int i = 0 ; i < c.size(); i++){
+      c[i] = nullptr;
+      delete c[i];  //No se si es necesario
+    }
+
+    c.clear();
 
     //delete board;
     //delete c;

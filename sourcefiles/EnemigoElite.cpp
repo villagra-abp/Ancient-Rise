@@ -1,7 +1,7 @@
 #include "../headerfiles/EnemigoElite.h"
 
 
-EnemigoElite::EnemigoElite(IrrlichtDevice *dev, ISceneManager *smgr, vector<Posicion*> pos, float xlength, float pendValue, int t, Blackboard *b, b2World& world):Enemigo(dev, smgr, pos, xlength, pendValue), black(nullptr)
+EnemigoElite::EnemigoElite(IrrlichtDevice *dev, ISceneManager *smgr, vector<Posicion*> pos, float xlength, float pendValue, int t, const Entorno* e, Blackboard *b, b2World& world):Enemigo(dev, smgr, pos, xlength, pendValue, e), black(nullptr)
 {
 
     //ESTABLECEMOS LAS ESTADISTICAS ENEMIGO AVANZADO

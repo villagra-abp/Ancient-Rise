@@ -1,51 +1,36 @@
 #ifndef ENEMIGO_H
 #define ENEMIGO_H
 
-
-
-#include "../headerfiles/Posicion.h"
 #include "../headerfiles/Objeto.h"
 #include "../headerfiles/Blackboard.h"
-#include <Box2D/Box2D.h>
-#include <Box2D/Common/b2Math.h>
-#include <GL/gl.h>
-#include <SFML/Graphics.hpp>
-
-#include <irrlicht/irrlicht.h>
-#include <iostream>
-#include <vector>
-#include <math.h>
-#include <unistd.h>
-#include <ctime>
-
-using namespace irr;
-using namespace std;
-
-using namespace core;
-using namespace scene;
-using namespace video;
-using namespace io;
-using namespace gui;
+#include "../headerfiles/GameObject.h"
+#include "../headerfiles/Entorno.h"
 
 #define SCALE 30.0f
 
 class BehaviorTree;
+class Entorno;
 
-
-class Enemigo
+class Enemigo : public GameObject
 {
     public:
-        Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos, float xlength, float pendValue);
+
+        Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos, float xlength, float pendValue, const Entorno* e);
 
         void update(core::vector3df prota);
         void updateTiempo(const f32 Time);
         void actualizarHambre();
         void actualizarSed();
         virtual void comprobarEnergia()=0;
+        
+        /* Vision del Enemigo */
         bool checkInSight(core::vector3df objPos);
+        bool see(GameObject* o);
+
         virtual void CreateBox(b2World& world, float X, float Y)=0;
 
         /* Getters y Setters */
+        virtual core::vector3df getPosition() const override{ return EnemigoPosition; }
         f32 getVelocidad();
         f32 getSed();
         f32 getSalud();
@@ -112,6 +97,7 @@ class Enemigo
         float valorPendiente;
         bool visto;     
         bool direccVistoUlt;                        // Para saber por que lado vio por ultima vez al protagonista (True -> Derecha / False -> Izquierda)                   
+        vector<GameObject*> vistos;
 
         /* ESTADISTICAS DEL ENEMIGO */
         f32 energia;
@@ -141,7 +127,8 @@ class Enemigo
         int pos_combate;        // INDICA LA POSICION DE COMBATE (1 = ARRIBA, 2 = CENTRO, 3 = ABAJO)
         bool ataca=false;       // PROTA ATACANDO O NO
         
-
+        /* ENTORNO, GAMEOBJECTS */
+        const Entorno *ent;
 
 
 };
