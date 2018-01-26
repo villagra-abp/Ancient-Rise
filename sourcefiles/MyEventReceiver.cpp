@@ -17,7 +17,6 @@ bool MyEventReceiver::OnEvent(const SEvent& event)
     {
         KeyIsDown[event.KeyInput.Key] = event.KeyInput.PressedDown;
     }
-
     // The state of each connected joystick is sent to us
     // once every run() of the Irrlicht device.  Store the
     // state of the first joystick, ignoring other joysticks.
@@ -39,13 +38,12 @@ bool MyEventReceiver::IsKeyDown(EKEY_CODE keyCode) const
 }
 
 /**
-    Clase para poder recoger los eventos ( entrada por teclado y por mando)
+    Clase para poder recoger los eventos ( entrada por teclado )
 **/
-void MyEventReceiver::checkInput(Protagonista *prota,const f32 frameDeltaTime)
-{
+void MyEventReceiver::checkInput(Protagonista *prota,const f32 frameDeltaTime){
     
     /*Recogida de eventos del mando*/
-        bool movedWithJoystick = false;
+	    bool movedWithJoystick = false;
 
         
             f32 moveHorizontal = 0.f; // Range is -1.f for full left to +1.f for full right
@@ -99,7 +97,7 @@ void MyEventReceiver::checkInput(Protagonista *prota,const f32 frameDeltaTime)
                 {
                     direccion(prota,1);
                     moverse(prota,frameDeltaTime);    
-                }   
+                }	
                 
                 movedWithJoystick = true;
             }
@@ -109,7 +107,7 @@ void MyEventReceiver::checkInput(Protagonista *prota,const f32 frameDeltaTime)
     if(prota->getCombate()==false)         // COMBATE DESACTIVADO --> Saltar, Correr y sigilo
     {
         /* lanza el salto al pulsat w */
-        if(IsKeyDown(irr::KEY_SPACE))
+        if(IsKeyDown(irr::KEY_SPACE)||((u32)joystickData.IsButtonPressed(0)&&mando))
         {
             saltar(prota,true);
         }
@@ -119,7 +117,7 @@ void MyEventReceiver::checkInput(Protagonista *prota,const f32 frameDeltaTime)
         }
 
         /* control de correr*/
-        if(IsKeyDown(irr::KEY_LSHIFT))
+        if(IsKeyDown(irr::KEY_LSHIFT)||((u32)joystickData.IsButtonPressed(5)&&mando))
         {
             sprintar(prota);
         }
@@ -132,11 +130,11 @@ void MyEventReceiver::checkInput(Protagonista *prota,const f32 frameDeltaTime)
      {
 
         /* hacemos un set de ataque a 2 que es arriba */
-        if(IsKeyDown(irr::KEY_KEY_W))
+        if(IsKeyDown(irr::KEY_KEY_W)||moveVertical>0)
         {
             prota->setPosCombate(1);    // pos_combate = arriba
         }
-        else if(IsKeyDown(irr::KEY_KEY_S))
+        else if(IsKeyDown(irr::KEY_KEY_S)||moveVertical<0)
         {
             prota->setPosCombate(3);    // pos_combate = abajo
         }
@@ -146,14 +144,11 @@ void MyEventReceiver::checkInput(Protagonista *prota,const f32 frameDeltaTime)
         }
 
         /* control de ataque*/
-        if(IsKeyDown(irr::KEY_KEY_P))
+        if(IsKeyDown(irr::KEY_KEY_P)||((u32)joystickData.IsButtonPressed(2)&&mando))
         {  
             atacar(prota,true);
         }
-        else
-        {
-            atacar(prota,false);
-        }
+        
     }
 
      /* movimiento hacia los lados y control de la velocidad en funcion de
@@ -161,7 +156,7 @@ void MyEventReceiver::checkInput(Protagonista *prota,const f32 frameDeltaTime)
 
      if(IsKeyDown(irr::KEY_KEY_A))
     {
-         direccion(prota,0);
+        direccion(prota,0);
         moverse(prota,frameDeltaTime);
     }
     else if(IsKeyDown(irr::KEY_KEY_D)){
@@ -173,7 +168,7 @@ void MyEventReceiver::checkInput(Protagonista *prota,const f32 frameDeltaTime)
 
 }
 void MyEventReceiver::checkSigilo(Protagonista *prota){
-     const SEvent::SJoystickEvent & joystickData = this->GetJoystickState();
+    const SEvent::SJoystickEvent & joystickData = this->GetJoystickState();
      if(IsKeyDown(irr::KEY_KEY_C)||((u32)joystickData.IsButtonPressed(3)&&mando)) // AGACHARSE
      {
         ralentizar(prota);
@@ -182,7 +177,7 @@ void MyEventReceiver::checkSigilo(Protagonista *prota){
 
 void MyEventReceiver::checkCombate(Protagonista *prota)
 {
-     const SEvent::SJoystickEvent & joystickData = this->GetJoystickState();
+    const SEvent::SJoystickEvent & joystickData = this->GetJoystickState();
      if(IsKeyDown(irr::KEY_KEY_K)||((u32)joystickData.IsButtonPressed(4)&&mando)) // MODO COMBATE
      {
         prota->setCombate();    // ACTIVAMOS O DESACTIVAMOS
@@ -206,6 +201,7 @@ void MyEventReceiver::moverse(Protagonista *p,const f32 Time){
 }
 void MyEventReceiver::atacar(Protagonista *p,bool b){
     p->setAtaque(b);
+	//std::cout<<b<<"\n";
 }
 void MyEventReceiver::ralentizar(Protagonista *p){
     p->setSigilo();
