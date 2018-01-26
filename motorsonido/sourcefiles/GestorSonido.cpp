@@ -14,6 +14,37 @@ GestorSonido::GestorSonido(){
 	GestorErrores::getInstance()->errcheck(result);
 
 	channels = new FMOD::Channel*[CANALES];
+
+	//Guardamos el channel group master
+	FMOD::ChannelGroup* grupo;
+	result = syslow->getMasterChannelGroup(&grupo);
+	GestorErrores::getInstance()->errcheck(result);
+	master = new GrupoCanales(grupo);
+
+	//Creamos los channel group de los diferentes tipos de sonido del juego
+	//Grupo de voces
+	result = syslow->createChannelGroup("voces",&grupo);
+	GestorErrores::getInstance()->errcheck(result);
+	voces = new GrupoCanales(grupo);
+	result = master->getChannelGroup()->addGroup(grupo);
+	GestorErrores::getInstance()->errcheck(result);
+
+	//Grupo de musica
+	result = syslow->createChannelGroup("musica",&grupo);
+	GestorErrores::getInstance()->errcheck(result);
+	musica = new GrupoCanales(grupo);
+	result = master->getChannelGroup()->addGroup(grupo);	
+	GestorErrores::getInstance()->errcheck(result);
+
+	//Grupo de ambiente
+	result = syslow->createChannelGroup("ambiente",&grupo);
+	GestorErrores::getInstance()->errcheck(result);
+	ambiente = new GrupoCanales(grupo);
+	result = master->getChannelGroup()->addGroup(grupo);
+	GestorErrores::getInstance()->errcheck(result);
+
+	master->setVolumen(0.2f);
+
 }
 
 GestorSonido* GestorSonido::getInstance(){
@@ -25,7 +56,28 @@ GestorSonido::~GestorSonido(){
 	system->release();
 }
 
+GrupoCanales* GestorSonido::createGrupoCanales(){
+	FMOD::ChannelGroup* grupete;
+	result = syslow->createChannelGroup(NULL,&grupete);
+	GestorErrores::getInstance()->errcheck(result);
 
+	std::cout<<"Creado grupo de canales."<<endl;
+
+	GrupoCanales* grupo = new GrupoCanales(grupete);
+
+	return(grupo);
+}
+GrupoCanales* GestorSonido::createGrupoCanales(const char* name){
+	FMOD::ChannelGroup* grupete;
+	result = syslow->createChannelGroup(name,&grupete);
+	GestorErrores::getInstance()->errcheck(result);
+
+	std::cout<<"Creado grupo de canales "<<name<<"."<<endl;
+
+	GrupoCanales* grupo = new GrupoCanales(grupete);
+
+	return(grupo);
+}
 //Carga un Sonido 2D como decompressed sample 
 Sonido* GestorSonido::create2DSound(const char* name){
 	result = syslow->createSound(name, /*FMOD_NONBLOCKING|*/FMOD_DEFAULT,0,&sound);
@@ -49,6 +101,36 @@ Sonido* GestorSonido::create3DSound(const char* name){
 
 	return(sonido);	
 }
+//Crea un DSP del tipo que se le pasa por parametro
+DSP* GestorSonido::createDSP(const char* tipo){
+	FMOD::DSP* dsp;
+
+	FMOD_DSP_TYPE type;
+
+	if(tipo == "echo"){
+		type = FMOD_DSP_TYPE_ECHO;
+	}
+	else if(tipo == "distortion"){
+		type = FMOD_DSP_TYPE_DISTORTION;
+	}
+	else if(tipo == "fader"){
+		type = FMOD_DSP_TYPE_FADER;
+	}
+	else if(tipo == "chorus"){
+		type = FMOD_DSP_TYPE_CHORUS;
+	}
+	else if(tipo == "tremolo"){
+		type = FMOD_DSP_TYPE_TREMOLO;
+	} else type = FMOD_DSP_TYPE_ECHO;
+
+
+	result = syslow->createDSPByType(type,&dsp);
+	GestorErrores::getInstance()->errcheck(result);
+
+	DSP* ndsp = new DSP(dsp);
+	return ndsp;
+}
+
 
 //Carga una musica en un stream
 Sonido* GestorSonido::createMusic(const char* name){
@@ -74,13 +156,14 @@ Reverb* GestorSonido::create3DReverb(){
 }
 
 //Se le pasa un puntero a un Sonido previamente cargado con uno de los metodos create
-void GestorSonido::playSound(Sonido* sonido){
+//Output: true si ha creado canal nuevo, false si lo ha reutilizado
+bool GestorSonido::playSound(Sonido* sonido){
 	FMOD::Channel* channel;
 	bool isplaying;
 //	FMOD_OPENSTATE open;
 //	sonido->getSound()->getOpenState(&open,0,0,0);	
 //	if(open == FMOD_OPENSTATE_READY){
-
+	bool flag = false;
 
 		if(sonido->getCanal() == NULL ){
 			//channel = new FMOD::Channel();
@@ -89,7 +172,7 @@ void GestorSonido::playSound(Sonido* sonido){
 			Canal* canal = new Canal(channel);
 			channel = NULL;
 			sonido->setCanal(canal);
-
+			flag = true;
 		}
 		else{
 			result = sonido->getCanal()->getCanal()->isPlaying(&isplaying);
@@ -100,14 +183,24 @@ void GestorSonido::playSound(Sonido* sonido){
 				Canal* canal = sonido->getCanal();
 				canal->setCanal(channel);
 				channel = NULL;
-
+				flag = true;
 			}
 			else if(result == FMOD_ERR_INVALID_HANDLE){
+				result = syslow->playSound(sonido->getSound(),0,false,&channel);
+				GestorErrores::getInstance()->errcheck(result);
+				Canal* canal = sonido->getCanal();
+				canal->setCanal(channel);
+				channel = NULL;
+				flag = true;
+			}
+			/*else if(result == FMOD_ERR_INVALID_HANDLE){
 				result = syslow->playSound(sonido->getSound(),0,false, &channel);
 				GestorErrores::getInstance()->errcheck(result);
+				flag = false;
 //				sonido->getCanal()->setCanal(channel);
-			}
+			}*/
 		}
+	return flag;
 //	}
 }
 
@@ -119,4 +212,18 @@ void GestorSonido::update(){
 void GestorSonido::setListener(float x, float y, float z){
 	FMOD_VECTOR pos = {x,y,z};
 	syslow->set3DListenerAttributes(0,&pos,0,0,0);
+}
+
+
+GrupoCanales* GestorSonido::getMasterGroup(){
+	return master;
+}
+GrupoCanales* GestorSonido::getGrupoMusica(){
+	return musica;
+}
+GrupoCanales* GestorSonido::getGrupoAmbiente(){
+	return ambiente;
+}
+GrupoCanales* GestorSonido::getGrupoVoces(){
+	return voces;
 }

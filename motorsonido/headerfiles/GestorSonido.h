@@ -9,6 +9,7 @@
 #include <iostream>
 
 #include "GestorErrores.h"
+#include "GrupoCanales.h"
 #include "Sonido.h"
 #include "Canal.h"
 #include "Reverb.h"
@@ -23,12 +24,20 @@ class GestorSonido{
 		static GestorSonido* getInstance();
 
 
+		GrupoCanales* createGrupoCanales();
+		GrupoCanales* createGrupoCanales(const char* name);
 		Sonido* create2DSound(const char* name);
 		Sonido* create3DSound(const char* name);
-		Sonido* createMusic(const char* name);
 		Reverb* create3DReverb();
-		void playSound(Sonido* sonido);
+		DSP*	createDSP(const char* tipo);
+		Sonido* createMusic(const char* name);
+		bool playSound(Sonido* sonido);
 		void update();
+
+		GrupoCanales* getMasterGroup();
+		GrupoCanales* getGrupoMusica();
+		GrupoCanales* getGrupoAmbiente();
+		GrupoCanales* getGrupoVoces();
 
 		void setListener(float x, float y, float z);
 
@@ -63,6 +72,11 @@ class GestorSonido{
 
 		FMOD::Sound *sound;
 		FMOD::Reverb3D* reverb;
+
+		GrupoCanales* master;
+		GrupoCanales* voces;
+		GrupoCanales* ambiente;
+		GrupoCanales* musica;
 
 };
 

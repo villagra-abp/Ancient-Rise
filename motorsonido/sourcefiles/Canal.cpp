@@ -2,10 +2,19 @@
 
 Canal::Canal(FMOD::Channel* channel){
 	canal = channel;
+	grupo = NULL;
 }
 
 Canal::~Canal(){
 
+}
+
+void Canal::addDSP(DSP* dsp){
+	FMOD_RESULT result;
+	FMOD::DSP* ndsp = dsp->getDSP();
+
+	canal->addDSP(0,ndsp);
+	//GestorErrores::getInstance()->errcheck(result);
 }
 
 FMOD::Channel* Canal::getCanal(){
@@ -14,4 +23,9 @@ FMOD::Channel* Canal::getCanal(){
 
 void Canal::setCanal(FMOD::Channel* channel){
 	canal = channel;
+}
+
+void Canal::setGrupoCanales(GrupoCanales* grupete){
+	grupo = grupete;
+	canal->setChannelGroup(grupo->getChannelGroup());
 }

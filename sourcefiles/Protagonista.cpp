@@ -431,22 +431,33 @@ METODO PARA GESTIONAR EL SALTO
 **/
 void Protagonista::setSalto(bool s)
 {
-            
+    bool flag;
     //sonido->playSound(risa);
     b2Vec2 velocidad=Body->GetLinearVelocity();
     //std::cout<<velocidad.y<<"\n";
     if(velocidad.y>=-5 && velocidad.y<5 && s && !saltando && !sigilo){
         if(correr && energia>10)
         {   
-            sonido->playSound(omae);
+            flag = sonido->playSound(omae);
+            if(flag){
+                DSP* dsp = sonido->createDSP("echo");
+                omae->getCanal()->addDSP(dsp);
+                omae->getCanal()->setGrupoCanales(sonido->getGrupoVoces());
+            }
             Body->ApplyForceToCenter(b2Vec2(0.f,10000.f),true);
         }else if(energia<10)
         {
             sonido->playSound(grito);
+            grito->getCanal()->setGrupoCanales(sonido->getGrupoVoces());
             Body->ApplyForceToCenter(b2Vec2(0.f,2500.f),true);
         }
         else{
-            sonido->playSound(nani);
+            flag = sonido->playSound(nani);
+            if(flag){
+                nani->getCanal()->setGrupoCanales(sonido->getGrupoVoces());
+                DSP* dsp = sonido->createDSP("echo");
+                nani->getCanal()->addDSP(dsp);
+            }
             Body->ApplyForceToCenter(b2Vec2(0.f,6000.f),true);    
         }
         //cont_salto=1;
