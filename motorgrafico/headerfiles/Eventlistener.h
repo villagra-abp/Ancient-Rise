@@ -1,4 +1,4 @@
-#include <irrlicht/irrlicht.h>
+#include <irrlicht.h>
 
 using namespace irr;
 
