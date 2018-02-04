@@ -21,3 +21,11 @@ void trasladar(float x,float y,float z){
 void rotar(float x,float y,float z,float w){
 
 }
+
+void TTransformacion::beginDraw(){
+	//Apilar matriz actual
+	//Multiplicar la matriz de la transformación a la matriz actual
+}
+void TTransformacion::endDraw(){
+	//Desapilar matriz y ponerla como actual
+}

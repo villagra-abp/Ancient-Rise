@@ -14,6 +14,8 @@ public:
 	virtual ~TLuz();
 	//void setIntensidad(TColor c);
 	//TColor getIntensidad();
+	virtual void beginDraw() override;
+	virtual void endDraw() override;
 
 
 private:	

@@ -14,7 +14,7 @@ public:
 	virtual ~TNodo();
 	int addHijo();
 	int remHijo();
-	bool setEntidad();
+	bool setEntidad(TEntidad* ent);
 	TEntidad * getEntidad();
 	TNodo * getPadre();
 	void draw();

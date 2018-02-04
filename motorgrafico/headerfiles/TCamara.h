@@ -14,6 +14,8 @@ public:
 	virtual ~TCamara();
 	void setPerspectiva();
 	void setParalela();
+	virtual void beginDraw() override;
+	virtual void endDraw() override;
 
 
 

@@ -13,6 +13,8 @@ public:
 	TMalla();
 	virtual ~TMalla();
 	//void cargarMalla(TFichero);
+	virtual void beginDraw() override;
+	virtual void endDraw() override;
 
 
 private:	

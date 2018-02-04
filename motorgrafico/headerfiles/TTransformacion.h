@@ -17,6 +17,8 @@ public:
 	void transponer();
 	void trasladar(float x,float y,float z);
 	void rotar(float x,float y,float z,float w);
+	virtual void beginDraw() override;
+	virtual void endDraw() override;
 	
 
 
