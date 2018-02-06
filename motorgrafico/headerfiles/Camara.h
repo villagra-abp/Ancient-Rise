@@ -1,7 +1,7 @@
 #ifndef CAMARA_H
 #define CAMARA_H
 
-#include <irrlicht/irrlicht.h>
+#include <irrlicht.h>
 #include <iostream>
 #include "../headerfiles/Motorgrafico.h"
 #include "../headerfiles/Vector3D.h"

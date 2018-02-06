@@ -12,8 +12,8 @@ class TNodo{
 public:
 	TNodo();
 	virtual ~TNodo();
-	int addHijo();
-	int remHijo();
+	int addHijo(TNodo* n);
+	int remHijo(TNodo* n);
 	bool setEntidad(TEntidad* ent);
 	TEntidad * getEntidad();
 	TNodo * getPadre();
@@ -24,6 +24,7 @@ private:
 
 	TEntidad * entidad;
 	vector <TNodo*> hijos;
+
 	TNodo * padre;
 
 } ;
