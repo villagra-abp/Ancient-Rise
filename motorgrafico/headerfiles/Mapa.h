@@ -1,10 +1,7 @@
 #ifndef MAPA_H
 #define MAPA_H
 
-#include <irrlicht/irrlicht.h>
-#include <iostream>
 #include "../headerfiles/Motorgrafico.h"
-
 
 class Mapa{
 public:

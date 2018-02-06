@@ -1,12 +1,7 @@
 #ifndef MALLA_H
 #define MALLA_H
 
-#include <iostream>
-#include <vector>
-#include <math.h>
 #include "../headerfiles/TEntidad.h"
-
-using namespace std;
 
 class TMalla: public TEntidad{
 public:
