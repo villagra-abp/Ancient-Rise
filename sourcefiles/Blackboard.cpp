@@ -2,7 +2,7 @@
 
 
 
-Blackboard::Blackboard():enemBActual(nullptr)
+Blackboard::Blackboard():comida(nullptr), fuente(nullptr), alarma(nullptr)
 {
 
 }
@@ -19,29 +19,19 @@ float Blackboard::getProta()
 }
 
 
-vector<Objeto*> Blackboard::getFuente()
+Objeto* Blackboard::getFuente()
 {
-	return fuentes;
+	return fuente;
 }
 
-vector<Objeto*> Blackboard::getComida()
+Objeto* Blackboard::getComida()
 {
-	return comidas;
+	return comida;
 }
 
-vector<Objeto*> Blackboard::getAlarma()
+Objeto* Blackboard::getAlarma()
 {
-	return alarmas;
-}
-
-vector<EnemigoBasico*> Blackboard::getEnemB()
-{
-	return enemigosB;
-}
-
-EnemigoBasico* Blackboard::getEnemBActual()
-{
-	return enemBActual;
+	return alarma;
 }
 
 
@@ -57,52 +47,31 @@ void Blackboard::setProta(float pX)
 	protaX = pX;
 }
 
-void Blackboard::setFuente(vector<Objeto*> f)
+void Blackboard::setFuente(Objeto* f)
 {
-	fuentes = f;
+	fuente= f;
 }
 
-void Blackboard::setComida(vector<Objeto*> c)
+void Blackboard::setComida(Objeto *c)
 {
-	comidas = c;
+	comida = c;
 }
 
-void Blackboard::setAlarma(vector<Objeto*> a)
+void Blackboard::setAlarma(Objeto *a)
 {
-	alarmas = a;
-}
-
-void Blackboard::setEnemB(EnemigoBasico *e)
-{
-	enemigosB.push_back(e);
-}
-
-void Blackboard::setEnemBActual(EnemigoBasico *e)
-{
-	enemBActual = e;
+	alarma = a;
 }
 
 
 Blackboard::~Blackboard()
-{	
-	for(int i = 0 ; i < alarmas.size(); i++){
-		alarmas[i] = nullptr;
-		delete alarmas[i];
-	}
+{
+    //dtor
+	comida = nullptr;
+	fuente = nullptr;
+	alarma = nullptr;
 
-	alarmas.clear();
 
-	for(int i = 0 ; i < comidas.size(); i++){
-		comidas[i] = nullptr;
-		delete comidas[i];
-	}
-
-	comidas.clear();
-
-	for(int i = 0 ; i < fuentes.size(); i++){
-		fuentes[i] = nullptr;
-		delete fuentes[i];
-	}
-
-	fuentes.clear();
+    delete comida;
+    delete fuente;
+    delete alarma;
 }

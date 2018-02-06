@@ -7,14 +7,12 @@
 Protagonista::Protagonista(IrrlichtDevice *dev, ISceneManager* smgr)
 {
 
-    GameObject::setTipo(PROTA);
-
     /**
     Creamos un nodo que va ser movido con las teclas WSAD. Es una esfera que posicionamos
     en (0,0,30) y le asignamos una texura. Como no tenemos luces dinamicas en esta escena
     desabilitamos la luz en cada modelo (sino los modelos serian negros )
-    **/ 
-
+    **/
+    
     rec=smgr->addSphereSceneNode();
     energy=smgr->addCubeSceneNode();
     life=smgr->addCubeSceneNode();
@@ -31,26 +29,17 @@ Protagonista::Protagonista(IrrlichtDevice *dev, ISceneManager* smgr)
 
     
     protaPosition=rec->getPosition();
-    
     energyScale=energy->getScale();
     energyScale.Z=0.1f;
-    
     lifeScale=life->getScale();
     lifeScale.Z=0.1f;
-    
     energy->setScale(energyScale);
     life->setScale(lifeScale);
 
     combate = false;
-    pos_combate = 2; 
 
-    sonido = GestorSonido::getInstance();
 
-    nani = sonido->create2DSound(sonido->SOUND_BOSS3_NANI);
-    omae = sonido->create2DSound(sonido->SOUND_BOSS3_OMAE);
-    grito = sonido->create2DSound(sonido->SOUND_BOSS3_GRITO1);
-    risa = sonido->create3DSound(sonido->SOUND_BOSS3_RISA);
-
+    
 }
 /**
 FUNCION PARA crear el objeto dinamico
@@ -67,7 +56,6 @@ void Protagonista::CreateBox(b2World& world, float X, float Y)
     FixtureDef.friction = 0.35f;
     FixtureDef.shape = &Shape;
     FixtureDef.isSensor = false;
-    FixtureDef.filter.groupIndex = GROUP_PLAYER;
     Body->CreateFixture(&FixtureDef);
     Body->SetUserData( rec );
     //std::cout<<Body->GetMass()<<"\n";
@@ -109,21 +97,23 @@ FUNCION PARA DIBUJAR LA INTERFAZ
 **/
 void Protagonista::pintarInterfaz()
 {
-     //barra para mostrar la enegia
+    //barra para mostrar la enegia
     energyPosition=protaPosition;
-    energyPosition.X-=110;    // CAMBIO DESDE 80
-    energyPosition.Y+=100;   // CAMBIO DESDE 120
+    energyPosition.X-=80;
+    energyPosition.Y=120;
     energyPosition.Z-=30;
     energy->setPosition(energyPosition);
     lifePosition=protaPosition;
-    lifePosition.X-=110;      // CAMBIO DESDE 80
-    lifePosition.Y+=110;     // CAMBIO DESDE 140
+    lifePosition.X-=80;
+    lifePosition.Y=140;
     lifePosition.Z-=30;
     life->setPosition(lifePosition);
     energyScale.X=energia/10;
     energy->setScale(energyScale);
     lifeScale.X=vida/10;
     life->setScale(lifeScale);
+    //scene::ISceneNode * rct=static_cast<scene::ISceneNode *>(Body->GetUserData());
+    //std::cout<<rct->getPosition().X<<"\n";
 }
 
 /**
@@ -131,11 +121,13 @@ FUNCION PARA CONTROLAR EL ATAQUE DEL PROTA
 **/
 void Protagonista::ataque(const f32 Time)
 {
-
+    //std::cout<<ataque_position<<"\n";
     b2Vec2 pos=Body->GetPosition();
-
-    if(ataca == true && cont_ataque<20){
+    if(cont_ataque>0 && cont_ataque<20){
+        ataca=true;
         energia-=0.5f;
+        rec->setScale(core::vector3df(1.f,.3f,1.f));
+        //rec->setRotation(core::vector3df(1.f,ataque_position*100,1.f));
         if(ataque_position!=0){
             Body->SetTransform(b2Vec2(pos.x,pos.y+(ataque_position+2)/3), 0.f);
         }else
@@ -152,10 +144,35 @@ void Protagonista::ataque(const f32 Time)
         cont_ataque++;  
     }
     else if(cont_ataque>=20){
+        //Body->ApplyForceToCenter(b2Vec2(0.f,(-ataque_position+1)*10),true);
+        rec->setScale(core::vector3df(1.f,1.f,1.f));
+        //rec->setRotation(core::vector3df(1.f,-ataque_position*100,1.f));
         cont_ataque=0;
         ataca=false;
     }
-    
+
+}
+/**
+FUNCION PARA CONTROLAR LA DEFENSA DEL PROTA
+**/
+void Protagonista::defender(const f32 Time)
+{
+     //std::cout<<ataque_position<<"\n";
+    b2Vec2 pos=Body->GetPosition();
+    if(cont_defensa>0){
+        //Body->SetTransform(b2Vec2(pos.x,pos.y+(ataque_position/30)), 0.f);
+        //Body->ApplyForceToCenter(b2Vec2(0.f,ataque_position*20),true);
+        rec->setScale(core::vector3df(.3f,defensa_position+1,1.f));
+        
+        
+    }
+    else {
+        //Body->ApplyForceToCenter(b2Vec2(0.f,-ataque_position*10),true);
+        rec->setScale(core::vector3df(1.f,1.f,1.f));
+        cont_defensa=0;
+        defensa=false;
+    }
+
 }
 
 /**
@@ -220,17 +237,28 @@ FUNCION PARA COMPROBAR LAS COLISIONES CON ENEMIGOS
 void Protagonista::comprobarColision(Enemigo *enemigo)
 {
     enemigoPosition=enemigo->getNode()->getPosition();
-
+    int defensaEnemigo=enemigo->getDefensaPosition();
+    int ataqueEnemigo=enemigo->getAtaquePosition();
+    bool medefiende=enemigo->getDefiende();
+    bool meataca=enemigo->getAtaca();
     if((enemigoPosition.X-(protaPosition.X+10))<0 
         && (enemigoPosition.X-(protaPosition.X+10))>-20
         && vida<=100 && vida>0 && protaPosition.Y<10){
-
-        if(enemigo->getPosCombate() != pos_combate)
+        if(ataca)
         {
-            vida-=5; 
-        }
+            if(medefiende && (int)ataque_position!=defensaEnemigo)
+                enemigo->getNode()->setVisible(false);
+        }else if(enemigo->getNode()->isVisible() && defensa==false)
+        {
+            if(meataca && (int)defensa_position!=ataqueEnemigo)
+                vida-=5; 
+        }   
     }
-
+    cont_recarga_enemigo++;
+    if(cont_recarga_enemigo>20){
+        enemigo->getNode()->setVisible(true);
+        cont_recarga_enemigo=0;
+    }
 }
 
 /**
@@ -301,33 +329,6 @@ void Protagonista::comprobarColision(Trampa *trampa)
     
     
 }
-/*
-FUNCION PARA COMPROBAR LA POSICION DE COMBATE DEL PROTA Y CAMBIAR LA POS EN Y 
-DEL PROTA 
-*/
-void Protagonista::checkPosCombate()
-{
-    
-    if(pos_combate == 1)    // ARRIBA
-    {
-        protaPosition.Y = 10.f;
-        rec->setPosition (protaPosition);
-    }
-    else
-    {
-        if(pos_combate == 3) // ABAJO
-        {
-            protaPosition.Y = 0.f;
-            rec->setPosition (protaPosition);
-        }
-        else        // CENTRO
-        {
-            protaPosition.Y = 5.f;
-            rec->setPosition (protaPosition);
-        }
-    }
-  
-}
 
 /**
 FUNCION PARA COMPROBAR LA VIDA DEL PROTA
@@ -342,18 +343,10 @@ bool Protagonista::checkVida()
         return true;
     }
 }
-
-/*
-FUNCION PARA CAMBIAR LA POS DE COMBATE DEL PROTA
-*/
-void Protagonista::setPosCombate(int n)
-{
-    pos_combate = n;
-    //cout<<pos_combate<<endl;
-}
 /**
 FUNCION PARA RECUPERAR LA VIDA DEL PROTA
 **/
+
 void Protagonista::setVida(f32 cantidad,const f32 Time)
 {
     if(vida<100)
@@ -384,42 +377,25 @@ METODO PARA GESTIONAR EL SALTO
 **/
 void Protagonista::setSalto(bool s)
 {
-    bool flag;
-    //sonido->playSound(risa);
+    
     b2Vec2 velocidad=Body->GetLinearVelocity();
     //std::cout<<velocidad.y<<"\n";
-    if(velocidad.y>=-5 && velocidad.y<5 && s && !saltando && !sigilo){
+    if(velocidad.y>=-2 && velocidad.y<2 && s && !saltando && !sigilo){
         if(correr && energia>10)
-        {   
-            flag = sonido->playSound(omae);
-            if(flag){
-                DSP* dsp = sonido->createDSP("echo");
-                omae->getCanal()->addDSP(dsp);
-                omae->getCanal()->setGrupoCanales(sonido->getGrupoVoces());
-            }
+        {
             Body->ApplyForceToCenter(b2Vec2(0.f,10000.f),true);
         }else if(energia<10)
         {
-            sonido->playSound(grito);
-            grito->getCanal()->setGrupoCanales(sonido->getGrupoVoces());
             Body->ApplyForceToCenter(b2Vec2(0.f,2500.f),true);
         }
-        else{
-            flag = sonido->playSound(nani);
-            if(flag){
-                nani->getCanal()->setGrupoCanales(sonido->getGrupoVoces());
-                DSP* dsp = sonido->createDSP("echo");
-                nani->getCanal()->addDSP(dsp);
-            }
+        else
             Body->ApplyForceToCenter(b2Vec2(0.f,6000.f),true);    
-        }
         //cont_salto=1;
         //saltando=s;
         setEnergia(1.f,-15);
     }
     saltando=s;
 }
-
 /**
 ACTUALIZA LA POSICION DEL PROTA
 **/
@@ -428,18 +404,15 @@ void Protagonista::setPosition(core::vector3df v)
    protaPosition=v;
 }
 
-/*
-FUNCION PARA ACTIVAR O DESACTIVAR EL SIGILO
-*/
 void Protagonista::setSigilo()
 {
     if(sigilo==false)
     {
         sigilo=true;
-        //rec->setMaterialFlag(video::EMF_LIGHTING, true);
+        rec->setMaterialFlag(video::EMF_LIGHTING, true);
     }
     else{
-        //rec->setMaterialFlag(video::EMF_LIGHTING, false);
+        rec->setMaterialFlag(video::EMF_LIGHTING, false);
         sigilo=false;
     }
 }
@@ -454,35 +427,33 @@ void Protagonista::setDireccion(int d)
     direccion=d;
 }
 
+void Protagonista::setAtaquePosition(int d)
+{
+    ataque_position=d;
+}
 void Protagonista::setAtaque(bool d)
 {
-
-    ataca = d;
-    if(ataca == true)
-    {
-        if(cont_ataque==0 && energia>10)        // CONTADOR PARA LA ANIMACION DE ATAQUE
-        {
-            cont_ataque=1;
-        }
+    //ataca=d;
+    if(cont_ataque==0 && !saltando && energia>10){
+        cont_ataque=1;
     }
-
 }
-
-void Protagonista::setCombate()
+void Protagonista::setDefensaPosition(int d)
 {
-    if(combate == true)
-    {
-        combate = false;        // DESACTIVAMOS MODO COMBATE
-        rec->setMaterialFlag(video::EMF_LIGHTING, false);
+    defensa_position=d;
+}
+void Protagonista::setDefensa(bool d)
+{
 
-    }
-    else
+    defensa=d;
+    if(defensa && !saltando)
     {
-        combate = true;         // MODO COMBATE ACTIVADO
-        rec->setMaterialFlag(video::EMF_LIGHTING, true);
+        cont_defensa=1;
+    }else
+    {
+        cont_defensa=0;
     }
 }
-
 /**
 DEVUELVE EL NODO QUE HEMOS CREADO
 **/
@@ -491,10 +462,7 @@ scene::ISceneNode* Protagonista::getNode()
     return rec;
 }
 
-bool Protagonista::getCombate()
-{
-    return combate;
-}
+
 
 core::vector3df Protagonista::getPosition()
 {
@@ -515,16 +483,11 @@ bool Protagonista::getCorrer()
     return correr;
 }
 
-int Protagonista::getPosCombate()
-{
-    return pos_combate;
-}
-
 
 Protagonista::~Protagonista()
 {
     //dtor
-    rec = nullptr;
-    energy = nullptr;
-    life = nullptr;  
+    //delete rec;
+    //delete energy;
+    //delete life;    
 }

@@ -9,7 +9,6 @@ Objeto::Objeto():objeto(nullptr)
 
 	recogido = false;
 	activado = false;
-	activando = false;
 }
 
 Objeto::~Objeto()
@@ -22,11 +21,9 @@ Objeto::~Objeto()
 
 void Objeto::setRecogido(bool r) {	recogido=r;  }   // Actualiza el valor de recogigo a false/true
 void Objeto::setActivado(bool a) { activado = a ;}
-void Objeto::setActivando(bool a) { activando = a; }
 
 core::vector3df Objeto::getVector3df(){	return objeto->getPosition();}
 bool Objeto::getActivado(){ return activado; }
-bool Objeto::getActivando(){ return activando; }
 
 
 scene::ISceneNode* Objeto::getObjeto() { return objeto; }

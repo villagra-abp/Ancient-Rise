@@ -7,18 +7,15 @@
  CONSTRUCTOR DE ENEMIGO
  Parametros : Objetos Irrlicht, vector con posiciones de la patrulla
 */
-Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos, float xlength, float pendValue, const Entorno* e) 
-: enemigo(nullptr), env(nullptr), driver(nullptr), ent(e)
+Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos, float xlength, float pendValue):enemigo(nullptr), env(nullptr)
+
 {
-    GameObject::setTipo(ENEMY);
     enemigo=smgr->addCubeSceneNode();
 
     if (enemigo) /** SI HEMOS CREADO EL CUBO **/
-	{  
-         driver = dev->getVideoDriver();
+	{
 		enemigo->setPosition(core::vector3df(pos[0]->getPosX(),pos[0]->getPosY(),pos[0]->getPosZ())); // INDICAMOS SU POS INICIAL ( QUE VIENE INDICADA EN EL ARRAY TAMBIEN)
 		enemigo->setMaterialFlag(video::EMF_LIGHTING, false);
-        enemigo ->setMaterialTexture(0,driver->getTexture("resources/verde.jpg"));
 
         EnemigoPosition = enemigo->getPosition();
 
@@ -36,73 +33,36 @@ Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos
 
     posPatrulla = pos;                  // Guardamos el vector con las posiciones de la patrulla del enemigo
 
-    combate = false;
-    pos_combate = 2; 
-    contador = 0;
+    posAtaque = 1;
+    posDefensa = posAtaque;
 
-    memoria = false;
+    atacando = true;
+    defendiendo = true;
 
-    orden = 0;                                            // Ninguna orden recibida
+   // combatiendo = false;
+
 
 
 }
 
-/* Update para todos los enemigos*/
+/* Update para todos los enemigos para actualizar los valores del hambre y la sed */
 void Enemigo::update(core::vector3df prota)
 {
         this->actualizarHambre(); 
         this->actualizarSed();
 
-        //COMPROBAMOS GAMEOBJECTS DENTRO DE LA VISTA
-        vistos.clear();
-
-        for(int i = 0; i < ent->getSize(); i++){
-            if(this->checkInSight(ent->getGameObject(i)->getPosition())){
-                vistos.push_back(ent->getGameObject(i));
-            }
-        }
-
-        // COMPROBAMOS SI HEMOS VISTO AL PROTAGONISTA 
-        if(this->checkInSight(prota)){              
+        if(this->checkInSight(prota)){              // COMPROBAMOS SI HEMOS VISTO AL PROTAGONISTA 
             visto = true;
-             enemigo->setMaterialTexture(0,driver->getTexture("resources/activada.jpeg"));  
-             contador = 0;
+
+            //cout<<"visto"<<endl;
             
         }else{
-            if(this->recordarProta())
-            {
-                visto = false;
-                enemigo->setMaterialTexture(0,driver->getTexture("resources/verde.jpg"));
-            }
+            visto = false;
+
+            //cout<<"NOvisto"<<endl;
             
-        }
 
-        core::vector3df pos = enemigo->getPosition(); 
-
-        if(combate == true)
-        {
-            if( pos_combate == 1)
-            {
-                pos.Y = 10.f;
-            }
-            else
-            {
-                if(pos_combate == 2)
-                {
-                    pos.Y = 5.f;
-                }
-                else
-                {
-                    pos.Y = 0.f;
-                }
-            }
         }
-        else
-        {
-            pos.Y = 0.f;
-        }
-
-        enemigo->setPosition(pos);
 
 }
 
@@ -136,29 +96,6 @@ void Enemigo::updateTiempo(const f32 Time)
     frameDeltaTime = Time;
 }
 
-/*
-FUNCION PARA RECORDAR DURANTE UNOS SEGUNDOS AL PROTA DESPUES DE PERDERLE DE VISTA
-*/
-bool Enemigo::recordarProta()
-{
-
-    memoria = true;
-
-    if(contador==0)
-    {
-        reloj.restart();
-        contador = contador +1;
-    }
-
-    int time = reloj.getElapsedTime().asSeconds();
-
-    if(time>5)      // Si pasan mas de 5 segundos desde que me vio, entonces ya no me ve
-    {
-        memoria = false;
-    }
-
-    return memoria;
-}
 
 /**
 FUNCION QUE SIRVE PARA SABER SI UN DETERMINADO OBJETO DEL JUEGO ESTA DENTRO DEL AREA DE VISION DEFINIDO PARA EL ENEMIGO. 
@@ -192,8 +129,8 @@ bool Enemigo::checkInSight(core::vector3df objPos){
 
     //std::cout << enemigo->getPosition().X << endl;
     if(lastFacedDir){   //Mira hacia derecha
-        pjxmin = enemigo->getPosition().X;
-        pjxmax = enemigo->getPosition().X + visionXmax;
+        pjxmin = enemigo->getPosition().X + 2;
+        pjxmax = enemigo->getPosition().X + 2 + visionXmax;
         pjxmax2 = pjxmax + xprima;
         xReady = objPos.X - pjxmin;
     }else{              //Mira hacia izquierda
@@ -247,19 +184,6 @@ bool Enemigo::checkInSight(core::vector3df objPos){
     return inSight;
 }
 
-/** FUNCION PARA SABER SI UN DETERMINADO GAMEOBJECT HA SIDO INCLUIDO EN EL VECTOR DE VISTOS DE ESTE ENEMIGO 
-DEVUELVE TRUE SI SE ENCUENTRA DENTRO DEL VECTOR **/
-bool Enemigo::see(GameObject* o){
-    bool seeing = false;
-
-    for(int i = 0; i < vistos.size(); i++){
-        if(vistos[i] == o){
-            seeing = true;
-        }
-    }
-    return seeing;
-}
-
 /**
 ==============================================
 A PARTIR DE AQUI VAN TODOS LOS GETS Y LOS SETS
@@ -306,11 +230,6 @@ int Enemigo::getTipo()
     return tipo;
 }
 
-int Enemigo::getClaseEnemigo()
-{
-    return claseEnemigo;
-}
-
 float Enemigo::getXRange(){
     return visionXmax;
 }
@@ -342,24 +261,24 @@ bool Enemigo::getUltDirecVisto()
     return direccVistoUlt;
 }
 
-IVideoDriver* Enemigo::getDriver()
+int Enemigo::getDefensaPosition()
 {
-    return driver;
+    return posDefensa;
 }
 
-int Enemigo::getPosCombate()
+int Enemigo::getAtaquePosition()
 {
-    return pos_combate;
+    return posAtaque;
 }
 
-bool Enemigo::getCombate()
+bool Enemigo::getDefiende()
 {
-    return combate;
+    return defendiendo;
 }
 
-int Enemigo::getOrden()
+bool Enemigo::getAtaca()
 {
-    return orden;
+    return atacando;
 }
 
 
@@ -380,9 +299,9 @@ void Enemigo::setHambre(f32 h)
 
 void Enemigo::setVelocidad(f32 v)
 {
-    //VELOCIDAD_ENEMIGO=v;
+    VELOCIDAD_ENEMIGO=v;
 
-    velocidad2d.x = v;
+   // velocidad2d.x = v;
 }
 
 void Enemigo::setSed(f32 se)
@@ -415,24 +334,8 @@ void Enemigo::setUltDirecVisto(bool v)
     direccVistoUlt = v;
 }
 
-void Enemigo::setCombate(bool b)
-{
-    combate = b;
-}
-
-void Enemigo::setPosCombate(int n)
-{
-    pos_combate = n;
-}
-
-void Enemigo::setOrden(int o)
-{
-    orden = o;
-}
-
 
 Enemigo::~Enemigo()
 {
     //dtor
-     vistos.clear();
 }

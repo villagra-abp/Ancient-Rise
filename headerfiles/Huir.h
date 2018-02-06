@@ -17,6 +17,7 @@ class Huir : public Task
 	private:
 		
 		Blackboard *board;
+	    f32 frameDeltaTime;		  			// Tiempo
 	    sf::Clock reloj; 		  			// Reloj para controlar el tiempo que tiene que estar huyendo
 	    int contador; 			  			// Para reiniciar el reloj cuando toca
 	    scene::ISceneNode* enemigoNode;

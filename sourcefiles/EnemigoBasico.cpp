@@ -1,12 +1,11 @@
 #include "../headerfiles/EnemigoBasico.h"
-#include "../headerfiles/BehaviorTree.h"
 
 
 /**
 CONSTRUCTOR DE ENEMIGO BASICO
 Parametros : Irrlicht objetos, vector con posiciones para la patrulla, entero para indicar si melee/distancia, Blackboard con datos necesarios para el arbol
 **/
-EnemigoBasico::EnemigoBasico(IrrlichtDevice *dev, ISceneManager *smgr, vector<Posicion*> pos, float xlength, float pendValue, int t, const Entorno* e, Blackboard *b, b2World& world):Enemigo(dev, smgr, pos, xlength, pendValue, e), black(nullptr)
+EnemigoBasico::EnemigoBasico(IrrlichtDevice *dev, ISceneManager *smgr, vector<Posicion*> pos, float xlength, float pendValue, int t, Blackboard *b, b2World& world):Enemigo(dev, smgr, pos, xlength, pendValue), black(nullptr)
 {
 
     //ESTABLECEMOS LAS ESTADISTICAS ENEMIGO BASICO
@@ -17,9 +16,7 @@ EnemigoBasico::EnemigoBasico(IrrlichtDevice *dev, ISceneManager *smgr, vector<Po
     this->setSed(100.f);
     this->setVelocidad(VELOCIDAD_NORMAL);
 
-    tipo = t;                                             // Tipo de combate que usa (Distancia o Cuerpo a Cuerpo)
-    claseEnemigo = 1;                                     // EnemigoBasico
-
+    tipo = t;
 
     black = b;                                             // Guardamos la blackboard 
 
@@ -33,15 +30,18 @@ EnemigoBasico::EnemigoBasico(IrrlichtDevice *dev, ISceneManager *smgr, vector<Po
     this->setVelSed(-0.5);
 
 
-    this->CreateBox(world, posPatrulla[0]->getPosX()*30, posPatrulla[0]->getPosY()*30);
+    //this->CreateBox(world, posPatrulla[0]->getPosX()*30, posPatrulla[0]->getPosY()*30);
 
-    velocidad2d = Body->GetLinearVelocity();
+   // velocidad2d = Body->GetLinearVelocity();
 
-    velocidad2d.x = 25.f;
+    //velocidad2d.x = 40.f;
 
 
 }
 
+/**
+PARA COMPROBAR EN QUE COMPORTAMIENTO ESTA EL ENEMIGO
+**/
 void EnemigoBasico::Update(core::vector3df prota)
 {
 	this->update(prota);                                     // Llamamos tambien al update de la clase general del enemigo y actualizamos los valores de sed - hambre del mismo
@@ -49,10 +49,10 @@ void EnemigoBasico::Update(core::vector3df prota)
 
   comportamiento->update(this);                           // Empezamos a ejecutar el arbol de comportamiento del enemigo
 
-  EnemigoPosition.X=Body->GetPosition().x*1;              // Establecemos su velocidad con el body
-  EnemigoPosition.Y=Body->GetPosition().y*1;
+  //EnemigoPosition.X=Body->GetPosition().x*1;
+  //EnemigoPosition.Y=Body->GetPosition().y*1;
 
-  enemigo->setPosition(EnemigoPosition);
+  //enemigo->setPosition(EnemigoPosition);
 
 }
 
@@ -94,7 +94,6 @@ void EnemigoBasico::CreateBox(b2World& world, float X, float Y)
     FixtureDef.density = 1.2f;
     FixtureDef.friction = 0.35f;
     FixtureDef.shape = &Shape;
-    FixtureDef.filter.groupIndex = GROUP_ENEMIGOS;
     Body->CreateFixture(&FixtureDef);
 
   
@@ -105,6 +104,5 @@ EnemigoBasico::~EnemigoBasico()
 {
     //dtor
   comportamiento = nullptr;
-  black = nullptr;
   //delete comportamiento;
 }

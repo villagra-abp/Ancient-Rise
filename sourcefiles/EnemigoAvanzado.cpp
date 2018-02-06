@@ -1,8 +1,7 @@
 #include "../headerfiles/EnemigoAvanzado.h"
-#include "../headerfiles/BehaviorTree.h"
 
-EnemigoAvanzado::EnemigoAvanzado(IrrlichtDevice *dev, ISceneManager *smgr, vector<Posicion*> pos, float xlength, float pendValue, int t, const Entorno* e, Blackboard *b, b2World& world):Enemigo(dev, smgr, pos, xlength, pendValue, e)
-,black(nullptr)
+
+EnemigoAvanzado::EnemigoAvanzado(IrrlichtDevice *dev, ISceneManager *smgr, vector<Posicion*> pos, float xlength, float pendValue, int t):Enemigo(dev, smgr, pos, xlength, pendValue)
 {
 
     //ESTABLECEMOS LAS ESTADISTICAS ENEMIGO AVANZADO
@@ -13,39 +12,18 @@ EnemigoAvanzado::EnemigoAvanzado(IrrlichtDevice *dev, ISceneManager *smgr, vecto
     this->setSed(100.f);
     this->setVelocidad(VELOCIDAD_NORMAL);
 
-    tipo = t;                                                   // Tipo de combate que usa (Distancia o Cuerpo a Cuerpo)
-    claseEnemigo = 2;                                           // EnemigoBasico
+    tipo = t;
 
-    black = b;                                                // Guardamos la blackboard 
+    //black = b;                                             // Guardamos la blackboard 
 
     /* CREAMOS EL ARBOL DE COMPORTAMIENTO DE EL ENEMIGO BASICO PASANDOLE LA BLACKBOARD */
 
-    comportamiento = new BehaviorTree(3, b);              
+    //comportamiento = new BehaviorTree(1, b);              
     
 
      /* Velocidad a la que bajan las estadisticas del enemigo */
     this->setVelHambre(-0.2);
     this->setVelSed(-0.4);
-
-    this->CreateBox(world, posPatrulla[0]->getPosX()*30, posPatrulla[0]->getPosY()*30);
-
-    velocidad2d = Body->GetLinearVelocity();
-
-    velocidad2d.x = 25.f;
-
-}
-
-void EnemigoAvanzado::Update(core::vector3df prota)
-{
-  this->update(prota);                                     // Llamamos tambien al update de la clase general del enemigo y actualizamos los valores de sed - hambre del mismo
-  this->comprobarEnergia();
-
-  comportamiento->update(this);                           // Empezamos a ejecutar el arbol de comportamiento del enemigo
-
-  EnemigoPosition.X=Body->GetPosition().x*1;              // Establecemos su velocidad con el body
-  EnemigoPosition.Y=Body->GetPosition().y*1;
-
-  enemigo->setPosition(EnemigoPosition);
 
 }
 
@@ -81,7 +59,6 @@ void EnemigoAvanzado::CreateBox(b2World& world, float X, float Y)
     FixtureDef.density = 1.2f;
     FixtureDef.friction = 0.35f;
     FixtureDef.shape = &Shape;
-    FixtureDef.filter.groupIndex = GROUP_ENEMIGOS;
     Body->CreateFixture(&FixtureDef);
 
   

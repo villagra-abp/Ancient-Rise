@@ -24,25 +24,20 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 
 	device->setWindowCaption(L"Ancient Rise");
 
-/*CREAMOS GESTOR DE SONIDO*/
-	sonido = GestorSonido::getInstance();
-	reverbCueva = sonido->create3DReverb();
-	reverbCueva->setAtributos3D(0.0f,0.0f,0.0f, 10.0f, 2000.0f);
-	reverbCueva->setTipo(sonido->REVERB_CUEVA);
-	musicaBosque = sonido->createMusic(sonido->SOUND_MUSIC_BOSQUE);
+	
+
 /* CREAMOS PROTA */
 
 	prota = new Protagonista(device, smgr);
-	addGameObject(prota);
-
 	rec = prota->getNode();
+	receiver->setProta(prota);
 
 	//creo el suelo, el bounding box del prota y la plataforma
 	prota->CreateGround(world, 0.f, -150.f,1000*1000);
-    prota->CreateGround(world, 6600.f, 900.f,3200);
-    prota->CreateGround(world, 9600.f, 1800.f,3200);
-    prota->CreateGround(world, 12600.f, 2700.f,3200);
-    prota->CreateBox(world, -5000.f, 0.f);
+    	prota->CreateGround(world, 6600.f, 900.f,3200);
+    	prota->CreateGround(world, 9600.f, 1800.f,3200);
+    	prota->CreateGround(world, 12600.f, 2700.f,3200);
+    	prota->CreateBox(world, -5000.f, 0.f);
 
 
 /* CREAMOS VECTOR DE POSICIONES PARA EL ENEMIGO */
@@ -51,74 +46,36 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 
 /* CREAMOS OBJETOS */
 
-	Posicion pC(-220.f, 0.f, 30.f);
-	c = new Comida(device, smgr, pC);
-	comidas.push_back(c);
-	addGameObject(c);
-
-	Posicion pC2(190.f, 0.f, 30.f);
-	c2 = new Comida(device, smgr, pC2);
-	comidas.push_back(c2);
-	addGameObject(c2);
+	Posicion pC(150.f, 0.f, 30.f);
+	c = new Comida(smgr, pC);
 
 	Posicion pF(-190.f,0.f,40.f);
-	f = new Fuente(device, smgr, pF);
-	fuentes.push_back(f);
-	addGameObject(f);
+	f = new Fuente(smgr, pF);
 
-	Posicion pF2(320.f,0.f,40.f);
-	f2 = new Fuente(device, smgr, pF2);
-	fuentes.push_back(f2);
-	addGameObject(f2);
-
-	Posicion pA(120.f,0.f,40.f);
-	a = new Alarma(device, smgr, pA);
-	alarmas.push_back(a);
-	addGameObject(a);
-
-	Posicion pA2(-160.f,0.f,40.f);
-	a2 = new Alarma(device, smgr, pA2);
-	alarmas.push_back(a2);
-	addGameObject(a2);
+	Posicion pA(140.f,0.f,40.f);
+	a = new Alarma(smgr, pA);
 
 	Posicion posbebida(-300,0,30.f);
- 	bebida = new Bebida(device, smgr, posbebida);
- 	addGameObject(bebida);
+ 	bebida = new Bebida(smgr, posbebida);
 
-	Posicion postrampa(520,0,30.f);
- 	t = new Trampa(device, smgr, postrampa);
- 	addGameObject(t);
-
+	Posicion postrampa(330,0,30.f);
+ 	t = new Trampa(smgr, postrampa);
 
 /* CREAMOS LA BLACKBOARD */
 
 	b=new Blackboard();
-	 b->setFuente(fuentes);
-	 b->setComida(comidas);
-	 b->setAlarma(alarmas);
+	 b->setFuente(f);
+	 b->setComida(c);
+	 b->setAlarma(a);
 
 /* CREAMOS ENEMIGOS BASICOS */
 	
-	enem1 = new EnemigoBasico(device, smgr, pos, 80.0, 0.8, 1, this, b, world);
+	enem1 = new EnemigoBasico(device, smgr, pos, 100.0, 0.36, 2, b, world);
 	enemB.push_back(enem1);
-	addGameObject(enem1);
 
-	enem2 = new EnemigoBasico(device, smgr, pos2, 80.0, 0.8, 1, this, b, world);
+	enem2 = new EnemigoBasico(device, smgr, pos2, 100.0, 0.36, 1, b, world);
 	enemB.push_back(enem2);
-	addGameObject(enem2); 
 	
-	for(int i=0;i<enemB.size();i++)
-	{
-		b->setEnemB(enemB[i]);
-	} 
-
-	
-
-/* CREAMOS ENEMIGOS ELITES */
-
-	enemE1 = new EnemigoElite(device, smgr, pos3, 120.0, 0.8, 2, this, b, world);
-	enemE.push_back(enemE1);
-
 /* CREAMOS PLATAFORMAS */
 
 	Plataforma = smgr->addCubeSceneNode();
@@ -128,7 +85,6 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 		Plataforma->setPosition(core::vector3df(220,25,30));
 		Plataforma->setScale(core::vector3df(10.f,1.f,5.f));
 		Plataforma->setMaterialFlag(video::EMF_LIGHTING, false);
-		Plataforma->setMaterialTexture(0,driver->getTexture("resources/plataf.bmp"));
 	}
 
 	Plataforma2= smgr->addCubeSceneNode();
@@ -138,7 +94,6 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 		Plataforma2->setPosition(core::vector3df(320,55,30));
 		Plataforma2->setScale(core::vector3df(10.f,1.f,5.f));
 		Plataforma2->setMaterialFlag(video::EMF_LIGHTING, false);
-		Plataforma2->setMaterialTexture(0,driver->getTexture("resources/plataf.bmp"));
 	}
 
 	Plataforma3= smgr->addCubeSceneNode();
@@ -148,7 +103,6 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 		Plataforma3->setPosition(core::vector3df(420,85,30));
 		Plataforma3->setScale(core::vector3df(10.f,1.f,5.f));
 		Plataforma3->setMaterialFlag(video::EMF_LIGHTING, false);
-		Plataforma3->setMaterialTexture(0,driver->getTexture("resources/plataf.bmp"));
 	}
 
 /** ESTABLECEMOS LA CAMARA
@@ -173,44 +127,7 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 	then = device->getTimer()->getTime();
 	time_input = device->getTimer()->getTime();
 
-/** Informacion del mando conectado o si no hay ningun mando conectado
-**/
-    core::array<SJoystickInfo> joystickInfo;
-    if(device->activateJoysticks(joystickInfo)&&joystickInfo.size()>0)
-    {
-        receiver->setMando(true);
-        std::cout << "Joystick support is enabled and " << joystickInfo.size() << " joystick(s) are present." << std::endl;
 
-        for(u32 joystick = 0; joystick < joystickInfo.size(); ++joystick)
-        {
-            std::cout << "Joystick " << joystick << ":" << std::endl;
-            std::cout << "\tName: '" << joystickInfo[joystick].Name.c_str() << "'" << std::endl;
-            std::cout << "\tAxes: " << joystickInfo[joystick].Axes << std::endl;
-            std::cout << "\tButtons: " << joystickInfo[joystick].Buttons << std::endl;
-
-            std::cout << "\tHat is: ";
-
-            switch(joystickInfo[joystick].PovHat)
-            {
-            case SJoystickInfo::POV_HAT_PRESENT:
-                std::cout << "present" << std::endl;
-                break;
-
-            case SJoystickInfo::POV_HAT_ABSENT:
-                std::cout << "absent" << std::endl;
-                break;
-
-            case SJoystickInfo::POV_HAT_UNKNOWN:
-            default:
-                std::cout << "unknown" << std::endl;
-                break;
-            }
-        }
-    }
-    else
-     {
-        std::cout << "Joystick support is not enabled." << std::endl;
-     } 
 }	
 
 void Mundo::posBuilder(){	//CONSTRUCTOR DE POSICIONES DE ENEMIGOS
@@ -226,30 +143,19 @@ void Mundo::posBuilder(){	//CONSTRUCTOR DE POSICIONES DE ENEMIGOS
   	Posicion *p4 = new Posicion(-80.f,0.f,30.f);
 	pos.push_back(p4);
 
-	Posicion *p5 = new Posicion(160.f,0.f,30.f);
+	Posicion *p5 = new Posicion(60.f,0.f,30.f);
   	pos2.push_back(p5);
-  	Posicion *p6 = new Posicion(180.f,0.f,30.f);
+  	Posicion *p6 = new Posicion(80.f,0.f,30.f);
   	pos2.push_back(p6);
-  	Posicion *p7 = new Posicion(200.f,0.f,30.f);
+  	Posicion *p7 = new Posicion(100.f,0.f,30.f);
 	pos2.push_back(p7);
-
-
-	Posicion *p8 = new Posicion(200.f,0.f,30.f);
-  	pos3.push_back(p8);
-  	Posicion *p9 = new Posicion(150.f,0.f,30.f);
-  	pos3.push_back(p9);
-  	Posicion *p10 = new Posicion(60.f,0.f,30.f);
-  	pos3.push_back(p10);
-  	Posicion *p11 = new Posicion(0.f,0.f,30.f);
-  	pos3.push_back(p11);
-
 }
 
 void Mundo::terrainBuilder(){	//CONSTRUCTOR DEL TERRENOS Y COLISIONES DE CAMARA
 
 	terrain = smgr->addTerrainSceneNode(
 
-        "resources/terrain-heightmap.bmp",
+        "../resources/terrain-heightmap.bmp",
 
         0,                  					// parent node
 
@@ -274,14 +180,38 @@ void Mundo::terrainBuilder(){	//CONSTRUCTOR DEL TERRENOS Y COLISIONES DE CAMARA
     //LE APLICAMOS TEXTURA AL TERRENO
 
     terrain->setMaterialFlag(video::EMF_LIGHTING, false);
-    terrain->setMaterialTexture(0, driver->getTexture("resources/terrain-texture.jpg"));
+    terrain->setMaterialTexture(0, driver->getTexture("../resources/terrain-texture.jpg"));
 
     //LE APLICAMOS RELIEVE
 
-    terrain->setMaterialTexture(1, driver->getTexture("resources/detailmap3.jpg"));
+    terrain->setMaterialTexture(1, driver->getTexture("../resources/detailmap3.jpg"));
 	terrain->setMaterialType(video::EMT_DETAIL_MAP);
     terrain->scaleTexture(1.0f, 20.0f);
 
+    /** COLISIONES 
+
+    (Aplicado solo a la camara) extraer a clase y aplicar a prota etc 
+	create triangle selector for the terrain 
+
+	
+
+    selector = smgr->createTerrainTriangleSelector(terrain, 0);
+    terrain->setTriangleSelector(selector);
+
+    // create collision response animator and attach it to the camera
+
+    anim = smgr->createCollisionResponseAnimator(
+
+        selector, cam, core::vector3df(60,100,60),
+
+        core::vector3df(0,0,0),
+
+        core::vector3df(0,50,0));
+
+    selector->drop();
+    cam->addAnimator(anim);
+    anim->drop();
+**/
 }
 
 void Mundo::update(){
@@ -314,7 +244,6 @@ void Mundo::update(){
 
     /* ALARMA UPDATE*/
     a->update();
-    a2->update();
 
 
     /* UPDATE DE LOS ENEMIGOS */
@@ -325,12 +254,6 @@ void Mundo::update(){
      	enemB[i]->Update(prota->getPosition());
     }
 
-    for(int i2=0; i2<enemE.size();i2++)
-    {
-    	enemE[i2]->updateTiempo(frameDeltaTime);
-     	enemE[i2]->Update(prota->getPosition());
-    }
-
     /* DRAW SCENE */
 
     this->draw();
@@ -339,37 +262,37 @@ void Mundo::update(){
 
     this->fpsControl();
 
-    /*UPDATE DE SONIDO*/
-    sonido->playSound(musicaBosque);
-    sonido->update();
-	sonido->setListener(prota->getPosition().X, prota->getPosition().Y, prota->getPosition().Z);
-
 }
 
 void Mundo::protaUpdate(const u32 now, const f32 frameDeltaTime, f32 tiempo){
 	core::vector3df protaPosition = prota->getPosition();
 
-	energiaAnterior = prota->getEnergia();
-
-    prota->ataque(frameDeltaTime);
-    prota->pintarInterfaz();
-
+	
+	
+	//prota->gravedad(frameDeltaTime);
+    	//prota->salto(frameDeltaTime);
+    	prota->defender(frameDeltaTime);
+    	prota->ataque(frameDeltaTime);
+    	prota->pintarInterfaz();
+    	prota->setEnergia(5,frameDeltaTime);
+    	//prota->comprobarColision(Plataforma);
+    	//prota->comprobarColision(Plataforma2);
 	prota->comprobarColision(c);
-    prota->comprobarColision(bebida);
-    prota->comprobarColision(t);
+        prota->comprobarColision(bebida);
+        prota->comprobarColision(t);
 
-    prota->updateBody(world);
+        prota->updateBody(world);
 
-    if(!prota->checkVida())
+     if(!prota->checkVida())
 		device->closeDevice();
 
-    if(tiempo>0.2f) 	// HACEMOS QUE LO QUE HAYA DENTRO SE HAGA MENOS VECES POR SEGUNDO
+    if(tiempo>0.2f)
     {
         f32 energia=prota->getEnergia();
 
         time_input=now;
 
-        receiver->checkCombate(prota); 						// Comprobamos si hemos pulsado la tecla de combate (K)
+        //receiver->checkSigilo(prota,frameDeltaTime);
 
         for(int i2=0; i2<enemB.size();i2++)
         {
@@ -378,33 +301,8 @@ void Mundo::protaUpdate(const u32 now, const f32 frameDeltaTime, f32 tiempo){
             
     }
 
-    if(prota->getCombate())  // Si combate activado entonces comprobamos las posiciones de combate
-    {
-    	prota->checkPosCombate();
-    }
-    else
-    {
-    	receiver->checkSigilo(prota);  						// Comprobamos si hemos pulsado la tecla de sigilo (C)
-    }
 
-    receiver->checkInput(prota,frameDeltaTime);
-
-    /* Velocidad Barra de Energia */
-    energiaActual = prota->getEnergia();
-    energiaDelta = energiaActual - energiaAnterior;
-
-    if(energiaDelta < 0){
-    	relojDescanso.restart();
-    }
-
-    tiempoTrans = relojDescanso.getElapsedTime().asSeconds();
-    
-    if(tiempoTrans > 0.8f)	
-    	prota->setEnergia(25,frameDeltaTime);  //CAMBIO 5 a 15
-    else
-    	prota->setEnergia(2, frameDeltaTime);
-
-
+   // receiver->checkInput(prota,frameDeltaTime);
 }
 
 void Mundo::camUpdate(const f32 frameDeltaTime){
@@ -412,9 +310,9 @@ void Mundo::camUpdate(const f32 frameDeltaTime){
 	core::vector3df camPosition = cam->getPosition();
 
 	rec->setPosition(protaPosition);
-    cam->setPosition(vector3df(protaPosition.X,protaPosition.Y+30,-140)); // cambio 5O A ProtaPosition.Y
+    cam->setPosition(vector3df(protaPosition.X,50,-140));
     camPosition=rec->getPosition();
-    camPosition.Y=protaPosition.Y+30;
+    camPosition.Y=50;
     cam->setTarget(camPosition);
 }
 
@@ -433,7 +331,7 @@ void Mundo::fpsControl(){
 		lastFPS = fps;
 	}
 
-	this->timeWait();
+	//this->timeWait();
 }
 
 void Mundo::timeWait(){
@@ -465,20 +363,6 @@ void Mundo::draw(){
 	driver->endScene();
 }
 
-void Mundo::addGameObject (GameObject* o){
-	gos.push_back(o);
-}
-
-GameObject* Mundo::getGameObject(uint8_t pos) const{
-	GameObject* o = nullptr;
-
-	if(pos < gos.size() && gos[pos] != nullptr){
-		o = gos[pos];
-	}
-
-	return o;
-}
-
 Mundo::~Mundo()	//DESTRUCTOR
 {
 	delete prota;
@@ -487,24 +371,16 @@ Mundo::~Mundo()	//DESTRUCTOR
 	{
 		delete enemB[cont];
 	}
-	for(int cont2=0; cont2<enemE.size();cont2++)
-	{
-		delete enemE[cont2];
-	}
 
 	enemB.clear();
-	enemE.clear();
 
 	pos.clear();
 	pos2.clear();
-	pos3.clear();
 
     delete b;
     delete c;
     delete f;
     delete a;
-    delete a2;
     delete bebida;
     delete t;
-    delete sonido;
 }

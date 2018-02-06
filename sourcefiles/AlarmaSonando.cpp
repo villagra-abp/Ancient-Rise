@@ -1,54 +1,43 @@
 #include "../headerfiles/AlarmaSonando.h"
-
+#include <ctime>
 
 Status AlarmaSonando::run(Enemigo *e)
 {   
-    // DATOS  ENEMIGO
+	// Datos Alarma
+	a = board->getAlarma();
+  core::vector3df alarmaPosition = a->getVector3df(); 
+  float alarmaX=alarmaPosition.X;
+
+   	// DATOS  ENEMIGO
    enemigoNode = e->getNode();
    core::vector3df EnemigoPosition = enemigoNode->getPosition(); 
    float enemigoX=EnemigoPosition.X;
 
-   //Busca alarmas sonando dentro del rango de escucha
-   //Se puede ampoliar para ir a la alarma mas cercana y no a la primera que escuche
 
-   e->setCombate(false);
+   int distanciaAlarma = alarmaX - enemigoX;
 
-   bool avalible = false; 
-   for (int i = 0; i < a.size(); i++){
-      
-      alarmaPosition = a[i]->getVector3df();
-      alarmaX=alarmaPosition.X;
-      distanciaAlarma = alarmaX - enemigoX;
-
-      if( abs(distanciaAlarma)<100  && a[i]->getActivado() ) {  // Alarma cerca (RANGO DE ESCUCHA) y activada
-        return BH_SUCCESS;
-      }
+   if( distanciaAlarma<50  && a->getActivado()!=false )    	// Alarma cerca y activada
+   {
+   		return BH_SUCCESS;
    }
-  
-    return BH_FAILURE;
+   else
+   {
+   		return BH_FAILURE;
+   }
 }
 
 
 void AlarmaSonando::onInitialize(Blackboard *b)
 {
-  board = b;
-  a = board->getAlarma();
-  alarmaX = 0.0;
-  distanciaAlarma = 0;
+	board = b;
 }
 
 AlarmaSonando::~AlarmaSonando()
 {
     board = nullptr;
+    a = nullptr;
     enemigoNode = nullptr;
 
-    for(int i = 0 ; i < a.size(); i++){
-      a[i] = nullptr;
-      delete a[i];  //No se si es necesario
-    }
-
-    a.clear();
-    
     //delete board;
     //delete a;
 }

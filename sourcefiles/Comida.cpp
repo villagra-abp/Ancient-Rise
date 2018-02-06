@@ -2,19 +2,15 @@
 
 
 
-Comida::Comida(IrrlichtDevice *dev, ISceneManager* smgr, Posicion pos):Objeto()
+Comida::Comida(ISceneManager* smgr, Posicion pos):Objeto()
 {
-	GameObject::setTipo(COMIDA);
-	objeto = smgr->addSphereSceneNode();
+
+	objeto = smgr->addCubeSceneNode();
 
 	if (objeto)
 	{
-		driver = dev->getVideoDriver();
 		objeto ->setPosition(core::vector3df(pos.getPosX(),pos.getPosY(),pos.getPosZ()));
-		objeto ->setScale(core::vector3df(1.25f,1.25f,1.25f));
-		objeto ->setMaterialFlag(video::EMF_LIGHTING, false);
-		objeto ->setMaterialTexture(0,driver->getTexture("resources/elon.jpeg"));
-
+		objeto ->setScale(core::vector3df(0.5f,0.5f,0.5f));
 	}
 }
 

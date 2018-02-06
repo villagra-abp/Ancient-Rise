@@ -17,7 +17,7 @@ class BuscarComida : public Task
 
 	private:
 
-		vector<Objeto*> c;
+		Objeto* c;
 		Blackboard *board;
 		f32 frameDeltaTime;		  // Tiempo
 		scene::ISceneNode* enemigoNode;
@@ -25,11 +25,7 @@ class BuscarComida : public Task
 		sf::Clock reloj; 		  			// Reloj para controlar el tiempo que tarda en comer
 	    int contador; 			  			// Para reiniciar el reloj cuando toca
 		
-	    //DATOS DE LA COMIDA
-	    core::vector3df comidaPosition;
-	    float comidaX;
-	    int distanciaComida;
-	    int distanciaCaux;
+
 
 };
 

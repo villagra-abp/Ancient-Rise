@@ -10,13 +10,12 @@ class Bebida : public Objeto
 
 	public:
 
-		Bebida(IrrlichtDevice *dev, ISceneManager* smgr, Posicion pos);
+		Bebida(ISceneManager* smgr, Posicion pos);
 		scene::ISceneNode* getNode();
 
 	private:
         scene::ISceneNode * bebida;
         core::vector3df bebidaPosition;
-        IVideoDriver* 		driver;
 };
 
 #endif // BEBDIA_H

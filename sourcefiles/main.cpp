@@ -1,5 +1,47 @@
 #include "../headerfiles/Mundo.h"
 
+
+#include <iostream>
+#include <unistd.h>
+#include <irrlicht/irrlicht.h>
+#include <SFML/Window/Window.hpp>
+
+using namespace irr; // Para poder usar cualquier clase del motor Irrlicht se utiliza el namespace irr
+using namespace std;
+
+
+/*
+Estos son los 5 sub namespace del motor de Irrlicht
+
+1º irr::core--> En este podemos encontrar las clases basicas como vectores, planos, arrays, listas y demas
+2º irr::gui--> Contiene clases utiles para la facil creacion de una interfaz grafica de usuario
+3º irr::io-->  Proporciona interfaces para la entrada/salida. Lectura y escritura de ficheros, acceso a ficheros zip, ficheros xml..
+4º irr::scene--> Se encuentra toda la gestion de la escena
+5º irr::video--> Contiene clases para acceder al driver del video. Todo el rendererizado 3d o 2d se realiza aqui
+*/
+
+using namespace core;
+using namespace scene;
+using namespace video;
+using namespace io;
+using namespace gui;
+
+
+// FUNCION PARA FIJAR LOS FPS A 60
+
+/*void timeWait(){
+	static long t=clock();
+	const float fps = 60.f;
+
+	long toWait = t + CLOCKS_PER_SEC / fps - clock();
+	if(toWait > 0)
+		usleep(toWait);
+
+	t = clock();
+}*/
+
+
+
 int main()
 {
 
@@ -32,9 +74,24 @@ int main()
 
 	/* CREAMOS IRRLICHT DEVICE */
 
-	IrrlichtDevice *device =
-		createDevice( video::EDT_OPENGL, dimension2d<u32>(1400, 900),16, false, false, false, &receiver);
+	//IrrlichtDevice *device =
+		//createDevice( video::EDT_OPENGL, dimension2d<u32>(1400, 900),16, false, false, false, &receiver);
+    // Create the main rendering window
 
+    sf::RenderWindow ventana(sf::VideoMode(1400, 900), "OpenGL");
+    ventana.setFramerateLimit(60);
+    /*creo una vista*/
+	sf::View view(sf::FloatRect(0, 0, 1000, 600));
+	
+	view.setViewport(sf::FloatRect(0.75f, 0, 0.25f, 0.25f));
+	ventana.setView(view);
+
+	IrrlichtDevice* device;
+    SIrrlichtCreationParameters Parameters;
+    Parameters.DriverType = video::EDT_OPENGL; 
+    Parameters.EventReceiver = &receiver;
+    Parameters.WindowId = reinterpret_cast<void*>(ventana.getSystemHandle());
+    device = createDeviceEx(Parameters);
 	if (!device)
 		return 1;
 	
@@ -43,15 +100,83 @@ int main()
 
 	Mundo* mundo = new Mundo(device, &receiver);
 
-	
+
+	// define a 120x50 rectangle
+	sf::RectangleShape rectangle(sf::Vector2f(20, 20));
+
+	// change the size to 100x100
+	//rectangle.setSize(sf::Vector2f(10, 10));
+	rectangle.setFillColor(sf::Color(100, 250, 50));
 
 	/* BUCLE PRINCIPAL DEL JUEGO */
 
 	while(device->run())
 	{
+		int inputKey;
+		bool keyPressed;
+		//Evento
+        sf::Event* evento = new sf::Event; 
+        //Obtener eventos
+        while (ventana.pollEvent(*evento))
+        {
+            switch (evento-> type)
+            {
+                case sf::Event::Closed:
+               
+                    //ventana.close();
+                    device->closeDevice();
+                break;
+
+                case sf::Event::KeyPressed:
+                {    
+                    inputKey = evento->key.code;
+                    //std::cout<<evento->key.code<<"\n";
+                    keyPressed = true;
+                    switch(inputKey)
+		    		{
+			        case 22: //W
+			        {
+			            
+			        }
+			        break;
+			        case 0: //A
+			        {
+			            receiver.direccion(0);
+			            receiver.moverse();
+			        }
+			        break;
+			        case 18: //S
+			        {
+			            
+			        }
+			        break;
+			        case 3: //D
+			        {
+			           receiver.direccion(1);
+			           receiver.moverse();
+			        }
+			        break;
+			        case 57: //Space
+			        {
+			            receiver.saltar(true);
+			        }
+			        break;
+		    		}
+                }   
+                break;
+            }
+            
+        }
+        receiver.saltar(false);
+        ventana.clear();
+        
+		//
+		//ventana.draw(rectangle);
 		/* ACTUALIZAMOS EL MUNDO */
 		mundo->update();
-
+		
+		//ventana.display();
+		
 	}
 
 	/*
@@ -71,7 +196,7 @@ int main()
 
 	**/
 
-
+	//ventana.close();
 	device->drop();
 }
 
