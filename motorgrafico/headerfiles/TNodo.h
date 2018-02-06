@@ -1,9 +1,6 @@
 #ifndef NODO_H
 #define NODO_H
 
-#include <iostream>
-#include <vector>
-#include <math.h>
 #include "../headerfiles/TEntidad.h"
 
 using namespace std;

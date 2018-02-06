@@ -1,12 +1,7 @@
 #ifndef TRANSFORMACION_H
 #define TRANSFORMACION_H
 
-#include <iostream>
-#include <vector>
-#include <math.h>
 #include "../headerfiles/TEntidad.h"
-
-using namespace std;
 
 class TTransformacion: public TEntidad{
 public:
@@ -24,7 +19,7 @@ public:
 
 private:	
 
-	//TMatriz4x4 matriz;
+	glm::mat4 matriz;
 
 } ;
 
