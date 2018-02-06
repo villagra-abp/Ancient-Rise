@@ -1,69 +1,110 @@
 #include "../headerfiles/EnemigoBasico.h"
+#include "../headerfiles/BehaviorTree.h"
 
 
 /**
 CONSTRUCTOR DE ENEMIGO BASICO
+Parametros : Irrlicht objetos, vector con posiciones para la patrulla, entero para indicar si melee/distancia, Blackboard con datos necesarios para el arbol
 **/
-EnemigoBasico::EnemigoBasico(IrrlichtDevice *dev, ISceneManager* smgr, Posicion *posiciones[]):Enemigo(dev, smgr, posiciones)
+EnemigoBasico::EnemigoBasico(IrrlichtDevice *dev, ISceneManager *smgr, vector<Posicion*> pos, float xlength, float pendValue, int t, const Entorno* e, Blackboard *b, b2World& world):Enemigo(dev, smgr, pos, xlength, pendValue, e), black(nullptr)
 {
 
-    //ESTADISTICAS ENEMIGO BASICO
+    //ESTABLECEMOS LAS ESTADISTICAS ENEMIGO BASICO
 
-    this->setEnergia(100.f);
+    this->setEnergia(ENERGIA_MAX);
     this->setHambre(100.f);
     this->setSalud(100.f);
     this->setSed(100.f);
-    this->setVelocidad(8.f);
+    this->setVelocidad(VELOCIDAD_NORMAL);
+
+    tipo = t;                                             // Tipo de combate que usa (Distancia o Cuerpo a Cuerpo)
+    claseEnemigo = 1;                                     // EnemigoBasico
+
+
+    black = b;                                             // Guardamos la blackboard 
+
+    /* CREAMOS EL ARBOL DE COMPORTAMIENTO DE EL ENEMIGO BASICO PASANDOLE LA BLACKBOARD */
+
+    comportamiento = new BehaviorTree(1, b);              
+    
+
+     /* Velocidad a la que bajan las estadisticas del enemigo */
+    this->setVelHambre(-0.3);
+    this->setVelSed(-0.5);
+
+
+    this->CreateBox(world, posPatrulla[0]->getPosX()*30, posPatrulla[0]->getPosY()*30);
+
+    velocidad2d = Body->GetLinearVelocity();
+
+    velocidad2d.x = 25.f;
 
 
 }
 
-/**
-PARA COMPROBAR EN QUE COMPORTAMIENTO ESTA EL ENEMIGO
-**/
-void EnemigoBasico::Update(scene::ISceneNode *alarma)
+void EnemigoBasico::Update(core::vector3df prota)
 {
+	this->update(prota);                                     // Llamamos tambien al update de la clase general del enemigo y actualizamos los valores de sed - hambre del mismo
+  this->comprobarEnergia();
 
-    if(this->getEstadoPatrulla()==false) // NO ESTA PATRULLANDO
+  comportamiento->update(this);                           // Empezamos a ejecutar el arbol de comportamiento del enemigo
+
+  EnemigoPosition.X=Body->GetPosition().x*1;              // Establecemos su velocidad con el body
+  EnemigoPosition.Y=Body->GetPosition().y*1;
+
+  enemigo->setPosition(EnemigoPosition);
+
+}
+
+
+/*
+FUNCION PARA COMPROBAR LA VELOCIDAD DEL ENEMIGOBASICO Y REDUCIR/AUMENTAR LA ENERGIA
+*/
+void EnemigoBasico::comprobarEnergia()
+{
+    if(VELOCIDAD_ENEMIGO >VELOCIDAD_NORMAL)  // Si su velcidad es mayor que la velocidad normal de moviemiento, empieza a bajar la energia
     {
-        if(this->getEstadoAvistadoProta()==true)  // PROTA AVISTADO
+        if(energia >0)
         {
-            this->AvistadoProta(); // CAMBIAMOS AL COMPORTAMIENTO DE AVISTADO PROTA 
+            energia+= -20.f * frameDeltaTime;
         }
-
-        if (this->getEstadoAlarma()==true) // ALARMA SONANDO 
-        {
-            this->AlarmaSonando(alarma); // CAMBIAMOS AL COMPORTAMIENTO DE ALARMA SONANDO 
-        }
-    
+    }
+    else{                       // Si no la supera, entonces la energia se recupera hasta su maximo
+            if(energia<=ENERGIA_MAX)
+            {
+              energia += 10.f * frameDeltaTime;
+            }
     }
 
 }
 
 
 /**
-FUNCION PARA VER QUE HACE EL ENEMIGO BASICO CUANDO VE AL PROTAGONISTA
+FUNCION PARA crear el objeto dinamico
 **/
-void EnemigoBasico::AvistadoProta()
-{
-    
 
-}
-
-
-/**
-FUNCION PARA VER QUE HACE EL ENEMIGO BASICO CUANDO SUENA LA ALARMA
-**/
-void EnemigoBasico::AlarmaSonando(scene::ISceneNode *alarma)
+void EnemigoBasico::CreateBox(b2World& world, float X, float Y)
 {
 
-   
+    BodyDef.position = b2Vec2(X/SCALE, Y/SCALE);
+    BodyDef.type = b2_dynamicBody;
+    Body = world.CreateBody(&BodyDef);
+    Shape.SetAsBox((20.f/2)/SCALE, (20.f/2)/SCALE);
+    b2FixtureDef FixtureDef;
+    FixtureDef.density = 1.2f;
+    FixtureDef.friction = 0.35f;
+    FixtureDef.shape = &Shape;
+    FixtureDef.filter.groupIndex = GROUP_ENEMIGOS;
+    Body->CreateFixture(&FixtureDef);
 
+  
 }
-
 
 
 EnemigoBasico::~EnemigoBasico()
 {
     //dtor
+  comportamiento = nullptr;
+  black = nullptr;
+  //delete comportamiento;
 }

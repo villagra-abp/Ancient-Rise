@@ -1,0 +1,200 @@
+BETA TEST LICENSE AGREEMENT
+
+Introduction.  This is a legal Agreement between you and PowerQuest Corporation
+("PowerQuest") regarding a Beta version of a PowerQuest Product.  PLEASE READ
+THIS AGREEMENT CAREFULLY BEFORE ACCEPTING IT OR DECLINING IT.  You may
+accept the Agreement either by signing a paper copy of the Agreement or by clicking on
+the "ACCEPT" button displayed by PowerQuest with an electronic copy of the
+Agreement.  You may decline the paper copy of the Agreement by not signing; you
+may decline the electronic copy by clicking on the "DO NOT ACCEPT" button.  
+
+IF YOU DECLINE THE AGREEMENT, YOU ARE NOT LEGALLY LICENSED TO USE
+THE BETA. If you decline, you must promptly return all materials, including software on
+disks or other media, manuals, and any other literature and supplies concerning
+the Beta, which you received from PowerQuest.  
+
+IF YOU ACCEPT THE AGREEMENT, YOU AGREE TO BE LEGALLY BOUND BY ITS
+TERMS AND CONDITIONS.
+
+PowerQuest designs and develops proprietary software and associated
+documentation ("Product").  PowerQuest and you both want you to use, evaluate,
+and test a beta test version of the Product ("Beta") before the Product's
+general release, and to report the results to PowerQuest.  Accordingly, you and
+PowerQuest agree as follows:
+
+Licenses.  PowerQuest grants you a personal, royalty-free, non-exclusive license
+to use one copy of the Beta for evaluation only.  PowerQuest is not required to
+make the Beta or the Product available as a standard PowerQuest product.  You
+agree to test the Beta, to document the test results, and to promptly submit the
+results to PowerQuest.  In particular, you must promptly and fully inform
+PowerQuest of all errors, difficulties or other problems with the Beta,
+including the conditions under which such problems occurred.
+
+Copies.  PowerQuest will provide you with one copy of the Beta. You are
+responsible for providing all computer and other facilities needed to evaluate
+the Beta.  You may use the Beta only on your personal computer systems ("System")
+and only according to this Agreement and the instructions supplied in Beta
+documentation.  You may copy the Beta partially or completely only to personally
+test the Beta on the System or to include in your report(s) to PowerQuest.  No
+other right to reprint or copy the Beta in whole or in part is granted. Each
+copy must contain PowerQuest's patent, copyright, and trademark notices and other
+proprietary legends; this includes partial copies.  You may not transfer this
+Agreement or its license to another or sublicense another without prior written
+permission from PowerQuest, and any attempt to do so is null and void. All rights
+not expressly granted to you in this Agreement are reserved entirely to
+PowerQuest.
+
+No source code license.  This license does not grant access to or provide any
+rights in source code.  The Beta software may be used only in binary executable
+form.  You may not disassemble, decompile, or in any way reverse engineer the Beta.
+While you may not modify or enhance the Beta in any way, PowerQuest welcomes your
+suggestions for modifications to the Product. 
+
+Termination.  Your license ends as soon as one or more of the following events
+occur: (a) the Product is authorized for general release by PowerQuest;
+(b) You violate any part of this Agreement; (c) DISABLING CODE placed in the Beta
+software by PowerQuest disables previously available features of the Beta software; 
+(d) You destroy all copies of Beta components in your possession, custody, or
+control; or (e) PowerQuest decides to terminate this Agreement and does so by
+sending written (electronic or paper) notice to your last known address.
+PowerQuest may terminate the license at any time, with or without cause.
+
+On or after termination, PowerQuest has the right to take immediate possession
+of all Beta components and all copies, wherever located, without further demand
+or notice.  Within five (5) days after termination of the license, you will
+either (a) return to PowerQuest all Beta components, or (b) destroy all copies
+of Beta components in your possession, custody, or control.  All provisions of
+this Agreement concerning warranties, remedies, ownership, possible commercial
+releases, confidentiality, governing law, venue, and/or limited liability shall
+survive termination of the Agreement.
+
+Confidentiality.  You acknowledge that the Beta is an experimental product of
+PowerQuest which has only been partially tested.  The Beta has not been
+authorized for general release by PowerQuest.  Accordingly, you agree to treat
+all discussions, materials, documentation, and software related to the Product
+and the Beta, including without limitation all previous discussions, as
+Confidential Information of PowerQuest.  The fact that you are testing or have
+tested the Beta is also Confidential Information.
+
+You agree not to divulge any such Confidential Information to any third party
+without prior written approval from PowerQuest.  For instance, you agree not to
+sell, transfer, publish, disclose, display, or otherwise make available the Beta
+or copies of the Beta or any other Confidential Information in any form,
+including but not limited to flow charts, logic diagrams, object codes, source
+codes and technical documentation, to anyone (including other beta testers)
+without prior written approval from PowerQuest.
+
+You also agree to secure and protect the Beta and all copies in a way that
+protects PowerQuest's rights.  For instance, you agree to take appropriate action
+by instruction or agreement with your employees who are permitted access to the
+Beta under this Agreement.  In particular, employees who will receive access to
+the Beta shall agree to the conditions of this Agreement before being given
+access.
+
+Ownership.  The Product and Beta and all copies, and all information relating to
+the Product and Beta, including but not limited to tests, reports, modifications,
+and other information you may create, are the property of PowerQuest.  All
+applicable rights in copyrights, trademarks, trade secrets and other intellectual
+property rights in the Product and Beta and any modifications, including all
+information relating to the Product and Beta regardless of its type or form, are
+and will be owned entirely by PowerQuest.  For instance, to the extent your
+reports are copyrightable, they are works made for hire and/or will be assigned
+to PowerQuest.  All content accessed through the Beta is the property of the
+applicable content owner and may be protected by copyright law or other laws.
+This Agreement gives you no rights to such content.
+
+ALL WARRANTIES DISCLAIMED.  POWERQUEST MAKES NO REPRESENTATIONS
+ABOUT THE COMPLETENESS, ACCURACY OR OPERATION OF THE BETA, ABOUT
+THE SUITABILITY OF THE SOFTWARE, OR ABOUT ANY CONTENT OR
+INFORMATION MADE ACCESSIBLE BY THE SOFTWARE, FOR ANY PURPOSE.  THE
+BETA IS PROVIDED "AS IS" WITHOUT EXPRESS, IMPLIED OR OTHER WARRANTIES. 
+FOR INSTANCE, POWERQUEST MAKES NO WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, OR NONINFRINGEMENT.  THIS BETA IS
+PROVIDED GRATUITOUSLY AND, ACCORDINGLY, POWERQUEST SHALL NOT BE
+LIABLE UNDER ANY THEORY FOR ANY DAMAGES SUFFERED BY YOU OR ANY
+USER OR POSSESSOR OF THE BETA.  POWERQUEST HAS NO OBLIGATION TO
+SUPPORT THIS BETA OR ISSUE UPDATES TO THIS BETA.
+
+LIMITATIONS ON LIABILITY.  NEITHER POWERQUEST NOR ITS SUPPLIERS SHALL
+BE LIABLE FOR (A) INCIDENTAL, CONSEQUENTIAL, EXEMPLARY, SPECIAL,
+DIRECT, OR INDIRECT DAMAGES OF ANY SORT, WHETHER ARISING IN TORT,
+CONTRACT OR OTHERWISE, EVEN IF THEY HAVE BEEN INFORMED OF THE
+POSSIBILITY OF SUCH DAMAGES OR KNOW OR SHOULD KNOW OF THE
+POSSIBILITY OF SUCH DAMAGES, OR (B) ANY CLAIM BY ANY OTHER PARTY. 
+POWERQUEST WILL NOT BE RESPONSIBLE FOR ANY DAMAGES OR CLAIMS
+ARISING OUT OF OR IN CONNECTION WITH POWERQUEST'S PERFORMANCE OR
+THE DELIVERY, USE, OR INABILITY TO USE, OR PERFORMANCE OF THE BETA,
+INCLUDING BUT NOT LIMITED TO ANY CLAIMS ALLEGING POWERQUEST'S
+NEGLIGENCE.  
+
+THIS LIMITATION OF LIABILITY SHALL NOT APPLY TO LIABILITY FOR DEATH OR
+PERSONAL INJURY TO THE EXTENT APPLICABLE LAW PROHIBITS SUCH
+LIMITATION.   NO CLAIM MAY BE BROUGHT BY YOU UNDER THIS AGREEMENT
+MORE THAN THREE MONTHS AFTER YOU KNEW OR SHOULD HAVE KNOWN OF
+THE ALLEGED GROUNDS FOR THE CLAIM.  SOME STATES DO NOT ALLOW THE
+EXCLUSION OR LIMITATION OF INCIDENTAL OR CONSEQUENTIAL DAMAGES, SO
+THIS LIMITATION AND EXCLUSION MAY NOT APPLY TO YOU. 
+
+Backups.  Because the Beta is experimental, you should not assume the Beta will
+operate without interruption or error.  In particular, you have the sole
+responsibility for adequate protection and backup of any data used in connection
+with the Beta.
+
+Commercial Release.  All decisions about any commercial release of the Product
+lie solely with PowerQuest, including without limitation all decisions regarding
+the existence, pricing, features, specifications, licensing terms, release
+dates, general availability and/or other characteristics of any commercial
+release.  Neither party, by virtue of this Agreement, is authorized as an agent,
+employee or legal representative of the other.
+
+Export.  You may not download or otherwise export or re-export the Beta or any
+underlying information or technology in violation of any export provisions of
+the United States or any other applicable jurisdiction, including without limitation
+the Export Administration Act of 1979 and related regulations. 
+
+Restricted Government Rights.  Use, duplication or disclosure by the Government
+is subject to restrictions set forth in the Restricted Computer Software
+definition, Rights in Technical Data and Computer Software clause, Commercial
+Computer Software-Restricted Rights provisions, and other restrictions set forth
+in the Federal Acquisition Regulations at FAR 52.227, DFARS 252.227-7013, and
+elsewhere, including similar clauses in the NASA AR Supplement.  The contractor/
+manufacturer is PowerQuest Corporation, PO Box 1911, Orem, Utah 84059-1911.
+
+Miscellaneous.  This Agreement is the entire agreement between you and PowerQuest
+and replaces all prior agreements on the subject matter discussed here.  Headings
+are for emphasis and not necessarily comprehensive.  The Agreement may not be
+changed except by a writing that is accepted by the party against whom the change
+would be enforced.  Even if part of this Agreement is held legally invalid, the
+rest of the Agreement is enforceable.  The failure of either party to exercise a
+right does not waive future exercise of that right or other rights.  Your only
+remedies are those listed in this Agreement.  This Agreement is governed by the
+laws of the State of Utah and the United States.  Any disputes arising under the
+Agreement shall be heard only in the state and federal courts having jurisdiction
+over Utah.
+
+
+Beta Tester
+
+Company:___________________________
+
+Title:_______________________________
+
+Name:______________________________
+
+Signature:___________________________
+
+Date:_______________________________
+
+
+PowerQuest
+
+Company:___________________________
+
+Title:_______________________________
+
+Name:______________________________
+
+Signature:___________________________
+
+Date:_______________________________
+

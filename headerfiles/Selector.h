@@ -1,12 +1,9 @@
 #ifndef SELECTOR_H
 #define SELECTOR_H
 
-#include <iostream>
-#include <vector>
+
 #include "../headerfiles/Composite.h"
 
-
-using namespace std;
 
 
 
@@ -16,8 +13,8 @@ class Selector: public Composite
 
 		
 		virtual ~Selector();
-		virtual void onInitialize() override;
-		virtual Status run() override;
+		virtual void onInitialize(Blackboard *b) override;
+		virtual Status run(Enemigo *e) override;
 
 		
 

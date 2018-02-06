@@ -1,8 +1,6 @@
 #ifndef DECORATOR_H
 #define DECORATOR_H
 
-#include <iostream>
-#include <vector>
 #include "../headerfiles/Task.h"
 
 
