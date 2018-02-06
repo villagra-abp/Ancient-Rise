@@ -5,6 +5,8 @@
 #include <vector>
 #include <math.h>
 
+#include <GL/glut.h>
+
 using namespace std;
 
 class TEntidad{
