@@ -1,7 +1,7 @@
 #ifndef MALLA_H
 #define MALLA_H
 
-#include "../headerfiles/TEntidad.h"
+#include "TEntidad.h"
 
 class TMalla: public TEntidad{
 public:

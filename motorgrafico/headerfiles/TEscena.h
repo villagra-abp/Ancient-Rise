@@ -1,10 +1,7 @@
 #ifndef ESCENA_H
 #define ESCENA_H
 
-#include <iostream>
-#include <vector>
-#include <math.h>
-#include "../headerfiles/TNodo.h"
+#include "TNodo.h"
 
 using namespace std;
 

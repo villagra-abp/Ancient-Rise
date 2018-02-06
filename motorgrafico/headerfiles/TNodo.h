@@ -1,7 +1,7 @@
 #ifndef NODO_H
 #define NODO_H
 
-#include "../headerfiles/TEntidad.h"
+#include "TEntidad.h"
 
 using namespace std;
 

@@ -1,7 +1,7 @@
 #ifndef CAMARA_H
 #define CAMARA_H
 
-#include "../headerfiles/TEntidad.h"
+#include "TEntidad.h"
 
 class TCamara: public TEntidad{
 public:

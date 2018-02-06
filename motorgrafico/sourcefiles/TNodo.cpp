@@ -24,12 +24,11 @@ TNodo * TNodo::getPadre(){
 }
 void TNodo::draw(){
 
-entidad -> beginDraw ();
+entidad -> beginDraw();
 //para cada nodo hijo i
-int i;
-for(i=0;i<hijos.size();i++){
-	hijos[i] -> draw ();
+for(int i=0; i<hijos.size(); i++){
+	hijos[i] -> draw();
 }
-entidad -> endDraw ();
+entidad -> endDraw();
 
 }

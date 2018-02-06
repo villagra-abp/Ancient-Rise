@@ -1,7 +1,7 @@
 #ifndef TRANSFORMACION_H
 #define TRANSFORMACION_H
 
-#include "../headerfiles/TEntidad.h"
+#include "TEntidad.h"
 
 class TTransformacion: public TEntidad{
 public:
@@ -12,6 +12,7 @@ public:
 	void transponer();
 	void trasladar(float x,float y,float z);
 	void rotar(float x,float y,float z,float w);
+	void escalar(float x, float y, float z);
 	virtual void beginDraw() override;
 	virtual void endDraw() override;
 	
