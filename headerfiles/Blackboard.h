@@ -1,7 +1,7 @@
 #ifndef BLACKBOARD_H
 #define BLACKBOARD_H
 
-#include "../headerfiles/Enemigo.h"
+#include "../headerfiles/EnemigoBasico.h"
 #include "../headerfiles/Objeto.h"
 
 
@@ -11,21 +11,27 @@ Clase para poder almacenar informacion que puedan necesitar los arboles de compo
 class Blackboard
 {
 	public:
+		typedef vector<Objeto*> vecObjetos;
+		
 
 		Blackboard();
 		
 		void setProta(float pX);
 		void setTime(const f32 T);
-		void setFuente(Objeto* f);
-		void setComida(Objeto *c);
-		void setAlarma(Objeto* a);
+		void setFuente(vector<Objeto*> f);
+		void setComida(vector<Objeto*> c);
+		void setAlarma(vector<Objeto*>a);
+		void setEnemB(EnemigoBasico *e);
+		void setEnemBActual(EnemigoBasico *e);
 
 
 		float getProta();
 		f32 getTime();
-		Objeto* getFuente();
-		Objeto* getComida();
-		Objeto* getAlarma();
+		vector<Objeto*> getFuente();
+		vector<Objeto*> getComida();
+		vector<Objeto*> getAlarma();
+		vector<EnemigoBasico*> getEnemB();
+		EnemigoBasico* getEnemBActual();
 
 		virtual ~Blackboard();
 
@@ -33,9 +39,12 @@ class Blackboard
 		
 		float protaX;
 		f32 time;
-		Objeto *fuente;
-		Objeto *comida;
-		Objeto *alarma;
+		vecObjetos fuentes;
+		vecObjetos comidas;
+		vecObjetos alarmas;
+		vector<EnemigoBasico*> enemigosB;
+		EnemigoBasico* enemBActual;
+
 };
 
 #endif // BLACKBOARD_H

@@ -3,29 +3,15 @@
 
 
 
-#include <irrlicht/irrlicht.h>
-#include <iostream>
-#include <Box2D/Box2D.h>
-#include <Box2D/Common/b2Math.h>
-#include <GL/gl.h>
 #include "../headerfiles/Enemigo.h"
 #include "../headerfiles/Comida.h"
 #include "../headerfiles/Bebida.h"
 #include "../headerfiles/Trampa.h"
+#include "../headerfiles/GameObject.h"
+#include "../motorsonido/headerfiles/GestorSonido.h"
 
 
-using namespace irr;
-using namespace std;
-
-
-using namespace core;
-using namespace scene;
-using namespace video;
-using namespace io;
-using namespace gui;
-
-
-class Protagonista
+class Protagonista : public GameObject
 {
     public:
         Protagonista(IrrlichtDevice *dev, ISceneManager* smgr);
@@ -35,7 +21,6 @@ class Protagonista
 
          void salto(const f32 Time);
          void ataque(const f32 Time);
-         void defender(const f32 Time);
          void movimiento(const f32 Time);
          void recuperarEnergia(const f32 Time);
          void recuperarVida(const f32 Time);
@@ -52,6 +37,7 @@ class Protagonista
 
 
          //GETTERS Y SETTERS
+         virtual core::vector3df getPosition() const override{ return protaPosition; }
          void setSalto(bool s);
          core::vector3df getPosition();
          void setPosition(core::vector3df v);
@@ -60,19 +46,23 @@ class Protagonista
 
          bool getSigilo();
          bool getCorrer();
+
          void setSigilo();
          void setCorrer(bool c);
          void setDireccion(int d);
 
-         void setAtaquePosition(int d);
-         void setDefensaPosition(int d);
          void setAtaque(bool d);
-         void setDefensa(bool d);
          void setEnergia(f32 cantidad, const f32 Time);
          void setVida(f32 cantidad, const f32 Time);
          void updateBody(b2World& world);
          bool checkVida();
 
+         /* COMBATE */
+         bool getCombate();
+         void setCombate();
+         void setPosCombate(int n);
+         int getPosCombate();
+         void checkPosCombate();
 
 
 
@@ -86,11 +76,9 @@ class Protagonista
         bool saltando=false;
         bool sigilo=false;
         bool correr=false;
-        bool ataca=false;
-        bool defensa=false;
         bool estaEnSuelo=false;
         bool estaCayendo=true;
-        int direccion=1;      // 0 --> Izquierda, 1 --> Derecha
+        int direccion=1;      // Para saber la direccion a la que esta mirando el prota (0 --> Izquierda, 1 --> Derecha)
         float ataque_position=0;    //0--> abajo.  1--> centro,  2-->arriba
         float defensa_position=0;    //0--> abajo.  1--> centro,  2-->arriba
         int cont_ataque=0;
@@ -108,15 +96,24 @@ class Protagonista
         core::vector3df energyScale;
         core::vector3df lifePosition;
         core::vector3df lifeScale;
+        
+        /* BOX2D */
         b2Body* Body;
         b2BodyDef BodyDef;
         b2PolygonShape Shape;
-
+        short GROUP_PLAYER = -1; 
 
         /* COMBATE */
         bool combate;            // PARA SABER SI ESTA COMBATIENDO O NO
-
+        int pos_combate;        // INDICA LA POSICION DE COMBATE (1 = ARRIBA, 2 = CENTRO, 3 = ABAJO)
+        bool ataca=false;       // PROTA ATACANDO O NO
         
+        /* SONIDO */
+        GestorSonido* sonido;
+        Sonido* nani;
+        Sonido* omae;
+        Sonido* grito;
+        Sonido* risa;
 
 };
 

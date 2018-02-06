@@ -17,8 +17,13 @@ class IrAlarma : public Task
 		
 		Blackboard *board;
 	    f32 frameDeltaTime;		  // Tiempo
-	    Objeto *a;
-	
+	    vector<Objeto*> a;
+	    scene::ISceneNode* enemigoNode;
+		
+		//Datos de alarma
+	    core::vector3df alarmaPosition;
+		float alarmaX;
+		int distanciaAlarma;
 		
 };
 

@@ -9,7 +9,7 @@
 #include <GL/gl.h>
 #include <SFML/Graphics.hpp>
 
-#include <irrlicht/irrlicht.h>
+#include <irrlicht.h>
 #include <iostream>
 #include <vector>
 #include <math.h>

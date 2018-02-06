@@ -1,12 +1,8 @@
 #ifndef MUNDO_H
 #define MUNDO_H
 
-#include <Box2D/Box2D.h>
-#include <Box2D/Common/b2Math.h>
-#include <GL/gl.h>
 #include "../headerfiles/Protagonista.h"
 #include "../headerfiles/Posicion.h"
-#include "../headerfiles/MyEventReceiver.h"
 #include "../headerfiles/EnemigoBasico.h"
 #include "../headerfiles/EnemigoAvanzado.h"
 #include "../headerfiles/EnemigoElite.h"
@@ -15,18 +11,10 @@
 #include "../headerfiles/Alarma.h"
 #include "../headerfiles/Trampa.h"
 #include "../headerfiles/Bebida.h"
-#include "../headerfiles/Blackboard.h"
 #include "../headerfiles/BehaviorTree.h"
+#include "../headerfiles/Entorno.h"
 
-
-
-#include <iostream>
-#include <unistd.h>
-#include <irrlicht/irrlicht.h>
-#include <vector>
-
-using namespace irr; // Para poder usar cualquier clase del motor Irrlicht se utiliza el namespace irr
-using namespace std;
+#include "../motorsonido/headerfiles/GestorSonido.h"
 
 /*
 Estos son los 5 sub namespace del motor de Irrlicht
@@ -44,16 +32,26 @@ using namespace video;
 using namespace io;
 using namespace gui;
 
-class Mundo
+class Mundo : public Entorno
 {
     public:
     	//DEFINICION DE TIPOS
     	typedef vector<Posicion*> patrulla;
     	typedef vector<EnemigoBasico*> enemigosBasicos;
-
+        typedef vector<EnemigoElite*> enemigosElites;
+        typedef vector<GameObject*> GameObjects;
+        typedef vector<Objeto*> objetos;
+        
     	//CONSTRUCTOR Y DESTRUCTOR
-        Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver);
+
+        Mundo(IrrlichtDevice* mainDevice);
         virtual ~Mundo();
+
+        //MANEJO DE GAMEOBJECTS
+        void    addGameObject   (GameObject* o);
+
+        virtual int     getSize() const override { return gos.size(); }
+        virtual GameObject* getGameObject(uint8_t pos) const override;
 
         //UPDATERS
         void update();
@@ -73,10 +71,11 @@ class Mundo
         void fpsControl();
         void timeWait();
 
+
  	/* VARIABLES */
 
     	//EVENTS
-    	MyEventReceiver* receiver;
+    	//MyEventReceiver* receiver;
 
     	//DEVICE
     	IrrlichtDevice* device;
@@ -92,14 +91,17 @@ class Mundo
     	scene::ISceneNode* 	Terrain;
 
     	//POSICIONES ENEMIGOS
-    	patrulla pos, pos2;	//Vector de posiciones  1 y 2
+    	patrulla pos, pos2, pos3;	//Vector de posiciones para los enemigos
 
     	//OBJETOS
-    	Comida *c;
-    	Fuente *f;
-    	Alarma *a;
-	Trampa *t;
-	Bebida *bebida;
+    	Comida *c, *c2;
+        Fuente *f, *f2;
+        Alarma *a, *a2;
+        Trampa *t;
+        Bebida *bebida;
+        vector<Objeto*> alarmas;
+        vector<Objeto*> fuentes;
+        vector<Objeto*> comidas;
 
     	//BLACKBOARD
     	Blackboard *b;
@@ -108,10 +110,13 @@ class Mundo
     	enemigosBasicos enemB;	//Vector de enemigos Basicos
     	EnemigoBasico 	*enem1, *enem2;
 
+        enemigosElites enemE;
+        EnemigoElite *enemE1;
+
     	//PLATAFORMAS
     	scene::ISceneNode* Plataforma;
-	scene::ISceneNode* Plataforma2;
-	scene::ISceneNode* Plataforma3;
+	    scene::ISceneNode* Plataforma2;
+	    scene::ISceneNode* Plataforma3;
 
     	//CAMARA
     	scene::ICameraSceneNode* cam;
@@ -128,10 +133,24 @@ class Mundo
     	u32 then;
     	u32 time_input;
 
-	//MUNDO BOX2D
-	b2Vec2 gravedad=b2Vec2(0.f, -9.8f*20);
-	b2World world=b2World(gravedad);
+    	//MUNDO BOX2D
+    	b2Vec2 gravedad=b2Vec2(0.f, -9.8f*20);
+    	b2World world=b2World(gravedad);
 
+        //VARIABLES RECUPERACION ENERGIA PROTAGONISTA
+        float energiaAnterior;
+        float energiaActual;
+        float energiaDelta;
+        sf::Clock relojDescanso;
+        float tiempoTrans;
+
+        //SONIDO
+        GestorSonido* sonido;
+        Reverb* reverbCueva;
+        Sonido* musicaBosque;
+
+        //MANJEO DE GAME OBJECTS
+        GameObjects gos;
 
     private:
 };

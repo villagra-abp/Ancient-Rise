@@ -1,12 +1,12 @@
 #include "../headerfiles/Mundo.h"
 
 
-Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTRUCTOR
+Mundo::Mundo(IrrlichtDevice* mainDevice)	//CONSTRUCTOR
 {
 
 /* CREAMOS IRRLICHT DEVICE */	 
 	device = mainDevice;
-	receiver = mainReceiver;
+	//receiver = mainReceiver;
 
 /** PUNTEROS 
  A VideoDriver, al SceneManager y al entorno de interfaz de usuario, para no tener que
@@ -30,7 +30,7 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 
 	prota = new Protagonista(device, smgr);
 	rec = prota->getNode();
-	receiver->setProta(prota);
+	//receiver->setProta(prota);
 
 	//creo el suelo, el bounding box del prota y la plataforma
 	prota->CreateGround(world, 0.f, -150.f,1000*1000);
@@ -46,35 +46,66 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 
 /* CREAMOS OBJETOS */
 
-	Posicion pC(150.f, 0.f, 30.f);
-	c = new Comida(smgr, pC);
+	Posicion pC(-220.f, 0.f, 30.f);
+	c = new Comida(device, smgr, pC);
+	comidas.push_back(c);
+	addGameObject(c);
+
+	Posicion pC2(190.f, 0.f, 30.f);
+	c2 = new Comida(device, smgr, pC2);
+	comidas.push_back(c2);
+	addGameObject(c2);
 
 	Posicion pF(-190.f,0.f,40.f);
-	f = new Fuente(smgr, pF);
+	f = new Fuente(device, smgr, pF);
+	fuentes.push_back(f);
+	addGameObject(f);
 
-	Posicion pA(140.f,0.f,40.f);
-	a = new Alarma(smgr, pA);
+	Posicion pF2(320.f,0.f,40.f);
+	f2 = new Fuente(device, smgr, pF2);
+	fuentes.push_back(f2);
+	addGameObject(f2);
+
+	Posicion pA(120.f,0.f,40.f);
+	a = new Alarma(device, smgr, pA);
+	alarmas.push_back(a);
+	addGameObject(a);
+
+	Posicion pA2(-160.f,0.f,40.f);
+	a2 = new Alarma(device, smgr, pA2);
+	alarmas.push_back(a2);
+	addGameObject(a2);
 
 	Posicion posbebida(-300,0,30.f);
- 	bebida = new Bebida(smgr, posbebida);
+ 	bebida = new Bebida(device, smgr, posbebida);
+ 	addGameObject(bebida);
 
-	Posicion postrampa(330,0,30.f);
- 	t = new Trampa(smgr, postrampa);
+	Posicion postrampa(520,0,30.f);
+ 	t = new Trampa(device, smgr, postrampa);
+ 	addGameObject(t);
 
 /* CREAMOS LA BLACKBOARD */
 
 	b=new Blackboard();
-	 b->setFuente(f);
-	 b->setComida(c);
-	 b->setAlarma(a);
+	 b->setFuente(fuentes);
+	 b->setComida(comidas);
+	 b->setAlarma(alarmas);
+
 
 /* CREAMOS ENEMIGOS BASICOS */
 	
-	enem1 = new EnemigoBasico(device, smgr, pos, 100.0, 0.36, 2, b, world);
+	enem1 = new EnemigoBasico(device, smgr, pos, 80.0, 0.8, 1, this, b, world);
 	enemB.push_back(enem1);
+	addGameObject(enem1);
 
-	enem2 = new EnemigoBasico(device, smgr, pos2, 100.0, 0.36, 1, b, world);
+	enem2 = new EnemigoBasico(device, smgr, pos2, 80.0, 0.8, 1, this, b, world);
 	enemB.push_back(enem2);
+	addGameObject(enem2); 
+	
+	for(int i=0;i<enemB.size();i++)
+	{
+		b->setEnemB(enemB[i]);
+	} 
 	
 /* CREAMOS PLATAFORMAS */
 
@@ -155,7 +186,7 @@ void Mundo::terrainBuilder(){	//CONSTRUCTOR DEL TERRENOS Y COLISIONES DE CAMARA
 
 	terrain = smgr->addTerrainSceneNode(
 
-        "../resources/terrain-heightmap.bmp",
+        "resources/terrain-heightmap.bmp",
 
         0,                  					// parent node
 
@@ -180,38 +211,13 @@ void Mundo::terrainBuilder(){	//CONSTRUCTOR DEL TERRENOS Y COLISIONES DE CAMARA
     //LE APLICAMOS TEXTURA AL TERRENO
 
     terrain->setMaterialFlag(video::EMF_LIGHTING, false);
-    terrain->setMaterialTexture(0, driver->getTexture("../resources/terrain-texture.jpg"));
+    terrain->setMaterialTexture(0, driver->getTexture("resources/terrain-texture.jpg"));
 
     //LE APLICAMOS RELIEVE
 
-    terrain->setMaterialTexture(1, driver->getTexture("../resources/detailmap3.jpg"));
+    terrain->setMaterialTexture(1, driver->getTexture("resources/detailmap3.jpg"));
 	terrain->setMaterialType(video::EMT_DETAIL_MAP);
     terrain->scaleTexture(1.0f, 20.0f);
-
-    /** COLISIONES 
-
-    (Aplicado solo a la camara) extraer a clase y aplicar a prota etc 
-	create triangle selector for the terrain 
-
-	
-
-    selector = smgr->createTerrainTriangleSelector(terrain, 0);
-    terrain->setTriangleSelector(selector);
-
-    // create collision response animator and attach it to the camera
-
-    anim = smgr->createCollisionResponseAnimator(
-
-        selector, cam, core::vector3df(60,100,60),
-
-        core::vector3df(0,0,0),
-
-        core::vector3df(0,50,0));
-
-    selector->drop();
-    cam->addAnimator(anim);
-    anim->drop();
-**/
 }
 
 void Mundo::update(){
@@ -271,7 +277,7 @@ void Mundo::protaUpdate(const u32 now, const f32 frameDeltaTime, f32 tiempo){
 	
 	//prota->gravedad(frameDeltaTime);
     	//prota->salto(frameDeltaTime);
-    	prota->defender(frameDeltaTime);
+    	//prota->defender(frameDeltaTime);
     	prota->ataque(frameDeltaTime);
     	prota->pintarInterfaz();
     	prota->setEnergia(5,frameDeltaTime);
@@ -362,7 +368,19 @@ void Mundo::draw(){
 
 	driver->endScene();
 }
+void Mundo::addGameObject (GameObject* o){
+	gos.push_back(o);
+}
 
+GameObject* Mundo::getGameObject(uint8_t pos) const{
+	GameObject* o = nullptr;
+
+	if(pos < gos.size() && gos[pos] != nullptr){
+		o = gos[pos];
+	}
+
+	return o;
+}
 Mundo::~Mundo()	//DESTRUCTOR
 {
 	delete prota;
@@ -371,16 +389,24 @@ Mundo::~Mundo()	//DESTRUCTOR
 	{
 		delete enemB[cont];
 	}
+	for(int cont2=0; cont2<enemE.size();cont2++)
+	{
+		delete enemE[cont2];
+	}
 
 	enemB.clear();
+	enemE.clear();
 
 	pos.clear();
 	pos2.clear();
+	pos3.clear();
 
     delete b;
     delete c;
     delete f;
     delete a;
+    delete a2;
     delete bebida;
     delete t;
+    delete sonido;
 }

@@ -2,64 +2,76 @@
 
 Status IrAlarma::run(Enemigo *e)
 {   
-	// Datos Alarma
-	 a = board->getAlarma();
-   core::vector3df alarmaPosition = a->getVector3df(); 
-   float alarmaX=alarmaPosition.X;
-
-   	// DATOS  ENEMIGO
-   scene::ISceneNode* enemigoNode = e->getNode();
+    // DATOS  ENEMIGO
+   enemigoNode = e->getNode();
    core::vector3df EnemigoPosition = enemigoNode->getPosition(); 
    float enemigoX=EnemigoPosition.X;
 
+  // Habra que ampliar el bucle para contemplar todas las distancias hacia las alarmas que esten sonando
+  // y acudir a la mas cercana
+  
+   for (int i = 0; i < a.size(); i++){
+      alarmaPosition = a[i]->getVector3df();
+      alarmaX=alarmaPosition.X;
 
-   int distanciaAlarma = alarmaX - enemigoX;
+      distanciaAlarma = alarmaX - enemigoX;
 
-
-  frameDeltaTime = board->getTime();
-
-   e->setVelocidad(25.f);
+      if( abs(distanciaAlarma)<100 && a[i]->getActivado() ) {  // Si alarma dentro de RANGO DE ESCUCHA y esta activada 
+        i = a.size();
+      }
+   }
+   
+   e->setCombate(false);
 
    if (distanciaAlarma<0) // AVANZAMOS HACIA LA IZQUIERDA
     {
 
-        EnemigoPosition.X-= e->getVelocidad() * frameDeltaTime;
+        e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
+        e->getBody()->ApplyForceToCenter(b2Vec2(-150.f,0.f),true);             // Fuerza para correr
 
-        e->setPosition(EnemigoPosition);
+        e->setLastFacedDir(false);                                    // INDICAMOS QUE EL ENEMIGO ESTA MIRANDO A LA IZQUIERDA 
     }
     else{
            if(distanciaAlarma>0) // AVANZAMOS HACIA LA DERECHA
            {
 
-               EnemigoPosition.X+= e->getVelocidad() * frameDeltaTime;
-
-               e->setPosition(EnemigoPosition);
+                e->getBody()->SetLinearVelocity(e->getVelocidad2d());
+                e->getBody()->ApplyForceToCenter(b2Vec2(150.f,0.f),true);             // Fuerza para correr
+                
+                e->setLastFacedDir(true);                                // INDICAMOS QUE EL ENEMIGO ESTA MIRANDO A LA DERECHA
            }
           
        }
 
     if(distanciaAlarma==0)
     {
-      return BH_SUCCESS;
     }
-    else
-    {
-      return BH_FAILURE;
-    }
+    
+return BH_SUCCESS;
 
 }
 
 
 void IrAlarma::onInitialize(Blackboard *b)
 {
-	board = b;
+  board = b;
+  a = board->getAlarma();
+  alarmaX = 0.0;
+  distanciaAlarma = 0;
 }
 
 IrAlarma::~IrAlarma()
 {
     board = nullptr;
-    a = nullptr;
+    enemigoNode = nullptr;
 
-    delete board;
-    delete a;
+    for(int i = 0 ; i < a.size(); i++){
+      a[i] = nullptr;
+      delete a[i];  //No se si es necesario
+    }
+
+    a.clear();
+
+    //delete board;
+    //delete a;
 }

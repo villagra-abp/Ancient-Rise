@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <unistd.h>
-#include <irrlicht/irrlicht.h>
+#include <irrlicht.h>
 #include <SFML/Window/Window.hpp>
 
 using namespace irr; // Para poder usar cualquier clase del motor Irrlicht se utiliza el namespace irr
@@ -70,7 +70,7 @@ int main()
 
 	//IrrXMLReader* xml = createIrrXMLReader("BehaviorTreePatrulla.xml");
 	 
-    MyEventReceiver receiver;
+    //MyEventReceiver receiver;
 
 	/* CREAMOS IRRLICHT DEVICE */
 
@@ -89,7 +89,7 @@ int main()
 	IrrlichtDevice* device;
     SIrrlichtCreationParameters Parameters;
     Parameters.DriverType = video::EDT_OPENGL; 
-    Parameters.EventReceiver = &receiver;
+    //Parameters.EventReceiver = &receiver;
     Parameters.WindowId = reinterpret_cast<void*>(ventana.getSystemHandle());
     device = createDeviceEx(Parameters);
 	if (!device)
@@ -98,7 +98,7 @@ int main()
 
 	/* CREAMOS MUNDO DEL JUEGO */
 
-	Mundo* mundo = new Mundo(device, &receiver);
+	Mundo* mundo = new Mundo(device);
 
 
 	// define a 120x50 rectangle
@@ -141,8 +141,8 @@ int main()
 			        break;
 			        case 0: //A
 			        {
-			            receiver.direccion(0);
-			            receiver.moverse();
+			            //receiver.direccion(0);
+			            //receiver.moverse();
 			        }
 			        break;
 			        case 18: //S
@@ -152,13 +152,13 @@ int main()
 			        break;
 			        case 3: //D
 			        {
-			           receiver.direccion(1);
-			           receiver.moverse();
+			           //receiver.direccion(1);
+			           //receiver.moverse();
 			        }
 			        break;
 			        case 57: //Space
 			        {
-			            receiver.saltar(true);
+			            //receiver.saltar(true);
 			        }
 			        break;
 		    		}
@@ -167,7 +167,7 @@ int main()
             }
             
         }
-        receiver.saltar(false);
+        //receiver.saltar(false);
         ventana.clear();
         
 		//

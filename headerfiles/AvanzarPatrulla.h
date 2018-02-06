@@ -21,7 +21,6 @@ class AvanzarPatrulla : public Task
 		int contadorPatrulla;     // PARA SABER LA POSICION EN LA QUE SE ENCUENTRA EN LA PATRULLA
 		vector<Posicion*> pos;	  // Vector con las posiciones de la patrulla
 		float protaPosition;	  
-		f32 frameDeltaTime;		  // Tiempo
 		Blackboard *board;		  // Blackboard con los datos necesarios
 		scene::ISceneNode* enemigoNode;
 		sf::Clock reloj; 		  			// Reloj para controlar el tiempo que esta parado el enemigo en una posicion de la patrulla
