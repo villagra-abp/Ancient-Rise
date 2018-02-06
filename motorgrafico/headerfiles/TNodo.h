@@ -4,7 +4,8 @@
 #include <iostream>
 #include <vector>
 #include <math.h>
-#include "../headerfiles/TEntidad.h"
+
+#include "TEntidad.h"
 
 using namespace std;
 
