@@ -58,6 +58,9 @@ class Mundo : public Entorno
 
         void draw();
 
+	//EVENTS
+    	void checkInput();
+
     protected:
     /* METHODS */
 
@@ -70,12 +73,11 @@ class Mundo : public Entorno
         void camUpdate(const f32 frameDeltaTime);
         void fpsControl();
         void timeWait();
-
+	
 
  	/* VARIABLES */
 
-    	//EVENTS
-    	//MyEventReceiver* receiver;
+    	
 
     	//DEVICE
     	IrrlichtDevice* device;

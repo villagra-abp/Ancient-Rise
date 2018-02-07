@@ -1,4 +1,5 @@
 #include "../headerfiles/Mundo.h"
+#include <SFML/Window/Keyboard.hpp>
 
 
 Mundo::Mundo(IrrlichtDevice* mainDevice)	//CONSTRUCTOR
@@ -221,7 +222,8 @@ void Mundo::terrainBuilder(){	//CONSTRUCTOR DEL TERRENOS Y COLISIONES DE CAMARA
 }
 
 void Mundo::update(){
-
+	//Comprueba las entradas del teclado
+	checkInput();
 	//pasos de las fisicas en el mundo
 	world.Step(1/60.f, 8, 3);
 	//reinicio las fuerzas en el mundo
@@ -368,6 +370,73 @@ void Mundo::draw(){
 
 	driver->endScene();
 }
+void Mundo::checkInput(){
+	
+
+/* hacemos un set de ataque a 2 que es arriba 
+        if(inputkey==22)//w
+        {
+           pos_pelea(prota,2);
+           pos_defensa(prota,2);
+        }
+        else if(inputkey==18)//s
+        {
+            pos_pelea(prota,0);
+            pos_defensa(prota,0);
+        }
+        else
+        {
+            pos_pelea(prota,1);
+            pos_defensa(prota,1);
+        }
+*/
+        /* control de ataque*/
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::P))//p
+        {  
+            prota->setAtaque(true);
+        }
+        
+        /* control de defensa*/
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::K))//k
+        {
+            prota->setCombate();
+
+        }
+
+        /* movimiento hacia los lados y control de la velocidad en funcion de
+        las variables de correr, sigilo y vitalidad */
+
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))//A
+        {
+            prota->setDireccion(0);
+	    prota->movimiento(0.1f);
+    		if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+    		{
+		  prota->setCorrer(true);
+      		  prota->setEnergia(-5.0f,0.1f);
+    		}else
+		  prota->setCorrer(false);
+        }
+
+        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)){//D
+
+            prota->setDireccion(1);
+            prota->movimiento(0.1f);
+    		if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+    		{
+		  prota->setCorrer(true);
+      		  prota->setEnergia(-5.0f,0.1f);
+    		}else
+		  prota->setCorrer(false);
+        }
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
+        	prota->setSalto(true);
+    	}else
+		prota->setSalto(false);
+       	
+	       
+}
+
 void Mundo::addGameObject (GameObject* o){
 	gos.push_back(o);
 }

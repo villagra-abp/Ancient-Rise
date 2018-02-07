@@ -6,6 +6,7 @@
 #include <irrlicht.h>
 #include <SFML/Window/Window.hpp>
 
+
 using namespace irr; // Para poder usar cualquier clase del motor Irrlicht se utiliza el namespace irr
 using namespace std;
 
@@ -112,63 +113,34 @@ int main()
 
 	while(device->run())
 	{
-		int inputKey;
+		char inputKey;
 		bool keyPressed;
 		//Evento
-        sf::Event* evento = new sf::Event; 
-        //Obtener eventos
-        while (ventana.pollEvent(*evento))
-        {
-            switch (evento-> type)
-            {
-                case sf::Event::Closed:
-               
-                    //ventana.close();
-                    device->closeDevice();
-                break;
+		sf::Event* evento = new sf::Event; 
+		//Obtener eventos
+		while (ventana.pollEvent(*evento))
+		{
+		    switch (evento-> type)
+		    {
+		        case sf::Event::Closed:
+		       
+		            //ventana.close();
+		            device->closeDevice();
+		        break;
 
-                case sf::Event::KeyPressed:
-                {    
-                    inputKey = evento->key.code;
-                    //std::cout<<evento->key.code<<"\n";
-                    keyPressed = true;
-                    switch(inputKey)
-		    		{
-			        case 22: //W
-			        {
-			            
-			        }
-			        break;
-			        case 0: //A
-			        {
-			            //receiver.direccion(0);
-			            //receiver.moverse();
-			        }
-			        break;
-			        case 18: //S
-			        {
-			            
-			        }
-			        break;
-			        case 3: //D
-			        {
-			           //receiver.direccion(1);
-			           //receiver.moverse();
-			        }
-			        break;
-			        case 57: //Space
-			        {
-			            //receiver.saltar(true);
-			        }
-			        break;
-		    		}
-                }   
-                break;
-            }
-            
-        }
-        //receiver.saltar(false);
-        ventana.clear();
+		        case sf::Event::KeyPressed:
+		        {    
+		            inputKey = evento->key.code;
+		            //std::cout<<evento->key.code<<"\n";
+		            keyPressed = true;
+		           
+		        }   
+		        break;
+		    }
+		    
+		    
+		}
+        	ventana.clear();
         
 		//
 		//ventana.draw(rectangle);
