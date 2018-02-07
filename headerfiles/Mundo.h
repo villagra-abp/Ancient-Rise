@@ -154,6 +154,10 @@ class Mundo : public Entorno
         //MANJEO DE GAME OBJECTS
         GameObjects gos;
 
+	//VARIABLES JOYSTICK
+	float JoyY;
+	float JoyX;
+
     private:
 };
 

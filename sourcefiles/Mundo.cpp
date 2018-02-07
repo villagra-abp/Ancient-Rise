@@ -1,5 +1,5 @@
 #include "../headerfiles/Mundo.h"
-#include <SFML/Window/Keyboard.hpp>
+
 
 
 Mundo::Mundo(IrrlichtDevice* mainDevice)	//CONSTRUCTOR
@@ -371,7 +371,30 @@ void Mundo::draw(){
 	driver->endScene();
 }
 void Mundo::checkInput(){
-	
+
+	if(sf::Joystick::isConnected(0)){
+		JoyY=sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
+		JoyX=sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+		//std::cout<<JoyX<<"\n";
+	}
+	/*
+	if (sf::Joystick::isButtonPressed(0, 2))
+	{
+	    std::cout<<"x=2"<<"\n";
+	}
+	if (sf::Joystick::isButtonPressed(0, 4))
+	{
+	    std::cout<<"l=4"<<"\n";
+	}
+	if (sf::Joystick::isButtonPressed(0, 0))
+	{
+	    std::cout<<"a=0"<<"\n";
+	}
+	if (sf::Joystick::isButtonPressed(0, 5))
+	{
+	    std::cout<<"r=5"<<"\n";
+	}
+	*/
 
 /* hacemos un set de ataque a 2 que es arriba 
         if(inputkey==22)//w
@@ -391,13 +414,13 @@ void Mundo::checkInput(){
         }
 */
         /* control de ataque*/
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::P))//p
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::P)||sf::Joystick::isButtonPressed(0, 2))//p
         {  
             prota->setAtaque(true);
         }
         
         /* control de defensa*/
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::K))//k
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::K)||sf::Joystick::isButtonPressed(0, 4))//k
         {
             prota->setCombate();
 
@@ -406,11 +429,11 @@ void Mundo::checkInput(){
         /* movimiento hacia los lados y control de la velocidad en funcion de
         las variables de correr, sigilo y vitalidad */
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))//A
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)||JoyX<=-50)//A
         {
             prota->setDireccion(0);
 	    prota->movimiento(0.1f);
-    		if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+    		if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)||sf::Joystick::isButtonPressed(0, 5))
     		{
 		  prota->setCorrer(true);
       		  prota->setEnergia(-5.0f,0.1f);
@@ -418,18 +441,18 @@ void Mundo::checkInput(){
 		  prota->setCorrer(false);
         }
 
-        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)){//D
+        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)||JoyX>=50){//D
 
             prota->setDireccion(1);
             prota->movimiento(0.1f);
-    		if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+    		if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)||sf::Joystick::isButtonPressed(0, 5))
     		{
 		  prota->setCorrer(true);
       		  prota->setEnergia(-5.0f,0.1f);
     		}else
 		  prota->setCorrer(false);
         }
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)||sf::Joystick::isButtonPressed(0, 0)){
         	prota->setSalto(true);
     	}else
 		prota->setSalto(false);
