@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <unistd.h>
-#include <irrlicht.h>
+#include <irrlicht/irrlicht.h>
 #include <SFML/Window/Window.hpp>
 
 
