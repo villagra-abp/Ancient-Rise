@@ -26,11 +26,6 @@ Estos son los 5 sub namespace del motor de Irrlicht
 5º irr::video--> Contiene clases para acceder al driver del video. Todo el rendererizado 3d o 2d se realiza aqui
 */
 
-using namespace core;
-using namespace scene;
-using namespace video;
-using namespace io;
-using namespace gui;
 
 class Mundo : public Entorno
 {
@@ -44,13 +39,12 @@ class Mundo : public Entorno
         
     	//CONSTRUCTOR Y DESTRUCTOR
 
-        Mundo(IrrlichtDevice* mainDevice);
+        Mundo(sf::RenderWindow* mainDevice);
         virtual ~Mundo();
 
         //MANEJO DE GAMEOBJECTS
         void    addGameObject   (GameObject* o);
 
-        virtual int     getSize() const override { return gos.size(); }
         virtual GameObject* getGameObject(uint8_t pos) const override;
 
         //UPDATERS
@@ -80,83 +74,16 @@ class Mundo : public Entorno
     	
 
     	//DEVICE
-    	IrrlichtDevice* device;
+    	sf::RenderWindow* device;
 
-    	//ESCENA
-    	IVideoDriver* 		driver;
-    	ISceneManager* 		smgr;
-    	IGUIEnvironment* 	guienv;
 
-    	//PROTAGONISTA
-    	Protagonista*		prota;
-    	scene::ISceneNode*	rec;
-    	scene::ISceneNode* 	Terrain;
 
-    	//POSICIONES ENEMIGOS
-    	patrulla pos, pos2, pos3;	//Vector de posiciones para los enemigos
-
-    	//OBJETOS
-    	Comida *c, *c2;
-        Fuente *f, *f2;
-        Alarma *a, *a2;
-        Trampa *t;
-        Bebida *bebida;
-        vector<Objeto*> alarmas;
-        vector<Objeto*> fuentes;
-        vector<Objeto*> comidas;
-
-    	//BLACKBOARD
-    	Blackboard *b;
-
-    	//ENEMIGOS
-    	enemigosBasicos enemB;	//Vector de enemigos Basicos
-    	EnemigoBasico 	*enem1, *enem2;
-
-        enemigosElites enemE;
-        EnemigoElite *enemE1;
-
-    	//PLATAFORMAS
-    	scene::ISceneNode* Plataforma;
-	    scene::ISceneNode* Plataforma2;
-	    scene::ISceneNode* Plataforma3;
-
-    	//CAMARA
-    	scene::ICameraSceneNode* cam;
-
-    	//TERRENO
-    	scene::ITerrainSceneNode* terrain;
-
-    	//COLISIONES
-    	scene::ITriangleSelector* 	selector;
-    	scene::ISceneNodeAnimator* 	anim;
-
-    	//TIME AND FRAMES
-        int lastFPS;
-    	u32 then;
-    	u32 time_input;
-
-    	//MUNDO BOX2D
-    	b2Vec2 gravedad=b2Vec2(0.f, -9.8f*20);
-    	b2World world=b2World(gravedad);
-
-        //VARIABLES RECUPERACION ENERGIA PROTAGONISTA
-        float energiaAnterior;
-        float energiaActual;
-        float energiaDelta;
-        sf::Clock relojDescanso;
-        float tiempoTrans;
 
         //SONIDO
         GestorSonido* sonido;
         Reverb* reverbCueva;
         Sonido* musicaBosque;
 
-        //MANJEO DE GAME OBJECTS
-        GameObjects gos;
-
-	//VARIABLES JOYSTICK
-	float JoyY;
-	float JoyX;
 
     private:
 };

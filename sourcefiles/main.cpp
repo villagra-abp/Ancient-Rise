@@ -3,11 +3,9 @@
 
 #include <iostream>
 #include <unistd.h>
-#include <irrlicht/irrlicht.h>
-#include <SFML/Window/Window.hpp>
+#include <SFML/Graphics.hpp>
 
 
-using namespace irr; // Para poder usar cualquier clase del motor Irrlicht se utiliza el namespace irr
 using namespace std;
 
 
@@ -21,85 +19,24 @@ Estos son los 5 sub namespace del motor de Irrlicht
 5º irr::video--> Contiene clases para acceder al driver del video. Todo el rendererizado 3d o 2d se realiza aqui
 */
 
-using namespace core;
-using namespace scene;
-using namespace video;
-using namespace io;
-using namespace gui;
-
-
-// FUNCION PARA FIJAR LOS FPS A 60
-
-/*void timeWait(){
-	static long t=clock();
-	const float fps = 60.f;
-
-	long toWait = t + CLOCKS_PER_SEC / fps - clock();
-	if(toWait > 0)
-		usleep(toWait);
-
-	t = clock();
-}*/
 
 
 
 int main()
 {
+	int screenWidth = 800;
+	int screenHeight = 600;
 
-	/**
-	El irrlicht device es el objeto nucleo que necesitamos para interactuar con el motor de irrlicht
-	Por eso la funcion createDevice es la mas importante puesto que es necesario crear el device para
-	poder dibujar cualquier cosa en pantalla
-
-	Tiene 7 parametros:
-
-	-deviceType --> Tipo del device (Null-device, uno de los 2 software renders, OpenGL
-
-    - WindowSize --> Tamaño de la ventana
-
-    - Bits --> Cantidad de bits de colores por pixeles. Puede ser 16 o 32.
-
-    - FUllScreen --> Especifica si queremos que el device se ejecute en pantalla completa o no
-
-    - stencilbuffer --> Especifica si queremos usar el stencil buffer ( para dibujar sombras )
-
-    - vsync --> Especificamos si queremos tener vsync activado, solo es util en pantalla completa
-
-    - eventReceiver --> Un objeto para recibir eventos
-	**/
-
-
-	//IrrXMLReader* xml = createIrrXMLReader("BehaviorTreePatrulla.xml");
-	 
-    //MyEventReceiver receiver;
-
-	/* CREAMOS IRRLICHT DEVICE */
-
-	//IrrlichtDevice *device =
-		//createDevice( video::EDT_OPENGL, dimension2d<u32>(1400, 900),16, false, false, false, &receiver);
-    // Create the main rendering window
-
-    sf::RenderWindow ventana(sf::VideoMode(1400, 900), "OpenGL");
-    ventana.setFramerateLimit(60);
+	sf::RenderWindow* ventana = new sf::RenderWindow(sf::VideoMode(screenWidth, screenHeight), "Ancient Rise", sf::Style::Titlebar | sf::Style::Close);
     /*creo una vista*/
+    ventana->setFramerateLimit(60);
 	sf::View view(sf::FloatRect(0, 0, 1000, 600));
 	
 	view.setViewport(sf::FloatRect(0.75f, 0, 0.25f, 0.25f));
-	ventana.setView(view);
+	ventana->setView(view);
 
-	IrrlichtDevice* device;
-    SIrrlichtCreationParameters Parameters;
-    Parameters.DriverType = video::EDT_OPENGL; 
-    //Parameters.EventReceiver = &receiver;
-    Parameters.WindowId = reinterpret_cast<void*>(ventana.getSystemHandle());
-    device = createDeviceEx(Parameters);
-	if (!device)
-		return 1;
-	
 
-	/* CREAMOS MUNDO DEL JUEGO */
-
-	Mundo* mundo = new Mundo(device);
+	Mundo* mundo = new Mundo(ventana);
 
 
 	// define a 120x50 rectangle
@@ -111,21 +48,22 @@ int main()
 
 	/* BUCLE PRINCIPAL DEL JUEGO */
 
-	while(device->run())
+	while(ventana->isOpen())
 	{
+
 		char inputKey;
 		bool keyPressed;
+		ventana->clear(sf::Color::Black);
 		//Evento
 		sf::Event* evento = new sf::Event; 
 		//Obtener eventos
-		while (ventana.pollEvent(*evento))
+		while (ventana->pollEvent(*evento))
 		{
 		    switch (evento-> type)
 		    {
 		        case sf::Event::Closed:
 		       
-		            //ventana.close();
-		            device->closeDevice();
+		            ventana->close();
 		        break;
 
 		        case sf::Event::KeyPressed:
@@ -140,10 +78,12 @@ int main()
 		    
 		    
 		}
-        	ventana.clear();
-        
+        //	ventana.close();
 		//
-		//ventana.draw(rectangle);
+
+		 //ventana->draw(rectangle);
+		ventana->display();
+
 		/* ACTUALIZAMOS EL MUNDO */
 		mundo->update();
 		
@@ -169,6 +109,5 @@ int main()
 	**/
 
 	//ventana.close();
-	device->drop();
 }
 
