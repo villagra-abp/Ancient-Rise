@@ -4,6 +4,22 @@
 Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTRUCTOR
 {
 
+	TNodo *primero = new TNodo();
+	TNodo *segundo = new TNodo();
+	TNodo *tercero = new TNodo();
+	TNodo *cuarto = new TNodo();
+	TNodo *quinto = new TNodo();
+
+	int total1=primero->addHijo(segundo);
+	cout<<total1<<endl;
+	int total2=primero->addHijo(tercero);
+	cout<<total2<<endl;
+	int total3=primero->addHijo(cuarto);
+	cout<<total3<<endl;
+
+	int total4 = primero->remHijo(tercero);
+	cout<<total4<<endl;
+
 /* CREAMOS IRRLICHT DEVICE */	 
 	device = mainDevice;
 	receiver = mainReceiver;
@@ -342,7 +358,7 @@ void Mundo::update(){
     /*UPDATE DE SONIDO*/
     sonido->playSound(musicaBosque);
     sonido->update();
-	sonido->setListener(prota->getPosition().X, prota->getPosition().Y, prota->getPosition().Z);
+	sonido->setListener(prota->getPosition().X, prota->getPosition().Y, prota->getPosition().Z);	
 
 }
 
