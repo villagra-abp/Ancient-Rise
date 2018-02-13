@@ -6,6 +6,8 @@
 #include <math.h>
 #include "../headerfiles/TEntidad.h"
 
+#include "PilaMat.h"
+
 using namespace std;
 
 class TNodo{
@@ -23,7 +25,7 @@ public:
 	TNodo * getPadre();
 	vector<TNodo*> getHijos();
 
-	void draw();
+	void draw(PilaMat* p);
 
 
 private:	

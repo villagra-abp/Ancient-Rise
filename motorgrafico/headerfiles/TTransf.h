@@ -13,8 +13,8 @@ public:
 	void trasladar(float x,float y,float z);
 	void rotar(float x,float y,float z,float w);
 	void escalar(float x, float y, float z);
-	virtual void beginDraw() override;
-	virtual void endDraw() override;
+	virtual void beginDraw(PilaMat* p) override;
+	virtual void endDraw(PilaMat* p) override;
 	
 
 

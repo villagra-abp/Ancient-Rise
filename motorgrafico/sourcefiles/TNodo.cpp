@@ -65,14 +65,12 @@ vector<TNodo*> TNodo::getHijos()
 {
 	return hijos;
 }
-void TNodo::draw(){
+void TNodo::draw(PilaMat* p){
 
-entidad -> beginDraw ();
-//para cada nodo hijo i
-int i;
-for(i=0;i<hijos.size();i++){
-	hijos[i] -> draw ();
-}
-entidad -> endDraw ();
-
+	entidad -> beginDraw(p);
+	//para cada nodo hijo i
+	for(int i=0; i<hijos.size(); i++){
+		hijos[i]->draw(p);
+	}
+	entidad -> endDraw(p);
 }

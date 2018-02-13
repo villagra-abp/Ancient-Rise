@@ -1,5 +1,5 @@
-#ifndef ENTIDAD_H
-#define ENTIDAD_H
+#ifndef PILAMAT_H
+#define PILAMAT_H
 
 #include <iostream>
 #include <vector>
@@ -11,21 +11,23 @@
 #include <glm/mat4x4.hpp> // glm::mat4
 #include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
 
-#include "PilaMat.h"
+#include <stack>
 
-using namespace std;
-
-class TEntidad{
+class PilaMat{
 public:
-	TEntidad();
-	virtual ~TEntidad();
-	virtual void beginDraw(PilaMat* p)=0;
-	virtual void endDraw(PilaMat* p)=0;
+	PilaMat();
+	virtual ~PilaMat();
+	void apila(glm::mat4 mat);
+	glm::mat4 desapila();
+	glm::mat4 consulta();
+	glm::mat4 getMactual();
+	void setMactual(glm::mat4 mat);
 
 
 private:	
 
-	
+	std::stack<glm::mat4> mipila;
+	glm::mat4 mactual;
 
 } ;
 

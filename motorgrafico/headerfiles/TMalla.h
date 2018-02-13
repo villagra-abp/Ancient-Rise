@@ -8,8 +8,8 @@ public:
 	TMalla();
 	virtual ~TMalla();
 	//void cargarMalla(TFichero);
-	virtual void beginDraw() override;
-	virtual void endDraw() override;
+	virtual void beginDraw(PilaMat* p) override;
+	virtual void endDraw(PilaMat* p) override;
 
 
 private:	

@@ -5,7 +5,7 @@
 
 using namespace std;
 
-class TEscena:public TNodo{
+class TEscena: public TNodo{
 public:
 	TEscena();
 	virtual ~TEscena();

@@ -6,10 +6,10 @@ TMalla::TMalla(){
 TMalla::~TMalla(){
 
 }
-void TMalla::endDraw(){
-	//malla->draw (...)
+void TMalla::beginDraw(PilaMat* p){
+	//malla->draw (...) //
 }
-void TMalla::beginDraw(){
+void TMalla::endDraw(PilaMat* p){
 
 }
 
