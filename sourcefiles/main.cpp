@@ -4,9 +4,14 @@
 #include <iostream>
 #include <unistd.h>
 #include <SFML/Graphics.hpp>
+#include <SFML/OpenGL.hpp>
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <GL/glut.h>
 
 
 using namespace std;
+
 
 
 /*
@@ -46,6 +51,59 @@ int main()
 	//rectangle.setSize(sf::Vector2f(10, 10));
 	rectangle.setFillColor(sf::Color(100, 250, 50));
 
+
+	/* PRUEBAS OPENGL
+	*/
+
+/*
+	float vertices[] = {
+		-0.5f, -0.5f, 0.0f,
+		0.5f, -0.5f, 0.0f,
+		0.0f, 0.5f, 0.0f
+	};	
+
+	unsigned int VBO;
+	glGenBuffers(1,&VBO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
+	glBufferData(GL_ARRAY_BUFFER,sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+	unsigned int vertexShader;
+	vertexShader = glCreateShader(GL_VERTEX_SHADER);
+
+	const char* vertexShaderSource = "#version 330 core\n"
+							"layout (location =0) in vec3 position; \n"
+							"void main(){\n"
+							"gl_Position = vec4(position.x, position.y, position.z, 1.0);\n"
+							"}\0";
+
+	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+	glCompileShader(vertexShader);
+
+	const char* fragmenShaderSource = "#version 330 core\n"
+							"out vec4 FragColor;\n"
+							"void main(){\n"
+							"FragColor = vec4(1.0f,0.5f,0.2f,1.0f);\n"
+							"}\0";
+
+	unsigned int fragmentShader;
+	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(fragmentShader,1,&fragmentShaderSource,NULL);
+	glCompileShader(fragmentShader);
+
+
+	using int shaderProgram;
+	shaderProgram = glCreateProgram();
+
+	glAttachShader(shaderProgram, vertexShader);
+	glAttachShader(shaderProgram, fragmentShader);
+	glLinkProgram(shaderProgram);
+
+	
+*/
+
+
 	/* BUCLE PRINCIPAL DEL JUEGO */
 
 	while(ventana->isOpen())
@@ -69,6 +127,9 @@ int main()
 		        case sf::Event::KeyPressed:
 		        {    
 		            inputKey = evento->key.code;
+		            if(inputKey == 57){
+
+		            }
 		            //std::cout<<evento->key.code<<"\n";
 		            keyPressed = true;
 		           
