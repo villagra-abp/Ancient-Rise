@@ -9,15 +9,25 @@ TNodo::~TNodo(){
 	entidad = nullptr;
 	padre = nullptr;
 }
-
-int TNodo::addHijo(TNodo* n){
+/* Anyade un nodo al final del vector de hijos del nodo */
+int TNodo::addHijoBack(TNodo* n){
 
 	n->setPadre(this); 											// Al nodo hijo que añadimos le indicamos que este nodo es su nodo padre
 	hijos.push_back(n);
 
 	return hijos.size();
 }
+/* Funcion para anyadir un nodo en el vector de hijos en la pos que le indicamos por parametro */
+int TNodo::addHijo(TNodo* n, int pos)
+{
+	n->setPadre(this); 											// Al nodo hijo que añadimos le indicamos que este nodo es su nodo padre
+	hijos.insert(hijos.begin()+pos, n); 						// Metemos el nodo en la posicion indicada
 
+	return hijos.size();
+}
+
+/* Funcion para borrar un hijo del nodo. En el caso que sea un nodo hoja solo lo borra del vector. 
+	Si se trata de un nodo rama, lo hace es borrarlo y a sus hijos se le cambia el puntero del padre al padre del nodo borrado */
 int TNodo::remHijo(TNodo* n)
 {	
 	encontrado = false;
@@ -27,22 +37,77 @@ int TNodo::remHijo(TNodo* n)
 		{
 			if(hijos[i]==n)
 			{
-				hijosPadre = hijos[i]->getHijos();
+				hijosPadre = hijos[i]->getHijos(); 				// Obtenemos los hijos del nodo que queremos borrar
+				//delete hijos[i];
+				//hijos[i] = nullptr;
+				hijos.erase(hijos.begin()+i); 					// Borramos el nodo del vector
+				encontrado = true;
+
 				if(hijosPadre.size()!=0) 						// Comprobamos que el hijo de este nodo(this) que queremos borrar, tenga hijos o no para cambiar su puntero padre
 				{
 					for(int i2=0;i2<hijosPadre.size();i2++)  	// Recorremos para cambiar la direccion a la que apunta el puntero padre de los hijos
 					{	
-						addHijo(hijosPadre[i2]); 				// Anyadimos un hijo nuevo a este nodo (Habria que anyadirlo al principio del vector no al final)
+						addHijo(hijosPadre[i2], i); 			// Anyadimos un hijo nuevo a este nodo en la pos del vector donde se encontraba el nodo que borramos
 					}
 				}
-
-				hijos.erase(hijos.begin()+i); 					// Borramos el nodo del vector
-				encontrado = true;
 			}
 		}
 
 	}
  return hijos.size();
+}
+/* Funcion para borrar un hijo del nodo y todos los nodos hijos de ese nodo que queremos borrar, asi hasta que no queden hijos en la rama */
+int TNodo::remHijoAll(TNodo* n)
+{	/*
+	encontrado = false;
+	if(hijos.size()!=0) 										// Comprobamos si tiene algun hijo que borrar
+	{
+		for(int i=0;i<hijos.size() && !encontrado;i++) 			// Recorremos todos los hijos de este nodo (this)
+		{
+			if(hijos[i]==n)
+			{
+				hijosPadre = hijos[i]->getHijos();
+				if(hijosPadre.size()!=0) 						
+				{
+					for(int i2=0;i2<hijosPadre.size();i2++)  	// Recorremos para cambiar la direccion a la que apunta el puntero padre de los hijos
+					{	
+						
+					}
+				}
+			}
+		}
+	}
+	
+*/
+	return hijos.size();
+}
+/* Funcion que le pasamos dos nodos : n1 que es el nodo hijo que queremos borrar y n2 que sera el nuevo nodo padre de los nodos hijos del nodo borrado */
+int TNodo::remHijoChange(TNodo* n1, TNodo* n2)
+{
+	encontrado = false;
+	if(hijos.size()!=0) 										// Comprobamos si tiene algun hijo que borrar
+	{
+		for(int i=0;i<hijos.size() && !encontrado;i++) 			// Recorremos todos los hijos de este nodo (this)
+		{
+			if(hijos[i]==n1)
+			{
+				hijosPadre = hijos[i]->getHijos(); 				// Obtenemos los hijos del nodo que queremos borrar
+				hijos.erase(hijos.begin()+i); 					// Borramos el nodo del vector
+				encontrado = true;
+
+				if(hijosPadre.size()!=0) 						
+				{
+					for(int i2=0;i2<hijosPadre.size();i2++)  	
+					{	
+						n2->addHijoBack(hijosPadre[i2]); 		// Indicamos que n2 es el nodo padre de los hijos del nodo borrado
+					}
+				}
+			}
+		}
+
+	}
+
+	return hijos.size();
 }
 
 

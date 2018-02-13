@@ -14,9 +14,9 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 	TNodo *RotaCoche = new TNodo();
 	RotaCoche->setIdent(4);
 
-	Escena->addHijo(RotaLuz);
-	Escena->addHijo(RotaCam);
-	Escena->addHijo(RotaCoche);
+	Escena->addHijoBack(RotaLuz);
+	Escena->addHijoBack(RotaCam);
+	Escena->addHijoBack(RotaCoche);
 
 
 	TNodo *TraslaLuz = new TNodo();
@@ -26,9 +26,9 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 	TNodo *TraslaCoche = new TNodo();
 	TraslaCoche->setIdent(7);
 
-	RotaLuz->addHijo(TraslaLuz);
-	RotaCam->addHijo(TraslaCam);
-	RotaCoche->addHijo(TraslaCoche);
+	RotaLuz->addHijoBack(TraslaLuz);
+	RotaCam->addHijoBack(TraslaCam);
+	RotaCoche->addHijoBack(TraslaCoche);
 
 
 	/* Anyadimos las entidades a los nodos */
@@ -91,7 +91,7 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 
 
 	cout<<endl;
-	
+	/*
 	cout<<"Borrando nodo TraslaCoche ...."<<endl;
 
 	RotaCoche->remHijo(TraslaCoche);
@@ -143,11 +143,11 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 
 	cout<<"TraslaLuz tiene como padre al nodo "<<TraslaLuz->getPadre()->getIdent()<<endl;
 	cout<<"TraslaCam tiene como padre al nodo "<<TraslaCam->getPadre()->getIdent()<<endl;
-	
-/*
+	*/
+
 	cout<<"Borrando nodo RotaCam ...."<<endl;
 
-	Escena->remHijo(RotaCam);
+	Escena->remHijoChange(RotaCam, RotaLuz);
 
 
 	vector <TNodo*> v7 =Escena->getHijos();
@@ -185,7 +185,7 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 
 	cout<<"TraslaLuz tiene como padre al nodo "<<TraslaLuz->getPadre()->getIdent()<<endl;
 	cout<<"TraslaCam tiene como padre al nodo "<<TraslaCam->getPadre()->getIdent()<<endl;
-*/
+
 	cout<<endl;
 
 /* CREAMOS IRRLICHT DEVICE */	 

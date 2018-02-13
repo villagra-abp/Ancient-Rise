@@ -12,8 +12,11 @@ class TNodo{
 public:
 	TNodo();
 	virtual ~TNodo();
-	int addHijo(TNodo* n);
+	int addHijoBack(TNodo* n);
+	int addHijo(TNodo* n, int pos);
 	int remHijo(TNodo* n);
+	int remHijoAll(TNodo* n);
+	int remHijoChange(TNodo* n1, TNodo* n2);
 
 
 	bool setEntidad(TEntidad* ent);
