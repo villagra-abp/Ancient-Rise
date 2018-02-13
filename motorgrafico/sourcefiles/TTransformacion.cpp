@@ -9,9 +9,10 @@ TTransformacion::~TTransformacion(){
 void identidad(){
 
 }
-//void cargar(TMatriz4x4 matriz){
-
-//}
+/*void cargar(TMatriz4x4 m)
+{
+	matriz = m;
+}*/
 void transponer(){
 
 }

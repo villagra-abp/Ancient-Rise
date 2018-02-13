@@ -3,22 +3,190 @@
 
 Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTRUCTOR
 {
+	cout<<endl;
+	/* Creando la estructura del arbol */
+	TNodo *Escena = new TNodo();
+	Escena->setIdent(1);
+	TNodo *RotaLuz = new TNodo();
+	RotaLuz->setIdent(2);
+	TNodo *RotaCam = new TNodo();
+	RotaCam->setIdent(3);
+	TNodo *RotaCoche = new TNodo();
+	RotaCoche->setIdent(4);
 
-	TNodo *primero = new TNodo();
-	TNodo *segundo = new TNodo();
-	TNodo *tercero = new TNodo();
-	TNodo *cuarto = new TNodo();
-	TNodo *quinto = new TNodo();
+	Escena->addHijo(RotaLuz);
+	Escena->addHijo(RotaCam);
+	Escena->addHijo(RotaCoche);
 
-	int total1=primero->addHijo(segundo);
-	cout<<total1<<endl;
-	int total2=primero->addHijo(tercero);
-	cout<<total2<<endl;
-	int total3=primero->addHijo(cuarto);
-	cout<<total3<<endl;
 
-	int total4 = primero->remHijo(tercero);
-	cout<<total4<<endl;
+	TNodo *TraslaLuz = new TNodo();
+	TraslaLuz->setIdent(5);
+	TNodo *TraslaCam = new TNodo();
+	TraslaCam->setIdent(6);
+	TNodo *TraslaCoche = new TNodo();
+	TraslaCoche->setIdent(7);
+
+	RotaLuz->addHijo(TraslaLuz);
+	RotaCam->addHijo(TraslaCam);
+	RotaCoche->addHijo(TraslaCoche);
+
+
+	/* Anyadimos las entidades a los nodos */
+	TTransformacion *TransfRotaLuz = new TTransformacion();
+	TTransformacion *TransfRotaCam = new TTransformacion();
+	TTransformacion *TransfRotaCoche = new TTransformacion();
+
+	RotaLuz->setEntidad(TransfRotaLuz);
+	RotaCoche->setEntidad(TransfRotaCoche);
+	RotaCam->setEntidad(TransfRotaCam);
+
+
+	vector <TNodo*> v =Escena->getHijos();
+	cout<<"El nodo escena tiene como hijos: ";
+
+	for(int i=0;i<v.size();i++)
+	{
+		cout<<"Nodo "<<v[i]->getIdent()<<" ";
+	}
+
+	cout<<endl;
+
+	vector <TNodo*> v4 =RotaLuz->getHijos();
+	cout<<"El nodo RotaLuz tiene como hijos: ";
+
+	for(int i=0;i<v4.size();i++)
+	{
+		cout<<"Nodo "<<v4[i]->getIdent()<<" ";
+	}
+
+	cout<<endl;
+
+	vector <TNodo*> v5 =RotaCoche->getHijos();
+	cout<<"El nodo RotaCoche tiene como hijos: ";
+
+	for(int i=0;i<v5.size();i++)
+	{
+		cout<<"Nodo "<<v5[i]->getIdent()<<" ";
+	}
+
+	cout<<endl;
+
+	vector <TNodo*> v6 =RotaCam->getHijos();
+	cout<<"El nodo RotaCam tiene como hijos: ";
+
+	for(int i=0;i<v6.size();i++)
+	{
+		cout<<"Nodo "<<v6[i]->getIdent()<<" ";
+	}
+
+	cout<<endl;
+
+	cout<<"RotaLuz tiene como padre al nodo "<<RotaLuz->getPadre()->getIdent()<<endl;
+	cout<<"RotaCam tiene como padre al nodo "<<RotaCam->getPadre()->getIdent()<<endl;
+	cout<<"RotaCoche tiene como padre al nodo "<<RotaCoche->getPadre()->getIdent()<<endl;
+
+	cout<<"TraslaLuz tiene como padre al nodo "<<TraslaLuz->getPadre()->getIdent()<<endl;
+	cout<<"TraslaCam tiene como padre al nodo "<<TraslaCam->getPadre()->getIdent()<<endl;
+	cout<<"TraslaCoche tiene como padre al nodo "<<TraslaCoche->getPadre()->getIdent()<<endl;
+
+
+	cout<<endl;
+	
+	cout<<"Borrando nodo TraslaCoche ...."<<endl;
+
+	RotaCoche->remHijo(TraslaCoche);
+
+
+	vector <TNodo*> v7 =Escena->getHijos();
+	cout<<"El nodo escena tiene como hijos: ";
+
+	for(int i=0;i<v7.size();i++)
+	{
+		cout<<"Nodo "<<v7[i]->getIdent()<<" ";
+	}
+
+	cout<<endl;
+
+	vector <TNodo*> v8 =RotaLuz->getHijos();
+	cout<<"El nodo RotaLuz tiene como hijos: ";
+
+	for(int i=0;i<v8.size();i++)
+	{
+		cout<<"Nodo "<<v8[i]->getIdent()<<" ";
+	}
+
+	cout<<endl;
+
+	vector <TNodo*> v9 =RotaCoche->getHijos();
+	cout<<"El nodo RotaCoche tiene como hijos: ";
+
+	for(int i=0;i<v9.size();i++)
+	{
+		cout<<"Nodo "<<v9[i]->getIdent()<<" ";
+	}
+
+	cout<<endl;
+
+	vector <TNodo*> v10 =RotaCam->getHijos();
+	cout<<"El nodo RotaLuz tiene como hijos: ";
+
+	for(int i=0;i<v10.size();i++)
+	{
+		cout<<"Nodo "<<v10[i]->getIdent()<<" ";
+	}
+
+	cout<<endl;
+
+	cout<<"RotaLuz tiene como padre al nodo "<<RotaLuz->getPadre()->getIdent()<<endl;
+	cout<<"RotaCam tiene como padre al nodo "<<RotaCam->getPadre()->getIdent()<<endl;
+	cout<<"RotaCoche tiene como padre al nodo "<<RotaCoche->getPadre()->getIdent()<<endl;
+
+	cout<<"TraslaLuz tiene como padre al nodo "<<TraslaLuz->getPadre()->getIdent()<<endl;
+	cout<<"TraslaCam tiene como padre al nodo "<<TraslaCam->getPadre()->getIdent()<<endl;
+	
+/*
+	cout<<"Borrando nodo RotaCam ...."<<endl;
+
+	Escena->remHijo(RotaCam);
+
+
+	vector <TNodo*> v7 =Escena->getHijos();
+	cout<<"El nodo escena tiene como hijos: ";
+
+	for(int i=0;i<v7.size();i++)
+	{
+		cout<<"Nodo "<<v7[i]->getIdent()<<" ";
+	}
+
+	cout<<endl;
+
+	vector <TNodo*> v8 =RotaLuz->getHijos();
+	cout<<"El nodo RotaLuz tiene como hijos: ";
+
+	for(int i=0;i<v8.size();i++)
+	{
+		cout<<"Nodo "<<v8[i]->getIdent()<<" ";
+	}
+
+	cout<<endl;
+
+	vector <TNodo*> v9 =RotaCoche->getHijos();
+	cout<<"El nodo RotaCoche tiene como hijos: ";
+
+	for(int i=0;i<v9.size();i++)
+	{
+		cout<<"Nodo "<<v9[i]->getIdent()<<" ";
+	}
+
+	cout<<endl;
+
+	cout<<"RotaLuz tiene como padre al nodo "<<RotaLuz->getPadre()->getIdent()<<endl;
+	cout<<"RotaCoche tiene como padre al nodo "<<RotaCoche->getPadre()->getIdent()<<endl;
+
+	cout<<"TraslaLuz tiene como padre al nodo "<<TraslaLuz->getPadre()->getIdent()<<endl;
+	cout<<"TraslaCam tiene como padre al nodo "<<TraslaCam->getPadre()->getIdent()<<endl;
+*/
+	cout<<endl;
 
 /* CREAMOS IRRLICHT DEVICE */	 
 	device = mainDevice;

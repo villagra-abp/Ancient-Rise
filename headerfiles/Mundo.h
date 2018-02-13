@@ -17,6 +17,7 @@
 
 #include "../motorsonido/headerfiles/GestorSonido.h"
 #include "../motorgrafico/headerfiles/TEscena.h"
+#include "../motorgrafico/headerfiles/TTransformacion.h"
 
 /*
 Estos son los 5 sub namespace del motor de Irrlicht

@@ -18,16 +18,19 @@ public:
 
 	bool setEntidad(TEntidad* ent);
 	void setPadre(TNodo *p);
+	void setIdent(int i);
 
 	TEntidad * getEntidad();
 	TNodo * getPadre();
 	vector<TNodo*> getHijos();
+	int getIdent();
 
 	void draw();
 
 
 private:	
 
+	int identificador;
 	TEntidad * entidad;
 	vector <TNodo*> hijos;
 	TNodo * padre;

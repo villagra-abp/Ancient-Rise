@@ -13,7 +13,7 @@ public:
 	TTransformacion();
 	virtual ~TTransformacion();
 	void identidad();
-	//void cargar(TMatriz4x4 matriz);
+	//void cargar(TMatriz4x4 m);
 	void transponer();
 	void trasladar(float x,float y,float z);
 	void rotar(float x,float y,float z,float w);
