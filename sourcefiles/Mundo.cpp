@@ -5,20 +5,10 @@
 Mundo::Mundo(sf::RenderWindow* mainDevice)	//CONSTRUCTOR
 {
 
-/* CREAMOS IRRLICHT DEVICE */	 
+	 
 	device = mainDevice;
-	//receiver = mainReceiver;
-
-/** PUNTEROS 
- A VideoDriver, al SceneManager y al entorno de interfaz de usuario, para no tener que
- estar llamandolos siempre y solo los llamamos una vez
-**/
 
 
-/** SUBTITULO DE VENTANA
- Para poner texto en el subtitulo de la ventana. Necesita de una 'L' delante del string
- debido a que lo necesita el motor de irrlicht
-**/
 
 
 	
@@ -93,9 +83,9 @@ void Mundo::checkInput(){
 void Mundo::addGameObject (GameObject* o){
 }
 
-GameObject* Mundo::getGameObject(uint8_t pos) const{
+/*GameObject* Mundo::getGameObject(uint8_t pos) const{
 	
-}
+}*/
 Mundo::~Mundo()	//DESTRUCTOR
 {
 	

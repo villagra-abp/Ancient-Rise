@@ -1,8 +1,8 @@
 
-LIBS := -lglut -lGLU -lGL -lX11 -lXxf86vm -lBox2D -lfmod -lfmodstudio -lsfml-graphics -lsfml-window -lsfml-system
+LIBS := -lGLEW -lglut -lGLU -lGL -lX11 -lXxf86vm -lBox2D -lfmod -lfmodstudio -lsfml-graphics -lsfml-window -lsfml-system
 # -lIrrlicht
 CC=g++
-CFLAGS= -I. -I./inc
+CFLAGS= -g -I. -I./inc
 PATHS:= -Llib/
 
 

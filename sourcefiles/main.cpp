@@ -1,8 +1,9 @@
-#include "../headerfiles/Mundo.h"
+//#include "../headerfiles/Mundo.h"
 
 
 #include <iostream>
 #include <unistd.h>
+#include <GL/glew.h>
 #include <SFML/Graphics.hpp>
 #include <SFML/OpenGL.hpp>
 #include <GL/gl.h>
@@ -34,14 +35,14 @@ int main()
 
 	sf::RenderWindow* ventana = new sf::RenderWindow(sf::VideoMode(screenWidth, screenHeight), "Ancient Rise", sf::Style::Titlebar | sf::Style::Close);
     /*creo una vista*/
+    glewInit();
     ventana->setFramerateLimit(60);
 	sf::View view(sf::FloatRect(0, 0, 1000, 600));
 	
 	view.setViewport(sf::FloatRect(0.75f, 0, 0.25f, 0.25f));
 	ventana->setView(view);
-
-
-	Mundo* mundo = new Mundo(ventana);
+	ventana->setActive(true);
+	//Mundo* mundo = new Mundo(ventana);
 
 
 	// define a 120x50 rectangle
@@ -55,7 +56,6 @@ int main()
 	/* PRUEBAS OPENGL
 	*/
 
-/*
 	float vertices[] = {
 		-0.5f, -0.5f, 0.0f,
 		0.5f, -0.5f, 0.0f,
@@ -64,11 +64,8 @@ int main()
 
 	unsigned int VBO;
 	glGenBuffers(1,&VBO);
-
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
 	glBufferData(GL_ARRAY_BUFFER,sizeof(vertices), vertices, GL_STATIC_DRAW);
-
 	unsigned int vertexShader;
 	vertexShader = glCreateShader(GL_VERTEX_SHADER);
 
@@ -81,7 +78,16 @@ int main()
 	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
 	glCompileShader(vertexShader);
 
-	const char* fragmenShaderSource = "#version 330 core\n"
+	 int success;
+    char infoLog[512];
+    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+    if (!success)
+    {
+        glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+        std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+    }
+
+	const char* fragmentShaderSource = "#version 330 core\n"
 							"out vec4 FragColor;\n"
 							"void main(){\n"
 							"FragColor = vec4(1.0f,0.5f,0.2f,1.0f);\n"
@@ -92,19 +98,34 @@ int main()
 	glShaderSource(fragmentShader,1,&fragmentShaderSource,NULL);
 	glCompileShader(fragmentShader);
 
+	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+    if (!success)
+    {
+        glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
+        std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
+    }
 
-	using int shaderProgram;
+	unsigned int shaderProgram;
 	shaderProgram = glCreateProgram();
 
 	glAttachShader(shaderProgram, vertexShader);
 	glAttachShader(shaderProgram, fragmentShader);
 	glLinkProgram(shaderProgram);
 
+	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+    if (!success) {
+        glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+        std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+    }
+
+	glDeleteShader(vertexShader);
+	glDeleteShader(fragmentShader);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);  
+
 	
-*/
 
-
-	/* BUCLE PRINCIPAL DEL JUEGO */
 
 	while(ventana->isOpen())
 	{
@@ -142,11 +163,31 @@ int main()
         //	ventana.close();
 		//
 
+		/*OPENGL PRUEBAS*/
+
+		// 0. copy our vertices array in a buffer for OpenGL to use
+		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+		// 1. then set the vertex attributes pointers
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+		glEnableVertexAttribArray(0);  
+		// 2. use our shader program when we want to render an object
+		glUseProgram(shaderProgram);
+		// 3. now draw the object 
+		glBindVertexArray(VBO);
+		glDrawArrays(GL_TRIANGLES,0,3);
+		//someOpenGLFunctionThatDrawsOurTriangle(); 
+	/* BUCLE PRINCIPAL DEL JUEGO */
+
+		/*OPENGLPRUEBAS*/
+
+
+
 		 //ventana->draw(rectangle);
 		ventana->display();
 
 		/* ACTUALIZAMOS EL MUNDO */
-		mundo->update();
+	//	mundo->update();
 		
 		//ventana.display();
 		
