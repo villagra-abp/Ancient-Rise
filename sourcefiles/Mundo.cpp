@@ -211,6 +211,62 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
      {
         std::cout << "Joystick support is not enabled." << std::endl;
      } 
+
+    //PRUEBAS MOTOR GRAFICO
+    /*TNodo *Escena = new TNodo();
+    TNodo *RotarLuz = new TNodo();
+    TNodo *RotarCam = new TNodo();
+    TNodo *RotarCoche = new TNodo();
+    Escena->addHijo(RotarLuz);
+    Escena->addHijo(RotarCam);
+    Escena->addHijo(RotarCoche);
+    TNodo *TraslaLuz = new TNodo();
+    TNodo *TraslaCam = new TNodo();
+    TNodo *TraslaCoche = new TNodo();
+    RotarLuz->addHijo(TraslaLuz);
+    RotarCam->addHijo(TraslaCam);
+    RotarCoche->addHijo(TraslaCoche);
+
+    TTransformacion *TransfRotaLuz = new TTransformacion();
+    TransfRotaLuz->rotar(1.2, 0, 0, 42.0);
+	TTransformacion *TransfRotaCam = new TTransformacion();
+	TransfRotaCam->rotar(1.2, 0, 0, 94.0);
+	TTransformacion *TransfRotaCoche = new TTransformacion();
+	TransfRotaCoche->rotar(1.2, 0, 0, 57.0);
+
+	TTransformacion *TransfTraslaLuz = new TTransformacion();
+    TransfTraslaLuz->trasladar(20.0, 0, 0);
+    TTransformacion *TransfTraslaCam = new TTransformacion();
+    TransfTraslaCam->trasladar(12.0, 0, 0);
+    TTransformacion *TransfTraslaCoche = new TTransformacion();
+    TransfTraslaCoche->trasladar(52.0, 0, 0);
+
+	RotarLuz->setEntidad(TransfRotaLuz);
+	RotarCam->setEntidad(TransfRotaCam);
+	RotarCoche->setEntidad(TransfRotaCoche);
+
+	TraslaLuz->setEntidad(TransfTraslaLuz);
+	TraslaCam->setEntidad(TransfTraslaCam);
+	TraslaCoche->setEntidad(TransfTraslaCoche);
+
+
+	TLuz *EntLuz = new TLuz();
+	TCamara *EntCam = new TCamara();
+	TMalla *MallaChasis = new TMalla();
+	
+	TNodo *NLuz = new TNodo();
+	NLuz->setEntidad(EntLuz);
+	TNodo *NCam = new TNodo();
+	NCam->setEntidad(EntCam);
+	TNodo *NChasis = new TNodo();
+	NChasis->setEntidad(MallaChasis);
+
+	TraslaLuz->addHijo(NLuz);
+    TraslaCam->addHijo(NCam);
+    TraslaCoche->addHijo(NChasis);
+
+    Escena->draw();*/
+	
 }	
 
 void Mundo::posBuilder(){	//CONSTRUCTOR DE POSICIONES DE ENEMIGOS

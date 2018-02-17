@@ -11,8 +11,8 @@ public:
 	virtual ~TLuz();
 	//void setIntensidad(TColor c);
 	//TColor getIntensidad();
-	virtual void beginDraw(PilaMat* p) override;
-	virtual void endDraw(PilaMat* p) override;
+	virtual void beginDraw() override;
+	virtual void endDraw() override;
 
 
 private:	

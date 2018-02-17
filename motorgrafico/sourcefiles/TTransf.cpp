@@ -1,35 +1,43 @@
 #include "../headerfiles/TTransf.h"
 
 TTransformacion::TTransformacion(){
-
+	//Por defecto asignamos matriz identidad a la transformacion
+	matriz = glm::mat4(1.0f); 
 }
 TTransformacion::~TTransformacion(){
 
 }
-void identidad(){
-
+void TTransformacion::identidad(){
+	matriz = glm::mat4(1.0f);
 }
-//void cargar(TMatriz4x4 matriz){
-
-//}
-void transponer(){
-
+void TTransformacion::cargar(glm::mat4 mat){
+	matriz = mat;
 }
-void trasladar(float x,float y,float z){
-
+void TTransformacion::transponer(){
+	matriz = glm::transpose(matriz);
 }
-void rotar(float x,float y,float z,float w){
-
+void TTransformacion::trasladar(float x,float y,float z){
+	matriz = glm::translate(glm::mat4(1.0f), glm::vec3(x, y, z));
+}
+void TTransformacion::rotar(float x,float y,float z,float w){
+	matriz = glm::rotate(glm::mat4(1.0f), w, glm::vec3(x, y, z));
 }
 
-void TTransformacion::beginDraw(PilaMat* p){
+void TTransformacion::beginDraw(){
 	//Apilar matriz actual
-	glm::mat4 mact = p->getMactual();
-	p->apila(mact);
-	//Multiplicar la matriz de la transformación a la matriz actual
-	p->setMactual(mact * matriz);
+	pila->apila(mmodelo);
+	//Multiplicar la matriz de la transformacion a la matriz modelo actual
+	mmodelo = mmodelo * matriz;
+
+	/*std::cout << "Transd Original: " << std::endl;
+	std::cout << glm::to_string(matriz) << std::endl;
+	std::cout << "Matriz Modelo: " << std::endl;
+	std::cout << glm::to_string(mmodelo) << std::endl; */
 }
-void TTransformacion::endDraw(PilaMat* p){
+void TTransformacion::endDraw(){
 	//Desapilar matriz y ponerla como actual
-	p->setMactual(p->desapila());
+	mmodelo = pila->desapila();
+
+	/*std::cout << "Desapilada: " << std::endl;
+	std::cout << glm::to_string(mmodelo) << std::endl; */
 }

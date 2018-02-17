@@ -6,10 +6,9 @@ TMalla::TMalla(){
 TMalla::~TMalla(){
 
 }
-void TMalla::beginDraw(PilaMat* p){
-	//malla->draw (...) //
+void TMalla::beginDraw(){
+	//malla->draw (...) //Dibujado del recurso de malla OpenGL
 }
-void TMalla::endDraw(PilaMat* p){
-
+void TMalla::endDraw(){
 }
 

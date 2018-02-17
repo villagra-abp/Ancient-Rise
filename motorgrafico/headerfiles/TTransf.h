@@ -8,13 +8,13 @@ public:
 	TTransformacion();
 	virtual ~TTransformacion();
 	void identidad();
-	//void cargar(TMatriz4x4 matriz);
+	void cargar(glm::mat4 matriz);
 	void transponer();
 	void trasladar(float x,float y,float z);
 	void rotar(float x,float y,float z,float w);
 	void escalar(float x, float y, float z);
-	virtual void beginDraw(PilaMat* p) override;
-	virtual void endDraw(PilaMat* p) override;
+	virtual void beginDraw() override;
+	virtual void endDraw() override;
 	
 
 

@@ -10,6 +10,8 @@
 #include <glm/vec4.hpp> // glm::vec4
 #include <glm/mat4x4.hpp> // glm::mat4
 #include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/string_cast.hpp>
 
 #include "PilaMat.h"
 
@@ -19,14 +21,13 @@ class TEntidad{
 public:
 	TEntidad();
 	virtual ~TEntidad();
-	virtual void beginDraw(PilaMat* p)=0;
-	virtual void endDraw(PilaMat* p)=0;
+	virtual void beginDraw()=0;
+	virtual void endDraw()=0;
 
 
-private:	
-
-	
-
+protected:
+	static PilaMat* pila; 		// Pila de matrices OpenGL
+	static glm::mat4 mmodelo;	// Matriz Modelo
 } ;
 
 

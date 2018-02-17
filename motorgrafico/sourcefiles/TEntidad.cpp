@@ -1,8 +1,15 @@
 #include "../headerfiles/TEntidad.h"
 
-TEntidad::TEntidad(){
+PilaMat* TEntidad::pila;
+glm::mat4 TEntidad::mmodelo;
 
+
+TEntidad::TEntidad()
+{
+	pila = new PilaMat();
+	mmodelo = pila->desapila();
 }
+
 TEntidad::~TEntidad(){
 
 }

@@ -12,11 +12,9 @@ void setPerspectiva(){
 void setParalela(){
 
 }
-void TCamara::endDraw(PilaMat* p){
-
+void TCamara::endDraw(){
 }
-void TCamara::beginDraw(PilaMat* p){
-
+void TCamara::beginDraw(){
 }
 
 

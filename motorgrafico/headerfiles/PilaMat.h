@@ -20,15 +20,10 @@ public:
 	void apila(glm::mat4 mat);
 	glm::mat4 desapila();
 	glm::mat4 consulta();
-	glm::mat4 getMactual();
-	void setMactual(glm::mat4 mat);
 
 
 private:	
-
 	std::stack<glm::mat4> mipila;
-	glm::mat4 mactual;
-
 } ;
 
 

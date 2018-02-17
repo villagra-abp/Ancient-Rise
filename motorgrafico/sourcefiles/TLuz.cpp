@@ -6,9 +6,7 @@ TLuz::TLuz(){
 TLuz::~TLuz(){
 
 }
-void TLuz::endDraw(PilaMat* p){
-
+void TLuz::endDraw(){
 }
-void TLuz::beginDraw(PilaMat* p){
-
+void TLuz::beginDraw(){
 }
