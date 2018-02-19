@@ -227,18 +227,18 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
     RotarCam->addHijo(TraslaCam);
     RotarCoche->addHijo(TraslaCoche);
 
-    TTransformacion *TransfRotaLuz = new TTransformacion();
+    TTransf *TransfRotaLuz = new TTransf();
     TransfRotaLuz->rotar(1.2, 0, 0, 42.0);
-	TTransformacion *TransfRotaCam = new TTransformacion();
+	TTransf *TransfRotaCam = new TTransf();
 	TransfRotaCam->rotar(1.2, 0, 0, 94.0);
-	TTransformacion *TransfRotaCoche = new TTransformacion();
+	TTransf *TransfRotaCoche = new TTransf();
 	TransfRotaCoche->rotar(1.2, 0, 0, 57.0);
 
-	TTransformacion *TransfTraslaLuz = new TTransformacion();
+	TTransf *TransfTraslaLuz = new TTransf();
     TransfTraslaLuz->trasladar(20.0, 0, 0);
-    TTransformacion *TransfTraslaCam = new TTransformacion();
+    TTransf *TransfTraslaCam = new TTransf();
     TransfTraslaCam->trasladar(12.0, 0, 0);
-    TTransformacion *TransfTraslaCoche = new TTransformacion();
+    TTransf *TransfTraslaCoche = new TTransf();
     TransfTraslaCoche->trasladar(52.0, 0, 0);
 
 	RotarLuz->setEntidad(TransfRotaLuz);

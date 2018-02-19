@@ -1,18 +1,23 @@
-#ifndef TRANSFORMACION_H
-#define TRANSFORMACION_H
+#ifndef TRANSF_H
+#define TRANSF_H
 
 #include "TEntidad.h"
 
-class TTransformacion: public TEntidad{
+class TTransf: public TEntidad{
 public:
-	TTransformacion();
-	virtual ~TTransformacion();
+	TTransf();
+	virtual ~TTransf();
 	void identidad();
 	void cargar(glm::mat4 matriz);
+
+	//Transformaciones
 	void transponer();
 	void trasladar(float x,float y,float z);
 	void rotar(float x,float y,float z,float w);
 	void escalar(float x, float y, float z);
+	void invertir();
+
+	//Draw
 	virtual void beginDraw() override;
 	virtual void endDraw() override;
 	
@@ -25,4 +30,4 @@ private:
 } ;
 
 
-#endif //TRANSFORMACION_H
+#endif //TRANSF_H
