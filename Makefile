@@ -56,7 +56,7 @@ info:
 	$(info $(OBJ))
 
 
-clean: 
+cleanall: 
 	rm -f $(BUILDPATH)/*.o 
 	rm -f $(BINPATH)/$(EJEC)
 
