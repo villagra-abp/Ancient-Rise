@@ -27,7 +27,7 @@ public:
 
 protected:
 	static PilaMat* pila; 		// Pila de matrices OpenGL
-	static glm::mat4 mmodelo;	// Matriz Modelo
+	static glm::mat4 mmodelo;	// Matriz Modelo (Mallas), Matriz Camara (Camara), Matriz Luz (Luz)
 } ;
 
 
