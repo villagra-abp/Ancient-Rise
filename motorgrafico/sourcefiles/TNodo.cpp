@@ -8,6 +8,7 @@ TNodo::TNodo():entidad(nullptr),padre(nullptr),padreBorrar(nullptr)
 TNodo::~TNodo(){
 	entidad = nullptr;
 	padre = nullptr;
+	padreBorrar = nullptr;
 }
 /* Anyade un nodo al final del vector de hijos del nodo */
 int TNodo::addHijoBack(TNodo* n){

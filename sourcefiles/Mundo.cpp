@@ -26,6 +26,7 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 	TraslaCam->setIdent(6);
 	TNodo *TraslaCoche = new TNodo();
 	TraslaCoche->setIdent(7);
+	
 
 	RotaLuz->addHijoBack(TraslaLuz);
 	RotaCam->addHijoBack(TraslaCam);
