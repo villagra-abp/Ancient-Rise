@@ -3,7 +3,6 @@
 TTransf::TTransf(){
 	//Por defecto asignamos matriz identidad a la transformacion
 	matriz = glm::mat4(1.0f); 
-	tipo = "noInicializada";
 }
 TTransf::~TTransf(){
 

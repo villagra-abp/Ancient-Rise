@@ -213,7 +213,7 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
      } 
 
     //PRUEBAS MOTOR GRAFICO
-    /*TNodo *Escena = new TNodo();
+    TNodo *Escena = new TNodo();
     TNodo *RotarLuz = new TNodo();
     TNodo *RotarCam = new TNodo();
     TNodo *RotarCoche = new TNodo();
@@ -265,7 +265,7 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
     TraslaCam->addHijo(NCam);
     TraslaCoche->addHijo(NChasis);
 
-    Escena->draw();*/
+    Escena->draw();
 	
 }	
 
