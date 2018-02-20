@@ -1,6 +1,6 @@
 #include "../headerfiles/TNodo.h"
 
-TNodo::TNodo():entidad(nullptr),padre(nullptr)
+TNodo::TNodo():entidad(nullptr),padre(nullptr),padreBorrar(nullptr)
 {
 	encontrado = false;
 }
@@ -27,7 +27,7 @@ int TNodo::addHijo(TNodo* n, int pos)
 }
 
 /* Funcion para borrar un hijo del nodo. En el caso que sea un nodo hoja solo lo borra del vector. 
-	Si se trata de un nodo rama, lo hace es borrarlo y a sus hijos se le cambia el puntero del padre al padre del nodo borrado */
+	Si se trata de un nodo rama, lo que hace es borrarlo y a sus hijos se le cambia el puntero del padre al padre del nodo borrado */
 int TNodo::remHijo(TNodo* n)
 {	
 	encontrado = false;
@@ -58,26 +58,40 @@ int TNodo::remHijo(TNodo* n)
 }
 /* Funcion para borrar un hijo del nodo y todos los nodos hijos de ese nodo que queremos borrar, asi hasta que no queden hijos en la rama */
 int TNodo::remHijoAll(TNodo* n)
-{	/*
+{	
 	encontrado = false;
-	if(hijos.size()!=0) 										// Comprobamos si tiene algun hijo que borrar
+	if(hijos.size()!=0)
 	{
-		for(int i=0;i<hijos.size() && !encontrado;i++) 			// Recorremos todos los hijos de este nodo (this)
+		for(int i=0;i<hijos.size(); i++)
 		{
 			if(hijos[i]==n)
 			{
+				//nodosBorrar.push_back(hijos[i]);
 				hijosPadre = hijos[i]->getHijos();
-				if(hijosPadre.size()!=0) 						
-				{
-					for(int i2=0;i2<hijosPadre.size();i2++)  	// Recorremos para cambiar la direccion a la que apunta el puntero padre de los hijos
-					{	
-						
+
+				if(hijosPadre.size()!=0)
+				{/*
+					for(int i2=0; hijosPadre.size(); i2++)
+					{
+						hijos[i]->remHijoAll(hijosPadre[i2]);
 					}
+					*/
 				}
 			}
 		}
 	}
-	
+/*
+	if(nodosBorrar.size()!=0)
+	{
+		while(nodosBorrar.size()!=0)
+		{
+			for(int i3=nodosBorrar.size();i3>0;i3--)
+			{
+				padreBorrar = nodosBorrar[i3]->getPadre();
+				padreBorrar->remHijo(nodosBorrar[i3]);
+			}
+		}
+	}
 */
 	return hijos.size();
 }
@@ -148,11 +162,15 @@ int TNodo::getIdent()
 
 void TNodo::draw()
 {
-	entidad -> beginDraw ();
+
+	if(entidad!=nullptr)
+		entidad -> beginDraw();
+
 	//para cada nodo hijo i
-	int i;
-	for(i=0;i<hijos.size();i++){
-		hijos[i] -> draw ();
+	for(int i=0; i<hijos.size(); i++){
+		hijos[i]->draw();
 	}
-	entidad -> endDraw ();
+
+	if(entidad!=nullptr)
+		entidad -> endDraw();
 }

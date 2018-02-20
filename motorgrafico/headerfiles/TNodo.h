@@ -38,8 +38,11 @@ private:
 	vector <TNodo*> hijos;
 	TNodo * padre;
 
-	bool encontrado; 				// Para saber si hemos encontrado el nodo para borrar
-	vector <TNodo*> hijosPadre; 	// Vector con todos los nodos del padre que queremos borrar
+	/* Variables para Metodos de Borrado de Nodos */
+	bool encontrado; 					// Para saber si hemos encontrado el nodo para borrar
+	vector <TNodo*> hijosPadre; 		// Vector con todos los nodos del padre que queremos borrar
+	vector <TNodo*> nodosBorrar;
+	TNodo *padreBorrar;
 
 } ;
 
