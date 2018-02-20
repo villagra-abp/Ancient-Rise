@@ -6,7 +6,7 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 	cout<<endl;
 
 	/* Creando la estructura del arbol */
-/*	TNodo *Escena = new TNodo();
+	TNodo *Escena = new TNodo();
 	Escena->setIdent(1);
 	TNodo *RotaLuz = new TNodo();
 	RotaLuz->setIdent(2);
@@ -33,7 +33,7 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 
 
 	/* Anyadimos las entidades a los nodos */
-	/*TTransformacion *TransfRotaLuz = new TTransformacion();
+	TTransformacion *TransfRotaLuz = new TTransformacion();
 	TTransformacion *TransfRotaCam = new TTransformacion();
 	TTransformacion *TransfRotaCoche = new TTransformacion();
 
@@ -92,12 +92,13 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 
 
 	cout<<endl;
-	/*
+	
 	cout<<"Borrando nodo TraslaCoche ...."<<endl;
 
-	RotaCoche->remHijo(TraslaCoche);
+	TraslaCoche = RotaCoche->remHijo(TraslaCoche);
 
-
+if(Escena!=nullptr)
+{
 	vector <TNodo*> v7 =Escena->getHijos();
 	cout<<"El nodo escena tiene como hijos: ";
 
@@ -105,9 +106,16 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 	{
 		cout<<"Nodo "<<v7[i]->getIdent()<<" ";
 	}
+}
+else
+{
+	cout<<"El nodo escena ha sido borrado";
+}
 
 	cout<<endl;
 
+if(RotaLuz!=nullptr)
+{
 	vector <TNodo*> v8 =RotaLuz->getHijos();
 	cout<<"El nodo RotaLuz tiene como hijos: ";
 
@@ -115,81 +123,62 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 	{
 		cout<<"Nodo "<<v8[i]->getIdent()<<" ";
 	}
+}
+else
+{
+	cout<<"El nodo Rotaluz ha sudo borrado";
+}
 
 	cout<<endl;
 
-	vector <TNodo*> v9 =RotaCoche->getHijos();
-	cout<<"El nodo RotaCoche tiene como hijos: ";
-
-	for(int i=0;i<v9.size();i++)
+	if(RotaCoche!=nullptr)
 	{
-		cout<<"Nodo "<<v9[i]->getIdent()<<" ";
+		vector <TNodo*> v9 =RotaCoche->getHijos();
+		cout<<"El nodo RotaCoche tiene como hijos: ";
+
+		for(int i=0;i<v9.size();i++)
+		{
+			cout<<"Nodo "<<v9[i]->getIdent()<<" ";
+		}
+	}
+	else
+	{
+		cout<<"El nodo RotaCoche esta borrado"<<endl;
 	}
 
 	cout<<endl;
-
+if(RotaCam!=nullptr)
+{
 	vector <TNodo*> v10 =RotaCam->getHijos();
-	cout<<"El nodo RotaLuz tiene como hijos: ";
+	cout<<"El nodo RotaCam tiene como hijos: ";
 
 	for(int i=0;i<v10.size();i++)
 	{
 		cout<<"Nodo "<<v10[i]->getIdent()<<" ";
 	}
+}
+else
+{
+	cout<<"El nodo RotaCam ha sido borrado";
+}
 
 	cout<<endl;
-
+	if(RotaLuz!=nullptr)
 	cout<<"RotaLuz tiene como padre al nodo "<<RotaLuz->getPadre()->getIdent()<<endl;
+	if(RotaCam!=nullptr)
 	cout<<"RotaCam tiene como padre al nodo "<<RotaCam->getPadre()->getIdent()<<endl;
+	if(RotaCoche!=nullptr)
 	cout<<"RotaCoche tiene como padre al nodo "<<RotaCoche->getPadre()->getIdent()<<endl;
-
+	if(TraslaLuz!=nullptr)
 	cout<<"TraslaLuz tiene como padre al nodo "<<TraslaLuz->getPadre()->getIdent()<<endl;
+if(TraslaCam!=nullptr)
 	cout<<"TraslaCam tiene como padre al nodo "<<TraslaCam->getPadre()->getIdent()<<endl;
+if(TraslaCoche!=nullptr)
+	cout<<"TraslaCoche tiene como padre al nodo "<<TraslaCoche->getPadre()->getIdent()<<endl;
 	
-
-	cout<<"Borrando nodo RotaCam ...."<<endl;
-
-	Escena->remHijoChange(RotaCam, RotaLuz);
-
-
-	vector <TNodo*> v7 =Escena->getHijos();
-	cout<<"El nodo escena tiene como hijos: ";
-
-	for(int i=0;i<v7.size();i++)
-	{
-		cout<<"Nodo "<<v7[i]->getIdent()<<" ";
-	}
-
-	cout<<endl;
-
-	vector <TNodo*> v8 =RotaLuz->getHijos();
-	cout<<"El nodo RotaLuz tiene como hijos: ";
-
-	for(int i=0;i<v8.size();i++)
-	{
-		cout<<"Nodo "<<v8[i]->getIdent()<<" ";
-	}
-
-	cout<<endl;
-
-	vector <TNodo*> v9 =RotaCoche->getHijos();
-	cout<<"El nodo RotaCoche tiene como hijos: ";
-
-	for(int i=0;i<v9.size();i++)
-	{
-		cout<<"Nodo "<<v9[i]->getIdent()<<" ";
-	}
-
-	cout<<endl;
-
-	cout<<"RotaLuz tiene como padre al nodo "<<RotaLuz->getPadre()->getIdent()<<endl;
-	cout<<"RotaCoche tiene como padre al nodo "<<RotaCoche->getPadre()->getIdent()<<endl;
-
-	cout<<"TraslaLuz tiene como padre al nodo "<<TraslaLuz->getPadre()->getIdent()<<endl;
-	cout<<"TraslaCam tiene como padre al nodo "<<TraslaCam->getPadre()->getIdent()<<endl;
-
-	cout<<endl;
-	*/
-
+	
+/*
+	// Pruebas remHijoAll
 	TNodo *Escena = new TNodo();
 	Escena->setIdent(1);
 	TNodo *RotaLuz = new TNodo();
@@ -355,7 +344,7 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 
 	cout<<endl;
 
-
+*/
 
 /* CREAMOS IRRLICHT DEVICE */	 
 	device = mainDevice;

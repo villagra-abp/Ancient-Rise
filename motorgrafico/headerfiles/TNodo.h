@@ -14,9 +14,9 @@ public:
 	virtual ~TNodo();
 	int addHijoBack(TNodo* n);
 	int addHijo(TNodo* n, int pos);
-	int remHijo(TNodo* n);
+	TNodo* remHijo(TNodo* n);
 	int remHijoAll(TNodo* n);
-	int remHijoChange(TNodo* n1, TNodo* n2);
+	TNodo* remHijoChange(TNodo* n1, TNodo* n2);
 
 
 	bool setEntidad(TEntidad* ent);
