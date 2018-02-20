@@ -12,28 +12,37 @@ class TNodo{
 public:
 	TNodo();
 	virtual ~TNodo();
-	int addHijo(TNodo* n);
-	int remHijo(TNodo* n);
+	int addHijoBack(TNodo* n);
+	int addHijo(TNodo* n, int pos);
+	TNodo* remHijo(TNodo* n);
+	int remHijoAll(TNodo* n);
+	TNodo* remHijoChange(TNodo* n1, TNodo* n2);
 
 
 	bool setEntidad(TEntidad* ent);
 	void setPadre(TNodo *p);
+	void setIdent(int i);
 
 	TEntidad * getEntidad();
 	TNodo * getPadre();
 	vector<TNodo*> getHijos();
+	int getIdent();
 
 	void draw();
 
 
 private:	
 
+	int identificador;
 	TEntidad * entidad;
 	vector <TNodo*> hijos;
 	TNodo * padre;
 
-	bool encontrado; 				// Para saber si hemos encontrado el nodo para borrar
-	vector <TNodo*> hijosPadre; 	// Vector con todos los nodos del padre que queremos borrar
+	/* Variables para Metodos de Borrado de Nodos */
+	bool encontrado; 					// Para saber si hemos encontrado el nodo para borrar
+	vector <TNodo*> hijosPadre; 		// Vector con todos los nodos del padre que queremos borrar
+	vector <TNodo*> nodosBorrar;
+	TNodo *padreBorrar;
 
 } ;
 
