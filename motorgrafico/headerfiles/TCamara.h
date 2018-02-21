@@ -11,7 +11,7 @@ public:
 	void setParalela();
 	virtual void beginDraw() override;
 	virtual void endDraw() override;
-
+	virtual tEnt getTipo() override{ return camara};
 
 
 private:	

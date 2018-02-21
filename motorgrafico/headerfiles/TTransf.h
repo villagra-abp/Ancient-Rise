@@ -20,6 +20,7 @@ public:
 	//Draw
 	virtual void beginDraw() override;
 	virtual void endDraw() override;
+	virtual tEnt getTipo() override{ return transf};
 	
 
 

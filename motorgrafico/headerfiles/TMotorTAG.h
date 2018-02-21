@@ -15,6 +15,7 @@ public:
 	TLuz *crearLuz();
 	TMalla *crearMalla(char *fichero);
 	void draw();
+	glm::mat4 generateMatrix(TNodo *nodo);
 
 
 private:
@@ -24,6 +25,12 @@ private:
 	vector<TCamara*> regCam;
 	vector<TLuz*> regLuz;
 	//vector<> regVPort;
+
+	glm::mat4 mCamara;
+	vector<glm::mat4> mLuz;
+
+	glm::mat4 mVista;
+	vector<glm::vec4> pLuz;
 
 } ;
 
