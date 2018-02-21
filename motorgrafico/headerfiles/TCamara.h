@@ -7,8 +7,9 @@ class TCamara: public TEntidad{
 public:
 	TCamara();
 	virtual ~TCamara();
-	void setPerspectiva();
-	void setParalela();
+	void setPerspectiva(float fovy, float aspect, float near, float far);
+	void setParalela(float left, float right, float bottom, float top, float near, float far);
+	
 	virtual void beginDraw() override;
 	virtual void endDraw() override;
 	virtual tEnt getTipo() override{ return camara; }
