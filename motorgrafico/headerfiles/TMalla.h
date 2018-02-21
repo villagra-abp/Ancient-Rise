@@ -10,7 +10,7 @@ public:
 	//void cargarMalla(TFichero);
 	virtual void beginDraw() override;
 	virtual void endDraw() override;
-	virtual tEnt getTipo() override{ return malla};
+	virtual tEnt getTipo() override{ return malla; }
 
 
 private:	

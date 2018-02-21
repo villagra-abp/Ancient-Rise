@@ -20,7 +20,9 @@ public:
 	//Draw
 	virtual void beginDraw() override;
 	virtual void endDraw() override;
-	virtual tEnt getTipo() override{ return transf};
+	virtual tEnt getTipo() override{ return transf; }
+
+	glm::mat4 getMatriz();
 	
 
 

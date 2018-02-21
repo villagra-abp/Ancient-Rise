@@ -11,7 +11,7 @@ public:
 	void setParalela();
 	virtual void beginDraw() override;
 	virtual void endDraw() override;
-	virtual tEnt getTipo() override{ return camara};
+	virtual tEnt getTipo() override{ return camara; }
 
 
 private:	
@@ -19,6 +19,7 @@ private:
 	bool esPerspectiva;
 	float cercano;
 	float lejano;
+	glm::mat4 mProyeccion;
 
 } ;
 

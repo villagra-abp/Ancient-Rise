@@ -25,6 +25,9 @@ void TTransf::rotar(float x,float y,float z,float w){
 void TTransf::invertir(){
 	matriz = glm::inverse(matriz);
 }
+glm::mat4 TTransf::getMatriz(){
+	return matriz;
+}
 
 void TTransf::beginDraw(){
 	//Apilar matriz actual

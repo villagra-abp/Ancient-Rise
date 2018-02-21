@@ -13,7 +13,7 @@ public:
 	//TColor getIntensidad();
 	virtual void beginDraw() override;
 	virtual void endDraw() override;
-	virtual tEnt getTipo() override{ return luz};
+	virtual tEnt getTipo() override{ return luz; }
 
 
 private:	
