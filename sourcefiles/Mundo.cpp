@@ -217,15 +217,15 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
     TNodo *RotarLuz = new TNodo();
     TNodo *RotarCam = new TNodo();
     TNodo *RotarCoche = new TNodo();
-    Escena->addHijo(RotarLuz);
-    Escena->addHijo(RotarCam);
-    Escena->addHijo(RotarCoche);
+    Escena->addHijoBack(RotarLuz);
+    Escena->addHijoBack(RotarCam);
+    Escena->addHijoBack(RotarCoche);
     TNodo *TraslaLuz = new TNodo();
     TNodo *TraslaCam = new TNodo();
     TNodo *TraslaCoche = new TNodo();
-    RotarLuz->addHijo(TraslaLuz);
-    RotarCam->addHijo(TraslaCam);
-    RotarCoche->addHijo(TraslaCoche);
+    RotarLuz->addHijoBack(TraslaLuz);
+    RotarCam->addHijoBack(TraslaCam);
+    RotarCoche->addHijoBack(TraslaCoche);
 
     TTransf *TransfRotaLuz = new TTransf();
     TransfRotaLuz->rotar(1.2, 0, 0, 42.0);
@@ -261,9 +261,9 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 	TNodo *NChasis = new TNodo();
 	NChasis->setEntidad(MallaChasis);
 
-	TraslaLuz->addHijo(NLuz);
-    TraslaCam->addHijo(NCam);
-    TraslaCoche->addHijo(NChasis);
+	TraslaLuz->addHijoBack(NLuz);
+    TraslaCam->addHijoBack(NCam);
+    TraslaCoche->addHijoBack(NChasis);
 
     Escena->draw();
 	
