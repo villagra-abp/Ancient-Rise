@@ -4,7 +4,6 @@
 
 #include <irrlicht/irrlicht.h>
 #include <SFML/Window/Window.hpp>
-#include "../headerfiles/Mundo.h"
 #include <iostream>
 
 

@@ -119,7 +119,7 @@ class Protagonista : public GameObject
         Sonido* grito;
         Sonido* risa;
         
-        //Fachada* fachada=fachada->getInstance();
+        Fachada* fachada=fachada->getInstance();
 
 };
 
