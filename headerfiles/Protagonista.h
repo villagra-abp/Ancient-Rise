@@ -8,13 +8,14 @@
 #include "../headerfiles/Bebida.h"
 #include "../headerfiles/Trampa.h"
 #include "../headerfiles/GameObject.h"
+#include "../headerfiles/Fachada.h"
 #include "../motorsonido/headerfiles/GestorSonido.h"
 
 
 class Protagonista : public GameObject
 {
     public:
-        Protagonista(IrrlichtDevice *dev, ISceneManager* smgr);
+        static Protagonista* getInstance();
         virtual ~Protagonista();
 
          scene::ISceneNode* getNode();
@@ -68,6 +69,9 @@ class Protagonista : public GameObject
 
 
     private:
+        
+        Protagonista();
+        
         scene::ISceneNode * rec;
         scene::ISceneNode * energy;
         scene::ISceneNode * life;
@@ -114,6 +118,8 @@ class Protagonista : public GameObject
         Sonido* omae;
         Sonido* grito;
         Sonido* risa;
+        
+        //Fachada* fachada=fachada->getInstance();
 
 };
 

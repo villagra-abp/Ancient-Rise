@@ -1,12 +1,12 @@
 #include "../headerfiles/Protagonista.h"
 #define SCALE 30.0f
 
-/**
- Constructor: CREA UN NODO PASANDOLE POR PARAMETRO EL DEVICE Y EL PUNTERO PARA GESTIONAR LA ESCENA
-**/
-Protagonista::Protagonista(IrrlichtDevice *dev, ISceneManager* smgr)
-{
+static Protagonista* instance = NULL;
 
+
+Protagonista::Protagonista()
+{
+    
     GameObject::setTipo(PROTA);
 
     /**
@@ -15,13 +15,14 @@ Protagonista::Protagonista(IrrlichtDevice *dev, ISceneManager* smgr)
     desabilitamos la luz en cada modelo (sino los modelos serian negros )
     **/ 
 
-    rec=smgr->addSphereSceneNode();
-    energy=smgr->addCubeSceneNode();
-    life=smgr->addCubeSceneNode();
+    rec=fachada->addSphere();
+    energy=fachada->addCube();
+    life=fachada->addCube();
 
 
     if (rec) /** SI HEMOS CREADO EL CUBO **/
     {
+        
         rec->setPosition(core::vector3df(0,0,30));
         //rec->setMaterialTexture(0, driver->getTexture(mediaPath + "wall.bmp"));
         rec->setMaterialFlag(video::EMF_LIGHTING, false);
@@ -52,6 +53,16 @@ Protagonista::Protagonista(IrrlichtDevice *dev, ISceneManager* smgr)
     risa = sonido->create3DSound(sonido->SOUND_BOSS3_RISA);
 
 }
+
+
+
+//Con esto hacemos que sea singleton. Solo se puede crear el motorgrafico llamando a getInstance. Esta devuelve el motor si ya estaba creado, y sino lo crea
+//Parametros: h-> Alto de la ventana, w-> Ancho de la ventana, fullscreen-> si será pantalla completa o no
+Protagonista* Protagonista::getInstance() {
+    if (instance == NULL) instance = new Protagonista();
+    return (instance);
+}
+
 /**
 FUNCION PARA crear el objeto dinamico
 **/

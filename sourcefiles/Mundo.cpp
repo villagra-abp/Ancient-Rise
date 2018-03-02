@@ -1,12 +1,13 @@
 #include "../headerfiles/Mundo.h"
 
 
-Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTRUCTOR
-{
 
+Mundo::Mundo()	//CONSTRUCTOR
+{
+Fachada* fachada=fachada->getInstance();
 /* CREAMOS IRRLICHT DEVICE */	 
-	device = mainDevice;
-	receiver = mainReceiver;
+	device = fachada->getDevice();
+	//receiver = mainReceiver;
 
 /** PUNTEROS 
  A VideoDriver, al SceneManager y al entorno de interfaz de usuario, para no tener que
@@ -17,12 +18,7 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 	smgr = device->getSceneManager();
 	guienv = device->getGUIEnvironment();
 
-/** SUBTITULO DE VENTANA
- Para poner texto en el subtitulo de la ventana. Necesita de una 'L' delante del string
- debido a que lo necesita el motor de irrlicht
-**/
 
-	device->setWindowCaption(L"Ancient Rise");
 
 /*CREAMOS GESTOR DE SONIDO*/
 	sonido = GestorSonido::getInstance();
@@ -32,7 +28,10 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 	musicaBosque = sonido->createMusic(sonido->SOUND_MUSIC_BOSQUE);
 /* CREAMOS PROTA */
 
-	prota = new Protagonista(device, smgr);
+	prota = prota->getInstance();
+    if(prota){
+     std::cout<<"vale"<<endl;   
+    }
 	addGameObject(prota);
 
 	rec = prota->getNode();
@@ -173,44 +172,7 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
 	then = device->getTimer()->getTime();
 	time_input = device->getTimer()->getTime();
 
-/** Informacion del mando conectado o si no hay ningun mando conectado
-**/
-    core::array<SJoystickInfo> joystickInfo;
-    if(device->activateJoysticks(joystickInfo)&&joystickInfo.size()>0)
-    {
-        receiver->setMando(true);
-        std::cout << "Joystick support is enabled and " << joystickInfo.size() << " joystick(s) are present." << std::endl;
-
-        for(u32 joystick = 0; joystick < joystickInfo.size(); ++joystick)
-        {
-            std::cout << "Joystick " << joystick << ":" << std::endl;
-            std::cout << "\tName: '" << joystickInfo[joystick].Name.c_str() << "'" << std::endl;
-            std::cout << "\tAxes: " << joystickInfo[joystick].Axes << std::endl;
-            std::cout << "\tButtons: " << joystickInfo[joystick].Buttons << std::endl;
-
-            std::cout << "\tHat is: ";
-
-            switch(joystickInfo[joystick].PovHat)
-            {
-            case SJoystickInfo::POV_HAT_PRESENT:
-                std::cout << "present" << std::endl;
-                break;
-
-            case SJoystickInfo::POV_HAT_ABSENT:
-                std::cout << "absent" << std::endl;
-                break;
-
-            case SJoystickInfo::POV_HAT_UNKNOWN:
-            default:
-                std::cout << "unknown" << std::endl;
-                break;
-            }
-        }
-    }
-    else
-     {
-        std::cout << "Joystick support is not enabled." << std::endl;
-     } 
+//////////////////////////////////////
 
     //PRUEBAS MOTOR GRAFICO
     TNodo *Escena = new TNodo();
@@ -341,7 +303,8 @@ void Mundo::terrainBuilder(){	//CONSTRUCTOR DEL TERRENOS Y COLISIONES DE CAMARA
 }
 
 void Mundo::update(){
-
+    //Comprueba las entradas del teclado
+	checkInput();
 	//pasos de las fisicas en el mundo
 	world.Step(1/60.f, 8, 3);
 	//reinicio las fuerzas en el mundo
@@ -425,7 +388,7 @@ void Mundo::protaUpdate(const u32 now, const f32 frameDeltaTime, f32 tiempo){
 
         time_input=now;
 
-        receiver->checkCombate(prota); 						// Comprobamos si hemos pulsado la tecla de combate (K)
+        //receiver->checkCombate(prota); 						// Comprobamos si hemos pulsado la tecla de combate (K)
 
         for(int i2=0; i2<enemB.size();i2++)
         {
@@ -440,10 +403,10 @@ void Mundo::protaUpdate(const u32 now, const f32 frameDeltaTime, f32 tiempo){
     }
     else
     {
-    	receiver->checkSigilo(prota);  						// Comprobamos si hemos pulsado la tecla de sigilo (C)
+    	//receiver->checkSigilo(prota);  						// Comprobamos si hemos pulsado la tecla de sigilo (C)
     }
 
-    receiver->checkInput(prota,frameDeltaTime);
+    //receiver->checkInput(prota,frameDeltaTime);
 
     /* Velocidad Barra de Energia */
     energiaActual = prota->getEnergia();
@@ -462,7 +425,95 @@ void Mundo::protaUpdate(const u32 now, const f32 frameDeltaTime, f32 tiempo){
 
 
 }
+void Mundo::checkInput(){
 
+	if(sf::Joystick::isConnected(0)){
+		JoyY=sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
+		JoyX=sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+		//std::cout<<JoyX<<"\n";
+	}
+	/*
+	if (sf::Joystick::isButtonPressed(0, 2))
+	{
+	    std::cout<<"x=2"<<"\n";
+	}
+	if (sf::Joystick::isButtonPressed(0, 4))
+	{
+	    std::cout<<"l=4"<<"\n";
+	}
+	if (sf::Joystick::isButtonPressed(0, 0))
+	{
+	    std::cout<<"a=0"<<"\n";
+	}
+	if (sf::Joystick::isButtonPressed(0, 5))
+	{
+	    std::cout<<"r=5"<<"\n";
+	}
+	*/
+
+/* hacemos un set de ataque a 2 que es arriba 
+        if(inputkey==22)//w
+        {
+           pos_pelea(prota,2);
+           pos_defensa(prota,2);
+        }
+        else if(inputkey==18)//s
+        {
+            pos_pelea(prota,0);
+            pos_defensa(prota,0);
+        }
+        else
+        {
+            pos_pelea(prota,1);
+            pos_defensa(prota,1);
+        }
+*/
+        /* control de ataque*/
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::P)||sf::Joystick::isButtonPressed(0, 2))//p
+        {  
+            prota->setAtaque(true);
+        }
+        
+        /* control de defensa*/
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::K)||sf::Joystick::isButtonPressed(0, 4))//k
+        {
+            prota->setCombate();
+
+        }
+
+        /* movimiento hacia los lados y control de la velocidad en funcion de
+        las variables de correr, sigilo y vitalidad */
+
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)||JoyX<=-50)//A
+        {
+            prota->setDireccion(0);
+	    prota->movimiento(0.1f);
+    		if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)||sf::Joystick::isButtonPressed(0, 5))
+    		{
+		  prota->setCorrer(true);
+      		  prota->setEnergia(-5.0f,0.1f);
+    		}else
+		  prota->setCorrer(false);
+        }
+
+        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)||JoyX>=50){//D
+
+            prota->setDireccion(1);
+            prota->movimiento(0.1f);
+    		if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)||sf::Joystick::isButtonPressed(0, 5))
+    		{
+		  prota->setCorrer(true);
+      		  prota->setEnergia(-5.0f,0.1f);
+    		}else
+		  prota->setCorrer(false);
+        }
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)||sf::Joystick::isButtonPressed(0, 0)){
+        	prota->setSalto(true);
+    	}else
+		prota->setSalto(false);
+       	
+	       
+}
 void Mundo::camUpdate(const f32 frameDeltaTime){
 	core::vector3df protaPosition = prota->getPosition();
 	core::vector3df camPosition = cam->getPosition();
