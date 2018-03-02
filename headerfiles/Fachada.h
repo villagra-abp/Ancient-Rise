@@ -4,6 +4,8 @@
 
 #include <irrlicht/irrlicht.h>
 #include <SFML/Window/Window.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/OpenGL.hpp>
 #include <iostream>
 
 
