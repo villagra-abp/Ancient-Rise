@@ -141,11 +141,27 @@ void Fachada::setNombreVentana(std::string text){
 void Fachada::setNombreVentana(wchar_t* text){
 	device->setWindowCaption(text);
 }
-scene::ISceneNode * Fachada::addCube(){
-    scene::ISceneNode * cubo=smgr->addCubeSceneNode();
-    return cubo;
+scene::ISceneNode * Fachada::addCube(int x,int y,int z,bool flag){
+    
+    scene::ISceneNode * rec=smgr->addCubeSceneNode();
+    
+    if (rec) /** SI HEMOS CREADO EL CUBO **/
+    {
+        
+        rec->setPosition(core::vector3df(x,y,z));
+        //rec->setMaterialTexture(0, driver->getTexture(mediaPath + "wall.bmp"));
+        rec->setMaterialFlag(video::EMF_LIGHTING, flag);
+    }
+    return rec;
 }
-scene::ISceneNode * Fachada::addSphere(){
-    scene::ISceneNode * cubo=smgr->addSphereSceneNode();
-    return cubo;
+scene::ISceneNode * Fachada::addSphere(int x,int y,int z,bool flag){
+    scene::ISceneNode * rec=smgr->addSphereSceneNode();
+    if (rec) /** SI HEMOS CREADO EL CUBO **/
+    {
+        
+        rec->setPosition(core::vector3df(x,y,z));
+        //rec->setMaterialTexture(0, driver->getTexture(mediaPath + "wall.bmp"));
+        rec->setMaterialFlag(video::EMF_LIGHTING, flag);
+    }
+    return rec;
 }

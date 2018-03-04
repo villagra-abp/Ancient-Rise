@@ -14,9 +14,9 @@ Fachada* fachada=fachada->getInstance();
  estar llamandolos siempre y solo los llamamos una vez
 **/
 
-	driver = device->getVideoDriver();
-	smgr = device->getSceneManager();
-	guienv = device->getGUIEnvironment();
+	driver = fachada->getDriver();
+	smgr = fachada->getScene();
+	guienv = fachada->getGUI();
 
 
 
@@ -33,8 +33,6 @@ Fachada* fachada=fachada->getInstance();
      std::cout<<"vale"<<endl;   
     }
 	addGameObject(prota);
-
-	rec = prota->getNode();
 
 	//creo el suelo, el bounding box del prota y la plataforma
 	prota->CreateGround(world, 0.f, -150.f,1000*1000);
@@ -120,33 +118,27 @@ Fachada* fachada=fachada->getInstance();
 
 /* CREAMOS PLATAFORMAS */
 
-	Plataforma = smgr->addCubeSceneNode();
+	Plataforma = fachada->addCube(220,25,30,false);
 
 	if (Plataforma) /** SI HEMOS CREADO EL CUBO **/
 	{
-		Plataforma->setPosition(core::vector3df(220,25,30));
 		Plataforma->setScale(core::vector3df(10.f,1.f,5.f));
-		Plataforma->setMaterialFlag(video::EMF_LIGHTING, false);
 		Plataforma->setMaterialTexture(0,driver->getTexture("resources/plataf.bmp"));
 	}
 
-	Plataforma2= smgr->addCubeSceneNode();
+	Plataforma2= fachada->addCube(320,55,30,false);
 
 	if (Plataforma2) /** SI HEMOS CREADO EL CUBO **/
 	{
-		Plataforma2->setPosition(core::vector3df(320,55,30));
 		Plataforma2->setScale(core::vector3df(10.f,1.f,5.f));
-		Plataforma2->setMaterialFlag(video::EMF_LIGHTING, false);
 		Plataforma2->setMaterialTexture(0,driver->getTexture("resources/plataf.bmp"));
 	}
 
-	Plataforma3= smgr->addCubeSceneNode();
+	Plataforma3= fachada->addCube(420,85,30,false);
 
 	if (Plataforma3) /** SI HEMOS CREADO EL CUBO **/
 	{
-		Plataforma3->setPosition(core::vector3df(420,85,30));
 		Plataforma3->setScale(core::vector3df(10.f,1.f,5.f));
-		Plataforma3->setMaterialFlag(video::EMF_LIGHTING, false);
 		Plataforma3->setMaterialTexture(0,driver->getTexture("resources/plataf.bmp"));
 	}
 
@@ -156,7 +148,7 @@ Fachada* fachada=fachada->getInstance();
  aproximadamente donde esta el objeto.
 **/
 
-	cam = smgr->addCameraSceneNode(0, vector3df(rec->getPosition().X,50,-140), vector3df(0,5,0));
+	cam = smgr->addCameraSceneNode(0, vector3df(prota->getPosition().X,50,-140), vector3df(0,5,0));
 	device->getCursorControl()->setVisible(true);
 
 /* CREAMOS EL TERRENO Y COLISIONES DE CAMARA */
@@ -169,8 +161,8 @@ Fachada* fachada=fachada->getInstance();
 **/
 	lastFPS = -1;
 
-	then = device->getTimer()->getTime();
-	time_input = device->getTimer()->getTime();
+	then = fachada->getTime();
+	time_input = fachada->getTime();
 
 //////////////////////////////////////
 
@@ -490,8 +482,8 @@ void Mundo::checkInput(){
 	    prota->movimiento(0.1f);
     		if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)||sf::Joystick::isButtonPressed(0, 5))
     		{
-		  prota->setCorrer(true);
-      		  prota->setEnergia(-5.0f,0.1f);
+                prota->setCorrer(true);
+      		    prota->setEnergia(-5.0f,1.1f);
     		}else
 		  prota->setCorrer(false);
         }
@@ -503,7 +495,7 @@ void Mundo::checkInput(){
     		if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)||sf::Joystick::isButtonPressed(0, 5))
     		{
 		  prota->setCorrer(true);
-      		  prota->setEnergia(-5.0f,0.1f);
+      		  prota->setEnergia(-5.0f,0.2f);
     		}else
 		  prota->setCorrer(false);
         }
@@ -518,9 +510,9 @@ void Mundo::camUpdate(const f32 frameDeltaTime){
 	core::vector3df protaPosition = prota->getPosition();
 	core::vector3df camPosition = cam->getPosition();
 
-	rec->setPosition(protaPosition);
+	//rec->setPosition(protaPosition);
     cam->setPosition(vector3df(protaPosition.X,protaPosition.Y+30,-140)); // cambio 5O A ProtaPosition.Y
-    camPosition=rec->getPosition();
+    camPosition=prota->getPosition();
     camPosition.Y=protaPosition.Y+30;
     cam->setTarget(camPosition);
 }

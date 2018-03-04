@@ -42,8 +42,8 @@ public:
 	void drawEscena();
 	void drawGUI();
 	*/
-    scene::ISceneNode * addCube();
-    scene::ISceneNode * addSphere();
+    scene::ISceneNode * addCube(int x,int y,int z,bool flag);
+    scene::ISceneNode * addSphere(int x,int y,int z,bool flag);
 
 private:
 	Fachada(int h, int w, bool fullscreen);

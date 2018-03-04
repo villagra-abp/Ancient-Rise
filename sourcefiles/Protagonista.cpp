@@ -15,20 +15,9 @@ Protagonista::Protagonista()
     desabilitamos la luz en cada modelo (sino los modelos serian negros )
     **/ 
 
-    rec=fachada->addSphere();
-    energy=fachada->addCube();
-    life=fachada->addCube();
-
-
-    if (rec) /** SI HEMOS CREADO EL CUBO **/
-    {
-        
-        rec->setPosition(core::vector3df(0,0,30));
-        //rec->setMaterialTexture(0, driver->getTexture(mediaPath + "wall.bmp"));
-        rec->setMaterialFlag(video::EMF_LIGHTING, false);
-    }
-    
-    life->setMaterialFlag(video::EMF_LIGHTING,false);
+    rec=fachada->addSphere(0,0,30,false);
+    energy=fachada->addCube(0,0,30,true);
+    life=fachada->addCube(0,0,30,false);
 
     
     protaPosition=rec->getPosition();
@@ -112,6 +101,8 @@ void Protagonista::updateBody(b2World& world)
     
     protaPosition.X=Body->GetPosition().x*1;
     protaPosition.Y=Body->GetPosition().y*1;
+    
+    rec->setPosition(protaPosition);
 
 
 }
