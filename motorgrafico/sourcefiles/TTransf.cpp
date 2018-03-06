@@ -38,15 +38,19 @@ void TTransf::beginDraw(){
 	//Multiplicar la matriz de la transformacion a la matriz modelo actual
 	mmodelo = mmodelo * matriz;
 
-	/*std::cout << "Transf Original: " << std::endl;
+	/*
+	std::cout << "Transf Original: " << std::endl;
 	std::cout << glm::to_string(matriz) << std::endl;
 	std::cout << "Matriz Modelo: " << std::endl;
-	std::cout << glm::to_string(mmodelo) << std::endl;*/ 
+	std::cout << glm::to_string(mmodelo) << std::endl;
+	*/
 }
 void TTransf::endDraw(){
 	//Desapilar matriz y ponerla como actual
 	mmodelo = pila->desapila();
 
-	/*std::cout << "Desapilada: " << std::endl;
-	std::cout << glm::to_string(mmodelo) << std::endl;*/ 
+	/*
+	std::cout << "Desapilada: " << std::endl;
+	std::cout << glm::to_string(mmodelo) << std::endl;
+	*/
 }

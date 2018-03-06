@@ -1,7 +1,7 @@
 #include "../headerfiles/TCamara.h"
 
 TCamara::TCamara(){
-	
+	setPerspectiva(45.0f, 4.0f / 3.0f, 0.1f, 100.f);
 }
 TCamara::~TCamara(){
 

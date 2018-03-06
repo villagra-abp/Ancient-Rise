@@ -25,7 +25,7 @@ public:
 	TMalla *crearMalla(char *fichero);
 	void draw();
 	glm::mat4 generateMatrix(TNodo *nodo);
-	bool setCamara(TCamara* cam, bool b);
+	bool setCamara(TEntidad* cam, bool b);
 	bool setLuz(TLuz* lz, bool b);
 
 
