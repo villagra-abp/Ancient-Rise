@@ -11,6 +11,7 @@ Mapa::Mapa(io::path s){
 	node = 0;
 
 	node = escena->addOctreeSceneNode(mesh->getMesh(0), 0, -1, 1024);
+	
 
 }
 
