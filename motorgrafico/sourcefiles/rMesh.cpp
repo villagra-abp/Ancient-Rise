@@ -1,16 +1,17 @@
 #include "../headerfiles/rMesh.h"
 
 
-Mesh::Mesh(vector<Vertex> vert, vector<unsigned int> ind, vector<Texture> text){
+rMesh::rMesh(vector<Vertex> vert, vector<unsigned int> ind, vector<Texture> text){
 	vertices = vert;
 	indices = ind;
 	textures = text;
-	
+
 	setupMesh();
 }
 
 
-void Mesh::setupMesh(){
+void rMesh::setupMesh(){
+
 	glGenBuffers(1,&VBO);
 	glGenVertexArrays(1,&VAO);
 	glGenBuffers(1, &EBO);
@@ -37,11 +38,10 @@ void Mesh::setupMesh(){
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,TexCoords));
 
 	glBindVertexArray(0);
-
 	
 }
 
-void Mesh::Draw(Shader shader){
+void rMesh::Draw(Shader shader){
 
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);

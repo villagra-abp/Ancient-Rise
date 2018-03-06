@@ -1,20 +1,16 @@
-#ifndef RMODEL_H
-#define RMODEL_H
-
-#ifndef STB_IMAGE_IMPLEMENTATION
-#define STB_IMAGE_IMPLEMENTATION
-#endif //STB_IMAGE_IMPLEMENTATION
+#ifndef TRECURSOMALLA_H
+#define TRECURSOMALLA_H
 
 #include <iostream>
 #include <unistd.h>
-
-#include <stb_image.h>
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-#include "../headerfiles/rMesh.h"
+#include "rMesh.h"
+#include "directorios.h"
+#include "TRecurso.h"
 
 using namespace std;
 
@@ -22,28 +18,37 @@ using namespace std;
 
 unsigned int TextureFromFile(const char *path, const string &directory, bool gamma = false);
 
-class Model 
-{
+class TRecursoMalla : public TRecurso{
     public:
     	vector<Texture> textures_loaded;
-        vector<Mesh> meshes;
+        vector<rMesh> meshes;
         string directory;
 
-        Model(const char *path)
+        TRecursoMalla()
         {
-            loadModel(path);
+            //cargarFichero(name);
         }
-        ~Model();
+        virtual ~TRecursoMalla() = default;
         void Draw(Shader shader);	
+        void cargarFichero(string nombre) override;
+        string getNombre() override;
+
+		void setNombre(string nombre) override;
+		string getPath(string name);
+
+
     private:
 
 
-
-        void loadModel(string path);
+    	string name;
         void processNode(aiNode *node, const aiScene *scene);
-        Mesh processMesh(aiMesh *mesh, const aiScene *scene);
+        rMesh processMesh(aiMesh *mesh, const aiScene *scene);
         vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, 
                                              string typeName);
+
+        
+
+		
 };
 
-#endif //RMODEL_H
+#endif //TRECURSOMALLA

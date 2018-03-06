@@ -28,14 +28,14 @@ struct Texture{
 
 
   
-class Mesh{
+class rMesh{
 	public:
 		vector<Vertex> vertices;
 		vector<unsigned int> indices;
 		vector<Texture> textures;
 		unsigned int VAO;
 
-		Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures);
+		rMesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures);
 		void Draw(Shader shader);
 
 	private:

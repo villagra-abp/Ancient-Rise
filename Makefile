@@ -1,5 +1,5 @@
 
-LIBS := -lGLEW -lglut -lGLU -lGL -lX11 -lXxf86vm -lBox2D -lfmod -lfmodstudio -lsfml-graphics -lsfml-window -lsfml-system
+LIBS := -lGLEW -lglut -lGLU -lGL -lX11 -lXxf86vm -lBox2D -lfmod -lfmodstudio -lsfml-graphics -lsfml-window -lsfml-system -lassimp 
 # -lIrrlicht
 CC=g++
 CFLAGS= -g -I. -I./inc
