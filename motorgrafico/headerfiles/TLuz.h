@@ -18,6 +18,7 @@ public:
 
 private:	
 
+
 		int MaxLuces;
 		glGetIntegerv(GL_MAX_LIGHTS, &MaxLuces); 
 
@@ -51,9 +52,10 @@ private:
 		//GL_POSITION //vector de 4 flotantes (x, y, z, w), especifica la pos, Si w es 0.0, es una luz direccional
 		//GL_SPOT_DIRECTION //vector 3 flotantes(x,y,z), especifica la direccion de la luz, sólo tiene sentido cuando GL_SPOT_CUTOFF no es 180, que es su valor por defecto. Por defecto, la dirección es (0, 0, -1). 
 
+		
 
+	//TColor intensidad; //Es un vec3 con R, G, B.
 
-		//TColor intensidad;
 
 } ;
 

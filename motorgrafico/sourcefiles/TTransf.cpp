@@ -22,6 +22,9 @@ void TTransf::trasladar(float x,float y,float z){
 void TTransf::rotar(float x,float y,float z,float w){
 	matriz = glm::rotate(glm::mat4(1.0f), w, glm::vec3(x, y, z));
 }
+void TTransf::escalar(float x, float y, float z){
+	matriz = glm::scale(glm::mat4(1.0f), glm::vec3(x, y, z));
+}
 void TTransf::invertir(){
 	matriz = glm::inverse(matriz);
 }

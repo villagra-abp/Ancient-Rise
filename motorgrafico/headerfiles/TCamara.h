@@ -13,6 +13,7 @@ public:
 	virtual void beginDraw() override;
 	virtual void endDraw() override;
 	virtual tEnt getTipo() override{ return camara; }
+	glm::mat4 getProyectionMatrix();
 
 
 private:	
