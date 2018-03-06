@@ -16,6 +16,7 @@
 #include "../headerfiles/Entorno.h"
 
 #include "../motorsonido/headerfiles/GestorSonido.h"
+#include "../motorgrafico/headerfiles/TMotorTAG.h"
 #include "../motorgrafico/headerfiles/TNodo.h"
 #include "../motorgrafico/headerfiles/TTransf.h"
 #include "../motorgrafico/headerfiles/TLuz.h"

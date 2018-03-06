@@ -18,7 +18,7 @@ public:
 
 private:	
 
-	//TColor intensidad;
+	//TColor intensidad; //Es un vec3 con R, G, B.
 
 } ;
 
