@@ -37,6 +37,24 @@ TTransf* TMotorTAG::crearTransf(){
 
 	return transf;
 }
+TTransf* TMotorTAG::crearTransfRot(float x,float y,float z,float w){
+	TTransf* transf = new TTransf();
+	transf->rotar(x, y, z, w);
+
+	return transf;
+}
+TTransf* TMotorTAG::crearTransfTras(float x,float y,float z){
+	TTransf* transf = new TTransf();
+	transf->trasladar(x, y, z);
+
+	return transf;
+}
+TTransf* TMotorTAG::crearTransfEsc(float x, float y, float z){
+	TTransf* transf = new TTransf();
+	transf->escalar(x, y, z);
+
+	return transf;
+}
 TCamara* TMotorTAG::crearCamara(){
 	TCamara* camara = new TCamara();
 
@@ -54,9 +72,13 @@ TMalla* TMotorTAG::crearMalla(char *fichero){
 }
 void TMotorTAG::draw(){
 	//Obtener puntero camara activa del Registro de camaras
+	TCamara* entCam = nullptr;
+
 	for(int i = 0; i = regCam.size(); i++){
 		if(estadoCam[i]){
 			mVista = glm::inverse(generateMatrix(regCam[i]));
+			entCam = (TCamara*)regCam[i]->getEntidad();
+			mProyeccion = entCam->getProyectionMatrix();
 			i = regCam.size();
 		}
 	}

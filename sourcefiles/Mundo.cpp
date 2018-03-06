@@ -213,59 +213,34 @@ Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTR
      } 
 
     //PRUEBAS MOTOR GRAFICO
-    TNodo *Escena = new TNodo();
-    TNodo *RotarLuz = new TNodo();
-    TNodo *RotarCam = new TNodo();
-    TNodo *RotarCoche = new TNodo();
-    Escena->addHijoBack(RotarLuz);
-    Escena->addHijoBack(RotarCam);
-    Escena->addHijoBack(RotarCoche);
-    TNodo *TraslaLuz = new TNodo();
-    TNodo *TraslaCam = new TNodo();
-    TNodo *TraslaCoche = new TNodo();
-    RotarLuz->addHijoBack(TraslaLuz);
-    RotarCam->addHijoBack(TraslaCam);
-    RotarCoche->addHijoBack(TraslaCoche);
+    char* fichero;
 
-    TTransf *TransfRotaLuz = new TTransf();
-    TransfRotaLuz->rotar(1.2, 0, 0, 42.0);
-	TTransf *TransfRotaCam = new TTransf();
-	TransfRotaCam->rotar(1.2, 0, 0, 94.0);
-	TTransf *TransfRotaCoche = new TTransf();
-	TransfRotaCoche->rotar(1.2, 0, 0, 57.0);
+    TMotorTAG* mTag = new TMotorTAG();
+     
+    TLuz 	*EntLuz = mTag->crearLuz();
+	TCamara *EntCam = mTag->crearCamara();
+	TMalla	*MallaChasis = mTag->crearMalla(fichero);
 
-	TTransf *TransfTraslaLuz = new TTransf();
-    TransfTraslaLuz->trasladar(20.0, 0, 0);
-    TTransf *TransfTraslaCam = new TTransf();
-    TransfTraslaCam->trasladar(12.0, 0, 0);
-    TTransf *TransfTraslaCoche = new TTransf();
-    TransfTraslaCoche->trasladar(52.0, 0, 0);
+	TTransf *TransfRotaLuz = mTag->crearTransfRot(1.2, 0, 0, 42.0);
+	TTransf *TransfRotaCam = mTag->crearTransfRot(1.2, 0, 0, 94.0);
+	TTransf *TransfRotaCoche = mTag->crearTransfRot(1.2, 0, 0, 57.0);
 
-	RotarLuz->setEntidad(TransfRotaLuz);
-	RotarCam->setEntidad(TransfRotaCam);
-	RotarCoche->setEntidad(TransfRotaCoche);
+	TTransf *TransfTraslaLuz = mTag->crearTransfTras(20.0, 0, 0);
+    TTransf *TransfTraslaCam = mTag->crearTransfTras(12.0, 0, 0);
+    TTransf *TransfTraslaCoche = mTag->crearTransfTras(52.0, 0, 0);
 
-	TraslaLuz->setEntidad(TransfTraslaLuz);
-	TraslaCam->setEntidad(TransfTraslaCam);
-	TraslaCoche->setEntidad(TransfTraslaCoche);
+    TNodo *Escena = mTag->crearNodo(nullptr, nullptr);
+    TNodo *RotarLuz = mTag->crearNodo(Escena, TransfRotaLuz);
+    TNodo *RotarCam = mTag->crearNodo(Escena, TransfRotaCam);
+    TNodo *RotarCoche = mTag->crearNodo(Escena, TransfRotaCoche);
+    TNodo *TraslaLuz = mTag->crearNodo(RotarLuz, TransfTraslaLuz);
+    TNodo *TraslaCam = mTag->crearNodo(RotarCam, TransfTraslaCam);
+    TNodo *TraslaCoche = mTag->crearNodo(RotarCoche, TransfTraslaCoche);
+    TNodo *NLuz = mTag->crearNodo(TraslaLuz, EntLuz);
+	TNodo *NCam = mTag->crearNodo(TraslaCam, EntCam);
+	TNodo *NChasis = mTag->crearNodo(TraslaCoche, MallaChasis);
 
-
-	TLuz *EntLuz = new TLuz();
-	TCamara *EntCam = new TCamara();
-	TMalla *MallaChasis = new TMalla();
-	
-	TNodo *NLuz = new TNodo();
-	NLuz->setEntidad(EntLuz);
-	TNodo *NCam = new TNodo();
-	NCam->setEntidad(EntCam);
-	TNodo *NChasis = new TNodo();
-	NChasis->setEntidad(MallaChasis);
-
-	TraslaLuz->addHijoBack(NLuz);
-    TraslaCam->addHijoBack(NCam);
-    TraslaCoche->addHijoBack(NChasis);
-
-    Escena->draw();
+    mTag->draw();
 	
 }	
 

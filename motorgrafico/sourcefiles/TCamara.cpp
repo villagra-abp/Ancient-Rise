@@ -16,6 +16,9 @@ void TCamara::endDraw(){
 }
 void TCamara::beginDraw(){
 }
+glm::mat4 TCamara::getProyectionMatrix(){
+	return mProyeccion;
+}
 
 
 
