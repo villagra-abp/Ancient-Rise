@@ -4,8 +4,14 @@
 
 #include <irrlicht/irrlicht.h>
 #include <SFML/Window/Window.hpp>
+#define GL3_PROTOTYPES 1 
+//#include <GL/glew.h>
 #include <SFML/Graphics.hpp>
 #include <SFML/OpenGL.hpp>
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <GL/glut.h>
+#include "motorgrafico/glm/vec3.hpp" // glm::vec3
 #include <iostream>
 
 
@@ -29,6 +35,14 @@ public:
 	int getFPS();
 	u32 getTime();
     sf::RenderWindow* getVentana();
+    core::vector3df getPosicion(void * nodo);
+    core::vector3df getScala(void * nodo);
+    
+    
+    
+    bool setScala(void * nodo,core::vector3df scala);
+    bool setPosicion(void * nodo,core::vector3df pos);
+    bool setMaterialFlag(void * nodo,bool b);
     
 	void setNombreVentana(std::string text);
 	void setNombreVentana(wchar_t* text);

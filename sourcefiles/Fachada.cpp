@@ -165,3 +165,31 @@ scene::ISceneNode * Fachada::addSphere(int x,int y,int z,bool flag){
     }
     return rec;
 }
+core::vector3df Fachada::getPosicion(void * nodo){
+
+    scene::ISceneNode * node=(scene::ISceneNode*)nodo;
+    return node->getPosition();
+}
+core::vector3df Fachada::getScala(void * nodo){
+    
+    scene::ISceneNode * node=(scene::ISceneNode*)nodo;
+    return node->getScale();
+}
+bool Fachada::setScala(void * nodo,core::vector3df scala){
+    
+    scene::ISceneNode * node=(scene::ISceneNode*)nodo;
+    node->setScale(scala);
+    return true;
+    
+}
+bool Fachada::setPosicion(void * nodo,core::vector3df pos){
+
+    scene::ISceneNode * node=(scene::ISceneNode*)nodo;
+    node->setPosition(pos);
+    return true;
+}
+bool Fachada::setMaterialFlag(void * nodo,bool b){
+    scene::ISceneNode * node=(scene::ISceneNode*)nodo;
+    node->setMaterialFlag(video::EMF_LIGHTING, b);
+    return true;
+}

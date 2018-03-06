@@ -18,7 +18,7 @@ class Protagonista : public GameObject
         static Protagonista* getInstance();
         virtual ~Protagonista();
 
-         scene::ISceneNode* getNode();
+         void* getNode();
 
          void salto(const f32 Time);
          void ataque(const f32 Time);
@@ -72,9 +72,9 @@ class Protagonista : public GameObject
         
         Protagonista();
         
-        scene::ISceneNode * rec;
-        scene::ISceneNode * energy;
-        scene::ISceneNode * life;
+        void * rec;
+        void * energy;
+        void * life;
         f32 energia=100.f;
         f32 vida=100.f;
         bool saltando=false;

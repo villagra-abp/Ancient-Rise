@@ -20,16 +20,16 @@ Protagonista::Protagonista()
     life=fachada->addCube(0,0,30,false);
 
     
-    protaPosition=rec->getPosition();
+    protaPosition=fachada->getPosicion(rec);
     
-    energyScale=energy->getScale();
+    energyScale=fachada->getScala(energy);
     energyScale.Z=0.1f;
     
-    lifeScale=life->getScale();
+    lifeScale=fachada->getScala(life);
     lifeScale.Z=0.1f;
     
-    energy->setScale(energyScale);
-    life->setScale(lifeScale);
+    fachada->setScala(energy,energyScale);
+    fachada->setScala(life,lifeScale);
 
     combate = false;
     pos_combate = 2; 
@@ -99,10 +99,10 @@ void Protagonista::updateBody(b2World& world)
 {
     
     
-    protaPosition.X=Body->GetPosition().x*1;
-    protaPosition.Y=Body->GetPosition().y*1;
+    protaPosition.X=Body->GetPosition().x;
+    protaPosition.Y=Body->GetPosition().y;
     
-    rec->setPosition(protaPosition);
+    fachada->setPosicion(rec,protaPosition);
 
 
 }
@@ -116,16 +116,19 @@ void Protagonista::pintarInterfaz()
     energyPosition.X-=110;    // CAMBIO DESDE 80
     energyPosition.Y+=100;   // CAMBIO DESDE 120
     energyPosition.Z-=30;
-    energy->setPosition(energyPosition);
+    fachada->setPosicion(energy,energyPosition);
+    
     lifePosition=protaPosition;
     lifePosition.X-=110;      // CAMBIO DESDE 80
     lifePosition.Y+=110;     // CAMBIO DESDE 140
     lifePosition.Z-=30;
-    life->setPosition(lifePosition);
+    
+    fachada->setPosicion(life,lifePosition);
+
     energyScale.X=energia/10;
-    energy->setScale(energyScale);
+    fachada->setScala(energy,energyScale);
     lifeScale.X=vida/10;
-    life->setScale(lifeScale);
+    fachada->setScala(life,lifeScale);
 }
 
 /**
@@ -313,19 +316,19 @@ void Protagonista::checkPosCombate()
     if(pos_combate == 1)    // ARRIBA
     {
         protaPosition.Y = 10.f;
-        rec->setPosition (protaPosition);
+        fachada->setPosicion(rec,protaPosition);
     }
     else
     {
         if(pos_combate == 3) // ABAJO
         {
             protaPosition.Y = 0.f;
-            rec->setPosition (protaPosition);
+            fachada->setPosicion(rec,protaPosition);
         }
         else        // CENTRO
         {
             protaPosition.Y = 5.f;
-            rec->setPosition (protaPosition);
+            fachada->setPosicion(rec,protaPosition);
         }
     }
   
@@ -475,20 +478,20 @@ void Protagonista::setCombate()
     if(combate == true)
     {
         combate = false;        // DESACTIVAMOS MODO COMBATE
-        rec->setMaterialFlag(video::EMF_LIGHTING, false);
-
+        fachada->setMaterialFlag(rec,false);
+        
     }
     else
     {
         combate = true;         // MODO COMBATE ACTIVADO
-        rec->setMaterialFlag(video::EMF_LIGHTING, true);
+        fachada->setMaterialFlag(rec,true);
     }
 }
 
 /**
 DEVUELVE EL NODO QUE HEMOS CREADO
 **/
-scene::ISceneNode* Protagonista::getNode()
+void* Protagonista::getNode()
 {
     return rec;
 }
