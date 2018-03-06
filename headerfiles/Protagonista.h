@@ -25,7 +25,7 @@ class Protagonista : public GameObject
          void recuperarEnergia(const f32 Time);
          void recuperarVida(const f32 Time);
          void pintarInterfaz();
-         void comprobarColision(Enemigo *enemigo);
+         //void comprobarColision(Enemigo *enemigo);
          void comprobarColision(Comida *comida);
          void comprobarColision(Bebida *bebida);
          void comprobarColision(Trampa *trampa);
@@ -56,6 +56,8 @@ class Protagonista : public GameObject
          void setVida(f32 cantidad, const f32 Time);
          void updateBody(b2World& world);
          bool checkVida();
+
+         b2Body* getBody();
 
          /* COMBATE */
          bool getCombate();

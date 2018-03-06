@@ -5,6 +5,7 @@
 #include "../headerfiles/Objeto.h"
 #include "../headerfiles/GameObject.h"
 #include "../headerfiles/Entorno.h"
+#include "../headerfiles/Protagonista.h"
 
 #define SCALE 30.0f
 
@@ -15,6 +16,7 @@ class Enemigo : public GameObject
 {
     public:
         Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos, float xlength, float pendValue, const Entorno* e);
+        virtual ~Enemigo();
 
         void update(core::vector3df prota);
         void updateTiempo(const f32 Time);
@@ -26,6 +28,7 @@ class Enemigo : public GameObject
         bool checkInSight(core::vector3df objPos);
         bool see(GameObject* o);
         bool recordarProta();
+        bool inRay(GameObject* o);
 
         virtual void CreateBox(b2World& world, float X, float Y)=0;
 
@@ -71,9 +74,6 @@ class Enemigo : public GameObject
         bool getCombate();
         void setPosCombate(int n);
         int getPosCombate();
-      
-
-        virtual ~Enemigo();
 
     protected:
         scene::ISceneNode * enemigo;

@@ -259,6 +259,26 @@ bool Enemigo::see(GameObject* o){
     }
     return seeing;
 }
+bool Enemigo::inRay(GameObject* o){
+    //Devuelve cierto si alguno de los rayos de vision de este
+    //enemigo colisionan con el Gameobject o.
+    b2RayCastInput input;
+    b2RayCastOutput output;
+
+    b2Vec2 pI( EnemigoPosition.X, EnemigoPosition.Y );
+    b2Vec2 pF( EnemigoPosition.X + visionXmax , EnemigoPosition.Y);
+    input.p1 = pI;
+    input.p2 = pF;
+    input.maxFraction = visionXmax;
+
+    b2Fixture* f; //= (Protagonista*)o->getBody().GetFixtureList();
+
+    /*if(f->RayCast(&output, &input)){
+        return true;
+    }*/
+
+    return false;
+}
 
 /**
 ==============================================

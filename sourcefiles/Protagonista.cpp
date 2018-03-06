@@ -520,6 +520,11 @@ int Protagonista::getPosCombate()
     return pos_combate;
 }
 
+b2Body* Protagonista::getBody(){
+
+    return Body;
+}
+
 
 Protagonista::~Protagonista()
 {
