@@ -35,7 +35,7 @@ public:
    
    	Tipo getTipo() const { return goType; } // Devuelve tipo.
 
-   	virtual core::vector3df getPosition() const = 0; //Devuelve la posicion.
+   	virtual Posicion* getPosition() const = 0; //Devuelve la posicion.
    
 protected:
 	Tipo goType;

@@ -38,10 +38,10 @@ class Protagonista : public GameObject
 
 
          //GETTERS Y SETTERS
-         virtual core::vector3df getPosition() const override{ return protaPosition; }
+         virtual Posicion* getPosition() const override{ return protaPosition; }
          void setSalto(bool s);
-         core::vector3df getPosition();
-         void setPosition(core::vector3df v);
+         Posicion* getPosition();
+         void setPosition(Posicion* v);
          f32  getEnergia();
          f32  getVida();
 
@@ -90,16 +90,16 @@ class Protagonista : public GameObject
         int cont_salto=0;
         int cont_recarga_enemigo=0;
         const f32 VELOCIDAD_MOVIMIENTO=90.f;
-        core::vector3df protaPosition;
-        core::vector3df enemigoPosition;
-        core::vector3df comidaPosition;
-        core::vector3df bebidaPosition;
-        core::vector3df trampaPosition;
-        core::vector3df energyPosition;
-        core::vector3df nodoPosition;
-        core::vector3df energyScale;
-        core::vector3df lifePosition;
-        core::vector3df lifeScale;
+        Posicion* protaPosition;
+        Posicion* enemigoPosition;
+        Posicion* comidaPosition;
+        Posicion* bebidaPosition;
+        Posicion* trampaPosition;
+        Posicion* energyPosition;
+        Posicion* nodoPosition;
+        Posicion* energyScale;
+        Posicion* lifePosition;
+        Posicion* lifeScale;
         
         /* BOX2D */
         b2Body* Body;

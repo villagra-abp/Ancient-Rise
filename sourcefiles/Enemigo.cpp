@@ -20,7 +20,7 @@ Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos
 		enemigo->setMaterialFlag(video::EMF_LIGHTING, false);
         enemigo ->setMaterialTexture(0,driver->getTexture("resources/verde.jpg"));
 
-        EnemigoPosition = enemigo->getPosition();
+        EnemigoPosition = fachada->getPosicion(enemigo);
 
 
 	}
@@ -48,7 +48,7 @@ Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos
 }
 
 /* Update para todos los enemigos*/
-void Enemigo::update(core::vector3df prota)
+void Enemigo::update(Posicion* Posprota)
 {
         this->actualizarHambre(); 
         this->actualizarSed();
@@ -63,7 +63,7 @@ void Enemigo::update(core::vector3df prota)
         }
 
         // COMPROBAMOS SI HEMOS VISTO AL PROTAGONISTA 
-        if(this->checkInSight(prota)){              
+        if(this->checkInSight(Posprota)){              
             visto = true;
              enemigo->setMaterialTexture(0,driver->getTexture("resources/activada.jpeg"));  
              contador = 0;
@@ -164,7 +164,11 @@ bool Enemigo::recordarProta()
 FUNCION QUE SIRVE PARA SABER SI UN DETERMINADO OBJETO DEL JUEGO ESTA DENTRO DEL AREA DE VISION DEFINIDO PARA EL ENEMIGO. 
 DEVUELVE TRUE EN EL CASO DE ESTARLO
 **/
-bool Enemigo::checkInSight(core::vector3df objPos){
+bool Enemigo::checkInSight(Posicion* objPos){
+    
+    float posObjX=objPos->getPosX();
+    float posObjY=objPos->getPosY();
+    
     bool inSight = false;  //Valor para retorno, si la posicion recibida se encuentra
     // dentro del rango de vision sera TRUE.
 
@@ -192,52 +196,52 @@ bool Enemigo::checkInSight(core::vector3df objPos){
 
     //std::cout << enemigo->getPosition().X << endl;
     if(lastFacedDir){   //Mira hacia derecha
-        pjxmin = enemigo->getPosition().X;
-        pjxmax = enemigo->getPosition().X + visionXmax;
+        pjxmin = fachada->getPosicion(enemigo)->getPosX();
+        pjxmax = fachada->getPosicion(enemigo)->getPosX() + visionXmax;
         pjxmax2 = pjxmax + xprima;
-        xReady = objPos.X - pjxmin;
+        xReady = posObjX - pjxmin;
     }else{              //Mira hacia izquierda
-        pjxmin = enemigo->getPosition().X - visionXmax;
-        pjxmax = enemigo->getPosition().X;
+        pjxmin = fachada->getPosicion(enemigo)->getPosX() - visionXmax;
+        pjxmax = fachada->getPosicion(enemigo)->getPosX();
         pjxmin2 = pjxmin - xprima;
-        xReady = -(objPos.X - pjxmax);
+        xReady = -(posObjX - pjxmax);
     }
 
-    if(objPos.X < pjxmax && objPos.X > pjxmin){
-        pjymax = xReady * valorPendiente + EnemigoPosition.Y;
-        pjymin = EnemigoPosition.Y - (pjymax - EnemigoPosition.Y);
+    if(posObjX < pjxmax && posObjX > pjxmin){
+        pjymax = xReady * valorPendiente + EnemigoPosition->getPosY();
+        pjymin = EnemigoPosition->getPosY() - (pjymax - EnemigoPosition->getPosY());
         
-        if(objPos.Y > pjymin && objPos.Y < pjymax)
+        if(posObjY > pjymin && posObjY < pjymax)
             inSight = true;
     
     }else{  //Segunda parte del area, anyadido.
 
         if(lastFacedDir){
-            if (objPos.X >= pjxmax && objPos.X < pjxmax2){  
-                if(objPos.X < (pjxmax+xprima1)){
-                    pjymax = -(objPos.X - (pjxmax + xprima1)) * pend1 + EnemigoPosition.Y + yprima;
-                    pjymin = EnemigoPosition.Y - (pjymax - EnemigoPosition.Y);                    
+            if (posObjX >= pjxmax && posObjX < pjxmax2){  
+                if(posObjX < (pjxmax+xprima1)){
+                    pjymax = -(posObjX - (pjxmax + xprima1)) * pend1 + EnemigoPosition->getPosY() + yprima;
+                    pjymin = EnemigoPosition->getPosY() - (pjymax - EnemigoPosition->getPosY());                    
                 }else{
-                    pjymax = -(objPos.X - (pjxmax + xprima)) * pend2 + EnemigoPosition.Y;
-                    pjymin = EnemigoPosition.Y - (pjymax - EnemigoPosition.Y);
+                    pjymax = -(posObjX - (pjxmax + xprima)) * pend2 + EnemigoPosition->getPosY();
+                    pjymin = EnemigoPosition->getPosY() - (pjymax - EnemigoPosition->getPosY());
                 }
                 
-                if(objPos.Y < pjymax && objPos.Y > pjymin)
+                if(posObjY < pjymax && posObjY > pjymin)
                     inSight = true;
                 
             }
         }else{
 
-            if(objPos.X > pjxmin2 && objPos.X <= pjxmin){
-                if(objPos.X > (pjxmin-xprima1)){
-                    pjymax = (objPos.X - (pjxmin - xprima1)) * pend1 + EnemigoPosition.Y + yprima;
-                    pjymin = EnemigoPosition.Y - (pjymax-EnemigoPosition.Y);                    
+            if(posObjX > pjxmin2 && posObjX <= pjxmin){
+                if(posObjX > (pjxmin-xprima1)){
+                    pjymax = (posObjX - (pjxmin - xprima1)) * pend1 + EnemigoPosition->getPosY() + yprima;
+                    pjymin = EnemigoPosition->getPosY() - (pjymax-EnemigoPosition->getPosY());                    
                 }else{
-                    pjymax = (objPos.X - (pjxmin - xprima)) * pend2 + EnemigoPosition.Y;
-                    pjymin = EnemigoPosition.Y - (pjymax-EnemigoPosition.Y);
+                    pjymax = (posObjX - (pjxmin - xprima)) * pend2 + EnemigoPosition->getPosY();
+                    pjymin = EnemigoPosition->getPosY() - (pjymax-EnemigoPosition->getPosY());
                 }
                 
-                if(objPos.Y < pjymax && objPos.Y > pjymin)
+                if(posObjY < pjymax && posObjY > pjymin)
                     inSight = true;
 
             }
@@ -390,9 +394,9 @@ void Enemigo::setSed(f32 se)
     sed=se;
 }
 
-void Enemigo::setPosition(vector3df position)
+void Enemigo::setPosition(Posicion* position)
 {
-    enemigo->setPosition(position);
+    fachada->setPosicion(enemigo,position);
     EnemigoPosition = position;
 }
 

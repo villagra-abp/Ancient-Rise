@@ -53,10 +53,6 @@ Fachada::Fachada(int h, int w, bool fullscreen){
     driver = device->getVideoDriver();
 	smgr = device->getSceneManager();
 	guienv = device->getGUIEnvironment();
-	//mainReceiver=myReceiver;
-    smgr->addCameraSceneNode(0, core::vector3df(0,30,-40), core::vector3df(0,5,0));
-    
-	//device->setWindowCaption(L"Ancient Rise");
 
 	
 }
@@ -165,31 +161,135 @@ scene::ISceneNode * Fachada::addSphere(int x,int y,int z,bool flag){
     }
     return rec;
 }
-core::vector3df Fachada::getPosicion(void * nodo){
+Posicion* Fachada::getPosicion(void * nodo){
 
     scene::ISceneNode * node=(scene::ISceneNode*)nodo;
-    return node->getPosition();
+    core::vector3df pos=node->getPosition();
+    Posicion* posicion= new Posicion(pos.X,pos.Y,pos.Z);
+    return posicion;
 }
-core::vector3df Fachada::getScala(void * nodo){
+Posicion* Fachada::getScala(void * nodo){
     
     scene::ISceneNode * node=(scene::ISceneNode*)nodo;
-    return node->getScale();
+    core::vector3df esc= node->getScale();
+    Posicion* escala = new Posicion(esc.X,esc.Y,esc.Z);
+    
+    return escala;
 }
-bool Fachada::setScala(void * nodo,core::vector3df scala){
+bool Fachada::setScala(void * nodo,Posicion* scala){
     
     scene::ISceneNode * node=(scene::ISceneNode*)nodo;
-    node->setScale(scala);
+    node->setScale(core::vector3df(scala->getPosX(),scala->getPosY(),scala->getPosZ()));
     return true;
     
 }
-bool Fachada::setPosicion(void * nodo,core::vector3df pos){
+bool Fachada::setPosicion(void * nodo,Posicion* pos){
 
     scene::ISceneNode * node=(scene::ISceneNode*)nodo;
-    node->setPosition(pos);
+    core::vector3df position=core::vector3df(pos->getPosX(),pos->getPosY(),pos->getPosZ());
+    node->setPosition(position);
     return true;
 }
 bool Fachada::setMaterialFlag(void * nodo,bool b){
     scene::ISceneNode * node=(scene::ISceneNode*)nodo;
     node->setMaterialFlag(video::EMF_LIGHTING, b);
     return true;
+}
+//Dibuja la escena
+void Fachada::drawEscena(){
+	
+    //PRUEBAS MOTOR GRAFICO
+    TNodo *Escena = new TNodo();
+    TNodo *RotarLuz = new TNodo();
+    TNodo *RotarCam = new TNodo();
+    TNodo *RotarCoche = new TNodo();
+    Escena->addHijoBack(RotarLuz);
+    Escena->addHijoBack(RotarCam);
+    Escena->addHijoBack(RotarCoche);
+    TNodo *TraslaLuz = new TNodo();
+    TNodo *TraslaCam = new TNodo();
+    TNodo *TraslaCoche = new TNodo();
+    RotarLuz->addHijoBack(TraslaLuz);
+    RotarCam->addHijoBack(TraslaCam);
+    RotarCoche->addHijoBack(TraslaCoche);
+
+    TTransf *TransfRotaLuz = new TTransf();
+    TransfRotaLuz->rotar(1.2, 0, 0, 42.0);
+	TTransf *TransfRotaCam = new TTransf();
+	TransfRotaCam->rotar(1.2, 0, 0, 94.0);
+	TTransf *TransfRotaCoche = new TTransf();
+	TransfRotaCoche->rotar(1.2, 0, 0, 57.0);
+
+	TTransf *TransfTraslaLuz = new TTransf();
+    TransfTraslaLuz->trasladar(20.0, 0, 0);
+    TTransf *TransfTraslaCam = new TTransf();
+    TransfTraslaCam->trasladar(12.0, 0, 0);
+    TTransf *TransfTraslaCoche = new TTransf();
+    TransfTraslaCoche->trasladar(52.0, 0, 0);
+
+	RotarLuz->setEntidad(TransfRotaLuz);
+	RotarCam->setEntidad(TransfRotaCam);
+	RotarCoche->setEntidad(TransfRotaCoche);
+
+	TraslaLuz->setEntidad(TransfTraslaLuz);
+	TraslaCam->setEntidad(TransfTraslaCam);
+	TraslaCoche->setEntidad(TransfTraslaCoche);
+
+
+	TLuz *EntLuz = new TLuz();
+	TCamara *EntCam = new TCamara();
+	TMalla *MallaChasis = new TMalla();
+	
+	TNodo *NLuz = new TNodo();
+	NLuz->setEntidad(EntLuz);
+	TNodo *NCam = new TNodo();
+	NCam->setEntidad(EntCam);
+	TNodo *NChasis = new TNodo();
+	NChasis->setEntidad(MallaChasis);
+
+	TraslaLuz->addHijoBack(NLuz);
+    TraslaCam->addHijoBack(NCam);
+    TraslaCoche->addHijoBack(NChasis);
+
+    Escena->draw();
+    
+    
+}
+
+void Fachada::drawTerreno(){
+
+	scene::ITerrainSceneNode* terrain = smgr->addTerrainSceneNode(
+
+        "resources/terrain-heightmap.bmp",
+
+        0,                  					// parent node
+
+        -1,                 					// node id
+
+        core::vector3df(-5000, -177, -250),		// position
+
+        core::vector3df(0.f, 0.f, 0.f),     	// rotation
+
+        core::vector3df(40.f, 4.4f, 40.f),  	// scale
+
+        video::SColor ( 255, 255, 255, 255 ),   // vertexColor
+
+        5,                 						// maxLOD
+
+        scene::ETPS_17,             			// patchSize
+
+        4                   					// smoothFactor
+
+        );
+
+    //LE APLICAMOS TEXTURA AL TERRENO
+
+    terrain->setMaterialFlag(video::EMF_LIGHTING, false);
+    terrain->setMaterialTexture(0, driver->getTexture("resources/terrain-texture.jpg"));
+
+    //LE APLICAMOS RELIEVE
+
+    terrain->setMaterialTexture(1, driver->getTexture("resources/detailmap3.jpg"));
+	terrain->setMaterialType(video::EMT_DETAIL_MAP);
+    terrain->scaleTexture(1.0f, 20.0f);
 }

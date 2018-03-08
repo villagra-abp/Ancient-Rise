@@ -26,7 +26,7 @@ class BuscarComida : public Task
 	    int contador; 			  			// Para reiniciar el reloj cuando toca
 		
 	    //DATOS DE LA COMIDA
-	    core::vector3df comidaPosition;
+	    Posicion* comidaPosition;
 	    float comidaX;
 	    int distanciaComida;
 	    int distanciaCaux;

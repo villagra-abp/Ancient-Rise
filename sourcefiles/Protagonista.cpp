@@ -23,10 +23,16 @@ Protagonista::Protagonista()
     protaPosition=fachada->getPosicion(rec);
     
     energyScale=fachada->getScala(energy);
-    energyScale.Z=0.1f;
+    energyScale->setPosZ(0.1f);
+   
+
     
     lifeScale=fachada->getScala(life);
-    lifeScale.Z=0.1f;
+    lifeScale->setPosZ(0.1f);
+   
+    energyPosition=new Posicion(0.f,0.f,0.f);
+    lifePosition=new Posicion(0.f,0.f,0.f);
+    //trampaPosition=new Posicion(0.f,0.f,0.f);
     
     fachada->setScala(energy,energyScale);
     fachada->setScala(life,lifeScale);
@@ -99,8 +105,8 @@ void Protagonista::updateBody(b2World& world)
 {
     
     
-    protaPosition.X=Body->GetPosition().x;
-    protaPosition.Y=Body->GetPosition().y;
+    protaPosition->setPosX(Body->GetPosition().x);
+    protaPosition->setPosY(Body->GetPosition().y);
     
     fachada->setPosicion(rec,protaPosition);
 
@@ -111,23 +117,30 @@ FUNCION PARA DIBUJAR LA INTERFAZ
 **/
 void Protagonista::pintarInterfaz()
 {
+    
      //barra para mostrar la enegia
-    energyPosition=protaPosition;
-    energyPosition.X-=110;    // CAMBIO DESDE 80
-    energyPosition.Y+=100;   // CAMBIO DESDE 120
-    energyPosition.Z-=30;
+    float energyPositionX=protaPosition->getPosX()- 110;
+    float energyPositionY=protaPosition->getPosY()+ 100;
+    float energyPositionZ=protaPosition->getPosZ()- 30;
+    energyPosition->setPosX(energyPositionX);
+    energyPosition->setPosY(energyPositionY);
+    energyPosition->setPosZ(energyPositionZ);
     fachada->setPosicion(energy,energyPosition);
     
-    lifePosition=protaPosition;
-    lifePosition.X-=110;      // CAMBIO DESDE 80
-    lifePosition.Y+=110;     // CAMBIO DESDE 140
-    lifePosition.Z-=30;
     
+    float lifePositionX=energyPositionX;
+    float lifePositionY=energyPositionY+ 10;
+    float lifePositionZ=energyPositionZ;
+    
+    lifePosition->setPosX(lifePositionX);
+    lifePosition->setPosY(lifePositionY);
+    lifePosition->setPosZ(lifePositionZ);
+
     fachada->setPosicion(life,lifePosition);
 
-    energyScale.X=energia/10;
+    energyScale->setPosX(energia/10);
     fachada->setScala(energy,energyScale);
-    lifeScale.X=vida/10;
+    lifeScale->setPosX(vida/10);
     fachada->setScala(life,lifeScale);
 }
 
@@ -224,11 +237,16 @@ FUNCION PARA COMPROBAR LAS COLISIONES CON ENEMIGOS
 **/
 void Protagonista::comprobarColision(Enemigo *enemigo)
 {
-    enemigoPosition=enemigo->getNode()->getPosition();
+    enemigoPosition=enemigo->getPosition();
+    float enemigoPosX=enemigoPosition->getPosX();
+    float enemigoPosY=enemigoPosition->getPosY();
+    
+    float protaPosX=protaPosition->getPosX();
+    float protaPosY=protaPosition->getPosY();
 
-    if((enemigoPosition.X-(protaPosition.X+10))<0 
-        && (enemigoPosition.X-(protaPosition.X+10))>-20
-        && vida<=100 && vida>0 && protaPosition.Y<10){
+    if((enemigoPosX-(protaPosX+10))<0 
+        && (enemigoPosX-(protaPosX+10))>-20
+        && vida<=100 && vida>0 && protaPosY<10){
 
         if(enemigo->getPosCombate() != pos_combate)
         {
@@ -244,19 +262,28 @@ FUNCION PARA COMPROBAR LAS COLISIONES CON COMIDA
 
 void Protagonista::comprobarColision(Comida *comida)
 {
-    comidaPosition=comida->getNode()->getPosition();
-    if((comidaPosition.X-(protaPosition.X+10))<-5 
-        && (comidaPosition.X-(protaPosition.X+10))>-15){
-        if(comida->getNode()->isVisible()&& protaPosition.Y<10)
+    float protaPosX=protaPosition->getPosX();
+    float protaPosY=protaPosition->getPosY();
+    
+    comidaPosition=comida->getPosition();
+    float comidaPosX=comidaPosition->getPosX();
+    float comidaPosY=comidaPosition->getPosY();
+    
+    
+    //std::cout<<protaPosX<<endl;
+    if((comidaPosX-(protaPosX+10))<-5 
+        && (comidaPosX-(protaPosX+10))>-15){
+        if(/*comida->getNode()->isVisible()&&*/ protaPosY<10)
         {
+            //std::cout<<comidaPosX<<endl;
            vida+=10;
             if(vida>100)
                 vida=100;
             
-            comidaPosition.X+=500;
-        if(comidaPosition.X>2500)
-            comidaPosition.X=-1900;
-            comida->getNode()->setPosition(comidaPosition);
+            comidaPosX+=500;
+        if(comidaPosX>2500)
+            comidaPosX=-1900;
+            //comida->getNode()->setPosition(comidaPosition);
 
         }
        
@@ -268,21 +295,28 @@ void Protagonista::comprobarColision(Comida *comida)
 
 void Protagonista::comprobarColision(Bebida *bebida)
 {
-    bebidaPosition=bebida->getNode()->getPosition();
-    if((bebidaPosition.X-(protaPosition.X+10))<=-5 
-        && (bebidaPosition.X-(protaPosition.X+10))>-15){
-        if(bebida->getNode()->isVisible()&& protaPosition.Y<10)
+    float protaPosX=protaPosition->getPosX();
+    float protaPosY=protaPosition->getPosY();
+    
+    bebidaPosition=bebida->getPosition();
+    float bebidaPosX=bebidaPosition->getPosX();
+    float bebidaPosY=bebidaPosition->getPosY();
+    
+    if((bebidaPosX-(protaPosX+10))<=-5 
+        && (bebidaPosX-(protaPosX+10))>-15){
+        if(/*bebida->getNode()->isVisible()&&*/ protaPosY<10)
         {
+            std::cout<<bebidaPosX<<endl;
            energia+=10;
             if(energia>100)
                 energia=100;
 
             //bebida->getNode()->setVisible(false);
             
-            bebidaPosition.X+=400;
-        if(bebidaPosition.X>2200)
-            bebidaPosition.X=-1800;
-            bebida->getNode()->setPosition(bebidaPosition);
+            bebidaPosX+=400;
+        if(bebidaPosX>2200)
+            bebidaPosX=-1800;
+            //bebida->getNode()->setPosition(bebidaPosition);
 
         }
        
@@ -294,10 +328,16 @@ void Protagonista::comprobarColision(Bebida *bebida)
 
 void Protagonista::comprobarColision(Trampa *trampa)
 {
-    trampaPosition=trampa->getNode()->getPosition();
-    if((trampaPosition.X-(protaPosition.X+10))<8 
-        && (trampaPosition.X-(protaPosition.X+10))>-28
-        && protaPosition.Y<10){
+    float protaPosX=protaPosition->getPosX();
+    float protaPosY=protaPosition->getPosY();
+    
+    trampaPosition=trampa->getPosition();
+    float tramPosX=trampaPosition->getPosX();
+    float tramPosY=trampaPosition->getPosY();
+    
+    if((tramPosX-(protaPosX+10))<8 
+        && (tramPosX-(protaPosX+10))>-28
+        && protaPosY<10){
         
            vida-=0.4f;
            //protaPosition.X-=15; //+=15 animacion, rebote de la trampa 
@@ -315,19 +355,19 @@ void Protagonista::checkPosCombate()
     
     if(pos_combate == 1)    // ARRIBA
     {
-        protaPosition.Y = 10.f;
+        protaPosition->setPosY(10.f); 
         fachada->setPosicion(rec,protaPosition);
     }
     else
     {
         if(pos_combate == 3) // ABAJO
         {
-            protaPosition.Y = 0.f;
+            protaPosition->setPosY(0.f); 
             fachada->setPosicion(rec,protaPosition);
         }
         else        // CENTRO
         {
-            protaPosition.Y = 5.f;
+            protaPosition->setPosY(5.f); 
             fachada->setPosicion(rec,protaPosition);
         }
     }
@@ -428,7 +468,7 @@ void Protagonista::setSalto(bool s)
 /**
 ACTUALIZA LA POSICION DEL PROTA
 **/
-void Protagonista::setPosition(core::vector3df v)
+void Protagonista::setPosition(Posicion* v)
 {
    protaPosition=v;
 }
@@ -501,7 +541,7 @@ bool Protagonista::getCombate()
     return combate;
 }
 
-core::vector3df Protagonista::getPosition()
+Posicion* Protagonista::getPosition()
 {
    return protaPosition;
 }

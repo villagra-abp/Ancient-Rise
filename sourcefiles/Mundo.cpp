@@ -29,9 +29,7 @@ Fachada* fachada=fachada->getInstance();
 /* CREAMOS PROTA */
 
 	prota = prota->getInstance();
-    if(prota){
-     std::cout<<"vale"<<endl;   
-    }
+    
 	addGameObject(prota);
 
 	//creo el suelo, el bounding box del prota y la plataforma
@@ -118,11 +116,13 @@ Fachada* fachada=fachada->getInstance();
 
 /* CREAMOS PLATAFORMAS */
 
+    Posicion* escala = new Posicion(10.f,1.f,5.f);
+
 	Plataforma = fachada->addCube(220,25,30,false);
 
 	if (Plataforma) /** SI HEMOS CREADO EL CUBO **/
 	{
-		Plataforma->setScale(core::vector3df(10.f,1.f,5.f));
+		fachada->setScala(Plataforma,escala);
 		Plataforma->setMaterialTexture(0,driver->getTexture("resources/plataf.bmp"));
 	}
 
@@ -130,7 +130,7 @@ Fachada* fachada=fachada->getInstance();
 
 	if (Plataforma2) /** SI HEMOS CREADO EL CUBO **/
 	{
-		Plataforma2->setScale(core::vector3df(10.f,1.f,5.f));
+		fachada->setScala(Plataforma2,escala);
 		Plataforma2->setMaterialTexture(0,driver->getTexture("resources/plataf.bmp"));
 	}
 
@@ -138,7 +138,7 @@ Fachada* fachada=fachada->getInstance();
 
 	if (Plataforma3) /** SI HEMOS CREADO EL CUBO **/
 	{
-		Plataforma3->setScale(core::vector3df(10.f,1.f,5.f));
+		fachada->setScala(Plataforma3,escala);
 		Plataforma3->setMaterialTexture(0,driver->getTexture("resources/plataf.bmp"));
 	}
 
@@ -148,7 +148,7 @@ Fachada* fachada=fachada->getInstance();
  aproximadamente donde esta el objeto.
 **/
 
-	cam = smgr->addCameraSceneNode(0, vector3df(prota->getPosition().X,50,-140), vector3df(0,5,0));
+	cam = smgr->addCameraSceneNode(0, vector3df(prota->getPosition()->getPosX(),50,-140), vector3df(0,5,0));
 	device->getCursorControl()->setVisible(true);
 
 /* CREAMOS EL TERRENO Y COLISIONES DE CAMARA */
@@ -166,60 +166,6 @@ Fachada* fachada=fachada->getInstance();
 
 //////////////////////////////////////
 
-    //PRUEBAS MOTOR GRAFICO
-    TNodo *Escena = new TNodo();
-    TNodo *RotarLuz = new TNodo();
-    TNodo *RotarCam = new TNodo();
-    TNodo *RotarCoche = new TNodo();
-    Escena->addHijoBack(RotarLuz);
-    Escena->addHijoBack(RotarCam);
-    Escena->addHijoBack(RotarCoche);
-    TNodo *TraslaLuz = new TNodo();
-    TNodo *TraslaCam = new TNodo();
-    TNodo *TraslaCoche = new TNodo();
-    RotarLuz->addHijoBack(TraslaLuz);
-    RotarCam->addHijoBack(TraslaCam);
-    RotarCoche->addHijoBack(TraslaCoche);
-
-    TTransf *TransfRotaLuz = new TTransf();
-    TransfRotaLuz->rotar(1.2, 0, 0, 42.0);
-	TTransf *TransfRotaCam = new TTransf();
-	TransfRotaCam->rotar(1.2, 0, 0, 94.0);
-	TTransf *TransfRotaCoche = new TTransf();
-	TransfRotaCoche->rotar(1.2, 0, 0, 57.0);
-
-	TTransf *TransfTraslaLuz = new TTransf();
-    TransfTraslaLuz->trasladar(20.0, 0, 0);
-    TTransf *TransfTraslaCam = new TTransf();
-    TransfTraslaCam->trasladar(12.0, 0, 0);
-    TTransf *TransfTraslaCoche = new TTransf();
-    TransfTraslaCoche->trasladar(52.0, 0, 0);
-
-	RotarLuz->setEntidad(TransfRotaLuz);
-	RotarCam->setEntidad(TransfRotaCam);
-	RotarCoche->setEntidad(TransfRotaCoche);
-
-	TraslaLuz->setEntidad(TransfTraslaLuz);
-	TraslaCam->setEntidad(TransfTraslaCam);
-	TraslaCoche->setEntidad(TransfTraslaCoche);
-
-
-	TLuz *EntLuz = new TLuz();
-	TCamara *EntCam = new TCamara();
-	TMalla *MallaChasis = new TMalla();
-	
-	TNodo *NLuz = new TNodo();
-	NLuz->setEntidad(EntLuz);
-	TNodo *NCam = new TNodo();
-	NCam->setEntidad(EntCam);
-	TNodo *NChasis = new TNodo();
-	NChasis->setEntidad(MallaChasis);
-
-	TraslaLuz->addHijoBack(NLuz);
-    TraslaCam->addHijoBack(NCam);
-    TraslaCoche->addHijoBack(NChasis);
-
-    Escena->draw();
 	
 }	
 
@@ -257,40 +203,7 @@ void Mundo::posBuilder(){	//CONSTRUCTOR DE POSICIONES DE ENEMIGOS
 
 void Mundo::terrainBuilder(){	//CONSTRUCTOR DEL TERRENOS Y COLISIONES DE CAMARA
 
-	terrain = smgr->addTerrainSceneNode(
-
-        "resources/terrain-heightmap.bmp",
-
-        0,                  					// parent node
-
-        -1,                 					// node id
-
-        core::vector3df(-5000, -177, -250),		// position
-
-        core::vector3df(0.f, 0.f, 0.f),     	// rotation
-
-        core::vector3df(40.f, 4.4f, 40.f),  	// scale
-
-        video::SColor ( 255, 255, 255, 255 ),   // vertexColor
-
-        5,                 						// maxLOD
-
-        scene::ETPS_17,             			// patchSize
-
-        4                   					// smoothFactor
-
-        );
-
-    //LE APLICAMOS TEXTURA AL TERRENO
-
-    terrain->setMaterialFlag(video::EMF_LIGHTING, false);
-    terrain->setMaterialTexture(0, driver->getTexture("resources/terrain-texture.jpg"));
-
-    //LE APLICAMOS RELIEVE
-
-    terrain->setMaterialTexture(1, driver->getTexture("resources/detailmap3.jpg"));
-	terrain->setMaterialType(video::EMT_DETAIL_MAP);
-    terrain->scaleTexture(1.0f, 20.0f);
+    fachada->drawTerreno();
 
 }
 
@@ -309,7 +222,7 @@ void Mundo::update(){
 	then = now;
 	f32 tiempo=(f32)(now - time_input)/1000.f;
 
-	core::vector3df protaPosition = prota->getPosition();
+	Posicion* protaPosition = prota->getPosition();
 	core::vector3df camPosition = cam->getPosition();
 
 	/* PROTA UPDATE */
@@ -321,7 +234,7 @@ void Mundo::update(){
     this->camUpdate(frameDeltaTime);
 
     b->setTime(frameDeltaTime);
-    b->setProta(protaPosition.X);
+    b->setProta(protaPosition->getPosX());
 
     /* ALARMA UPDATE*/
     a->update();
@@ -332,13 +245,13 @@ void Mundo::update(){
     
     for(int i=0; i<enemB.size();i++)
     {
-       	enemB[i]->updateTiempo(frameDeltaTime);
+       	enemB[i]->updateTiempo(frameDeltaTime);/////////////////////////////////////////////////////////////////////////////////////
      	enemB[i]->Update(prota->getPosition());
     }
 
     for(int i2=0; i2<enemE.size();i2++)
     {
-    	enemE[i2]->updateTiempo(frameDeltaTime);
+    	enemE[i2]->updateTiempo(frameDeltaTime);////////////////////////////////////////////////////////////////////////////////////
      	enemE[i2]->Update(prota->getPosition());
     }
 
@@ -353,20 +266,24 @@ void Mundo::update(){
     /*UPDATE DE SONIDO*/
     sonido->playSound(musicaBosque);
     sonido->update();
-	sonido->setListener(prota->getPosition().X, prota->getPosition().Y, prota->getPosition().Z);
+	sonido->setListener(prota->getPosition()->getPosX(), prota->getPosition()->getPosY(), prota->getPosition()->getPosZ());
 
 }
 
 void Mundo::protaUpdate(const u32 now, const f32 frameDeltaTime, f32 tiempo){
-	core::vector3df protaPosition = prota->getPosition();
+	scene::ISceneNode* pro = (scene::ISceneNode*)prota->getNode();
+    core::vector3df protaPosition = pro->getPosition();
 
 	energiaAnterior = prota->getEnergia();
 
     prota->ataque(frameDeltaTime);
+    
     prota->pintarInterfaz();
 
 	prota->comprobarColision(c);
+
     prota->comprobarColision(bebida);
+
     prota->comprobarColision(t);
 
     prota->updateBody(world);
@@ -507,13 +424,13 @@ void Mundo::checkInput(){
 	       
 }
 void Mundo::camUpdate(const f32 frameDeltaTime){
-	core::vector3df protaPosition = prota->getPosition();
+	Posicion* protaPosition = prota->getPosition();
 	core::vector3df camPosition = cam->getPosition();
 
 	//rec->setPosition(protaPosition);
-    cam->setPosition(vector3df(protaPosition.X,protaPosition.Y+30,-140)); // cambio 5O A ProtaPosition.Y
-    camPosition=prota->getPosition();
-    camPosition.Y=protaPosition.Y+30;
+    cam->setPosition(vector3df(protaPosition->getPosX(),protaPosition->getPosY()+30,-140)); // cambio 5O A ProtaPosition.Y
+    camPosition=core::vector3df(protaPosition->getPosX(),protaPosition->getPosY(),protaPosition->getPosZ());
+    camPosition.Y=protaPosition->getPosY()+30;
     cam->setTarget(camPosition);
 }
 

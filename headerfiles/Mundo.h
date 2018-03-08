@@ -16,11 +16,7 @@
 #include "../headerfiles/Fachada.h"
 
 #include "../motorsonido/headerfiles/GestorSonido.h"
-#include "../motorgrafico/headerfiles/TNodo.h"
-#include "../motorgrafico/headerfiles/TTransf.h"
-#include "../motorgrafico/headerfiles/TLuz.h"
-#include "../motorgrafico/headerfiles/TMalla.h"
-#include "../motorgrafico/headerfiles/TCamara.h"
+
 /*
 Estos son los 5 sub namespace del motor de Irrlicht
 
@@ -166,6 +162,7 @@ class Mundo : public Entorno
         float JoyX;
 
 
+        Fachada* fachada=fachada->getInstance();
     private:
 };
 

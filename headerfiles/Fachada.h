@@ -3,6 +3,7 @@
 
 
 #include <irrlicht/irrlicht.h>
+#include "../headerfiles/Posicion.h"
 #include <SFML/Window/Window.hpp>
 #define GL3_PROTOTYPES 1 
 //#include <GL/glew.h>
@@ -12,6 +13,11 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 #include "motorgrafico/glm/vec3.hpp" // glm::vec3
+#include "../motorgrafico/headerfiles/TNodo.h"
+#include "../motorgrafico/headerfiles/TTransf.h"
+#include "../motorgrafico/headerfiles/TLuz.h"
+#include "../motorgrafico/headerfiles/TMalla.h"
+#include "../motorgrafico/headerfiles/TCamara.h"
 #include <iostream>
 
 
@@ -35,13 +41,13 @@ public:
 	int getFPS();
 	u32 getTime();
     sf::RenderWindow* getVentana();
-    core::vector3df getPosicion(void * nodo);
-    core::vector3df getScala(void * nodo);
+    Posicion* getPosicion(void * nodo);
+    Posicion* getScala(void * nodo);
     
     
     
-    bool setScala(void * nodo,core::vector3df scala);
-    bool setPosicion(void * nodo,core::vector3df pos);
+    bool setScala(void * nodo,Posicion* scala);
+    bool setPosicion(void * nodo,Posicion* pos);
     bool setMaterialFlag(void * nodo,bool b);
     
 	void setNombreVentana(std::string text);
@@ -52,10 +58,11 @@ public:
 	void draw(int a, int b, int c, int d);
 	void suspension();
 	void cerrar();
-	/*
+	
 	void drawEscena();
-	void drawGUI();
-	*/
+	//void drawGUI();
+    void drawTerreno();
+	
     scene::ISceneNode * addCube(int x,int y,int z,bool flag);
     scene::ISceneNode * addSphere(int x,int y,int z,bool flag);
 

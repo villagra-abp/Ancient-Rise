@@ -6,6 +6,7 @@ Comida::Comida(IrrlichtDevice *dev, ISceneManager* smgr, Posicion pos):Objeto()
 {
 	GameObject::setTipo(COMIDA);
 	objeto = smgr->addSphereSceneNode();
+    posicion = &pos;
 
 	if (objeto)
 	{

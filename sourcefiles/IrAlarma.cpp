@@ -12,7 +12,7 @@ Status IrAlarma::run(Enemigo *e)
   
    for (int i = 0; i < a.size(); i++){
       alarmaPosition = a[i]->getVector3df();
-      alarmaX=alarmaPosition.X;
+      alarmaX=alarmaPosition->getPosX();
 
       distanciaAlarma = alarmaX - enemigoX;
 

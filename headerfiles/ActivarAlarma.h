@@ -24,7 +24,7 @@ class ActivarAlarma : public Task
 	    int contador;
 
 	    //Datos de alarma
-	    core::vector3df alarmaPosition;
+	    Posicion* alarmaPosition;
 		float alarmaX;
 		int distanciaAlarma;
 		int pos;

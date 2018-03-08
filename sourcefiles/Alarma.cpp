@@ -6,6 +6,7 @@ Alarma::Alarma(IrrlichtDevice *dev, ISceneManager* smgr, Posicion pos):Objeto()
 {
 	GameObject::setTipo(ALARMA);
 	objeto = smgr->addCubeSceneNode();
+    posicion = &pos;
 
 	if (objeto)
 	{
