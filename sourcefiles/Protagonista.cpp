@@ -1,12 +1,12 @@
 #include "../headerfiles/Protagonista.h"
 #define SCALE 30.0f
 
-/**
- Constructor: CREA UN NODO PASANDOLE POR PARAMETRO EL DEVICE Y EL PUNTERO PARA GESTIONAR LA ESCENA
-**/
-Protagonista::Protagonista(IrrlichtDevice *dev, ISceneManager* smgr)
-{
+static Protagonista* instance = NULL;
 
+
+Protagonista::Protagonista()
+{
+    
     GameObject::setTipo(PROTA);
 
     /**
@@ -15,31 +15,27 @@ Protagonista::Protagonista(IrrlichtDevice *dev, ISceneManager* smgr)
     desabilitamos la luz en cada modelo (sino los modelos serian negros )
     **/ 
 
-    rec=smgr->addSphereSceneNode();
-    energy=smgr->addCubeSceneNode();
-    life=smgr->addCubeSceneNode();
-
-
-    if (rec) /** SI HEMOS CREADO EL CUBO **/
-    {
-        rec->setPosition(core::vector3df(0,0,30));
-        //rec->setMaterialTexture(0, driver->getTexture(mediaPath + "wall.bmp"));
-        rec->setMaterialFlag(video::EMF_LIGHTING, false);
-    }
-    
-    life->setMaterialFlag(video::EMF_LIGHTING,false);
+    rec=fachada->addSphere(0,0,30,false);
+    energy=fachada->addCube(0,0,30,true);
+    life=fachada->addCube(0,0,30,false);
 
     
-    protaPosition=rec->getPosition();
+    protaPosition=fachada->getPosicion(rec);
     
-    energyScale=energy->getScale();
-    energyScale.Z=0.1f;
+    energyScale=fachada->getScala(energy);
+    energyScale->setPosZ(0.1f);
+   
+
     
-    lifeScale=life->getScale();
-    lifeScale.Z=0.1f;
+    lifeScale=fachada->getScala(life);
+    lifeScale->setPosZ(0.1f);
+   
+    energyPosition=new Posicion(0.f,0.f,0.f);
+    lifePosition=new Posicion(0.f,0.f,0.f);
+    //trampaPosition=new Posicion(0.f,0.f,0.f);
     
-    energy->setScale(energyScale);
-    life->setScale(lifeScale);
+    fachada->setScala(energy,energyScale);
+    fachada->setScala(life,lifeScale);
 
     combate = false;
     pos_combate = 2; 
@@ -52,6 +48,16 @@ Protagonista::Protagonista(IrrlichtDevice *dev, ISceneManager* smgr)
     risa = sonido->create3DSound(sonido->SOUND_BOSS3_RISA);
 
 }
+
+
+
+//Con esto hacemos que sea singleton. Solo se puede crear el motorgrafico llamando a getInstance. Esta devuelve el motor si ya estaba creado, y sino lo crea
+//Parametros: h-> Alto de la ventana, w-> Ancho de la ventana, fullscreen-> si será pantalla completa o no
+Protagonista* Protagonista::getInstance() {
+    if (instance == NULL) instance = new Protagonista();
+    return (instance);
+}
+
 /**
 FUNCION PARA crear el objeto dinamico
 **/
@@ -99,8 +105,10 @@ void Protagonista::updateBody(b2World& world)
 {
     
     
-    protaPosition.X=Body->GetPosition().x*1;
-    protaPosition.Y=Body->GetPosition().y*1;
+    protaPosition->setPosX(Body->GetPosition().x);
+    protaPosition->setPosY(Body->GetPosition().y);
+    
+    fachada->setPosicion(rec,protaPosition);
 
 
 }
@@ -109,21 +117,31 @@ FUNCION PARA DIBUJAR LA INTERFAZ
 **/
 void Protagonista::pintarInterfaz()
 {
+    
      //barra para mostrar la enegia
-    energyPosition=protaPosition;
-    energyPosition.X-=110;    // CAMBIO DESDE 80
-    energyPosition.Y+=100;   // CAMBIO DESDE 120
-    energyPosition.Z-=30;
-    energy->setPosition(energyPosition);
-    lifePosition=protaPosition;
-    lifePosition.X-=110;      // CAMBIO DESDE 80
-    lifePosition.Y+=110;     // CAMBIO DESDE 140
-    lifePosition.Z-=30;
-    life->setPosition(lifePosition);
-    energyScale.X=energia/10;
-    energy->setScale(energyScale);
-    lifeScale.X=vida/10;
-    life->setScale(lifeScale);
+    float energyPositionX=protaPosition->getPosX()- 110;
+    float energyPositionY=protaPosition->getPosY()+ 100;
+    float energyPositionZ=protaPosition->getPosZ()- 30;
+    energyPosition->setPosX(energyPositionX);
+    energyPosition->setPosY(energyPositionY);
+    energyPosition->setPosZ(energyPositionZ);
+    fachada->setPosicion(energy,energyPosition);
+    
+    
+    float lifePositionX=energyPositionX;
+    float lifePositionY=energyPositionY+ 10;
+    float lifePositionZ=energyPositionZ;
+    
+    lifePosition->setPosX(lifePositionX);
+    lifePosition->setPosY(lifePositionY);
+    lifePosition->setPosZ(lifePositionZ);
+
+    fachada->setPosicion(life,lifePosition);
+
+    energyScale->setPosX(energia/10);
+    fachada->setScala(energy,energyScale);
+    lifeScale->setPosX(vida/10);
+    fachada->setScala(life,lifeScale);
 }
 
 /**
@@ -219,11 +237,16 @@ FUNCION PARA COMPROBAR LAS COLISIONES CON ENEMIGOS
 **/
 void Protagonista::comprobarColision(Enemigo *enemigo)
 {
-    enemigoPosition=enemigo->getNode()->getPosition();
+    enemigoPosition=enemigo->getPosition();
+    float enemigoPosX=enemigoPosition->getPosX();
+    float enemigoPosY=enemigoPosition->getPosY();
+    
+    float protaPosX=protaPosition->getPosX();
+    float protaPosY=protaPosition->getPosY();
 
-    if((enemigoPosition.X-(protaPosition.X+10))<0 
-        && (enemigoPosition.X-(protaPosition.X+10))>-20
-        && vida<=100 && vida>0 && protaPosition.Y<10){
+    if((enemigoPosX-(protaPosX+10))<0 
+        && (enemigoPosX-(protaPosX+10))>-20
+        && vida<=100 && vida>0 && protaPosY<10){
 
         if(enemigo->getPosCombate() != pos_combate)
         {
@@ -239,19 +262,28 @@ FUNCION PARA COMPROBAR LAS COLISIONES CON COMIDA
 
 void Protagonista::comprobarColision(Comida *comida)
 {
-    comidaPosition=comida->getNode()->getPosition();
-    if((comidaPosition.X-(protaPosition.X+10))<-5 
-        && (comidaPosition.X-(protaPosition.X+10))>-15){
-        if(comida->getNode()->isVisible()&& protaPosition.Y<10)
+    float protaPosX=protaPosition->getPosX();
+    float protaPosY=protaPosition->getPosY();
+    
+    comidaPosition=comida->getPosition();
+    float comidaPosX=comidaPosition->getPosX();
+    float comidaPosY=comidaPosition->getPosY();
+    
+    
+    //std::cout<<protaPosX<<endl;
+    if((comidaPosX-(protaPosX+10))<-5 
+        && (comidaPosX-(protaPosX+10))>-15){
+        if(/*comida->getNode()->isVisible()&&*/ protaPosY<10)
         {
+            //std::cout<<comidaPosX<<endl;
            vida+=10;
             if(vida>100)
                 vida=100;
             
-            comidaPosition.X+=500;
-        if(comidaPosition.X>2500)
-            comidaPosition.X=-1900;
-            comida->getNode()->setPosition(comidaPosition);
+            comidaPosX+=500;
+        if(comidaPosX>2500)
+            comidaPosX=-1900;
+            //comida->getNode()->setPosition(comidaPosition);
 
         }
        
@@ -263,21 +295,28 @@ void Protagonista::comprobarColision(Comida *comida)
 
 void Protagonista::comprobarColision(Bebida *bebida)
 {
-    bebidaPosition=bebida->getNode()->getPosition();
-    if((bebidaPosition.X-(protaPosition.X+10))<=-5 
-        && (bebidaPosition.X-(protaPosition.X+10))>-15){
-        if(bebida->getNode()->isVisible()&& protaPosition.Y<10)
+    float protaPosX=protaPosition->getPosX();
+    float protaPosY=protaPosition->getPosY();
+    
+    bebidaPosition=bebida->getPosition();
+    float bebidaPosX=bebidaPosition->getPosX();
+    float bebidaPosY=bebidaPosition->getPosY();
+    
+    if((bebidaPosX-(protaPosX+10))<=-5 
+        && (bebidaPosX-(protaPosX+10))>-15){
+        if(/*bebida->getNode()->isVisible()&&*/ protaPosY<10)
         {
+            std::cout<<bebidaPosX<<endl;
            energia+=10;
             if(energia>100)
                 energia=100;
 
             //bebida->getNode()->setVisible(false);
             
-            bebidaPosition.X+=400;
-        if(bebidaPosition.X>2200)
-            bebidaPosition.X=-1800;
-            bebida->getNode()->setPosition(bebidaPosition);
+            bebidaPosX+=400;
+        if(bebidaPosX>2200)
+            bebidaPosX=-1800;
+            //bebida->getNode()->setPosition(bebidaPosition);
 
         }
        
@@ -289,10 +328,16 @@ void Protagonista::comprobarColision(Bebida *bebida)
 
 void Protagonista::comprobarColision(Trampa *trampa)
 {
-    trampaPosition=trampa->getNode()->getPosition();
-    if((trampaPosition.X-(protaPosition.X+10))<8 
-        && (trampaPosition.X-(protaPosition.X+10))>-28
-        && protaPosition.Y<10){
+    float protaPosX=protaPosition->getPosX();
+    float protaPosY=protaPosition->getPosY();
+    
+    trampaPosition=trampa->getPosition();
+    float tramPosX=trampaPosition->getPosX();
+    float tramPosY=trampaPosition->getPosY();
+    
+    if((tramPosX-(protaPosX+10))<8 
+        && (tramPosX-(protaPosX+10))>-28
+        && protaPosY<10){
         
            vida-=0.4f;
            //protaPosition.X-=15; //+=15 animacion, rebote de la trampa 
@@ -310,20 +355,20 @@ void Protagonista::checkPosCombate()
     
     if(pos_combate == 1)    // ARRIBA
     {
-        protaPosition.Y = 10.f;
-        rec->setPosition (protaPosition);
+        protaPosition->setPosY(10.f); 
+        fachada->setPosicion(rec,protaPosition);
     }
     else
     {
         if(pos_combate == 3) // ABAJO
         {
-            protaPosition.Y = 0.f;
-            rec->setPosition (protaPosition);
+            protaPosition->setPosY(0.f); 
+            fachada->setPosicion(rec,protaPosition);
         }
         else        // CENTRO
         {
-            protaPosition.Y = 5.f;
-            rec->setPosition (protaPosition);
+            protaPosition->setPosY(5.f); 
+            fachada->setPosicion(rec,protaPosition);
         }
     }
   
@@ -423,7 +468,7 @@ void Protagonista::setSalto(bool s)
 /**
 ACTUALIZA LA POSICION DEL PROTA
 **/
-void Protagonista::setPosition(core::vector3df v)
+void Protagonista::setPosition(Posicion* v)
 {
    protaPosition=v;
 }
@@ -473,20 +518,20 @@ void Protagonista::setCombate()
     if(combate == true)
     {
         combate = false;        // DESACTIVAMOS MODO COMBATE
-        rec->setMaterialFlag(video::EMF_LIGHTING, false);
-
+        fachada->setMaterialFlag(rec,false);
+        
     }
     else
     {
         combate = true;         // MODO COMBATE ACTIVADO
-        rec->setMaterialFlag(video::EMF_LIGHTING, true);
+        fachada->setMaterialFlag(rec,true);
     }
 }
 
 /**
 DEVUELVE EL NODO QUE HEMOS CREADO
 **/
-scene::ISceneNode* Protagonista::getNode()
+void* Protagonista::getNode()
 {
     return rec;
 }
@@ -496,7 +541,7 @@ bool Protagonista::getCombate()
     return combate;
 }
 
-core::vector3df Protagonista::getPosition()
+Posicion* Protagonista::getPosition()
 {
    return protaPosition;
 }

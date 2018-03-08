@@ -21,7 +21,7 @@ class AlarmaSonando : public Task
 	    scene::ISceneNode* enemigoNode;
 	
 		//Datos de alarma
-	    core::vector3df alarmaPosition;
+	    Posicion* alarmaPosition;
 		float alarmaX;
 		int distanciaAlarma;
 		

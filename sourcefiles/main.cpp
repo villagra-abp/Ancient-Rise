@@ -1,39 +1,17 @@
 #include "../headerfiles/Mundo.h"
+#include "../headerfiles/Fachada.h"
+#include "../headerfiles/Protagonista.h"
 
 int main()
 {
 
-	/**
-	El irrlicht device es el objeto nucleo que necesitamos para interactuar con el motor de irrlicht
-	Por eso la funcion createDevice es la mas importante puesto que es necesario crear el device para
-	poder dibujar cualquier cosa en pantalla
-
-	Tiene 7 parametros:
-
-	-deviceType --> Tipo del device (Null-device, uno de los 2 software renders, OpenGL
-
-    - WindowSize --> Tamaño de la ventana
-
-    - Bits --> Cantidad de bits de colores por pixeles. Puede ser 16 o 32.
-
-    - FUllScreen --> Especifica si queremos que el device se ejecute en pantalla completa o no
-
-    - stencilbuffer --> Especifica si queremos usar el stencil buffer ( para dibujar sombras )
-
-    - vsync --> Especificamos si queremos tener vsync activado, solo es util en pantalla completa
-
-    - eventReceiver --> Un objeto para recibir eventos
-	**/
-
-
-	//IrrXMLReader* xml = createIrrXMLReader("BehaviorTreePatrulla.xml");
-	 
-    MyEventReceiver receiver;
-
+    //Creo la fachada 
+    Fachada* fachada = fachada->getInstance(800,600,false);
+    //Protagonista* prota = prota->getInstance();
 	/* CREAMOS IRRLICHT DEVICE */
 
-	IrrlichtDevice *device =
-		createDevice( video::EDT_OPENGL, dimension2d<u32>(1400, 900),16, false, false, false, &receiver);
+	IrrlichtDevice *device = fachada->getDevice();
+    sf::RenderWindow* ventana = fachada->getVentana();
 
 	if (!device)
 		return 1;
@@ -41,7 +19,7 @@ int main()
 
 	/* CREAMOS MUNDO DEL JUEGO */
 
-	Mundo* mundo = new Mundo(device, &receiver);
+	Mundo* mundo = new Mundo();
 
 	
 
@@ -49,8 +27,42 @@ int main()
 
 	while(device->run())
 	{
+		char inputKey;
+		bool keyPressed;
+		//Evento
+		sf::Event* evento = new sf::Event; 
+		//Obtener eventos
+		while (ventana->pollEvent(*evento))
+		{
+		    switch (evento-> type)
+		    {
+		        case sf::Event::Closed:
+		       
+		            //ventana.close();
+		            device->closeDevice();
+		        break;
+
+		        case sf::Event::KeyPressed:
+		        {    
+		            inputKey = evento->key.code;
+		            //std::cout<<evento->key.code<<"\n";
+		            keyPressed = true;
+		           
+		        }   
+		        break;
+		    }
+		    
+		    
+		}
+        ventana->clear();
+        
+		//
+		//ventana.draw(rectangle);
 		/* ACTUALIZAMOS EL MUNDO */
 		mundo->update();
+		
+		//ventana.display();
+		
 
 	}
 
@@ -72,6 +84,6 @@ int main()
 	**/
 
 
-	device->drop();
+	delete fachada;
 }
 

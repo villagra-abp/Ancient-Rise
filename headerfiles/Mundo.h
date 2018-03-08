@@ -3,7 +3,6 @@
 
 #include "../headerfiles/Protagonista.h"
 #include "../headerfiles/Posicion.h"
-#include "../headerfiles/MyEventReceiver.h"
 #include "../headerfiles/EnemigoBasico.h"
 #include "../headerfiles/EnemigoAvanzado.h"
 #include "../headerfiles/EnemigoElite.h"
@@ -14,14 +13,10 @@
 #include "../headerfiles/Bebida.h"
 #include "../headerfiles/BehaviorTree.h"
 #include "../headerfiles/Entorno.h"
+#include "../headerfiles/Fachada.h"
 
 #include "../motorsonido/headerfiles/GestorSonido.h"
-#include "../motorgrafico/headerfiles/TMotorTAG.h"
-#include "../motorgrafico/headerfiles/TNodo.h"
-#include "../motorgrafico/headerfiles/TTransf.h"
-#include "../motorgrafico/headerfiles/TLuz.h"
-#include "../motorgrafico/headerfiles/TMalla.h"
-#include "../motorgrafico/headerfiles/TCamara.h"
+
 /*
 Estos son los 5 sub namespace del motor de Irrlicht
 
@@ -49,7 +44,7 @@ class Mundo : public Entorno
         typedef vector<Objeto*> objetos;
         
     	//CONSTRUCTOR Y DESTRUCTOR
-        Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver);
+        Mundo();
         virtual ~Mundo();
 
         //MANEJO DE GAMEOBJECTS
@@ -62,6 +57,8 @@ class Mundo : public Entorno
         void update();
 
         void draw();
+        
+        void checkInput();
 
     protected:
     /* METHODS */
@@ -80,7 +77,7 @@ class Mundo : public Entorno
  	/* VARIABLES */
 
     	//EVENTS
-    	MyEventReceiver* receiver;
+    	//MyEventReceiver* receiver;
 
     	//DEVICE
     	IrrlichtDevice* device;
@@ -91,7 +88,7 @@ class Mundo : public Entorno
     	IGUIEnvironment* 	guienv;
 
     	//PROTAGONISTA
-    	Protagonista*		prota;
+    	Protagonista*  prota;
     	scene::ISceneNode*	rec;
     	scene::ISceneNode* 	Terrain;
 
@@ -159,8 +156,13 @@ class Mundo : public Entorno
 
         //PRUEBAS MOTOR GRAFICO
         vector<TNodo*> nodosGL;
+        
+        //VARIABLES JOYSTICK
+        float JoyY;
+        float JoyX;
 
 
+        Fachada* fachada=fachada->getInstance();
     private:
 };
 

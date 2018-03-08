@@ -17,7 +17,7 @@ Status AlarmaSonando::run(Enemigo *e)
    for (int i = 0; i < a.size(); i++){
       
       alarmaPosition = a[i]->getVector3df();
-      alarmaX=alarmaPosition.X;
+      alarmaX=alarmaPosition->getPosX();
       distanciaAlarma = alarmaX - enemigoX;
 
       if( abs(distanciaAlarma)<100  && a[i]->getActivado() ) {  // Alarma cerca (RANGO DE ESCUCHA) y activada

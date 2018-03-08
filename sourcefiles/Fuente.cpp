@@ -8,6 +8,7 @@ Fuente::Fuente(IrrlichtDevice *dev, ISceneManager* smgr, Posicion pos):Objeto()
 {
 	GameObject::setTipo(FUENTE);
 	objeto = smgr->addCubeSceneNode();
+    posicion = &pos;
 
 	if (objeto)
 	{

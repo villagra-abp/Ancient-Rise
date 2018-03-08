@@ -11,14 +11,14 @@ Status BuscarAgua::run(Enemigo *e)
 
     //BUSCAR FUENTE MAS CERCANA
     fuentePosition = f[0]->getVector3df();
-    fuenteX = fuentePosition.X;
+    fuenteX = fuentePosition->getPosX();
     distanciaFuente = fuenteX - enemigoX;  // Calculamos la distancia hasta la fuente
     int pos = 0;
 
        for (int i = 1; i < f.size(); i++){
           
           fuentePosition = f[i]->getVector3df();
-          fuenteX=fuentePosition.X;
+          fuenteX=fuentePosition->getPosX();
 
           distanciaFaux = fuenteX - enemigoX;
 

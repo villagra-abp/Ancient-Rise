@@ -13,7 +13,7 @@ Status ActivarAlarma::run(Enemigo *e)
       if( e->see(a[i]) && a[i]->getActivado()!=true ) {  // Si alarma a la vista y no esta activada
         
         alarmaPosition = a[i]->getVector3df();
-        alarmaX=alarmaPosition.X;
+        alarmaX=alarmaPosition->getPosX();
 
         pos = i;
         i = a.size();

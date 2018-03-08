@@ -26,7 +26,7 @@ class BuscarAgua : public Task
 	    int contador; 			  			// Para reiniciar el reloj cuando toca
 		
 	    //DATOS DE LA FUENTE
-	    core::vector3df fuentePosition;
+	    Posicion* fuentePosition;
 	    float fuenteX;
 	    int distanciaFuente;
 	    int distanciaFaux;

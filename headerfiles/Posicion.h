@@ -11,6 +11,10 @@ class Posicion
         float getPosX();
         float getPosY();
         float getPosZ();
+        
+        void setPosX(float x);
+        void setPosY(float y);
+        void setPosZ(float z);
 
     private:
 
