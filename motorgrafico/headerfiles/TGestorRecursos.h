@@ -20,7 +20,7 @@ public:
 
 		if(r == NULL){
 			r = new Tipo();
-			cout<<"jiji"<<endl;
+
 			r->cargarFichero(nombre_fichero);
 			r->setNombre(nombre_fichero);
 			recursos.push_back(r);

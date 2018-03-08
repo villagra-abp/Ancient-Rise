@@ -7,8 +7,6 @@ TLuz::~TLuz(){
 
 }
 void TLuz::endDraw(){
-
 }
 void TLuz::beginDraw(){
-
 }

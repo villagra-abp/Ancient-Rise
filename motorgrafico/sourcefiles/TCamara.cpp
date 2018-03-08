@@ -13,10 +13,8 @@ void setParalela(){
 
 }
 void TCamara::endDraw(){
-
 }
 void TCamara::beginDraw(){
-
 }
 
 
