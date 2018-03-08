@@ -17,12 +17,15 @@ public:
 
 	TNodo *crearNodo(TNodo *padre, TEntidad *ent);
 	TTransf *crearTransf();
+	TTransf *crearTransfRot(float x,float y,float z,float w);
+	TTransf *crearTransfTras(float x,float y,float z);
+	TTransf *crearTransfEsc(float x, float y, float z);
 	TCamara *crearCamara();
 	TLuz *crearLuz();
 	TMalla *crearMalla(char *fichero);
 	void draw();
 	glm::mat4 generateMatrix(TNodo *nodo);
-	bool setCamara(TCamara* cam, bool b);
+	bool setCamara(TEntidad* cam, bool b);
 	bool setLuz(TLuz* lz, bool b);
 
 
@@ -36,8 +39,9 @@ private:
 	vector<bool> estadoLuz;		//True Luz activada.
 	//vector<> regVPort;
 
-	glm::mat4 mVista;
-	vector<glm::vec4> pLuz;
+	glm::mat4 mVista;			//ViewMatrix
+	glm::mat4 mProyeccion;		//ProyectionMatrix
+	vector<glm::vec4> pLuz;		//Vector Posicion Luz
 
 } ;
 
