@@ -18,7 +18,7 @@ public:
 
 private:	
 
-
+	/*
 		int MaxLuces;
 		glGetIntegerv(GL_MAX_LIGHTS, &MaxLuces); 
 
@@ -56,7 +56,7 @@ private:
 
 	//TColor intensidad; //Es un vec3 con R, G, B.
 
-
+*/
 } ;
 
 

@@ -1,4 +1,5 @@
-#include "../headerfiles/TRecurso.h"
+
+/*#include "../headerfiles/TRecurso.h"
 
 TRecurso::TRecurso(){
 
@@ -15,3 +16,6 @@ void TRecurso::setNombre(char* n){
 void TRecurso::cargarFichero(char* nombre){
 	
 }
+
+*/
+
