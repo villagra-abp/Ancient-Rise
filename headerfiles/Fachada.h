@@ -49,6 +49,7 @@ public:
     bool setScala(void * nodo,Posicion* scala);
     bool setPosicion(void * nodo,Posicion* pos);
     bool setMaterialFlag(void * nodo,bool b);
+    bool setMaterial(void * nodo,const io::path& ruta);
     
 	void setNombreVentana(std::string text);
 	void setNombreVentana(wchar_t* text);

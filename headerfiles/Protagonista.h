@@ -30,7 +30,7 @@ class Protagonista : public GameObject
          void comprobarColision(Comida *comida);
          void comprobarColision(Bebida *bebida);
          void comprobarColision(Trampa *trampa);
-         bool comprobarColision(scene::ISceneNode* nodo);
+         //bool comprobarColision(scene::ISceneNode* nodo);
          void gravedad(const f32 Time);
          void CreateGround(b2World& world, float X, float Y,int largo);
          void CreateBox(b2World& world, float X, float Y);

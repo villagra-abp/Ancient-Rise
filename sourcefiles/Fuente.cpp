@@ -7,16 +7,18 @@ CONSTRUCTOR DE OBJETO para inicializar los valores comunes de todos los objetos 
 Fuente::Fuente(IrrlichtDevice *dev, ISceneManager* smgr, Posicion pos):Objeto()
 {
 	GameObject::setTipo(FUENTE);
-	objeto = smgr->addCubeSceneNode();
+	Fachada* fachada=fachada->getInstance();
+	objeto = fachada->addCube(pos.getPosX(),pos.getPosY(),pos.getPosZ(),false);
     posicion = &pos;
-
+    //std::cout<<pos.getPosX()<<endl;
 	if (objeto)
 	{
-		driver = dev->getVideoDriver();
-		objeto->setPosition(core::vector3df(pos.getPosX(),pos.getPosY(),pos.getPosZ()));
-		objeto ->setScale(core::vector3df(2.5f,1.f,1.f));
-		objeto ->setMaterialFlag(video::EMF_LIGHTING, false);
-		objeto ->setMaterialTexture(0,driver->getTexture("resources/gota.jpg"));
+        
+        Posicion escala(2.5f,1.f,1.f);
+		fachada->setScala(objeto,&escala);
+		
+        fachada->setMaterial(objeto,"resources/gota.jpg");
 
 	}
+
 }

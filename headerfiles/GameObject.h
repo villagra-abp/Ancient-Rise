@@ -17,6 +17,7 @@
 #include <ctime>
 
 #include "../headerfiles/Posicion.h"
+#include "../headerfiles/Fachada.h"
 
 using namespace irr;
 using namespace std;
