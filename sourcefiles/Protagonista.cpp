@@ -306,7 +306,7 @@ void Protagonista::comprobarColision(Bebida *bebida)
         && (bebidaPosX-(protaPosX+10))>-15){
         if(/*bebida->getNode()->isVisible()&&*/ protaPosY<10)
         {
-            std::cout<<bebidaPosX<<endl;
+            
            energia+=10;
             if(energia>100)
                 energia=100;
@@ -339,6 +339,7 @@ void Protagonista::comprobarColision(Trampa *trampa)
         && (tramPosX-(protaPosX+10))>-28
         && protaPosY<10){
         
+        //std::cout<<tramPosX<<endl;
            vida-=0.4f;
            //protaPosition.X-=15; //+=15 animacion, rebote de la trampa 
        

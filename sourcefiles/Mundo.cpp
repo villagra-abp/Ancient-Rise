@@ -83,7 +83,7 @@ Fachada* fachada=fachada->getInstance();
 	Posicion postrampa(520,0,30.f);
  	t = new Trampa(device, smgr, postrampa);
  	addGameObject(t);
-
+    //std::cout<<postrampa.getPosX()<<endl;
 
 /* CREAMOS LA BLACKBOARD */
 
@@ -123,7 +123,8 @@ Fachada* fachada=fachada->getInstance();
 	if (Plataforma) /** SI HEMOS CREADO EL CUBO **/
 	{
 		fachada->setScala(Plataforma,escala);
-		Plataforma->setMaterialTexture(0,driver->getTexture("resources/plataf.bmp"));
+        fachada->setMaterial(Plataforma,"resources/plataf.bmp");
+		
 	}
 
 	Plataforma2= fachada->addCube(320,55,30,false);
@@ -131,7 +132,7 @@ Fachada* fachada=fachada->getInstance();
 	if (Plataforma2) /** SI HEMOS CREADO EL CUBO **/
 	{
 		fachada->setScala(Plataforma2,escala);
-		Plataforma2->setMaterialTexture(0,driver->getTexture("resources/plataf.bmp"));
+		fachada->setMaterial(Plataforma2,"resources/plataf.bmp");
 	}
 
 	Plataforma3= fachada->addCube(420,85,30,false);
@@ -139,7 +140,7 @@ Fachada* fachada=fachada->getInstance();
 	if (Plataforma3) /** SI HEMOS CREADO EL CUBO **/
 	{
 		fachada->setScala(Plataforma3,escala);
-		Plataforma3->setMaterialTexture(0,driver->getTexture("resources/plataf.bmp"));
+		fachada->setMaterial(Plataforma3,"resources/plataf.bmp");
 	}
 
 /** ESTABLECEMOS LA CAMARA
@@ -246,13 +247,13 @@ void Mundo::update(){
     for(int i=0; i<enemB.size();i++)
     {
        	enemB[i]->updateTiempo(frameDeltaTime);/////////////////////////////////////////////////////////////////////////////////////
-     	enemB[i]->Update(prota->getPosition());
+     	enemB[i]->Update(protaPosition);
     }
 
     for(int i2=0; i2<enemE.size();i2++)
     {
     	enemE[i2]->updateTiempo(frameDeltaTime);////////////////////////////////////////////////////////////////////////////////////
-     	enemE[i2]->Update(prota->getPosition());
+     	enemE[i2]->Update(protaPosition);
     }
 
     /* DRAW SCENE */
@@ -271,8 +272,8 @@ void Mundo::update(){
 }
 
 void Mundo::protaUpdate(const u32 now, const f32 frameDeltaTime, f32 tiempo){
-	scene::ISceneNode* pro = (scene::ISceneNode*)prota->getNode();
-    core::vector3df protaPosition = pro->getPosition();
+	//scene::ISceneNode* pro = (scene::ISceneNode*)prota->getNode();
+    //core::vector3df protaPosition = pro->getPosition();
 
 	energiaAnterior = prota->getEnergia();
 
@@ -396,11 +397,11 @@ void Mundo::checkInput(){
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)||JoyX<=-50)//A
         {
             prota->setDireccion(0);
-	    prota->movimiento(0.1f);
+            prota->movimiento(0.1f);
     		if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)||sf::Joystick::isButtonPressed(0, 5))
     		{
                 prota->setCorrer(true);
-      		    prota->setEnergia(-5.0f,1.1f);
+      		    prota->setEnergia(-5.0f,0.2f);
     		}else
 		  prota->setCorrer(false);
         }
@@ -465,20 +466,9 @@ void Mundo::timeWait(){
 }
 
 void Mundo::draw(){
-	/*
-	Anything can be drawn between a beginScene() and an endScene()
-	call. The beginScene() call clears the screen with a color and
-	the depth buffer, if desired. Then we let the Scene Manager and
-	the GUI Environment draw their content. With the endScene()
-	call everything is presented on the screen.
-	*/
-
-	driver->beginScene(true, true, SColor(255,100,101,140));
-
-	smgr->drawAll(); 							// draw the 3d scene
-	device->getGUIEnvironment()->drawAll(); 	// draw the gui environment (the logo)
-
-	driver->endScene();
+	
+    fachada->draw(255,100,101,140);
+	
 }
 
 void Mundo::addGameObject (GameObject* o){

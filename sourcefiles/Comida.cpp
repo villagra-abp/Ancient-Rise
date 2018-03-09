@@ -5,23 +5,28 @@
 Comida::Comida(IrrlichtDevice *dev, ISceneManager* smgr, Posicion pos):Objeto()
 {
 	GameObject::setTipo(COMIDA);
-	objeto = smgr->addSphereSceneNode();
+	Fachada* fachada=fachada->getInstance();
+	objeto = fachada->addSphere(pos.getPosX(),pos.getPosY(),pos.getPosZ(),false);
     posicion = &pos;
-
+    //std::cout<<pos.getPosX()<<endl;
 	if (objeto)
 	{
-		driver = dev->getVideoDriver();
-		objeto ->setPosition(core::vector3df(pos.getPosX(),pos.getPosY(),pos.getPosZ()));
-		objeto ->setScale(core::vector3df(1.25f,1.25f,1.25f));
-		objeto ->setMaterialFlag(video::EMF_LIGHTING, false);
-		objeto ->setMaterialTexture(0,driver->getTexture("resources/elon.jpeg"));
+        
+		//driver = fachada->getDriver();
+		//objeto ->setPosition(core::vector3df(pos.getPosX(),pos.getPosY(),pos.getPosZ()));
+        Posicion escala(1.25f,1.25f,1.25f);
+		fachada->setScala(objeto,&escala);
+		//objeto ->setMaterialFlag(video::EMF_LIGHTING, false);
+		//objeto ->setMaterialTexture(0,driver->getTexture("resources/pinchos.jpeg"));
+        fachada->setMaterial(objeto,"resources/elon.jpeg");
 
 	}
+
 }
 
 
 
-scene::ISceneNode* Comida::getNode()
+void* Comida::getNode()
 {
     return objeto;
 }

@@ -195,6 +195,11 @@ bool Fachada::setMaterialFlag(void * nodo,bool b){
     node->setMaterialFlag(video::EMF_LIGHTING, b);
     return true;
 }
+bool Fachada::setMaterial(void * nodo,const io::path& ruta){
+    scene::ISceneNode * node=(scene::ISceneNode*)nodo;
+    node->setMaterialTexture(0,driver->getTexture(ruta));
+    return true;
+}
 //Dibuja la escena
 void Fachada::drawEscena(){
 	

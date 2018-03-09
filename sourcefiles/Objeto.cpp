@@ -29,6 +29,6 @@ bool Objeto::getActivado(){ return activado; }
 bool Objeto::getActivando(){ return activando; }
 
 
-scene::ISceneNode* Objeto::getObjeto() { return objeto; }
+void* Objeto::getObjeto() { return objeto; }
 
 
