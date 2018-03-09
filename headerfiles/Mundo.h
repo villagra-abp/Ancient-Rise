@@ -50,7 +50,7 @@ class Mundo : public Entorno
         //MANEJO DE GAMEOBJECTS
         void    addGameObject   (GameObject* o);
 
-        virtual int     getSize() const override { return gos.size(); }
+        virtual int     getSize() const { return gos.size(); }
         virtual GameObject* getGameObject(uint8_t pos) const override;
 
         //UPDATERS
