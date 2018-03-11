@@ -20,7 +20,7 @@ class BuscarComida : public Task
 		vector<Objeto*> c;
 		Blackboard *board;
 		f32 frameDeltaTime;		  // Tiempo
-		scene::ISceneNode* enemigoNode;
+		void* enemigoNode;
 		scene::ISceneNode* comidaNode;
 		sf::Clock reloj; 		  			// Reloj para controlar el tiempo que tarda en comer
 	    int contador; 			  			// Para reiniciar el reloj cuando toca

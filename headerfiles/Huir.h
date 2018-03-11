@@ -19,7 +19,7 @@ class Huir : public Task
 		Blackboard *board;
 	    sf::Clock reloj; 		  			// Reloj para controlar el tiempo que tiene que estar huyendo
 	    int contador; 			  			// Para reiniciar el reloj cuando toca
-	    scene::ISceneNode* enemigoNode;
+	    void* enemigoNode;
 	
 		
 };

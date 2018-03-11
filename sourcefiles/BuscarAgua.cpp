@@ -6,8 +6,8 @@ Status BuscarAgua::run(Enemigo *e)
 {   
     // DATOS DEL ENEMIGO
     enemigoNode = e->getNode();
-    core::vector3df EnemigoPosition = enemigoNode->getPosition(); 
-    float enemigoX=EnemigoPosition.X;
+    Posicion* EnemigoPosition = e->getPosition(); 
+    float enemigoX=EnemigoPosition->getPosX();
 
     //BUSCAR FUENTE MAS CERCANA
     fuentePosition = f[0]->getVector3df();

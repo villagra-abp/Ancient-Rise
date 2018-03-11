@@ -39,7 +39,7 @@ class Enemigo : public GameObject
         const f32 getVelNormal();
         int getTipo();
         int getClaseEnemigo();
-        scene::ISceneNode* getNode();
+        void* getNode();
         bool getAvistadoProta();
         vector <Posicion*> getPosicion();
         float getXRange();
@@ -77,7 +77,7 @@ class Enemigo : public GameObject
         virtual ~Enemigo();
 
     protected:
-        scene::ISceneNode * enemigo;
+        void * enemigo;
         IVideoDriver*       driver;
         Posicion* EnemigoPosition;            // VECTOR 3D CON LA POSICION DEL ENEMIGO 
         int contadorPatrulla;                       // PARA SABER LA POSICION EN LA QUE SE ENCUENTRA EN LA PATRULLA
