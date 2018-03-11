@@ -6,8 +6,8 @@ Status Atacar::run(Enemigo *e)
 
 	// DATOS ENEMIGO
 	enemigoNode = e->getNode();
-    core::vector3df EnemigoPosition = enemigoNode->getPosition(); 
-    float enemigoX=EnemigoPosition.X;
+    Posicion* EnemigoPosition = e->getPosition(); 
+    float enemigoX=EnemigoPosition->getPosX();
 
     int distanciaProta = posProta - enemigoX;  // Calculamos la distancia hasta el prota
 

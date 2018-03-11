@@ -15,7 +15,7 @@ EnemigoElite::EnemigoElite(IrrlichtDevice *dev, ISceneManager *smgr, vector<Posi
     tipo = t;                                             // Tipo de combate que usa (Distancia o Cuerpo a Cuerpo)
     claseEnemigo = 3;                                     // EnemigoElite
 
-    enemigo->setMaterialFlag(video::EMF_LIGHTING, true);
+    fachada->setMaterialFlag(enemigo, true);
 
     black = b;                                             // Guardamos la blackboard 
 
