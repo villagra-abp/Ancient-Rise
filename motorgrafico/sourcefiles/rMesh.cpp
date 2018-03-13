@@ -41,7 +41,7 @@ void rMesh::setupMesh(){
 	
 }
 
-void rMesh::Draw(Shader shader){
+void rMesh::draw(Shader shader){
 
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);

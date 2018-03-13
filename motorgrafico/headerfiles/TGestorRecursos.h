@@ -7,6 +7,7 @@
 
 #include "TRecurso.h"
 #include "TRecursoMalla.h"
+#include "Shader.h"
 
 class TGestorRecursos{
 public:
@@ -32,11 +33,13 @@ public:
 //	TRecurso *getRecursoT(string nombre);
 	TRecurso* buscarRecurso(string nombre);
 
+	Shader* getShader();
 
 private:
 	TGestorRecursos();
 
 	vector<TRecurso*> recursos;
+	Shader* shader;
 
 };
 

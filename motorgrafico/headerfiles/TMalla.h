@@ -2,20 +2,22 @@
 #define MALLA_H
 
 #include "TEntidad.h"
+#include "TGestorRecursos.h"
 
 class TMalla: public TEntidad{
 public:
 	TMalla();
 	virtual ~TMalla();
-	//void cargarMalla(TFichero);
+	void cargarMalla(string name);
 	virtual void beginDraw() override;
 	virtual void endDraw() override;
-	virtual tEnt getTipo() override{ return malla; }
+	virtual string getTipo() override{ return "malla"; }
 
 
 private:	
 
-	//TRecursoMalla *malla;
+	TRecursoMalla *malla;
+	TGestorRecursos* gestor;
 
 } ;
 

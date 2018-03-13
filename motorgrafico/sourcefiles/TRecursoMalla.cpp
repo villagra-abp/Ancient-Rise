@@ -3,10 +3,10 @@
 #include <stb_image.h>
 #undef STB_IMAGE_IMPLEMENTATION
 
-void TRecursoMalla::Draw(Shader shader)
+void TRecursoMalla::draw(Shader shader)
 {
     for(unsigned int i = 0; i < meshes.size(); i++)
-        meshes[i].Draw(shader);
+        meshes[i].draw(shader);
 }  
 
 void TRecursoMalla::cargarFichero(string name){

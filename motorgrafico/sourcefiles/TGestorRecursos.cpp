@@ -11,7 +11,7 @@ TGestorRecursos* TGestorRecursos::getInstance(){
 
 
 TGestorRecursos::TGestorRecursos(){
-
+	shader = new Shader("motorgrafico/shaders/vertex.vs", "motorgrafico/shaders/fragment1.fs");
 }
 
 TGestorRecursos::~TGestorRecursos(){
@@ -27,4 +27,8 @@ TRecurso* TGestorRecursos::buscarRecurso(string nombre){
 		}
 	}
 	return rec;
+}
+
+Shader* TGestorRecursos::getShader(){
+	return shader;
 }

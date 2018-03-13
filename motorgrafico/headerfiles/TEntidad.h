@@ -6,8 +6,9 @@
 #include <vector>
 #include <math.h>
 
-#include <GL/glut.h>
+//#include <GL/glut.h>
 
+/*
 #include "../glm/vec3.hpp"// glm::vec3
 #include "../glm/vec4.hpp" // glm::vec4
 #include "../glm/mat4x4.hpp" // glm::mat4
@@ -15,8 +16,8 @@
 #include "../glm/gtc/type_ptr.hpp"
 #include "../glm/gtc/matrix_inverse.hpp" //glm::affineInverse
 #include "../glm/gtx/string_cast.hpp"
+*/
 
-/*
 #include <glm/vec3.hpp> // glm::vec3
 #include <glm/vec4.hpp> // glm::vec4
 #include <glm/mat4x4.hpp> // glm::mat4
@@ -24,7 +25,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_inverse.hpp> //glm::affineInverse
 #include <glm/gtx/string_cast.hpp>
-*/
+
 
 #include "PilaMat.h"
 
@@ -40,7 +41,7 @@ public:
 	virtual ~TEntidad();
 	virtual void beginDraw()=0;
 	virtual void endDraw()=0;
-	virtual tEnt getTipo()=0;
+	virtual string getTipo()=0;
 
 
 protected:

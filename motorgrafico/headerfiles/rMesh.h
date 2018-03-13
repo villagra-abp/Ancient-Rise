@@ -1,6 +1,10 @@
 #ifndef RMESH_H
 #define RMESH_H
 
+/*
+*	Clase para estructurar un poco los datos del recurso modelo
+*/
+
 #include <GL/glew.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -36,7 +40,7 @@ class rMesh{
 		unsigned int VAO;
 
 		rMesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures);
-		void Draw(Shader shader);
+		void draw(Shader shader);
 
 	private:
 		unsigned int  VBO, EBO;

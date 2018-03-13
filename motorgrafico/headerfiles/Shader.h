@@ -2,11 +2,13 @@
 #define SHADER_H
 
 #include <GL/glew.h>
-#include <SFML/Graphics.hpp>
-#include <SFML/OpenGL.hpp>
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
+
+#include <SFML/Graphics.hpp>
+#include <SFML/OpenGL.hpp>
+
 
 #include <string>
 #include <fstream>

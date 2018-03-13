@@ -14,12 +14,12 @@ TNodo* TMotorTAG::crearNodo(TNodo *padre, TEntidad *ent){
 	
 	if(ent!=nullptr){
 		nodo->setEntidad(ent);
-		if(ent->getTipo()==3){
+		if(ent->getTipo()=="camara"){
 			regCam.push_back(nodo);
 			estadoCam.push_back(false);
 			setCamara(ent, true);
 		}
-		else if(ent->getTipo()==2){
+		else if(ent->getTipo()=="luz"){
 			regLuz.push_back(nodo);
 			estadoLuz.push_back(true);
 		}
