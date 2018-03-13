@@ -10,7 +10,7 @@ class Bebida : public Objeto
 
 	public:
 
-		Bebida(IrrlichtDevice *dev, ISceneManager* smgr, Posicion pos);
+		Bebida(IrrlichtDevice *dev, ISceneManager* smgr, Posicion* pos);
 		void* getNode();
 
 	private:

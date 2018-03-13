@@ -10,7 +10,7 @@ class Trampa : public Objeto
 
 	public:
 
-		Trampa(IrrlichtDevice *dev, ISceneManager* smgr, Posicion pos);
+		Trampa(IrrlichtDevice *dev, ISceneManager* smgr, Posicion* pos);
 		void* getNode();
 
 	private:

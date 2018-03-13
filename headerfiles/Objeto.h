@@ -9,7 +9,7 @@ class Objeto : public GameObject
 
 	public:
 
-		Objeto();
+		Objeto(Posicion* p);
 		virtual ~Objeto();
 
 		//getters y setters
