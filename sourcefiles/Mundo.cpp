@@ -155,7 +155,7 @@ Fachada* fachada=fachada->getInstance();
 
 /* CREAMOS EL TERRENO Y COLISIONES DE CAMARA */
 
-	//this->terrainBuilder();
+	this->terrainBuilder();
 
 /** TIME AND FRAMES
  Para poder hacer un movimiento independiente del framerate, tenemos que saber
