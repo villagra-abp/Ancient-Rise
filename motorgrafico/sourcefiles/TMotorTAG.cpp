@@ -1,5 +1,13 @@
 #include "../headerfiles/TMotorTAG.h"
 
+static TMotorTAG* fachadaMotor = nullptr;
+
+TMotorTAG* TMotorTAG::getInstance(){
+	if(fachadaMotor == nullptr){
+		fachadaMotor = new TMotorTAG();
+	} return fachadaMotor;
+}
+
 TMotorTAG::TMotorTAG() : escena(nullptr)
 {
 
@@ -161,4 +169,9 @@ bool TMotorTAG::setLuz(TLuz* lz, bool b){
 		}
 	}
 	return z;
+}
+
+
+TNodo* TMotorTAG::getEscena(){
+	return escena;
 }

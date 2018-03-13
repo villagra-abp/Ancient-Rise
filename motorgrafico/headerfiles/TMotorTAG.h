@@ -12,7 +12,7 @@ class TMotorTAG{
 public:
 	//enum tEnt { transf, malla, luz, camara };
 
-	TMotorTAG();
+	TMotorTAG* getInstance();
 	virtual ~TMotorTAG();
 
 	TNodo *crearNodo(TNodo *padre, TEntidad *ent);
@@ -28,8 +28,11 @@ public:
 	bool setCamara(TEntidad* cam, bool b);
 	bool setLuz(TLuz* lz, bool b);
 
+	TNodo* getEscena();
 
 private:
+
+	TMotorTAG();
 	void recInverso(TNodo *nodo);
 
 	TNodo* escena;

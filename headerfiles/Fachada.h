@@ -64,6 +64,7 @@ public:
 	void cerrar();
 	
 	void drawEscena();
+	void drawDrawEscena();
 	//void drawGUI();
     void drawTerreno();
 	
@@ -81,6 +82,8 @@ private:
 	gui::IGUIEnvironment* guienv;
     
     sf::RenderWindow* ventana;
+
+    TNodo* Escena;
 
 };
 

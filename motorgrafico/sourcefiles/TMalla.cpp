@@ -2,6 +2,7 @@
 
 TMalla::TMalla(){
 	gestor = TGestorRecursos::getInstance();
+	visible = true;
 }
 TMalla::~TMalla(){
 
@@ -12,8 +13,12 @@ void TMalla::cargarMalla(string name){
 }
 
 void TMalla::beginDraw(){
-	malla->draw(*gestor->getShader()); // (...) //Dibujado del recurso de malla OpenGL
+	if(visible)
+		malla->draw(*gestor->getShader()); // (...) //Dibujado del recurso de malla OpenGL
 }
 void TMalla::endDraw(){
 }
 
+void TMalla::isVisible(bool flag){
+	visible = flag;
+}

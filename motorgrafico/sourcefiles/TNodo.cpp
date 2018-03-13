@@ -135,6 +135,23 @@ TNodo* TNodo::remHijoChange(TNodo* n1, TNodo* n2)
 	return n1;
 }
 
+// Funcion que cambia el padre del nodo por el padre dado por parametros
+void TNodo::changePadre(TNodo* nPadre, TNodo* hijo){
+	encontrado = false;
+
+	if(hijos.size()!= 0){ //Comprobamos si hay hijos
+
+		for(int i = 0; i<hijos.size() && !encontrado; i++){  	//Buscamos la posicion del nodo a cambiar en el vector hijos
+			if(hijos[i] == hijo){								//Una vez encontrado, cambiamos padre del nodo y lo borramos del vector hijos
+				hijos.erase(hijos.begin() + i);
+				nPadre->addHijoBack(hijo);
+
+				encontrado = true;
+			}
+		}
+	}
+}
+
 
 /* Getters y setters */ 
 bool TNodo::setEntidad(TEntidad* ent){

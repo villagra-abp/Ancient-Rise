@@ -12,12 +12,14 @@ public:
 	virtual void beginDraw() override;
 	virtual void endDraw() override;
 	virtual string getTipo() override{ return "malla"; }
+	void isVisible(bool flag);
 
 
 private:	
 
 	TRecursoMalla *malla;
 	TGestorRecursos* gestor;
+	bool visible;
 
 } ;
 
