@@ -2,12 +2,12 @@
 
 
 
-Trampa::Trampa(IrrlichtDevice *dev, ISceneManager* smgr, Posicion pos):Objeto()
+Trampa::Trampa(IrrlichtDevice *dev, ISceneManager* smgr, Posicion* pos):Objeto(pos)
 {
 	GameObject::setTipo(TRAMPA);
     Fachada* fachada=fachada->getInstance();
-	objeto = fachada->addCube(pos.getPosX(),pos.getPosY(),pos.getPosZ(),false);
-    posicion = &pos;
+	objeto = fachada->addCube(pos->getPosX(),pos->getPosY(),pos->getPosZ(),false);
+    //posicion = &pos;
     std::cout<<this->getPosition()->getPosX()<<endl;
 	if (objeto)
 	{
