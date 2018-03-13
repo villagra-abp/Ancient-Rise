@@ -2,12 +2,12 @@
 
 
 
-Bebida::Bebida(IrrlichtDevice *dev, ISceneManager* smgr, Posicion pos):Objeto()
+Bebida::Bebida(IrrlichtDevice *dev, ISceneManager* smgr, Posicion* pos):Objeto(pos)
 {
 	GameObject::setTipo(BEBIDA);
 	Fachada* fachada=fachada->getInstance();
-	objeto = fachada->addCube(pos.getPosX(),pos.getPosY(),pos.getPosZ(),false);
-    posicion = &pos;
+	objeto = fachada->addCube(pos->getPosX(),pos->getPosY(),pos->getPosZ(),false);
+    //posicion = &pos;
     //std::cout<<pos.getPosX()<<endl;
 	if (objeto)
 	{

@@ -2,12 +2,11 @@
 
 
 
-Alarma::Alarma(IrrlichtDevice *dev, ISceneManager* smgr, Posicion pos):Objeto()
+Alarma::Alarma(IrrlichtDevice *dev, ISceneManager* smgr, Posicion* pos):Objeto(pos)
 {
 	GameObject::setTipo(ALARMA);
     Fachada* fachada=fachada->getInstance();
-	objeto = fachada->addCube(pos.getPosX(),pos.getPosY(),pos.getPosZ(),false);
-    posicion = &pos;
+	objeto = fachada->addCube(pos->getPosX(),pos->getPosY(),pos->getPosZ(),false);
     //std::cout<<pos.getPosX()<<endl;
 	if (objeto)
 	{

@@ -4,9 +4,9 @@
 /**
 CONSTRUCTOR DE OBJETO para inicializar los valores comunes de todos los objetos consumibles
 **/
-Objeto::Objeto():objeto(nullptr)
+Objeto::Objeto(Posicion* p):objeto(nullptr)
 {
-
+	posicion = p;
 	recogido = false;
 	activado = false;
 	activando = false;

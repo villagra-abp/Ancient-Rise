@@ -4,12 +4,12 @@
 /**
 CONSTRUCTOR DE OBJETO para inicializar los valores comunes de todos los objetos consumibles
 **/
-Fuente::Fuente(IrrlichtDevice *dev, ISceneManager* smgr, Posicion pos):Objeto()
+Fuente::Fuente(IrrlichtDevice *dev, ISceneManager* smgr, Posicion* pos):Objeto(pos)
 {
 	GameObject::setTipo(FUENTE);
 	Fachada* fachada=fachada->getInstance();
-	objeto = fachada->addCube(pos.getPosX(),pos.getPosY(),pos.getPosZ(),false);
-    posicion = &pos;
+	objeto = fachada->addCube(pos->getPosX(),pos->getPosY(),pos->getPosZ(),false);
+    //posicion = &pos;
     //std::cout<<pos.getPosX()<<endl;
 	if (objeto)
 	{

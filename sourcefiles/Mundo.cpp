@@ -46,41 +46,41 @@ Fachada* fachada=fachada->getInstance();
 
 /* CREAMOS OBJETOS */
 
-	Posicion pC(-220.f, 0.f, 30.f);
+	Posicion* pC= new Posicion(-220.f, 0.f, 30.f);
 	c = new Comida(device, smgr, pC);
 	comidas.push_back(c);
 	addGameObject(c);
 
-	Posicion pC2(190.f, 0.f, 30.f);
+	Posicion* pC2= new Posicion(190.f, 0.f, 30.f);
 	c2 = new Comida(device, smgr, pC2);
 	comidas.push_back(c2);
 	addGameObject(c2);
 
-	Posicion pF(-190.f,0.f,40.f);
+	Posicion* pF= new Posicion(-190.f,0.f,40.f);
 	f = new Fuente(device, smgr, pF);
 	fuentes.push_back(f);
 	addGameObject(f);
 
-	Posicion pF2(320.f,0.f,40.f);
+	Posicion* pF2= new Posicion(320.f,0.f,40.f);
 	f2 = new Fuente(device, smgr, pF2);
 	fuentes.push_back(f2);
 	addGameObject(f2);
 
-	Posicion pA(120.f,0.f,40.f);
+	Posicion* pA= new Posicion(120.f,0.f,40.f);
 	a = new Alarma(device, smgr, pA);
 	alarmas.push_back(a);
 	addGameObject(a);
 
-	Posicion pA2(-160.f,0.f,40.f);
+	Posicion* pA2= new Posicion(-160.f,0.f,40.f);
 	a2 = new Alarma(device, smgr, pA2);
 	alarmas.push_back(a2);
 	addGameObject(a2);
 
-	Posicion posbebida(-300,0,30.f);
+	Posicion* posbebida= new Posicion(-300,0,30.f);
  	bebida = new Bebida(device, smgr, posbebida);
  	addGameObject(bebida);
 
-	Posicion postrampa(520,0,30.f);
+	Posicion* postrampa= new Posicion(520,0,30.f);
  	t = new Trampa(device, smgr, postrampa);
  	addGameObject(t);
     //std::cout<<postrampa.getPosX()<<endl;
@@ -91,6 +91,7 @@ Fachada* fachada=fachada->getInstance();
 	 b->setFuente(fuentes);
 	 b->setComida(comidas);
 	 b->setAlarma(alarmas);
+
 
 /* CREAMOS ENEMIGOS BASICOS */
 	
@@ -154,7 +155,7 @@ Fachada* fachada=fachada->getInstance();
 
 /* CREAMOS EL TERRENO Y COLISIONES DE CAMARA */
 
-	this->terrainBuilder();
+	//this->terrainBuilder();
 
 /** TIME AND FRAMES
  Para poder hacer un movimiento independiente del framerate, tenemos que saber
@@ -513,4 +514,6 @@ Mundo::~Mundo()	//DESTRUCTOR
     delete bebida;
     delete t;
     delete sonido;
+
+   // delete pC, pC2, pF, pF2, pA, pA2, posbebida, postrampa;
 }
