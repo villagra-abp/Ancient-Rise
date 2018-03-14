@@ -1,14 +1,6 @@
-<<<<<<< HEAD
-
-LIBS := -lIrrlicht -lglut -lGLU -lGL -lX11 -lXxf86vm -lBox2D -lfmod -lfmodstudio -lsfml-graphics -lsfml-window -lsfml-system
-
-CC=g++
-CFLAGS= -I. -I./inc
-=======
 LIBS := -lIrrlicht -lGLEW -lglut -lGLU -lGL -lX11 -lXxf86vm -lBox2D -lfmod -lfmodstudio -lsfml-graphics -lsfml-window -lsfml-system -lassimp
 CC=g++
 CFLAGS= -g -I. -I./inc
->>>>>>> 89a4e0e937ec5c5d2e6bf07d446473ff8dc14279
 PATHS:= -Llib/
 
 
