@@ -58,11 +58,11 @@ void Enemigo::update(Posicion* Posprota)
         //COMPROBAMOS GAMEOBJECTS DENTRO DE LA VISTA
         vistos.clear();
 
-       /* for(int i = 0; i < ent->getSize(); i++){
+        for(int i = 0; i < ent->getSize(); i++){
             if(this->checkInSight(ent->getGameObject(i)->getPosition())){
                 vistos.push_back(ent->getGameObject(i));
             }
-        }*/
+        }
 
         // COMPROBAMOS SI HEMOS VISTO AL PROTAGONISTA 
         if(this->checkInSight(Posprota)){              
