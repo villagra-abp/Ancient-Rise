@@ -9,11 +9,6 @@
 #include <GL/gl.h>
 #include <SFML/Graphics.hpp>
 
-<<<<<<< HEAD
-#include <irrlicht.h>
-=======
-#include <irrlicht/irrlicht.h>
->>>>>>> 89a4e0e937ec5c5d2e6bf07d446473ff8dc14279
 #include <iostream>
 #include <vector>
 #include <math.h>
@@ -21,10 +16,7 @@
 #include <ctime>
 
 #include "../headerfiles/Posicion.h"
-<<<<<<< HEAD
-=======
 #include "../headerfiles/Fachada.h"
->>>>>>> 89a4e0e937ec5c5d2e6bf07d446473ff8dc14279
 
 using namespace irr;
 using namespace std;
@@ -43,11 +35,7 @@ public:
    
    	Tipo getTipo() const { return goType; } // Devuelve tipo.
 
-<<<<<<< HEAD
-   	virtual core::vector3df getPosition() const = 0; //Devuelve la posicion.
-=======
    	virtual Posicion* getPosition() const = 0; //Devuelve la posicion.
->>>>>>> 89a4e0e937ec5c5d2e6bf07d446473ff8dc14279
    
 protected:
 	Tipo goType;
@@ -56,8 +44,4 @@ protected:
 
 };
 
-<<<<<<< HEAD
 #endif
-=======
-#endif
->>>>>>> 89a4e0e937ec5c5d2e6bf07d446473ff8dc14279

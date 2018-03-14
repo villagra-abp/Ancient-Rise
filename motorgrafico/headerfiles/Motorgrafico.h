@@ -2,7 +2,7 @@
 #define MOTORFISICO_H
 
 
-#include <irrlicht.h>
+#include <irrlicht/irrlicht.h>
 #include <iostream>
 #include "Eventlistener.h"
 #include "resources.h"

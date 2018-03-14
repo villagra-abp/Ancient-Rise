@@ -9,7 +9,6 @@
 #include "../headerfiles/Trampa.h"
 #include "../headerfiles/GameObject.h"
 #include "../headerfiles/Fachada.h"
->>>>>>> 89a4e0e937ec5c5d2e6bf07d446473ff8dc14279
 #include "../motorsonido/headerfiles/GestorSonido.h"
 
 

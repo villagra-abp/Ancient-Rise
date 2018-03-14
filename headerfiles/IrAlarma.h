@@ -18,24 +18,13 @@ class IrAlarma : public Task
 		Blackboard *board;
 	    f32 frameDeltaTime;		  // Tiempo
 	    vector<Objeto*> a;
-<<<<<<< HEAD
-	    scene::ISceneNode* enemigoNode;
-		
-		//Datos de alarma
-	    core::vector3df alarmaPosition;
-=======
 	    void* enemigoNode;
 		
 		//Datos de alarma
 	    Posicion* alarmaPosition;
->>>>>>> 89a4e0e937ec5c5d2e6bf07d446473ff8dc14279
 		float alarmaX;
 		int distanciaAlarma;
 		
 };
 
-<<<<<<< HEAD
 #endif // IRALARMA_H
-=======
-#endif // IRALARMA_H
->>>>>>> 89a4e0e937ec5c5d2e6bf07d446473ff8dc14279

@@ -1,4 +1,4 @@
-#include <irrlicht.h>
+#include <irrlicht/irrlicht.h>
 #include <iostream>
 #include "Motorgrafico.h"
 #include "Vector3D.h"
