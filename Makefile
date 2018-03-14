@@ -1,8 +1,6 @@
-
-LIBS := -lIrrlicht -lglut -lGLU -lGL -lX11 -lXxf86vm -lBox2D -lfmod -lfmodstudio -lsfml-graphics -lsfml-window -lsfml-system -lassimp
-
+LIBS := -lIrrlicht -lGLEW -lglut -lGLU -lGL -lX11 -lXxf86vm -lBox2D -lfmod -lfmodstudio -lsfml-graphics -lsfml-window -lsfml-system -lassimp
 CC=g++
-CFLAGS= -I. -I./inc
+CFLAGS= -g -I. -I./inc
 PATHS:= -Llib/
 
 
@@ -56,7 +54,7 @@ info:
 	$(info $(OBJ))
 
 
-clean: 
+cleanall: 
 	rm -f $(BUILDPATH)/*.o 
 	rm -f $(BINPATH)/$(EJEC)
 

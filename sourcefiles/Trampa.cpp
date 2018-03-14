@@ -2,27 +2,30 @@
 
 
 
-Trampa::Trampa(IrrlichtDevice *dev, ISceneManager* smgr, Posicion pos):Objeto()
+Trampa::Trampa(IrrlichtDevice *dev, ISceneManager* smgr, Posicion* pos):Objeto(pos)
 {
 	GameObject::setTipo(TRAMPA);
-	objeto = smgr->addCubeSceneNode();
-    posicion = &pos;
-
+    Fachada* fachada=fachada->getInstance();
+	objeto = fachada->addCube(pos->getPosX(),pos->getPosY(),pos->getPosZ(),false);
+    //posicion = &pos;
+    std::cout<<this->getPosition()->getPosX()<<endl;
 	if (objeto)
 	{
-
-		driver = dev->getVideoDriver();
-		objeto ->setPosition(core::vector3df(pos.getPosX(),pos.getPosY(),pos.getPosZ()));
-		objeto ->setScale(core::vector3df(2.5f,1.5f,2.5f));
-		objeto ->setMaterialFlag(video::EMF_LIGHTING, false);
-		objeto ->setMaterialTexture(0,driver->getTexture("resources/pinchos.jpeg"));
+        
+		//driver = fachada->getDriver();
+		//objeto ->setPosition(core::vector3df(pos.getPosX(),pos.getPosY(),pos.getPosZ()));
+        Posicion escala(2.5f,1.5f,2.5f);
+		fachada->setScala(objeto,&escala);
+		//objeto ->setMaterialFlag(video::EMF_LIGHTING, false);
+		//objeto ->setMaterialTexture(0,driver->getTexture("resources/pinchos.jpeg"));
+        fachada->setMaterial(objeto,"resources/pinchos.jpeg");
 
 	}
 }
 
 
 
-scene::ISceneNode* Trampa::getNode()
+void* Trampa::getNode()
 {
     return objeto;
 }

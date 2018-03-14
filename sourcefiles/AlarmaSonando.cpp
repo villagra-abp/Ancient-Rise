@@ -5,8 +5,8 @@ Status AlarmaSonando::run(Enemigo *e)
 {   
     // DATOS  ENEMIGO
    enemigoNode = e->getNode();
-   core::vector3df EnemigoPosition = enemigoNode->getPosition(); 
-   float enemigoX=EnemigoPosition.X;
+   Posicion* EnemigoPosition = e->getPosition(); 
+   float enemigoX=EnemigoPosition->getPosX();
 
    //Busca alarmas sonando dentro del rango de escucha
    //Se puede ampoliar para ir a la alarma mas cercana y no a la primera que escuche

@@ -17,7 +17,7 @@ class Atacar : public Task
 	private:
 		
 		Blackboard *board;
-	    scene::ISceneNode* enemigoNode;
+	    void* enemigoNode;
 	    int separacionAtaque; 				// Separacion que tiene que haber entre el enemigo y el prota en funcion de si utiliza un arma 
 	    									// a distancia o cuerpo a cuerpo
 	

@@ -4,8 +4,8 @@ Status IrAlarma::run(Enemigo *e)
 {   
     // DATOS  ENEMIGO
    enemigoNode = e->getNode();
-   core::vector3df EnemigoPosition = enemigoNode->getPosition(); 
-   float enemigoX=EnemigoPosition.X;
+   Posicion* EnemigoPosition = e->getPosition(); 
+   float enemigoX=EnemigoPosition->getPosX();
 
   // Habra que ampliar el bucle para contemplar todas las distancias hacia las alarmas que esten sonando
   // y acudir a la mas cercana

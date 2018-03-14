@@ -4,9 +4,9 @@
 /**
 CONSTRUCTOR DE OBJETO para inicializar los valores comunes de todos los objetos consumibles
 **/
-Objeto::Objeto():objeto(nullptr)
+Objeto::Objeto(Posicion* p):objeto(nullptr)
 {
-
+	posicion = p;
 	recogido = false;
 	activado = false;
 	activando = false;
@@ -29,6 +29,6 @@ bool Objeto::getActivado(){ return activado; }
 bool Objeto::getActivando(){ return activando; }
 
 
-scene::ISceneNode* Objeto::getObjeto() { return objeto; }
+void* Objeto::getObjeto() { return objeto; }
 
 

@@ -2,26 +2,29 @@
 
 
 
-Bebida::Bebida(IrrlichtDevice *dev, ISceneManager* smgr, Posicion pos):Objeto()
+Bebida::Bebida(IrrlichtDevice *dev, ISceneManager* smgr, Posicion* pos):Objeto(pos)
 {
 	GameObject::setTipo(BEBIDA);
-	objeto = smgr->addCubeSceneNode();
-    posicion = &pos;
-
+	Fachada* fachada=fachada->getInstance();
+	objeto = fachada->addCube(pos->getPosX(),pos->getPosY(),pos->getPosZ(),false);
+    //posicion = &pos;
+    //std::cout<<pos.getPosX()<<endl;
 	if (objeto)
 	{
-		driver = dev->getVideoDriver();
-		objeto ->setPosition(core::vector3df(pos.getPosX(),pos.getPosY(),pos.getPosZ()));
-		objeto ->setScale(core::vector3df(0.5f,1.5f,0.5f));
-		objeto ->setMaterialFlag(video::EMF_LIGHTING, false);
-		objeto ->setMaterialTexture(0,driver->getTexture("resources/pocion.png"));
+        
+        Posicion escala(0.5f,1.5f,0.5f);
+		fachada->setScala(objeto,&escala);
+	
+        fachada->setMaterial(objeto,"resources/pocion.png");
 
 	}
+
+	
 }
 
 
 
-scene::ISceneNode* Bebida::getNode()
+void* Bebida::getNode()
 {
     return objeto;
 }

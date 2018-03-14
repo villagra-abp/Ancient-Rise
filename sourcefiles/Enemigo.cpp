@@ -11,14 +11,16 @@ Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos
 : enemigo(nullptr), env(nullptr), driver(nullptr), ent(e)
 {
     GameObject::setTipo(ENEMY);
-    enemigo=smgr->addCubeSceneNode();
+    Fachada* fachada=fachada->getInstance();
+	enemigo = fachada->addCube(pos[0]->getPosX(),pos[0]->getPosY(),pos[0]->getPosZ(),false);
+    //posicion = &pos;
 
     if (enemigo) /** SI HEMOS CREADO EL CUBO **/
 	{  
-         driver = dev->getVideoDriver();
-		enemigo->setPosition(core::vector3df(pos[0]->getPosX(),pos[0]->getPosY(),pos[0]->getPosZ())); // INDICAMOS SU POS INICIAL ( QUE VIENE INDICADA EN EL ARRAY TAMBIEN)
-		enemigo->setMaterialFlag(video::EMF_LIGHTING, false);
-        enemigo ->setMaterialTexture(0,driver->getTexture("resources/verde.jpg"));
+         driver = fachada->getDriver();
+		//enemigo->setPosition(core::vector3df(pos[0]->getPosX(),pos[0]->getPosY(),pos[0]->getPosZ())); // INDICAMOS SU POS INICIAL ( QUE VIENE INDICADA EN EL ARRAY TAMBIEN)
+		//enemigo->setMaterialFlag(video::EMF_LIGHTING, false);
+        fachada ->setMaterial(enemigo,"resources/verde.jpg");
 
         EnemigoPosition = fachada->getPosicion(enemigo);
 
@@ -65,44 +67,44 @@ void Enemigo::update(Posicion* Posprota)
         // COMPROBAMOS SI HEMOS VISTO AL PROTAGONISTA 
         if(this->checkInSight(Posprota)){              
             visto = true;
-             enemigo->setMaterialTexture(0,driver->getTexture("resources/activada.jpeg"));  
+             fachada->setMaterial(enemigo,"resources/activada.jpeg");  
              contador = 0;
             
         }else{
             if(this->recordarProta())
             {
                 visto = false;
-                enemigo->setMaterialTexture(0,driver->getTexture("resources/verde.jpg"));
+                fachada->setMaterial(enemigo,"resources/verde.jpg");
             }
             
         }
 
-        core::vector3df pos = enemigo->getPosition(); 
+        //core::vector3df pos = enemigo->getPosition(); 
 
         if(combate == true)
         {
             if( pos_combate == 1)
             {
-                pos.Y = 10.f;
+                EnemigoPosition->setPosY(10.f);
             }
             else
             {
                 if(pos_combate == 2)
                 {
-                    pos.Y = 5.f;
+                    EnemigoPosition->setPosY(5.f);
                 }
                 else
                 {
-                    pos.Y = 0.f;
+                    EnemigoPosition->setPosY(0.f);
                 }
             }
         }
         else
         {
-            pos.Y = 0.f;
+            EnemigoPosition->setPosY(0.f);
         }
 
-        enemigo->setPosition(pos);
+        //enemigo->setPosition(pos);
 
 }
 
@@ -269,7 +271,7 @@ bool Enemigo::see(GameObject* o){
 A PARTIR DE AQUI VAN TODOS LOS GETS Y LOS SETS
 ==============================================
 **/
-scene::ISceneNode* Enemigo::getNode()
+void* Enemigo::getNode()
 {
     return enemigo;
 }

@@ -6,8 +6,8 @@ Status BuscarComida::run(Enemigo *e)
 {
     // DATOS DEL ENEMIGO
     enemigoNode = e->getNode();
-    core::vector3df EnemigoPosition = enemigoNode->getPosition(); 
-    float enemigoX=EnemigoPosition.X;
+    Posicion* EnemigoPosition = e->getPosition(); 
+    float enemigoX=EnemigoPosition->getPosX();
 
     //BUSCAR COMIDA MAS CERCANA
     comidaPosition = c[0]->getVector3df();

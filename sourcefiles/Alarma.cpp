@@ -2,19 +2,19 @@
 
 
 
-Alarma::Alarma(IrrlichtDevice *dev, ISceneManager* smgr, Posicion pos):Objeto()
+Alarma::Alarma(IrrlichtDevice *dev, ISceneManager* smgr, Posicion* pos):Objeto(pos)
 {
 	GameObject::setTipo(ALARMA);
-	objeto = smgr->addCubeSceneNode();
-    posicion = &pos;
-
+    Fachada* fachada=fachada->getInstance();
+	objeto = fachada->addCube(pos->getPosX(),pos->getPosY(),pos->getPosZ(),false);
+    //std::cout<<pos.getPosX()<<endl;
 	if (objeto)
 	{
-		driver = dev->getVideoDriver();
-		objeto ->setPosition(core::vector3df(pos.getPosX(),pos.getPosY(),pos.getPosZ()));
-		objeto ->setScale(core::vector3df(1.f,6.f,1.f));
-		objeto ->setMaterialFlag(video::EMF_LIGHTING, false);
-		objeto ->setMaterialTexture(0,driver->getTexture("resources/desactivada.jpeg"));
+        
+        Posicion escala(1.f,6.f,1.f);
+		fachada->setScala(objeto,&escala);
+		
+        fachada->setMaterial(objeto,"resources/desactivada.jpeg");
 
 	}
 
@@ -34,10 +34,11 @@ FUNCION PARA COMPROBAR SI LA ALARMA HA SIDO ACTIVADA Y DESACTIVARLA CUANDO HAYA 
 */
 void Alarma::checkActivada()
 {
+    Fachada* fachada=fachada->getInstance();
 	if( activado == true)
 	{
-		objeto ->setMaterialFlag(video::EMF_LIGHTING, false);
-		objeto ->setMaterialTexture(0,driver->getTexture("resources/activada.jpeg"));
+		fachada->setMaterialFlag(objeto , false);
+		fachada->setMaterial(objeto ,"resources/activada.jpeg");
 
 		this->startClock();
 
@@ -46,8 +47,8 @@ void Alarma::checkActivada()
 		if(time>35) 		// DURACION ALARMA ACTIVADA
 		{
 			activado = false;
-			objeto ->setMaterialFlag(video::EMF_LIGHTING, false);
-			objeto ->setMaterialTexture(0,driver->getTexture("resources/desactivada.jpeg"));
+			fachada->setMaterialFlag(objeto , false);
+			fachada->setMaterial(objeto ,"resources/desactivada.jpeg");
 			contador = 0; 		// Reseteo reloj
 		}
 	}

@@ -9,7 +9,7 @@ class Objeto : public GameObject
 
 	public:
 
-		Objeto();
+		Objeto(Posicion* p);
 		virtual ~Objeto();
 
 		//getters y setters
@@ -23,7 +23,7 @@ class Objeto : public GameObject
 		void setActivando(bool a);
 
 
-		scene::ISceneNode* getObjeto();
+		void* getObjeto();
 
 		virtual Posicion* getPosition() const override { return posicion; }	//Devuelve la posicion.
 
@@ -35,7 +35,7 @@ class Objeto : public GameObject
 		bool recogido;  				// Para saber si hemos cogido el objeto o no
 		bool activado;					// Para saber si el objeto ha sido activado/usado o no
 		bool activando; 				// Si se esta activando o no
-		scene::ISceneNode * objeto;
+		void * objeto;
         Posicion* posicion;
 		int tipo;  						// Para saber que tipo de objeto es 
  
