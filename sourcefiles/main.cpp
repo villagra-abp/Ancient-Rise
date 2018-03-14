@@ -91,11 +91,7 @@ int main()
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "../motorgrafico/headerfiles/TNodo.h"
-#include "../motorgrafico/headerfiles/TTransf.h"
-#include "../motorgrafico/headerfiles/TLuz.h"
-#include "../motorgrafico/headerfiles/TMalla.h"
-#include "../motorgrafico/headerfiles/TCamara.h"
+#include "../motorgrafico/fachada/headerfiles/TMotorTAG.h"
 
 
 
@@ -135,7 +131,15 @@ int main()
    	Shader ourShader("motorgrafico/shaders/vertex.vs", "motorgrafico/shaders/fragment1.fs");
 
 	*/
+	TMotorTAG* motorgrafico = TMotorTAG::getInstance();
 
+	FObjeto* cajita = new FObjeto();
+
+	cajita->setMalla("resources/cajitaobj.obj");
+	
+
+
+	/*
 	TNodo *Escena = new TNodo();
     TNodo *RotarLuz = new TNodo();
     TNodo *RotarCam = new TNodo();
@@ -190,6 +194,8 @@ int main()
     TraslaCam->addHijoBack(NCam);
     TraslaCoche->addHijoBack(NChasis);
 
+    */
+
 	//Fachada* fachada = Fachada::getInstance();
 
 	//fachada->drawEscena();
@@ -215,12 +221,18 @@ int main()
 		        {    
 		            inputKey = evento->key.code;
 		            //std::cout<<evento->key.code<<std::endl;		
-		            if(inputKey == 16){
-		            	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		            switch(inputKey){
+		            	case 4:
+		            		glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+		            		break;
+		            	case 16:
+		            		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		            		break;
+		            	case 57:
+
+		            		break;
 		            }
-		            else if(inputKey == 4){
-		            	glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
-		            }
+		          
 		            keyPressed = true;
 		           
 		        }   
@@ -254,7 +266,10 @@ int main()
 		////model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f));
 		////model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
 		//ourShader.setMat4("model", model);
-		Escena->draw();
+
+		cajita->Rotar(vec3(1,0,0), 0.05f);
+
+		motorgrafico->draw();
 
 		//ourModel->Draw(ourShader);
 

@@ -18,6 +18,7 @@ public:
 	int remHijoAll(TNodo* n);
 	TNodo* remHijoChange(TNodo* n1, TNodo* n2);
 	void changePadre(TNodo* nPadre, TNodo* hijo);
+	void remHijos();
 
 
 	bool setEntidad(TEntidad* ent);

@@ -41,7 +41,7 @@ public:
 	virtual ~TEntidad();
 	virtual void beginDraw()=0;
 	virtual void endDraw()=0;
-	virtual string getTipo()=0;
+	virtual tEnt getTipo()=0;
 
 
 protected:

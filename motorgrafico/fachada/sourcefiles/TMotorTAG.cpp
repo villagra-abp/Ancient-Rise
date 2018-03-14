@@ -10,13 +10,18 @@ TMotorTAG* TMotorTAG::getInstance(){
 
 TMotorTAG::TMotorTAG() : escena(nullptr)
 {
-
+	escena = new TNodo();
 }
 TMotorTAG::~TMotorTAG(){
 	delete escena;
 	escena = nullptr;
 }
 
+
+void TMotorTAG::draw(){
+	escena->draw();
+}
+/*
 TNodo* TMotorTAG::crearNodo(TNodo *padre, TEntidad *ent){
 	TNodo* nodo = new TNodo();
 	
@@ -100,7 +105,7 @@ void TMotorTAG::draw(){
 
 	//Iniciar secuencia draw del arbol
 	escena->draw();
-
+*/
 	/*
 	std::cout << "ViewMatrix: " << std::endl;
 	std::cout << glm::to_string(mVista) << std::endl;
@@ -109,7 +114,7 @@ void TMotorTAG::draw(){
 	std::cout << "Light Position: " << std::endl;
 	std::cout << glm::to_string(pLuz[0]) << std::endl;
 	*/
-
+/*
 }
 glm::mat4 TMotorTAG::generateMatrix(TNodo *nodo){
 	//Obtendra la Matriz Modelo de un Nodo dado mediante
@@ -133,6 +138,8 @@ glm::mat4 TMotorTAG::generateMatrix(TNodo *nodo){
 
 	return mResultado;
 }
+
+*/
 bool TMotorTAG::setCamara(TEntidad* cam, bool b){
 	bool z = false;
 

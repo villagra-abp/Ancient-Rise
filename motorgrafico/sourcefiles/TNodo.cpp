@@ -6,6 +6,9 @@ TNodo::TNodo():entidad(nullptr),padre(nullptr),padreBorrar(nullptr)
 }
 
 TNodo::~TNodo(){
+	remHijos();
+	padre->remHijo(this);
+	delete entidad;
 	entidad = nullptr;
 	padre = nullptr;
 }
@@ -61,39 +64,21 @@ TNodo* TNodo::remHijo(TNodo* n)
 
  return n;
 }
-/* Funcion para borrar un hijo del nodo y todos los nodos hijos de ese nodo que queremos borrar, asi hasta que no queden hijos en la rama */
+/* Funcion para borrar un hijo del nodo y todos los nodos hijos de ese nodo que queremos borrar, asi hasta que no queden hijos en la rama
+	Devuelve el numero de hijos restante
+ */
 int TNodo::remHijoAll(TNodo* n)
 {	
 	encontrado = false;
-	if(hijos.size()!=0)
+	if(hijos.size()!=0)													//Comprueba que haya hijos que borrar
 	{
-		for(int i=0;i<hijos.size(); i++)
+		for(int i=0;i<hijos.size() && encontrado == false; i++)			//Recorre el array de hijos buscando el nodo a borrar
 		{
-			if(hijos[i]==n)
+			if(hijos[i]==n)												//Comprueba el hijo de esta iteracion
 			{
-				//nodosBorrar.push_back(hijos[i]);
-				hijosPadre = hijos[i]->getHijos();
-
-				if(hijosPadre.size()!=0)
-				{/*
-					for(int i2=0; hijosPadre.size(); i2++)
-					{
-						hijos[i]->remHijoAll(hijosPadre[i2]);
-					}
-					*/
-				}
-			}
-		}
-	}
-
-	if(nodosBorrar.size()!=0)
-	{
-		while(nodosBorrar.size()!=0)
-		{
-			for(int i3=nodosBorrar.size();i3>0;i3--)
-			{
-				padreBorrar = nodosBorrar[i3]->getPadre();
-				padreBorrar->remHijo(nodosBorrar[i3]);
+				delete hijos[i];										//Borramos el hijo y todos sus hijos
+				
+				encontrado = true;
 			}
 		}
 	}
@@ -150,6 +135,18 @@ void TNodo::changePadre(TNodo* nPadre, TNodo* hijo){
 			}
 		}
 	}
+}
+
+//Funcion para borrar todos los hijos del nodo
+void TNodo::remHijos(){
+	if(hijos.size() != 0){ //Comprobamos que haya hijos
+
+		for(int i = 0; i<hijos.size(); i++){					//Recorremos los hijos uno a uno para ir borrandolos
+
+			delete hijos[i];
+
+		}
+	} 
 }
 
 

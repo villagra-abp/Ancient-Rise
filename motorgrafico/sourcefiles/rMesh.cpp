@@ -41,7 +41,7 @@ void rMesh::setupMesh(){
 	
 }
 
-void rMesh::draw(Shader shader){
+void rMesh::draw(Shader shader, glm::mat4 mmodelo){
 
 	shader.use();
 
@@ -50,10 +50,10 @@ void rMesh::draw(Shader shader){
 	shader.setMat4("projection", projection);
 	shader.setMat4("view", view);
 	// 3. now draw the object 
-	glm::mat4 model = glm::mat4(1);
+	//glm::mat4 model = glm::mat4(1);
 	//model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f));
 	//model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
-	shader.setMat4("model", model);
+	shader.setMat4("model", mmodelo);
 
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);

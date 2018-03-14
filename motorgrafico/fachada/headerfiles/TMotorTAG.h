@@ -1,20 +1,23 @@
 #ifndef MOTORTAG_H
 #define MOTORTAG_H
 
-#include "TNodo.h"
-#include "TTransf.h"
-#include "TLuz.h"
-#include "TMalla.h"
-#include "TCamara.h"
+#include "../../headerfiles/TNodo.h"
+#include "../../headerfiles/TTransf.h"
+#include "../../headerfiles/TLuz.h"
+#include "../../headerfiles/TMalla.h"
+#include "../../headerfiles/TCamara.h"
 
+#include "FObjeto.h"
+#include "vec3.h"
 
 class TMotorTAG{
 public:
 	//enum tEnt { transf, malla, luz, camara };
 
-	TMotorTAG* getInstance();
+	static TMotorTAG* getInstance();
 	virtual ~TMotorTAG();
 
+	/*
 	TNodo *crearNodo(TNodo *padre, TEntidad *ent);
 	TTransf *crearTransf();
 	TTransf *crearTransfRot(float x,float y,float z,float w);
@@ -25,8 +28,14 @@ public:
 	TMalla *crearMalla(char *fichero);
 	void draw();
 	glm::mat4 generateMatrix(TNodo *nodo);
+	*/
+
+	void draw();
+
 	bool setCamara(TEntidad* cam, bool b);
 	bool setLuz(TLuz* lz, bool b);
+
+
 
 	TNodo* getEscena();
 

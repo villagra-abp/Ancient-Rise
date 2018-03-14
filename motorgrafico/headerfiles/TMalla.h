@@ -11,13 +11,13 @@ public:
 	void cargarMalla(string name);
 	virtual void beginDraw() override;
 	virtual void endDraw() override;
-	virtual string getTipo() override{ return "malla"; }
+	virtual tEnt getTipo() override{ return malla; }
 	void isVisible(bool flag);
 
 
 private:	
 
-	TRecursoMalla *malla;
+	TRecursoMalla *mesh;
 	TGestorRecursos* gestor;
 	bool visible;
 

@@ -6,10 +6,10 @@ public:
 	float x, y, z;
 
 	vec3(float q, float w, float r){ x = q; y = w; z = r;}
-	~vec3();
+	virtual ~vec3() = default;
 private:
 
-}
+};
 
 
 

@@ -8,13 +8,13 @@ TMalla::~TMalla(){
 
 }
 
-void TMalla::cargarMalla(string name){
-	malla = dynamic_cast<TRecursoMalla*>(gestor->getRecurso<TRecursoMalla>(name));
+void TMalla::cargarMalla(string path){
+	mesh = dynamic_cast<TRecursoMalla*>(gestor->getRecurso<TRecursoMalla>(path));
 }
 
 void TMalla::beginDraw(){
 	if(visible)
-		malla->draw(*gestor->getShader()); // (...) //Dibujado del recurso de malla OpenGL
+		mesh->draw(*gestor->getShader(), mmodelo); // (...) //Dibujado del recurso de malla OpenGL
 }
 void TMalla::endDraw(){
 }

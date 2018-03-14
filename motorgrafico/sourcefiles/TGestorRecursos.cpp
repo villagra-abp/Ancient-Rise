@@ -19,10 +19,10 @@ TGestorRecursos::~TGestorRecursos(){
 }
 
 
-TRecurso* TGestorRecursos::buscarRecurso(string nombre){
+TRecurso* TGestorRecursos::buscarRecurso(string path){
 	TRecurso *rec = NULL;
 	for(int i=0;i<recursos.size();i++){
-		if(recursos[i]->getNombre()==nombre){
+		if(recursos[i]->getNombre()==path){
 			rec=recursos[i];
 		}
 	}
