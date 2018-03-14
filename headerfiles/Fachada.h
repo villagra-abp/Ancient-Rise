@@ -14,7 +14,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
-#include "../motorgrafico/glm/vec3.hpp" // glm::vec3
+#include "../inc/glm/vec3.hpp" // glm::vec3
 #include "../motorgrafico/headerfiles/TNodo.h"
 #include "../motorgrafico/headerfiles/TTransf.h"
 #include "../motorgrafico/headerfiles/TLuz.h"
