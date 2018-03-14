@@ -8,13 +8,11 @@ class Objeto : public GameObject
 {
 
 	public:
-
-		Objeto();
+		Objeto(Posicion* p);
 		virtual ~Objeto();
 
 		//getters y setters
-
-		core::vector3df getVector3df();
+		Posicion* getVector3df();
 		bool  getActivado();
 		bool getActivando();
 		
@@ -22,10 +20,9 @@ class Objeto : public GameObject
 		void setActivado(bool a);
 		void setActivando(bool a);
 
+		void* getObjeto();
 
-		scene::ISceneNode* getObjeto();
-
-		virtual core::vector3df getPosition() const override { return objeto->getPosition(); }	//Devuelve la posicion.
+		virtual Posicion* getPosition() const override { return posicion; }	//Devuelve la posicion.
 
 
 
@@ -35,7 +32,8 @@ class Objeto : public GameObject
 		bool recogido;  				// Para saber si hemos cogido el objeto o no
 		bool activado;					// Para saber si el objeto ha sido activado/usado o no
 		bool activando; 				// Si se esta activando o no
-		scene::ISceneNode * objeto;
+		void * objeto;
+        Posicion* posicion;
 		int tipo;  						// Para saber que tipo de objeto es 
  
 

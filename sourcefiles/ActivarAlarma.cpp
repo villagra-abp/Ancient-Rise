@@ -4,16 +4,15 @@ Status ActivarAlarma::run(Enemigo *e)
 {   
    // DATOS DEL ENEMIGO
    enemigoNode = e->getNode();
-   core::vector3df EnemigoPosition = enemigoNode->getPosition(); 
-   float enemigoX=EnemigoPosition.X;
-
+   Posicion* EnemigoPosition = e->getPosition(); 
+   float enemigoX=EnemigoPosition->getPosX();
    //SELECCIONA LA ALARMA A ACTIVAR
    
    for (int i = 0; i < a.size(); i++){
       if( e->see(a[i]) && a[i]->getActivado()!=true ) {  // Si alarma a la vista y no esta activada
         
         alarmaPosition = a[i]->getVector3df();
-        alarmaX=alarmaPosition.X;
+        alarmaX=alarmaPosition->getPosX();
 
         pos = i;
         i = a.size();

@@ -11,16 +11,18 @@ Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos
 : enemigo(nullptr), env(nullptr), driver(nullptr), ent(e)
 {
     GameObject::setTipo(ENEMY);
-    enemigo=smgr->addCubeSceneNode();
+    Fachada* fachada=fachada->getInstance();
+	enemigo = fachada->addCube(pos[0]->getPosX(),pos[0]->getPosY(),pos[0]->getPosZ(),false);
+    //posicion = &pos;
 
     if (enemigo) /** SI HEMOS CREADO EL CUBO **/
 	{  
-         driver = dev->getVideoDriver();
-		enemigo->setPosition(core::vector3df(pos[0]->getPosX(),pos[0]->getPosY(),pos[0]->getPosZ())); // INDICAMOS SU POS INICIAL ( QUE VIENE INDICADA EN EL ARRAY TAMBIEN)
-		enemigo->setMaterialFlag(video::EMF_LIGHTING, false);
-        enemigo ->setMaterialTexture(0,driver->getTexture("resources/verde.jpg"));
+         driver = fachada->getDriver();
+		//enemigo->setPosition(core::vector3df(pos[0]->getPosX(),pos[0]->getPosY(),pos[0]->getPosZ())); // INDICAMOS SU POS INICIAL ( QUE VIENE INDICADA EN EL ARRAY TAMBIEN)
+		//enemigo->setMaterialFlag(video::EMF_LIGHTING, false);
+        fachada ->setMaterial(enemigo,"resources/verde.jpg");
 
-        EnemigoPosition = enemigo->getPosition();
+        EnemigoPosition = fachada->getPosicion(enemigo);
 
 
 	}
@@ -48,7 +50,7 @@ Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos
 }
 
 /* Update para todos los enemigos*/
-void Enemigo::update(core::vector3df prota)
+void Enemigo::update(Posicion* Posprota)
 {
         this->actualizarHambre(); 
         this->actualizarSed();
@@ -63,47 +65,45 @@ void Enemigo::update(core::vector3df prota)
         }
 
         // COMPROBAMOS SI HEMOS VISTO AL PROTAGONISTA 
-        if(this->checkInSight(prota)){              
+        if(this->checkInSight(Posprota)){              
             visto = true;
-             enemigo->setMaterialTexture(0,driver->getTexture("resources/activada.jpeg"));  
+             fachada->setMaterial(enemigo,"resources/activada.jpeg");  
              contador = 0;
             
         }else{
             if(this->recordarProta())
             {
                 visto = false;
-                enemigo->setMaterialTexture(0,driver->getTexture("resources/verde.jpg"));
+                fachada->setMaterial(enemigo,"resources/verde.jpg");
             }
             
         }
 
-        core::vector3df pos = enemigo->getPosition(); 
-
+        //core::vector3df pos = enemigo->getPosition(); 
         if(combate == true)
         {
             if( pos_combate == 1)
             {
-                pos.Y = 10.f;
+                EnemigoPosition->setPosY(10.f);
             }
             else
             {
                 if(pos_combate == 2)
                 {
-                    pos.Y = 5.f;
+                    EnemigoPosition->setPosY(5.f);
                 }
                 else
                 {
-                    pos.Y = 0.f;
+                    EnemigoPosition->setPosY(0.f);
                 }
             }
         }
         else
         {
-            pos.Y = 0.f;
+            EnemigoPosition->setPosY(0.f);
         }
 
-        enemigo->setPosition(pos);
-
+        //enemigo->setPosition(pos);
 }
 
 
@@ -164,7 +164,15 @@ bool Enemigo::recordarProta()
 FUNCION QUE SIRVE PARA SABER SI UN DETERMINADO OBJETO DEL JUEGO ESTA DENTRO DEL AREA DE VISION DEFINIDO PARA EL ENEMIGO. 
 DEVUELVE TRUE EN EL CASO DE ESTARLO
 **/
+<<<<<<< HEAD
 bool Enemigo::checkInSight(core::vector3df objPos){
+=======
+bool Enemigo::checkInSight(Posicion* objPos){
+    
+    float posObjX=objPos->getPosX();
+    float posObjY=objPos->getPosY();
+    
+>>>>>>> 89a4e0e937ec5c5d2e6bf07d446473ff8dc14279
     bool inSight = false;  //Valor para retorno, si la posicion recibida se encuentra
     // dentro del rango de vision sera TRUE.
 
@@ -192,6 +200,7 @@ bool Enemigo::checkInSight(core::vector3df objPos){
 
     //std::cout << enemigo->getPosition().X << endl;
     if(lastFacedDir){   //Mira hacia derecha
+<<<<<<< HEAD
         pjxmin = enemigo->getPosition().X;
         pjxmax = enemigo->getPosition().X + visionXmax;
         pjxmax2 = pjxmax + xprima;
@@ -208,11 +217,30 @@ bool Enemigo::checkInSight(core::vector3df objPos){
         pjymin = EnemigoPosition.Y - (pjymax - EnemigoPosition.Y);
         
         if(objPos.Y > pjymin && objPos.Y < pjymax)
+=======
+        pjxmin = fachada->getPosicion(enemigo)->getPosX();
+        pjxmax = fachada->getPosicion(enemigo)->getPosX() + visionXmax;
+        pjxmax2 = pjxmax + xprima;
+        xReady = posObjX - pjxmin;
+    }else{              //Mira hacia izquierda
+        pjxmin = fachada->getPosicion(enemigo)->getPosX() - visionXmax;
+        pjxmax = fachada->getPosicion(enemigo)->getPosX();
+        pjxmin2 = pjxmin - xprima;
+        xReady = -(posObjX - pjxmax);
+    }
+
+    if(posObjX < pjxmax && posObjX > pjxmin){
+        pjymax = xReady * valorPendiente + EnemigoPosition->getPosY();
+        pjymin = EnemigoPosition->getPosY() - (pjymax - EnemigoPosition->getPosY());
+        
+        if(posObjY > pjymin && posObjY < pjymax)
+>>>>>>> 89a4e0e937ec5c5d2e6bf07d446473ff8dc14279
             inSight = true;
     
     }else{  //Segunda parte del area, anyadido.
 
         if(lastFacedDir){
+<<<<<<< HEAD
             if (objPos.X >= pjxmax && objPos.X < pjxmax2){  
                 if(objPos.X < (pjxmax+xprima1)){
                     pjymax = -(objPos.X - (pjxmax + xprima1)) * pend1 + EnemigoPosition.Y + yprima;
@@ -223,11 +251,24 @@ bool Enemigo::checkInSight(core::vector3df objPos){
                 }
                 
                 if(objPos.Y < pjymax && objPos.Y > pjymin)
+=======
+            if (posObjX >= pjxmax && posObjX < pjxmax2){  
+                if(posObjX < (pjxmax+xprima1)){
+                    pjymax = -(posObjX - (pjxmax + xprima1)) * pend1 + EnemigoPosition->getPosY() + yprima;
+                    pjymin = EnemigoPosition->getPosY() - (pjymax - EnemigoPosition->getPosY());                    
+                }else{
+                    pjymax = -(posObjX - (pjxmax + xprima)) * pend2 + EnemigoPosition->getPosY();
+                    pjymin = EnemigoPosition->getPosY() - (pjymax - EnemigoPosition->getPosY());
+                }
+                
+                if(posObjY < pjymax && posObjY > pjymin)
+>>>>>>> 89a4e0e937ec5c5d2e6bf07d446473ff8dc14279
                     inSight = true;
                 
             }
         }else{
 
+<<<<<<< HEAD
             if(objPos.X > pjxmin2 && objPos.X <= pjxmin){
                 if(objPos.X > (pjxmin-xprima1)){
                     pjymax = (objPos.X - (pjxmin - xprima1)) * pend1 + EnemigoPosition.Y + yprima;
@@ -252,6 +293,32 @@ DEVUELVE TRUE SI SE ENCUENTRA DENTRO DEL VECTOR **/
 bool Enemigo::see(GameObject* o){
     bool seeing = false;
 
+=======
+            if(posObjX > pjxmin2 && posObjX <= pjxmin){
+                if(posObjX > (pjxmin-xprima1)){
+                    pjymax = (posObjX - (pjxmin - xprima1)) * pend1 + EnemigoPosition->getPosY() + yprima;
+                    pjymin = EnemigoPosition->getPosY() - (pjymax-EnemigoPosition->getPosY());                    
+                }else{
+                    pjymax = (posObjX - (pjxmin - xprima)) * pend2 + EnemigoPosition->getPosY();
+                    pjymin = EnemigoPosition->getPosY() - (pjymax-EnemigoPosition->getPosY());
+                }
+                
+                if(posObjY < pjymax && posObjY > pjymin)
+                    inSight = true;
+
+            }
+        }
+    }
+
+    return inSight;
+}
+
+/** FUNCION PARA SABER SI UN DETERMINADO GAMEOBJECT HA SIDO INCLUIDO EN EL VECTOR DE VISTOS DE ESTE ENEMIGO 
+DEVUELVE TRUE SI SE ENCUENTRA DENTRO DEL VECTOR **/
+bool Enemigo::see(GameObject* o){
+    bool seeing = false;
+
+>>>>>>> 89a4e0e937ec5c5d2e6bf07d446473ff8dc14279
     for(int i = 0; i < vistos.size(); i++){
         if(vistos[i] == o){
             seeing = true;
@@ -265,7 +332,11 @@ bool Enemigo::see(GameObject* o){
 A PARTIR DE AQUI VAN TODOS LOS GETS Y LOS SETS
 ==============================================
 **/
+<<<<<<< HEAD
 scene::ISceneNode* Enemigo::getNode()
+=======
+void* Enemigo::getNode()
+>>>>>>> 89a4e0e937ec5c5d2e6bf07d446473ff8dc14279
 {
     return enemigo;
 }
@@ -280,6 +351,7 @@ f32 Enemigo::getSed()
 {
     return sed;
 }
+<<<<<<< HEAD
 
 f32 Enemigo::getSalud()
 {
@@ -315,6 +387,43 @@ float Enemigo::getXRange(){
     return visionXmax;
 }
 
+=======
+
+f32 Enemigo::getSalud()
+{
+    return salud;
+}
+
+f32 Enemigo::getHambre()
+{
+    return hambre;
+}
+
+vector<Posicion*> Enemigo::getPosicion()
+{
+    return posPatrulla;
+}
+
+const f32 Enemigo::getVelNormal()
+{
+    return VELOCIDAD_NORMAL;
+}
+
+int Enemigo::getTipo()
+{
+    return tipo;
+}
+
+int Enemigo::getClaseEnemigo()
+{
+    return claseEnemigo;
+}
+
+float Enemigo::getXRange(){
+    return visionXmax;
+}
+
+>>>>>>> 89a4e0e937ec5c5d2e6bf07d446473ff8dc14279
 float Enemigo::getYPend(){
     return valorPendiente;
 }
@@ -390,6 +499,7 @@ void Enemigo::setSed(f32 se)
     sed=se;
 }
 
+<<<<<<< HEAD
 void Enemigo::setPosition(vector3df position)
 {
     enemigo->setPosition(position);
@@ -403,6 +513,21 @@ void Enemigo::setVelHambre(f32 v)
 
 void Enemigo::setVelSed(f32 v)
 {
+=======
+void Enemigo::setPosition(Posicion* position)
+{
+    fachada->setPosicion(enemigo,position);
+    EnemigoPosition = position;
+}
+
+void Enemigo::setVelHambre(f32 v)
+{
+    velHambre = v;
+}
+
+void Enemigo::setVelSed(f32 v)
+{
+>>>>>>> 89a4e0e937ec5c5d2e6bf07d446473ff8dc14279
     velSed = v;
 }
 

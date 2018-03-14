@@ -13,7 +13,7 @@ class EnemigoAvanzado : public Enemigo
 
        EnemigoAvanzado(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos, float xlength, float pendValue, int t, const Entorno* e, Blackboard *b, b2World& world);
 
-        void Update(core::vector3df prota);
+        void Update(Posicion* prota);
         virtual void comprobarEnergia() override;
         virtual void CreateBox(b2World& world, float X, float Y) override;
 

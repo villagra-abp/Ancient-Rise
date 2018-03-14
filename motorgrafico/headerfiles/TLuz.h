@@ -1,10 +1,7 @@
 #ifndef LUZ_H
 #define LUZ_H
 
-#include <iostream>
-#include <vector>
-#include <math.h>
-#include "../headerfiles/TEntidad.h"
+#include "TEntidad.h"
 
 using namespace std;
 
@@ -16,6 +13,7 @@ public:
 	//TColor getIntensidad();
 	virtual void beginDraw() override;
 	virtual void endDraw() override;
+	virtual tEnt getTipo() override{ return luz; }
 
 
 private:	

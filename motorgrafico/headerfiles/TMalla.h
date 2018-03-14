@@ -1,12 +1,7 @@
 #ifndef MALLA_H
 #define MALLA_H
 
-#include <iostream>
-#include <vector>
-#include <math.h>
-#include "../headerfiles/TEntidad.h"
-
-using namespace std;
+#include "TEntidad.h"
 
 class TMalla: public TEntidad{
 public:
@@ -15,6 +10,7 @@ public:
 	//void cargarMalla(TFichero);
 	virtual void beginDraw() override;
 	virtual void endDraw() override;
+	virtual tEnt getTipo() override{ return malla; }
 
 
 private:	

@@ -22,7 +22,7 @@ class AvanzarPatrulla : public Task
 		vector<Posicion*> pos;	  // Vector con las posiciones de la patrulla
 		float protaPosition;	  
 		Blackboard *board;		  // Blackboard con los datos necesarios
-		scene::ISceneNode* enemigoNode;
+		void* enemigoNode;
 		sf::Clock reloj; 		  			// Reloj para controlar el tiempo que esta parado el enemigo en una posicion de la patrulla
 	    int contadorReloj; 			  			// Para reiniciar el reloj cuando toca
 

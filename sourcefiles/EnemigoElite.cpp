@@ -15,7 +15,7 @@ EnemigoElite::EnemigoElite(IrrlichtDevice *dev, ISceneManager *smgr, vector<Posi
     tipo = t;                                             // Tipo de combate que usa (Distancia o Cuerpo a Cuerpo)
     claseEnemigo = 3;                                     // EnemigoElite
 
-    enemigo->setMaterialFlag(video::EMF_LIGHTING, true);
+    fachada->setMaterialFlag(enemigo, true);
 
     black = b;                                             // Guardamos la blackboard 
 
@@ -36,17 +36,18 @@ EnemigoElite::EnemigoElite(IrrlichtDevice *dev, ISceneManager *smgr, vector<Posi
 
 }
 
-void EnemigoElite::Update(core::vector3df prota)
+void EnemigoElite::Update(Posicion* prota)
 {
   this->update(prota);                                     // Llamamos tambien al update de la clase general del enemigo y actualizamos los valores de sed - hambre del mismo
   this->comprobarEnergia();
 
   comportamiento->update(this);                           // Empezamos a ejecutar el arbol de comportamiento del enemigo
-
-  EnemigoPosition.X=Body->GetPosition().x*1;
-  EnemigoPosition.Y=Body->GetPosition().y*1;
-
-  enemigo->setPosition(EnemigoPosition);
+  EnemigoPosition->setPosX(Body->GetPosition().x);
+  EnemigoPosition->setPosY(Body->GetPosition().y);
+  //EnemigoPosition.X=Body->GetPosition().x;
+  //EnemigoPosition.Y=Body->GetPosition().y;
+  fachada->setPosicion(enemigo,EnemigoPosition);
+  //enemigo->setPosition(EnemigoPosition);
 
 }
 

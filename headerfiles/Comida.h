@@ -10,12 +10,13 @@ class Comida : public Objeto
 
 	public:
 
-		Comida(IrrlichtDevice *dev, ISceneManager* smgr, Posicion pos);
-		scene::ISceneNode* getNode();
+		Comida(IrrlichtDevice *dev, ISceneManager* smgr, Posicion* pos);
+		void* getNode();
 
 	private:
-        core::vector3df comidaPosition;
-        IVideoDriver* 		driver;
+        //core::vector3df comidaPosition;
+        //IVideoDriver* 		driver;
 };
 
 #endif // COMIDA_H
+

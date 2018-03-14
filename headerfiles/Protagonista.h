@@ -8,16 +8,18 @@
 #include "../headerfiles/Bebida.h"
 #include "../headerfiles/Trampa.h"
 #include "../headerfiles/GameObject.h"
+#include "../headerfiles/Fachada.h"
+>>>>>>> 89a4e0e937ec5c5d2e6bf07d446473ff8dc14279
 #include "../motorsonido/headerfiles/GestorSonido.h"
 
 
 class Protagonista : public GameObject
 {
     public:
-        Protagonista(IrrlichtDevice *dev, ISceneManager* smgr);
+        static Protagonista* getInstance();
         virtual ~Protagonista();
 
-         scene::ISceneNode* getNode();
+         void* getNode();
 
          void salto(const f32 Time);
          void ataque(const f32 Time);
@@ -29,7 +31,8 @@ class Protagonista : public GameObject
          void comprobarColision(Comida *comida);
          void comprobarColision(Bebida *bebida);
          void comprobarColision(Trampa *trampa);
-         bool comprobarColision(scene::ISceneNode* nodo);
+
+         //bool comprobarColision(scene::ISceneNode* nodo);
          void gravedad(const f32 Time);
          void CreateGround(b2World& world, float X, float Y,int largo);
          void CreateBox(b2World& world, float X, float Y);
@@ -37,10 +40,10 @@ class Protagonista : public GameObject
 
 
          //GETTERS Y SETTERS
-         virtual core::vector3df getPosition() const override{ return protaPosition; }
+         virtual Posicion* getPosition() const override{ return protaPosition; }
          void setSalto(bool s);
-         core::vector3df getPosition();
-         void setPosition(core::vector3df v);
+         Posicion* getPosition();
+         void setPosition(Posicion* v);
          f32  getEnergia();
          f32  getVida();
 
@@ -68,9 +71,12 @@ class Protagonista : public GameObject
 
 
     private:
-        scene::ISceneNode * rec;
-        scene::ISceneNode * energy;
-        scene::ISceneNode * life;
+        
+        Protagonista();
+        
+        void * rec;
+        void * energy;
+        void * life;
         f32 energia=100.f;
         f32 vida=100.f;
         bool saltando=false;
@@ -86,16 +92,17 @@ class Protagonista : public GameObject
         int cont_salto=0;
         int cont_recarga_enemigo=0;
         const f32 VELOCIDAD_MOVIMIENTO=90.f;
-        core::vector3df protaPosition;
-        core::vector3df enemigoPosition;
-        core::vector3df comidaPosition;
-        core::vector3df bebidaPosition;
-        core::vector3df trampaPosition;
-        core::vector3df energyPosition;
-        core::vector3df nodoPosition;
-        core::vector3df energyScale;
-        core::vector3df lifePosition;
-        core::vector3df lifeScale;
+
+        Posicion* protaPosition;
+        Posicion* enemigoPosition;
+        Posicion* comidaPosition;
+        Posicion* bebidaPosition;
+        Posicion* trampaPosition;
+        Posicion* energyPosition;
+        Posicion* nodoPosition;
+        Posicion* energyScale;
+        Posicion* lifePosition;
+        Posicion* lifeScale;
         
         /* BOX2D */
         b2Body* Body;
@@ -114,6 +121,8 @@ class Protagonista : public GameObject
         Sonido* omae;
         Sonido* grito;
         Sonido* risa;
+        
+        Fachada* fachada=fachada->getInstance();
 
 };
 

@@ -18,10 +18,10 @@ class AlarmaSonando : public Task
 		Blackboard *board;
 	    f32 frameDeltaTime;		  // Tiempo
 	    vector<Objeto*> a;
-	    scene::ISceneNode* enemigoNode;
+	    void* enemigoNode;
 	
 		//Datos de alarma
-	    core::vector3df alarmaPosition;
+	    Posicion* alarmaPosition;
 		float alarmaX;
 		int distanciaAlarma;
 		

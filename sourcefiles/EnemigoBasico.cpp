@@ -42,18 +42,18 @@ EnemigoBasico::EnemigoBasico(IrrlichtDevice *dev, ISceneManager *smgr, vector<Po
 
 }
 
-void EnemigoBasico::Update(core::vector3df prota)
+void EnemigoBasico::Update(Posicion* prota)
 {
 	this->update(prota);                                     // Llamamos tambien al update de la clase general del enemigo y actualizamos los valores de sed - hambre del mismo
   this->comprobarEnergia();
 
   comportamiento->update(this);                           // Empezamos a ejecutar el arbol de comportamiento del enemigo
 
-  EnemigoPosition.X=Body->GetPosition().x*1;              // Establecemos su velocidad con el body
-  EnemigoPosition.Y=Body->GetPosition().y*1;
+  EnemigoPosition->setPosX(Body->GetPosition().x);        // Establecemos su velocidad con el body
+  EnemigoPosition->setPosY(Body->GetPosition().y);
 
-  enemigo->setPosition(EnemigoPosition);
-
+  
+    fachada->setPosicion(enemigo,EnemigoPosition);
 }
 
 

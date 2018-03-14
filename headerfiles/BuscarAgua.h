@@ -20,17 +20,18 @@ class BuscarAgua : public Task
 		vector<Objeto*> f;
 		Blackboard *board;
 		f32 frameDeltaTime;		  // Tiempo
-		scene::ISceneNode* enemigoNode;
+		void* enemigoNode;
 		scene::ISceneNode* fuenteNode;
 		sf::Clock reloj; 		  			// Reloj para controlar el tiempo que tarda en beber
 	    int contador; 			  			// Para reiniciar el reloj cuando toca
 		
 	    //DATOS DE LA FUENTE
-	    core::vector3df fuentePosition;
+	    Posicion* fuentePosition;
 	    float fuenteX;
 	    int distanciaFuente;
 	    int distanciaFaux;
 
 };
+
 
 #endif // BUSCARAGUA_H

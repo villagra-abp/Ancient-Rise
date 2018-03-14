@@ -11,8 +11,8 @@ Status AvanzarPatrulla::run(Enemigo *e)
     pos = e->getPosicion();
 
     enemigoNode = e->getNode();
-    core::vector3df EnemigoPosition = enemigoNode->getPosition(); // VOLVEMOS A OBTENER EL VECTOR DE POSICION DEL ENEMIGO POR SI HA CAMBIADO
-    float enemigoX=EnemigoPosition.X;
+    Posicion* EnemigoPosition = e->getPosition(); // VOLVEMOS A OBTENER EL VECTOR DE POSICION DEL ENEMIGO POR SI HA CAMBIADO
+    float enemigoX=EnemigoPosition->getPosX();
 
     float posPatrullaX = pos[contadorPatrulla]->getPosX();
 

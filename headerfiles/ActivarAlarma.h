@@ -19,12 +19,12 @@ class ActivarAlarma : public Task
 		Blackboard *board;
 	    f32 frameDeltaTime;		  // Tiempo
 	    vector<Objeto*> a;
-	    scene::ISceneNode* enemigoNode;
+	    void* enemigoNode;
 	    sf::Clock reloj; 		  			// Reloj para controlar el tiempo que se tarda en activar la alarma
 	    int contador;
 
 	    //Datos de alarma
-	    core::vector3df alarmaPosition;
+	    Posicion* alarmaPosition;
 		float alarmaX;
 		int distanciaAlarma;
 		int pos;
@@ -32,3 +32,4 @@ class ActivarAlarma : public Task
 };
 
 #endif // ACTIVARALARMA_H
+

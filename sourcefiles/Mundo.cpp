@@ -1,371 +1,20 @@
 #include "../headerfiles/Mundo.h"
 
-
-Mundo::Mundo(IrrlichtDevice* mainDevice, MyEventReceiver* mainReceiver)	//CONSTRUCTOR
+Mundo::Mundo()	//CONSTRUCTOR
 {
-	cout<<endl;
-
-	/* Creando la estructura del arbol */
-	TNodo *Escena = new TNodo();
-	Escena->setIdent(1);
-	TNodo *RotaLuz = new TNodo();
-	RotaLuz->setIdent(2);
-	TNodo *RotaCam = new TNodo();
-	RotaCam->setIdent(3);
-	TNodo *RotaCoche = new TNodo();
-	RotaCoche->setIdent(4);
-
-	Escena->addHijoBack(RotaLuz);
-	Escena->addHijoBack(RotaCam);
-	Escena->addHijoBack(RotaCoche);
-
-
-	TNodo *TraslaLuz = new TNodo();
-	TraslaLuz->setIdent(5);
-	TNodo *TraslaCam = new TNodo();
-	TraslaCam->setIdent(6);
-	TNodo *TraslaCoche = new TNodo();
-	TraslaCoche->setIdent(7);
-	
-
-	RotaLuz->addHijoBack(TraslaLuz);
-	RotaCam->addHijoBack(TraslaCam);
-	RotaCoche->addHijoBack(TraslaCoche);
-
-
-	/* Anyadimos las entidades a los nodos */
-	TTransformacion *TransfRotaLuz = new TTransformacion();
-	TTransformacion *TransfRotaCam = new TTransformacion();
-	TTransformacion *TransfRotaCoche = new TTransformacion();
-
-	RotaLuz->setEntidad(TransfRotaLuz);
-	RotaCoche->setEntidad(TransfRotaCoche);
-	RotaCam->setEntidad(TransfRotaCam);
-
-
-	vector <TNodo*> v =Escena->getHijos();
-	cout<<"El nodo escena tiene como hijos: ";
-
-	for(int i=0;i<v.size();i++)
-	{
-		cout<<"Nodo "<<v[i]->getIdent()<<" ";
-	}
-
-	cout<<endl;
-
-	vector <TNodo*> v4 =RotaLuz->getHijos();
-	cout<<"El nodo RotaLuz tiene como hijos: ";
-
-	for(int i=0;i<v4.size();i++)
-	{
-		cout<<"Nodo "<<v4[i]->getIdent()<<" ";
-	}
-
-	cout<<endl;
-
-	vector <TNodo*> v5 =RotaCoche->getHijos();
-	cout<<"El nodo RotaCoche tiene como hijos: ";
-
-	for(int i=0;i<v5.size();i++)
-	{
-		cout<<"Nodo "<<v5[i]->getIdent()<<" ";
-	}
-
-	cout<<endl;
-
-	vector <TNodo*> v6 =RotaCam->getHijos();
-	cout<<"El nodo RotaCam tiene como hijos: ";
-
-	for(int i=0;i<v6.size();i++)
-	{
-		cout<<"Nodo "<<v6[i]->getIdent()<<" ";
-	}
-
-	cout<<endl;
-
-	cout<<"RotaLuz tiene como padre al nodo "<<RotaLuz->getPadre()->getIdent()<<endl;
-	cout<<"RotaCam tiene como padre al nodo "<<RotaCam->getPadre()->getIdent()<<endl;
-	cout<<"RotaCoche tiene como padre al nodo "<<RotaCoche->getPadre()->getIdent()<<endl;
-
-	cout<<"TraslaLuz tiene como padre al nodo "<<TraslaLuz->getPadre()->getIdent()<<endl;
-	cout<<"TraslaCam tiene como padre al nodo "<<TraslaCam->getPadre()->getIdent()<<endl;
-	cout<<"TraslaCoche tiene como padre al nodo "<<TraslaCoche->getPadre()->getIdent()<<endl;
-
-
-	cout<<endl;
-	
-	cout<<"Borrando nodo TraslaCoche ...."<<endl;
-
-	TraslaCoche = RotaCoche->remHijo(TraslaCoche);
-
-if(Escena!=nullptr)
-{
-	vector <TNodo*> v7 =Escena->getHijos();
-	cout<<"El nodo escena tiene como hijos: ";
-
-	for(int i=0;i<v7.size();i++)
-	{
-		cout<<"Nodo "<<v7[i]->getIdent()<<" ";
-	}
-}
-else
-{
-	cout<<"El nodo escena ha sido borrado";
-}
-
-	cout<<endl;
-
-if(RotaLuz!=nullptr)
-{
-	vector <TNodo*> v8 =RotaLuz->getHijos();
-	cout<<"El nodo RotaLuz tiene como hijos: ";
-
-	for(int i=0;i<v8.size();i++)
-	{
-		cout<<"Nodo "<<v8[i]->getIdent()<<" ";
-	}
-}
-else
-{
-	cout<<"El nodo Rotaluz ha sudo borrado";
-}
-
-	cout<<endl;
-
-	if(RotaCoche!=nullptr)
-	{
-		vector <TNodo*> v9 =RotaCoche->getHijos();
-		cout<<"El nodo RotaCoche tiene como hijos: ";
-
-		for(int i=0;i<v9.size();i++)
-		{
-			cout<<"Nodo "<<v9[i]->getIdent()<<" ";
-		}
-	}
-	else
-	{
-		cout<<"El nodo RotaCoche esta borrado"<<endl;
-	}
-
-	cout<<endl;
-if(RotaCam!=nullptr)
-{
-	vector <TNodo*> v10 =RotaCam->getHijos();
-	cout<<"El nodo RotaCam tiene como hijos: ";
-
-	for(int i=0;i<v10.size();i++)
-	{
-		cout<<"Nodo "<<v10[i]->getIdent()<<" ";
-	}
-}
-else
-{
-	cout<<"El nodo RotaCam ha sido borrado";
-}
-
-	cout<<endl;
-	if(RotaLuz!=nullptr)
-	cout<<"RotaLuz tiene como padre al nodo "<<RotaLuz->getPadre()->getIdent()<<endl;
-	if(RotaCam!=nullptr)
-	cout<<"RotaCam tiene como padre al nodo "<<RotaCam->getPadre()->getIdent()<<endl;
-	if(RotaCoche!=nullptr)
-	cout<<"RotaCoche tiene como padre al nodo "<<RotaCoche->getPadre()->getIdent()<<endl;
-	if(TraslaLuz!=nullptr)
-	cout<<"TraslaLuz tiene como padre al nodo "<<TraslaLuz->getPadre()->getIdent()<<endl;
-if(TraslaCam!=nullptr)
-	cout<<"TraslaCam tiene como padre al nodo "<<TraslaCam->getPadre()->getIdent()<<endl;
-if(TraslaCoche!=nullptr)
-	cout<<"TraslaCoche tiene como padre al nodo "<<TraslaCoche->getPadre()->getIdent()<<endl;
-	
-	
-/*
-	// Pruebas remHijoAll
-	TNodo *Escena = new TNodo();
-	Escena->setIdent(1);
-	TNodo *RotaLuz = new TNodo();
-	RotaLuz->setIdent(2);
-	TNodo *RotaCam = new TNodo();
-	RotaCam->setIdent(3);
-	TNodo *RotaCoche = new TNodo();
-	RotaCoche->setIdent(4);
-
-	Escena->addHijoBack(RotaLuz);
-	Escena->addHijoBack(RotaCam);
-	Escena->addHijoBack(RotaCoche);
-
-
-	TNodo *TraslaLuz = new TNodo();
-	TraslaLuz->setIdent(5);
-	TNodo *TraslaLuz2 = new TNodo();
-	TraslaLuz2->setIdent(6);
-	TNodo *TraslaCoche = new TNodo();
-	TraslaCoche->setIdent(7);
-
-
-	RotaLuz->addHijoBack(TraslaLuz);
-	TraslaLuz->addHijoBack(TraslaLuz2);
-	RotaCoche->addHijoBack(TraslaCoche);
-
-
-	vector <TNodo*> v =Escena->getHijos();
-	cout<<"El nodo escena tiene como hijos: ";
-
-	for(int i=0;i<v.size();i++)
-	{
-		cout<<"Nodo "<<v[i]->getIdent()<<" ";
-	}
-
-	cout<<endl;
-
-	vector <TNodo*> v4 =RotaLuz->getHijos();
-	cout<<"El nodo RotaLuz tiene como hijos: ";
-
-	for(int i=0;i<v4.size();i++)
-	{
-		cout<<"Nodo "<<v4[i]->getIdent()<<" ";
-	}
-
-	cout<<endl;
-
-	vector <TNodo*> v5 =RotaCoche->getHijos();
-	cout<<"El nodo RotaCoche tiene como hijos: ";
-
-	for(int i=0;i<v5.size();i++)
-	{
-		cout<<"Nodo "<<v5[i]->getIdent()<<" ";
-	}
-
-	cout<<endl;
-
-	vector <TNodo*> v6 =TraslaLuz->getHijos();
-	cout<<"El nodo TraslaLuz tiene como hijos: ";
-
-	for(int i=0;i<v6.size();i++)
-	{
-		cout<<"Nodo "<<v6[i]->getIdent()<<" ";
-	}
-
-	cout<<endl;
-
-	vector <TNodo*> v7 =TraslaCoche->getHijos();
-	cout<<"El nodo TraslaCoche tiene como hijos: ";
-
-	if(v7.size()!=0)
-	{
-		for(int i=0;i<v7.size();i++)
-		{
-			cout<<"Nodo "<<v7[i]->getIdent()<<" ";
-		}
-	}
-	else
-	{
-		cout<<"El nodo TraslaCoche no tiene hijos"<<endl;
-	}
-
-	cout<<endl;
-
-
-	cout<<"Borrando nodo RotaLuz y toda los hijos que tiene ...."<<endl;
-
-	Escena->remHijoAll(RotaLuz);
-
-
-	vector <TNodo*> v8 =Escena->getHijos();
-	cout<<"El nodo escena tiene como hijos: ";
-
-	for(int i=0;i<v8.size();i++)
-	{
-		cout<<"Nodo "<<v8[i]->getIdent()<<" ";
-	}
-
-	cout<<endl;
-
-	vector <TNodo*> v9 =RotaLuz->getHijos();
-	cout<<"El nodo RotaLuz tiene como hijos: ";
-	if(v9.size()!=0)
-	{
-		for(int i=0;i<v9.size();i++)
-		{
-			cout<<"Nodo "<<v9[i]->getIdent()<<" ";
-		}
-	}
-	else
-	{
-		cout<<"El nodo RotaLuz no tiene hijos "<<endl;
-	}
-
-	cout<<endl;
-
-	vector <TNodo*> v10 =RotaCoche->getHijos();
-	cout<<"El nodo RotaCoche tiene como hijos: ";
-	if(v10.size()!=0)
-	{
-		for(int i=0;i<v10.size();i++)
-		{
-			cout<<"Nodo "<<v10[i]->getIdent()<<" ";
-		}
-	}
-	else
-	{
-		cout<<"El nodo RotaCoche no tiene hijos "<<endl;
-	}
-
-	cout<<endl;
-
-	vector <TNodo*> v11 =TraslaLuz->getHijos();
-	cout<<"El nodo TraslaLuz tiene como hijos: ";
-	if(v11.size()!=0)
-	{
-		for(int i=0;i<v11.size();i++)
-		{
-			cout<<"Nodo "<<v11[i]->getIdent()<<" ";
-		}
-	}
-	else
-	{
-		cout<<"El nodo TraslaLuz no tiene hijos"<<endl;
-	}
-
-	cout<<endl;
-
-	vector <TNodo*> v12 =TraslaCoche->getHijos();
-	cout<<"El nodo TraslaCoche tiene como hijos: ";
-
-	if(v12.size()!=0)
-	{
-		for(int i=0;i<v12.size();i++)
-		{
-			cout<<"Nodo "<<v12[i]->getIdent()<<" ";
-		}
-	}
-	else
-	{
-		cout<<"El nodo TraslaCoche no tiene hijos"<<endl;
-	}
-
-	cout<<endl;
-
-*/
-
+Fachada* fachada=fachada->getInstance();
 /* CREAMOS IRRLICHT DEVICE */	 
-	device = mainDevice;
-	receiver = mainReceiver;
+	device = fachada->getDevice();
+	//receiver = mainReceiver;
 
 /** PUNTEROS 
  A VideoDriver, al SceneManager y al entorno de interfaz de usuario, para no tener que
  estar llamandolos siempre y solo los llamamos una vez
 **/
+	driver = fachada->getDriver();
+	smgr = fachada->getScene();
+	guienv = fachada->getGUI();
 
-	driver = device->getVideoDriver();
-	smgr = device->getSceneManager();
-	guienv = device->getGUIEnvironment();
-
-/** SUBTITULO DE VENTANA
- Para poner texto en el subtitulo de la ventana. Necesita de una 'L' delante del string
- debido a que lo necesita el motor de irrlicht
-**/
-
-	device->setWindowCaption(L"Ancient Rise");
 
 /*CREAMOS GESTOR DE SONIDO*/
 	sonido = GestorSonido::getInstance();
@@ -374,11 +23,9 @@ if(TraslaCoche!=nullptr)
 	reverbCueva->setTipo(sonido->REVERB_CUEVA);
 	musicaBosque = sonido->createMusic(sonido->SOUND_MUSIC_BOSQUE);
 /* CREAMOS PROTA */
-
-	prota = new Protagonista(device, smgr);
+	prota = prota->getInstance();
+    
 	addGameObject(prota);
-
-	rec = prota->getNode();
 
 	//creo el suelo, el bounding box del prota y la plataforma
 	prota->CreateGround(world, 0.f, -150.f,1000*1000);
@@ -394,44 +41,44 @@ if(TraslaCoche!=nullptr)
 
 /* CREAMOS OBJETOS */
 
-	Posicion pC(-220.f, 0.f, 30.f);
+	Posicion* pC= new Posicion(-220.f, 0.f, 30.f);
 	c = new Comida(device, smgr, pC);
 	comidas.push_back(c);
 	addGameObject(c);
 
-	Posicion pC2(190.f, 0.f, 30.f);
+	Posicion* pC2= new Posicion(190.f, 0.f, 30.f);
 	c2 = new Comida(device, smgr, pC2);
 	comidas.push_back(c2);
 	addGameObject(c2);
 
-	Posicion pF(-190.f,0.f,40.f);
+	Posicion* pF= new Posicion(-190.f,0.f,40.f);
 	f = new Fuente(device, smgr, pF);
 	fuentes.push_back(f);
 	addGameObject(f);
 
-	Posicion pF2(320.f,0.f,40.f);
+	Posicion* pF2= new Posicion(320.f,0.f,40.f);
 	f2 = new Fuente(device, smgr, pF2);
 	fuentes.push_back(f2);
 	addGameObject(f2);
 
-	Posicion pA(120.f,0.f,40.f);
+	Posicion* pA= new Posicion(120.f,0.f,40.f);
 	a = new Alarma(device, smgr, pA);
 	alarmas.push_back(a);
 	addGameObject(a);
 
-	Posicion pA2(-160.f,0.f,40.f);
+	Posicion* pA2= new Posicion(-160.f,0.f,40.f);
 	a2 = new Alarma(device, smgr, pA2);
 	alarmas.push_back(a2);
 	addGameObject(a2);
 
-	Posicion posbebida(-300,0,30.f);
+	Posicion* posbebida= new Posicion(-300,0,30.f);
  	bebida = new Bebida(device, smgr, posbebida);
  	addGameObject(bebida);
 
-	Posicion postrampa(520,0,30.f);
+	Posicion* postrampa= new Posicion(520,0,30.f);
  	t = new Trampa(device, smgr, postrampa);
  	addGameObject(t);
-
+    //std::cout<<postrampa.getPosX()<<endl;
 
 /* CREAMOS LA BLACKBOARD */
 
@@ -463,35 +110,31 @@ if(TraslaCoche!=nullptr)
 	enemE.push_back(enemE1);
 
 /* CREAMOS PLATAFORMAS */
+    Posicion* escala = new Posicion(10.f,1.f,5.f);
 
-	Plataforma = smgr->addCubeSceneNode();
+	Plataforma = fachada->addCube(220,25,30,false);
 
 	if (Plataforma) /** SI HEMOS CREADO EL CUBO **/
 	{
-		Plataforma->setPosition(core::vector3df(220,25,30));
-		Plataforma->setScale(core::vector3df(10.f,1.f,5.f));
-		Plataforma->setMaterialFlag(video::EMF_LIGHTING, false);
-		Plataforma->setMaterialTexture(0,driver->getTexture("resources/plataf.bmp"));
+		fachada->setScala(Plataforma,escala);
+        fachada->setMaterial(Plataforma,"resources/plataf.bmp");
+		
 	}
 
-	Plataforma2= smgr->addCubeSceneNode();
+	Plataforma2= fachada->addCube(320,55,30,false);
 
 	if (Plataforma2) /** SI HEMOS CREADO EL CUBO **/
 	{
-		Plataforma2->setPosition(core::vector3df(320,55,30));
-		Plataforma2->setScale(core::vector3df(10.f,1.f,5.f));
-		Plataforma2->setMaterialFlag(video::EMF_LIGHTING, false);
-		Plataforma2->setMaterialTexture(0,driver->getTexture("resources/plataf.bmp"));
+		fachada->setScala(Plataforma2,escala);
+		fachada->setMaterial(Plataforma2,"resources/plataf.bmp");
 	}
 
-	Plataforma3= smgr->addCubeSceneNode();
+	Plataforma3= fachada->addCube(420,85,30,false);
 
 	if (Plataforma3) /** SI HEMOS CREADO EL CUBO **/
 	{
-		Plataforma3->setPosition(core::vector3df(420,85,30));
-		Plataforma3->setScale(core::vector3df(10.f,1.f,5.f));
-		Plataforma3->setMaterialFlag(video::EMF_LIGHTING, false);
-		Plataforma3->setMaterialTexture(0,driver->getTexture("resources/plataf.bmp"));
+		fachada->setScala(Plataforma3,escala);
+		fachada->setMaterial(Plataforma3,"resources/plataf.bmp");
 	}
 
 /** ESTABLECEMOS LA CAMARA
@@ -499,8 +142,7 @@ if(TraslaCoche!=nullptr)
  esta mirando desde la posicion (0, 30, -40) a la (0, 5, 0) donde es
  aproximadamente donde esta el objeto.
 **/
-
-	cam = smgr->addCameraSceneNode(0, vector3df(rec->getPosition().X,50,-140), vector3df(0,5,0));
+	cam = smgr->addCameraSceneNode(0, vector3df(prota->getPosition()->getPosX(),50,-140), vector3df(0,5,0));
 	device->getCursorControl()->setVisible(true);
 
 /* CREAMOS EL TERRENO Y COLISIONES DE CAMARA */
@@ -512,48 +154,10 @@ if(TraslaCoche!=nullptr)
  cuanto ha pasado desde el ultimo frame
 **/
 	lastFPS = -1;
+	then = fachada->getTime();
+	time_input = fachada->getTime();
 
-	then = device->getTimer()->getTime();
-	time_input = device->getTimer()->getTime();
-
-/** Informacion del mando conectado o si no hay ningun mando conectado
-**/
-    core::array<SJoystickInfo> joystickInfo;
-    if(device->activateJoysticks(joystickInfo)&&joystickInfo.size()>0)
-    {
-        receiver->setMando(true);
-        std::cout << "Joystick support is enabled and " << joystickInfo.size() << " joystick(s) are present." << std::endl;
-
-        for(u32 joystick = 0; joystick < joystickInfo.size(); ++joystick)
-        {
-            std::cout << "Joystick " << joystick << ":" << std::endl;
-            std::cout << "\tName: '" << joystickInfo[joystick].Name.c_str() << "'" << std::endl;
-            std::cout << "\tAxes: " << joystickInfo[joystick].Axes << std::endl;
-            std::cout << "\tButtons: " << joystickInfo[joystick].Buttons << std::endl;
-
-            std::cout << "\tHat is: ";
-
-            switch(joystickInfo[joystick].PovHat)
-            {
-            case SJoystickInfo::POV_HAT_PRESENT:
-                std::cout << "present" << std::endl;
-                break;
-
-            case SJoystickInfo::POV_HAT_ABSENT:
-                std::cout << "absent" << std::endl;
-                break;
-
-            case SJoystickInfo::POV_HAT_UNKNOWN:
-            default:
-                std::cout << "unknown" << std::endl;
-                break;
-            }
-        }
-    }
-    else
-     {
-        std::cout << "Joystick support is not enabled." << std::endl;
-     } 
+//////////////////////////////////////
 }	
 
 void Mundo::posBuilder(){	//CONSTRUCTOR DE POSICIONES DE ENEMIGOS
@@ -590,45 +194,13 @@ void Mundo::posBuilder(){	//CONSTRUCTOR DE POSICIONES DE ENEMIGOS
 
 void Mundo::terrainBuilder(){	//CONSTRUCTOR DEL TERRENOS Y COLISIONES DE CAMARA
 
-	terrain = smgr->addTerrainSceneNode(
-
-        "resources/terrain-heightmap.bmp",
-
-        0,                  					// parent node
-
-        -1,                 					// node id
-
-        core::vector3df(-5000, -177, -250),		// position
-
-        core::vector3df(0.f, 0.f, 0.f),     	// rotation
-
-        core::vector3df(40.f, 4.4f, 40.f),  	// scale
-
-        video::SColor ( 255, 255, 255, 255 ),   // vertexColor
-
-        5,                 						// maxLOD
-
-        scene::ETPS_17,             			// patchSize
-
-        4                   					// smoothFactor
-
-        );
-
-    //LE APLICAMOS TEXTURA AL TERRENO
-
-    terrain->setMaterialFlag(video::EMF_LIGHTING, false);
-    terrain->setMaterialTexture(0, driver->getTexture("resources/terrain-texture.jpg"));
-
-    //LE APLICAMOS RELIEVE
-
-    terrain->setMaterialTexture(1, driver->getTexture("resources/detailmap3.jpg"));
-	terrain->setMaterialType(video::EMT_DETAIL_MAP);
-    terrain->scaleTexture(1.0f, 20.0f);
+    fachada->drawTerreno();
 
 }
 
 void Mundo::update(){
-
+    //Comprueba las entradas del teclado
+	checkInput();
 	//pasos de las fisicas en el mundo
 	world.Step(1/60.f, 8, 3);
 	//reinicio las fuerzas en el mundo
@@ -641,7 +213,7 @@ void Mundo::update(){
 	then = now;
 	f32 tiempo=(f32)(now - time_input)/1000.f;
 
-	core::vector3df protaPosition = prota->getPosition();
+	Posicion* protaPosition = prota->getPosition();
 	core::vector3df camPosition = cam->getPosition();
 
 	/* PROTA UPDATE */
@@ -653,7 +225,7 @@ void Mundo::update(){
     this->camUpdate(frameDeltaTime);
 
     b->setTime(frameDeltaTime);
-    b->setProta(protaPosition.X);
+    b->setProta(protaPosition->getPosX());
 
     /* ALARMA UPDATE*/
     a->update();
@@ -664,14 +236,14 @@ void Mundo::update(){
     
     for(int i=0; i<enemB.size();i++)
     {
-       	enemB[i]->updateTiempo(frameDeltaTime);
-     	enemB[i]->Update(prota->getPosition());
+       	enemB[i]->updateTiempo(frameDeltaTime);/////////////////////////////////////////////////////////////////////////////////////
+     	enemB[i]->Update(protaPosition);
     }
 
     for(int i2=0; i2<enemE.size();i2++)
     {
-    	enemE[i2]->updateTiempo(frameDeltaTime);
-     	enemE[i2]->Update(prota->getPosition());
+    	enemE[i2]->updateTiempo(frameDeltaTime);////////////////////////////////////////////////////////////////////////////////////
+     	enemE[i2]->Update(protaPosition);
     }
 
     /* DRAW SCENE */
@@ -685,20 +257,24 @@ void Mundo::update(){
     /*UPDATE DE SONIDO*/
     sonido->playSound(musicaBosque);
     sonido->update();
-	sonido->setListener(prota->getPosition().X, prota->getPosition().Y, prota->getPosition().Z);	
+	sonido->setListener(prota->getPosition()->getPosX(), prota->getPosition()->getPosY(), prota->getPosition()->getPosZ());
 
 }
 
 void Mundo::protaUpdate(const u32 now, const f32 frameDeltaTime, f32 tiempo){
-	core::vector3df protaPosition = prota->getPosition();
+	//scene::ISceneNode* pro = (scene::ISceneNode*)prota->getNode();
+    //core::vector3df protaPosition = pro->getPosition();
 
 	energiaAnterior = prota->getEnergia();
 
     prota->ataque(frameDeltaTime);
+    
     prota->pintarInterfaz();
 
 	prota->comprobarColision(c);
+
     prota->comprobarColision(bebida);
+
     prota->comprobarColision(t);
 
     prota->updateBody(world);
@@ -712,7 +288,7 @@ void Mundo::protaUpdate(const u32 now, const f32 frameDeltaTime, f32 tiempo){
 
         time_input=now;
 
-        receiver->checkCombate(prota); 						// Comprobamos si hemos pulsado la tecla de combate (K)
+        //receiver->checkCombate(prota); 						// Comprobamos si hemos pulsado la tecla de combate (K)
 
         for(int i2=0; i2<enemB.size();i2++)
         {
@@ -727,10 +303,10 @@ void Mundo::protaUpdate(const u32 now, const f32 frameDeltaTime, f32 tiempo){
     }
     else
     {
-    	receiver->checkSigilo(prota);  						// Comprobamos si hemos pulsado la tecla de sigilo (C)
+    	//receiver->checkSigilo(prota);  						// Comprobamos si hemos pulsado la tecla de sigilo (C)
     }
 
-    receiver->checkInput(prota,frameDeltaTime);
+    //receiver->checkInput(prota,frameDeltaTime);
 
     /* Velocidad Barra de Energia */
     energiaActual = prota->getEnergia();
@@ -747,17 +323,103 @@ void Mundo::protaUpdate(const u32 now, const f32 frameDeltaTime, f32 tiempo){
     else
     	prota->setEnergia(2, frameDeltaTime);
 
-
 }
+void Mundo::checkInput(){
+	if(sf::Joystick::isConnected(0)){
+		JoyY=sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
+		JoyX=sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+		//std::cout<<JoyX<<"\n";
+	}
+	/*
+	if (sf::Joystick::isButtonPressed(0, 2))
+	{
+	    std::cout<<"x=2"<<"\n";
+	}
+	if (sf::Joystick::isButtonPressed(0, 4))
+	{
+	    std::cout<<"l=4"<<"\n";
+	}
+	if (sf::Joystick::isButtonPressed(0, 0))
+	{
+	    std::cout<<"a=0"<<"\n";
+	}
+	if (sf::Joystick::isButtonPressed(0, 5))
+	{
+	    std::cout<<"r=5"<<"\n";
+	}
+	*/
 
+/* hacemos un set de ataque a 2 que es arriba 
+        if(inputkey==22)//w
+        {
+           pos_pelea(prota,2);
+           pos_defensa(prota,2);
+        }
+        else if(inputkey==18)//s
+        {
+            pos_pelea(prota,0);
+            pos_defensa(prota,0);
+        }
+        else
+        {
+            pos_pelea(prota,1);
+            pos_defensa(prota,1);
+        }
+*/
+        /* control de ataque*/
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::P)||sf::Joystick::isButtonPressed(0, 2))//p
+        {  
+            prota->setAtaque(true);
+        }
+        
+        /* control de defensa*/
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::K)||sf::Joystick::isButtonPressed(0, 4))//k
+        {
+            prota->setCombate();
+
+        }
+
+        /* movimiento hacia los lados y control de la velocidad en funcion de
+        las variables de correr, sigilo y vitalidad */
+
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)||JoyX<=-50)//A
+        {
+            prota->setDireccion(0);
+            prota->movimiento(0.1f);
+    		if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)||sf::Joystick::isButtonPressed(0, 5))
+    		{
+                prota->setCorrer(true);
+      		    prota->setEnergia(-5.0f,0.2f);
+    		}else
+		  prota->setCorrer(false);
+        }
+
+        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)||JoyX>=50){//D
+
+            prota->setDireccion(1);
+            prota->movimiento(0.1f);
+    		if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)||sf::Joystick::isButtonPressed(0, 5))
+    		{
+		  prota->setCorrer(true);
+      		  prota->setEnergia(-5.0f,0.2f);
+    		}else
+		  prota->setCorrer(false);
+        }
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)||sf::Joystick::isButtonPressed(0, 0)){
+        	prota->setSalto(true);
+    	}else
+		prota->setSalto(false);
+       	
+	       
+}
 void Mundo::camUpdate(const f32 frameDeltaTime){
-	core::vector3df protaPosition = prota->getPosition();
+	Posicion* protaPosition = prota->getPosition();
 	core::vector3df camPosition = cam->getPosition();
 
-	rec->setPosition(protaPosition);
-    cam->setPosition(vector3df(protaPosition.X,protaPosition.Y+30,-140)); // cambio 5O A ProtaPosition.Y
-    camPosition=rec->getPosition();
-    camPosition.Y=protaPosition.Y+30;
+	//rec->setPosition(protaPosition);
+    cam->setPosition(vector3df(protaPosition->getPosX(),protaPosition->getPosY()+30,-140)); // cambio 5O A ProtaPosition.Y
+    camPosition=core::vector3df(protaPosition->getPosX(),protaPosition->getPosY(),protaPosition->getPosZ());
+    camPosition.Y=protaPosition->getPosY()+30;
     cam->setTarget(camPosition);
 }
 
@@ -792,20 +454,8 @@ void Mundo::timeWait(){
 }
 
 void Mundo::draw(){
-	/*
-	Anything can be drawn between a beginScene() and an endScene()
-	call. The beginScene() call clears the screen with a color and
-	the depth buffer, if desired. Then we let the Scene Manager and
-	the GUI Environment draw their content. With the endScene()
-	call everything is presented on the screen.
-	*/
-
-	driver->beginScene(true, true, SColor(255,100,101,140));
-
-	smgr->drawAll(); 							// draw the 3d scene
-	device->getGUIEnvironment()->drawAll(); 	// draw the gui environment (the logo)
-
-	driver->endScene();
+	
+    fachada->draw(255,100,101,140);
 }
 
 void Mundo::addGameObject (GameObject* o){
@@ -850,4 +500,6 @@ Mundo::~Mundo()	//DESTRUCTOR
     delete bebida;
     delete t;
     delete sonido;
+
+   // delete pC, pC2, pF, pF2, pA, pA2, posbebida, postrampa;
 }
