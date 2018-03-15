@@ -7,7 +7,8 @@
 #include "../../headerfiles/TMalla.h"
 #include "../../headerfiles/TCamara.h"
 
-#include "FObjeto.h"
+//#include "FObjeto.h"
+//#include "FCamara.h"
 #include "vec3.h"
 
 class TMotorTAG{
@@ -27,16 +28,23 @@ public:
 	TLuz *crearLuz();
 	TMalla *crearMalla(char *fichero);
 	void draw();
-	glm::mat4 generateMatrix(TNodo *nodo);
 	*/
+	glm::mat4 generateMatrix(TNodo *nodo);
+	
 
 	void draw();
 
-	bool setCamara(TEntidad* cam, bool b);
+	//void registrarCamara(TNodo* cam);
+	void activarCamara(TNodo* cam);
+	void registrarLuz(TLuz* luz);
+
+	//bool setCamara(TEntidad* cam);
+
 	bool setLuz(TLuz* lz, bool b);
 
 
-
+	glm::mat4 getCamaraMat();
+	glm::mat4 getCamaraProj();
 	TNodo* getEscena();
 
 private:
@@ -45,8 +53,9 @@ private:
 	void recInverso(TNodo *nodo);
 
 	TNodo* escena;
-	vector<TNodo*> regCam;
-	vector<bool> estadoCam;  	//True Camara activada. SOLO UNA
+	//vector<TNodo*> regCam;
+	//vector<bool> estadoCam;  	//True Camara activada. SOLO UNA
+	TNodo* camara;
 	vector<TNodo*> regLuz;	
 	vector<bool> estadoLuz;		//True Luz activada.
 	//vector<> regVPort;

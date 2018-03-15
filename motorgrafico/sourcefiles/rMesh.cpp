@@ -41,12 +41,12 @@ void rMesh::setupMesh(){
 	
 }
 
-void rMesh::draw(Shader shader, glm::mat4 mmodelo){
+void rMesh::draw(Shader shader, glm::mat4 mmodelo, glm::mat4 view, glm::mat4 projection){
 
 	shader.use();
 
-	glm::mat4 projection = glm::mat4(1);
-	glm::mat4 view = glm::mat4(1);
+	//glm::mat4 projection = glm::mat4(1);
+	//glm::mat4 view = glm::mat4(1);
 	shader.setMat4("projection", projection);
 	shader.setMat4("view", view);
 	// 3. now draw the object 

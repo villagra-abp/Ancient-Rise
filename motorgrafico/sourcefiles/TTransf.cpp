@@ -3,6 +3,8 @@
 TTransf::TTransf(){
 	//Por defecto asignamos matriz identidad a la transformacion
 	matriz = glm::mat4(1.0f); 
+	//manterior = matriz;
+	//cambio = true;
 }
 TTransf::~TTransf(){
 
@@ -42,11 +44,11 @@ glm::mat4 TTransf::getMatriz(){
 	return matriz;
 }
 
-void TTransf::beginDraw(){
+void TTransf::beginDraw(glm::mat4 view, glm::mat4 projection){
 	//Apilar matriz actual
 	pila->apila(mmodelo);
 	//Multiplicar la matriz de la transformacion a la matriz modelo actual
-	mmodelo = mmodelo * matriz;
+	mmodelo = matriz * mmodelo; //	 * matriz;
 
 	/*
 	std::cout << "Transf Original: " << std::endl;

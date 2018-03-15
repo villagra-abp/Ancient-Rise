@@ -20,7 +20,7 @@ public:
 	void invertir();
 
 	//Draw
-	virtual void beginDraw() override;
+	virtual void beginDraw(glm::mat4 view, glm::mat4 projection) override;
 	virtual void endDraw() override;
 	virtual tEnt getTipo() override{ return transf; }
 
@@ -31,6 +31,8 @@ public:
 private:	
 
 	glm::mat4 matriz;
+	//glm::mat4 manterior;
+	//bool cambio;
 
 } ;
 

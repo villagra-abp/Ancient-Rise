@@ -91,7 +91,7 @@ int main()
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "../motorgrafico/fachada/headerfiles/TMotorTAG.h"
+#include "../motorgrafico/fachada/headerfiles/Fachada.h"
 
 
 
@@ -134,10 +134,20 @@ int main()
 	TMotorTAG* motorgrafico = TMotorTAG::getInstance();
 
 	FObjeto* cajita = new FObjeto();
-
 	cajita->setMalla("resources/cajitaobj.obj");
-	
+	FObjeto* cajita2 = new FObjeto();
+	cajita2->setMalla("resources/porraelite.3DS");
+	FObjeto* cajita3 = new FObjeto();
+	cajita3->setMalla("resources/cajitaobj.obj");
+	//FObjeto* ironMan = new FObjeto();
+	//ironMan->setMalla("resources/IronMan.obj");
 
+	cajita2->Mover(vec3(4,0,0));
+	cajita3->Mover(vec3(-4,0,0));
+	FCamara* camara = new FCamara();
+	camara->Activar();
+	camara->Mover(vec3(0,0,-85));
+	
 
 	/*
 	TNodo *Escena = new TNodo();
@@ -222,14 +232,30 @@ int main()
 		            inputKey = evento->key.code;
 		            //std::cout<<evento->key.code<<std::endl;		
 		            switch(inputKey){
-		            	case 4:
+		            	case 0: 		//A
+		            		//camara->Mover(vec3(-0.25f,0,0));
+		            		camara->Rotar(vec3(0,-1,0), 0.25f);
+		            		//cajita->Mover(vec3(0,0,0.5f));
+		            		break;
+		            	case 3:			//D
+		            		//camara->Mover(vec3(0.25f,0,0));
+		            		camara->Rotar(vec3(0,1,0), 0.25f);
+		            		//cajita->Mover(vec3(0,0,-0.5f));
+		            		break;
+		            	case 4:			//Q
 		            		glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
 		            		break;
-		            	case 16:
+		            	case 16:		//E
 		            		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		            		break;
-		            	case 57:
-
+		            	case 18:		//S
+		            		camara->Mover(vec3(0,-0.25f,0));
+		            		break;
+		            	case 22:		//W
+		            		camara->Mover(vec3(0,0.25f,0));
+		            		break;
+		            	case 57:		//Space
+		            		camara->setPosicion(vec3(0,0,0));
 		            		break;
 		            }
 		          
@@ -267,7 +293,8 @@ int main()
 		////model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
 		//ourShader.setMat4("model", model);
 
-		cajita->Rotar(vec3(1,0,0), 0.05f);
+		//cajita->Rotar(vec3(0,0,1), 0.05f);
+		
 
 		motorgrafico->draw();
 

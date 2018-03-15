@@ -40,7 +40,7 @@ class rMesh{
 		unsigned int VAO;
 
 		rMesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures);
-		void draw(Shader shader, glm::mat4 mmodelo);
+		void draw(Shader shader, glm::mat4 mmodelo, glm::mat4 view, glm::mat4 projection);
 
 	private:
 		unsigned int  VBO, EBO;

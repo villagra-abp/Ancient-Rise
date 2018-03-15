@@ -15,10 +15,15 @@ public:
 	virtual void setRotacion(vec3 rot, float ang) = 0;
 
 	virtual void isActive(bool flag) = 0;
+	virtual void Unir(FEntidad* padre) = 0;
 	//virtual void draw() = 0;
 
+	virtual bool getActive() = 0;
+
+	virtual TNodo* getNodo() = 0;
+
 private:
-	bool visible;
+	bool active;
 	TNodo* padre;
 	TNodo* nodo, rotacion, traslacion;
 	float angulo;

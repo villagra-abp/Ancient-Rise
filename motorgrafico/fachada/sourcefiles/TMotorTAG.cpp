@@ -8,7 +8,7 @@ TMotorTAG* TMotorTAG::getInstance(){
 	} return fachadaMotor;
 }
 
-TMotorTAG::TMotorTAG() : escena(nullptr)
+TMotorTAG::TMotorTAG() : camara(nullptr)
 {
 	escena = new TNodo();
 }
@@ -19,7 +19,19 @@ TMotorTAG::~TMotorTAG(){
 
 
 void TMotorTAG::draw(){
-	escena->draw();
+	escena->draw(getCamaraMat(), getCamaraProj());
+}
+
+
+void TMotorTAG::activarCamara(TNodo* cam){
+	if(camara != nullptr)
+		dynamic_cast<TCamara*>(camara->getEntidad())->setActive(false);
+	dynamic_cast<TCamara*>(cam->getEntidad())->setActive(false);
+	camara = cam;
+}
+
+void TMotorTAG::registrarLuz(TLuz* luz){
+	
 }
 /*
 TNodo* TMotorTAG::crearNodo(TNodo *padre, TEntidad *ent){
@@ -114,8 +126,10 @@ void TMotorTAG::draw(){
 	std::cout << "Light Position: " << std::endl;
 	std::cout << glm::to_string(pLuz[0]) << std::endl;
 	*/
-/*
-}
+
+//}
+
+
 glm::mat4 TMotorTAG::generateMatrix(TNodo *nodo){
 	//Obtendra la Matriz Modelo de un Nodo dado mediante
 	//mediante un recorrido inverso de padre a padre.
@@ -125,7 +139,7 @@ glm::mat4 TMotorTAG::generateMatrix(TNodo *nodo){
 	TTransf* entActual = nullptr;
 
 	while(nodoActual->getPadre() != nullptr){
-		entActual = (TTransf*)nodoActual->getEntidad();
+		entActual = dynamic_cast<TTransf*>(nodoActual->getEntidad());
 		mObtenidas.push_back(entActual->getMatriz());
 		nodoActual = nodoActual->getPadre();
 	}
@@ -139,14 +153,14 @@ glm::mat4 TMotorTAG::generateMatrix(TNodo *nodo){
 	return mResultado;
 }
 
-*/
-bool TMotorTAG::setCamara(TEntidad* cam, bool b){
+/*
+bool TMotorTAG::setCamara(TEntidad* cam){
 	bool z = false;
 
 	bool hayCam = false;
 	int pos = -1;
 
-	if(b){
+	
 		for(int i = 0; i < regCam.size(); i++){
 			if(estadoCam[i]){
 				pos = i;
@@ -163,9 +177,10 @@ bool TMotorTAG::setCamara(TEntidad* cam, bool b){
 			estadoCam[pos] = true;
 
 		z=true;
-	}	
+	
 	return z;
 }
+*/
 bool TMotorTAG::setLuz(TLuz* lz, bool b){
 	bool z = false;
 
@@ -181,4 +196,24 @@ bool TMotorTAG::setLuz(TLuz* lz, bool b){
 
 TNodo* TMotorTAG::getEscena(){
 	return escena;
+}
+
+glm::mat4 TMotorTAG::getCamaraMat(){
+	glm::mat4 mat = glm::mat4(1);
+
+	if(camara != nullptr){
+		mat = generateMatrix(camara);
+	}
+
+	return mat;
+}
+
+glm::mat4 TMotorTAG::getCamaraProj(){
+	glm::mat4 mat = glm::mat4(1);
+
+	if(camara != nullptr){
+		mat = dynamic_cast<TCamara*>(camara->getEntidad())->getProyectionMatrix();
+	}
+
+	return mat;
 }

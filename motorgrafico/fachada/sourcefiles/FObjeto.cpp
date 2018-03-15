@@ -24,7 +24,7 @@ FObjeto::FObjeto(){
 
 
 
-	visible = true;
+	active = true;
 }
 
 FObjeto::~FObjeto(){
@@ -59,13 +59,17 @@ void FObjeto::setRotacion(vec3 rot, float ang){
 //Cambia el booleano visible al proporcionado, modificando si se dibuja o no el objeto
 void FObjeto::isActive(bool flag){
 	dynamic_cast<TMalla*>(nodo->getEntidad())->isVisible(flag);
+	active = flag;
 }
 
 //Cambia el padre del objeto a otro objeto, asociandolo tambien a las transformaciones que sufre el nuevo padre
-void FObjeto::Unir(FObjeto* nPadre){
+void FObjeto::Unir(FEntidad* nPadre){
 	padre->changePadre(nPadre->getNodo(), rotacion);
 }
 
+bool FObjeto::getActive(){
+	return active;
+}
 
 TNodo* FObjeto::getNodo(){
 	return nodo;

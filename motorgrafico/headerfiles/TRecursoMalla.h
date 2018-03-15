@@ -29,7 +29,7 @@ class TRecursoMalla : public TRecurso{
             //cargarFichero(name);
         }
         virtual ~TRecursoMalla() = default;
-        void draw(Shader shader, glm::mat4 mmodelo);	
+        void draw(Shader shader, glm::mat4 mmodelo, glm::mat4 view, glm::mat4 projection);	
         void cargarFichero(string nombre) override;
         string getNombre() override;
 

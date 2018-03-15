@@ -64,7 +64,7 @@ public:
 	void cerrar();
 	
 	void drawEscena();
-	void drawDrawEscena();
+	//void drawDrawEscena();
 	//void drawGUI();
     void drawTerreno();
 	

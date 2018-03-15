@@ -37,9 +37,9 @@ class TEntidad{
 public:
 	enum tEnt { transf, malla, luz, camara };
 
-	TEntidad();
-	virtual ~TEntidad();
-	virtual void beginDraw()=0;
+
+	virtual ~TEntidad() = default;
+	virtual void beginDraw(glm::mat4 view, glm::mat4 projection)=0;
 	virtual void endDraw()=0;
 	virtual tEnt getTipo()=0;
 

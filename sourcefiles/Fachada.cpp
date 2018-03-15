@@ -203,7 +203,7 @@ bool Fachada::setMaterial(void * nodo,const io::path& ruta){
 //Dibuja la escena
 void Fachada::drawEscena(){
 	
- 
+ /*
     //PRUEBAS MOTOR GRAFICO
     TNodo *AEscena = new TNodo();
     Escena = AEscena;
@@ -263,13 +263,13 @@ void Fachada::drawEscena(){
 
     //Escena->draw();
     
-    
+    */
 }
-
+/*
 void Fachada::drawDrawEscena(){
     Escena->draw();
 }
-
+*/
 void Fachada::drawTerreno(){
 
 	scene::ITerrainSceneNode* terrain = smgr->addTerrainSceneNode(

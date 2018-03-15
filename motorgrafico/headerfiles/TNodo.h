@@ -30,7 +30,7 @@ public:
 	vector<TNodo*> getHijos();
 	int getIdent();
 
-	void draw();
+	void draw(glm::mat4 view, glm::mat4 projection);
 
 
 private:	

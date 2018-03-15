@@ -19,16 +19,16 @@ class FObjeto : public FEntidad{
 
 		void isActive(bool flag) override;
 
-		void Unir(FObjeto* padre);
+		void Unir(FEntidad* padre) override;
 
 		void setMalla(string path);
 
-	protected:
-		TNodo* getNodo();
+		bool getActive() override;
+		TNodo* getNodo() override;
 
 	private:
 
-		bool visible;
+		bool active;
 		TNodo *padre;
 		TNodo *nodo, *rotacion, *traslacion;
 

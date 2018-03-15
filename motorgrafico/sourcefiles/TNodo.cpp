@@ -185,15 +185,15 @@ int TNodo::getIdent()
 }
 
 
-void TNodo::draw()
+void TNodo::draw(glm::mat4 view, glm::mat4 projection)
 {
 
 	if(entidad!=nullptr)
-		entidad -> beginDraw();
+		entidad -> beginDraw(view, projection);
 
 	//para cada nodo hijo i
 	for(int i=0; i<hijos.size(); i++){
-		hijos[i]->draw();
+		hijos[i]->draw(view, projection);
 	}
 
 	if(entidad!=nullptr)
