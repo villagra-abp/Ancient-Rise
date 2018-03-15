@@ -6,6 +6,7 @@
 
 #include <Box2D/Box2D.h>
 #include <Box2D/Common/b2Math.h>
+#include <GL/glew.h>
 #include <GL/gl.h>
 #include <SFML/Graphics.hpp>
 

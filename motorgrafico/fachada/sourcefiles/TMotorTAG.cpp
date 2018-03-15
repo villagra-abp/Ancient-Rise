@@ -1,25 +1,50 @@
 #include "../headerfiles/TMotorTAG.h"
 
-TMotorTAG::TMotorTAG() : escena(nullptr)
-{
+static TMotorTAG* fachadaMotor = nullptr;
 
+TMotorTAG* TMotorTAG::getInstance(){
+	if(fachadaMotor == nullptr){
+		fachadaMotor = new TMotorTAG();
+	} return fachadaMotor;
+}
+
+TMotorTAG::TMotorTAG() : camara(nullptr)
+{
+	escena = new TNodo();
 }
 TMotorTAG::~TMotorTAG(){
 	delete escena;
 	escena = nullptr;
 }
 
+
+void TMotorTAG::draw(){
+	escena->draw(getCamaraMat(), getCamaraProj());
+}
+
+
+void TMotorTAG::activarCamara(TNodo* cam){
+	if(camara != nullptr)
+		dynamic_cast<TCamara*>(camara->getEntidad())->setActive(false);
+	dynamic_cast<TCamara*>(cam->getEntidad())->setActive(false);
+	camara = cam;
+}
+
+void TMotorTAG::registrarLuz(TLuz* luz){
+	
+}
+/*
 TNodo* TMotorTAG::crearNodo(TNodo *padre, TEntidad *ent){
 	TNodo* nodo = new TNodo();
 	
 	if(ent!=nullptr){
 		nodo->setEntidad(ent);
-		if(ent->getTipo()==3){
+		if(ent->getTipo()=="camara"){
 			regCam.push_back(nodo);
 			estadoCam.push_back(false);
 			setCamara(ent, true);
 		}
-		else if(ent->getTipo()==2){
+		else if(ent->getTipo()=="luz"){
 			regLuz.push_back(nodo);
 			estadoLuz.push_back(true);
 		}
@@ -92,7 +117,7 @@ void TMotorTAG::draw(){
 
 	//Iniciar secuencia draw del arbol
 	escena->draw();
-
+*/
 	/*
 	std::cout << "ViewMatrix: " << std::endl;
 	std::cout << glm::to_string(mVista) << std::endl;
@@ -102,7 +127,9 @@ void TMotorTAG::draw(){
 	std::cout << glm::to_string(pLuz[0]) << std::endl;
 	*/
 
-}
+//}
+
+
 glm::mat4 TMotorTAG::generateMatrix(TNodo *nodo){
 	//Obtendra la Matriz Modelo de un Nodo dado mediante
 	//mediante un recorrido inverso de padre a padre.
@@ -112,7 +139,7 @@ glm::mat4 TMotorTAG::generateMatrix(TNodo *nodo){
 	TTransf* entActual = nullptr;
 
 	while(nodoActual->getPadre() != nullptr){
-		entActual = (TTransf*)nodoActual->getEntidad();
+		entActual = dynamic_cast<TTransf*>(nodoActual->getEntidad());
 		mObtenidas.push_back(entActual->getMatriz());
 		nodoActual = nodoActual->getPadre();
 	}
@@ -125,13 +152,15 @@ glm::mat4 TMotorTAG::generateMatrix(TNodo *nodo){
 
 	return mResultado;
 }
-bool TMotorTAG::setCamara(TEntidad* cam, bool b){
+
+/*
+bool TMotorTAG::setCamara(TEntidad* cam){
 	bool z = false;
 
 	bool hayCam = false;
 	int pos = -1;
 
-	if(b){
+	
 		for(int i = 0; i < regCam.size(); i++){
 			if(estadoCam[i]){
 				pos = i;
@@ -148,9 +177,10 @@ bool TMotorTAG::setCamara(TEntidad* cam, bool b){
 			estadoCam[pos] = true;
 
 		z=true;
-	}	
+	
 	return z;
 }
+*/
 bool TMotorTAG::setLuz(TLuz* lz, bool b){
 	bool z = false;
 
@@ -161,4 +191,29 @@ bool TMotorTAG::setLuz(TLuz* lz, bool b){
 		}
 	}
 	return z;
+}
+
+
+TNodo* TMotorTAG::getEscena(){
+	return escena;
+}
+
+glm::mat4 TMotorTAG::getCamaraMat(){
+	glm::mat4 mat = glm::mat4(1);
+
+	if(camara != nullptr){
+		mat = generateMatrix(camara);
+	}
+
+	return mat;
+}
+
+glm::mat4 TMotorTAG::getCamaraProj(){
+	glm::mat4 mat = glm::mat4(1);
+
+	if(camara != nullptr){
+		mat = dynamic_cast<TCamara*>(camara->getEntidad())->getProyectionMatrix();
+	}
+
+	return mat;
 }

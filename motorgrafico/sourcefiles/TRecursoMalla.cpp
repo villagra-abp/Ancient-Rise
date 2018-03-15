@@ -3,15 +3,15 @@
 #include <stb_image.h>
 #undef STB_IMAGE_IMPLEMENTATION
 
-void TRecursoMalla::Draw(Shader shader)
+void TRecursoMalla::draw(Shader shader, glm::mat4 mmodelo, glm::mat4 view, glm::mat4 projection)
 {
     for(unsigned int i = 0; i < meshes.size(); i++)
-        meshes[i].Draw(shader);
+        meshes[i].draw(shader, mmodelo, view, projection);
 }  
 
-void TRecursoMalla::cargarFichero(string name){
+void TRecursoMalla::cargarFichero(string path){
 
-	string path = getPath(name);
+	//string path = getPath(name);
 
 	Assimp::Importer importer;
 	const aiScene *scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);

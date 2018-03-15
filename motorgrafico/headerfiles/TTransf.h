@@ -15,10 +15,12 @@ public:
 	void trasladar(float x,float y,float z);
 	void rotar(float x,float y,float z,float w);
 	void escalar(float x, float y, float z);
+	void setPosition(float x, float y, float z);
+	void setRotation(float x, float y, float z, float w);
 	void invertir();
 
 	//Draw
-	virtual void beginDraw() override;
+	virtual void beginDraw(glm::mat4 view, glm::mat4 projection) override;
 	virtual void endDraw() override;
 	virtual tEnt getTipo() override{ return transf; }
 
@@ -29,6 +31,8 @@ public:
 private:	
 
 	glm::mat4 matriz;
+	//glm::mat4 manterior;
+	//bool cambio;
 
 } ;
 
