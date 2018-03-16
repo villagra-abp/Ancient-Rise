@@ -26,7 +26,6 @@ private:
 	bool active;
 	TNodo* padre;
 	TNodo* nodo, rotacion, traslacion;
-	float angulo;
 };
 
 

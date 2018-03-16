@@ -133,12 +133,17 @@ int main()
 	*/
 	TMotorTAG* motorgrafico = TMotorTAG::getInstance();
 
+	vector<FObjeto*> objetos;
+
 	FObjeto* cajita = new FObjeto();
 	cajita->setMalla("resources/cajitaobj.obj");
+	objetos.push_back(cajita);
 	FObjeto* cajita2 = new FObjeto();
-	cajita2->setMalla("resources/porraelite.3DS");
+	cajita2->setMalla("resources/mono.obj");
+	objetos.push_back(cajita2);
 	FObjeto* cajita3 = new FObjeto();
 	cajita3->setMalla("resources/cajitaobj.obj");
+	objetos.push_back(cajita3);
 	//FObjeto* ironMan = new FObjeto();
 	//ironMan->setMalla("resources/IronMan.obj");
 
@@ -146,8 +151,9 @@ int main()
 	cajita3->Mover(vec3(-4,0,0));
 	FCamara* camara = new FCamara();
 	camara->Activar();
-	camara->Mover(vec3(0,0,-85));
-	
+	vec3 camaraOrigin = vec3(0,0,-15);
+	camara->Mover(camaraOrigin);
+	FColor* color = new FColor(0,0,1.0f, 1.0f);
 
 	/*
 	TNodo *Escena = new TNodo();
@@ -237,6 +243,9 @@ int main()
 		            		camara->Rotar(vec3(0,-1,0), 0.25f);
 		            		//cajita->Mover(vec3(0,0,0.5f));
 		            		break;
+		            	case 2: 		//C
+		            		camara->Mover(vec3(0,0.25f,0));
+		            		break;
 		            	case 3:			//D
 		            		//camara->Mover(vec3(0.25f,0,0));
 		            		camara->Rotar(vec3(0,1,0), 0.25f);
@@ -249,13 +258,16 @@ int main()
 		            		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		            		break;
 		            	case 18:		//S
-		            		camara->Mover(vec3(0,-0.25f,0));
+		            		camara->Mover(vec3(0,0,-1.0f));
 		            		break;
 		            	case 22:		//W
-		            		camara->Mover(vec3(0,0.25f,0));
+		            		camara->Mover(vec3(0,0,1.0f));
+		            		break;
+		            	case 25:		//Z
+		            		camara->Mover(vec3(0,-0.25f,0));
 		            		break;
 		            	case 57:		//Space
-		            		camara->setPosicion(vec3(0,0,0));
+		            		camara->setPosicion(camaraOrigin);
 		            		break;
 		            }
 		          
@@ -294,6 +306,9 @@ int main()
 		//ourShader.setMat4("model", model);
 
 		//cajita->Rotar(vec3(0,0,1), 0.05f);
+		for(int i = 0; i < objetos.size(); i++){
+			objetos[i]->Rotar(vec3(0,1,0), 0.05f);
+		}
 		
 
 		motorgrafico->draw();

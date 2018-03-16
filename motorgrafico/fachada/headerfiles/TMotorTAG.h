@@ -10,6 +10,7 @@
 //#include "FObjeto.h"
 //#include "FCamara.h"
 #include "vec3.h"
+#include "vec4.h"
 
 class TMotorTAG{
 public:
