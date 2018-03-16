@@ -12,11 +12,14 @@
 
 class BehaviorTree;
 class Entorno;
+class Proyectil;
+class Blackboard;
 
 class Enemigo : public GameObject
 {
     public:
-        Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos, float xlength, float pendValue, const Entorno* e);
+        Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos, float xlength, float pendValue, const Entorno* e, Blackboard *b);
+
         void update(Posicion* prota);
         void updateTiempo(const f32 Time);
         void actualizarHambre();
@@ -27,6 +30,7 @@ class Enemigo : public GameObject
         bool checkInSight(Posicion* pos);
         bool see(GameObject* o);
         bool recordarProta();
+        void actualizarVistos();
 
         virtual void CreateBox(b2World& world, float X, float Y)=0;
 
@@ -88,6 +92,7 @@ class Enemigo : public GameObject
         vector<Posicion*> posPatrulla;              // Vector con las posiciones de su patrulla
 
         BehaviorTree *comportamiento;               // Comportamiento del enemigo definido mediante un arbol de comportamiento (BEHAVIOR TREE)
+        Blackboard *board;
 
         /* PARA LA VISION */
         bool lastFacedDir;                          // Para saber a que lado esta mirando el enemigo  (True -> Derecha / False -> Izquierda)

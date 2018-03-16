@@ -29,7 +29,7 @@ using namespace gui;
 
 class GameObject {
 public:
-	enum Tipo { PROTA, ENEMY, COMIDA, FUENTE, BEBIDA, ALARMA, TRAMPA };
+	enum Tipo { PROTA, ENEMY, COMIDA, FUENTE, BEBIDA, ALARMA, TRAMPA, PROYECTIL };
 
  	//virtual void update() = 0;
    

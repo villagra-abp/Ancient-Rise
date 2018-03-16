@@ -23,7 +23,6 @@ class EnemigoAvanzado : public Enemigo
     private:
 
     	const f32 ENERGIA_MAX=100.f;
-    	Blackboard *black;
 
 };
 

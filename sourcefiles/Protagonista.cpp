@@ -1,14 +1,13 @@
 #include "../headerfiles/Protagonista.h"
+#include "../headerfiles/Blackboard.h"
 #define SCALE 30.0f
 
 static Protagonista* instance = NULL;
 
 
-Protagonista::Protagonista()
+Protagonista::Protagonista():energy(nullptr), life(nullptr), Body(nullptr), rec(nullptr)
 {
     
-    GameObject::setTipo(PROTA);
-
     GameObject::setTipo(PROTA);
 
     /**
@@ -30,7 +29,6 @@ Protagonista::Protagonista()
    
     energyPosition=new Posicion(0.f,0.f,0.f);
     lifePosition=new Posicion(0.f,0.f,0.f);
-    //trampaPosition=new Posicion(0.f,0.f,0.f);
     
     fachada->setScala(energy,energyScale);
     fachada->setScala(life,lifeScale);
@@ -54,6 +52,29 @@ Protagonista::Protagonista()
 Protagonista* Protagonista::getInstance() {
     if (instance == NULL) instance = new Protagonista();
     return (instance);
+}
+
+
+/* Funcion para hacer el update del protagonista */
+void Protagonista::update(Blackboard* b)
+{   
+   // cout<<"X: "<<protaPosition.X<<endl;
+    //cout<<"Y: "<<protaPosition.Y<<endl;
+    time = relojAtq.getElapsedTime().asSeconds();
+    
+    if( ataca == true && time>2)       // PROTA EN COMBATE Y ATACANDO
+    {   
+        relojAtq.restart();
+        enemB = b->getEnemB();
+
+        for(int i=0; i<enemB.size();i++)
+        {   
+            if(enemB[i]!=nullptr)
+            {
+                comprobarColision(enemB[i]);
+            }
+        }
+    }
 }
 
 /**
@@ -143,8 +164,9 @@ void Protagonista::pintarInterfaz()
 /**
 FUNCION PARA CONTROLAR EL ATAQUE DEL PROTA
 **/
-void Protagonista::ataque(const f32 Time)
+void Protagonista::ataque(EnemigoBasico* e)
 {
+    /*
     b2Vec2 pos=Body->GetPosition();
 
     if(ataca == true && cont_ataque<20){
@@ -168,6 +190,12 @@ void Protagonista::ataque(const f32 Time)
         cont_ataque=0;
         ataca=false;
     }
+    */
+
+      if(pos_combate != e->getPosCombate())
+      {
+            e->setSalud(-20.f);
+      }
     
 }
 
@@ -229,34 +257,36 @@ void Protagonista::movimiento(const f32 Time)
 /**
 FUNCION PARA COMPROBAR LAS COLISIONES CON ENEMIGOS
 **/
-void Protagonista::comprobarColision(Enemigo *enemigo)
-{
-    enemigoPosition=enemigo->getPosition();
-    float enemigoPosX=enemigoPosition->getPosX();
-    float enemigoPosY=enemigoPosition->getPosY();
-    
-    float protaPosX=protaPosition->getPosX();
-    float protaPosY=protaPosition->getPosY();
+void Protagonista::comprobarColision(EnemigoBasico *e)
+{   
+    enemigoPosition=e->getPosition();
+    int distanciaEnemigo = protaPosition->getPosX() - enemigoPosition->getPosX();
 
-    if((enemigoPosX-(protaPosX+10))<0 
-        && (enemigoPosX-(protaPosX+10))>-20
-        && vida<=100 && vida>0 && protaPosY<10){
-
-        if(enemigo->getPosCombate() != pos_combate)
-        {
-            vida-=5; 
-        }
+    if(abs(distanciaEnemigo)<25)   // Distancia para poder atacar
+    {   
+        ataque(e);
     }
+    
 }
 
 /**
-<<<<<<< HEAD
-FUNCION PARA COMPROBAR LAS COLISIONES CON ENEMIGOS
-=======
-FUNCION PARA COMPROBAR LAS COLISIONES CON COMIDA
->>>>>>> 89a4e0e937ec5c5d2e6bf07d446473ff8dc14279
+ESTA FUNCION ES PARA QUE NO PETE EL CONTACTLISTENER PREGUNTAR RUBEN
 **/
+void Protagonista::comprobarColision(Enemigo *e)
+{   /*
+    enemigoPosition=e->getNode()->getPosition();
+    int distanciaEnemigo = protaPosition.X - enemigoPosition.X;
 
+    if(abs(distanciaEnemigo)<25)   // Distancia para poder atacar
+    {   
+        ataque(e);
+    }
+    */
+}
+
+/**
+FUNCION PARA COMPROBAR LAS COLISIONES CON COMIDA
+**/
 void Protagonista::comprobarColision(Comida *comida)
 {
     float protaPosX=protaPosition->getPosX();
@@ -385,6 +415,15 @@ bool Protagonista::checkVida()
     }
 }
 
+void Protagonista::startClock()
+{
+    if(contAtq == 0)
+    {
+        relojAtq.restart();
+        contAtq = contAtq+1;
+    }
+}
+
 /*
 FUNCION PARA CAMBIAR LA POS DE COMBATE DEL PROTA
 */
@@ -499,6 +538,7 @@ void Protagonista::setDireccion(int d)
 void Protagonista::setAtaque(bool d)
 {
 
+    /*
     ataca = d;
     if(ataca == true)
     {
@@ -507,6 +547,9 @@ void Protagonista::setAtaque(bool d)
             cont_ataque=1;
         }
     }
+    */
+
+    ataca = d;
 
 }
 
@@ -522,6 +565,11 @@ void Protagonista::setCombate()
         combate = true;         // MODO COMBATE ACTIVADO
         fachada->setMaterialFlag(rec,true);
     }
+}
+
+void Protagonista::quitarVida(f32 cantidad)
+{
+    vida -=cantidad; 
 }
 
 /**
@@ -569,4 +617,7 @@ Protagonista::~Protagonista()
     rec = nullptr;
     energy = nullptr;
     life = nullptr;  
+
+    delete energyPosition;
+    delete lifePosition;
 }

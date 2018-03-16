@@ -2,7 +2,7 @@
 
 
 
-Blackboard::Blackboard():enemBActual(nullptr)
+Blackboard::Blackboard():enemBActual(nullptr), prota(nullptr)
 {
 
 }
@@ -44,6 +44,10 @@ EnemigoBasico* Blackboard::getEnemBActual()
 	return enemBActual;
 }
 
+Protagonista* Blackboard::getProtagonista()
+{
+	return prota;
+}
 
 
 
@@ -82,6 +86,11 @@ void Blackboard::setEnemBActual(EnemigoBasico *e)
 	enemBActual = e;
 }
 
+void Blackboard::setProtagonista(Protagonista* p)
+{
+	prota = p;
+}
+
 
 Blackboard::~Blackboard()
 {	
@@ -89,20 +98,30 @@ Blackboard::~Blackboard()
 		alarmas[i] = nullptr;
 		delete alarmas[i];
 	}
-
 	alarmas.clear();
 
 	for(int i = 0 ; i < comidas.size(); i++){
 		comidas[i] = nullptr;
 		delete comidas[i];
 	}
-
 	comidas.clear();
 
 	for(int i = 0 ; i < fuentes.size(); i++){
 		fuentes[i] = nullptr;
 		delete fuentes[i];
 	}
-
 	fuentes.clear();
+
+	for(int i = 0 ; i < enemigosB.size(); i++){
+		enemigosB[i] = nullptr;
+		delete enemigosB[i];
+	}
+	enemigosB.clear();
+/*
+	for(int i = 0 ; i < nodos.size(); i++){
+		nodos[i] = nullptr;
+		delete nodos[i];
+	}
+	nodos.clear();
+	*/
 }

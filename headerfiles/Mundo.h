@@ -59,6 +59,7 @@ class Mundo : public Entorno
         void draw();
         
         void checkInput();
+        void checkCombate();
 
     protected:
     /* METHODS */
