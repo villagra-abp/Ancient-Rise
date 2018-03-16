@@ -4,7 +4,6 @@
 #include <iostream>
 #include <vector>
 
-#include <irrlicht/irrlicht.h>
 #include <SFML/Graphics.hpp>
 #include "../headerfiles/Blackboard.h"
 

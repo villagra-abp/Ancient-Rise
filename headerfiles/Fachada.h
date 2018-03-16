@@ -2,7 +2,7 @@
 #define FACHADA_H
 
 
-#include <irrlicht/irrlicht.h>
+#include <irrlicht.h>
 #include "../headerfiles/Posicion.h"
 #include <SFML/Window/Window.hpp>
 #ifndef GL3_PROTOTYPES 

@@ -228,10 +228,8 @@ bool Enemigo::checkInSight(Posicion* objPos){
                 
                 if(posObjY < pjymax && posObjY > pjymin)
                     inSight = true;
-                
-            }
+                }
         }else{
-
             if(posObjX > pjxmin2 && posObjX <= pjxmin){
                 if(posObjX > (pjxmin-xprima1)){
                     pjymax = (posObjX - (pjxmin - xprima1)) * pend1 + EnemigoPosition->getPosY() + yprima;

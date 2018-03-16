@@ -9,7 +9,6 @@
 #include <GL/gl.h>
 #include <SFML/Graphics.hpp>
 
-
 #include <iostream>
 #include <vector>
 #include <math.h>
@@ -17,7 +16,6 @@
 #include <ctime>
 
 #include "../headerfiles/Posicion.h"
-
 #include "../headerfiles/Fachada.h"
 
 using namespace irr;
