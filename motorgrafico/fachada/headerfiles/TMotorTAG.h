@@ -1,20 +1,24 @@
 #ifndef MOTORTAG_H
 #define MOTORTAG_H
 
-#include "TNodo.h"
-#include "TTransf.h"
-#include "TLuz.h"
-#include "TMalla.h"
-#include "TCamara.h"
+#include "../../headerfiles/TNodo.h"
+#include "../../headerfiles/TTransf.h"
+#include "../../headerfiles/TLuz.h"
+#include "../../headerfiles/TMalla.h"
+#include "../../headerfiles/TCamara.h"
 
+//#include "FObjeto.h"
+//#include "FCamara.h"
+#include "vec3.h"
 
 class TMotorTAG{
 public:
 	//enum tEnt { transf, malla, luz, camara };
 
-	TMotorTAG();
+	static TMotorTAG* getInstance();
 	virtual ~TMotorTAG();
 
+	/*
 	TNodo *crearNodo(TNodo *padre, TEntidad *ent);
 	TTransf *crearTransf();
 	TTransf *crearTransfRot(float x,float y,float z,float w);
@@ -24,17 +28,34 @@ public:
 	TLuz *crearLuz();
 	TMalla *crearMalla(char *fichero);
 	void draw();
+	*/
 	glm::mat4 generateMatrix(TNodo *nodo);
-	bool setCamara(TEntidad* cam, bool b);
+	
+
+	void draw();
+
+	//void registrarCamara(TNodo* cam);
+	void activarCamara(TNodo* cam);
+	void registrarLuz(TLuz* luz);
+
+	//bool setCamara(TEntidad* cam);
+
 	bool setLuz(TLuz* lz, bool b);
 
 
+	glm::mat4 getCamaraMat();
+	glm::mat4 getCamaraProj();
+	TNodo* getEscena();
+
 private:
+
+	TMotorTAG();
 	void recInverso(TNodo *nodo);
 
 	TNodo* escena;
-	vector<TNodo*> regCam;
-	vector<bool> estadoCam;  	//True Camara activada. SOLO UNA
+	//vector<TNodo*> regCam;
+	//vector<bool> estadoCam;  	//True Camara activada. SOLO UNA
+	TNodo* camara;
 	vector<TNodo*> regLuz;	
 	vector<bool> estadoLuz;		//True Luz activada.
 	//vector<> regVPort;

@@ -5,17 +5,10 @@
 #include <vector>
 #include <math.h>
 
-#include <GL/glut.h>
+//#include <GL/glut.h>
 
-#include "../inc/glm/vec3.hpp"// glm::vec3
-#include "../inc/glm/vec4.hpp" // glm::vec4
-#include "../inc/glm/mat4x4.hpp" // glm::mat4
-#include "../inc/glm/gtc/matrix_transform.hpp" // glm::translate, glm::rotate, glm::scale, glm::perspective
-#include "../inc/glm/gtc/type_ptr.hpp"
-#include "../inc/glm/gtc/matrix_inverse.hpp" //glm::affineInverse
-#include "../inc/glm/gtx/string_cast.hpp"
 
-/*
+
 #include <glm/vec3.hpp> // glm::vec3
 #include <glm/vec4.hpp> // glm::vec4
 #include <glm/mat4x4.hpp> // glm::mat4
@@ -23,7 +16,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_inverse.hpp> //glm::affineInverse
 #include <glm/gtx/string_cast.hpp>
-*/
+
 
 #include "PilaMat.h"
 
@@ -35,9 +28,9 @@ class TEntidad{
 public:
 	enum tEnt { transf, malla, luz, camara };
 
-	TEntidad();
-	virtual ~TEntidad();
-	virtual void beginDraw()=0;
+
+	virtual ~TEntidad() = default;
+	virtual void beginDraw(glm::mat4 view, glm::mat4 projection)=0;
 	virtual void endDraw()=0;
 	virtual tEnt getTipo()=0;
 

@@ -2,19 +2,22 @@
 #define FACHADA_H
 
 
+
 #include <irrlicht.h>
+#include <GL/glew.h>
 #include "../headerfiles/Posicion.h"
 #include <SFML/Window/Window.hpp>
 #ifndef GL3_PROTOTYPES 
 #define GL3_PROTOTYPES 1 
 #endif
-//#include <GL/glew.h>
 #include <SFML/Graphics.hpp>
 #include <SFML/OpenGL.hpp>
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
-#include "../inc/glm/vec3.hpp" // glm::vec3
+
+#include <glm/vec3.hpp>
+
 #include "../motorgrafico/headerfiles/TNodo.h"
 #include "../motorgrafico/headerfiles/TTransf.h"
 #include "../motorgrafico/headerfiles/TLuz.h"
@@ -63,6 +66,7 @@ public:
 	void cerrar();
 	
 	void drawEscena();
+	//void drawDrawEscena();
 	//void drawGUI();
     void drawTerreno();
 	
@@ -80,6 +84,8 @@ private:
 	gui::IGUIEnvironment* guienv;
     
     sf::RenderWindow* ventana;
+
+    TNodo* Escena;
 
 };
 

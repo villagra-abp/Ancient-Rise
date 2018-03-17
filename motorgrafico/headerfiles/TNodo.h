@@ -17,6 +17,8 @@ public:
 	TNodo* remHijo(TNodo* n);
 	int remHijoAll(TNodo* n);
 	TNodo* remHijoChange(TNodo* n1, TNodo* n2);
+	void changePadre(TNodo* nPadre, TNodo* hijo);
+	void remHijos();
 
 
 	bool setEntidad(TEntidad* ent);
@@ -28,7 +30,7 @@ public:
 	vector<TNodo*> getHijos();
 	int getIdent();
 
-	void draw();
+	void draw(glm::mat4 view, glm::mat4 projection);
 
 
 private:	

@@ -14,9 +14,19 @@ void TCamara::setParalela(float left, float right, float bottom, float top, floa
 }
 void TCamara::endDraw(){
 }
-void TCamara::beginDraw(){
+void TCamara::beginDraw(glm::mat4 view, glm::mat4 projection){
 }
+
+bool TCamara::getActive(){
+	return active;
+}
+
 glm::mat4 TCamara::getProyectionMatrix(){
 	return mProyeccion;
+}
+
+
+void TCamara::setActive(bool flag){
+	active = flag;
 }
 

@@ -11,7 +11,7 @@ public:
 	virtual ~TLuz();
 	//void setIntensidad(TColor c);
 	//TColor getIntensidad();
-	virtual void beginDraw() override;
+	virtual void beginDraw(glm::mat4 view, glm::mat4 projection) override;
 	virtual void endDraw() override;
 	virtual tEnt getTipo() override{ return luz; }
 
