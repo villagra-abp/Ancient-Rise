@@ -14,6 +14,7 @@
 #include "../headerfiles/BehaviorTree.h"
 #include "../headerfiles/Entorno.h"
 #include "../headerfiles/Fachada.h"
+#include "../headerfiles/NodoGrafo.h"
 
 #include "../motorsonido/headerfiles/GestorSonido.h"
 
@@ -120,6 +121,10 @@ class Mundo : public Entorno
     	scene::ISceneNode* Plataforma;
 	    scene::ISceneNode* Plataforma2;
 	    scene::ISceneNode* Plataforma3;
+
+        //GRAFO PATHFINDING
+        vector<NodoGrafo*> nodos;            // Contiene todos los nodos del grafo
+        vector<Arista*> aristas;
 
     	//CAMARA
     	scene::ICameraSceneNode* cam;

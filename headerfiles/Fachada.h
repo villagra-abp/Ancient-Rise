@@ -61,6 +61,7 @@ public:
 	void draw(int a, int b, int c, int d);
 	void suspension();
 	void cerrar();
+	void destruirObjeto(void* nodo);
 	
 	void drawEscena();
 	//void drawGUI();

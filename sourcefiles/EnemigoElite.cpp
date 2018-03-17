@@ -27,7 +27,8 @@ EnemigoElite::EnemigoElite(IrrlichtDevice *dev, ISceneManager *smgr, vector<Posi
     setVelSed(-0.2);
 
     /* BOX2D */
-    CreateBox(world, posPatrulla[0]->getPosX()*30, posPatrulla[0]->getPosY()*30);
+    nodoPosition = patrulla[0]->getPosition();
+    CreateBox(world, nodoPosition->getPosX()*30, nodoPosition->getPosY()*30);
 
     velocidad2d = Body->GetLinearVelocity();
 

@@ -33,6 +33,7 @@ class Proyectil : public GameObject
 		Posicion* proyectilPos;
 	    Posicion* enemigoPosition;
 	    Posicion* tam;
+	    Fachada* fachada;
 
 	    bool enTrayectoria;
 		

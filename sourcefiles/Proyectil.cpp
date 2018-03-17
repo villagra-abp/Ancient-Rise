@@ -2,9 +2,10 @@
 
 
 Proyectil::Proyectil(IrrlichtDevice* device, ISceneManager* smgr, Enemigo *e):driver(nullptr),proyectil(nullptr), enemigoPosition(nullptr), proyectilPos(nullptr), tam(nullptr)
+,fachada(nullptr)
 {
 	GameObject::setTipo(PROYECTIL);
-    Fachada* fachada=fachada->getInstance();
+    fachada=fachada->getInstance();
 
     // Datos Enemigo
     enemigoPosition = e->getPosition();
@@ -31,12 +32,12 @@ Proyectil::Proyectil(IrrlichtDevice* device, ISceneManager* smgr, Enemigo *e):dr
 }
 
 void Proyectil::update(Enemigo *e, Blackboard *b)
-{   /*
+{   
 	if(e->getCombate()==true  && e->getProyectil()!=nullptr)
 	{
 		disparoProyectil(e,b);
 	}
-    */
+    
 }
 
 /*
@@ -44,29 +45,33 @@ FUNCION PARA DESTRUIR EL PROYECTIL DEL ENEMIGO
 */
 void Proyectil::destroyProyectil()
 {	
-	//proyectil->remove();
+	fachada->destruirObjeto(proyectil);
 }
-
 /*
 FUNCION PARA LANZAR EL PROYECTIL EN LA DIRECCION QUE ESTA MIRANDO EL ENEMIGO
 */
 void Proyectil::disparoProyectil(Enemigo *e, Blackboard *b)
-{   /*
+{   
+    float posX;
 	enTrayectoria = true;
+
 	if(e->getLastFaceDir()==true)
     {  
-        proyectilPos.X += 80.f *b->getTime();
-        proyectil->setPosition(proyectilPos);
-       
+        posX = proyectilPos->getPosX();
+        posX += 80.f *b->getTime();
+        proyectilPos->setPosX(posX);
+        fachada->setPosicion(proyectil, proyectilPos);
         
     }
     else
     {
-        proyectilPos.X -= 80.f *b->getTime();
-        proyectil->setPosition(proyectilPos);
+        posX = proyectilPos->getPosX();
+        posX -= 80.f *b->getTime();
+        proyectilPos->setPosX(posX);
+        fachada->setPosicion(proyectil, proyectilPos);
        
     }
-    */
+    
 }
 
 
@@ -87,7 +92,7 @@ void Proyectil::setEnTrayectoria(bool b)
 
 void Proyectil::setPosition(Posicion* v)
 {
-	proyectilPos = v;
+	fachada->setPosicion(proyectil,v);
 }
 
 Proyectil::~Proyectil()

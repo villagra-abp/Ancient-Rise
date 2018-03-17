@@ -23,7 +23,9 @@ EnemigoAvanzado::EnemigoAvanzado(IrrlichtDevice *dev, ISceneManager *smgr, vecto
     setVelHambre(-0.2);
     setVelSed(-0.4);
 
-    CreateBox(world, posPatrulla[0]->getPosX()*30, posPatrulla[0]->getPosY()*30);
+    /* BOX2D */
+    nodoPosition = patrulla[0]->getPosition();
+    CreateBox(world, nodoPosition->getPosX()*30, nodoPosition->getPosY()*30);
 
     velocidad2d = Body->GetLinearVelocity();
 

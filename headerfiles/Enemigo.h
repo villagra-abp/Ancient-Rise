@@ -6,6 +6,7 @@
 #include "../headerfiles/GameObject.h"
 #include "../headerfiles/Entorno.h"
 #include "../headerfiles/Fachada.h"
+#include "../headerfiles/NodoGrafo.h"
 
 
 #define SCALE 30.0f
@@ -46,7 +47,7 @@ class Enemigo : public GameObject
 
         void* getNode();
         bool getAvistadoProta();
-        vector <Posicion*> getPosicion();
+        vector <NodoGrafo*> getPosicion();
         float getXRange();
         float getYPend();
         bool getVisto();
@@ -56,6 +57,7 @@ class Enemigo : public GameObject
         bool getUltDirecVisto();
         IVideoDriver* getDriver();
         int getOrden();
+        bool getDisparo();
 
         void setSed(f32 se);
         void setEnergia(f32 e);
@@ -71,12 +73,14 @@ class Enemigo : public GameObject
         void setLastFacedDir(bool dirx);
         void setUltDirecVisto(bool v);
         void setOrden(int o);
+        void setDisparo(bool d);
 
         /* COMBATE */   
         void setCombate(bool b);
         bool getCombate();
         void setPosCombate(int n);
         int getPosCombate();
+        Proyectil* getProyectil();
       
 
         virtual ~Enemigo();
@@ -89,7 +93,6 @@ class Enemigo : public GameObject
         IGUIEnvironment *env;
         bool encontradoComida;                      // PARA SABER SI HA ENCONTRADO COMIDA
         f32 frameDeltaTime;
-        vector<Posicion*> posPatrulla;              // Vector con las posiciones de su patrulla
 
         BehaviorTree *comportamiento;               // Comportamiento del enemigo definido mediante un arbol de comportamiento (BEHAVIOR TREE)
         Blackboard *board;
@@ -122,6 +125,11 @@ class Enemigo : public GameObject
         b2Vec2 velocidad2d;
         short GROUP_ENEMIGOS = -2;                   // PARA EVITAR QUE COLISIONEN OBJETOS DEL MISMO GRUPO
 
+        /* PATHFINDING */
+        vector<NodoGrafo*> nodos;                    // CONTIENE TODOS LOS NODOS DEL GRAFO
+        vector<NodoGrafo*> patrulla;                 // CONTIENE TODAS LAS POS DE LA PATRULLA DEL ENEMIGO
+        Posicion* nodoPosition;
+
         /* MEMORIA */ 
         sf::Clock reloj;                            // Reloj para controlar el tiempo que tiene que estar huyendo
         int contador;                               // Para reiniciar el reloj cuando toca
@@ -131,6 +139,8 @@ class Enemigo : public GameObject
         bool combate;                               // PARA SABER SI ESTA COMBATIENDO O NO
         int pos_combate;                            // INDICA LA POSICION DE COMBATE (1 = ARRIBA, 2 = CENTRO, 3 = ABAJO)
         bool ataca=false;                           // PROTA ATACANDO O NO
+        bool disparo;                               // Para saber si tiene que disparar un proyectil o no
+        Proyectil *proyectil;
 
          /* ENTORNO, GAMEOBJECTS */
         const Entorno *ent;

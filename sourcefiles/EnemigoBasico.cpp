@@ -31,7 +31,9 @@ EnemigoBasico::EnemigoBasico(IrrlichtDevice *dev, ISceneManager *smgr, vector<Po
     setVelSed(-0.5);
 
 
-    CreateBox(world, posPatrulla[0]->getPosX()*30, posPatrulla[0]->getPosY()*30);
+    /* BOX2D */
+    nodoPosition = patrulla[0]->getPosition();
+    CreateBox(world, nodoPosition->getPosX()*30, nodoPosition->getPosY()*30);
 
     velocidad2d = Body->GetLinearVelocity();
 

@@ -49,6 +49,10 @@ Protagonista* Blackboard::getProtagonista()
 	return prota;
 }
 
+vector<NodoGrafo*> Blackboard::getNodosGrafo()
+{
+	return nodos;
+}
 
 
 void Blackboard::setTime(const f32 T)
@@ -91,37 +95,37 @@ void Blackboard::setProtagonista(Protagonista* p)
 	prota = p;
 }
 
+void Blackboard::setNodosGrafo(vector<NodoGrafo*> n)
+{
+	nodos = n;
+}
+
 
 Blackboard::~Blackboard()
 {	
 	for(int i = 0 ; i < alarmas.size(); i++){
-		alarmas[i] = nullptr;
 		delete alarmas[i];
 	}
 	alarmas.clear();
 
 	for(int i = 0 ; i < comidas.size(); i++){
-		comidas[i] = nullptr;
 		delete comidas[i];
 	}
 	comidas.clear();
 
 	for(int i = 0 ; i < fuentes.size(); i++){
-		fuentes[i] = nullptr;
 		delete fuentes[i];
 	}
 	fuentes.clear();
 
 	for(int i = 0 ; i < enemigosB.size(); i++){
-		enemigosB[i] = nullptr;
 		delete enemigosB[i];
 	}
 	enemigosB.clear();
-/*
+
 	for(int i = 0 ; i < nodos.size(); i++){
-		nodos[i] = nullptr;
 		delete nodos[i];
 	}
 	nodos.clear();
-	*/
+	
 }

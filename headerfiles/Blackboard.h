@@ -5,7 +5,7 @@
 #include "../headerfiles/Protagonista.h"
 #include "../headerfiles/Objeto.h"
 
-class Nodo;
+class NodoGrafo;
 
 
 /*
@@ -27,6 +27,7 @@ class Blackboard
 		void setEnemB(EnemigoBasico *e);
 		void setEnemBActual(EnemigoBasico *e);
 		void setProtagonista(Protagonista* p);
+		void setNodosGrafo(vector<NodoGrafo*> n);
 
 
 		float getProta();
@@ -37,6 +38,7 @@ class Blackboard
 		vector<EnemigoBasico*> getEnemB();
 		EnemigoBasico* getEnemBActual();
 		Protagonista* getProtagonista();
+		vector<NodoGrafo*> getNodosGrafo();
 
 		virtual ~Blackboard();
 
@@ -55,7 +57,7 @@ class Blackboard
 		EnemigoBasico* enemBActual;
 
 		/* NODOS PATHFINDING */
-		//vector<Nodo*> nodos;
+		vector<NodoGrafo*> nodos;
 
 
 		Protagonista *prota;

@@ -13,18 +13,24 @@ class AvanzarPatrulla : public Task
 		virtual Status run(Enemigo *e) override;   			// Hasta que no ponga el override y se declare los metodos abstractos, la clase no deja de ser abstracta al igual que la de su padre
 		virtual void onInitialize(Blackboard *b) override;
 		void startClock();
+		void recorrerAristas(int num);
 		virtual ~AvanzarPatrulla();
 
 
 	private:
 
-		int contadorPatrulla;     // PARA SABER LA POSICION EN LA QUE SE ENCUENTRA EN LA PATRULLA
-		vector<Posicion*> pos;	  // Vector con las posiciones de la patrulla
+			  
+	    uint8_t contadorPatrulla;     					// PARA SABER LA POSICION EN LA QUE SE ENCUENTRA EN LA PATRULLA
 		float protaPosition;	  
-		Blackboard *board;		  // Blackboard con los datos necesarios
-		void* enemigoNode;
-		sf::Clock reloj; 		  			// Reloj para controlar el tiempo que esta parado el enemigo en una posicion de la patrulla
-	    int contadorReloj; 			  			// Para reiniciar el reloj cuando toca
+		Blackboard *board;		  						// Blackboard con los datos necesarios
+		sf::Clock reloj; 		  						// Reloj para controlar el tiempo que esta parado el enemigo en una posicion de la patrulla
+	    uint8_t contadorReloj; 			  				// Para reiniciar el reloj cuando toca
+
+	    /* GRAFO PATHFINDING */
+		vector<NodoGrafo*> pos;	  							// Contiene los nodos que va a reccorer el enemigo para la patrulla
+		vector<Arista*> aristSal;	  					// Todas las aristas salientes del nodo en el que se encuentra el enemigo
+		Posicion* nodoPosition;
+		Comportamiento tipoComp;
 
 	
 		

@@ -1,5 +1,6 @@
 #include "../headerfiles/Enemigo.h"
 #include "../headerfiles/Blackboard.h"
+#include "../headerfiles/Proyectil.h"
 
 
 /**
@@ -8,7 +9,7 @@
  Parametros : Objetos Irrlicht, vector con posiciones de la patrulla
 */
 Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos, float xlength, float pendValue, const Entorno* e, Blackboard *b) 
-: enemigo(nullptr), env(nullptr), driver(nullptr), ent(e), board(nullptr)
+: enemigo(nullptr), env(nullptr), driver(nullptr), ent(e), board(nullptr), proyectil(nullptr)
 {
     GameObject::setTipo(ENEMY);
     Fachada* fachada=fachada->getInstance();
@@ -35,11 +36,24 @@ Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos
     visto = false;
     direccVistoUlt = false;
 
-    posPatrulla = pos;                  // Guardamos el vector con las posiciones de la patrulla del enemigo
+    nodos = board->getNodosGrafo();              // Obtenemos todos los nodos del grafo
+    /* COMPROBAMOS QUE LAS POSICIONES DE PATRULLA COINCIDEN CON LOS NODOS DEL GRAFO */
+    for(int i=0; i<pos.size();i++)
+    {
+        for(int i2=0;i2<nodos.size();i2++)
+        {
+            nodoPosition = nodos[i2]->getPosition();
+            if(pos[i]->getPosX()==nodoPosition->getPosX() && pos[i]->getPosY()==nodoPosition->getPosY())
+            {
+                patrulla.push_back(nodos[i2]);          // Metemos los nodos para poder hacer la patrulla
+            }
+
+        }
+    }
 
     /* Valores por defecto para los parametros para el combate del enemigo */
     combate = false;
-    //disparo = false;
+    disparo = false;
     pos_combate = 2; 
     contador = 0;
     memoria = false;
@@ -92,7 +106,7 @@ void Enemigo::update(Posicion* Posprota)
             
 
         /* COMBATE DISTANCIA */
-   /*     if(tipo==2) // Enemigo tipo distancia
+        if(tipo==2) // Enemigo tipo distancia
         {
             if(disparo==true)  // Nuevo disparo, hay que crear un proyectil nuevo
             {   
@@ -101,7 +115,7 @@ void Enemigo::update(Posicion* Posprota)
                     proyectil->destroyProyectil();
                     proyectil = nullptr;
                 }
-                proyectil = new Proyectil(device,smg,this);
+                proyectil = new Proyectil(fachada->getDevice(),fachada->getScene(),this);
             }
             else  // Aun no disparamos otra vez
             {
@@ -118,7 +132,7 @@ void Enemigo::update(Posicion* Posprota)
                 proyectil->update(this,board);
 
         }
-        */
+        
     }
 
 }
@@ -323,9 +337,9 @@ f32 Enemigo::getHambre()
     return hambre;
 }
 
-vector<Posicion*> Enemigo::getPosicion()
+vector<NodoGrafo*> Enemigo::getPosicion()
 {
-    return posPatrulla;
+    return patrulla;
 }
 
 const f32 Enemigo::getVelNormal()
@@ -394,6 +408,16 @@ int Enemigo::getOrden()
     return orden;
 }
 
+bool Enemigo::getDisparo()
+{
+    return disparo;
+}
+
+Proyectil* Enemigo::getProyectil()
+{
+    return proyectil;
+}
+
 
 void Enemigo::setSalud(f32 s)
 {
@@ -460,6 +484,11 @@ void Enemigo::setPosCombate(int n)
 void Enemigo::setOrden(int o)
 {
     orden = o;
+}
+
+void Enemigo::setDisparo(bool d)
+{
+    disparo = d;
 }
 
 
