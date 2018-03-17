@@ -24,7 +24,6 @@ class EnemigoElite : public Enemigo
         virtual ~EnemigoElite();
 
     private:
-    	Blackboard *black;
     	const f32 ENERGIA_MAX=100.f;
 
 

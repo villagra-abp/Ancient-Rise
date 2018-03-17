@@ -2,7 +2,10 @@
 #define BLACKBOARD_H
 
 #include "../headerfiles/EnemigoBasico.h"
+#include "../headerfiles/Protagonista.h"
 #include "../headerfiles/Objeto.h"
+
+class NodoGrafo;
 
 
 /*
@@ -23,6 +26,8 @@ class Blackboard
 		void setAlarma(vector<Objeto*>a);
 		void setEnemB(EnemigoBasico *e);
 		void setEnemBActual(EnemigoBasico *e);
+		void setProtagonista(Protagonista* p);
+		void setNodosGrafo(vector<NodoGrafo*> n);
 
 
 		float getProta();
@@ -32,6 +37,8 @@ class Blackboard
 		vector<Objeto*> getAlarma();
 		vector<EnemigoBasico*> getEnemB();
 		EnemigoBasico* getEnemBActual();
+		Protagonista* getProtagonista();
+		vector<NodoGrafo*> getNodosGrafo();
 
 		virtual ~Blackboard();
 
@@ -39,11 +46,21 @@ class Blackboard
 		
 		float protaX;
 		f32 time;
+		
+		/* OBJETOS DEL JUEGO */
 		vecObjetos fuentes;
 		vecObjetos comidas;
 		vecObjetos alarmas;
+
+		/* ENEMIGOS BASICOS */
 		vector<EnemigoBasico*> enemigosB;
 		EnemigoBasico* enemBActual;
+
+		/* NODOS PATHFINDING */
+		vector<NodoGrafo*> nodos;
+
+
+		Protagonista *prota;
 
 };
 

@@ -1,33 +1,31 @@
 #include "../headerfiles/EnemigoAvanzado.h"
 #include "../headerfiles/BehaviorTree.h"
 
-EnemigoAvanzado::EnemigoAvanzado(IrrlichtDevice *dev, ISceneManager *smgr, vector<Posicion*> pos, float xlength, float pendValue, int t, const Entorno* e, Blackboard *b, b2World& world):Enemigo(dev, smgr, pos, xlength, pendValue, e)
-,black(nullptr)
+EnemigoAvanzado::EnemigoAvanzado(IrrlichtDevice *dev, ISceneManager *smgr, vector<Posicion*> pos, float xlength, float pendValue, int t, const Entorno* e, Blackboard *b, b2World& world):Enemigo(dev, smgr, pos, xlength, pendValue, e, b)
 {
 
     //ESTABLECEMOS LAS ESTADISTICAS ENEMIGO AVANZADO
 
-    this->setEnergia(ENERGIA_MAX);
-    this->setHambre(100.f);
-    this->setSalud(100.f);
-    this->setSed(100.f);
-    this->setVelocidad(VELOCIDAD_NORMAL);
+    setEnergia(ENERGIA_MAX);
+    setHambre(100.f);
+    salud = 100.f;
+    setSed(100.f);
+    setVelocidad(VELOCIDAD_NORMAL);
 
     tipo = t;                                                   // Tipo de combate que usa (Distancia o Cuerpo a Cuerpo)
     claseEnemigo = 2;                                           // EnemigoBasico
 
-    black = b;                                                // Guardamos la blackboard 
-
     /* CREAMOS EL ARBOL DE COMPORTAMIENTO DE EL ENEMIGO BASICO PASANDOLE LA BLACKBOARD */
-
     comportamiento = new BehaviorTree(3, b);              
     
 
      /* Velocidad a la que bajan las estadisticas del enemigo */
-    this->setVelHambre(-0.2);
-    this->setVelSed(-0.4);
+    setVelHambre(-0.2);
+    setVelSed(-0.4);
 
-    this->CreateBox(world, posPatrulla[0]->getPosX()*30, posPatrulla[0]->getPosY()*30);
+    /* BOX2D */
+    nodoPosition = patrulla[0]->getPosition();
+    CreateBox(world, nodoPosition->getPosX()*30, nodoPosition->getPosY()*30);
 
     velocidad2d = Body->GetLinearVelocity();
 
@@ -37,16 +35,19 @@ EnemigoAvanzado::EnemigoAvanzado(IrrlichtDevice *dev, ISceneManager *smgr, vecto
 
 void EnemigoAvanzado::Update(Posicion* prota)
 {
-  this->update(prota);                                     // Llamamos tambien al update de la clase general del enemigo y actualizamos los valores de sed - hambre del mismo
-  this->comprobarEnergia();
+    update(prota);                                     // Llamamos tambien al update de la clase general del enemigo y actualizamos los valores de sed - hambre del mismo
+    if(enemigo!=nullptr)
+    {
+        comprobarEnergia();
 
-  comportamiento->update(this);                           // Empezamos a ejecutar el arbol de comportamiento del enemigo
+        comportamiento->update(this);                           // Empezamos a ejecutar el arbol de comportamiento del enemigo
 
-   EnemigoPosition->setPosX(Body->GetPosition().x);        // Establecemos su velocidad con el body
-  EnemigoPosition->setPosY(Body->GetPosition().y);
+        EnemigoPosition->setPosX(Body->GetPosition().x);        // Establecemos su velocidad con el body
+        EnemigoPosition->setPosY(Body->GetPosition().y);
 
-  
-    fachada->setPosicion(enemigo,EnemigoPosition);
+       fachada->setPosicion(enemigo,EnemigoPosition);
+    }
+    
 }
 
 void EnemigoAvanzado::comprobarEnergia()

@@ -23,7 +23,7 @@ Alarma::Alarma(IrrlichtDevice *dev, ISceneManager* smgr, Posicion* pos):Objeto(p
 void Alarma::update()
 {
 	
-	this->checkActivada();
+	checkActivada();
 	
 }
 
@@ -38,7 +38,7 @@ void Alarma::checkActivada()
 		fachada->setMaterialFlag(objeto , false);
 		fachada->setMaterial(objeto ,"resources/activada.jpeg");
 
-		this->startClock();
+		startClock();
 
 		int time = reloj.getElapsedTime().asSeconds();  // OBTENEMOS SU DURACION EN SEGUNDOS
 

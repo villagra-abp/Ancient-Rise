@@ -1,5 +1,6 @@
 #include "../headerfiles/Enemigo.h"
-
+#include "../headerfiles/Blackboard.h"
+#include "../headerfiles/Proyectil.h"
 
 
 /**
@@ -7,19 +8,16 @@
  CONSTRUCTOR DE ENEMIGO
  Parametros : Objetos Irrlicht, vector con posiciones de la patrulla
 */
-Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos, float xlength, float pendValue, const Entorno* e) 
-: enemigo(nullptr), env(nullptr), driver(nullptr), ent(e)
+Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos, float xlength, float pendValue, const Entorno* e, Blackboard *b) 
+: enemigo(nullptr), env(nullptr), driver(nullptr), ent(e), board(nullptr), proyectil(nullptr)
 {
     GameObject::setTipo(ENEMY);
     Fachada* fachada=fachada->getInstance();
 	enemigo = fachada->addCube(pos[0]->getPosX(),pos[0]->getPosY(),pos[0]->getPosZ(),false);
-    //posicion = &pos;
 
     if (enemigo) /** SI HEMOS CREADO EL CUBO **/
 	{  
          driver = fachada->getDriver();
-		//enemigo->setPosition(core::vector3df(pos[0]->getPosX(),pos[0]->getPosY(),pos[0]->getPosZ())); // INDICAMOS SU POS INICIAL ( QUE VIENE INDICADA EN EL ARRAY TAMBIEN)
-		//enemigo->setMaterialFlag(video::EMF_LIGHTING, false);
         fachada ->setMaterial(enemigo,"resources/verde.jpg");
 
         EnemigoPosition = fachada->getPosicion(enemigo);
@@ -27,23 +25,38 @@ Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos
 
 	}
 
+    board = b;                                             // Guardamos la blackboard 
+
     env = dev->getGUIEnvironment();
 
-     //Parametros para el rango de vision del personaje.
+    /* Valores por defecto para los parametros para el rango de vision del enemigo */
     lastFacedDir = true;
     visionXmax = xlength;
     valorPendiente = pendValue;
     visto = false;
     direccVistoUlt = false;
 
-    posPatrulla = pos;                  // Guardamos el vector con las posiciones de la patrulla del enemigo
+    nodos = board->getNodosGrafo();              // Obtenemos todos los nodos del grafo
+    /* COMPROBAMOS QUE LAS POSICIONES DE PATRULLA COINCIDEN CON LOS NODOS DEL GRAFO */
+    for(int i=0; i<pos.size();i++)
+    {
+        for(int i2=0;i2<nodos.size();i2++)
+        {
+            nodoPosition = nodos[i2]->getPosition();
+            if(pos[i]->getPosX()==nodoPosition->getPosX() && pos[i]->getPosY()==nodoPosition->getPosY())
+            {
+                patrulla.push_back(nodos[i2]);          // Metemos los nodos para poder hacer la patrulla
+            }
 
+        }
+    }
+
+    /* Valores por defecto para los parametros para el combate del enemigo */
     combate = false;
+    disparo = false;
     pos_combate = 2; 
     contador = 0;
-
     memoria = false;
-
     orden = 0;                                            // Ninguna orden recibida
 
 
@@ -52,26 +65,35 @@ Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos
 /* Update para todos los enemigos*/
 void Enemigo::update(Posicion* Posprota)
 {
-        this->actualizarHambre(); 
-        this->actualizarSed();
 
+    if(salud<0)
+    {
+        //enemigo->remove();
+    }
+
+    if(enemigo!=nullptr)  // Solo si existe el enemigo hacemos su update
+    { 
+        actualizarHambre(); 
+        actualizarSed();
+
+        //cout<<"Vida: "<<salud<<endl;
         //COMPROBAMOS GAMEOBJECTS DENTRO DE LA VISTA
         vistos.clear();
 
         for(int i = 0; i < ent->getSize(); i++){
-            if(this->checkInSight(ent->getGameObject(i)->getPosition())){
+            if(checkInSight(ent->getGameObject(i)->getPosition())){
                 vistos.push_back(ent->getGameObject(i));
             }
         }
 
         // COMPROBAMOS SI HEMOS VISTO AL PROTAGONISTA 
-        if(this->checkInSight(Posprota)){              
+        if(checkInSight(Posprota)){              
             visto = true;
              fachada->setMaterial(enemigo,"resources/activada.jpeg");  
              contador = 0;
             
         }else{
-            if(this->recordarProta())
+            if(recordarProta())
             {
                 visto = false;
                 fachada->setMaterial(enemigo,"resources/verde.jpg");
@@ -79,31 +101,40 @@ void Enemigo::update(Posicion* Posprota)
             
         }
 
-        //core::vector3df pos = enemigo->getPosition(); 
-        if(combate == true)
-        {
-            if( pos_combate == 1)
-            {
-                EnemigoPosition->setPosY(10.f);
-            }
-            else
-            {
-                if(pos_combate == 2)
-                {
-                    EnemigoPosition->setPosY(5.f);
-                }
-                else
-                {
-                    EnemigoPosition->setPosY(0.f);
-                }
-            }
-        }
-        else
-        {
-            EnemigoPosition->setPosY(0.f);
-        }
+        
+        /* COMBATE MELE */
+            
 
-        //enemigo->setPosition(pos);
+        /* COMBATE DISTANCIA */
+        if(tipo==2) // Enemigo tipo distancia
+        {
+            if(disparo==true)  // Nuevo disparo, hay que crear un proyectil nuevo
+            {   
+                if(proyectil!=nullptr)  // SI habia ya un proyectil creado lo borramos antes de crear uno nuevo
+                {
+                    proyectil->destroyProyectil();
+                    proyectil = nullptr;
+                }
+                proyectil = new Proyectil(fachada->getDevice(),fachada->getScene(),this);
+            }
+            else  // Aun no disparamos otra vez
+            {
+                if(combate == false)  // No combatiendo
+                {
+                    if(proyectil!=nullptr)
+                    {   
+                        proyectil->destroyProyectil();   
+                        proyectil = nullptr;
+                    }
+                }
+            }
+
+                proyectil->update(this,board);
+
+        }
+        
+    }
+
 }
 
 
@@ -261,6 +292,20 @@ bool Enemigo::see(GameObject* o){
     return seeing;
 }
 
+/* Para actualizar en un momento dado lo que esta viendo el enemigo */
+void Enemigo::actualizarVistos()
+{
+    /* VISTA ENEMIGO */
+    /* COMPROBAMOS GAMEOBJECTS DENTRO DE LA VISTA */
+    vistos.clear();
+
+        for(int i = 0; i < ent->getSize(); i++){
+            if(checkInSight(ent->getGameObject(i)->getPosition())){
+                vistos.push_back(ent->getGameObject(i));
+            }
+        }
+}
+
 /**
 ==============================================
 A PARTIR DE AQUI VAN TODOS LOS GETS Y LOS SETS
@@ -292,9 +337,9 @@ f32 Enemigo::getHambre()
     return hambre;
 }
 
-vector<Posicion*> Enemigo::getPosicion()
+vector<NodoGrafo*> Enemigo::getPosicion()
 {
-    return posPatrulla;
+    return patrulla;
 }
 
 const f32 Enemigo::getVelNormal()
@@ -363,10 +408,20 @@ int Enemigo::getOrden()
     return orden;
 }
 
+bool Enemigo::getDisparo()
+{
+    return disparo;
+}
+
+Proyectil* Enemigo::getProyectil()
+{
+    return proyectil;
+}
+
 
 void Enemigo::setSalud(f32 s)
 {
-    salud=s;
+    salud+=s;
 }
 
 void Enemigo::setEnergia(f32 e)
@@ -429,6 +484,11 @@ void Enemigo::setPosCombate(int n)
 void Enemigo::setOrden(int o)
 {
     orden = o;
+}
+
+void Enemigo::setDisparo(bool d)
+{
+    disparo = d;
 }
 
 

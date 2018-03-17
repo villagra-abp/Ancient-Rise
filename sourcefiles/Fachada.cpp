@@ -92,6 +92,13 @@ void Fachada::cerrar(){
 	device->closeDevice();
 }
 
+void Fachada::destruirObjeto(void* nodo)
+{
+    scene::ISceneNode * node=(scene::ISceneNode*)nodo;
+
+    node->remove();
+}
+
 /*void Motorgrafico::drawGUI(){
 	driver->beginScene(true, true, SColor(255,100,101,140));
 

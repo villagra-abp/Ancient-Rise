@@ -6,22 +6,20 @@
 CONSTRUCTOR DE ENEMIGO BASICO
 Parametros : Irrlicht objetos, vector con posiciones para la patrulla, entero para indicar si melee/distancia, Blackboard con datos necesarios para el arbol
 **/
-EnemigoBasico::EnemigoBasico(IrrlichtDevice *dev, ISceneManager *smgr, vector<Posicion*> pos, float xlength, float pendValue, int t, const Entorno* e, Blackboard *b, b2World& world):Enemigo(dev, smgr, pos, xlength, pendValue, e), black(nullptr)
+EnemigoBasico::EnemigoBasico(IrrlichtDevice *dev, ISceneManager *smgr, vector<Posicion*> pos, float xlength, float pendValue, int t, const Entorno* e, Blackboard *b, b2World& world):Enemigo(dev, smgr, pos, xlength, pendValue, e, b)
 {
 
     //ESTABLECEMOS LAS ESTADISTICAS ENEMIGO BASICO
 
-    this->setEnergia(ENERGIA_MAX);
-    this->setHambre(100.f);
-    this->setSalud(100.f);
-    this->setSed(100.f);
-    this->setVelocidad(VELOCIDAD_NORMAL);
+    setEnergia(ENERGIA_MAX);
+    setHambre(100.f);
+    salud = 100;
+    setSed(100.f);
+    setVelocidad(VELOCIDAD_NORMAL);
 
     tipo = t;                                             // Tipo de combate que usa (Distancia o Cuerpo a Cuerpo)
     claseEnemigo = 1;                                     // EnemigoBasico
 
-
-    black = b;                                             // Guardamos la blackboard 
 
     /* CREAMOS EL ARBOL DE COMPORTAMIENTO DE EL ENEMIGO BASICO PASANDOLE LA BLACKBOARD */
 
@@ -29,11 +27,13 @@ EnemigoBasico::EnemigoBasico(IrrlichtDevice *dev, ISceneManager *smgr, vector<Po
     
 
      /* Velocidad a la que bajan las estadisticas del enemigo */
-    this->setVelHambre(-0.3);
-    this->setVelSed(-0.5);
+    setVelHambre(-0.3);
+    setVelSed(-0.5);
 
 
-    this->CreateBox(world, posPatrulla[0]->getPosX()*30, posPatrulla[0]->getPosY()*30);
+    /* BOX2D */
+    nodoPosition = patrulla[0]->getPosition();
+    CreateBox(world, nodoPosition->getPosX()*30, nodoPosition->getPosY()*30);
 
     velocidad2d = Body->GetLinearVelocity();
 
@@ -44,16 +44,19 @@ EnemigoBasico::EnemigoBasico(IrrlichtDevice *dev, ISceneManager *smgr, vector<Po
 
 void EnemigoBasico::Update(Posicion* prota)
 {
-	this->update(prota);                                     // Llamamos tambien al update de la clase general del enemigo y actualizamos los valores de sed - hambre del mismo
-  this->comprobarEnergia();
+    update(prota);                                     // Llamamos tambien al update de la clase general del enemigo y actualizamos los valores de sed - hambre del mismo
+    if(enemigo!=nullptr)
+    {
 
-  comportamiento->update(this);                           // Empezamos a ejecutar el arbol de comportamiento del enemigo
+      comprobarEnergia();
 
-  EnemigoPosition->setPosX(Body->GetPosition().x);        // Establecemos su velocidad con el body
-  EnemigoPosition->setPosY(Body->GetPosition().y);
+      comportamiento->update(this);                           // Empezamos a ejecutar el arbol de comportamiento del enemigo
 
-  
-    fachada->setPosicion(enemigo,EnemigoPosition);
+      EnemigoPosition->setPosX(Body->GetPosition().x);        // Establecemos su velocidad con el body
+      EnemigoPosition->setPosY(Body->GetPosition().y);
+
+      fachada->setPosicion(enemigo,EnemigoPosition);
+    }
 }
 
 
@@ -105,6 +108,5 @@ EnemigoBasico::~EnemigoBasico()
 {
     //dtor
   comportamiento = nullptr;
-  black = nullptr;
   //delete comportamiento;
 }

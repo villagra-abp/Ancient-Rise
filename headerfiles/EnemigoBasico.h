@@ -25,7 +25,6 @@ class EnemigoBasico : public Enemigo
         virtual ~EnemigoBasico();
 
     private:
-    	Blackboard *black;
 
     	const f32 ENERGIA_MAX=100.f;
 

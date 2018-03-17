@@ -3,14 +3,14 @@
 
 
 
-#include "../headerfiles/Enemigo.h"
+#include "../headerfiles/EnemigoBasico.h"
 #include "../headerfiles/Comida.h"
 #include "../headerfiles/Bebida.h"
 #include "../headerfiles/Trampa.h"
 #include "../headerfiles/GameObject.h"
 #include "../headerfiles/Fachada.h"
 #include "../motorsonido/headerfiles/GestorSonido.h"
-
+#include <SFML/Graphics.hpp>
 
 class Protagonista : public GameObject
 {
@@ -21,21 +21,21 @@ class Protagonista : public GameObject
          void* getNode();
 
          void salto(const f32 Time);
-         void ataque(const f32 Time);
+         void ataque(EnemigoBasico* e);
          void movimiento(const f32 Time);
          void recuperarEnergia(const f32 Time);
          void recuperarVida(const f32 Time);
          void pintarInterfaz();
-         void comprobarColision(Enemigo *enemigo);
+         void comprobarColision(EnemigoBasico *e);
+         void comprobarColision(Enemigo *e);
          void comprobarColision(Comida *comida);
          void comprobarColision(Bebida *bebida);
          void comprobarColision(Trampa *trampa);
-
-         //bool comprobarColision(scene::ISceneNode* nodo);
          void gravedad(const f32 Time);
          void CreateGround(b2World& world, float X, float Y,int largo);
          void CreateBox(b2World& world, float X, float Y);
-
+         void update(Blackboard* b);
+         void startClock();
 
 
          //GETTERS Y SETTERS
@@ -65,6 +65,7 @@ class Protagonista : public GameObject
          void setPosCombate(int n);
          int getPosCombate();
          void checkPosCombate();
+         void quitarVida(f32 cantidad);
 
 
 
@@ -109,10 +110,13 @@ class Protagonista : public GameObject
         b2PolygonShape Shape;
         short GROUP_PLAYER = -1; 
 
-        /* COMBATE */
-        bool combate;            // PARA SABER SI ESTA COMBATIENDO O NO
-        int pos_combate;        // INDICA LA POSICION DE COMBATE (1 = ARRIBA, 2 = CENTRO, 3 = ABAJO)
-        bool ataca=false;       // PROTA ATACANDO O NO
+       /* COMBATE */
+        bool combate;                     // PARA SABER SI ESTA COMBATIENDO O NO
+        int pos_combate;                 // INDICA LA POSICION DE COMBATE (1 = ARRIBA, 2 = CENTRO, 3 = ABAJO)
+        bool ataca=false;               // PROTA ATACANDO O NO
+        vector<EnemigoBasico*> enemB;
+        sf::Clock relojAtq;
+        int contAtq, time;
         
         /* SONIDO */
         GestorSonido* sonido;

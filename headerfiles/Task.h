@@ -6,6 +6,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "../headerfiles/Blackboard.h"
+#include "../headerfiles/Grafo.h"
 
 
 
