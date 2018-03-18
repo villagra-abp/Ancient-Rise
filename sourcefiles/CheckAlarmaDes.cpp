@@ -2,9 +2,7 @@
 #include <ctime>
 
 Status CheckAlarmaDes::run(Enemigo *e)
-{   
-  // DATOS DEL ENEMIGO
-   enemigoNode = e->getNode();  
+{     
 
   // Habra que ampliar el bucle para contemplar todas las distancias hacia las alarmasa y acudir a la mas cercana
   // A no ser que sepamos con seguridad que nunca se podran ver dos alarmas a la vez. 
@@ -29,7 +27,6 @@ void CheckAlarmaDes::onInitialize(Blackboard *b)
 CheckAlarmaDes::~CheckAlarmaDes()
 {
     board = nullptr;
-    enemigoNode = nullptr;
 
     for(int i = 0 ; i < a.size(); i++){
       a[i] = nullptr;

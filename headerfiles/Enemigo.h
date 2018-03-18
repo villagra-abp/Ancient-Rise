@@ -32,6 +32,7 @@ class Enemigo : public GameObject
         bool see(GameObject* o);
         bool recordarProta();
         void actualizarVistos();
+        void changeLastFaceDir();
 
         virtual void CreateBox(b2World& world, float X, float Y)=0;
 

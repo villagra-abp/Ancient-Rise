@@ -41,7 +41,6 @@ class BuscarAgua : public Task
 	    NodoGrafo *inicioBueno; 			// Nodo inicial definitivo para el camino
 	   	Posicion* posNodo;
 	   	Posicion* posNodoI;
-	   	Posicion* prueba;
 	    Grafo *g; 							// Para poder calcular el camino mas corto
 	    vector <Arista*> caminoCorto; 		// Contiene el camino mas corto calculado hasta el punto donde se queria ir
 	    bool llegadoInicio=false; 				// Para saber si hemos llegado al nodo inicio

@@ -12,6 +12,9 @@ class Huir : public Task
 		virtual void onInitialize(Blackboard *b) override;
 		virtual ~Huir();
 		void startClock();
+		void buscarNodoInicial(Enemigo *e, float posX);
+		void recorrerNodos(Enemigo *e, uint8_t v, float posX);
+		NodoGrafo* calcularNodoMasCercano(NodoGrafo* i, NodoGrafo* i2, float posX);
 
 
 	private:
@@ -19,7 +22,11 @@ class Huir : public Task
 		Blackboard *board;
 	    sf::Clock reloj; 		  			// Reloj para controlar el tiempo que tiene que estar huyendo
 	    int contador; 			  			// Para reiniciar el reloj cuando toca
-	    void* enemigoNode;
+
+	    /* Pathfinding */
+	    vector<NodoGrafo*> nodos;
+	    NodoGrafo *inicio1, *inicio2;
+	    Posicion *posNodo, *posNodoI;
 	
 		
 };
