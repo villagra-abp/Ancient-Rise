@@ -22,9 +22,11 @@ class FObjeto : public FEntidad{
 		void Unir(FEntidad* padre) override;
 
 		void setMalla(string path);
+		void setMaterial(string nombre);
 
 		bool getActive() override;
 		TNodo* getNodo() override;
+		vec3 getPosicion();
 
 	private:
 

@@ -7,6 +7,7 @@
 
 #include "TRecurso.h"
 #include "TRecursoMalla.h"
+#include "TRecursoMaterial.h"
 #include "Shader.h"
 
 class TGestorRecursos{
@@ -40,6 +41,7 @@ private:
 
 	vector<TRecurso*> recursos;
 	Shader* shader;
+	int nivel;
 
 };
 

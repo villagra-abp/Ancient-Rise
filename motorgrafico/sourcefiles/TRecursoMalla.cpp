@@ -3,10 +3,11 @@
 #include <stb_image.h>
 #undef STB_IMAGE_IMPLEMENTATION
 
-void TRecursoMalla::draw(Shader shader, glm::mat4 mmodelo, glm::mat4 view, glm::mat4 projection)
+void TRecursoMalla::draw(Shader shader, glm::mat4 mmodelo, glm::mat4 view, glm::mat4 projection, float intensidad, glm::vec4 color, glm::vec3 luzPosicion,
+				glm::vec3 camPosicion, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float shininess)
 {
     for(unsigned int i = 0; i < meshes.size(); i++)
-        meshes[i].draw(shader, mmodelo, view, projection);
+        meshes[i].draw(shader, mmodelo, view, projection, intensidad, color, luzPosicion, camPosicion, ambient, diffuse, specular, shininess);
 }  
 
 void TRecursoMalla::cargarFichero(string path){
@@ -89,6 +90,28 @@ rMesh TRecursoMalla::processMesh(aiMesh *mesh, const aiScene *scene)
     if(mesh->mMaterialIndex >= 0)
     {	
         aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
+
+        //Material
+        aiString name;
+        aiColor3D color;
+        float shininess;
+
+        material->Get(AI_MATKEY_NAME, name);
+        string nombre = name.C_Str();
+        cout<<nombre<<endl;
+        
+        material->Get(AI_MATKEY_COLOR_DIFFUSE, color);
+        cout<<color.r<< " "<<color.g<<" "<<color.b<<endl;
+        material->Get(AI_MATKEY_COLOR_SPECULAR, color);
+        cout<<color.r<< " "<<color.g<<" "<<color.b<<endl;
+        material->Get(AI_MATKEY_COLOR_AMBIENT, color);
+        cout<<color.r<< " "<<color.g<<" "<<color.b<<endl;
+
+        material->Get(AI_MATKEY_SHININESS, shininess);
+        cout<<shininess<<endl;
+
+
+        //Texturas
     	vector<Texture> diffuseMaps = loadMaterialTextures(material, 
                                         aiTextureType_DIFFUSE, "texture_diffuse");
     	textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());

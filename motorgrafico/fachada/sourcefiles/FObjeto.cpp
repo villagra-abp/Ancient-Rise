@@ -38,7 +38,7 @@ void FObjeto::Rotar(vec3 rot, float ang){
 }
 
 void FObjeto::Escalar(vec3 escalado){
-	//Falta implementar
+	dynamic_cast<TTransf*>(rotacion->getEntidad())->escalar(escalado.x, escalado.y, escalado.z);
 }
 
 //Mueve el objeto teniendo en cuenta la posicion previa
@@ -75,8 +75,16 @@ TNodo* FObjeto::getNodo(){
 	return nodo;
 }
 
+vec3 FObjeto::getPosicion(){}
+
 void FObjeto::setMalla(string path){
 	dynamic_cast<TMalla*>(nodo->getEntidad())->cargarMalla(path);
+}
+
+void FObjeto::setMaterial(string nombre){
+	dynamic_cast<TMalla*>(nodo->getEntidad())->setMaterial(nombre);
+	//Anyadir errores si no existe material
+
 }
 
 

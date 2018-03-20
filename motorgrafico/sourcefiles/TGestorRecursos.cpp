@@ -20,14 +20,19 @@ TGestorRecursos::~TGestorRecursos(){
 
 
 TRecurso* TGestorRecursos::buscarRecurso(string path){
+	bool flag = false;
 	TRecurso *rec = NULL;
-	for(int i=0;i<recursos.size();i++){
+
+	for(int i=0;i<recursos.size() && !flag;i++){
 		if(recursos[i]->getNombre()==path){
-			rec=recursos[i];
+			flag = true;
+			rec = recursos[i];
 		}
 	}
 	return rec;
 }
+
+
 
 Shader* TGestorRecursos::getShader(){
 	return shader;

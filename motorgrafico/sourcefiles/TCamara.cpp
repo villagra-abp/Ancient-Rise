@@ -12,10 +12,7 @@ void TCamara::setPerspectiva(float fovy, float aspect, float near, float far){
 void TCamara::setParalela(float left, float right, float bottom, float top, float near, float far){
 	mProyeccion = glm::ortho(left, right, bottom, top, near, far);
 }
-void TCamara::endDraw(){
-}
-void TCamara::beginDraw(glm::mat4 view, glm::mat4 projection){
-}
+
 
 bool TCamara::getActive(){
 	return active;

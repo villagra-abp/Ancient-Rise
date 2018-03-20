@@ -44,7 +44,7 @@ glm::mat4 TTransf::getMatriz(){
 	return matriz;
 }
 
-void TTransf::beginDraw(glm::mat4 view, glm::mat4 projection){
+void TTransf::beginDraw(glm::mat4 view, glm::mat4 projection, float intensidad, glm::vec4 color, glm::vec3 luzPosicion, glm::vec3 camaraPosicion){
 	//Apilar matriz actual
 	pila->apila(mmodelo);
 	//Multiplicar la matriz de la transformacion a la matriz modelo actual

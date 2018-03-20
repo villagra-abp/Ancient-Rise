@@ -1,16 +1,21 @@
 #include "../headerfiles/TNodo.h"
 
-TNodo::TNodo():entidad(nullptr),padre(nullptr),padreBorrar(nullptr)
+TNodo::TNodo():entidad(nullptr),padre(nullptr)
 {
 	encontrado = false;
 }
 
 TNodo::~TNodo(){
-	remHijos();
-	padre->remHijo(this);
-	delete entidad;
-	entidad = nullptr;
-	padre = nullptr;
+	remHijos();												//Borramos primero los hijos del nodo
+
+	if(padre != nullptr)
+		padre->remHijo(this);								//Quitamos el nodo del vector hijos de su padre
+
+	if(entidad != nullptr)
+		delete entidad;										//Borramos la entidad
+	
+	entidad = nullptr;										//Puntero entidad apunta a null
+	padre = nullptr;										//Puntero a padre apunta a null
 }
 /* Anyade un nodo al final del vector de hijos del nodo */
 int TNodo::addHijoBack(TNodo* n){
@@ -55,13 +60,13 @@ TNodo* TNodo::remHijo(TNodo* n)
 		}
 
 	}
-
+/*
 	if(encontrado == true) 										// Si hemos encontrado el nodo que queriamos borrar en el vector, eliminamos el nodo
 	{
 		delete n;
 		n = nullptr;
 	}
-
+*/
  return n;
 }
 /* Funcion para borrar un hijo del nodo y todos los nodos hijos de ese nodo que queremos borrar, asi hasta que no queden hijos en la rama
@@ -184,16 +189,56 @@ int TNodo::getIdent()
 	return identificador;
 }
 
+glm::mat4 TNodo::getMatrix(){
+	
+	glm::mat4 mResultado = glm::mat4(1.0);
+	vector<glm::mat4> mObtenidas;
+	TNodo *nodoActual = getPadre();
+	TTransf *entActual = nullptr;
 
-void TNodo::draw(glm::mat4 view, glm::mat4 projection)
+	while(nodoActual->getPadre() != nullptr){
+		entActual = dynamic_cast<TTransf*>(nodoActual->getEntidad());
+		mObtenidas.push_back(entActual->getMatriz());
+		nodoActual = nodoActual->getPadre();
+	}
+
+	if(mObtenidas.size()>0){
+		for(int i = mObtenidas.size(); i > 0; i--){
+			mResultado *= mObtenidas[i-1];
+		}
+	}
+
+	return mResultado;
+}
+
+glm::vec3 TNodo::getPosicion(){
+	glm::vec3 posicion;
+
+	posicion = getMatrix() * glm::vec4(0,0,0,1.0f);
+
+	return posicion;
+}
+
+
+void TNodo::draw(glm::mat4 view, glm::mat4 projection,TNodo* camara, vector<TNodo*> luces)
 {
+	float intensidad;
+	glm::vec4 color;
+	glm::vec3 luzPosicion , camaraPosicion;
+
+	luzPosicion = luces[0]->getPosicion();
+	camaraPosicion = camara->getPosicion();
+
+
+	intensidad = dynamic_cast<TLuz*>(luces[0]->getEntidad())->getIntensidad();
+	color = dynamic_cast<TLuz*>(luces[0]->getEntidad())->getColor();
 
 	if(entidad!=nullptr)
-		entidad -> beginDraw(view, projection);
+		entidad -> beginDraw(view, projection, intensidad, color, luzPosicion, camaraPosicion);
 
 	//para cada nodo hijo i
 	for(int i=0; i<hijos.size(); i++){
-		hijos[i]->draw(view, projection);
+		hijos[i]->draw(view, projection, camara, luces);
 	}
 
 	if(entidad!=nullptr)
