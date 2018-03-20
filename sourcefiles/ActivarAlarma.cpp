@@ -14,8 +14,8 @@ Status ActivarAlarma::run(Enemigo *e)
    Objeto* al = e->getAlarmaActivar();
 
    alarmaPosition = al->getVector3df();
-  alarmaX=alarmaPosition->getPosX();
-  alarmaY = alarmaPosition->getPosY();
+   alarmaX=alarmaPosition->getPosX();
+   alarmaY = alarmaPosition->getPosY();
 
    //cout<<"AlarmaX: "<<alarmaX<<endl;
     /* Buscamos el nodo Inicial mas cercano al enemigo */
@@ -345,6 +345,12 @@ ActivarAlarma::~ActivarAlarma()
     }
 
     a.clear();
+
+    for(int i=0; i<caminoCorto.size();i++)
+    {
+        caminoCorto[i] = nullptr;
+    }
+    caminoCorto.clear();
 
     delete g;
 

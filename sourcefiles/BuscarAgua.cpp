@@ -54,6 +54,7 @@ Status BuscarAgua::run(Enemigo *e)
                 {
                     fuentePosition = f[pos]->getVector3df();
                     fuenteX = fuentePosition->getPosX();
+                    fuenteY = fuentePosition->getPosY();
                     fin = calcularNodoMasCercano(fin, nodos[i], fuenteX);
                 }
            }
@@ -246,9 +247,7 @@ void BuscarAgua::buscarNodoInicial(Enemigo *e, float posX)
        {
             inicioBueno = inicio2;
        }
-    }
-
-    
+    }   
 }
 
 /* Funcion para recorrer todos los nodos del grafo y comprobar si el enemigo puede ver alguno */
@@ -315,7 +314,7 @@ void BuscarAgua::buscarFuenteCercana(float posEnemX)
 {
     fuentePosition = f[0]->getVector3df();
     fuenteX = fuentePosition->getPosX();
-    fuenteY = fuentePosition->getPosY();
+
     distanciaFuente = fuenteX - posEnemX;  // Calculamos la distancia hasta la fuente
     pos = 0;
 
@@ -323,6 +322,7 @@ void BuscarAgua::buscarFuenteCercana(float posEnemX)
           
           fuentePosition = f[i]->getVector3df();
           fuenteX=fuentePosition->getPosX();
+          fuenteY = fuentePosition->getPosY();
 
           distanciaFaux = fuenteX - posEnemX;
 
