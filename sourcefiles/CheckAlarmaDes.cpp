@@ -8,6 +8,7 @@ Status CheckAlarmaDes::run(Enemigo *e)
   // A no ser que sepamos con seguridad que nunca se podran ver dos alarmas a la vez. 
    for (int i = 0; i < a.size(); i++){
       if( e->see(a[i]) && a[i]->getActivado()!=true && a[i]->getActivando()!=true ) {  // Si alarma a la vista y no esta activada
+        e->setAlarmaActivar(a[i]);
         return BH_SUCCESS;
       }
    }

@@ -9,7 +9,7 @@
  Parametros : Objetos Irrlicht, vector con posiciones de la patrulla
 */
 Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos, float xlength, float pendValue, const Entorno* e, Blackboard *b) 
-: enemigo(nullptr), env(nullptr), driver(nullptr), ent(e), board(nullptr), proyectil(nullptr)
+: enemigo(nullptr), env(nullptr), driver(nullptr), ent(e), board(nullptr), proyectil(nullptr), alActivar(nullptr)
 {
     GameObject::setTipo(ENEMY);
     Fachada* fachada=fachada->getInstance();
@@ -430,6 +430,11 @@ Proyectil* Enemigo::getProyectil()
     return proyectil;
 }
 
+Objeto* Enemigo::getAlarmaActivar()
+{
+    return alActivar;
+}
+
 
 void Enemigo::setSalud(f32 s)
 {
@@ -501,6 +506,11 @@ void Enemigo::setOrden(int o)
 void Enemigo::setDisparo(bool d)
 {
     disparo = d;
+}
+
+void Enemigo::setAlarmaActivar(Objeto* a)
+{
+    alActivar = a;
 }
 
 

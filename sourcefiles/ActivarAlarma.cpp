@@ -10,8 +10,14 @@ Status ActivarAlarma::run(Enemigo *e)
    Posicion* EnemigoPosition = e->getPosition(); 
    float enemigoX=EnemigoPosition->getPosX();
 
-   checkAlarmDes(e);
+   //checkAlarmDes(e);
+   Objeto* al = e->getAlarmaActivar();
 
+   alarmaPosition = al->getVector3df();
+  alarmaX=alarmaPosition->getPosX();
+  alarmaY = alarmaPosition->getPosY();
+
+   //cout<<"AlarmaX: "<<alarmaX<<endl;
     /* Buscamos el nodo Inicial mas cercano al enemigo */
     if(inicio1==nullptr && inicio2==nullptr)  // Solo buscaremos el nodo inicio si no lo habiamos encontrado ya
     {
@@ -42,6 +48,7 @@ Status ActivarAlarma::run(Enemigo *e)
     if(caminoCorto.size()==0)           // Para calcular el camino solo 1 vez y no siempre
     {
         caminoCorto = g->pathfindDijkstra(inicioBueno, fin);
+        al->setActivando(true);     // Activando alarma
     }
 
 
@@ -118,6 +125,7 @@ Status ActivarAlarma::run(Enemigo *e)
     // Hemos llegado al ultimo nodo del camino calculado o hemos llegado al inicio y ademas no hay camino corto, puesto que ya estamos en el nodo mas cercano al objetivo
     if((llegadoFin==true) || (llegadoInicio==true && caminoCorto.size()==0))
     {
+        
         distanciaAlarma = alarmaX - enemigoX;  
 
         if (distanciaAlarma<0) // AVANZAMOS HACIA LA IZQUIERDA
@@ -138,36 +146,35 @@ Status ActivarAlarma::run(Enemigo *e)
 
                  e->setLastFacedDir(true);                // // MIRANDO HACIA LA DERECHA
               }
-              else
-              {
-                   /* RELOJ ACTIVACION ALARMA */
-                  startClock();                                 // INICIAMOS EL RELOJ (O RESEATEAMOS)
 
-                  int duration = reloj.getElapsedTime().asSeconds();  // OBTENEMOS SU DURACION EN SEGUNDOS
+            }
 
-                  if(duration > 2)        // TIEMPO QUE TARDA EN ACTIVARLA
-                  {
-                      a[pos]->setActivado(true);     
-                      a[pos]->setActivando(false);
-                      contador = 0; // Para resetear el reloj
+        if(distanciaAlarma==0)
+        {
+           /* RELOJ ACTIVACION ALARMA */
+            startClock();                                 // INICIAMOS EL RELOJ (O RESEATEAMOS)
 
-                      /* Inicializamos todo otra vez para que la proxima vez que ocurra funcione todo bien */
-                      llegadoFin = false;
-                      llegadoInicio = true;
-                      inicio1 = nullptr;
-                      inicio2 = nullptr;
-                      fin = nullptr;
-                      caminoCorto.clear();
+            int duration = reloj.getElapsedTime().asSeconds();  // OBTENEMOS SU DURACION EN SEGUNDOS
 
-                      return BH_SUCCESS;
-                    }
-                }
-          
-          }
-        
-        a[pos]->setActivando(true);     // Activando alarma
+            if(duration > 2)        // TIEMPO QUE TARDA EN ACTIVARLA
+            {
+                al->setActivado(true);     
+                al->setActivando(false);
+                contador = 0; // Para resetear el reloj
 
+                /* Inicializamos todo otra vez para que la proxima vez que ocurra funcione todo bien */
+               llegadoFin = false;
+               llegadoInicio = true;
+               inicio1 = nullptr;
+               inicio2 = nullptr;
+               fin = nullptr;
+               caminoCorto.clear();
+
+                return BH_SUCCESS;
+            }
+        }
     }
+
 
   return BH_RUNNING;        // Hasta que no active la alarma no habra terminado
 }
@@ -176,7 +183,17 @@ Status ActivarAlarma::run(Enemigo *e)
 /* Para comprobar si hay una alarma cerca, desactivada y no hay nadie que vaya a activarla ya */
 void ActivarAlarma::checkAlarmDes(Enemigo* e)
 {
+/*
   for (int i = 0; i < a.size(); i++){
+    if(a[i]->getActivando()==true)
+    {
+      cout<<"Activando"<<endl;
+    }
+    else
+    {
+      cout<<"NO ACtivando"<<endl;
+    }
+    
       if( e->see(a[i]) && a[i]->getActivado()!=true && a[i]->getActivando()!=true ) 
       {  
         alarmaPosition = a[i]->getVector3df();
@@ -187,7 +204,7 @@ void ActivarAlarma::checkAlarmDes(Enemigo* e)
         i = a.size();
       }
    }
-
+*/
 }
 
 /* Metodo para buscar el nodo inicial visible del grafo mas cercano desde la pos del enemigo, siempre y cuando no lo hayamos encontrado ya antes */

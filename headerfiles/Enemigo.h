@@ -59,6 +59,7 @@ class Enemigo : public GameObject
         IVideoDriver* getDriver();
         int getOrden();
         bool getDisparo();
+        Objeto* getAlarmaActivar();
 
         void setSed(f32 se);
         void setEnergia(f32 e);
@@ -75,6 +76,7 @@ class Enemigo : public GameObject
         void setUltDirecVisto(bool v);
         void setOrden(int o);
         void setDisparo(bool d);
+        void setAlarmaActivar(Objeto *a);
 
         /* COMBATE */   
         void setCombate(bool b);
@@ -97,6 +99,7 @@ class Enemigo : public GameObject
 
         BehaviorTree *comportamiento;               // Comportamiento del enemigo definido mediante un arbol de comportamiento (BEHAVIOR TREE)
         Blackboard *board;
+        Objeto *alActivar;                          // Para saber que alarma tiene que activar el enemigo
 
         /* PARA LA VISION */
         bool lastFacedDir;                          // Para saber a que lado esta mirando el enemigo  (True -> Derecha / False -> Izquierda)
