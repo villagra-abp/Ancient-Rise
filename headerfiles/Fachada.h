@@ -3,7 +3,7 @@
 
 
 
-#include <irrlicht/irrlicht.h>
+#include <irrlicht.h>
 #include <GL/glew.h>
 #include "../headerfiles/Posicion.h"
 #include <SFML/Window/Window.hpp>

@@ -1,7 +1,7 @@
 #ifndef MAPA_H
 #define MAPA_H
 
-#include <irrlicht/irrlicht.h>
+#include <irrlicht.h>
 #include <iostream>
 #include "../headerfiles/Motorgrafico.h"
 
