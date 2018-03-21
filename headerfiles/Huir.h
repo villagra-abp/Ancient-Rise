@@ -14,6 +14,7 @@ class Huir : public Task
 		void startClock();
 		void buscarNodoInicial(Enemigo *e, float posX);
 		void recorrerNodos(Enemigo *e, uint8_t v, float posX);
+		void calcularNodoFinal(NodoGrafo* n);
 		NodoGrafo* calcularNodoMasCercano(NodoGrafo* i, NodoGrafo* i2, float posX);
 
 
@@ -21,12 +22,15 @@ class Huir : public Task
 		
 		Blackboard *board;
 	    sf::Clock reloj; 		  			// Reloj para controlar el tiempo que tiene que estar huyendo
-	    int contador; 			  			// Para reiniciar el reloj cuando toca
+	    uint8_t contador; 			  			// Para reiniciar el reloj cuando toca
 
 	    /* Pathfinding */
 	    vector<NodoGrafo*> nodos;
-	    NodoGrafo *inicio1, *inicio2, *fin; 
+	    NodoGrafo *inicio1, *inicio2, *fin, *inicioBueno, *inicioAnterior; 
 	    Posicion *posNodo, *posNodoI;
+	    vector<Arista*> caminoCorto;
+	    Grafo *g; 								// Para poder calcular el camino mas corto
+	    bool llegadoInicio=false; 				// Para saber si hemos llegado al nodo inicio
 	
 		
 };

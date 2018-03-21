@@ -189,7 +189,7 @@ Fachada* fachada=fachada->getInstance();
 
  /* CREAMOS ENEMIGOS BASICOS */
     
-	enem1 = new EnemigoBasico(device, smgr, pos, 140.0, 0.8, 2, this, b, world);
+	enem1 = new EnemigoBasico(device, smgr, pos, 140.0, 0.8, 1, this, b, world);
 	enemB.push_back(enem1);
 	addGameObject(enem1);
 	

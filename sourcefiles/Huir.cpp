@@ -16,58 +16,110 @@ Status Huir::run(Enemigo *e)
         buscarNodoInicial(e, enemigoX);
     }
 
-    /* Buscamos el nodo mas cercano al enemigo y al lado contrario del prota */
-    if(fin==nullptr)        // Solo si no lo habiamos encontrado ya
+    if(inicio1!=nullptr)
     {
-       for(int i=0; i<nodos.size();i++)
-       {    
-           posNodo = nodos[i]->getPosition();
-           if(enemigoY==posNodo->getPosY())        // Solo si el nodo esta a la misma altura que la pos de la fuente
-           {
-                if(fin==nullptr)
-                {
-                    fin = nodos[i];
-                }
-                else        // Comprobamos si no hay un nodo mas cercano a la fuente
-                {
-                    
-                    fin = calcularNodoMasCercano(fin, nodos[i], fuenteX);
-                }
-           }
-       }
-    }
-
-     /* RELOJ HUIR */
-    startClock();                                   // INICIAMOS EL RELOJ (O RESEATEAMOS)
-
-    int time = reloj.getElapsedTime().asSeconds();  // OBTENEMOS SU DURACION EN SEGUNDOS
-
-    //cout<<time<<endl;
-    
-    if(time>=4)
-    {
-        contador = 0;                               // RESETEAMOS EL CONTADOR
-        return BH_SUCCESS;
+        inicioBueno = inicio1;
     }
     else
     {
-        if(e->getLastFaceDir()==true)   // Visto Prota a la derecha, enemigo huye hacia la izquierda
-        {
-            //e->setLastFacedDir(false);                                     // AHORA ESTA MIRANDO A LA IZQUIERDA
-
-             e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
-             e->getBody()->ApplyForceToCenter(b2Vec2(-300.f,0.f),true);             // Fuerza para correr
-
-        }
-        else{   // Visto a la izquierda, se mueve hacia la derecha
-
-                 //e->setLastFacedDir(true); 
-
-                 e->getBody()->SetLinearVelocity(e->getVelocidad2d());
-                 e->getBody()->ApplyForceToCenter(b2Vec2(300.f,0.f),true);             // Fuerza para correr
-        }
+        inicioBueno = inicio2;
     }
 
+    /* Buscamos el nodo mas cercano al enemigo y al lado contrario del prota */
+    if(fin==nullptr)        // Solo si no lo habiamos encontrado ya
+    {
+        calcularNodoFinal(inicioBueno);
+        inicioAnterior = inicioBueno;
+        cout<<"InicioAnt: "<<inicioAnterior->getPosition()->getPosX()<<endl;
+    }
+    
+    cout<<"InicioBueno"<<inicioBueno->getPosition()->getPosX()<<endl;
+    cout<<"FIn : "<<fin->getPosition()->getPosX()<<endl;
+    
+     /* Calculamos el camino mas corto entre el nodo Inicial (inicioBueno) y el nodo Final (fin) */
+    if(caminoCorto.size()==0)           // Para calcular el camino solo 1 vez y no siempre
+    {
+        caminoCorto = g->pathfindDijkstra(inicioBueno, fin);
+    }
+
+    /* Nos acercamos al nodo Inicio del camino */
+    posNodoI = inicioBueno->getPosition();
+    float distNodoI = posNodoI->getPosX() - enemigoX;
+
+    if(llegadoInicio==false)        // Solo lo haremos si no habiamos llegado ya al nodo Inicio del camino
+    {
+        if (distNodoI<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
+         {
+
+                e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
+                e->getBody()->ApplyForceToCenter(b2Vec2(-300.f,0.f),true);             // Fuerza para correr
+
+                e->setLastFacedDir(false);                                    
+         }
+         else{
+                if(distNodoI>1.0f) // AVANZAMOS HACIA LA DERECHA
+                {
+
+                    e->getBody()->SetLinearVelocity(e->getVelocidad2d());
+                    e->getBody()->ApplyForceToCenter(b2Vec2(300.f,0.f),true);             // Fuerza para correr
+
+                    e->setLastFacedDir(true);                                    
+                }
+                else // Si hemos llegado al nodo Inicio
+                {
+                    llegadoInicio = true;
+                    
+                }
+            }
+    }
+
+    /* Realizamos el recorrido a lo largo del camino corto calculado */
+    if(llegadoInicio==true && caminoCorto.size()!=0)
+    {
+        for(int i=0; i<caminoCorto.size();i++)
+        {
+            fin = caminoCorto[i]->getNodoFin();
+
+            if(caminoCorto[i]->getComportamiento()==NORMAL)         // Movimiento normal del enemigo
+            {   
+                posNodoI = fin->getPosition();
+                float distNodoF = posNodoI->getPosX() - enemigoX;
+
+                if (distNodoF<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
+                 {
+
+                        e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
+                        e->getBody()->ApplyForceToCenter(b2Vec2(-300.f,0.f),true);             // Fuerza para correr
+
+                        e->setLastFacedDir(false);                                    
+                 }
+                 else{
+                        if(distNodoF>1.0f) // AVANZAMOS HACIA LA DERECHA
+                        {
+
+                            e->getBody()->SetLinearVelocity(e->getVelocidad2d());
+                            e->getBody()->ApplyForceToCenter(b2Vec2(300.f,0.f),true);             // Fuerza para correr
+
+                            e->setLastFacedDir(true);                                    
+                        }
+                        else // Si hemos llegado al nodo Inicio
+                        {
+                            llegadoInicio = false;
+                            inicio1 = nullptr;
+                            inicio2 = nullptr;
+                            posNodo = nullptr;
+                            posNodoI = nullptr;
+                            inicioBueno = nullptr;
+                            fin = nullptr;
+
+                            return BH_SUCCESS;
+                        }
+                    }
+
+            }
+        }                  
+    }
+    
    return BH_RUNNING;
 }
 
@@ -77,7 +129,26 @@ void Huir::buscarNodoInicial(Enemigo *e, float posX)
 
     if(e->see(board->getProtagonista()))
     {
+        /*
+        if(e->getLastFaceDir()==true)
+        {
+            cout<<"ANtes derecha"<<endl;
+        }
+        else
+        {
+            cout<<" Antes izqd"<<endl;
+        }
+        */
         e->changeLastFaceDir();
+      /*  if(e->getLastFaceDir()==true)
+        {
+            cout<<"derecha"<<endl;
+        }
+        else
+        {
+            cout<<"izqd"<<endl;
+        }
+        */
         e->actualizarVistos();                 // Como hemos cambiado la direccion de la vista, actualizamos los gameobjects que puede ver
     }
 
@@ -158,6 +229,62 @@ NodoGrafo* Huir::calcularNodoMasCercano(NodoGrafo* i, NodoGrafo* i2, float posX)
     return i;
 }
 
+void Huir::calcularNodoFinal(NodoGrafo* n)
+{
+   for(int i=0; i<nodos.size();i++)
+    {    
+        if(n->getNombre()!=nodos[i]->getNombre() && n->getPosition()->getPosY()==nodos[i]->getPosition()->getPosY() )        
+        {
+
+            if(inicioAnterior!=nullptr)
+            {
+                if(nodos[i]->getNombre()!=inicioAnterior->getNombre()) // Solo cogeremos el nodo final del camino si no habiamos ido ya antes para evitar bucles
+                {
+                    if(fin==nullptr)
+                    {
+                        fin = nodos[i];
+                    }
+                    else        // Comprobamos si no hay un nodo mas cercano a la fuente
+                    {
+                        fin = calcularNodoMasCercano(fin, nodos[i], n->getPosition()->getPosX());
+                    }
+                }
+            } 
+            else
+            {
+                if(fin==nullptr)
+                {
+                    fin = nodos[i];
+                }
+                else        // Comprobamos si no hay un nodo mas cercano a la fuente
+                {
+                    fin = calcularNodoMasCercano(fin, nodos[i], n->getPosition()->getPosX());
+                }
+            } 
+
+        }
+    }
+
+    if(fin==nullptr)     // SI no hemos encontrado nodo final por culpa del inicioAnterior porque no habia mas nodos disponibles entocnes lo cogemos igualmente
+    {
+        for(int i=0; i<nodos.size();i++)
+        { 
+            if(n->getNombre()!=nodos[i]->getNombre() && n->getPosition()->getPosY()==nodos[i]->getPosition()->getPosY() )        
+            {
+                if(fin==nullptr)
+                {
+                    fin = nodos[i];
+                }
+                else        // Comprobamos si no hay un nodo mas cercano a la fuente
+                {
+                    fin = calcularNodoMasCercano(fin, nodos[i], n->getPosition()->getPosX());
+                }
+            }
+        }
+    }   
+
+}
+
 void Huir::startClock()
 {
     if(contador==0)
@@ -175,10 +302,15 @@ void Huir::onInitialize(Blackboard *b)
     inicio2 = nullptr;
     posNodo = nullptr;
     posNodoI = nullptr;
+    inicioBueno = nullptr;
+    inicioAnterior = nullptr;
+
+    g = new Grafo();
 }
 
 Huir::~Huir()
 {
     board = nullptr;
+    delete g;
 
 }

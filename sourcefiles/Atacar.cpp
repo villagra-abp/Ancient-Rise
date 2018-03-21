@@ -5,7 +5,6 @@ Status Atacar::run(Enemigo *e)
 	float posProta = board->getProta();
 
 	// DATOS ENEMIGO
-	enemigoNode = e->getNode();
     Posicion* EnemigoPosition = e->getPosition(); 
     float enemigoX=EnemigoPosition->getPosX();
 
@@ -26,22 +25,155 @@ Status Atacar::run(Enemigo *e)
     {
         e->setCombate(false);
         contRec = 0;              // Para resetear el reloj de recargar proyectil y que tarde siempre lo mismo en recargar
+        nodos = board->getNodosGrafo();
 
-        if (distanciaProta<0) // AVANZAMOS HACIA LA IZQUIERDA
-         {
-            e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
-            e->getBody()->ApplyForceToCenter(b2Vec2(-300.f,0.f),true);             // Fuerza para correr
-            e->setLastFacedDir(false);   
-         }
-         else{
-                if(distanciaProta>0) // AVANZAMOS HACIA LA DERECHA
+        /* Buscamos el nodo Inicial mas cercano al enemigo */
+        buscarNodoInicial(e, enemigoX);
+        
+        cout<<"InicioBueno :"<<inicioBueno->getPosition()->getPosX()<<endl;
+         /* Buscamos el nodo mas cercano al prota  */
+        for(int i=0; i<nodos.size();i++)
+        {    
+            posNodo = nodos[i]->getPosition();
+            if(board->getProtagonista()->getPosition()->getPosY()>=posNodo->getPosY()-5 && board->getProtagonista()->getPosition()->getPosY()<=posNodo->getPosY()+5)        
+            {
+                if(fin==nullptr)
                 {
-                    e->getBody()->SetLinearVelocity(e->getVelocidad2d());
-                    e->getBody()->ApplyForceToCenter(b2Vec2(300.f,0.f),true);             // Fuerza para correr
-
-                    e->setLastFacedDir(true);   
+                    fin = nodos[i];
+                }
+                else        // Comprobamos si no hay un nodo mas cercano a la fuente
+                {
+                    fin = calcularNodoMasCercano(fin, nodos[i], posProta);
                 }
             }
+        }
+
+        cout<<"Fin :"<<fin->getPosition()->getPosX()<<endl;
+
+        if(inicioBueno!=nullptr && fin!=nullptr)
+        {
+            vector<Arista*>().swap(caminoCorto); 
+            g=new Grafo();
+            caminoCorto = g->pathfindDijkstra(inicioBueno, fin);
+        }
+        else
+        {
+            cout<<"No se ha podido encontrar el camino mas corto al protagonista"<<endl;
+        }
+
+        cout<<"camino : "<<caminoCorto.size()<<endl;
+
+        /* Nos acercamos al nodo Inicio del camino */
+        posNodoI = inicioBueno->getPosition();
+        float distNodoI = posNodoI->getPosX() - enemigoX;
+
+        if(llegadoInicio==false)        // Solo lo haremos si no habiamos llegado ya al nodo Inicio del camino
+        {
+            if (distNodoI<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
+            {
+
+                    e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
+                    e->getBody()->ApplyForceToCenter(b2Vec2(-300.f,0.f),true);             // Fuerza para correr
+
+                    e->setLastFacedDir(false);                                    
+             }
+             else{
+                    if(distNodoI>1.0f) // AVANZAMOS HACIA LA DERECHA
+                    {
+
+                        e->getBody()->SetLinearVelocity(e->getVelocidad2d());
+                        e->getBody()->ApplyForceToCenter(b2Vec2(300.f,0.f),true);             // Fuerza para correr
+
+                        e->setLastFacedDir(true);                                    
+                    }
+                    else // Si hemos llegado al nodo Inicio
+                    {
+                        llegadoInicio = true;
+                        
+                    }
+                }
+        }
+
+        /* Realizamos el recorrido a lo largo del camino corto calculado */
+        if(llegadoFin==false && llegadoInicio==true && caminoCorto.size()!=0)
+        {
+            if(contador<caminoCorto.size())
+            {
+                fin = caminoCorto[contador]->getNodoFin();
+
+                if(caminoCorto[contador]->getComportamiento()==NORMAL)         // Movimiento normal del enemigo
+                {   
+                    posNodoI = fin->getPosition();
+                    float distNodoF = posNodoI->getPosX() - enemigoX;
+
+                    if (distNodoF<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
+                     {
+
+                            e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
+                            e->getBody()->ApplyForceToCenter(b2Vec2(-300.f,0.f),true);             // Fuerza para correr
+
+                            e->setLastFacedDir(false);                                    
+                     }
+                     else{
+                            if(distNodoF>1.0f) // AVANZAMOS HACIA LA DERECHA
+                            {
+
+                                e->getBody()->SetLinearVelocity(e->getVelocidad2d());
+                                e->getBody()->ApplyForceToCenter(b2Vec2(300.f,0.f),true);             // Fuerza para correr
+
+                                e->setLastFacedDir(true);                                    
+                            }
+                            else // Si hemos llegado al nodo Fin
+                            {
+                                contador++;
+                            }
+                        }
+
+                }
+            }
+
+            if(contador==caminoCorto.size())
+            {
+                llegadoFin = true;
+                contador = 0;
+            }
+            
+        }
+
+        cout<<"Contador : "<<contador<<endl;
+        // Hemos llegado al ultimo nodo del camino calculado o hemos llegado al inicio y ademas no hay camino corto, puesto que ya estamos en el nodo mas cercano al objetivo
+        if((llegadoFin==true) || (llegadoInicio==true && caminoCorto.size()==0))
+        {
+            if (distanciaProta<0) // AVANZAMOS HACIA LA IZQUIERDA
+             {
+
+                    e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
+                    e->getBody()->ApplyForceToCenter(b2Vec2(-300.f,0.f),true);             // Fuerza para correr
+
+                    e->setLastFacedDir(false);                                    
+             }
+             else{
+                    if(distanciaProta>0) // AVANZAMOS HACIA LA DERECHA
+                    {
+
+                        e->getBody()->SetLinearVelocity(e->getVelocidad2d());
+                        e->getBody()->ApplyForceToCenter(b2Vec2(300.f,0.f),true);             // Fuerza para correr
+
+                        e->setLastFacedDir(true);                                    
+                    }
+                    else // Si hemos llegado
+                    {
+                             /* Inicializamos todo otra vez para que la proxima vez que ocurra funcione todo bien */
+                            /* llegadoFin = false;
+                             llegadoInicio = false;
+                             inicio1 = nullptr;
+                             inicio2 = nullptr;
+                             fin = nullptr;
+                             caminoCorto.clear();
+                             */
+                    }
+                }
+        }
     }
     else        // ATACANDO
     {
@@ -99,6 +231,108 @@ Status Atacar::run(Enemigo *e)
     
 }
 
+/* Metodo para buscar el nodo inicial visible del grafo mas cercano desde la pos del enemigo, siempre y cuando no lo hayamos encontrado ya antes */
+void Atacar::buscarNodoInicial(Enemigo *e, float posX)
+{
+    recorrerNodos(e,1, posX);
+
+    if(e->getLastFaceDir()==true)                      // Comprobamos a donde esta mirando el enemigo y hacemos que mire al lado contrario
+    {   
+        //cout<<"izquierda"<<endl;
+        e->setLastFacedDir(false);
+    } 
+    else
+    {   //cout<<"derecha"<<endl;
+        e->setLastFacedDir(true);
+    }
+
+    e->actualizarVistos();                               // Como hemos cambiado la direccion de la vista, actualizamos los gameobjects que puede ver
+
+    recorrerNodos(e,2, posX);
+
+    if(inicio1==nullptr && inicio2==nullptr)
+    {
+        cout<<"Error. El enemigo no ha visto ningun nodo de Inicio"<<endl;
+    }
+
+    if(inicio1!=nullptr && inicio2!=nullptr)            // Si encontramos nodos en ambas direcciones, comparamos para ver quien es el que esta mas cerca
+    {
+        inicioBueno = calcularNodoMasCercano(inicio1, inicio2, posX);
+    }
+    else
+    {
+        if(inicio1!=nullptr)
+        {
+            inicioBueno = inicio1;
+        }
+       else
+       {
+            inicioBueno = inicio2;
+       }
+    }   
+}
+
+/* Funcion para recorrer todos los nodos del grafo y comprobar si el enemigo puede ver alguno */
+void Atacar::recorrerNodos(Enemigo* e, uint8_t v, float posX)
+{
+
+    for(int i=0; i<nodos.size();i++)
+    {
+        if(e->see(nodos[i]))            // Comprobamos si el enemigo ve al nodo
+        {   
+            //posNodoI = nodos[i]->getPosition();
+           // cout<<"visto nodo:"<<posNodoI.X<<endl;
+
+            if(v==1)
+            {
+                //cout<<"primera"<<endl;
+                if(inicio1==nullptr)         
+                {    
+                    inicio1 = nodos[i];
+                }
+                else        // Si ya habia un nodo inciio guardado entonces hay que comprobar cual esta mas cerca
+                {
+                    inicio1=calcularNodoMasCercano(inicio1, nodos[i], posX);
+                }
+            }
+            else
+            {
+                //cout<<"segunda"<<endl;
+                if(inicio2==nullptr)
+                {   
+                    inicio2= nodos[i];
+                }
+                else
+                {
+                    inicio2=calcularNodoMasCercano(inicio2, nodos[i], posX);
+                }
+            }
+        }
+    }
+}
+
+/* Funcion para calcular que nodo visible del grafo esta mas cerca del enemigo */
+NodoGrafo* Atacar::calcularNodoMasCercano(NodoGrafo* i, NodoGrafo* i2, float posX)
+{
+    posNodo = i2->getPosition();                            // Pos del nuevo nodo encontrado
+    posNodoI = i->getPosition();                           // Pos del nodo que ya habiamos almacenado antes
+
+    float nodoIX = posNodoI->getPosX();
+    float nodoX = posNodo->getPosX();
+
+    /* Calculamos las distancias de los nodos al enemigo */
+    float distanciaNodoI = nodoIX - posX;
+    float distanciaNodo = nodoX - posX;
+
+    if(abs(distanciaNodoI)>abs(distanciaNodo))          // Comprobamos que nodo esta mas cerca, si el que ya habiamos guardado o el nuevo que hemos visto
+    {
+        i = i2;                                   // Si el nuevo nodo esta mas cerca, lo almacenamos
+    }
+
+    return i;
+}
+
+
 /*
  Funcion para iniciar el reloj correspondienteen funcion del entero que pasamos
 */
@@ -145,11 +379,21 @@ void Atacar::onInitialize(Blackboard *b)
     board = b;
     separacionAtaque = 10;
     p = board->getProtagonista();
-    enemigoNode = nullptr;
+
+   inicio1 = nullptr;
+   inicio2 = nullptr;
+   inicioBueno = nullptr;
+   fin = nullptr;
+
+   g = new Grafo();
+
+   contador = 0;
+
 }
 
 Atacar::~Atacar()
 {
     board = nullptr;
-    enemigoNode = nullptr;
+    delete g;
+   
 }

@@ -333,6 +333,7 @@ BuscarComida::~BuscarComida()
     }
     caminoCorto.clear();
 
+    delete g;
     //delete board;
     //delete c;
 }

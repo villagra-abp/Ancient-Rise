@@ -308,13 +308,13 @@ void Enemigo::actualizarVistos()
 /* Funcion para cambiar al lado contrario a donde estaba mirando el enemigo en ese momento */
 void Enemigo::changeLastFaceDir()
 {
-    if(direccVistoUlt==true)
+    if(lastFacedDir==true)
     {
-        direccVistoUlt = false;
+        lastFacedDir = false;
     }
     else
     {
-        direccVistoUlt = true;
+        lastFacedDir = true;
     }
 }
 
