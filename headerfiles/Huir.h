@@ -25,7 +25,7 @@ class Huir : public Task
 
 	    /* Pathfinding */
 	    vector<NodoGrafo*> nodos;
-	    NodoGrafo *inicio1, *inicio2;
+	    NodoGrafo *inicio1, *inicio2, *fin; 
 	    Posicion *posNodo, *posNodoI;
 	
 		

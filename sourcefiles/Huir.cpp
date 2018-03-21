@@ -6,6 +6,7 @@ Status Huir::run(Enemigo *e)
 
     Posicion* EnemigoPosition = e->getPosition(); 
     float enemigoX=EnemigoPosition->getPosX();
+    float enemigoY=EnemigoPosition->getPosY();
 
     nodos = board->getNodosGrafo();
 
@@ -15,6 +16,26 @@ Status Huir::run(Enemigo *e)
         buscarNodoInicial(e, enemigoX);
     }
 
+    /* Buscamos el nodo mas cercano al enemigo y al lado contrario del prota */
+    if(fin==nullptr)        // Solo si no lo habiamos encontrado ya
+    {
+       for(int i=0; i<nodos.size();i++)
+       {    
+           posNodo = nodos[i]->getPosition();
+           if(enemigoY==posNodo->getPosY())        // Solo si el nodo esta a la misma altura que la pos de la fuente
+           {
+                if(fin==nullptr)
+                {
+                    fin = nodos[i];
+                }
+                else        // Comprobamos si no hay un nodo mas cercano a la fuente
+                {
+                    
+                    fin = calcularNodoMasCercano(fin, nodos[i], fuenteX);
+                }
+           }
+       }
+    }
 
      /* RELOJ HUIR */
     startClock();                                   // INICIAMOS EL RELOJ (O RESEATEAMOS)
