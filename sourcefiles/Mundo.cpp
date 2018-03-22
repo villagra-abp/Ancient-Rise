@@ -384,7 +384,7 @@ void Mundo::posBuilder(){	//CONSTRUCTOR DE POSICIONES DE ENEMIGOS
 
     Posicion *p5 = new Posicion(498.9f,0.34f,30.f);
     pos3.push_back(p5);
-    Posicion *p6 = new Posicion(41.9f,0.34f,30.f);
+    Posicion *p6 = new Posicion(-157.4f,0.34f,30.f);
     pos3.push_back(p6);
 
     Posicion *p7 = new Posicion(-334.259f,0.34f,30.f);
