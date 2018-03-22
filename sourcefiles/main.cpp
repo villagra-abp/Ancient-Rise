@@ -69,47 +69,85 @@ int main()
 	TMotorTAG* motorgrafico = TMotorTAG::getInstance();
 
 	vector<FObjeto*> objetos;
-
 	
 	FObjeto* cajita2 = new FObjeto();
 	cajita2->setMalla("resources/cajaColor.obj");
-	cajita2->setMaterial("mat_rosa");
+	//cajita2->setMaterial("mat_rosa");
 	//cajita2->Escalar(vec3(0.1f, 0.1f, 0.1f));
 	objetos.push_back(cajita2);
 
 	FObjeto* esfera = new FObjeto();
-	esfera->setMalla("resources/esfera.obj");
-	esfera->setMaterial("mat_negro");
+	esfera->setMalla("resources/escenario.3DS");
+	//esfera->Escalar(vec3(0.1f,0.1f,0.1f));
+	//esfera->setMaterial("mat_negro");
 	objetos.push_back(esfera);
 
 	FObjeto* esfera2 = new FObjeto();
 	esfera2->setMalla("resources/esfera.obj");
-	esfera2->setMaterial("mat_naranja");
+	//esfera2->setMaterial("mat_naranja");
 	objetos.push_back(esfera2);
 
 
 	FObjeto* cajita = new FObjeto();
 	cajita->setMalla("resources/cajitaobj.obj");
-	cajita->setMaterial("mat_naranja");
+	//cajita->setMaterial("mat_naranja");
 	objetos.push_back(cajita);
 	
+	FObjeto* suelo = new FObjeto();
+	FObjeto* techo = new FObjeto();
+	suelo->setMalla("resources/espejo.obj");
+	techo->setMalla("resources/espejo.obj");
+
+	suelo->Mover(vec3(0,-4,0));
+	suelo->Escalar(vec3(10,1,10));
+	techo->Mover(vec3(0,10,0));
+	techo->Escalar(vec3(10,1,10));
+
+	vector<FObjeto*> suelos;
+
+	FObjeto* paredTrasera = new FObjeto();
+	FObjeto* paredDerecha = new FObjeto();
+	FObjeto* paredIzquierda = new FObjeto();
+	
+
+	suelos.push_back(paredTrasera);
+	suelos.push_back(paredDerecha);
+	suelos.push_back(paredIzquierda);
+	
+
+	for(int i = 0; i < suelos.size(); i++){
+		suelos[i]->setMalla("resources/pared.obj");
+		suelos[i]->Escalar(vec3(11,11,11));
+	}
+
+	paredTrasera->Mover(vec3(0,0,10));
+	paredTrasera->Rotar(vec3(0,1,0), 1.6f);
+	paredIzquierda->Mover(vec3(-10,0,0));
+	paredDerecha->Mover(vec3(10,0,0));
+
+	//paredDerecha->Rotar(vec3(0,0,1), 1.0f);
+
 	//FObjeto* ironMan = new FObjeto();
 	//ironMan->setMalla("resources/IronMan.obj");
-	cajita->Mover(vec3(0,0,4));
-	esfera2->Mover(vec3(0,5,4));
-	cajita2->Mover(vec3(4,0,4));
-	esfera->Mover(vec3(-4,0,4));
+	cajita->Mover(vec3(0,0,0));
+	esfera2->Mover(vec3(0,5,0));
+	cajita2->Mover(vec3(4,0,0));
+	esfera->Mover(vec3(-4,0,0));
 	FCamara* camara = new FCamara();
 	camara->Activar();
-	vec3 camaraOrigin = vec3(5,0.5,10);
+	vec3 camaraOrigin = vec3(0,0,10);
+	//cajita->Unir(cajita2);
+	cajita->Mover(vec3(0,0,4));
 	camara->Mover(camaraOrigin);
 	camara->Rotar(vec3(0,1,0), 3.0f);
-
+	
+	
 
 	FColor* color = new FColor(1.0f,		1.0f,	1.0f, 1.0f);
+	glm::vec4 vColor;
 
 	FLuz* luz = new FLuz(1.0f,color);
-	vec3 luzOrigin = vec3(0,0,0);
+	vec3 luzOrigin = vec3(0,0,-10);
 	luz->Mover(luzOrigin);
 //
 //	FObjeto* lampara = new FObjeto();
@@ -118,9 +156,10 @@ int main()
 //	lampara->Unir(luz);
 //	//lampara->Escalar(vec3(0.3,0.3,0.3));
 
-
+	vec3 posicion(0,0,0);
 
 	bool flag = false;
+	bool flag2 = false;
 	
 	while(ventana->isOpen())
 	{
@@ -152,6 +191,10 @@ int main()
 		            		camara->Rotar(vec3(0,-1,0), 0.25f);
 		            		//cajita->Mover(vec3(0,0,0.5f));
 		            		break;
+		            	case 1:			//B?
+		            		posicion = cajita->getPosicion();
+							cout<<posicion.x<<" "<<posicion.y<<" "<<posicion.z<<endl;
+							break;
 		            	case 2: 		//C
 		            		luz->Mover(vec3(0,1.0f,0));
 		            		break;
@@ -160,8 +203,67 @@ int main()
 		            		camara->Rotar(vec3(0,1,0), 0.25f);
 		            		//cajita->Mover(vec3(0,0,-0.5f));
 		            		break;
-		            	case 4:			//Q
+		            	case 4:			//E
 		            		glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+		            		break;
+		            	case 5:			//F
+		            		//Aumentar azul
+		            		color = luz->getColor();
+		            		vColor = color->getColor();
+		            		vColor += glm::vec4(0,0,0.05f,0);
+		            		color->setColor(vColor);
+		            		luz->setColor(color);
+		            		break;
+		            	case 6:			//G
+		            		//Disminuir azul
+		            		color = luz->getColor();
+		            		vColor = color->getColor();
+		            		vColor = vColor - glm::vec4(0,0,0.05f,0);
+		            		color->setColor(vColor);
+		            		luz->setColor(color);
+		            		break;
+		            	case 7:			//H
+		            		//Aumentar rojo
+		            		color = luz->getColor();
+		            		vColor = color->getColor();
+		            		vColor += glm::vec4(0.05f,0,0,0);
+		            		color->setColor(vColor);
+		            		luz->setColor(color);
+		            		break;
+		            	case 8: 		//I
+		            		//Disminuir rojo
+		            		color = luz->getColor();
+		            		vColor = color->getColor();
+		            		vColor += glm::vec4(-0.05f,0,0,0);
+		            		color->setColor(vColor);
+		            		luz->setColor(color);
+		            		break;
+		            	case 9:			//J
+		            		//Aumentar verde
+		            		color = luz->getColor();
+		            		vColor = color->getColor();
+		            		vColor += glm::vec4(0,0.05f,0,0);
+		            		color->setColor(vColor);
+		            		luz->setColor(color);
+		            		break;
+		            	case 10:		//K
+		            		//Disminuir verde
+		            		color = luz->getColor();
+		            		vColor = color->getColor();
+		            		vColor += glm::vec4(0,-0.05f,0,0);
+		            		color->setColor(vColor);
+		            		luz->setColor(color);
+		            		break;
+		            	case 11:		//L
+		            		if(flag2){
+		            			cajita->setMalla("resources/cajitaobj.obj");
+		            			cajita->Escalar(vec3(1.0f,1.0f,1.0f));
+		            			flag2 = false;
+		            		} else {
+		            			cajita->setMalla("resources/IronMan.obj");
+		            			cajita->Escalar(vec3(0.1f,0.1f,0.1f));
+		            			flag2 = true;
+		            		}
 		            		break;
 		            	case 12:		//M
 		            		camara->Mover(vec3(0,1,0));
@@ -169,11 +271,11 @@ int main()
 		            	case 13:		//N
 		            		camara->Mover(vec3(0,-1,0));
 		            		break;
-		            	case 16:		//E
+		            	case 16:		//Q
 		            		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		            		break;
 		            	case 18:		//S
-		            		luz->Mover(vec3(0,0,-1.0f));
+		            		luz->Mover(vec3(0,0,-1.0f));		       
 		            		break;
 
 		            	case 19:		//T
@@ -191,16 +293,16 @@ int main()
 		            		break;
 
 		            	case 73: 		//arriba
-		            		camara->Mover(vec3(0,0,1));
-		            		break;
-		            	case 74: 		//abajoo
 		            		camara->Mover(vec3(0,0,-1));
 		            		break;
+		            	case 74: 		//abajoo
+		            		camara->Mover(vec3(0,0,1));
+		            		break;
 		            	case 71: 		//izquierda
-		            		camara->Mover(vec3(1,0,0));
+		            		camara->Mover(vec3(-1,0,0));
 		            		break;
 		            	case 72:		//derecha
-		            		camara->Mover(vec3(-1,0,0));
+		            		camara->Mover(vec3(1,0,0));
 		            		break;
 		            }
 		          
@@ -216,6 +318,8 @@ int main()
 	
 		for(int i = 0; i < objetos.size(); i++){
 			if(flag) objetos[i]->Rotar(vec3(0,1,0), 0.025f);
+				//cajita->Rotar(vec3(0,0,1), 0.025f);
+				//cajita2->Rotar(vec3(0,0,1), 0.025f);
 		}
 
 		motorgrafico->draw();

@@ -21,6 +21,8 @@ public:
 	virtual bool getActive()  = 0;
 
 	virtual TNodo* getNodo()  = 0;
+	virtual TNodo* getTraslacion() = 0;
+	virtual TNodo* getRotacion() = 0;
 	virtual vec3 getPosicion()  = 0;
 
 private:

@@ -64,7 +64,8 @@ void FObjeto::isActive(bool flag){
 
 //Cambia el padre del objeto a otro objeto, asociandolo tambien a las transformaciones que sufre el nuevo padre
 void FObjeto::Unir(FEntidad* nPadre){
-	padre->changePadre(nPadre->getNodo(), rotacion);
+	padre->changePadre(nPadre->getTraslacion(), rotacion);
+	padre = nPadre->getNodo();
 }
 
 bool FObjeto::getActive(){
@@ -75,7 +76,19 @@ TNodo* FObjeto::getNodo(){
 	return nodo;
 }
 
-vec3 FObjeto::getPosicion(){}
+TNodo* FObjeto::getTraslacion(){
+	return traslacion;
+}
+
+TNodo* FObjeto::getRotacion(){
+	return rotacion;
+}
+
+vec3 FObjeto::getPosicion(){
+	glm::vec3 pos = nodo->getPosicion();
+	vec3 posicion = vec3(pos.x, pos.y, pos.z);
+	return posicion;
+}
 
 void FObjeto::setMalla(string path){
 	dynamic_cast<TMalla*>(nodo->getEntidad())->cargarMalla(path);

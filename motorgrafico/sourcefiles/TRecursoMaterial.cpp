@@ -5,7 +5,13 @@ TRecursoMaterial::TRecursoMaterial(){
 
 }
 
-
+TRecursoMaterial::TRecursoMaterial(string name, glm::vec3 ambiente, glm::vec3 difusa, glm::vec3 especular, float brillo){
+	nombre = name;
+    ambient = ambiente;
+    diffuse = difusa;
+    specular = especular;
+    shininess = brillo;
+}
 
 TRecursoMaterial::~TRecursoMaterial(){
 
@@ -41,6 +47,7 @@ void TRecursoMaterial::setNombre(string name){
 
 
 //AQui hay que leer con xml, queda pospuesto y para hacer pruebas introduzco materiales a mano
+/*
 void TRecursoMaterial::cargarFichero(string nombre){
 	if(nombre == "mat_naranja"){
 		ambient = glm::vec3(1.0f, 	0.5f, 	0);
@@ -60,4 +67,4 @@ void TRecursoMaterial::cargarFichero(string nombre){
 	}
 		
 
-}
+}*/

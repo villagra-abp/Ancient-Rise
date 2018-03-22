@@ -3,12 +3,18 @@
 
 #include <glm/glm.hpp>
 #include "vec4.h"
-
-
-
+/*
+enum class Color{
+		FColor NEGRO = new FColor(0,0,0,1),
+		FColor BLANCO	= new FColor(1,1,1,1)
+	};
+*/
 class FColor{
 
 public:
+
+
+	//NEGRO =  = FColor(0,		0,		0,	1);
 	/*
 	//Colores predeterminados
 	static const FColor    	NEGRO 		=  new	FColor(0,0,0);
@@ -44,7 +50,7 @@ public:
 	static const glm::vec4 ESCARLATA	=	glm::vec4(0.55f,	0.09f,	0.09f);
 
 	*/
-
+//	Color algo = Color::BLANCO;
 
 	FColor();
 	FColor(vec4 valores);

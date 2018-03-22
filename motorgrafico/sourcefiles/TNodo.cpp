@@ -197,11 +197,13 @@ glm::mat4 TNodo::getMatrix(){
 	TTransf *entActual = nullptr;
 
 	while(nodoActual->getPadre() != nullptr){
-		entActual = dynamic_cast<TTransf*>(nodoActual->getEntidad());
-		mObtenidas.push_back(entActual->getMatriz());
+		if(nodoActual->getEntidad()->getTipo() == 0){
+			entActual = dynamic_cast<TTransf*>(nodoActual->getEntidad());
+			mObtenidas.push_back(entActual->getMatriz());
+		}		
 		nodoActual = nodoActual->getPadre();
 	}
-
+	
 	if(mObtenidas.size()>0){
 		for(int i = mObtenidas.size(); i > 0; i--){
 			mResultado *= mObtenidas[i-1];
@@ -233,9 +235,9 @@ void TNodo::draw(glm::mat4 view, glm::mat4 projection,TNodo* camara, vector<TNod
 	intensidad = dynamic_cast<TLuz*>(luces[0]->getEntidad())->getIntensidad();
 	color = dynamic_cast<TLuz*>(luces[0]->getEntidad())->getColor();
 
-	if(entidad!=nullptr)
+	if(entidad!=nullptr){
 		entidad -> beginDraw(view, projection, intensidad, color, luzPosicion, camaraPosicion);
-
+	}
 	//para cada nodo hijo i
 	for(int i=0; i<hijos.size(); i++){
 		hijos[i]->draw(view, projection, camara, luces);

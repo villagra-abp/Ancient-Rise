@@ -1,10 +1,11 @@
 #include "../headerfiles/rMesh.h"
 
 
-rMesh::rMesh(vector<Vertex> vert, vector<unsigned int> ind, vector<Texture> text){
+rMesh::rMesh(vector<Vertex> vert, vector<unsigned int> ind, vector<Texture> text, TRecursoMaterial* mat){
 	vertices = vert;
 	indices = ind;
 	textures = text;
+	material = mat;
 
 	setupMesh();
 }
@@ -45,8 +46,16 @@ void rMesh::setupMesh(){
 }
 
 void rMesh::draw(Shader shader, glm::mat4 mmodelo, glm::mat4 view, glm::mat4 projection, float intensidad, glm::vec4 color, glm::vec3 luzPosicion,
-		 glm::vec3 camaraPosicion, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float shininess){
+		 glm::vec3 camaraPosicion){
 	
+	glm::vec3 ambient, diffuse, specular;
+	float shininess;
+
+	ambient = material->getAmbiente();
+	diffuse = material->getDifusa();
+	specular = material->getEspecular();
+	shininess = material->getBrillo();
+
 	shader.use();
 
 	//glm::mat4 projection = glm::mat4(1);
@@ -75,4 +84,8 @@ void rMesh::draw(Shader shader, glm::mat4 mmodelo, glm::mat4 view, glm::mat4 pro
 
 	//glActiveTexture(GL_TEXTURE0);
 
+}
+
+void rMesh::setMaterial(TRecursoMaterial* mat){
+	material = mat;
 }

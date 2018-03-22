@@ -114,7 +114,8 @@ void FLuz::Mover(vec3 pos){
 }
 
 void FLuz::Unir(FEntidad* nPadre){
-	padre->changePadre(nPadre->getNodo(), rotacion);
+	padre->changePadre(nPadre->getTraslacion(), rotacion);
+	padre = nPadre->getNodo();
 }
 
 
@@ -130,6 +131,14 @@ bool FLuz::getActive() {
 
 TNodo* FLuz::getNodo()  {
 	return nodo;
+}
+
+TNodo* FLuz::getTraslacion(){
+	return traslacion;
+}
+
+TNodo* FLuz::getRotacion(){
+	return rotacion;
 }
 
 vec3 FLuz::getPosicion() {
@@ -162,6 +171,7 @@ void FLuz::isActive(bool flag){
 
 void FLuz::setColor(FColor* colorin){
 	color = colorin;
+	dynamic_cast<TLuz*>(nodo->getEntidad())->setColor(colorin->getColor());
 
 }
 

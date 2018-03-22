@@ -21,6 +21,8 @@ public:
 //	vec3 getPosicion();
 	bool getActive()  override;
 	TNodo* getNodo()  override;
+	TNodo* getTraslacion() override;
+	TNodo* getRotacion() override;
 	vec3 getPosicion() override;
 
 	void setPosicion(vec3 pos) override;

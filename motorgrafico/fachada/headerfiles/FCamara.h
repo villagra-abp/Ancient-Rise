@@ -25,6 +25,8 @@ public:
 
 	bool getActive() override;
 	TNodo* getNodo() override;
+	TNodo* getTraslacion() override;
+	TNodo* getRotacion() override;
 	vec3 getPosicion();
 
 private:

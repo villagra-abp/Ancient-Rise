@@ -34,8 +34,8 @@ using namespace std;
 
 class TEntidad{
 public:
-	enum tEnt { transf, malla, luz, camara };
-
+	
+enum tEnt { transf, malla, luz, camara };
 
 	virtual ~TEntidad() = default;
 	virtual void beginDraw(glm::mat4 view, glm::mat4 projection , float intensidad, glm::vec4 color, glm::vec3 luzPosicion, glm::vec3 camaraPosicion)=0;

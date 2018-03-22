@@ -19,6 +19,7 @@ TMotorTAG::~TMotorTAG(){
 
 
 void TMotorTAG::draw(){
+
 	escena->draw(getCamaraMat(), getCamaraProj(), camara, getLuces());
 }
 

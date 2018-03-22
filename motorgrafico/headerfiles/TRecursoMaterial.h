@@ -22,7 +22,7 @@ public:
 	glm::vec3 getEspecular();
 
 	virtual void setNombre(string nombre) override;
-	virtual void cargarFichero(string nombre) override;
+	//virtual void cargarFichero(string nombre) override;
 
 private:
 	string nombre;
