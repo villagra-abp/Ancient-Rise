@@ -196,17 +196,21 @@ Fachada* fachada=fachada->getInstance();
 	enem2 = new EnemigoBasico(device, smgr, pos2, 140.0, 0.8, 1, this, b, world);
 	enemB.push_back(enem2);
 	addGameObject(enem2); 
-	
+
+    enem3 = new EnemigoBasico(device, smgr, pos4, 140.0, 0.8, 1, this, b, world);
+    enemB.push_back(enem3);
+    addGameObject(enem3); 
+
 	for(int i=0;i<enemB.size();i++)   // Añadimos todos los enemigos basicos que existen a la blackboard
 	{
 		b->setEnemB(enemB[i]);
 	}	
 
 	/* CREAMOS ENEMIGOS ELITES */
-	/*enemE1 = new EnemigoElite(device, smgr, pos3, 120.0, 0.8, 2, this, b, world);
+	enemE1 = new EnemigoElite(device, smgr, pos3, 120.0, 0.8, 2, this, b, world);
 	enemE.push_back(enemE1);
 	addGameObject(enemE1);
-*/
+
 
 }	
 
@@ -234,11 +238,18 @@ void Mundo::posBuilder(){	//CONSTRUCTOR DE POSICIONES DE ENEMIGOS
   	Posicion *p8 = new Posicion(-190.08f,0.34f,30.f);
   	pos3.push_back(p8);
 
+    Posicion *p9 = new Posicion(153.782f,0.34f,30.f);
+    pos4.push_back(p9);
+    Posicion *p10 = new Posicion(-9.8f,0.34f,30.f);
+    pos4.push_back(p10);
+    Posicion *p11 = new Posicion(-190.08f,0.34f,30.f);
+    pos4.push_back(p11);
+
 }
 
 void Mundo::terrainBuilder(){	//CONSTRUCTOR DEL TERRENOS Y COLISIONES DE CAMARA
 
-    fachada->drawTerreno();
+    //fachada->drawTerreno();
 
 }
 
