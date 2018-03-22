@@ -30,7 +30,7 @@ Status Atacar::run(Enemigo *e)
         /* Buscamos el nodo Inicial mas cercano al enemigo */
         buscarNodoInicial(e, enemigoX);
         
-        cout<<"InicioBueno :"<<inicioBueno->getPosition()->getPosX()<<endl;
+       // cout<<"InicioBueno :"<<inicioBueno->getPosition()->getPosX()<<endl;
          /* Buscamos el nodo mas cercano al prota  */
         for(int i=0; i<nodos.size();i++)
         {    
@@ -48,7 +48,7 @@ Status Atacar::run(Enemigo *e)
             }
         }
 
-        cout<<"Fin :"<<fin->getPosition()->getPosX()<<endl;
+        //cout<<"Fin :"<<fin->getPosition()->getPosX()<<endl;
 
         if(inicioBueno!=nullptr && fin!=nullptr)
         {
@@ -61,7 +61,7 @@ Status Atacar::run(Enemigo *e)
             cout<<"No se ha podido encontrar el camino mas corto al protagonista"<<endl;
         }
 
-        cout<<"camino : "<<caminoCorto.size()<<endl;
+        //cout<<"camino : "<<caminoCorto.size()<<endl;
 
         /* Nos acercamos al nodo Inicio del camino */
         posNodoI = inicioBueno->getPosition();
@@ -140,7 +140,7 @@ Status Atacar::run(Enemigo *e)
             
         }
 
-        cout<<"Contador : "<<contador<<endl;
+        //cout<<"Contador : "<<contador<<endl;
         // Hemos llegado al ultimo nodo del camino calculado o hemos llegado al inicio y ademas no hay camino corto, puesto que ya estamos en el nodo mas cercano al objetivo
         if((llegadoFin==true) || (llegadoInicio==true && caminoCorto.size()==0))
         {

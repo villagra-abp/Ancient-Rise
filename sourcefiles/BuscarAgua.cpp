@@ -108,11 +108,13 @@ Status BuscarAgua::run(Enemigo *e)
     /* Realizamos el recorrido a lo largo del camino corto calculado */
     if(llegadoFin==false && llegadoInicio==true && caminoCorto.size()!=0)
     {
-        for(int i=0; i<caminoCorto.size();i++)
+      
+        //for(i=0; i<caminoCorto.size();i++)
+        if(iC<caminoCorto.size())
         {
-            fin = caminoCorto[i]->getNodoFin();
+            fin = caminoCorto[iC]->getNodoFin();
 
-            if(caminoCorto[i]->getComportamiento()==NORMAL)         // Movimiento normal del enemigo
+            if(caminoCorto[iC]->getComportamiento()==NORMAL)         // Movimiento normal del enemigo
             {   
                 posNodoI = fin->getPosition();
                 float distNodoF = posNodoI->getPosX() - enemigoX;
@@ -134,20 +136,26 @@ Status BuscarAgua::run(Enemigo *e)
 
                             e->setLastFacedDir(true);                                    
                         }
-                        else // Si hemos llegado al nodo Inicio
+                        else
                         {
-                            llegadoFin = true;
+                          iC++;
                         }
                     }
 
             }
+        }
+
+        if(iC==caminoCorto.size())
+        {
+           llegadoFin = true;
+           iC = 0;
         }
     }
 
     // Hemos llegado al ultimo nodo del camino calculado o hemos llegado al inicio y ademas no hay camino corto, puesto que ya estamos en el nodo mas cercano al objetivo
     if((llegadoFin==true) || (llegadoInicio==true && caminoCorto.size()==0))
     {
-        if (distanciaFuente<0) // AVANZAMOS HACIA LA IZQUIERDA
+        if (distanciaFuente<-3.0f) // AVANZAMOS HACIA LA IZQUIERDA
          {
 
                 e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
@@ -156,7 +164,7 @@ Status BuscarAgua::run(Enemigo *e)
                 e->setLastFacedDir(false);                                    
          }
          else{
-                if(distanciaFuente>0) // AVANZAMOS HACIA LA DERECHA
+                if(distanciaFuente>3.0f) // AVANZAMOS HACIA LA DERECHA
                 {
 
                     e->getBody()->SetLinearVelocity(e->getVelocidad2d());
@@ -180,21 +188,17 @@ Status BuscarAgua::run(Enemigo *e)
                          contador  = 0;
                          /* Inicializamos todo otra vez para que la proxima vez que ocurra funcione todo bien */
                          llegadoFin = false;
-                         llegadoInicio = true;
+                         llegadoInicio = false;
                          inicio1 = nullptr;
                          inicio2 = nullptr;
                          fin = nullptr;
                          caminoCorto.clear();
+                         inicioBueno = nullptr;
                          //cout<<"TERMINADO BEBER"<<endl;
                      }
                 }
             }
     }
-
-
-
-
-    
 
     return BH_SUCCESS;
 
@@ -347,6 +351,8 @@ void BuscarAgua::onInitialize(Blackboard *b)
    fuenteCercana = nullptr;
    
    g = new Grafo();
+
+   iC = 0;
 }
 
 

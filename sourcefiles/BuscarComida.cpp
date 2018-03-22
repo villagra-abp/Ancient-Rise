@@ -57,7 +57,7 @@ Status BuscarComida::run(Enemigo *e)
     
     if(llegadoInicio==false)        // Solo lo haremos si no habiamos llegado ya al nodo Inicio del camino
     {
-        if (distNodoI<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
+        if (distNodoI<-5.0f) // AVANZAMOS HACIA LA IZQUIERDA
          {
 
                 e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
@@ -66,7 +66,7 @@ Status BuscarComida::run(Enemigo *e)
                 e->setLastFacedDir(false);                                    
          }
          else{
-                if(distNodoI>1.0f) // AVANZAMOS HACIA LA DERECHA
+                if(distNodoI>5.0f) // AVANZAMOS HACIA LA DERECHA
                 {
 
                     e->getBody()->SetLinearVelocity(e->getVelocidad2d());
@@ -85,7 +85,8 @@ Status BuscarComida::run(Enemigo *e)
     /* Realizamos el recorrido a lo largo del camino corto calculado */
     if(llegadoFin==false && llegadoInicio==true && caminoCorto.size()!=0)
     {
-        for(int i=0; i<caminoCorto.size();i++)
+      int i;
+        for(i=0; i<caminoCorto.size();i++)
         {
             fin = caminoCorto[i]->getNodoFin();
 
@@ -94,7 +95,7 @@ Status BuscarComida::run(Enemigo *e)
                 posNodoI = fin->getPosition();
                 float distNodoF = posNodoI->getPosX() - enemigoX;
 
-                if (distNodoF<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
+                if (distNodoF<-5.0f) // AVANZAMOS HACIA LA IZQUIERDA
                  {
 
                         e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
@@ -103,7 +104,7 @@ Status BuscarComida::run(Enemigo *e)
                         e->setLastFacedDir(false);                                    
                  }
                  else{
-                        if(distNodoF>1.0f) // AVANZAMOS HACIA LA DERECHA
+                        if(distNodoF>5.0f) // AVANZAMOS HACIA LA DERECHA
                         {
 
                             e->getBody()->SetLinearVelocity(e->getVelocidad2d());
@@ -111,13 +112,14 @@ Status BuscarComida::run(Enemigo *e)
 
                             e->setLastFacedDir(true);                                    
                         }
-                        else // Si hemos llegado al nodo Inicio
-                        {
-                            llegadoFin = true;
-                        }
                     }
 
             }
+        }
+
+        if(i==caminoCorto.size())
+        {
+            llegadoFin = true;
         }
     }
 
@@ -125,7 +127,7 @@ Status BuscarComida::run(Enemigo *e)
     if((llegadoFin==true) || (llegadoInicio==true && caminoCorto.size()==0))
     {
 
-        if (distanciaComida<0) // AVANZAMOS HACIA LA IZQUIERDA
+        if (distanciaComida<5.0f) // AVANZAMOS HACIA LA IZQUIERDA
          {
              e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
             e->getBody()->ApplyForceToCenter(b2Vec2(-300.f,0.f),true);             // Fuerza para correr
@@ -133,7 +135,7 @@ Status BuscarComida::run(Enemigo *e)
             e->setLastFacedDir(false); 
          }
          else{
-                if(distanciaComida>0) // AVANZAMOS HACIA LA DERECHA
+                if(distanciaComida>5.0f) // AVANZAMOS HACIA LA DERECHA
                 {
                     e->getBody()->SetLinearVelocity(e->getVelocidad2d());
                     e->getBody()->ApplyForceToCenter(b2Vec2(300.f,0.f),true);             // Fuerza para correr
@@ -157,11 +159,12 @@ Status BuscarComida::run(Enemigo *e)
 
                           /* Inicializamos todo otra vez para que la proxima vez que ocurra funcione todo bien */
                          llegadoFin = false;
-                         llegadoInicio = true;
+                         llegadoInicio = false;
                          inicio1 = nullptr;
                          inicio2 = nullptr;
                          fin = nullptr;
                          caminoCorto.clear();
+                         inicioBueno = nullptr;
                      }
                 }
             }

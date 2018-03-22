@@ -43,6 +43,7 @@ class BuscarComida : public Task
 	    bool llegadoInicio = false;
 	    bool llegadoFin = false;
 	    Grafo *g; 							// Para poder calcular el camino mas corto
+	    //int i;
 
 };
 

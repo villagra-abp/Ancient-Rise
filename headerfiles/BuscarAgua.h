@@ -45,6 +45,7 @@ class BuscarAgua : public Task
 	    vector <Arista*> caminoCorto; 		// Contiene el camino mas corto calculado hasta el punto donde se queria ir
 	    bool llegadoInicio=false; 				// Para saber si hemos llegado al nodo inicio
 	    bool llegadoFin=false;
+	    int iC;
 
 
 };

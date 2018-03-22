@@ -27,11 +27,17 @@ class AvanzarPatrulla : public Task
 	    uint8_t contadorReloj; 			  				// Para reiniciar el reloj cuando toca
 
 	    /* GRAFO PATHFINDING */
-		vector<NodoGrafo*> pos;	  							// Contiene los nodos que va a reccorer el enemigo para la patrulla
+		vector<NodoGrafo*> pos;	  						// Contiene los nodos que va a reccorer el enemigo para la patrulla
 		vector<Arista*> aristSal;	  					// Todas las aristas salientes del nodo en el que se encuentra el enemigo
 		Posicion* nodoPosition;
 		Comportamiento tipoComp;
-
+		vector <Arista*> caminoCorto; 					// Contiene el camino mas corto calculado hasta el punto donde se queria ir
+		Grafo *g; 										// Para poder calcular el camino mas corto
+		int contador;
+		Posicion* posNodoI;
+		NodoGrafo* fin;
+		bool llegadoFin=false;
+		bool ida = true;
 	
 		
 };

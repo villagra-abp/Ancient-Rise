@@ -36,9 +36,9 @@ vector<Arista*> Grafo::pathfindDijkstra(NodoGrafo *inicio, NodoGrafo *fin)
 			aristas = current->getAristasS(); 											// Obtenemos todas las aristas salientes del nodo actual
 			
 			for(int cont=0;cont<aristas.size();cont++) 									// Recorremos todas las aristas salientes buscando sus nodos FInales para establecer su coste
-			{
+			{	
 				nodoFinal = aristas[cont]->getNodoFin();    							// Obtenemos el nodoFinal de la arista en la que nos encontramos
-
+				//cout<<nodoFinal->getNombre()<<endl;
 				nodoFinalCoste = current->getCostSoFar() + aristas[cont]->getCoste();	// Calculamos el cost_so_far del nodoFinal de la arista, suamndo el coste dle nodo incial de la arista
 																						//(nodo actual en el que estamos) con el coste de la arista (AUn no lo hemos almacenado)
 
@@ -92,7 +92,9 @@ vector<Arista*> Grafo::pathfindDijkstra(NodoGrafo *inicio, NodoGrafo *fin)
 
 	// Hemos llegado hasta aqui si hemos encontrado el ndoo Final del camino o si ya no hay mas nodos que buscar
 	if(current->getNombre()!=fin->getNombre())
-	{
+	{	
+		//cout<<current->getNombre()<<endl;
+		//cout<<fin->getNombre()<<endl;
 		cout<<"No hemos encontrado el nodo final"<<endl;
 	}
 	else
