@@ -60,6 +60,7 @@ class Enemigo : public GameObject
         int getOrden();
         bool getDisparo();
         Objeto* getAlarmaActivar();
+        bool getSaltando();
 
         void setSed(f32 se);
         void setEnergia(f32 e);
@@ -77,6 +78,7 @@ class Enemigo : public GameObject
         void setOrden(int o);
         void setDisparo(bool d);
         void setAlarmaActivar(Objeto *a);
+        void setSaltando(bool s);
 
         /* COMBATE */   
         void setCombate(bool b);
@@ -120,6 +122,7 @@ class Enemigo : public GameObject
         int tipo;                                   // Indica el tipo de enemigo ( 1 = Melee 2 = Distancia) 
         int claseEnemigo;                           // Indica que clase enemigo es (1 = Basico, 2 = Avanzado, 3 = Elite )       
         const f32 VELOCIDAD_NORMAL = 15.f;          // Constante para saber cual es la velocidad normal de los enemigos que no consume energia   
+        bool saltando;
 
 
          /* BOX2D */

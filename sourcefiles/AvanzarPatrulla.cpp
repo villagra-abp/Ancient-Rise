@@ -9,6 +9,7 @@ Status AvanzarPatrulla::run(Enemigo *e)
 
     Posicion* EnemigoPosition = e->getPosition(); // VOLVEMOS A OBTENER EL VECTOR DE POSICION DEL ENEMIGO POR SI HA CAMBIADO
     float enemigoX=EnemigoPosition->getPosX();
+    float enemigoY = EnemigoPosition->getPosY();
 
     nodoPosition = pos[contadorPatrulla]->getPosition();
     float posPatrullaX = nodoPosition->getPosX();
@@ -20,19 +21,20 @@ Status AvanzarPatrulla::run(Enemigo *e)
     /* Calculamos el camino mas corto entre el nodo Inicial y el nodo Final */
     //cout<<pos[0]->getPosition()->getPosX()<<endl;
     //cout<<pos[1]->getPosition()->getPosX()<<endl;
-    if(caminoCorto.size()==0)           // Para calcular el camino solo 1 vez y no siempre
-    {
-        caminoCorto = g->pathfindDijkstra(pos[0], pos[1]);
+    if(caminoCortoIda.size()==0)           // Para calcular el camino solo 1 vez y no siempre
+    {   
+        g = new Grafo();
+        caminoCortoIda = g->pathfindDijkstra(pos[0], pos[1]);
     }
 
     /* Realizamos el recorrido a lo largo del camino corto calculado */
     if(ida == true)
     {
-        if(contador<caminoCorto.size())
+        if(contador<caminoCortoIda.size())
         {
-            fin = caminoCorto[contador]->getNodoFin();
+            fin = caminoCortoIda[contador]->getNodoFin();
 
-            if(caminoCorto[contador]->getComportamiento()==NORMAL)         // Movimiento normal del enemigo
+            if(caminoCortoIda[contador]->getComportamiento()==NORMAL)         // Movimiento normal del enemigo
             {   
                 posNodoI = fin->getPosition();
                 float distNodoF = posNodoI->getPosX() - enemigoX;
@@ -59,12 +61,55 @@ Status AvanzarPatrulla::run(Enemigo *e)
                     }
 
             }
+            else
+            {
+                if(caminoCortoIda[contador]->getComportamiento()==SALTO)         // SALTO
+                {   
+                    posNodoI = fin->getPosition();
+                    float distNodoF = posNodoI->getPosX() - enemigoX;
+                    float distNodoFY = posNodoI->getPosY() - enemigoY;
+        
+                    if(distNodoFY>1.0f)
+                    {
+                        e->setSaltando(true);
+                        e->getBody()->ApplyForceToCenter(b2Vec2(0.f,3000.f),true);
+                    }
+                    else
+                    {
+                        e->setSaltando(false);
+                    }
+
+                    if(e->getSaltando()!=true)
+                    {
+                        if (distNodoF<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
+                            {
+
+                                e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
+                                e->setLastFacedDir(false);                                    
+                            }
+                        else{
+                                if(distNodoF>1.0f) // AVANZAMOS HACIA LA DERECHA
+                                {
+
+                                    e->getBody()->SetLinearVelocity(e->getVelocidad2d());
+
+                                    e->setLastFacedDir(true);                                    
+                                }
+                                else // Si hemos llegado al nodo Fin
+                                {
+                                    contador++;
+                                }
+                            }
+                    }
+
+                }
+            }
         }
 
-        if(contador==caminoCorto.size())
+        if(contador==caminoCortoIda.size())
         {
             ida = false;
-            contador = caminoCorto.size()-1;
+            contador = caminoCortoIda.size()-1;
         }
         
     }
@@ -72,9 +117,15 @@ Status AvanzarPatrulla::run(Enemigo *e)
     {
         if(contador>=0)
         {
-            fin = caminoCorto[contador]->getNodoFin();
-            
-            if(caminoCorto[contador]->getComportamiento()==NORMAL)         // Movimiento normal del enemigo
+            if(caminoCortoVuelta.size()==0)        // Calculamos el camino mas corto para volver
+            {
+                g = new Grafo();
+                caminoCortoVuelta = g->pathfindDijkstra(pos[1], pos[0]);
+            }
+    
+            fin = caminoCortoVuelta[contador]->getNodoFin();
+        
+            if(caminoCortoVuelta[contador]->getComportamiento()==NORMAL)         // Movimiento normal del enemigo
             {   
                 posNodoI = fin->getPosition();
                 float distNodoF = posNodoI->getPosX() - enemigoX;

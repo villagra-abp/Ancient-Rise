@@ -58,6 +58,7 @@ Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos
     contador = 0;
     memoria = false;
     orden = 0;                                            // Ninguna orden recibida
+    saltando = false;
 
 
 }
@@ -435,6 +436,11 @@ Objeto* Enemigo::getAlarmaActivar()
     return alActivar;
 }
 
+bool Enemigo::getSaltando()
+{
+    return saltando;
+}
+
 
 void Enemigo::setSalud(f32 s)
 {
@@ -511,6 +517,11 @@ void Enemigo::setDisparo(bool d)
 void Enemigo::setAlarmaActivar(Objeto* a)
 {
     alActivar = a;
+}
+
+void Enemigo::setSaltando(bool s)
+{
+    saltando = s;
 }
 
 

@@ -55,6 +55,7 @@ Status Atacar::run(Enemigo *e)
             vector<Arista*>().swap(caminoCorto); 
             g=new Grafo();
             caminoCorto = g->pathfindDijkstra(inicioBueno, fin);
+            cout<<caminoCorto.size()<<endl;
         }
         else
         {
@@ -174,6 +175,7 @@ Status Atacar::run(Enemigo *e)
                     }
                 }
         }
+
     }
     else        // ATACANDO
     {

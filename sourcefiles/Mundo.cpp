@@ -342,11 +342,19 @@ Fachada* fachada=fachada->getInstance();
 	enem1 = new EnemigoBasico(device, smgr, pos, 140.0, 0.8, 2, this, b, world);
 	enemB.push_back(enem1);
 	addGameObject(enem1);
-	/*
+	
 	enem2 = new EnemigoBasico(device, smgr, pos2, 140.0, 0.8, 1, this, b, world);
 	enemB.push_back(enem2);
 	addGameObject(enem2); 
-	*/
+
+    enem3 = new EnemigoBasico(device, smgr, pos4, 140.0, 0.8, 1, this, b, world);
+    enemB.push_back(enem3);
+    addGameObject(enem3); 
+
+    enem4 = new EnemigoBasico(device, smgr, pos3, 140.0, 0.8, 1, this, b, world);
+    enemB.push_back(enem4);
+    addGameObject(enem4); 
+	
 	for(int i=0;i<enemB.size();i++)   // Añadimos todos los enemigos basicos que existen a la blackboard
 	{
 		b->setEnemB(enemB[i]);
@@ -356,52 +364,17 @@ Fachada* fachada=fachada->getInstance();
 	/*enemE1 = new EnemigoElite(device, smgr, pos3, 120.0, 0.8, 2, this, b, world);
 	enemE.push_back(enemE1);
 	addGameObject(enemE1);*/
-
+    
 
 }	
 
 void Mundo::posBuilder(){	//CONSTRUCTOR DE POSICIONES DE ENEMIGOS
 
 	/* SE LEE DE FICHERO LAS POSICIONES DE LA PATRULLA DE CADA ENEMIGO Y SE ALMACENAN EN LOS VECTORES */
-  /*	Posicion *p0 = new Posicion(41.9f, 0.34f,30.f);
-  	pos.push_back(p0);
-  	Posicion *p1 = new Posicion(-241.2f, 0.34f,30.f);
-  	pos.push_back(p1);
-  	Posicion *p2 = new Posicion(120.7f, 0.34f,30.f);
-  	pos.push_back(p2);
-
-  	Posicion *p3 = new Posicion(120.7f,0.34f,30.f);
-  	pos2.push_back(p3);
-  	Posicion *p4 = new Posicion(320.2f,0.34f,30.f);
-  	pos2.push_back(p4);
-  	Posicion *p5 = new Posicion(498.9f,0.34f,30.f);
-	pos2.push_back(p5);
   
-  	Posicion *p6 = new Posicion(498.9f,0.34f,30.f);
-  	pos3.push_back(p6);
-  	Posicion *p7 = new Posicion(41.9f,0.34f,30.f);
-  	pos3.push_back(p7);
-  	Posicion *p8 = new Posicion(-157.4f,0.34f,30.f);
-  	pos3.push_back(p8);
-    */
-/*
-    Posicion *p0 = new Posicion(-334.259f, 0.34f,30.f);
+    Posicion *p0 = new Posicion(41.9f, 0.34f,30.f);
     pos.push_back(p0);
-    Posicion *p1 = new Posicion(-241.2f, 0.34f,30.f);
-    pos.push_back(p1);
-    Posicion *p2 = new Posicion(-157.4f, 0.34f,30.f);
-    pos.push_back(p2);
-    Posicion *p9 = new Posicion(-76.5f, 0.34f,30.f);
-    pos.push_back(p9);
-    Posicion *p10 = new Posicion(41.9f, 0.34f,30.f);
-    pos.push_back(p10);
-    Posicion *p11 = new Posicion(120.7f, 0.34f,30.f);
-    pos.push_back(p11);
-*/
-
-    Posicion *p0 = new Posicion(-334.259f, 0.34f,30.f);
-    pos.push_back(p0);
-    Posicion *p1 = new Posicion(120.7f, 0.34f,30.f);
+    Posicion *p1 = new Posicion(277.5f, 65.34f,30.f);
     pos.push_back(p1);
 
     Posicion *p3 = new Posicion(120.7f,0.34f,30.f);
@@ -411,8 +384,13 @@ void Mundo::posBuilder(){	//CONSTRUCTOR DE POSICIONES DE ENEMIGOS
 
     Posicion *p5 = new Posicion(498.9f,0.34f,30.f);
     pos3.push_back(p5);
-    Posicion *p6 = new Posicion(-157.4f,0.34f,30.f);
+    Posicion *p6 = new Posicion(41.9f,0.34f,30.f);
     pos3.push_back(p6);
+
+    Posicion *p7 = new Posicion(-334.259f,0.34f,30.f);
+    pos4.push_back(p7);
+    Posicion *p8 = new Posicion(-76.5f,0.34f,30.f);
+    pos4.push_back(p8);
 
 }
 
@@ -718,9 +696,29 @@ Mundo::~Mundo()	//DESTRUCTOR
 	}
 	enemE.clear();
 
+    for(int cont3=0; cont3<pos.size();cont3++)
+    {
+        delete pos[cont3];
+    }
 	pos.clear();
-	pos2.clear();
-	pos3.clear();
+
+    for(int cont4=0; cont4<pos2.size();cont4++)
+    {
+        delete pos2[cont4];
+    }
+    pos2.clear();
+
+    for(int cont5=0; cont5<pos3.size();cont5++)
+    {
+        delete pos3[cont5];
+    }
+    pos3.clear();
+
+    for(int cont6=0; cont6<pos4.size();cont6++)
+    {
+        delete pos4[cont6];
+    }
+    pos4.clear();
 
     delete b;
     delete c;

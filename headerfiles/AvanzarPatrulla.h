@@ -31,7 +31,8 @@ class AvanzarPatrulla : public Task
 		vector<Arista*> aristSal;	  					// Todas las aristas salientes del nodo en el que se encuentra el enemigo
 		Posicion* nodoPosition;
 		Comportamiento tipoComp;
-		vector <Arista*> caminoCorto; 					// Contiene el camino mas corto calculado hasta el punto donde se queria ir
+		vector <Arista*> caminoCortoIda; 				// Contiene el camino mas corto calculado hasta el punto donde se queria ir en la ida
+		vector <Arista*> caminoCortoVuelta; 				// Contiene el camino mas corto calculado hasta el punto donde se queria ir en la ida
 		Grafo *g; 										// Para poder calcular el camino mas corto
 		int contador;
 		Posicion* posNodoI;
