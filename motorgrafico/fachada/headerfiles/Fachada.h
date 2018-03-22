@@ -1,6 +1,8 @@
 #include "TMotorTAG.h"
 #include "FCamara.h"
 #include "FObjeto.h"
+#include "FLuz.h"
+#include "FColor.h"
 //#include ".h"
 //#include ".h"
 //#include ".h"

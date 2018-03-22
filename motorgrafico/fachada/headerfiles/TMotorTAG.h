@@ -10,6 +10,7 @@
 //#include "FObjeto.h"
 //#include "FCamara.h"
 #include "vec3.h"
+#include "vec4.h"
 
 class TMotorTAG{
 public:
@@ -36,13 +37,14 @@ public:
 
 	//void registrarCamara(TNodo* cam);
 	void activarCamara(TNodo* cam);
-	void registrarLuz(TLuz* luz);
+	void registrarLuz(TNodo* luz);
+	bool eliminarLuz(TNodo* luz);
 
 	//bool setCamara(TEntidad* cam);
 
-	bool setLuz(TLuz* lz, bool b);
+	//bool setLuz(TLuz* lz, bool b);
 
-
+	vector<TNodo*> getLuces();
 	glm::mat4 getCamaraMat();
 	glm::mat4 getCamaraProj();
 	TNodo* getEscena();
@@ -57,7 +59,7 @@ private:
 	//vector<bool> estadoCam;  	//True Camara activada. SOLO UNA
 	TNodo* camara;
 	vector<TNodo*> regLuz;	
-	vector<bool> estadoLuz;		//True Luz activada.
+//	vector<bool> estadoLuz;		//True Luz activada.
 	//vector<> regVPort;
 
 	glm::mat4 mVista;			//ViewMatrix

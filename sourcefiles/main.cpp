@@ -29,6 +29,7 @@ int main()
 	{
 		char inputKey;
 		bool keyPressed;
+
 		//Evento
 		sf::Event* evento = new sf::Event; 
 		//Obtener eventos
@@ -38,14 +39,18 @@ int main()
 		    {
 		        case sf::Event::Closed:
 		       
+
 		            //ventana.close();
 		            device->closeDevice();
+
 		        break;
 
 		        case sf::Event::KeyPressed:
 		        {    
 		            inputKey = evento->key.code;
+
 		            //std::cout<<evento->key.code<<"\n";
+
 		            keyPressed = true;
 		           
 		        }   
@@ -54,6 +59,7 @@ int main()
 		    
 		    
 		}
+
         ventana->clear();
         
 		//
@@ -69,5 +75,6 @@ int main()
 
 
 	delete fachada;
+
 }
 

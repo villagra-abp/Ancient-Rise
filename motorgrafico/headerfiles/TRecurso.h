@@ -12,7 +12,7 @@ public:
 	virtual ~TRecurso() = default;
 	virtual string getNombre() = 0;
 	virtual void setNombre(string nombre) = 0;
-	virtual void cargarFichero(string nombre) = 0;
+	//virtual void cargarFichero(string nombre) = 0;
 
 
 private:	

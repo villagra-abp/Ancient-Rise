@@ -18,15 +18,17 @@ public:
 	virtual void Unir(FEntidad* padre) = 0;
 	//virtual void draw() = 0;
 
-	virtual bool getActive() = 0;
+	virtual bool getActive()  = 0;
 
-	virtual TNodo* getNodo() = 0;
+	virtual TNodo* getNodo()  = 0;
+	virtual TNodo* getTraslacion() = 0;
+	virtual TNodo* getRotacion() = 0;
+	virtual vec3 getPosicion()  = 0;
 
 private:
 	bool active;
 	TNodo* padre;
 	TNodo* nodo, rotacion, traslacion;
-	float angulo;
 };
 
 

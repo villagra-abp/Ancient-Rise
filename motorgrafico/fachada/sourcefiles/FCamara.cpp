@@ -75,9 +75,20 @@ TNodo* FCamara::getNodo(){
 	return nodo;
 }
 
+TNodo* FCamara::getTraslacion(){
+	return traslacion;
+}
+
+TNodo* FCamara::getRotacion(){
+	return rotacion;
+}
+
+vec3 FCamara::getPosicion(){}
+
 
 void FCamara::Unir(FEntidad* nPadre){
-	padre->changePadre(nPadre->getNodo(), rotacion);
+	padre->changePadre(nPadre->getTraslacion(), rotacion);
+	padre = nPadre->getNodo();
 
 }
 

@@ -15,6 +15,7 @@
 #include <glm/glm.hpp>
 
 #include "../headerfiles/Shader.h"
+#include "TRecursoMaterial.h"
 
 using namespace std;
 
@@ -39,13 +40,17 @@ class rMesh{
 		vector<Texture> textures;
 		unsigned int VAO;
 
-		rMesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures);
-		void draw(Shader shader, glm::mat4 mmodelo, glm::mat4 view, glm::mat4 projection);
+		rMesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures, TRecursoMaterial* material);
+		void draw(Shader shader, glm::mat4 mmodelo, glm::mat4 view, glm::mat4 projection, float intensidad, glm::vec4 color, glm::vec3 luzPosicion, 
+			glm::vec3 camaraPosicion);
+
+		void setMaterial(TRecursoMaterial* mat);
 
 	private:
 		unsigned int  VBO, EBO;
 
 		void setupMesh();
+		TRecursoMaterial* material;
 		
 };
 
