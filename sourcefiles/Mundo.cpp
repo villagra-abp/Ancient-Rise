@@ -6,16 +6,16 @@ Plataforma2(nullptr), Plataforma3(nullptr), cam(nullptr), terrain(nullptr),selec
 {
 Fachada* fachada=fachada->getInstance();
 /* CREAMOS IRRLICHT DEVICE */	 
-	device = fachada->getDevice();
+	//.    e   device = fachada->getDevice();
 	//receiver = mainReceiver;
 
 /** PUNTEROS 
  A VideoDriver, al SceneManager y al entorno de interfaz de usuario, para no tener que
  estar llamandolos siempre y solo los llamamos una vez
 **/
-	driver = fachada->getDriver();
-	smgr = fachada->getScene();
-	guienv = fachada->getGUI();
+	//driver = fachada->getDriver();
+	//smgr = fachada->getScene();
+	//guienv = fachada->getGUI();
 
 
 /*CREAMOS GESTOR DE SONIDO*/
@@ -28,13 +28,14 @@ Fachada* fachada=fachada->getInstance();
 	prota = prota->getInstance();
     
 	addGameObject(prota);
+    
 
 	//creo el suelo, el bounding box del prota y la plataforma
 	prota->CreateGround(world, 0.f, -150.f,1000*1000);
     prota->CreateGround(world, 6600.f, 900.f,3200);
     prota->CreateGround(world, 9600.f, 1800.f,3200);
     prota->CreateGround(world, 12600.f, 2700.f,3200);
-    prota->CreateBox(world, -5000.f, 0.f);
+    prota->CreateBox(world, -1000.f, 0.f);
 
 
 /* CREAMOS VECTOR DE POSICIONES PARA EL ENEMIGO */
@@ -44,57 +45,60 @@ Fachada* fachada=fachada->getInstance();
 /* CREAMOS OBJETOS */
 
 	Posicion* pC= new Posicion(-220.f, 0.34f, 30.f);
-	c = new Comida(device, smgr, pC);
+	c = new Comida(NULL, NULL, pC);
 	comidas.push_back(c);
 	addGameObject(c);
 
 	Posicion* pC2= new Posicion(190.f, 0.34f, 30.f);
-	c2 = new Comida(device, smgr, pC2);
+	c2 = new Comida(NULL, NULL, pC2);
 	comidas.push_back(c2);
 	addGameObject(c2);
 
 	Posicion* pF= new Posicion(-190.f,0.34f,40.f);
-	f = new Fuente(device, smgr, pF);
+	f = new Fuente(NULL, NULL, pF);
 	fuentes.push_back(f);
 	addGameObject(f);
 
 	Posicion* pF2= new Posicion(320.f,0.34f,40.f);
-	f2 = new Fuente(device, smgr, pF2);
+	f2 = new Fuente(NULL, NULL, pF2);
 	fuentes.push_back(f2);
 	addGameObject(f2);
 
 	Posicion* pA= new Posicion(120.f,0.34f,40.f);
-	a = new Alarma(device, smgr, pA);
+	a = new Alarma(NULL, NULL, pA);
 	alarmas.push_back(a);
 	addGameObject(a);
 
 	Posicion* pA2= new Posicion(-160.f,0.34f,40.f);
-	a2 = new Alarma(device, smgr, pA2);
+	a2 = new Alarma(NULL, NULL, pA2);
 	alarmas.push_back(a2);
 	addGameObject(a2);
 
 	Posicion* posbebida= new Posicion(-300,0.34f,30.f);
- 	bebida = new Bebida(device, smgr, posbebida);
+ 	bebida = new Bebida(NULL, NULL, posbebida);
  	addGameObject(bebida);
 
 	Posicion* postrampa= new Posicion(520,0.34f,30.f);
- 	t = new Trampa(device, smgr, postrampa);
+ 	t = new Trampa(NULL, NULL, postrampa);
  	addGameObject(t);
+
 
 /* CREAMOS LA BLACKBOARD */
 
 	b=new Blackboard();
+    
 	 b->setFuente(fuentes);
 	 b->setComida(comidas);
 	 b->setAlarma(alarmas);
 	 b->setProtagonista(prota);
+	 
 
 /* CREAMOS PLATAFORMAS */
     Posicion* escala = new Posicion(10.f,1.f,5.f);
-
+/*
 	Plataforma = fachada->addCube(220,25,30,false);
 
-	if (Plataforma) /** SI HEMOS CREADO EL CUBO **/
+	if (Plataforma)
 	{
 		fachada->setScala(Plataforma,escala);
         fachada->setMaterial(Plataforma,"resources/plataf.bmp");
@@ -103,7 +107,7 @@ Fachada* fachada=fachada->getInstance();
 
 	Plataforma2= fachada->addCube(320,55,30,false);
 
-	if (Plataforma2) /** SI HEMOS CREADO EL CUBO **/
+	if (Plataforma2)
 	{
 		fachada->setScala(Plataforma2,escala);
 		fachada->setMaterial(Plataforma2,"resources/plataf.bmp");
@@ -111,20 +115,27 @@ Fachada* fachada=fachada->getInstance();
 
 	Plataforma3= fachada->addCube(420,85,30,false);
 
-	if (Plataforma3) /** SI HEMOS CREADO EL CUBO **/
+	if (Plataforma3)
 	{
 		fachada->setScala(Plataforma3,escala);
 		fachada->setMaterial(Plataforma3,"resources/plataf.bmp");
 	}
+*/
 
 /** ESTABLECEMOS LA CAMARA
  Aqui indicamos la posicion de la camara en el espacio 3d. En este caso,
  esta mirando desde la posicion (0, 30, -40) a la (0, 5, 0) donde es
  aproximadamente donde esta el objeto.
 **/
-	cam = smgr->addCameraSceneNode(0, vector3df(prota->getPosition()->getPosX(),50,-140), vector3df(0,5,0));
-	device->getCursorControl()->setVisible(true);
+    Posicion* camaraPos = new Posicion(prota->getPosition()->getPosX(),50,-140);
+    
+	cam = fachada->addCamara(camaraPos);
+	//device->getCursorControl()->setVisible(true);
 
+ /* AÑADIMOS UNA LUZ */   
+    Posicion* luzPos=camaraPos;
+    fachada->addLuz(luzPos);
+    
 /* CREAMOS EL TERRENO Y COLISIONES DE CAMARA */
 
 	terrainBuilder();
@@ -188,12 +199,12 @@ Fachada* fachada=fachada->getInstance();
 
 
  /* CREAMOS ENEMIGOS BASICOS */
-    
-	enem1 = new EnemigoBasico(device, smgr, pos, 140.0, 0.8, 2, this, b, world);
+   
+	enem1 = new EnemigoBasico(NULL, NULL, pos, 140.0, 0.8, 2, this, b, world);
 	enemB.push_back(enem1);
 	addGameObject(enem1);
 	
-	enem2 = new EnemigoBasico(device, smgr, pos2, 140.0, 0.8, 1, this, b, world);
+	enem2 = new EnemigoBasico(NULL, NULL, pos2, 140.0, 0.8, 1, this, b, world);
 	enemB.push_back(enem2);
 	addGameObject(enem2); 
 	
@@ -203,10 +214,12 @@ Fachada* fachada=fachada->getInstance();
 	}	
 
 	/* CREAMOS ENEMIGOS ELITES */
-	/*enemE1 = new EnemigoElite(device, smgr, pos3, 120.0, 0.8, 2, this, b, world);
+	/*enemE1 = new EnemigoElite(NULL, NULL, pos3, 120.0, 0.8, 2, this, b, world);
 	enemE.push_back(enemE1);
 	addGameObject(enemE1);
 */
+    
+    
 
 }	
 
@@ -252,13 +265,13 @@ void Mundo::update(){
 
 	/* Creamos el framedeltatime y el tiempo */
 
-	const u32 now = device->getTimer()->getTime();
+	const u32 now = fachada->getTime();
 	const f32 frameDeltaTime = (f32)(now - then) / 1000.f; // Time in seconds
 	then = now;
 	f32 tiempo=(f32)(now - time_input)/1000.f;
 
 	Posicion* protaPosition = prota->getPosition();
-	core::vector3df camPosition = cam->getPosition();
+	//core::vector3df camPosition = cam->getPosition();
 
 	/* PROTA UPDATE */
 
@@ -266,7 +279,7 @@ void Mundo::update(){
 
 	/* CAM UPDATE*/
 
-    camUpdate(frameDeltaTime);
+    //camUpdate(frameDeltaTime);
 
     b->setTime(frameDeltaTime);
     b->setProta(protaPosition->getPosX());
@@ -277,6 +290,7 @@ void Mundo::update(){
 
 
     /* UPDATE DE LOS ENEMIGOS */
+/*
     for(int i=0; i<enemB.size();i++)   		// Enemigos Basicos
     {
     	if(enemB[i]->getNode()!=nullptr) 	// Solo si existen hacemos su update
@@ -285,7 +299,7 @@ void Mundo::update(){
 	     	enemB[i]->Update(prota->getPosition());
 	    }
     }
-
+*/
     for(int i2=0; i2<enemE.size();i2++) 	// Enemigos Elites
     {
     	if(enemE[i2]->getNode()!=nullptr)
@@ -297,11 +311,11 @@ void Mundo::update(){
 
     /* DRAW SCENE */
 
-    draw();
+    //draw();
 
     /* CONTROL DE FRAMES POR SEGUNDO */
 
-    fpsControl();
+    //fpsControl();
 
     /*UPDATE DE SONIDO*/
     sonido->playSound(musicaBosque);
@@ -318,16 +332,16 @@ void Mundo::protaUpdate(const u32 now, const f32 frameDeltaTime, f32 tiempo){
 
     //prota->ataque(frameDeltaTime);
     
-    prota->pintarInterfaz();
+    //prota->pintarInterfaz();
     
-	prota->comprobarColision(c);
-    prota->comprobarColision(bebida);
-    prota->comprobarColision(t);
+	//prota->comprobarColision(c);
+    //prota->comprobarColision(bebida);
+    //prota->comprobarColision(t);
 
     prota->updateBody(world);
     
     if(!prota->checkVida())
-		device->closeDevice();
+		fachada->cerrar();
 
 	if(tiempo>0.2f) 	// HACEMOS QUE LO QUE HAYA DENTRO SE HAGA MENOS VECES POR SEGUNDO
     {
@@ -462,27 +476,27 @@ void Mundo::checkCombate()
 
 void Mundo::camUpdate(const f32 frameDeltaTime){
 	Posicion* protaPosition = prota->getPosition();
-	core::vector3df camPosition = cam->getPosition();
+	//vec3 camPosition = cam->getPosicion();
 
-	//rec->setPosition(protaPosition);
-    cam->setPosition(vector3df(protaPosition->getPosX(),protaPosition->getPosY()+30,-140)); // cambio 5O A ProtaPosition.Y
-    camPosition=core::vector3df(protaPosition->getPosX(),protaPosition->getPosY(),protaPosition->getPosZ());
-    camPosition.Y=protaPosition->getPosY()+30;
-    cam->setTarget(camPosition);
+    cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-20,-140)); // cambio 5O A ProtaPosition.Y
+    //camPosition=vec3(protaPosition->getPosX(),protaPosition->getPosY()+30,protaPosition->getPosZ());
+    //camPosition.y=protaPosition->getPosY()+30;
+    //Falta funcion para enfocar la camara
+    //cam->setTarget(camPosition);
 }
 
 void Mundo::fpsControl(){
 	
-	int fps = driver->getFPS();
+	int fps = 60;
 
 	if (lastFPS != fps)
 	{
 		core::stringw tmp(L"Movement Example - Irrlicht Engine [");
-		tmp += driver->getName();
+		//tmp += driver->getName();
 		tmp += L"] fps: ";
 		tmp += fps;
 
-		device->setWindowCaption(tmp.c_str());
+		//device->setWindowCaption(tmp.c_str());
 		lastFPS = fps;
 	}
 

@@ -17,7 +17,7 @@ Fuente::Fuente(IrrlichtDevice *dev, ISceneManager* smgr, Posicion* pos):Objeto(p
         Posicion escala(2.5f,1.f,1.f);
 		fachada->setScala(objeto,&escala);
 		
-        fachada->setMaterial(objeto,"resources/gota.jpg");
+        //fachada->setMaterial(objeto,"resources/gota.jpg");
 
 	}
 

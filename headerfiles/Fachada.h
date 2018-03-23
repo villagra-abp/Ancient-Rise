@@ -18,10 +18,7 @@
 
 #include <glm/vec3.hpp>
 
-#include "../motorgrafico/headerfiles/TNodo.h"
-#include "../motorgrafico/headerfiles/TTransf.h"
-#include "../motorgrafico/headerfiles/TLuz.h"
-#include "../motorgrafico/headerfiles/TCamara.h"
+#include "../motorgrafico/fachada/headerfiles/Fachada.h"
 #include <iostream>
 
 
@@ -70,8 +67,10 @@ public:
 	//void drawGUI();
     void drawTerreno();
 	
-    scene::ISceneNode * addCube(int x,int y,int z,bool flag);
-    scene::ISceneNode * addSphere(int x,int y,int z,bool flag);
+    FObjeto* addCube(int x,int y,int z,bool flag);
+    FObjeto* addSphere(int x,int y,int z,bool flag);
+    FCamara* addCamara(Posicion*);
+    FLuz* addLuz(Posicion*);
 
 private:
 	Fachada(int h, int w, bool fullscreen);
@@ -86,6 +85,8 @@ private:
     sf::RenderWindow* ventana;
 
     TNodo* Escena;
+    //CAMARA
+    	scene::ICameraSceneNode* cam;
 
 };
 

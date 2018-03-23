@@ -13,7 +13,7 @@ Alarma::Alarma(IrrlichtDevice *dev, ISceneManager* smgr, Posicion* pos):Objeto(p
         Posicion escala(1.f,6.f,1.f);
 		fachada->setScala(objeto,&escala);
 		
-        fachada->setMaterial(objeto,"resources/desactivada.jpeg");
+        //fachada->setMaterial(objeto,"resources/desactivada.jpeg");
 	}
 
 	contador = 0;

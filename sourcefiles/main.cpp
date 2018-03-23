@@ -10,25 +10,29 @@ int main()
     //Protagonista* prota = prota->getInstance();
 	/* CREAMOS IRRLICHT DEVICE */
 
-	IrrlichtDevice *device = fachada->getDevice();
+	//IrrlichtDevice *device = fachada->getDevice();
     sf::RenderWindow* ventana = fachada->getVentana();
 
-	if (!device)
-		return 1;
+	//if (!device)
+		//return 1;
 	
 
 	/* CREAMOS MUNDO DEL JUEGO */
 
 	Mundo* mundo = new Mundo();
-
+    TMotorTAG* motorgrafico = TMotorTAG::getInstance();
 	
 
 	// BUCLE PRINCIPAL DEL JUEGO 
 
-	while(device->run())
+	while(ventana->isOpen())
 	{
 		char inputKey;
 		bool keyPressed;
+        
+        glClearColor(0.0f,0.2f,0.5f,0.0f);
+		glClearDepth(1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		//Evento
 		sf::Event* evento = new sf::Event; 
@@ -40,40 +44,30 @@ int main()
 		        case sf::Event::Closed:
 		       
 
-		            //ventana.close();
-		            device->closeDevice();
+		            ventana->close();
+		            //device->closeDevice();
 
-		        break;
-
-		        case sf::Event::KeyPressed:
-		        {    
-		            inputKey = evento->key.code;
-
-		            //std::cout<<evento->key.code<<"\n";
-
-		            keyPressed = true;
-		           
-		        }   
 		        break;
 		    }
 		    
 		    
 		}
 
-        ventana->clear();
+        //ventana->clear();
         
 		//
 		//ventana.draw(rectangle);
 		// ACTUALIZAMOS EL MUNDO 
 		mundo->update();
 		
-		//ventana.display();
+    motorgrafico->draw();
+    ventana->display();
 
 	}
 
 	
-
-
+    delete mundo;
+    delete motorgrafico;
 	delete fachada;
 
 }

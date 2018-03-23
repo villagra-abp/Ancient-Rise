@@ -127,7 +127,7 @@ class Mundo : public Entorno
         vector<Arista*> aristas;
 
     	//CAMARA
-    	scene::ICameraSceneNode* cam;
+    	FCamara* cam;
 
     	//TERRENO
     	scene::ITerrainSceneNode* terrain;

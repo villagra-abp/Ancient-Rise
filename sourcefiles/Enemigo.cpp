@@ -17,17 +17,17 @@ Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos
 
     if (enemigo) /** SI HEMOS CREADO EL CUBO **/
 	{  
-         driver = fachada->getDriver();
-        fachada ->setMaterial(enemigo,"resources/verde.jpg");
-
-        EnemigoPosition = fachada->getPosicion(enemigo);
+         //driver = fachada->getDriver();
+        //fachada ->setMaterial(enemigo,"resources/verde.jpg");
+        Posicion* pos= new Posicion(pos[0].getPosX(),pos[0].getPosY(),pos[0].getPosZ());
+        EnemigoPosition = pos;
 
 
 	}
 
     board = b;                                             // Guardamos la blackboard 
 
-    env = dev->getGUIEnvironment();
+    //env = dev->getGUIEnvironment();
 
     /* Valores por defecto para los parametros para el rango de vision del enemigo */
     lastFacedDir = true;
@@ -73,9 +73,10 @@ void Enemigo::update(Posicion* Posprota)
 
     if(enemigo!=nullptr)  // Solo si existe el enemigo hacemos su update
     { 
+
         actualizarHambre(); 
         actualizarSed();
-
+    
         //cout<<"Vida: "<<salud<<endl;
         //COMPROBAMOS GAMEOBJECTS DENTRO DE LA VISTA
         vistos.clear();
@@ -83,20 +84,21 @@ void Enemigo::update(Posicion* Posprota)
         for(int i = 0; i < ent->getSize(); i++){
             if(checkInSight(ent->getGameObject(i)->getPosition())){
                 vistos.push_back(ent->getGameObject(i));
+                
             }
         }
 
         // COMPROBAMOS SI HEMOS VISTO AL PROTAGONISTA 
         if(checkInSight(Posprota)){              
             visto = true;
-             fachada->setMaterial(enemigo,"resources/activada.jpeg");  
+             //fachada->setMaterial(enemigo,"resources/activada.jpeg");  
              contador = 0;
             
         }else{
             if(recordarProta())
             {
                 visto = false;
-                fachada->setMaterial(enemigo,"resources/verde.jpg");
+                //fachada->setMaterial(enemigo,"resources/verde.jpg");
             }
             
         }

@@ -16,6 +16,7 @@ Protagonista::Protagonista():energy(nullptr), life(nullptr), Body(nullptr), rec(
     desabilitamos la luz en cada modelo (sino los modelos serian negros )
     **/ 
     rec=fachada->addSphere(0,0,30,false);
+ /*
     energy=fachada->addCube(0,0,30,true);
     life=fachada->addCube(0,0,30,false);
     
@@ -32,7 +33,7 @@ Protagonista::Protagonista():energy(nullptr), life(nullptr), Body(nullptr), rec(
     
     fachada->setScala(energy,energyScale);
     fachada->setScala(life,lifeScale);
-
+*/
     combate = false;
     pos_combate = 2; 
 
@@ -42,6 +43,10 @@ Protagonista::Protagonista():energy(nullptr), life(nullptr), Body(nullptr), rec(
     omae = sonido->create2DSound(sonido->SOUND_BOSS3_OMAE);
     grito = sonido->create2DSound(sonido->SOUND_BOSS3_GRITO1);
     risa = sonido->create3DSound(sonido->SOUND_BOSS3_RISA);
+    
+    /////solo es para probar que no peta
+    Posicion* pos= new Posicion(0,0,30);
+    protaPosition=pos;
 
 }
 

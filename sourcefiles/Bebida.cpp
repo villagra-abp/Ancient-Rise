@@ -13,7 +13,7 @@ Bebida::Bebida(IrrlichtDevice *dev, ISceneManager* smgr, Posicion* pos):Objeto(p
         Posicion escala(0.5f,1.5f,0.5f);
 		fachada->setScala(objeto,&escala);
 	
-        fachada->setMaterial(objeto,"resources/pocion.png");
+        //fachada->setMaterial(objeto,"resources/pocion.png");
 
 	}
 

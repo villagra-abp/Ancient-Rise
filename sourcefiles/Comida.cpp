@@ -18,7 +18,7 @@ Comida::Comida(IrrlichtDevice *dev, ISceneManager* smgr, Posicion* pos):Objeto(p
 		fachada->setScala(objeto,&escala);
 		//objeto ->setMaterialFlag(video::EMF_LIGHTING, false);
 		//objeto ->setMaterialTexture(0,driver->getTexture("resources/pinchos.jpeg"));
-        fachada->setMaterial(objeto,"resources/elon.jpeg");
+        //fachada->setMaterial(objeto,"resources/elon.jpeg");
 
 	}
 

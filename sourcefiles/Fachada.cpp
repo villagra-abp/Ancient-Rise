@@ -19,7 +19,7 @@ IrrlichtDevice* Fachada::getDevice(){
 }
 
 u32 Fachada::getTime(){
-	return device->getTimer()->getTime();
+	return 32;
 }
 
 //Destructor
@@ -30,7 +30,12 @@ Fachada::~Fachada(){
 //Constructor. Solo accesible desde getInstance
 Fachada::Fachada(int h, int w, bool fullscreen){
 	
-	
+	sf::ContextSettings settings;
+    settings.depthBits = 24;
+    settings.stencilBits = 8;
+    settings.antialiasingLevel = 4;
+    settings.majorVersion = 4.6;
+    settings.minorVersion = 3.3;
     /** SUBTITULO DE VENTANA
  Para poner texto en el subtitulo de la ventana. Necesita de una 'L' delante del string
  debido a que lo necesita el motor de irrlicht
@@ -39,12 +44,19 @@ Fachada::Fachada(int h, int w, bool fullscreen){
     ventana= new sf::RenderWindow(sf::VideoMode(h, w), "Ancient Rise");
     ventana->setFramerateLimit(60);
     /*creo una vista*/
-	//sf::View view(sf::FloatRect(0, 0, 1000, 600));
+	/*creo una vista*/
+    glewInit();
+    glEnable(GL_DEPTH_TEST);
+    glDepthMask(GL_TRUE);
+    glDepthFunc(GL_LEQUAL);
+    glDepthRange(0.1f, 100.0f);
+    ventana->setFramerateLimit(60);
+	sf::View view(sf::FloatRect(0, 0, 1000, 600));
 	
-	//view.setViewport(sf::FloatRect(0.75f, 0, 0.25f, 0.25f));
-	//ventana->setView(view);
-
-	
+	view.setViewport(sf::FloatRect(0.75f, 0, 0.25f, 0.25f));
+	ventana->setView(view);
+	ventana->setActive(true);
+    /*
     SIrrlichtCreationParameters Parameters;
     Parameters.DriverType = video::EDT_OPENGL; 
     //Parameters.EventReceiver = &receiver;
@@ -53,7 +65,9 @@ Fachada::Fachada(int h, int w, bool fullscreen){
     driver = device->getVideoDriver();
 	smgr = device->getSceneManager();
 	guienv = device->getGUIEnvironment();
-
+    */
+    //SIrrlichtCreationParameters Parameters;
+    //device = createDeviceEx(Parameters);
 	
 }
 sf::RenderWindow* Fachada::getVentana(){
@@ -144,35 +158,57 @@ void Fachada::setNombreVentana(std::string text){
 void Fachada::setNombreVentana(wchar_t* text){
 	device->setWindowCaption(text);
 }
-scene::ISceneNode * Fachada::addCube(int x,int y,int z,bool flag){
-    
+FObjeto* Fachada::addCube(int x,int y,int z,bool flag){
+    /*
     scene::ISceneNode * rec=smgr->addCubeSceneNode();
     
-    if (rec) /** SI HEMOS CREADO EL CUBO **/
+    if (rec)
     {
         
         rec->setPosition(core::vector3df(x,y,z));
         //rec->setMaterialTexture(0, driver->getTexture(mediaPath + "wall.bmp"));
         rec->setMaterialFlag(video::EMF_LIGHTING, flag);
     }
-    return rec;
+    */
+    FObjeto* enem = new FObjeto();
+	
+    enem->setMalla("resources/pared.obj");
+    enem->Escalar(vec3(2,2,2));
+	
+
+	enem->Mover(vec3(x,y,z));
+	enem->Rotar(vec3(0,1,0), -4.5f);
+    
+    return enem;
 }
-scene::ISceneNode * Fachada::addSphere(int x,int y,int z,bool flag){
-    scene::ISceneNode * rec=smgr->addSphereSceneNode();
-    if (rec) /** SI HEMOS CREADO EL CUBO **/
+FObjeto* Fachada::addSphere(int x,int y,int z,bool flag){
+    //scene::ISceneNode * rec=smgr->addSphereSceneNode();
+    /*if (rec) 
     {
         
         rec->setPosition(core::vector3df(x,y,z));
         //rec->setMaterialTexture(0, driver->getTexture(mediaPath + "wall.bmp"));
         rec->setMaterialFlag(video::EMF_LIGHTING, flag);
     }
-    return rec;
+    */
+    
+FObjeto* prota = new FObjeto();
+	
+    prota->setMalla("resources/pared.obj");
+    prota->Escalar(vec3(2,2,2));
+	
+
+	prota->Mover(vec3(x,y,z));
+	prota->Rotar(vec3(0,1,0), -4.5f);
+    
+    return prota;
 }
 Posicion* Fachada::getPosicion(void * nodo){
 
-    scene::ISceneNode * node=(scene::ISceneNode*)nodo;
-    core::vector3df pos=node->getPosition();
-    Posicion* posicion= new Posicion(pos.X,pos.Y,pos.Z);
+    FObjeto* node=(FObjeto*)nodo;
+    vec3 pos=node->getPosicion();
+    Posicion* posicion= new Posicion(pos.x,pos.y,pos.z);
+    //std::cout<<posicion->getPosX()<<endl;
     return posicion;
 }
 Posicion* Fachada::getScala(void * nodo){
@@ -185,16 +221,17 @@ Posicion* Fachada::getScala(void * nodo){
 }
 bool Fachada::setScala(void * nodo,Posicion* scala){
     
-    scene::ISceneNode * node=(scene::ISceneNode*)nodo;
-    node->setScale(core::vector3df(scala->getPosX(),scala->getPosY(),scala->getPosZ()));
+    FObjeto * node=(FObjeto*)nodo;
+    node->Escalar(vec3(scala->getPosX(),scala->getPosY(),scala->getPosZ()));
     return true;
     
 }
 bool Fachada::setPosicion(void * nodo,Posicion* pos){
 
-    scene::ISceneNode * node=(scene::ISceneNode*)nodo;
-    core::vector3df position=core::vector3df(pos->getPosX(),pos->getPosY(),pos->getPosZ());
-    node->setPosition(position);
+    //std::cout<<pos->getPosX()<<endl;
+    FObjeto* node=(FObjeto*)nodo;
+    vec3 position=vec3(pos->getPosX(),pos->getPosY(),pos->getPosZ());
+    node->setPosicion(position);
     return true;
 }
 bool Fachada::setMaterialFlag(void * nodo,bool b){
@@ -278,7 +315,7 @@ void Fachada::drawDrawEscena(){
 }
 */
 void Fachada::drawTerreno(){
-
+/*
 	scene::ITerrainSceneNode* terrain = smgr->addTerrainSceneNode(
 
         "resources/terrain-heightmap.bmp",
@@ -313,4 +350,44 @@ void Fachada::drawTerreno(){
     terrain->setMaterialTexture(1, driver->getTexture("resources/detailmap3.jpg"));
 	terrain->setMaterialType(video::EMT_DETAIL_MAP);
     terrain->scaleTexture(1.0f, 20.0f);
+*/
+    
+	FObjeto* suelo = new FObjeto();
+	
+    suelo->setMalla("resources/escenario.3DS");
+    suelo->Escalar(vec3(700,700,700));
+	
+
+	suelo->Mover(vec3(0,48,30));
+	//prota->Rotar(vec3(0,1,0), -3.f);
+	
+    
+    
+}
+FCamara* Fachada::addCamara(Posicion* p){
+ 
+    //cam = smgr->addCameraSceneNode(0, core::vector3df(p->getPosX(),50,-140), core::vector3df(0,5,0));
+	//device->getCursorControl()->setVisible(true);
+    
+    FCamara* camara = new FCamara();
+	camara->Activar();
+	vec3 camaraOrigin = vec3(0,-10,-110);
+	//cajita->Unir(cajita2);
+	//cajita->Mover(vec3(0,0,4));
+	camara->Mover(camaraOrigin);
+	//camara->Rotar(vec3(0,1,0), 3.0f);
+    
+    return camara;
+    
+}
+FLuz* Fachada::addLuz(Posicion* p){
+ 
+    FColor* color = new FColor(1.0f,		1.0f,	1.0f, 1.0f);
+	glm::vec4 vColor;
+
+	FLuz* luz = new FLuz(1.0f,color);
+	vec3 luzOrigin = vec3(0,0,-10);
+	luz->Mover(luzOrigin);
+    
+    return luz;
 }
