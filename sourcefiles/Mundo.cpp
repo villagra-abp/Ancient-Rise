@@ -295,8 +295,8 @@ void Mundo::update(){
     {
     	if(enemB[i]->getNode()!=nullptr) 	// Solo si existen hacemos su update
     	{
-	       	//enemB[i]->updateTiempo(frameDeltaTime);
-	     	//enemB[i]->Update(prota->getPosition());
+	       	enemB[i]->updateTiempo(frameDeltaTime);
+	     	enemB[i]->Update(prota->getPosition());
 	    }
     }
 

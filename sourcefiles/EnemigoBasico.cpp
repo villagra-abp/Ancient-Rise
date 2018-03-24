@@ -10,7 +10,6 @@ EnemigoBasico::EnemigoBasico(IrrlichtDevice *dev, ISceneManager *smgr, vector<Po
 {
 
     //ESTABLECEMOS LAS ESTADISTICAS ENEMIGO BASICO
-
     setEnergia(ENERGIA_MAX);
     setHambre(100.f);
     salud = 100;
