@@ -14,6 +14,7 @@ class AvanzarPatrulla : public Task
 		virtual void onInitialize(Blackboard *b) override;
 		void startClock();
 		void recorrerAristas(int num);
+		void movimiento(vector <Arista*> camino, float enemigoX, float enemigoY, Enemigo *e);
 		virtual ~AvanzarPatrulla();
 
 
@@ -32,13 +33,14 @@ class AvanzarPatrulla : public Task
 		Posicion* nodoPosition;
 		Comportamiento tipoComp;
 		vector <Arista*> caminoCortoIda; 				// Contiene el camino mas corto calculado hasta el punto donde se queria ir en la ida
-		vector <Arista*> caminoCortoVuelta; 				// Contiene el camino mas corto calculado hasta el punto donde se queria ir en la ida
+		vector <Arista*> caminoCortoVuelta; 		
 		Grafo *g; 										// Para poder calcular el camino mas corto
 		int contador;
 		Posicion* posNodoI;
 		NodoGrafo* fin;
 		bool llegadoFin=false;
 		bool ida = true;
+		float distNodoF, distNodoFY;
 	
 		
 };

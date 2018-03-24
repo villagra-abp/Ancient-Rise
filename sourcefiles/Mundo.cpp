@@ -63,7 +63,7 @@ Fachada* fachada=fachada->getInstance();
 	fuentes.push_back(f2);
 	addGameObject(f2);
 
-	Posicion* pA= new Posicion(120.f,0.34f,40.f);
+	Posicion* pA= new Posicion(330.f,65.34f,40.f);
 	a = new Alarma(device, smgr, pA);
 	alarmas.push_back(a);
 	addGameObject(a);
@@ -288,57 +288,9 @@ Fachada* fachada=fachada->getInstance();
      nS->insertAristaS(a27,nT);
      nT->insertAristaS(a28,nS);
 
-   /*  NodoGrafo *nA = new NodoGrafo('A',-9.8f, 0.34f); 				// EN MEDIO
-     nodos.push_back(nA);
-     addGameObject(nA);
-     NodoGrafo *nB = new NodoGrafo('B',-190.08f, 0.34f); 				// FUENTE
-     nodos.push_back(nB);
-     addGameObject(nB);
-     NodoGrafo *nC = new NodoGrafo('C',-334.259f, 0.34f); 			// Salir Nivel izq
-     nodos.push_back(nC);
-     addGameObject(nC);
-     NodoGrafo *nD = new NodoGrafo('D',153.782f, 0.34f); 				// ALARMA DECHA
-     nodos.push_back(nD);
-     addGameObject(nD);
-     NodoGrafo *nE = new NodoGrafo('E',387.195f, 0.34f); 				// TRAMPA
-     nodos.push_back(nE);
-     addGameObject(nE);
-
-     b->setNodosGrafo(nodos); 								// Pasamos los nodos a la blackboard
-
-     Arista *a1 = new Arista(5,1); 							// Arista con coste 5 y del tipo NORMAL
-     aristas.push_back(a1);
-     Arista *a2 = new Arista(5,1);
-     aristas.push_back(a2);
-     Arista *a3 = new Arista(5,1);
-     aristas.push_back(a3);
-     Arista *a4 = new Arista(5,1);
-     aristas.push_back(a4);
-     Arista *a5 = new Arista(5,1);
-     aristas.push_back(a5);
-     Arista *a6 = new Arista(5,1);
-     aristas.push_back(a6);
-     Arista *a7 = new Arista(5,1);
-     aristas.push_back(a7);
-     Arista *a8 = new Arista(5,1);
-     aristas.push_back(a8);
-     Arista *a9 = new Arista(5,1);
-     aristas.push_back(a9);
-     Arista *a10 = new Arista(5,1);
-     aristas.push_back(a10);
-
-     nA->insertAristaS(a1,nB);  						// Arista que sale del nodo A hasta el nodo B
-     nA->insertAristaS(a3,nD);
-     nB->insertAristaS(a2,nC);
-     nB->insertAristaS(a5,nA);
-     nC->insertAristaS(a6,nB);
-     nD->insertAristaS(a7,nA);
-     nD->insertAristaS(a4,nE);
-     nE->insertAristaS(a8,nD);
-*/
 
  /* CREAMOS ENEMIGOS BASICOS */
-    
+   
 	enem1 = new EnemigoBasico(device, smgr, pos, 140.0, 0.8, 2, this, b, world);
 	enemB.push_back(enem1);
 	addGameObject(enem1);
@@ -361,7 +313,7 @@ Fachada* fachada=fachada->getInstance();
 	}	
 
 	/* CREAMOS ENEMIGOS ELITES */
-	/*enemE1 = new EnemigoElite(device, smgr, pos3, 120.0, 0.8, 2, this, b, world);
+	/*enemE1 = new EnemigoElite(device, smgr, pos5, 120.0, 0.8, 2, this, b, world);
 	enemE.push_back(enemE1);
 	addGameObject(enemE1);*/
     
@@ -382,15 +334,20 @@ void Mundo::posBuilder(){	//CONSTRUCTOR DE POSICIONES DE ENEMIGOS
     Posicion *p4 = new Posicion(498.9f,0.34f,30.f);
     pos2.push_back(p4);
 
-    Posicion *p5 = new Posicion(498.9f,0.34f,30.f);
+    Posicion *p5 = new Posicion(120.7f,0.34f,30.f);
     pos3.push_back(p5);
-    Posicion *p6 = new Posicion(-157.4f,0.34f,30.f);
+    Posicion *p6 = new Posicion(-334.259f,0.34f,30.f);
     pos3.push_back(p6);
 
     Posicion *p7 = new Posicion(-334.259f,0.34f,30.f);
     pos4.push_back(p7);
     Posicion *p8 = new Posicion(-76.5f,0.34f,30.f);
     pos4.push_back(p8);
+
+    Posicion *p9 = new Posicion(498.9f,0.34f,30.f);
+    pos5.push_back(p9);
+    Posicion *p10 = new Posicion(249.2f,0.34f,30.f);
+    pos5.push_back(p10);
 
 }
 

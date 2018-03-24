@@ -14,154 +14,131 @@ Status AvanzarPatrulla::run(Enemigo *e)
     nodoPosition = pos[contadorPatrulla]->getPosition();
     float posPatrullaX = nodoPosition->getPosX();
 
-    int distanciaNodoX= posPatrullaX - enemigoX;     // DISTANCIA EN X AL NODO DE LA PATRULLA
-
     e->setCombate(false);
 
     /* Calculamos el camino mas corto entre el nodo Inicial y el nodo Final */
     //cout<<pos[0]->getPosition()->getPosX()<<endl;
     //cout<<pos[1]->getPosition()->getPosX()<<endl;
-    if(caminoCortoIda.size()==0)           // Para calcular el camino solo 1 vez y no siempre
-    {   
-        g = new Grafo();
-        caminoCortoIda = g->pathfindDijkstra(pos[0], pos[1]);
-    }
 
     /* Realizamos el recorrido a lo largo del camino corto calculado */
-    if(ida == true)
+    if(ida==true)
     {
-        if(contador<caminoCortoIda.size())
-        {
-            fin = caminoCortoIda[contador]->getNodoFin();
+        if(caminoCortoIda.size()==0)           // Para calcular el camino solo 1 vez y no siempre
+        {   
+            caminoCortoIda = g->pathfindDijkstra(pos[0], pos[1]);
 
-            if(caminoCortoIda[contador]->getComportamiento()==NORMAL)         // Movimiento normal del enemigo
-            {   
-                posNodoI = fin->getPosition();
-                float distNodoF = posNodoI->getPosX() - enemigoX;
-
-                if (distNodoF<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
-                    {
-
-                        e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
-
-                        e->setLastFacedDir(false);                                    
-                    }
-                else{
-                        if(distNodoF>1.0f) // AVANZAMOS HACIA LA DERECHA
-                        {
-
-                            e->getBody()->SetLinearVelocity(e->getVelocidad2d());
-
-                            e->setLastFacedDir(true);                                    
-                        }
-                        else // Si hemos llegado al nodo Fin
-                        {
-                            contador++;
-                        }
-                    }
-
-            }
-            else
-            {
-                if(caminoCortoIda[contador]->getComportamiento()==SALTO)         // SALTO
-                {   
-                    posNodoI = fin->getPosition();
-                    float distNodoF = posNodoI->getPosX() - enemigoX;
-                    float distNodoFY = posNodoI->getPosY() - enemigoY;
-        
-                    if(distNodoFY>1.0f)
-                    {
-                        e->setSaltando(true);
-                        e->getBody()->ApplyForceToCenter(b2Vec2(0.f,3000.f),true);
-                    }
-                    else
-                    {
-                        e->setSaltando(false);
-                    }
-
-                    if(e->getSaltando()!=true)
-                    {
-                        if (distNodoF<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
-                            {
-
-                                e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
-                                e->setLastFacedDir(false);                                    
-                            }
-                        else{
-                                if(distNodoF>1.0f) // AVANZAMOS HACIA LA DERECHA
-                                {
-
-                                    e->getBody()->SetLinearVelocity(e->getVelocidad2d());
-
-                                    e->setLastFacedDir(true);                                    
-                                }
-                                else // Si hemos llegado al nodo Fin
-                                {
-                                    contador++;
-                                }
-                            }
-                    }
-
-                }
-            }
+            //cout<<"CaminoIda:"<<caminoCortoIda.size()<<endl;
         }
-
-        if(contador==caminoCortoIda.size())
-        {
-            ida = false;
-            contador = caminoCortoIda.size()-1;
-        }
-        
+        movimiento(caminoCortoIda,enemigoX, enemigoY, e);
     }
     else
-    {
-        if(contador>=0)
+    {  
+      if(caminoCortoVuelta.size()==0)
         {
-            if(caminoCortoVuelta.size()==0)        // Calculamos el camino mas corto para volver
-            {
-                g = new Grafo();
-                caminoCortoVuelta = g->pathfindDijkstra(pos[1], pos[0]);
-            }
-    
-            fin = caminoCortoVuelta[contador]->getNodoFin();
+            caminoCortoVuelta = g->pathfindDijkstra(pos[1], pos[0]);
+        }
         
-            if(caminoCortoVuelta[contador]->getComportamiento()==NORMAL)         // Movimiento normal del enemigo
-            {   
-                posNodoI = fin->getPosition();
-                float distNodoF = posNodoI->getPosX() - enemigoX;
-
-                if (distNodoF<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
-                    {
-
-                        e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
-
-                        e->setLastFacedDir(false);                                    
-                    }
-                else{
-                        if(distNodoF>1.0f) // AVANZAMOS HACIA LA DERECHA
-                        {
-
-                            e->getBody()->SetLinearVelocity(e->getVelocidad2d());
-
-                            e->setLastFacedDir(true);                                    
-                        }
-                        else // Si hemos llegado al nodo Fin
-                        {
-                            contador--;
-                        }
-                    }
-
-            }
-        }
-
-        if(contador==0)
-        {
-            ida = true;
-            contador = 0;
-        }
+        movimiento(caminoCortoVuelta, enemigoX, enemigoY, e);
     }
 
    return BH_SUCCESS;
+
+}
+
+void AvanzarPatrulla::movimiento(vector <Arista*> camino, float enemigoX, float enemigoY, Enemigo* e)
+{
+    if(contador<camino.size())
+    {
+        fin = camino[contador]->getNodoFin();
+
+        if(camino[contador]->getComportamiento()==NORMAL)         // Movimiento normal del enemigo
+        {   
+            posNodoI = fin->getPosition();
+            distNodoF = posNodoI->getPosX() - enemigoX;
+
+            if (distNodoF<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
+            {
+
+                e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
+
+                e->setLastFacedDir(false);                                    
+            }
+            else{
+                    if(distNodoF>1.0f) // AVANZAMOS HACIA LA DERECHA
+                    {
+
+                        e->getBody()->SetLinearVelocity(e->getVelocidad2d());
+
+                        e->setLastFacedDir(true);                                    
+                    }
+                    else // Si hemos llegado al nodo Fin
+                    {
+                            contador++;
+                    }
+                }
+
+        }
+        else
+        {
+            if(camino[contador]->getComportamiento()==SALTO)         // SALTO
+            {   
+                posNodoI = fin->getPosition();
+                distNodoF = posNodoI->getPosX() - enemigoX;
+                distNodoFY = posNodoI->getPosY() - enemigoY;
+        
+                if(distNodoFY>1.0f)
+                {
+                    e->setSaltando(true);
+                    e->getBody()->ApplyForceToCenter(b2Vec2(0.f,3000.f),true);
+                }
+                else
+                {
+                    e->setSaltando(false);
+                }
+
+                if(e->getSaltando()!=true)
+                {
+                    if(distNodoF<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
+                        {
+
+                            e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
+                            e->setLastFacedDir(false);                                    
+                        }
+                    else{
+                            if(distNodoF>1.0f) // AVANZAMOS HACIA LA DERECHA
+                            {
+
+                                e->getBody()->SetLinearVelocity(e->getVelocidad2d());
+
+                                e->setLastFacedDir(true);                                    
+                            }
+                            else // Si hemos llegado al nodo Fin
+                            {
+                                contador++;
+                            }
+                        }
+                }
+
+            }
+        }
+
+    }
+
+    if(contador==caminoCortoIda.size())
+    {
+       if(ida==false)
+       {
+            ida = true;
+       } 
+       else
+       {
+            ida = false;
+       }
+        //contador = caminoCortoIda.size()-1;
+        contador = 0;
+        //cout<<caminoCortoIda.size()<<endl;
+    }
+
 
 }
 

@@ -5,7 +5,7 @@ Status DetectarProta::run(Enemigo *e)
 {
     if(e->getVisto())   // SI PROTA AVISTADO
      {
-        return BH_FAILURE;
+        return BH_SUCCESS;
      }
      else              // PROTA NO AVISTADO
      { 

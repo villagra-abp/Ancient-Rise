@@ -95,7 +95,7 @@ class Mundo : public Entorno
     	scene::ISceneNode* 	Terrain;
 
     	//POSICIONES ENEMIGOS
-    	patrulla pos, pos2, pos3, pos4;	//Vector de posiciones para los enemigos
+    	patrulla pos, pos2, pos3, pos4, pos5;	//Vector de posiciones para los enemigos
 
     	//OBJETOS
     	Comida *c, *c2;
