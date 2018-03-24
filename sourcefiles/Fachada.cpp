@@ -194,6 +194,7 @@ bool Fachada::setPosicion(void * nodo,Posicion* pos){
 
     scene::ISceneNode * node=(scene::ISceneNode*)nodo;
     core::vector3df position=core::vector3df(pos->getPosX(),pos->getPosY(),pos->getPosZ());
+    cout<<position.X<<" "<<position.Y<<" "<<position.Z<<endl;
     node->setPosition(position);
     return true;
 }

@@ -29,7 +29,7 @@ class BuscarAgua : public Task
 		
 	    //DATOS DE LA FUENTE
 	    Posicion* fuentePosition;
-	    float fuenteX, fuenteY;;
+	    float fuenteX, fuenteY;
 	    int distanciaFuente, distanciaFaux, pos;
 	    Objeto* fuenteCercana;
 
@@ -46,6 +46,7 @@ class BuscarAgua : public Task
 	    bool llegadoInicio=false; 				// Para saber si hemos llegado al nodo inicio
 	    bool llegadoFin=false;
 	    int iC;
+	    float distNodoF, distNodoFY;
 
 
 };

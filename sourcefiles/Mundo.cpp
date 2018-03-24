@@ -295,17 +295,18 @@ Fachada* fachada=fachada->getInstance();
 	enemB.push_back(enem1);
 	addGameObject(enem1);
 	
-	enem2 = new EnemigoBasico(device, smgr, pos2, 140.0, 0.8, 1, this, b, world);
+    cout<<"Pos: "<<enem1->getPosition()->getPosZ()<<endl;
+	/*enem2 = new EnemigoBasico(device, smgr, pos2, 140.0, 0.8, 1, this, b, world);
 	enemB.push_back(enem2);
-	addGameObject(enem2); 
-
+	addGameObject(enem2); */
+    /*
     enem3 = new EnemigoBasico(device, smgr, pos4, 140.0, 0.8, 1, this, b, world);
     enemB.push_back(enem3);
     addGameObject(enem3); 
-
-    enem4 = new EnemigoBasico(device, smgr, pos3, 140.0, 0.8, 1, this, b, world);
+                            */
+   /* enem4 = new EnemigoBasico(device, smgr, pos3, 140.0, 0.8, 1, this, b, world);
     enemB.push_back(enem4);
-    addGameObject(enem4); 
+    addGameObject(enem4); */
 	
 	for(int i=0;i<enemB.size();i++)   // Añadimos todos los enemigos basicos que existen a la blackboard
 	{

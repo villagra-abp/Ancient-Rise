@@ -8,7 +8,8 @@ Status BuscarAgua::run(Enemigo *e)
 
     // DATOS DEL ENEMIGO
     Posicion* EnemigoPosition = e->getPosition(); 
-    float enemigoX=EnemigoPosition->getPosX();
+    float enemigoX =EnemigoPosition->getPosX();
+    float enemigoY =EnemigoPosition->getPosY(); 
 
     nodos = board->getNodosGrafo();
 
@@ -117,7 +118,7 @@ Status BuscarAgua::run(Enemigo *e)
             if(caminoCorto[iC]->getComportamiento()==NORMAL)         // Movimiento normal del enemigo
             {   
                 posNodoI = fin->getPosition();
-                float distNodoF = posNodoI->getPosX() - enemigoX;
+                distNodoF = posNodoI->getPosX() - enemigoX;
 
                 if (distNodoF<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
                  {
@@ -142,6 +143,49 @@ Status BuscarAgua::run(Enemigo *e)
                         }
                     }
 
+            }
+            else
+            {
+                if(caminoCorto[iC]->getComportamiento()==SALTO)         // SALTO
+                {   
+                    posNodoI = fin->getPosition();
+                    distNodoF = posNodoI->getPosX() - enemigoX;
+                    distNodoFY = posNodoI->getPosY() - enemigoY;
+            
+                    if(distNodoFY>1.0f)
+                    {
+                        e->setSaltando(true);
+                        e->getBody()->ApplyForceToCenter(b2Vec2(0.f,3000.f),true);
+                    }
+                    else
+                    {
+                        e->setSaltando(false);
+                    }
+
+                    if(e->getSaltando()!=true)
+                    {
+                        if(distNodoF<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
+                            {
+
+                                e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
+                                e->setLastFacedDir(false);                                    
+                            }
+                        else{
+                                if(distNodoF>1.0f) // AVANZAMOS HACIA LA DERECHA
+                                {
+
+                                    e->getBody()->SetLinearVelocity(e->getVelocidad2d());
+
+                                    e->setLastFacedDir(true);                                    
+                                }
+                                else // Si hemos llegado al nodo Fin
+                                {
+                                    iC++;
+                                }
+                            }
+                    }
+
+                }
             }
         }
 
@@ -194,7 +238,6 @@ Status BuscarAgua::run(Enemigo *e)
                          fin = nullptr;
                          caminoCorto.clear();
                          inicioBueno = nullptr;
-                         //cout<<"TERMINADO BEBER"<<endl;
                      }
                 }
             }
