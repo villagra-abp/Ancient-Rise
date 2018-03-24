@@ -35,7 +35,7 @@ Fachada* fachada=fachada->getInstance();
     prota->CreateGround(world, 6600.f, 900.f,3200);
     prota->CreateGround(world, 9600.f, 1800.f,3200);
     prota->CreateGround(world, 12600.f, 2700.f,3200);
-    prota->CreateBox(world, -1000.f, 0.f);
+    prota->CreateBox(world, -5000.f, 0.f);
 
 
 /* CREAMOS VECTOR DE POSICIONES PARA EL ENEMIGO */
@@ -94,7 +94,7 @@ Fachada* fachada=fachada->getInstance();
 	 
 
 /* CREAMOS PLATAFORMAS */
-    Posicion* escala = new Posicion(10.f,1.f,5.f);
+    //Posicion* escala = new Posicion(10.f,1.f,5.f);
 /*
 	Plataforma = fachada->addCube(220,25,30,false);
 
@@ -279,7 +279,7 @@ void Mundo::update(){
 
 	/* CAM UPDATE*/
 
-    //camUpdate(frameDeltaTime);
+    camUpdate(frameDeltaTime);
 
     b->setTime(frameDeltaTime);
     b->setProta(protaPosition->getPosX());
@@ -290,16 +290,16 @@ void Mundo::update(){
 
 
     /* UPDATE DE LOS ENEMIGOS */
-/*
+
     for(int i=0; i<enemB.size();i++)   		// Enemigos Basicos
     {
     	if(enemB[i]->getNode()!=nullptr) 	// Solo si existen hacemos su update
     	{
-	       	enemB[i]->updateTiempo(frameDeltaTime);
-	     	enemB[i]->Update(prota->getPosition());
+	       	//enemB[i]->updateTiempo(frameDeltaTime);
+	     	//enemB[i]->Update(prota->getPosition());
 	    }
     }
-*/
+
     for(int i2=0; i2<enemE.size();i2++) 	// Enemigos Elites
     {
     	if(enemE[i2]->getNode()!=nullptr)
@@ -334,9 +334,9 @@ void Mundo::protaUpdate(const u32 now, const f32 frameDeltaTime, f32 tiempo){
     
     //prota->pintarInterfaz();
     
-	//prota->comprobarColision(c);
-    //prota->comprobarColision(bebida);
-    //prota->comprobarColision(t);
+	prota->comprobarColision(c);
+    prota->comprobarColision(bebida);
+    prota->comprobarColision(t);
 
     prota->updateBody(world);
     
@@ -478,7 +478,7 @@ void Mundo::camUpdate(const f32 frameDeltaTime){
 	Posicion* protaPosition = prota->getPosition();
 	//vec3 camPosition = cam->getPosicion();
 
-    cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-20,-140)); // cambio 5O A ProtaPosition.Y
+    cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-20,-120)); // cambio 5O A ProtaPosition.Y
     //camPosition=vec3(protaPosition->getPosX(),protaPosition->getPosY()+30,protaPosition->getPosZ());
     //camPosition.y=protaPosition->getPosY()+30;
     //Falta funcion para enfocar la camara

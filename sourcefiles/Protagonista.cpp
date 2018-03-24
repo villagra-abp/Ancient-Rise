@@ -15,7 +15,7 @@ Protagonista::Protagonista():energy(nullptr), life(nullptr), Body(nullptr), rec(
     en (0,0,30) y le asignamos una texura. Como no tenemos luces dinamicas en esta escena
     desabilitamos la luz en cada modelo (sino los modelos serian negros )
     **/ 
-    rec=fachada->addSphere(0,0,30,false);
+    rec=fachada->addMalla(0,0,30,"resources/esfera.obj");
  /*
     energy=fachada->addCube(0,0,30,true);
     life=fachada->addCube(0,0,30,false);

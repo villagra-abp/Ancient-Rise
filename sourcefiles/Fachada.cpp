@@ -19,7 +19,11 @@ IrrlichtDevice* Fachada::getDevice(){
 }
 
 u32 Fachada::getTime(){
-	return 32;
+    sf::Clock clock; 
+	sf::Time elapsed1 = clock.getElapsedTime();
+    //std::cout << elapsed1.asSeconds() << std::endl;
+    clock.restart();
+    return elapsed1.asSeconds() ;
 }
 
 //Destructor
@@ -108,9 +112,9 @@ void Fachada::cerrar(){
 
 void Fachada::destruirObjeto(void* nodo)
 {
-    scene::ISceneNode * node=(scene::ISceneNode*)nodo;
+    FObjeto* node=(FObjeto*)nodo;
 
-    node->remove();
+    node->isActive(false);
 }
 
 /*void Motorgrafico::drawGUI(){
@@ -176,7 +180,7 @@ FObjeto* Fachada::addCube(int x,int y,int z,bool flag){
     enem->Escalar(vec3(2,2,2));
 	
 
-	enem->Mover(vec3(x,y,z));
+	enem->setPosicion(vec3(x,y,z));
 	enem->Rotar(vec3(0,1,0), -4.5f);
     
     return enem;
@@ -192,14 +196,27 @@ FObjeto* Fachada::addSphere(int x,int y,int z,bool flag){
     }
     */
     
-FObjeto* prota = new FObjeto();
+    FObjeto* prota = new FObjeto();
 	
-    prota->setMalla("resources/pared.obj");
+    prota->setMalla("resources/esfera.obj");
     prota->Escalar(vec3(2,2,2));
 	
 
-	prota->Mover(vec3(x,y,z));
+	prota->setPosicion(vec3(x,y,z));
 	prota->Rotar(vec3(0,1,0), -4.5f);
+    
+    return prota;
+}
+FObjeto* Fachada::addMalla(int x,int y,int z,string ruta){
+    
+    FObjeto* prota = new FObjeto();
+	
+    prota->setMalla(ruta);
+    prota->Escalar(vec3(2,2,2));
+	
+
+	prota->setPosicion(vec3(x,y,z));
+	//prota->Rotar(vec3(0,1,0), -4.5f);
     
     return prota;
 }
@@ -358,7 +375,7 @@ void Fachada::drawTerreno(){
     suelo->Escalar(vec3(700,700,700));
 	
 
-	suelo->Mover(vec3(0,48,30));
+	suelo->Mover(vec3(-220,48,30));
 	//prota->Rotar(vec3(0,1,0), -3.f);
 	
     
@@ -371,7 +388,7 @@ FCamara* Fachada::addCamara(Posicion* p){
     
     FCamara* camara = new FCamara();
 	camara->Activar();
-	vec3 camaraOrigin = vec3(0,-10,-110);
+	vec3 camaraOrigin = vec3(-160,-20,-130);
 	//cajita->Unir(cajita2);
 	//cajita->Mover(vec3(0,0,4));
 	camara->Mover(camaraOrigin);
@@ -386,7 +403,7 @@ FLuz* Fachada::addLuz(Posicion* p){
 	glm::vec4 vColor;
 
 	FLuz* luz = new FLuz(1.0f,color);
-	vec3 luzOrigin = vec3(0,0,-10);
+	vec3 luzOrigin = vec3(-160,0,-10);
 	luz->Mover(luzOrigin);
     
     return luz;
