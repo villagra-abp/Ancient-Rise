@@ -6,7 +6,7 @@ Comida::Comida(IrrlichtDevice *dev, ISceneManager* smgr, Posicion* pos):Objeto(p
 {
 	GameObject::setTipo(COMIDA);
 	Fachada* fachada=fachada->getInstance();
-	objeto = fachada->addSphere(pos->getPosX(),pos->getPosY(),pos->getPosZ(), "resources/manzana.obj");
+	objeto = fachada->addMalla(pos->getPosX(),pos->getPosY(),pos->getPosZ(), "resources/manzana.obj");
     //posicion = &pos;
     //std::cout<<pos.getPosX()<<endl;
 	if (objeto)
