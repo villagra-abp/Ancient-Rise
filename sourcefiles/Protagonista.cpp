@@ -501,7 +501,7 @@ void Protagonista::setSalto(bool s)
         }
         //cont_salto=1;
         //saltando=s;
-        setEnergia(1.f,-15);
+        setEnergia(0.1f,-15);
     }
     saltando=s;
 }

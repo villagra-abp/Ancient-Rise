@@ -118,9 +118,9 @@ class Mundo : public Entorno
         EnemigoElite *enemE1;
 
     	//PLATAFORMAS
-    	scene::ISceneNode* Plataforma;
-	    scene::ISceneNode* Plataforma2;
-	    scene::ISceneNode* Plataforma3;
+    	FObjeto* Plataforma;
+	    FObjeto* Plataforma2;
+	    FObjeto* Plataforma3;
 
         //GRAFO PATHFINDING
         vector<NodoGrafo*> nodos;            // Contiene todos los nodos del grafo

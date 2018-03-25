@@ -94,14 +94,15 @@ Fachada* fachada=fachada->getInstance();
 	 
 
 /* CREAMOS PLATAFORMAS */
-    //Posicion* escala = new Posicion(10.f,1.f,5.f);
-/*
+    Posicion* escala = new Posicion(55.f,9.f,20.f);
+
 	Plataforma = fachada->addCube(220,25,30,false);
 
 	if (Plataforma)
 	{
 		fachada->setScala(Plataforma,escala);
-        fachada->setMaterial(Plataforma,"resources/plataf.bmp");
+        //fachada->setMaterial(Plataforma,"resources/plataf.bmp");
+        Plataforma->Rotar(vec3(0,1,0), 1.5f);
 		
 	}
 
@@ -110,7 +111,8 @@ Fachada* fachada=fachada->getInstance();
 	if (Plataforma2)
 	{
 		fachada->setScala(Plataforma2,escala);
-		fachada->setMaterial(Plataforma2,"resources/plataf.bmp");
+		//fachada->setMaterial(Plataforma2,"resources/plataf.bmp");
+        Plataforma2->Rotar(vec3(0,1,0), 1.5f);
 	}
 
 	Plataforma3= fachada->addCube(420,85,30,false);
@@ -118,9 +120,10 @@ Fachada* fachada=fachada->getInstance();
 	if (Plataforma3)
 	{
 		fachada->setScala(Plataforma3,escala);
-		fachada->setMaterial(Plataforma3,"resources/plataf.bmp");
+		//fachada->setMaterial(Plataforma3,"resources/plataf.bmp");
+        Plataforma3->Rotar(vec3(0,1,0), 1.5f);
 	}
-*/
+
 
 /** ESTABLECEMOS LA CAMARA
  Aqui indicamos la posicion de la camara en el espacio 3d. En este caso,
@@ -295,8 +298,8 @@ void Mundo::update(){
     {
     	if(enemB[i]->getNode()!=nullptr) 	// Solo si existen hacemos su update
     	{
-	       	enemB[i]->updateTiempo(frameDeltaTime);
-	     	enemB[i]->Update(prota->getPosition());
+	       	//enemB[i]->updateTiempo(frameDeltaTime);
+	     	//enemB[i]->Update(prota->getPosition());
 	    }
     }
 

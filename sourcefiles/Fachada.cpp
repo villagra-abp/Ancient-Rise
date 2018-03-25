@@ -181,7 +181,7 @@ FObjeto* Fachada::addCube(int x,int y,int z,bool flag){
 	
 
 	enem->setPosicion(vec3(x,y,z));
-	enem->Rotar(vec3(0,1,0), -4.5f);
+	enem->Rotar(vec3(0,1,1), 5.f);
     
     return enem;
 }
@@ -203,7 +203,7 @@ FObjeto* Fachada::addSphere(int x,int y,int z,bool flag){
 	
 
 	prota->setPosicion(vec3(x,y,z));
-	prota->Rotar(vec3(0,1,0), -4.5f);
+	//prota->Rotar(vec3(0,1,0), -4.5f);
     
     return prota;
 }
@@ -372,11 +372,11 @@ void Fachada::drawTerreno(){
     
 	FObjeto* suelo = new FObjeto();
 	
-    suelo->setMalla("resources/escenario.obj");
-    suelo->Escalar(vec3(700,700,700));
+    suelo->setMalla("resources/escenario.3DS");
+    suelo->Escalar(vec3(7000,700,700));
 	
 
-	suelo->Mover(vec3(-220,48,30));
+	suelo->Mover(vec3(-220,-9,30));
 	//prota->Rotar(vec3(0,1,0), -3.f);
 	
     
