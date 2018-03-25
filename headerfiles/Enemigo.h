@@ -48,7 +48,7 @@ class Enemigo : public GameObject
 
         void* getNode();
         bool getAvistadoProta();
-        vector <NodoGrafo*> getPosicion();
+        vector <Posicion*> getPosicion();
         float getXRange();
         float getYPend();
         bool getVisto();
@@ -134,7 +134,7 @@ class Enemigo : public GameObject
 
         /* PATHFINDING */
         vector<NodoGrafo*> nodos;                    // CONTIENE TODOS LOS NODOS DEL GRAFO
-        vector<NodoGrafo*> patrulla;                 // CONTIENE TODAS LAS POS DE LA PATRULLA DEL ENEMIGO
+        vector<Posicion*> patrulla;                 // CONTIENE TODAS LAS POS DE LA PATRULLA DEL ENEMIGO
         Posicion* nodoPosition;
 
         /* MEMORIA */ 

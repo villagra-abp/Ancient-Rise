@@ -20,7 +20,7 @@ Status AlarmaSonando::run(Enemigo *e)
       alarmaX=alarmaPosition->getPosX();
       distanciaAlarma = alarmaX - enemigoX;
 
-      if( abs(distanciaAlarma)<100  && a[i]->getActivado() ) {  // Alarma cerca (RANGO DE ESCUCHA) y activada
+      if( abs(distanciaAlarma)<200  && a[i]->getActivado() ) {  // Alarma cerca (RANGO DE ESCUCHA) y activada
         return BH_SUCCESS;
       }
    }

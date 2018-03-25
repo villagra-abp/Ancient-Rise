@@ -36,9 +36,11 @@ Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos
     visto = false;
     direccVistoUlt = false;
 
+    patrulla = pos;
+    /*
     nodos = board->getNodosGrafo();              // Obtenemos todos los nodos del grafo
     /* COMPROBAMOS QUE LAS POSICIONES DE PATRULLA COINCIDEN CON LOS NODOS DEL GRAFO */
-    for(int i=0; i<pos.size();i++)
+ /*   for(int i=0; i<pos.size();i++)
     {
         for(int i2=0;i2<nodos.size();i2++)
         {
@@ -350,7 +352,7 @@ f32 Enemigo::getHambre()
     return hambre;
 }
 
-vector<NodoGrafo*> Enemigo::getPosicion()
+vector<Posicion*> Enemigo::getPosicion()
 {
     return patrulla;
 }

@@ -16,6 +16,7 @@ class BuscarComida : public Task
 		void recorrerNodos(Enemigo *e, uint8_t v, float posX);
 		void buscarComidaCercana(float posEnemX);
 		NodoGrafo* calcularNodoMasCercano(NodoGrafo* i, NodoGrafo* i2, float posX);
+		void movimientoDireccion(Enemigo *e, bool d);
 		virtual ~BuscarComida();
 
 
@@ -23,8 +24,6 @@ class BuscarComida : public Task
 
 		vector<Objeto*> c;
 		Blackboard *board;
-		f32 frameDeltaTime;		  // Tiempo
-		scene::ISceneNode* comidaNode;
 		sf::Clock reloj; 		  			// Reloj para controlar el tiempo que tarda en comer
 	    int contador; 			  			// Para reiniciar el reloj cuando toca
 	    uint8_t pos;
@@ -32,8 +31,7 @@ class BuscarComida : public Task
 	    //DATOS DE LA COMIDA
 	    Posicion* comidaPosition;
 	    float comidaX, comidaY;
-	    int distanciaComida;
-	    int distanciaCaux;
+	    int distanciaComida, distanciaCaux;
 
 	    /* PATHFINDING */
 	    vector<NodoGrafo*> nodos;
@@ -43,8 +41,8 @@ class BuscarComida : public Task
 	    bool llegadoInicio = false;
 	    bool llegadoFin = false;
 	    Grafo *g; 							// Para poder calcular el camino mas corto
-	    //int i;
-
+	    int iC;
+	    float distNodoF, distNodoFY, distNodoI;
 };
 
 #endif // BUSCARCOMIDA_H

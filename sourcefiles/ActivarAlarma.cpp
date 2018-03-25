@@ -9,15 +9,14 @@ Status ActivarAlarma::run(Enemigo *e)
    // DATOS DEL ENEMIGO
    Posicion* EnemigoPosition = e->getPosition(); 
    float enemigoX=EnemigoPosition->getPosX();
+   float enemigoY =EnemigoPosition->getPosY(); 
 
-   //checkAlarmDes(e);
-   Objeto* al = e->getAlarmaActivar();
+   Objeto* al = e->getAlarmaActivar();        // Obtenemos la alarma que tiene que activar el enemigo
 
-   alarmaPosition = al->getVector3df();
-   alarmaX=alarmaPosition->getPosX();
-   alarmaY = alarmaPosition->getPosY();
+   alarmaX = al->getVector3df()->getPosX();
+   alarmaY = al->getVector3df()->getPosY();
 
-   //cout<<"AlarmaX: "<<alarmaX<<endl;
+  
     /* Buscamos el nodo Inicial mas cercano al enemigo */
     if(inicio1==nullptr && inicio2==nullptr)  // Solo buscaremos el nodo inicio si no lo habiamos encontrado ya
     {
@@ -47,6 +46,7 @@ Status ActivarAlarma::run(Enemigo *e)
      /* Calculamos el camino mas corto entre el nodo Inicial (inicioBueno) y el nodo Final (fin) */
     if(caminoCorto.size()==0)           // Para calcular el camino solo 1 vez y no siempre
     {
+        g = new Grafo();
         caminoCorto = g->pathfindDijkstra(inicioBueno, fin);
         al->setActivando(true);     // Activando alarma
     }
@@ -54,26 +54,18 @@ Status ActivarAlarma::run(Enemigo *e)
 
     /* Nos acercamos al nodo Inicio del camino */
     posNodoI = inicioBueno->getPosition();
-    float distNodoI = posNodoI->getPosX() - enemigoX;
+    distNodoI = posNodoI->getPosX() - enemigoX;
 
     if(llegadoInicio==false)        // Solo lo haremos si no habiamos llegado ya al nodo Inicio del camino
     {
         if (distNodoI<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
          {
-
-                e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
-                e->getBody()->ApplyForceToCenter(b2Vec2(-300.f,0.f),true);             // Fuerza para correr
-
-                e->setLastFacedDir(false);                                    
+            movimientoDireccion(e,false);                                
          }
          else{
                 if(distNodoI>1.0f) // AVANZAMOS HACIA LA DERECHA
                 {
-
-                    e->getBody()->SetLinearVelocity(e->getVelocidad2d());
-                    e->getBody()->ApplyForceToCenter(b2Vec2(300.f,0.f),true);             // Fuerza para correr
-
-                    e->setLastFacedDir(true);                                    
+                   movimientoDireccion(e,true);                                
                 }
                 else // Si hemos llegado al nodo Inicio
                 {
@@ -86,39 +78,79 @@ Status ActivarAlarma::run(Enemigo *e)
     /* Realizamos el recorrido a lo largo del camino corto calculado */
     if(llegadoFin==false && llegadoInicio==true && caminoCorto.size()!=0)
     {
-        for(int i=0; i<caminoCorto.size();i++)
+        if(iC<caminoCorto.size())
         {
-            fin = caminoCorto[i]->getNodoFin();
+            fin = caminoCorto[iC]->getNodoFin();
 
-            if(caminoCorto[i]->getComportamiento()==NORMAL)         // Movimiento normal del enemigo
+            if(caminoCorto[iC]->getComportamiento()==NORMAL)         // Movimiento normal del enemigo
             {   
                 posNodoI = fin->getPosition();
-                float distNodoF = posNodoI->getPosX() - enemigoX;
+                distNodoF = posNodoI->getPosX() - enemigoX;
 
-                if (distNodoF<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
+                //cout<<"DIstNodoF "<<distNodoF<<endl;
+                if (distNodoF<-1.0f) 
                  {
-
-                        e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
-                        e->getBody()->ApplyForceToCenter(b2Vec2(-300.f,0.f),true);             // Fuerza para correr
-
-                        e->setLastFacedDir(false);                                    
+                      movimientoDireccion(e,false);                                   
                  }
                  else{
-                        if(distNodoF>1.0f) // AVANZAMOS HACIA LA DERECHA
+                        if(distNodoF>1.0f) 
                         {
-
-                            e->getBody()->SetLinearVelocity(e->getVelocidad2d());
-                            e->getBody()->ApplyForceToCenter(b2Vec2(300.f,0.f),true);             // Fuerza para correr
-
-                            e->setLastFacedDir(true);                                    
+                            movimientoDireccion(e,true);                                    
                         }
-                        else // Si hemos llegado al nodo Inicio
+                        else
                         {
-                            llegadoFin = true;
+                          iC++;
                         }
                     }
-
             }
+            else
+            {
+                if(caminoCorto[iC]->getComportamiento()==SALTO)         // SALTO
+                {   
+                    posNodoI = fin->getPosition();
+                    distNodoF = posNodoI->getPosX() - enemigoX;
+                    distNodoFY = posNodoI->getPosY() - enemigoY;
+            
+                    if(distNodoFY>1.0f)
+                    {
+                        e->setSaltando(true);
+                        e->getBody()->ApplyForceToCenter(b2Vec2(0.f,3000.f),true);
+                    }
+                    else
+                    {
+                        e->setSaltando(false);
+                    }
+
+                    if(e->getSaltando()!=true)
+                    {
+                        if(distNodoF<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
+                            {
+
+                                e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
+                                e->setLastFacedDir(false);                                    
+                            }
+                        else{
+                                if(distNodoF>1.0f) // AVANZAMOS HACIA LA DERECHA
+                                {
+
+                                    e->getBody()->SetLinearVelocity(e->getVelocidad2d());
+                                    e->setLastFacedDir(true);                                    
+                                }
+                                else // Si hemos llegado al nodo Fin
+                                {
+                                    iC++;
+                                }
+                            }
+                    }
+
+                }
+            }
+        }
+
+        if(iC==caminoCorto.size())
+        {
+           llegadoFin = true;
+           iC = 0;
         }
     }
     
@@ -128,84 +160,56 @@ Status ActivarAlarma::run(Enemigo *e)
         
         distanciaAlarma = alarmaX - enemigoX;  
 
-        if (distanciaAlarma<0) // AVANZAMOS HACIA LA IZQUIERDA
+        if (distanciaAlarma<-1.0) // AVANZAMOS HACIA LA IZQUIERDA
         {
 
           e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
-          e->getBody()->ApplyForceToCenter(b2Vec2(-300.f,0.f),true);             // Fuerza para correr
+          e->getBody()->ApplyForceToCenter(b2Vec2(-100.f,0.f),true);             // Fuerza para correr
 
           e->setLastFacedDir(false);                        // MIRANDO HACIA LA IZQUIERDA
   
         }
         else{
-              if(distanciaAlarma>0) // AVANZAMOS HACIA LA DERECHA
+              if(distanciaAlarma>1.0) // AVANZAMOS HACIA LA DERECHA
               {
 
                  e->getBody()->SetLinearVelocity(e->getVelocidad2d());
-                 e->getBody()->ApplyForceToCenter(b2Vec2(300.f,0.f),true);             // Fuerza para correr
+                 e->getBody()->ApplyForceToCenter(b2Vec2(100.f,0.f),true);             // Fuerza para correr
 
                  e->setLastFacedDir(true);                // // MIRANDO HACIA LA DERECHA
               }
+              else
+              {
+                  /* RELOJ ACTIVACION ALARMA */
+                  startClock();                                 // INICIAMOS EL RELOJ (O RESEATEAMOS)
+
+                  int duration = reloj.getElapsedTime().asSeconds();  // OBTENEMOS SU DURACION EN SEGUNDOS
+
+                  if(duration > 2)        // TIEMPO QUE TARDA EN ACTIVARLA
+                  {
+                      al->setActivado(true);     
+                      al->setActivando(false);
+                      contador = 0; // Para resetear el reloj
+
+                      /* Inicializamos todo otra vez para que la proxima vez que ocurra funcione todo bien */
+                     llegadoFin = false;
+                     llegadoInicio = true;
+                     inicio1 = nullptr;
+                     inicio2 = nullptr;
+                     fin = nullptr;
+                     caminoCorto.clear();
+
+                      return BH_SUCCESS;
+                  }
+              }
 
             }
-
-        if(distanciaAlarma==0)
-        {
-           /* RELOJ ACTIVACION ALARMA */
-            startClock();                                 // INICIAMOS EL RELOJ (O RESEATEAMOS)
-
-            int duration = reloj.getElapsedTime().asSeconds();  // OBTENEMOS SU DURACION EN SEGUNDOS
-
-            if(duration > 2)        // TIEMPO QUE TARDA EN ACTIVARLA
-            {
-                al->setActivado(true);     
-                al->setActivando(false);
-                contador = 0; // Para resetear el reloj
-
-                /* Inicializamos todo otra vez para que la proxima vez que ocurra funcione todo bien */
-               llegadoFin = false;
-               llegadoInicio = true;
-               inicio1 = nullptr;
-               inicio2 = nullptr;
-               fin = nullptr;
-               caminoCorto.clear();
-
-                return BH_SUCCESS;
-            }
-        }
     }
 
 
   return BH_RUNNING;        // Hasta que no active la alarma no habra terminado
 }
 
-
-/* Para comprobar si hay una alarma cerca, desactivada y no hay nadie que vaya a activarla ya */
-void ActivarAlarma::checkAlarmDes(Enemigo* e)
-{
-/*
-  for (int i = 0; i < a.size(); i++){
-    if(a[i]->getActivando()==true)
-    {
-      cout<<"Activando"<<endl;
-    }
-    else
-    {
-      cout<<"NO ACtivando"<<endl;
-    }
-    
-      if( e->see(a[i]) && a[i]->getActivado()!=true && a[i]->getActivando()!=true ) 
-      {  
-        alarmaPosition = a[i]->getVector3df();
-        alarmaX=alarmaPosition->getPosX();
-        alarmaY = alarmaPosition->getPosY();
-
-        pos = i;
-        i = a.size();
-      }
-   }
-*/
-}
 
 /* Metodo para buscar el nodo inicial visible del grafo mas cercano desde la pos del enemigo, siempre y cuando no lo hayamos encontrado ya antes */
 void ActivarAlarma::buscarNodoInicial(Enemigo *e, float posX)
@@ -317,20 +321,43 @@ void ActivarAlarma::startClock()
     }
 }
 
+/* FUncion para especificar la velocidad y direccion de movimiento del enemigo */
+void ActivarAlarma::movimientoDireccion(Enemigo *e, bool d)
+{
+    if(d==false)   // Izquierda
+    {
+      e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
+      e->getBody()->ApplyForceToCenter(b2Vec2(-300.f,0.f),true);             // Fuerza para correr
+
+      e->setLastFacedDir(d); 
+    }
+    else  // Derecha
+    {
+        e->getBody()->SetLinearVelocity(e->getVelocidad2d());
+        e->getBody()->ApplyForceToCenter(b2Vec2(300.f,0.f),true);          
+
+        e->setLastFacedDir(d);   
+    }
+}
+
 void ActivarAlarma::onInitialize(Blackboard *b)
 {
     board = b;
     a = board->getAlarma();
-    
+    /* Info Alarma */
     contador = 0;
     alarmaX = 0.0;
     distanciaAlarma = 0;
     pos = 0;
 
+    /* Pathfinding */
     inicio1 = nullptr;
     inicio2 = nullptr;
     inicioBueno = nullptr;
     fin = nullptr;
+    posNodoI = nullptr;
+    posNodo = nullptr;
+    iC = 0;
 
     g = new Grafo();
 }
@@ -341,7 +368,6 @@ ActivarAlarma::~ActivarAlarma()
 
     for(int i = 0 ; i < a.size(); i++){
       a[i] = nullptr;
-      delete a[i];  //No se si es necesario
     }
 
     a.clear();

@@ -58,20 +58,20 @@ Fachada* fachada=fachada->getInstance();
 	fuentes.push_back(f);
 	addGameObject(f);
 
-	Posicion* pF2= new Posicion(320.f,0.34f,40.f);
+	Posicion* pF2= new Posicion(330.f,65.34f,40.f);
 	f2 = new Fuente(device, smgr, pF2);
 	fuentes.push_back(f2);
 	addGameObject(f2);
-
-	Posicion* pA= new Posicion(330.f,65.34f,40.f);
+    
+	Posicion* pA= new Posicion(210.2f, 35.34f,40.f);
 	a = new Alarma(device, smgr, pA);
 	alarmas.push_back(a);
 	addGameObject(a);
 
-	Posicion* pA2= new Posicion(-160.f,0.34f,40.f);
+	/*Posicion* pA2= new Posicion(-10.f,0.34f,40.f);
 	a2 = new Alarma(device, smgr, pA2);
 	alarmas.push_back(a2);
-	addGameObject(a2);
+	addGameObject(a2);*/
 
 	Posicion* posbebida= new Posicion(-300,0.34f,30.f);
  	bebida = new Bebida(device, smgr, posbebida);
@@ -295,16 +295,15 @@ Fachada* fachada=fachada->getInstance();
 	enemB.push_back(enem1);
 	addGameObject(enem1);
 	
-    cout<<"Pos: "<<enem1->getPosition()->getPosZ()<<endl;
-	/*enem2 = new EnemigoBasico(device, smgr, pos2, 140.0, 0.8, 1, this, b, world);
+	enem2 = new EnemigoBasico(device, smgr, pos2, 140.0, 0.8, 1, this, b, world);
 	enemB.push_back(enem2);
-	addGameObject(enem2); */
+	addGameObject(enem2); 
     /*
     enem3 = new EnemigoBasico(device, smgr, pos4, 140.0, 0.8, 1, this, b, world);
     enemB.push_back(enem3);
     addGameObject(enem3); 
-                            */
-   /* enem4 = new EnemigoBasico(device, smgr, pos3, 140.0, 0.8, 1, this, b, world);
+    */
+    /*enem4 = new EnemigoBasico(device, smgr, pos3, 140.0, 0.8, 1, this, b, world);
     enemB.push_back(enem4);
     addGameObject(enem4); */
 	
@@ -314,7 +313,7 @@ Fachada* fachada=fachada->getInstance();
 	}	
 
 	/* CREAMOS ENEMIGOS ELITES */
-	/*enemE1 = new EnemigoElite(device, smgr, pos5, 120.0, 0.8, 2, this, b, world);
+	/*enemE1 = new EnemigoElite(device, smgr, pos3, 120.0, 0.8, 2, this, b, world);
 	enemE.push_back(enemE1);
 	addGameObject(enemE1);*/
     
@@ -324,7 +323,7 @@ Fachada* fachada=fachada->getInstance();
 void Mundo::posBuilder(){	//CONSTRUCTOR DE POSICIONES DE ENEMIGOS
 
 	/* SE LEE DE FICHERO LAS POSICIONES DE LA PATRULLA DE CADA ENEMIGO Y SE ALMACENAN EN LOS VECTORES */
-  
+  /*
     Posicion *p0 = new Posicion(41.9f, 0.34f,30.f);
     pos.push_back(p0);
     Posicion *p1 = new Posicion(277.5f, 65.34f,30.f);
@@ -340,15 +339,45 @@ void Mundo::posBuilder(){	//CONSTRUCTOR DE POSICIONES DE ENEMIGOS
     Posicion *p6 = new Posicion(-334.259f,0.34f,30.f);
     pos3.push_back(p6);
 
-    Posicion *p7 = new Posicion(-334.259f,0.34f,30.f);
+    Posicion *p7 = new Posicion(-157.4f,0.34f,30.f);
     pos4.push_back(p7);
-    Posicion *p8 = new Posicion(-76.5f,0.34f,30.f);
+    Posicion *p8 = new Posicion(155.3f,0.34f,30.f);
     pos4.push_back(p8);
 
     Posicion *p9 = new Posicion(498.9f,0.34f,30.f);
     pos5.push_back(p9);
     Posicion *p10 = new Posicion(249.2f,0.34f,30.f);
     pos5.push_back(p10);
+    */
+
+    Posicion *p0 = new Posicion(40.f,0.f,30.f);
+    pos.push_back(p0);
+    Posicion *p1 = new Posicion(0.f,0.f,30.f);
+    pos.push_back(p1);
+    Posicion *p2 = new Posicion(-40.f,0.f,30.f);
+    pos.push_back(p2);
+    Posicion *p3 = new Posicion(-60.f,0.f,30.f);
+    pos.push_back(p3);
+    Posicion *p4 = new Posicion(-80.f,0.f,30.f);
+    pos.push_back(p4);
+
+
+    Posicion *p5 = new Posicion(100.f,0.f,30.f);
+    pos2.push_back(p5);
+    Posicion *p6 = new Posicion(150.f,0.f,30.f);
+    pos2.push_back(p6);
+    Posicion *p7 = new Posicion(200.f,0.f,30.f);
+    pos2.push_back(p7);
+
+
+    Posicion *p8 = new Posicion(200.f,0.f,30.f);
+    pos3.push_back(p8);
+    Posicion *p9 = new Posicion(150.f,0.f,30.f);
+    pos3.push_back(p9);
+    Posicion *p10 = new Posicion(60.f,0.f,30.f);
+    pos3.push_back(p10);
+    Posicion *p11 = new Posicion(0.f,0.f,30.f);
+    pos3.push_back(p11);
 
 }
 
@@ -389,7 +418,7 @@ void Mundo::update(){
 
     /* ALARMA UPDATE*/
     a->update();
-    a2->update();
+    //a2->update();
 
 
     /* UPDATE DE LOS ENEMIGOS */
@@ -454,12 +483,6 @@ void Mundo::protaUpdate(const u32 now, const f32 frameDeltaTime, f32 tiempo){
         checkCombate(); 							// Comprobamos si hemos pulsado la tecla de combate (K)
 
         prota->update(b);
-        /*
-        for(int i2=0; i2<enemB.size();i2++)
-        {
-           	prota->comprobarColision(enemB[i2]);
-        }
-        */
             
     }
 
@@ -490,43 +513,6 @@ void Mundo::checkInput(){
 		JoyX=sf::Joystick::getAxisPosition(0, sf::Joystick::X);
 		//std::cout<<JoyX<<"\n";
 	}
-	/*
-	if (sf::Joystick::isButtonPressed(0, 2))
-	{
-	    std::cout<<"x=2"<<"\n";
-	}
-	if (sf::Joystick::isButtonPressed(0, 4))
-	{
-	    std::cout<<"l=4"<<"\n";
-	}
-	if (sf::Joystick::isButtonPressed(0, 0))
-	{
-	    std::cout<<"a=0"<<"\n";
-	}
-	if (sf::Joystick::isButtonPressed(0, 5))
-	{
-	    std::cout<<"r=5"<<"\n";
-	}
-	*/
-
-/* hacemos un set de ataque a 2 que es arriba 
-        if(inputkey==22)//w
-        {
-           pos_pelea(prota,2);
-           pos_defensa(prota,2);
-        }
-        else if(inputkey==18)//s
-        {
-            pos_pelea(prota,0);
-            pos_defensa(prota,0);
-        }
-        else
-        {
-            pos_pelea(prota,1);
-            pos_defensa(prota,1);
-        }
-*/
-
         /* movimiento hacia los lados y control de la velocidad en funcion de
         las variables de correr, sigilo y vitalidad */
 

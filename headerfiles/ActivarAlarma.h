@@ -11,9 +11,9 @@ class ActivarAlarma : public Task
 		virtual Status run(Enemigo *e) override;   
 		virtual void onInitialize(Blackboard *b) override;
 		void startClock();
-		void checkAlarmDes(Enemigo* e);
 		void buscarNodoInicial(Enemigo *e, float posX);
 		void recorrerNodos(Enemigo *e, uint8_t v, float posX);
+		void movimientoDireccion(Enemigo *e, bool d);
 		NodoGrafo* calcularNodoMasCercano(NodoGrafo* i, NodoGrafo* i2, float posX);
 		virtual ~ActivarAlarma();
 
@@ -21,13 +21,11 @@ class ActivarAlarma : public Task
 	private:
 		
 		Blackboard *board;
-	    f32 frameDeltaTime;		  // Tiempo
 	    vector<Objeto*> a;
 	    sf::Clock reloj; 		  			// Reloj para controlar el tiempo que se tarda en activar la alarma
 	    int contador;
 
 	    //Datos de alarma
-	    Posicion* alarmaPosition;
 		float alarmaX, alarmaY;
 		int distanciaAlarma;
 		uint8_t pos;
@@ -40,6 +38,8 @@ class ActivarAlarma : public Task
 	    bool llegadoInicio = false;
 	    bool llegadoFin = false;
 	    Grafo *g; 							// Para poder calcular el camino mas corto
+	    int iC;
+	    float distNodoF, distNodoFY, distNodoI;
 		
 };
 

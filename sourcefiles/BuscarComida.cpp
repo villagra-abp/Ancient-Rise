@@ -9,6 +9,7 @@ Status BuscarComida::run(Enemigo *e)
     // DATOS DEL ENEMIGO
     Posicion* EnemigoPosition = e->getPosition(); 
     float enemigoX=EnemigoPosition->getPosX();
+    float enemigoY = EnemigoPosition->getPosY();
 
     nodos = board->getNodosGrafo();
 
@@ -21,10 +22,11 @@ Status BuscarComida::run(Enemigo *e)
     /* BUSCAR COMIDA MAS CERCANA */
     buscarComidaCercana(enemigoX);
 
-
     /* Buscamos el nodo mas cercano a la comida elegida para ir */
     if(fin==nullptr)        // Solo si no lo habiamos encontrado ya
     {
+       comidaX = c[pos]->getVector3df()->getPosX();
+       comidaY = c[pos]->getVector3df()->getPosY();
        for(int i=0; i<nodos.size();i++)
        {    
            posNodo = nodos[i]->getPosition();
@@ -36,9 +38,6 @@ Status BuscarComida::run(Enemigo *e)
                 }
                 else        // Comprobamos si no hay un nodo mas cercano a la fuente
                 {
-                    comidaPosition = c[pos]->getVector3df();
-                    comidaX = comidaPosition->getPosX();
-                    comidaY = comidaPosition->getPosX();
                     fin = calcularNodoMasCercano(fin, nodos[i], comidaX);
                 }
            }
@@ -47,32 +46,26 @@ Status BuscarComida::run(Enemigo *e)
 
     /* Calculamos el camino mas corto entre el nodo Inicial (inicioBueno) y el nodo Final (fin) */
     if(caminoCorto.size()==0)           // Para calcular el camino solo 1 vez y no siempre
-    {
+    { 
+        g = new Grafo();
         caminoCorto = g->pathfindDijkstra(inicioBueno, fin);
+       
     }
 
     /* Nos acercamos al nodo Inicio del camino */
     posNodoI = inicioBueno->getPosition();
-    float distNodoI = posNodoI->getPosX() - enemigoX;
+    distNodoI = posNodoI->getPosX() - enemigoX;
     
     if(llegadoInicio==false)        // Solo lo haremos si no habiamos llegado ya al nodo Inicio del camino
     {
         if (distNodoI<-5.0f) // AVANZAMOS HACIA LA IZQUIERDA
          {
-
-                e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
-                e->getBody()->ApplyForceToCenter(b2Vec2(-300.f,0.f),true);             // Fuerza para correr
-
-                e->setLastFacedDir(false);                                    
+            movimientoDireccion(e,false);                                      
          }
          else{
                 if(distNodoI>5.0f) // AVANZAMOS HACIA LA DERECHA
                 {
-
-                    e->getBody()->SetLinearVelocity(e->getVelocidad2d());
-                    e->getBody()->ApplyForceToCenter(b2Vec2(300.f,0.f),true);             // Fuerza para correr
-
-                    e->setLastFacedDir(true);                                    
+                    movimientoDireccion(e,true);                                     
                 }
                 else // Si hemos llegado al nodo Inicio
                 {
@@ -85,62 +78,95 @@ Status BuscarComida::run(Enemigo *e)
     /* Realizamos el recorrido a lo largo del camino corto calculado */
     if(llegadoFin==false && llegadoInicio==true && caminoCorto.size()!=0)
     {
-      int i;
-        for(i=0; i<caminoCorto.size();i++)
+      if(iC<caminoCorto.size())
         {
-            fin = caminoCorto[i]->getNodoFin();
+            fin = caminoCorto[iC]->getNodoFin();
 
-            if(caminoCorto[i]->getComportamiento()==NORMAL)         // Movimiento normal del enemigo
+            if(caminoCorto[iC]->getComportamiento()==NORMAL)         // Movimiento normal del enemigo
             {   
                 posNodoI = fin->getPosition();
-                float distNodoF = posNodoI->getPosX() - enemigoX;
-
-                if (distNodoF<-5.0f) // AVANZAMOS HACIA LA IZQUIERDA
+                distNodoF = posNodoI->getPosX() - enemigoX;
+              
+                if (distNodoF<-5.0f) 
                  {
-
-                        e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
-                        e->getBody()->ApplyForceToCenter(b2Vec2(-300.f,0.f),true);             // Fuerza para correr
-
-                        e->setLastFacedDir(false);                                    
+                     movimientoDireccion(e,false);                             
                  }
                  else{
-                        if(distNodoF>5.0f) // AVANZAMOS HACIA LA DERECHA
+                        if(distNodoF>5.0f) 
                         {
-
-                            e->getBody()->SetLinearVelocity(e->getVelocidad2d());
-                            e->getBody()->ApplyForceToCenter(b2Vec2(300.f,0.f),true);             // Fuerza para correr
-
-                            e->setLastFacedDir(true);                                    
+                            movimientoDireccion(e,true);                                   
+                        }
+                        else
+                        {
+                          iC++;
                         }
                     }
+            }
+            else
+            {
+                if(caminoCorto[iC]->getComportamiento()==SALTO)         // SALTO
+                {   
+                    posNodoI = fin->getPosition();
+                    distNodoF = posNodoI->getPosX() - enemigoX;
+                    distNodoFY = posNodoI->getPosY() - enemigoY;
+            
+                    if(distNodoFY>1.0f)
+                    {
+                        e->setSaltando(true);
+                        e->getBody()->ApplyForceToCenter(b2Vec2(0.f,3000.f),true);
+                    }
+                    else
+                    {
+                        e->setSaltando(false);
+                    }
 
+                    if(e->getSaltando()!=true)
+                    {
+                        if(distNodoF<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
+                            {
+
+                                e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
+                                e->setLastFacedDir(false);                                    
+                            }
+                        else{
+                                if(distNodoF>1.0f) // AVANZAMOS HACIA LA DERECHA
+                                {
+
+                                    e->getBody()->SetLinearVelocity(e->getVelocidad2d());
+                                    e->setLastFacedDir(true);                                    
+                                }
+                                else // Si hemos llegado al nodo Fin
+                                {
+                                    iC++;
+                                }
+                            }
+                    }
+
+                }
             }
         }
 
-        if(i==caminoCorto.size())
+        if(iC==caminoCorto.size())
         {
-            llegadoFin = true;
+           llegadoFin = true;
+           iC = 0;
         }
     }
 
     // Hemos llegado al ultimo nodo del camino calculado o hemos llegado al inicio y ademas no hay camino corto, puesto que ya estamos en el nodo mas cercano al objetivo
     if((llegadoFin==true) || (llegadoInicio==true && caminoCorto.size()==0))
     {
-
-        if (distanciaComida<5.0f) // AVANZAMOS HACIA LA IZQUIERDA
+      
+        if (distanciaComida<4.0f) // AVANZAMOS HACIA LA IZQUIERDA
          {
              e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
-            e->getBody()->ApplyForceToCenter(b2Vec2(-300.f,0.f),true);             // Fuerza para correr
-
-            e->setLastFacedDir(false); 
+             e->setLastFacedDir(false);                
          }
          else{
-                if(distanciaComida>5.0f) // AVANZAMOS HACIA LA DERECHA
+                if(distanciaComida>4.0f) // AVANZAMOS HACIA LA DERECHA
                 {
-                    e->getBody()->SetLinearVelocity(e->getVelocidad2d());
-                    e->getBody()->ApplyForceToCenter(b2Vec2(300.f,0.f),true);             // Fuerza para correr
-
-                    e->setLastFacedDir(true);   
+                   e->getBody()->SetLinearVelocity(e->getVelocidad2d());
+                   e->setLastFacedDir(true); 
                 }
                 else // Si hemos llegado
                 {
@@ -165,6 +191,8 @@ Status BuscarComida::run(Enemigo *e)
                          fin = nullptr;
                          caminoCorto.clear();
                          inicioBueno = nullptr;
+
+                         //cout<<"COMIENDO LOCO"<<endl;
                      }
                 }
             }
@@ -181,11 +209,10 @@ void BuscarComida::buscarNodoInicial(Enemigo *e, float posX)
 
     if(e->getLastFaceDir()==true)                      // Comprobamos a donde esta mirando el enemigo y hacemos que mire al lado contrario
     {   
-        //cout<<"izquierda"<<endl;
         e->setLastFacedDir(false);
     } 
     else
-    {   //cout<<"derecha"<<endl;
+    {   
         e->setLastFacedDir(true);
     }
 
@@ -222,12 +249,8 @@ void BuscarComida::recorrerNodos(Enemigo* e, uint8_t v, float posX)
     {
         if(e->see(nodos[i]))            // Comprobamos si el enemigo ve al nodo
         {   
-            //posNodoI = nodos[i]->getPosition();
-           // cout<<"visto nodo:"<<posNodoI.X<<endl;
-
             if(v==1)
             {
-                //cout<<"primera"<<endl;
                 if(inicio1==nullptr)         
                 {    
                     inicio1 = nodos[i];
@@ -239,7 +262,6 @@ void BuscarComida::recorrerNodos(Enemigo* e, uint8_t v, float posX)
             }
             else
             {
-                //cout<<"segunda"<<endl;
                 if(inicio2==nullptr)
                 {   
                     inicio2= nodos[i];
@@ -284,7 +306,7 @@ void BuscarComida::buscarComidaCercana(float posEnemX)
        for (int i = 1; i < c.size(); i++){
           
           comidaPosition = c[i]->getVector3df();
-          comidaX=comidaPosition->getPosX();
+          comidaX= comidaPosition->getPosX();
           comidaY = comidaPosition->getPosY();
 
           distanciaCaux = comidaX - posEnemX;
@@ -306,6 +328,25 @@ void BuscarComida::startClock()
     }
 }
 
+/* FUncion para especificar la velocidad y direccion de movimiento del enemigo */
+void BuscarComida::movimientoDireccion(Enemigo *e, bool d)
+{
+    if(d==false)   // Izquierda
+    {
+      e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
+      e->getBody()->ApplyForceToCenter(b2Vec2(-300.f,0.f),true);             // Fuerza para correr
+
+      e->setLastFacedDir(d); 
+    }
+    else  // Derecha
+    {
+        e->getBody()->SetLinearVelocity(e->getVelocidad2d());
+        e->getBody()->ApplyForceToCenter(b2Vec2(300.f,0.f),true);          
+
+        e->setLastFacedDir(d);   
+    }
+}
+
 void BuscarComida::onInitialize(Blackboard *b)
 {
    c = b->getComida();
@@ -315,6 +356,9 @@ void BuscarComida::onInitialize(Blackboard *b)
    inicio2 = nullptr;
    inicioBueno = nullptr;
    fin = nullptr;
+   posNodo = nullptr;
+   posNodoI = nullptr;
+   iC = 0;
 
    g = new Grafo();
 }
@@ -323,7 +367,6 @@ void BuscarComida::onInitialize(Blackboard *b)
 BuscarComida::~BuscarComida()
 {
     board = nullptr;
-    comidaNode = nullptr;
 
     for(int i = 0 ; i < c.size(); i++){
       c[i] = nullptr;
@@ -337,6 +380,4 @@ BuscarComida::~BuscarComida()
     caminoCorto.clear();
 
     delete g;
-    //delete board;
-    //delete c;
 }

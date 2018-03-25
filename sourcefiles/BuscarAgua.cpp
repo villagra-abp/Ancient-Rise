@@ -17,34 +17,39 @@ Status BuscarAgua::run(Enemigo *e)
     if(inicio1==nullptr && inicio2==nullptr)  // Solo buscaremos el nodo inicio si no lo habiamos encontrado ya
     {
         buscarNodoInicial(e, enemigoX);
+    /*    
+      if(inicio1!=nullptr)
+      {
+      posNodo = inicio1->getPosition();
+      cout<<"Inicio1: "<<posNodo->getPosX()<<endl;
+      }
+      if(inicio2!=nullptr)
+      {
+      posNodoI = inicio2->getPosition();
+      cout<<"Inicio2: "<<posNodoI->getPosX()<<endl;
+      }
+      
+      cout<<"InicioBueno :"<<inicioBueno->getPosition()->getPosX()<<endl;
+      */
     }
-    /*
-    if(inicio1!=nullptr)
-    {
-    posNodo = inicio1->getPosition();
-    cout<<"Inicio1: "<<posNodo->getPosX()<<endl;
-    }
-    if(inicio2!=nullptr)
-    {
-    posNodoI = inicio2->getPosition();
-    cout<<"Inicio2: "<<posNodoI->getPosX()<<endl;
-    }
-
-    prueba = inicioBueno->getPosition();
     
-    cout<<"InicioBueno :"<<prueba->getPosX()<<endl;
-    */
+    
     /* BUSCAR FUENTE MAS CERCANA */
-    buscarFuenteCercana(enemigoX);
-    //posNodo = f[pos]->getVector3df();
+      buscarFuenteCercana(enemigoX);
+      
+    
+   // posNodo = f[pos]->getVector3df();
      //cout<<"FUente cercana :"<<posNodo->getPosX()<<endl;
 
      /* Buscamos el nodo mas cercano a la fuente elegida para ir */
     if(fin==nullptr)        // Solo si no lo habiamos encontrado ya
     {
+       fuenteX = f[pos]->getVector3df()->getPosX();
+       fuenteY = f[pos]->getVector3df()->getPosY();
        for(int i=0; i<nodos.size();i++)
        {    
            posNodo = nodos[i]->getPosition();
+           //cout<<"Y fuente "<<fuenteY<<endl;
            if(fuenteY==posNodo->getPosY())        // Solo si el nodo esta a la misma altura que la pos de la fuente
            {
                 if(fin==nullptr)
@@ -53,26 +58,26 @@ Status BuscarAgua::run(Enemigo *e)
                 }
                 else        // Comprobamos si no hay un nodo mas cercano a la fuente
                 {
-                    fuentePosition = f[pos]->getVector3df();
-                    fuenteX = fuentePosition->getPosX();
-                    fuenteY = fuentePosition->getPosY();
                     fin = calcularNodoMasCercano(fin, nodos[i], fuenteX);
                 }
+
+                //cout<<"Posible fin "<<fin->getPosition()->getPosX()<<endl;
            }
        }
+
+      //posNodo = fin->getPosition();
+     //cout<<"Fin: "<<posNodo->getPosX()<<endl;
     }
-   /* 
-    posNodo = fin->getPosition();
-    cout<<"Fin: "<<posNodo->getPosX()<<endl;
-*/
+
 
      /* Calculamos el camino mas corto entre el nodo Inicial (inicioBueno) y el nodo Final (fin) */
-    //cout<<"Tam camino antes:"<<caminoCorto.size()<<endl;
     if(caminoCorto.size()==0)           // Para calcular el camino solo 1 vez y no siempre
     {
+        //cout<<"Tam camino antes:"<<caminoCorto.size()<<endl;
+        g = new Grafo();
         caminoCorto = g->pathfindDijkstra(inicioBueno, fin);
+        //cout<<"Tam camino despues:"<<caminoCorto.size()<<endl;
     }
-    //cout<<"Tam camino despues:"<<caminoCorto.size()<<endl;
 
     /* Nos acercamos al nodo Inicio del camino */
     posNodoI = inicioBueno->getPosition();
@@ -81,27 +86,18 @@ Status BuscarAgua::run(Enemigo *e)
     //cout<<enemigoX<<endl;
     if(llegadoInicio==false)        // Solo lo haremos si no habiamos llegado ya al nodo Inicio del camino
     {
-        if (distNodoI<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
+        if(distNodoI<-1.0f)
          {
-
-                e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
-                e->getBody()->ApplyForceToCenter(b2Vec2(-300.f,0.f),true);             // Fuerza para correr
-
-                e->setLastFacedDir(false);                                    
+                movimientoDireccion(e,false);                             
          }
          else{
-                if(distNodoI>1.0f) // AVANZAMOS HACIA LA DERECHA
+                if(distNodoI>1.0f) 
                 {
-
-                    e->getBody()->SetLinearVelocity(e->getVelocidad2d());
-                    e->getBody()->ApplyForceToCenter(b2Vec2(300.f,0.f),true);             // Fuerza para correr
-
-                    e->setLastFacedDir(true);                                    
+                    movimientoDireccion(e,true);                                  
                 }
                 else // Si hemos llegado al nodo Inicio
                 {
                     llegadoInicio = true;
-                    
                 }
             }
     }
@@ -109,8 +105,6 @@ Status BuscarAgua::run(Enemigo *e)
     /* Realizamos el recorrido a lo largo del camino corto calculado */
     if(llegadoFin==false && llegadoInicio==true && caminoCorto.size()!=0)
     {
-      
-        //for(i=0; i<caminoCorto.size();i++)
         if(iC<caminoCorto.size())
         {
             fin = caminoCorto[iC]->getNodoFin();
@@ -120,29 +114,21 @@ Status BuscarAgua::run(Enemigo *e)
                 posNodoI = fin->getPosition();
                 distNodoF = posNodoI->getPosX() - enemigoX;
 
-                if (distNodoF<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
+                //cout<<"DIstNodoF "<<distNodoF<<endl;
+                if (distNodoF<-1.0f) 
                  {
-
-                        e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
-                        e->getBody()->ApplyForceToCenter(b2Vec2(-300.f,0.f),true);             // Fuerza para correr
-
-                        e->setLastFacedDir(false);                                    
+                      movimientoDireccion(e,false);                                   
                  }
                  else{
-                        if(distNodoF>1.0f) // AVANZAMOS HACIA LA DERECHA
+                        if(distNodoF>1.0f) 
                         {
-
-                            e->getBody()->SetLinearVelocity(e->getVelocidad2d());
-                            e->getBody()->ApplyForceToCenter(b2Vec2(300.f,0.f),true);             // Fuerza para correr
-
-                            e->setLastFacedDir(true);                                    
+                            movimientoDireccion(e,true);                                    
                         }
                         else
                         {
                           iC++;
                         }
                     }
-
             }
             else
             {
@@ -175,7 +161,6 @@ Status BuscarAgua::run(Enemigo *e)
                                 {
 
                                     e->getBody()->SetLinearVelocity(e->getVelocidad2d());
-
                                     e->setLastFacedDir(true);                                    
                                 }
                                 else // Si hemos llegado al nodo Fin
@@ -199,22 +184,17 @@ Status BuscarAgua::run(Enemigo *e)
     // Hemos llegado al ultimo nodo del camino calculado o hemos llegado al inicio y ademas no hay camino corto, puesto que ya estamos en el nodo mas cercano al objetivo
     if((llegadoFin==true) || (llegadoInicio==true && caminoCorto.size()==0))
     {
+      //cout<<"DistanFuente "<<distanciaFuente<<endl;
         if (distanciaFuente<-3.0f) // AVANZAMOS HACIA LA IZQUIERDA
          {
-
-                e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
-                e->getBody()->ApplyForceToCenter(b2Vec2(-300.f,0.f),true);             // Fuerza para correr
-
-                e->setLastFacedDir(false);                                    
+              e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
+              e->setLastFacedDir(false);                                             
          }
          else{
                 if(distanciaFuente>3.0f) // AVANZAMOS HACIA LA DERECHA
                 {
-
-                    e->getBody()->SetLinearVelocity(e->getVelocidad2d());
-                    e->getBody()->ApplyForceToCenter(b2Vec2(300.f,0.f),true);             // Fuerza para correr
-
-                    e->setLastFacedDir(true);                                    
+                  e->getBody()->SetLinearVelocity(e->getVelocidad2d());
+                  e->setLastFacedDir(true);                                    
                 }
                 else // Si hemos llegado
                 {
@@ -238,6 +218,8 @@ Status BuscarAgua::run(Enemigo *e)
                          fin = nullptr;
                          caminoCorto.clear();
                          inicioBueno = nullptr;
+
+                         //cout<<"BEBIENDO LOCO"<<endl;
                      }
                 }
             }
@@ -378,23 +360,44 @@ void BuscarAgua::buscarFuenteCercana(float posEnemX)
             pos = i;
           }
        }
+
+}
+/* FUncion para especificar la velocidad y direccion de movimiento del enemigo */
+void BuscarAgua::movimientoDireccion(Enemigo *e, bool d)
+{
+    if(d==false)   // Izquierda
+    {
+      e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
+      e->getBody()->ApplyForceToCenter(b2Vec2(-300.f,0.f),true);             // Fuerza para correr
+
+      e->setLastFacedDir(d); 
+    }
+    else  // Derecha
+    {
+        e->getBody()->SetLinearVelocity(e->getVelocidad2d());
+        e->getBody()->ApplyForceToCenter(b2Vec2(300.f,0.f),true);          
+
+        e->setLastFacedDir(d);   
+    }
 }
 
 void BuscarAgua::onInitialize(Blackboard *b)
 {
-  f = b->getFuente();
+   /* INfo fuente */
+   f = b->getFuente();
+   fuentePosition = nullptr;
+
    board = b;
    contador = 0;
-   
+
+   /* Pathfinding */
    inicio1 = nullptr;
    inicio2 = nullptr;
    inicioBueno = nullptr;
    fin = nullptr;
-   
-   fuenteCercana = nullptr;
-   
+   posNodo = nullptr;
+   posNodoI = nullptr;
    g = new Grafo();
-
    iC = 0;
 }
 
@@ -402,14 +405,15 @@ void BuscarAgua::onInitialize(Blackboard *b)
 BuscarAgua::~BuscarAgua()
 {
    board = nullptr;
-    fuenteNode = nullptr;
-    inicio2 = nullptr;
-    inicio1 = nullptr;
-    inicioBueno = nullptr;
+   inicio2 = nullptr;
+   inicio1 = nullptr;
+   inicioBueno = nullptr;
+   fin = nullptr;
+   posNodo = nullptr;
+   posNodoI = nullptr;
 
     for(int i = 0 ; i < f.size(); i++){
       f[i] = nullptr;
-      delete f[i];  //No se si es necesario
     }
 
     f.clear();
@@ -420,8 +424,11 @@ BuscarAgua::~BuscarAgua()
     }
     caminoCorto.clear();
 
-    delete g;
+    for(int i=0; i<nodos.size();i++)
+    {
+        nodos[i] = nullptr;
+    }
+    nodos.clear();
 
-    //delete board;
-    //delete f;
+    delete g;
 }
