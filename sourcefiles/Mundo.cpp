@@ -450,7 +450,7 @@ void Mundo::checkInput(){
     		if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)||sf::Joystick::isButtonPressed(0, 5))
     		{
 		  prota->setCorrer(true);
-      		  prota->setEnergia(-5.0f,0.2f);
+      		  prota->setEnergia(-1.0f,0.2f);
     		}else
 		  prota->setCorrer(false);
         }
