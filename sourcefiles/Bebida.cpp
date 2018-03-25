@@ -4,7 +4,8 @@ Bebida::Bebida(IrrlichtDevice *dev, ISceneManager* smgr, Posicion* pos):Objeto(p
 {
 	GameObject::setTipo(BEBIDA);
 	Fachada* fachada=fachada->getInstance();
-	objeto = fachada->addCube(pos->getPosX(),pos->getPosY(),pos->getPosZ(),false);
+	//objeto = fachada->addCube(pos->getPosX(),pos->getPosY(),pos->getPosZ(),false);
+    enemigo = fachada->addMalla(pos->getPosX(),pos->getPosY(),pos->getPosZ(), "resources/Pocion.obj");
     //posicion = &pos;
     //std::cout<<pos.getPosX()<<endl;
 	if (objeto)

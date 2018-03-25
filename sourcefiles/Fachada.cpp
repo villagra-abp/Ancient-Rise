@@ -404,7 +404,7 @@ FLuz* Fachada::addLuz(Posicion* p){
 	glm::vec4 vColor;
 
 	FLuz* luz = new FLuz(1.0f,color);
-	vec3 luzOrigin = vec3(-160,0,-10);
+	vec3 luzOrigin = vec3(-160,0,80);
 	luz->Mover(luzOrigin);
     
     return luz;
