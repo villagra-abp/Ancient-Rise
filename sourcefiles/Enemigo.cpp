@@ -14,7 +14,8 @@ Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos
     GameObject::setTipo(ENEMY);
     Fachada* fachada=fachada->getInstance();
 	//enemigo = fachada->addCube(pos[0]->getPosX(),pos[0]->getPosY(),pos[0]->getPosZ(),false);
-    enemigo = fachada->addMalla(pos[0]->getPosX(),pos[0]->getPosY(),pos[0]->getPosZ(), "resources/enemCara.obj");
+    FObjeto* enemigoObjeto = fachada->addMalla(pos[0]->getPosX(),pos[0]->getPosY(),pos[0]->getPosZ(), "resources/personaje.obj");
+    enemigo = enemigoObjeto;
     cout<<pos[0]->getPosX()<<" "<<pos[0]->getPosY()<<" "<<pos[0]->getPosZ()<<endl;
     if (enemigo) /** SI HEMOS CREADO EL CUBO **/
 	{  

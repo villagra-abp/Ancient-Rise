@@ -220,6 +220,17 @@ FObjeto* Fachada::addMalla(int x,int y,int z,string ruta){
     
     return prota;
 }
+
+void Fachada::rotObj(FObjeto* o, float x, float y, float z, float angulo){
+    
+    o->Rotar(vec3(x,y,z), angulo);
+}
+
+void Fachada::movObj(FObjeto* o, float x, float y, float z){
+    
+    o->Mover(vec3(x,y,z));
+}
+
 Posicion* Fachada::getPosicion(void * nodo){
 
     FObjeto* node=(FObjeto*)nodo;

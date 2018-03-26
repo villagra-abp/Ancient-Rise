@@ -11,7 +11,7 @@ Bebida::Bebida(IrrlichtDevice *dev, ISceneManager* smgr, Posicion* pos):Objeto(p
 	if (objeto)
 	{
         
-        Posicion escala(0.5f,1.5f,0.5f);
+        Posicion escala(1.0f,1.0f,0.5f);
 		fachada->setScala(objeto,&escala);
 	
         //fachada->setMaterial(objeto,"resources/pocion.png");

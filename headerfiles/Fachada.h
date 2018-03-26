@@ -73,6 +73,9 @@ public:
     FCamara* addCamara(Posicion*);
     FLuz* addLuz(Posicion*);
 
+    void rotObj(FObjeto* o, float x, float y, float z, float angulo);
+    void movObj(FObjeto* o, float x, float y, float z);
+
 private:
 	Fachada(int h, int w, bool fullscreen);
 	

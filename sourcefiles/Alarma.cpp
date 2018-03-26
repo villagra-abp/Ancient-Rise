@@ -5,12 +5,12 @@ Alarma::Alarma(IrrlichtDevice *dev, ISceneManager* smgr, Posicion* pos):Objeto(p
 {
 	GameObject::setTipo(ALARMA);
     Fachada* fachada=fachada->getInstance();
-	objeto = fachada->addCube(pos->getPosX(),pos->getPosY(),pos->getPosZ(),false);
+	objeto = fachada->addMalla(pos->getPosX(),pos->getPosY(),pos->getPosZ(),"resources/alarma.obj");
     //std::cout<<pos.getPosX()<<endl;
 	if (objeto)
 	{
         
-        Posicion escala(1.f,6.f,1.f);
+        Posicion escala(0.3f,0.3f,0.3f);
 		fachada->setScala(objeto,&escala);
 		
         //fachada->setMaterial(objeto,"resources/desactivada.jpeg");
