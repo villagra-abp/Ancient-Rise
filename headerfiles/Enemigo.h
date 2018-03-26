@@ -79,6 +79,7 @@ class Enemigo : public GameObject
         void setDisparo(bool d);
         void setAlarmaActivar(Objeto *a);
         void setSaltando(bool s);
+        void setInvisible();
 
         /* COMBATE */   
         void setCombate(bool b);
@@ -155,6 +156,8 @@ class Enemigo : public GameObject
         
 
         Fachada* fachada=fachada->getInstance();
+
+        bool inv=false;
 };
 
 #endif // ENEMIGO_H

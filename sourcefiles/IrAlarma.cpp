@@ -11,7 +11,7 @@ Status IrAlarma::run(Enemigo *e)
   float enemigoY=e->getPosition()->getPosY();
 
   comprobarAlarmaSonando(enemigoX);
-
+/*
   if(distanciaAlarma>-20  && distanciaAlarma<20)
   {
     return BH_SUCCESS;
@@ -191,7 +191,7 @@ Status IrAlarma::run(Enemigo *e)
                 }
 
               }
-      }
+      
     }
     
 return BH_SUCCESS;

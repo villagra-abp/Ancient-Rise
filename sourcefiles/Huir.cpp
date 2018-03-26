@@ -29,13 +29,13 @@ Status Huir::run(Enemigo *e)
     if(fin==nullptr)        // Solo si no lo habiamos encontrado ya
     {
         calcularNodoFinal(inicioBueno);
-        inicioAnterior = inicioBueno;
-        cout<<"InicioAnt: "<<inicioAnterior->getPosition()->getPosX()<<endl;
+        //inicioAnterior = inicioBueno;
+        //cout<<"InicioAnt: "<<inicioAnterior->getPosition()->getPosX()<<endl;
     }
-    
+    /*
     cout<<"InicioBueno"<<inicioBueno->getPosition()->getPosX()<<endl;
     cout<<"FIn : "<<fin->getPosition()->getPosX()<<endl;
-    
+    */
      /* Calculamos el camino mas corto entre el nodo Inicial (inicioBueno) y el nodo Final (fin) */
     if(caminoCorto.size()==0)           // Para calcular el camino solo 1 vez y no siempre
     {

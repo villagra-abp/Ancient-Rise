@@ -13,7 +13,7 @@ Status Atacar::run(Enemigo *e)
     // Comprobamos el tipo de arma que utiliza
     if(e->getTipo()==1)     // Cuerpo a cuerpo, cerca
     {
-        separacionAtaque = 25;
+        separacionAtaque = 35;
     }
     else  // A distancia, ataque desde mas lejos
     {
@@ -25,157 +25,22 @@ Status Atacar::run(Enemigo *e)
     {
         e->setCombate(false);
         contRec = 0;              // Para resetear el reloj de recargar proyectil y que tarde siempre lo mismo en recargar
-        nodos = board->getNodosGrafo();
 
-        /* Buscamos el nodo Inicial mas cercano al enemigo */
-        buscarNodoInicial(e, enemigoX);
-        
-       // cout<<"InicioBueno :"<<inicioBueno->getPosition()->getPosX()<<endl;
-         /* Buscamos el nodo mas cercano al prota  */
-        for(int i=0; i<nodos.size();i++)
-        {    
-            posNodo = nodos[i]->getPosition();
-            if(board->getProtagonista()->getPosition()->getPosY()>=posNodo->getPosY()-5 && board->getProtagonista()->getPosition()->getPosY()<=posNodo->getPosY()+5)        
-            {
-                if(fin==nullptr)
+        if (distanciaProta<0) // AVANZAMOS HACIA LA IZQUIERDA
+         {
+            e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
+            e->getBody()->ApplyForceToCenter(b2Vec2(-300.f,0.f),true);             // Fuerza para correr
+            e->setLastFacedDir(false);   
+         }
+         else{
+                if(distanciaProta>0) // AVANZAMOS HACIA LA DERECHA
                 {
-                    fin = nodos[i];
-                }
-                else        // Comprobamos si no hay un nodo mas cercano a la fuente
-                {
-                    fin = calcularNodoMasCercano(fin, nodos[i], posProta);
-                }
-            }
-        }
+                    e->getBody()->SetLinearVelocity(e->getVelocidad2d());
+                    e->getBody()->ApplyForceToCenter(b2Vec2(300.f,0.f),true);             // Fuerza para correr
 
-        //cout<<"Fin :"<<fin->getPosition()->getPosX()<<endl;
-
-        if(inicioBueno!=nullptr && fin!=nullptr)
-        {
-            vector<Arista*>().swap(caminoCorto); 
-            g=new Grafo();
-            caminoCorto = g->pathfindDijkstra(inicioBueno, fin);
-           // cout<<caminoCorto.size()<<endl;
-        }
-        else
-        {
-            cout<<"No se ha podido encontrar el camino mas corto al protagonista"<<endl;
-        }
-
-        //cout<<"camino : "<<caminoCorto.size()<<endl;
-
-        /* Nos acercamos al nodo Inicio del camino */
-        posNodoI = inicioBueno->getPosition();
-        float distNodoI = posNodoI->getPosX() - enemigoX;
-
-        if(llegadoInicio==false)        // Solo lo haremos si no habiamos llegado ya al nodo Inicio del camino
-        {
-            if (distNodoI<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
-            {
-
-                    e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
-                    e->getBody()->ApplyForceToCenter(b2Vec2(-300.f,0.f),true);             // Fuerza para correr
-
-                    e->setLastFacedDir(false);                                    
-             }
-             else{
-                    if(distNodoI>1.0f) // AVANZAMOS HACIA LA DERECHA
-                    {
-
-                        e->getBody()->SetLinearVelocity(e->getVelocidad2d());
-                        e->getBody()->ApplyForceToCenter(b2Vec2(300.f,0.f),true);             // Fuerza para correr
-
-                        e->setLastFacedDir(true);                                    
-                    }
-                    else // Si hemos llegado al nodo Inicio
-                    {
-                        llegadoInicio = true;
-                        
-                    }
-                }
-        }
-
-        /* Realizamos el recorrido a lo largo del camino corto calculado */
-        if(llegadoFin==false && llegadoInicio==true && caminoCorto.size()!=0)
-        {
-            if(contador<caminoCorto.size())
-            {
-                fin = caminoCorto[contador]->getNodoFin();
-
-                if(caminoCorto[contador]->getComportamiento()==NORMAL)         // Movimiento normal del enemigo
-                {   
-                    posNodoI = fin->getPosition();
-                    float distNodoF = posNodoI->getPosX() - enemigoX;
-
-                    if (distNodoF<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
-                     {
-
-                            e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
-                            e->getBody()->ApplyForceToCenter(b2Vec2(-300.f,0.f),true);             // Fuerza para correr
-
-                            e->setLastFacedDir(false);                                    
-                     }
-                     else{
-                            if(distNodoF>1.0f) // AVANZAMOS HACIA LA DERECHA
-                            {
-
-                                e->getBody()->SetLinearVelocity(e->getVelocidad2d());
-                                e->getBody()->ApplyForceToCenter(b2Vec2(300.f,0.f),true);             // Fuerza para correr
-
-                                e->setLastFacedDir(true);                                    
-                            }
-                            else // Si hemos llegado al nodo Fin
-                            {
-                                contador++;
-                            }
-                        }
-
+                    e->setLastFacedDir(true);   
                 }
             }
-
-            if(contador==caminoCorto.size())
-            {
-                llegadoFin = true;
-                contador = 0;
-            }
-            
-        }
-
-        //cout<<"Contador : "<<contador<<endl;
-        // Hemos llegado al ultimo nodo del camino calculado o hemos llegado al inicio y ademas no hay camino corto, puesto que ya estamos en el nodo mas cercano al objetivo
-        if((llegadoFin==true) || (llegadoInicio==true && caminoCorto.size()==0))
-        {
-            if (distanciaProta<0) // AVANZAMOS HACIA LA IZQUIERDA
-             {
-
-                    e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
-                    e->getBody()->ApplyForceToCenter(b2Vec2(-300.f,0.f),true);             // Fuerza para correr
-
-                    e->setLastFacedDir(false);                                    
-             }
-             else{
-                    if(distanciaProta>0) // AVANZAMOS HACIA LA DERECHA
-                    {
-
-                        e->getBody()->SetLinearVelocity(e->getVelocidad2d());
-                        e->getBody()->ApplyForceToCenter(b2Vec2(300.f,0.f),true);             // Fuerza para correr
-
-                        e->setLastFacedDir(true);                                    
-                    }
-                    else // Si hemos llegado
-                    {
-                             /* Inicializamos todo otra vez para que la proxima vez que ocurra funcione todo bien */
-                            /* llegadoFin = false;
-                             llegadoInicio = false;
-                             inicio1 = nullptr;
-                             inicio2 = nullptr;
-                             fin = nullptr;
-                             caminoCorto.clear();
-                             */
-                    }
-                }
-        }
-
     }
     else        // ATACANDO
     {

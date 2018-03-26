@@ -30,7 +30,7 @@ Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos
     env = dev->getGUIEnvironment();
 
     /* Valores por defecto para los parametros para el rango de vision del enemigo */
-    lastFacedDir = true;
+    lastFacedDir = false;
     visionXmax = xlength;
     valorPendiente = pendValue;
     visto = false;
@@ -71,7 +71,7 @@ void Enemigo::update(Posicion* Posprota)
 
     if(salud<0)
     {
-        //enemigo->remove();
+        fachada->destruirObjeto(enemigo);
     }
 
     if(enemigo!=nullptr)  // Solo si existe el enemigo hacemos su update
@@ -90,7 +90,7 @@ void Enemigo::update(Posicion* Posprota)
         }
 
         // COMPROBAMOS SI HEMOS VISTO AL PROTAGONISTA 
-        if(checkInSight(Posprota)){              
+        if(checkInSight(Posprota) && inv==false){              
             visto = true;
              fachada->setMaterial(enemigo,"resources/activada.jpeg");  
              contador = 0;
@@ -147,7 +147,7 @@ FUNCION PARA ACTUALIZAR EL ESTADO DEL HAMBRE DEL ENEMIGO EN FUNCION DE LA CANTID
 
 void Enemigo::actualizarHambre()
 {
-    hambre+=velHambre*frameDeltaTime;
+    //hambre+=velHambre*frameDeltaTime;
 
     //cout<<round(hambre)<<endl;
 
@@ -524,6 +524,18 @@ void Enemigo::setAlarmaActivar(Objeto* a)
 void Enemigo::setSaltando(bool s)
 {
     saltando = s;
+}
+
+void Enemigo::setInvisible()
+{
+    if(inv==false)
+    {
+        inv = true;
+    }
+    else
+    {
+        inv = false;
+    }
 }
 
 

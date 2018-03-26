@@ -16,7 +16,7 @@ Status ActivarAlarma::run(Enemigo *e)
    alarmaX = al->getVector3df()->getPosX();
    alarmaY = al->getVector3df()->getPosY();
 
-  
+    
     /* Buscamos el nodo Inicial mas cercano al enemigo */
     if(inicio1==nullptr && inicio2==nullptr)  // Solo buscaremos el nodo inicio si no lo habiamos encontrado ya
     {
@@ -198,7 +198,7 @@ Status ActivarAlarma::run(Enemigo *e)
                      inicio2 = nullptr;
                      fin = nullptr;
                      caminoCorto.clear();
-
+                    
                       return BH_SUCCESS;
                   }
               }

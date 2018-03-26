@@ -11,6 +11,17 @@ Status CheckAlarmaDes::run(Enemigo *e)
         e->setAlarmaActivar(a[i]);
         return BH_SUCCESS;
       }
+      /*else    // Miramos al lado contrario para buscar una alarma
+      {
+        e->changeLastFaceDir();
+        e->actualizarVistos();
+
+        if( e->see(a[i]) && a[i]->getActivado()!=true && a[i]->getActivando()!=true ) {  
+        e->setAlarmaActivar(a[i]);
+        return BH_SUCCESS;
+        }
+      }
+      */
    }
 
    return BH_FAILURE;
