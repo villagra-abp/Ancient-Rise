@@ -42,8 +42,8 @@ class GestorSonido{
 		void setListener(float x, float y, float z);
 
 
-		const char* SOUND_BOSS3_NANI = "resources/sonido/boss3/boss3_NANI.wav";
-		const char* SOUND_BOSS3_OMAE = "resources/sonido/boss3/boss3_omaewa.wav";
+		const char* SOUND_BOSS3_NANI = "resources/sonido/pasos1.wav";
+		const char* SOUND_BOSS3_OMAE = "resources/sonido/salto1.wav";
 		const char* SOUND_BOSS3_RISA = "resources/sonido/boss3/boss3_risa.wav";
 		const char* SOUND_BOSS3_GRITO1 = "resources/sonido/boss3/boss3_grito1.wav";
 		const char* SOUND_MUSIC_BOSQUE = "resources/sonido/bs/musica_bosque.mp3";
