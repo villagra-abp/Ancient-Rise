@@ -96,33 +96,34 @@ Fachada* fachada=fachada->getInstance();
 /* CREAMOS PLATAFORMAS */
     Posicion* escala = new Posicion(55.f,9.f,20.f);
 
-	Plataforma = fachada->addCube(220,25,30,false);
+    Plataforma = fachada->addCube(220,25,30,false);
 
-	if (Plataforma)
-	{
-		fachada->setScala(Plataforma,escala);
+    if (Plataforma)
+    {
+        fachada->setScala(Plataforma,escala);
         //fachada->setMaterial(Plataforma,"resources/plataf.bmp");
         Plataforma->Rotar(vec3(0,1,0), 1.5f);
-		
-	}
+        
+    }
 
-	Plataforma2= fachada->addCube(320,55,30,false);
+    Plataforma2= fachada->addCube(320,55,30,false);
 
-	if (Plataforma2)
-	{
-		fachada->setScala(Plataforma2,escala);
-		//fachada->setMaterial(Plataforma2,"resources/plataf.bmp");
+    if (Plataforma2)
+    {
+        fachada->setScala(Plataforma2,escala);
+        //fachada->setMaterial(Plataforma2,"resources/plataf.bmp");
         Plataforma2->Rotar(vec3(0,1,0), 1.5f);
-	}
+    }
 
-	Plataforma3= fachada->addCube(420,85,30,false);
+    Plataforma3= fachada->addCube(420,85,30,false);
 
-	if (Plataforma3)
-	{
-		fachada->setScala(Plataforma3,escala);
-		//fachada->setMaterial(Plataforma3,"resources/plataf.bmp");
+    if (Plataforma3)
+    {
+        fachada->setScala(Plataforma3,escala);
+        //fachada->setMaterial(Plataforma3,"resources/plataf.bmp");
         Plataforma3->Rotar(vec3(0,1,0), 1.5f);
-	}
+    }
+
 
 
 /** ESTABLECEMOS LA CAMARA

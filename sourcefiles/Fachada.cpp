@@ -176,7 +176,7 @@ FObjeto* Fachada::addCube(int x,int y,int z,bool flag){
     */
     FObjeto* enem = new FObjeto();
 	
-    enem->setMalla("resources/cajitaobj.obj");
+    enem->setMalla("resources/pared.obj");
     enem->Escalar(vec3(2,2,2));
 	
 
@@ -385,10 +385,10 @@ void Fachada::drawTerreno(){
 	
     //suelo->setMalla("resources/escenario.obj");
     suelo->setMalla("resources/random.obj");
-    suelo->Escalar(vec3(7000,700,700));
+    //suelo = addCube(-220,-9,0, false);
+    suelo->Mover(vec3(-220,-9,0));
+    suelo->Escalar(vec3(9900,700,700));
 	
-
-	suelo->Mover(vec3(-220,-9,0));
 	//prota->Rotar(vec3(0,1,0), -3.f);
 	
     
