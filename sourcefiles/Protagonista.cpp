@@ -212,9 +212,17 @@ FUNCION PARA CONTROLAR EL MOVIMIENTO DEL PROTA
 **/
 void Protagonista::movimiento(const f32 Time)
 {
+    //bool flag;
+
     b2Vec2 velo=Body->GetLinearVelocity();
     if(direccion==0) // MOVIMIENTO HACIA LA IZQUIERDA
     {
+       /* flag = sonido->playSound(risa);
+        if(flag){
+            DSP* dsp = sonido->createDSP("echo");
+            omae->getCanal()->addDSP(dsp);
+            omae->getCanal()->setGrupoCanales(sonido->getGrupoVoces());
+        }*/
 
         if(sigilo==true)
         {
@@ -242,6 +250,12 @@ void Protagonista::movimiento(const f32 Time)
     }
     else        //MOVIMIENTO HACIA LA DERECHA
     {
+       /* flag = sonido->playSound(nani);
+        if(flag){
+            DSP* dsp = sonido->createDSP("echo");
+            omae->getCanal()->addDSP(dsp);
+            omae->getCanal()->setGrupoCanales(sonido->getGrupoVoces());
+        }*/
          if(sigilo==true)
             {
                 velo.x=10.f;
@@ -478,28 +492,22 @@ void Protagonista::setSalto(bool s)
     b2Vec2 velocidad=Body->GetLinearVelocity();
     //std::cout<<velocidad.y<<"\n";
     if(velocidad.y>=-5 && velocidad.y<5 && s && !saltando && !sigilo){
+        flag = sonido->playSound(omae);
+        if(flag){
+            DSP* dsp = sonido->createDSP("echo");
+            omae->getCanal()->addDSP(dsp);
+            omae->getCanal()->setGrupoCanales(sonido->getGrupoVoces());
+        }
         if(correr && energia>10)
         {   
-            flag = sonido->playSound(omae);
-            if(flag){
-                DSP* dsp = sonido->createDSP("echo");
-                omae->getCanal()->addDSP(dsp);
-                omae->getCanal()->setGrupoCanales(sonido->getGrupoVoces());
-            }
             Body->ApplyForceToCenter(b2Vec2(0.f,10000.f),true);
         }else if(energia<10)
         {
-            sonido->playSound(grito);
-            grito->getCanal()->setGrupoCanales(sonido->getGrupoVoces());
+           /* sonido->playSound(grito);
+            grito->getCanal()->setGrupoCanales(sonido->getGrupoVoces());*/
             Body->ApplyForceToCenter(b2Vec2(0.f,2500.f),true);
         }
         else{
-            flag = sonido->playSound(nani);
-            if(flag){
-                nani->getCanal()->setGrupoCanales(sonido->getGrupoVoces());
-                DSP* dsp = sonido->createDSP("echo");
-                nani->getCanal()->addDSP(dsp);
-            }
             Body->ApplyForceToCenter(b2Vec2(0.f,6000.f),true);    
         }
         //cont_salto=1;
