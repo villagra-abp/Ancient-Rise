@@ -95,7 +95,7 @@ void Protagonista::CreateBox(b2World& world, float X, float Y)
     Body = world.CreateBody(&BodyDef);
     Shape.SetAsBox((20.f/2)/SCALE, (20.f/2)/SCALE);
     b2FixtureDef FixtureDef;
-    FixtureDef.density = 1.2f;
+    FixtureDef.density = 1.6f;
     FixtureDef.friction = 0.35f;
     FixtureDef.shape = &Shape;
     FixtureDef.isSensor = false;

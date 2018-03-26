@@ -32,9 +32,9 @@ Fachada* fachada=fachada->getInstance();
 
 	//creo el suelo, el bounding box del prota y la plataforma
 	prota->CreateGround(world, 0.f, -150.f,1000*1000);
-    prota->CreateGround(world, 6600.f, 900.f,3200);
-    prota->CreateGround(world, 9600.f, 1800.f,3200);
-    prota->CreateGround(world, 12600.f, 2700.f,3200);
+    prota->CreateGround(world, 6600.f, 800.f,3200);
+    prota->CreateGround(world, 9600.f, 1700.f,3200);
+    prota->CreateGround(world, 12600.f, 2600.f,3200);
     prota->CreateBox(world, -5000.f, 0.f);
 
 
@@ -94,7 +94,7 @@ Fachada* fachada=fachada->getInstance();
 	 
 
 /* CREAMOS PLATAFORMAS */
-    Posicion* escala = new Posicion(55.f,9.f,20.f);
+    Posicion* escala = new Posicion(55.f,5.f,20.f);
 
     Plataforma = fachada->addCube(220,25,30,false);
 

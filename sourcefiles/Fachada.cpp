@@ -45,7 +45,7 @@ Fachada::Fachada(int h, int w, bool fullscreen){
  debido a que lo necesita el motor de irrlicht
 **/
     
-    ventana= new sf::RenderWindow(sf::VideoMode(h, w), "Ancient Rise");
+    ventana= new sf::RenderWindow(sf::VideoMode(h, w), "Ancient Rise", sf::Style::Titlebar | sf::Style::Close, settings);
     ventana->setFramerateLimit(60);
     /*creo una vista*/
 	/*creo una vista*/
@@ -386,9 +386,9 @@ void Fachada::drawTerreno(){
     //suelo->setMalla("resources/escenario.obj");
     suelo->setMalla("resources/random.obj");
     //suelo = addCube(-220,-9,0, false);
-    suelo->Mover(vec3(-220,-9,0));
     suelo->Escalar(vec3(9900,700,700));
 	
+	suelo->Mover(vec3(-220,-9,5));
 	//prota->Rotar(vec3(0,1,0), -3.f);
 	
     
