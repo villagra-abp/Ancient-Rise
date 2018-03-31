@@ -93,13 +93,8 @@ void Fachada::cursorPersonalizar(std::string path){
 }
 
 //Dibuja todo lo dibujable
-void Fachada::draw(int a, int b, int c, int d){
-	driver->beginScene(true, true, video::SColor(a,b,c,d));
-
-	smgr->drawAll(); // draw the 3d scene
-	device->getGUIEnvironment()->drawAll(); // draw the gui environment (the logo)
-
-	driver->endScene();
+void Fachada::draw(){
+	motorgrafico->draw();
 }
 
 void Fachada::suspension(){
@@ -384,12 +379,13 @@ void Fachada::drawTerreno(){
 	FObjeto* suelo = new FObjeto();
 	
     //suelo->setMalla("resources/escenario.obj");
-    suelo->setMalla("resources/random.obj");
+    suelo->setMalla("resources/nivel1.obj");
     //suelo = addCube(-220,-9,0, false);
-    suelo->Escalar(vec3(9900,700,700));
+    suelo->Escalar(vec3(0.1,0.1,0.1));
 	
-	suelo->Mover(vec3(-220,-9,5));
-	//prota->Rotar(vec3(0,1,0), -3.f);
+	suelo->Mover(vec3(80,-260,5));
+	//suelo->Rotar(vec3(0,1,0), -3.f);
+    suelo->Rotar(vec3(1,0,0), 1.5f);
 	
     
     
@@ -420,4 +416,35 @@ FLuz* Fachada::addLuz(Posicion* p){
 	luz->Mover(luzOrigin);
     
     return luz;
+}
+/**
+FUNCION PARA crear el objeto estatico
+**/
+void Fachada::CreateGround(b2World& world, float X, float Y,float largo,float alto)
+{
+    Y=-Y+100;
+    //if(X>0){
+    //    X=X*2;
+    //}else
+       X=X-290;
+    float posX=X+(largo/2);
+    float posY=Y+(alto/2)/10;
+    /*
+    std::cout<<"posX vale: "<<posX <<endl;
+    std::cout<<"posY vale: "<<posY <<endl;
+    std::cout<<"largo vale: "<<largo <<endl;
+    std::cout<<"alto vale: "<<alto <<endl;
+    */
+    b2BodyDef BodyDef;
+    BodyDef.position.Set(posX, posY);
+    BodyDef.type = b2_staticBody;
+    b2Body* Ground = world.CreateBody(&BodyDef);
+    b2PolygonShape Shape;
+    Shape.SetAsBox(largo/2, alto/2);
+    b2FixtureDef FixtureDef;
+    FixtureDef.density = 0.f;
+    FixtureDef.friction = 0.65f;
+    FixtureDef.shape = &Shape;
+    Ground->CreateFixture(&FixtureDef);
+
 }

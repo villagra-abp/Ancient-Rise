@@ -20,7 +20,7 @@ int main()
 	/* CREAMOS MUNDO DEL JUEGO */
 
 	Mundo* mundo = new Mundo();
-    TMotorTAG* motorgrafico = TMotorTAG::getInstance();
+    //TMotorTAG* motorgrafico = TMotorTAG::getInstance();
 	
 
 	// BUCLE PRINCIPAL DEL JUEGO 
@@ -60,15 +60,18 @@ int main()
 		// ACTUALIZAMOS EL MUNDO 
 		mundo->update();
 		
-    motorgrafico->draw();
+    mundo->draw();
     ventana->display();
 
 	}
 
 	
     delete mundo;
-    delete motorgrafico;
+    std::cout<<"mundo"<<endl;
+    //delete motorgrafico;
+    std::cout<<"motor"<<endl;
 	delete fachada;
+    std::cout<<"fachada"<<endl;
 
 }
 

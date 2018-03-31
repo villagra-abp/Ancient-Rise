@@ -93,7 +93,7 @@ void Protagonista::CreateBox(b2World& world, float X, float Y)
     BodyDef.position = b2Vec2(X/SCALE, Y/SCALE);
     BodyDef.type = b2_dynamicBody;
     Body = world.CreateBody(&BodyDef);
-    Shape.SetAsBox((20.f/2)/SCALE, (20.f/2)/SCALE);
+    Shape.SetAsBox((100.f/2)/SCALE, (200.f/2)/SCALE);
     b2FixtureDef FixtureDef;
     FixtureDef.density = 1.6f;
     FixtureDef.friction = 0.35f;
@@ -116,7 +116,7 @@ void Protagonista::CreateGround(b2World& world, float X, float Y,int largo)
     BodyDef.type = b2_staticBody;
     b2Body* Ground = world.CreateBody(&BodyDef);
     b2PolygonShape Shape;
-    Shape.SetAsBox((largo/2)/SCALE, (300.f/2)/SCALE);
+    Shape.SetAsBox((largo/2)/SCALE, (600.f/2)/SCALE);
     b2FixtureDef FixtureDef;
     FixtureDef.density = 0.f;
     FixtureDef.friction = 0.65f;
@@ -500,15 +500,15 @@ void Protagonista::setSalto(bool s)
         }
         if(correr && energia>10)
         {   
-            Body->ApplyForceToCenter(b2Vec2(0.f,10000.f),true);
+            Body->ApplyForceToCenter(b2Vec2(0.f,10000000.f),true);
         }else if(energia<10)
         {
            /* sonido->playSound(grito);
             grito->getCanal()->setGrupoCanales(sonido->getGrupoVoces());*/
-            Body->ApplyForceToCenter(b2Vec2(0.f,2500.f),true);
+            Body->ApplyForceToCenter(b2Vec2(0.f,2500000.f),true);
         }
         else{
-            Body->ApplyForceToCenter(b2Vec2(0.f,6000.f),true);    
+            Body->ApplyForceToCenter(b2Vec2(0.f,6000000.f),true);    
         }
         //cont_salto=1;
         //saltando=s;
@@ -630,10 +630,11 @@ int Protagonista::getPosCombate()
 Protagonista::~Protagonista()
 {
     //dtor
+    //std::cout<<"peta peta"<<endl;
     rec = nullptr;
     energy = nullptr;
     life = nullptr;  
-
-    delete energyPosition;
-    delete lifePosition;
+    
+    //delete energyPosition;
+    //delete lifePosition;
 }
