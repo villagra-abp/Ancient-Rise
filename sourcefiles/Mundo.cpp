@@ -487,7 +487,7 @@ void Mundo::camUpdate(const f32 frameDeltaTime){
 	Posicion* protaPosition = prota->getPosition();
 	//vec3 camPosition = cam->getPosicion();
 
-    cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-20,-280)); // cambio 5O A ProtaPosition.Y
+    cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-20,-200)); // cambio 5O A ProtaPosition.Y
     //camPosition=vec3(protaPosition->getPosX(),protaPosition->getPosY()+30,protaPosition->getPosZ());
     //camPosition.y=protaPosition->getPosY()+30;
     //Falta funcion para enfocar la camara

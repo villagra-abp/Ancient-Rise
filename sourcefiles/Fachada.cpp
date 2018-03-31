@@ -38,8 +38,13 @@ Fachada::Fachada(int h, int w, bool fullscreen){
     settings.depthBits = 24;
     settings.stencilBits = 8;
     settings.antialiasingLevel = 4;
-    settings.majorVersion = 4.6;
+    settings.majorVersion = 4.3;
     settings.minorVersion = 3.3;
+    
+    std::cout << "depth bits:" << settings.depthBits << std::endl;
+std::cout << "stencil bits:" << settings.stencilBits << std::endl;
+std::cout << "antialiasing level:" << settings.antialiasingLevel << std::endl;
+std::cout << "version:" << settings.majorVersion << "." << settings.minorVersion << std::endl;
     /** SUBTITULO DE VENTANA
  Para poner texto en el subtitulo de la ventana. Necesita de una 'L' delante del string
  debido a que lo necesita el motor de irrlicht
@@ -381,9 +386,9 @@ void Fachada::drawTerreno(){
     //suelo->setMalla("resources/escenario.obj");
     suelo->setMalla("resources/nivel1.obj");
     //suelo = addCube(-220,-9,0, false);
-    suelo->Escalar(vec3(0.1,0.1,0.1));
+    suelo->Escalar(vec3(0.23,0.2,0.2));
 	
-	suelo->Mover(vec3(80,-260,5));
+	suelo->Mover(vec3(365,-540,5));
 	//suelo->Rotar(vec3(0,1,0), -3.f);
     suelo->Rotar(vec3(1,0,0), 1.5f);
 	
