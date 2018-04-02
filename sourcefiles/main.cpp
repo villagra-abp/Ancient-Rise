@@ -78,23 +78,22 @@ int main()
 		// ACTUALIZAMOS EL MUNDO 
 		mundo->update();
 		
+    glViewport(0, 0, 800, 500); 
     mundo->draw();
     //ventana->pushGLStates();
     //ventana->setView(view);
 	//ventana->setActive(false);
     //ventana->draw(rectangle);
     //ventana->popGLStates();
-    ventana->setView(minimap);
+    //ventana->setView(minimap);
+    glViewport(0, 500, 800, 100); 
     mundo->draw();
     ventana->display();
 
 	}
 
-	
     delete mundo;
     std::cout<<"mundo"<<endl;
-    //delete motorgrafico;
-    std::cout<<"motor"<<endl;
 	delete fachada;
     std::cout<<"fachada"<<endl;
 

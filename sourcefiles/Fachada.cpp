@@ -28,7 +28,7 @@ u32 Fachada::getTime(){
 
 //Destructor
 Fachada::~Fachada(){
-	device->drop();
+	//device->drop();
 }
 
 //Constructor. Solo accesible desde getInstance

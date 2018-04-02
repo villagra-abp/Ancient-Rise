@@ -1,21 +1,9 @@
 #include "../headerfiles/Mundo.h"
 
-Mundo::Mundo():device(nullptr),driver(nullptr),smgr(nullptr),guienv(nullptr),prota(nullptr),
-rec(nullptr),Terrain(nullptr),c(nullptr),f(nullptr),a(nullptr),t(nullptr),bebida(nullptr),b(nullptr),enem1(nullptr),enem2(nullptr),enemE1(nullptr),Plataforma(nullptr),
+Mundo::Mundo():prota(nullptr),c(nullptr),f(nullptr),a(nullptr),t(nullptr),bebida(nullptr),b(nullptr),enem1(nullptr),enem2(nullptr),enemE1(nullptr),Plataforma(nullptr),
 Plataforma2(nullptr), Plataforma3(nullptr), cam(nullptr), terrain(nullptr),selector(nullptr),anim(nullptr)	//CONSTRUCTOR
 {
 Fachada* fachada=fachada->getInstance();
-/* CREAMOS IRRLICHT DEVICE */	 
-	//.    e   device = fachada->getDevice();
-	//receiver = mainReceiver;
-
-/** PUNTEROS 
- A VideoDriver, al SceneManager y al entorno de interfaz de usuario, para no tener que
- estar llamandolos siempre y solo los llamamos una vez
-**/
-	//driver = fachada->getDriver();
-	//smgr = fachada->getScene();
-	//guienv = fachada->getGUI();
 
 
 /*CREAMOS GESTOR DE SONIDO*/
@@ -26,7 +14,7 @@ Fachada* fachada=fachada->getInstance();
 	musicaBosque = sonido->createMusic(sonido->SOUND_MUSIC_BOSQUE);
 /* CREAMOS PROTA */
 	prota = prota->getInstance();
-    
+    //
 	addGameObject(prota);
     
 
@@ -484,6 +472,26 @@ void Mundo::checkCombate()
 }
 
 void Mundo::camUpdate(const f32 frameDeltaTime){
+    //prueba zoom camara
+    /*
+    if(prota->getCaida()){
+       while(CamZ>-200){
+            CamZ-=0.00001f;
+            //std::cout<<"con zoom"<<endl;
+        }
+    }
+    if(prota->getSalto()){
+        while(CamZ<-100){
+            CamZ+=0.00001f;
+            //std::cout<<"con zoom"<<endl;
+        }
+        
+        zoom=false;
+        //CamZ=-200;
+    }
+    //std::cout<<"Camz"<<CamZ<<endl;
+    */
+    
 	Posicion* protaPosition = prota->getPosition();
 	//vec3 camPosition = cam->getPosicion();
 
@@ -565,9 +573,10 @@ Mundo::~Mundo()	//DESTRUCTOR
 	pos2.clear();
 	pos3.clear();
 
-    delete b;
     delete c;
+    delete c2;
     delete f;
+    delete f2;
     delete a;
     delete a2;
     delete bebida;
@@ -588,5 +597,6 @@ Mundo::~Mundo()	//DESTRUCTOR
    		delete aristas[cont4];
    	}
    	aristas.clear();
-
+    
+    
 }
