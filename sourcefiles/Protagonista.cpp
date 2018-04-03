@@ -210,7 +210,7 @@ void Protagonista::ataque(EnemigoBasico* e)
 /**
 FUNCION PARA CONTROLAR EL MOVIMIENTO DEL PROTA
 **/
-void Protagonista::movimiento(const f32 Time)
+void Protagonista::movimiento(const glm::f32 Time)
 {
     //bool flag;
 
@@ -457,7 +457,7 @@ void Protagonista::setPosCombate(int n)
 /**
 FUNCION PARA RECUPERAR LA VIDA DEL PROTA
 **/
-void Protagonista::setVida(f32 cantidad,const f32 Time)
+void Protagonista::setVida(glm::f32 cantidad,const glm::f32 Time)
 {
     if(vida<100)
         vida+=cantidad* Time;
@@ -471,7 +471,7 @@ void Protagonista::setVida(f32 cantidad,const f32 Time)
 /**
 METODO PARA GESTIONAR LA ENERGIA
 **/
-void Protagonista::setEnergia(f32 cantidad,const f32 Time)
+void Protagonista::setEnergia(glm::f32 cantidad,const glm::f32 Time)
 {
     if(energia>0 || energia<100)
         energia+=cantidad* Time;
@@ -583,7 +583,7 @@ void Protagonista::setCombate()
     }
 }
 
-void Protagonista::quitarVida(f32 cantidad)
+void Protagonista::quitarVida(glm::f32 cantidad)
 {
     vida -=cantidad; 
 }
@@ -606,7 +606,7 @@ Posicion* Protagonista::getPosition()
    return protaPosition;
 }
 
-f32 Protagonista::getEnergia()
+glm::f32 Protagonista::getEnergia()
 {
     return energia;
 }
