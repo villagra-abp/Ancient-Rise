@@ -28,11 +28,7 @@ Estos son los 5 sub namespace del motor de Irrlicht
 5º irr::video--> Contiene clases para acceder al driver del video. Todo el rendererizado 3d o 2d se realiza aqui
 */
 
-using namespace core;
-using namespace scene;
-using namespace video;
-using namespace io;
-using namespace gui;
+
 
 class Mundo : public Entorno
 {
@@ -61,6 +57,10 @@ class Mundo : public Entorno
         
         void checkInput();
         void checkCombate();
+        
+        void CambioEstado();
+        
+        
 
     protected:
     /* METHODS */
@@ -78,21 +78,12 @@ class Mundo : public Entorno
 
  	/* VARIABLES */
 
-    	//EVENTS
-    	//MyEventReceiver* receiver;
-
-    	//DEVICE
-    	IrrlichtDevice* device;
-
-    	//ESCENA
-    	IVideoDriver* 		driver;
-    	ISceneManager* 		smgr;
-    	IGUIEnvironment* 	guienv;
+        int estado=1;
+        int PosFlecha=3;
 
     	//PROTAGONISTA
     	Protagonista*  prota;
-    	scene::ISceneNode*	rec;
-    	scene::ISceneNode* 	Terrain;
+    	
 
     	//POSICIONES ENEMIGOS
     	patrulla pos, pos2, pos3;	//Vector de posiciones para los enemigos
@@ -118,16 +109,16 @@ class Mundo : public Entorno
         EnemigoElite *enemE1;
 
     	//PLATAFORMAS
-    	scene::ISceneNode* Plataforma;
-	    scene::ISceneNode* Plataforma2;
-	    scene::ISceneNode* Plataforma3;
+    	FObjeto* Plataforma;
+	    FObjeto* Plataforma2;
+	    FObjeto* Plataforma3;
 
         //GRAFO PATHFINDING
         vector<NodoGrafo*> nodos;            // Contiene todos los nodos del grafo
         vector<Arista*> aristas;
 
     	//CAMARA
-    	scene::ICameraSceneNode* cam;
+    	FCamara* cam;
 
     	//TERRENO
     	scene::ITerrainSceneNode* terrain;

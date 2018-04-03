@@ -19,32 +19,53 @@ IrrlichtDevice* Fachada::getDevice(){
 }
 
 u32 Fachada::getTime(){
-	return device->getTimer()->getTime();
+    sf::Clock clock; 
+	sf::Time elapsed1 = clock.getElapsedTime();
+    //std::cout << elapsed1.asSeconds() << std::endl;
+    clock.restart();
+    return elapsed1.asSeconds() ;
 }
 
 //Destructor
 Fachada::~Fachada(){
-	device->drop();
+	//device->drop();
 }
 
 //Constructor. Solo accesible desde getInstance
 Fachada::Fachada(int h, int w, bool fullscreen){
 	
-	
+	sf::ContextSettings settings;
+    settings.depthBits = 24;
+    settings.stencilBits = 8;
+    settings.antialiasingLevel = 4;
+    settings.majorVersion = 4.3;
+    settings.minorVersion = 3.3;
+    
+    std::cout << "depth bits:" << settings.depthBits << std::endl;
+std::cout << "stencil bits:" << settings.stencilBits << std::endl;
+std::cout << "antialiasing level:" << settings.antialiasingLevel << std::endl;
+std::cout << "version:" << settings.majorVersion << "." << settings.minorVersion << std::endl;
     /** SUBTITULO DE VENTANA
  Para poner texto en el subtitulo de la ventana. Necesita de una 'L' delante del string
  debido a que lo necesita el motor de irrlicht
 **/
     
-    ventana= new sf::RenderWindow(sf::VideoMode(h, w), "Ancient Rise");
+    ventana= new sf::RenderWindow(sf::VideoMode(h, w), "Ancient Rise", sf::Style::Titlebar | sf::Style::Close, settings);
     ventana->setFramerateLimit(60);
     /*creo una vista*/
-	//sf::View view(sf::FloatRect(0, 0, 1000, 600));
+	/*creo una vista*/
+    glewInit();
+    glEnable(GL_DEPTH_TEST);
+    glDepthMask(GL_TRUE);
+    glDepthFunc(GL_LEQUAL);
+    glDepthRange(0.1f, 100.0f);
+    ventana->setFramerateLimit(60);
+	sf::View view(sf::FloatRect(0, 0, 1000, 600));
 	
-	//view.setViewport(sf::FloatRect(0.75f, 0, 0.25f, 0.25f));
-	//ventana->setView(view);
-
-	
+	view.setViewport(sf::FloatRect(0.75f, 0, 0.25f, 0.25f));
+	ventana->setView(view);
+	ventana->setActive(true);
+    /*
     SIrrlichtCreationParameters Parameters;
     Parameters.DriverType = video::EDT_OPENGL; 
     //Parameters.EventReceiver = &receiver;
@@ -53,7 +74,9 @@ Fachada::Fachada(int h, int w, bool fullscreen){
     driver = device->getVideoDriver();
 	smgr = device->getSceneManager();
 	guienv = device->getGUIEnvironment();
-
+    */
+    //SIrrlichtCreationParameters Parameters;
+    //device = createDeviceEx(Parameters);
 	
 }
 sf::RenderWindow* Fachada::getVentana(){
@@ -75,13 +98,8 @@ void Fachada::cursorPersonalizar(std::string path){
 }
 
 //Dibuja todo lo dibujable
-void Fachada::draw(int a, int b, int c, int d){
-	driver->beginScene(true, true, video::SColor(a,b,c,d));
-
-	smgr->drawAll(); // draw the 3d scene
-	device->getGUIEnvironment()->drawAll(); // draw the gui environment (the logo)
-
-	driver->endScene();
+void Fachada::draw(){
+	motorgrafico->draw();
 }
 
 void Fachada::suspension(){
@@ -94,9 +112,9 @@ void Fachada::cerrar(){
 
 void Fachada::destruirObjeto(void* nodo)
 {
-    scene::ISceneNode * node=(scene::ISceneNode*)nodo;
+    FObjeto* node=(FObjeto*)nodo;
 
-    node->remove();
+    node->isActive(false);
 }
 
 /*void Motorgrafico::drawGUI(){
@@ -144,35 +162,81 @@ void Fachada::setNombreVentana(std::string text){
 void Fachada::setNombreVentana(wchar_t* text){
 	device->setWindowCaption(text);
 }
-scene::ISceneNode * Fachada::addCube(int x,int y,int z,bool flag){
-    
+FObjeto* Fachada::addCube(int x,int y,int z,bool flag){
+    /*
     scene::ISceneNode * rec=smgr->addCubeSceneNode();
     
-    if (rec) /** SI HEMOS CREADO EL CUBO **/
+    if (rec)
     {
         
         rec->setPosition(core::vector3df(x,y,z));
         //rec->setMaterialTexture(0, driver->getTexture(mediaPath + "wall.bmp"));
         rec->setMaterialFlag(video::EMF_LIGHTING, flag);
     }
-    return rec;
+    */
+    FObjeto* enem = new FObjeto();
+	
+    enem->setMalla("resources/pared.obj");
+    enem->Escalar(vec3(2,2,2));
+	
+
+	enem->setPosicion(vec3(x,y,z));
+	enem->Rotar(vec3(0,1,1), 5.f);
+    
+    return enem;
 }
-scene::ISceneNode * Fachada::addSphere(int x,int y,int z,bool flag){
-    scene::ISceneNode * rec=smgr->addSphereSceneNode();
-    if (rec) /** SI HEMOS CREADO EL CUBO **/
+FObjeto* Fachada::addSphere(int x,int y,int z,bool flag){
+    //scene::ISceneNode * rec=smgr->addSphereSceneNode();
+    /*if (rec) 
     {
         
         rec->setPosition(core::vector3df(x,y,z));
         //rec->setMaterialTexture(0, driver->getTexture(mediaPath + "wall.bmp"));
         rec->setMaterialFlag(video::EMF_LIGHTING, flag);
     }
-    return rec;
+    */
+    
+    FObjeto* prota = new FObjeto();
+	
+    prota->setMalla("resources/esfera.obj");
+    prota->Escalar(vec3(2,2,2));
+	
+
+	prota->setPosicion(vec3(x,y,z));
+	//prota->Rotar(vec3(0,1,0), -4.5f);
+    
+    return prota;
 }
+FObjeto* Fachada::addMalla(int x,int y,int z,string ruta){
+    
+    FObjeto* prota = new FObjeto();
+	
+    prota->setMalla(ruta);
+    prota->Escalar(vec3(2,2,2));
+	
+
+	prota->setPosicion(vec3(x,y,z));
+	//prota->Rotar(vec3(0,1,0), -4.5f);
+    
+    return prota;
+}
+
+void Fachada::rotObj(FObjeto* o, float x, float y, float z, float angulo){
+    
+    o->Rotar(vec3(x,y,z), angulo);
+}
+
+void Fachada::movObj(FObjeto* o, float x, float y, float z){
+    
+    o->Mover(vec3(x,y,z));
+}
+
 Posicion* Fachada::getPosicion(void * nodo){
 
-    scene::ISceneNode * node=(scene::ISceneNode*)nodo;
-    core::vector3df pos=node->getPosition();
-    Posicion* posicion= new Posicion(pos.X,pos.Y,pos.Z);
+    FObjeto* node=(FObjeto*)nodo;
+    vec3 pos=node->getPosicion();
+    Posicion* posicion= new Posicion(pos.x,pos.y,pos.z);
+    //std::cout<<posicion->getPosX()<<endl;
     return posicion;
 }
 Posicion* Fachada::getScala(void * nodo){
@@ -185,16 +249,18 @@ Posicion* Fachada::getScala(void * nodo){
 }
 bool Fachada::setScala(void * nodo,Posicion* scala){
     
-    scene::ISceneNode * node=(scene::ISceneNode*)nodo;
-    node->setScale(core::vector3df(scala->getPosX(),scala->getPosY(),scala->getPosZ()));
+    FObjeto * node=(FObjeto*)nodo;
+    node->Escalar(vec3(scala->getPosX(),scala->getPosY(),scala->getPosZ()));
     return true;
     
 }
 bool Fachada::setPosicion(void * nodo,Posicion* pos){
 
-    scene::ISceneNode * node=(scene::ISceneNode*)nodo;
-    core::vector3df position=core::vector3df(pos->getPosX(),pos->getPosY(),pos->getPosZ());
-    node->setPosition(position);
+    //std::cout<<pos->getPosX()<<endl;
+    FObjeto* node=(FObjeto*)nodo;
+    vec3 position=vec3(pos->getPosX(),pos->getPosY(),30);
+    //cout<<position.x<<" "<<position.y<<" "<<position.z<<endl;
+    node->setPosicion(position);
     return true;
 }
 bool Fachada::setMaterialFlag(void * nodo,bool b){
@@ -278,7 +344,7 @@ void Fachada::drawDrawEscena(){
 }
 */
 void Fachada::drawTerreno(){
-
+/*
 	scene::ITerrainSceneNode* terrain = smgr->addTerrainSceneNode(
 
         "resources/terrain-heightmap.bmp",
@@ -313,4 +379,105 @@ void Fachada::drawTerreno(){
     terrain->setMaterialTexture(1, driver->getTexture("resources/detailmap3.jpg"));
 	terrain->setMaterialType(video::EMT_DETAIL_MAP);
     terrain->scaleTexture(1.0f, 20.0f);
+*/
+    
+	FObjeto* suelo = new FObjeto();
+	
+    //suelo->setMalla("resources/escenario.obj");
+    suelo->setMalla("resources/nivel1.obj");
+    //suelo = addCube(-220,-9,0, false);
+    suelo->Escalar(vec3(0.23,0.2,0.2));
+	
+	suelo->Mover(vec3(365,-540,5));
+	//suelo->Rotar(vec3(0,1,0), -3.f);
+    suelo->Rotar(vec3(1,0,0), 1.5f);
+	
+    
+    
+}
+void Fachada::addMenu(int tipo){
+    
+    FObjeto* menu = new FObjeto();
+    addFlecha(1);
+    if(tipo==1){
+        ///Añado el menu
+        menu->setMalla("resources/menu.obj");
+        menu->setPosicion(vec3(.5f,-.5f,.5f));
+        menu->Escalar(vec3(.1f,.1f,.1f));
+        menu->Rotar(vec3(1,0,0), 1.5f);
+        
+    }else{
+        ///Añado el menu
+        menu->setMalla("resources/menu.obj");
+        menu->setPosicion(vec3(.5f,-.5f,.5f));
+        menu->Escalar(vec3(.1f,.1f,.1f));
+        menu->Rotar(vec3(1,0,0), 1.5f);
+        
+    }
+}
+void Fachada::addFlecha(int pos){
+    
+    FObjeto* flecha = new FObjeto();
+    flecha->setMalla("resources/porraelite.3DS");
+    flecha->setPosicion(vec3(-4.f,pos*3,.5f));
+    flecha->Escalar(vec3(.01f,.01f,.01f));
+    
+}
+FCamara* Fachada::addCamara(Posicion* p){
+ 
+    //cam = smgr->addCameraSceneNode(0, core::vector3df(p->getPosX(),50,-140), core::vector3df(0,5,0));
+	//device->getCursorControl()->setVisible(true);
+    
+    FCamara* camara = new FCamara();
+	camara->Activar();
+	vec3 camaraOrigin = vec3(-160,-20,-130);
+	//cajita->Unir(cajita2);
+	//cajita->Mover(vec3(0,0,4));
+	camara->Mover(camaraOrigin);
+	//camara->Rotar(vec3(0,1,0), 3.0f);
+    
+    return camara;
+    
+}
+FLuz* Fachada::addLuz(Posicion* p){
+ 
+    FColor* color = new FColor(1.0f,		1.0f,	1.0f, 1.0f);
+	glm::vec4 vColor;
+
+	FLuz* luz = new FLuz(1.0f,color);
+	vec3 luzOrigin = vec3(-160,0,80);
+	luz->Mover(luzOrigin);
+    
+    return luz;
+}
+/**
+FUNCION PARA crear el objeto estatico
+**/
+void Fachada::CreateGround(b2World& world, float X, float Y,float largo,float alto)
+{
+    Y=-Y+100;
+    //if(X>0){
+    //    X=X*2;
+    //}else
+       X=X-290;
+    float posX=X+(largo/2);
+    float posY=Y+(alto/2)/10;
+    /*
+    std::cout<<"posX vale: "<<posX <<endl;
+    std::cout<<"posY vale: "<<posY <<endl;
+    std::cout<<"largo vale: "<<largo <<endl;
+    std::cout<<"alto vale: "<<alto <<endl;
+    */
+    b2BodyDef BodyDef;
+    BodyDef.position.Set(posX, posY);
+    BodyDef.type = b2_staticBody;
+    b2Body* Ground = world.CreateBody(&BodyDef);
+    b2PolygonShape Shape;
+    Shape.SetAsBox(largo/2, alto/2);
+    b2FixtureDef FixtureDef;
+    FixtureDef.density = 0.f;
+    FixtureDef.friction = 0.65f;
+    FixtureDef.shape = &Shape;
+    Ground->CreateFixture(&FixtureDef);
+
 }

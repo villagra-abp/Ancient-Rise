@@ -24,7 +24,7 @@ uniform Material material;
 void main(){
 
 		//ambiente
-		float ambienteInten = 0.1;
+		float ambienteInten = 0.4;
 		//vec3 ambient = ambienteInten * vec3(color);
 		vec3 ambient = ambienteInten* vec3(color) * material.ambient;
 

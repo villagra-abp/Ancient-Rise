@@ -12,18 +12,18 @@ Proyectil::Proyectil(IrrlichtDevice* device, ISceneManager* smgr, Enemigo *e):dr
 	
     if(e->getLastFaceDir()==true) // Mirando derecha
     {
-        proyectil = fachada->addCube(enemigoPosition->getPosX()+10,enemigoPosition->getPosY(),enemigoPosition->getPosZ(),false);
+        proyectil = fachada->addSphere(enemigoPosition->getPosX()+10,enemigoPosition->getPosY(),enemigoPosition->getPosZ(),false);
     }
     else // Mirando izquierda
     {
-        proyectil = fachada->addCube(enemigoPosition->getPosX()-10,enemigoPosition->getPosY(),enemigoPosition->getPosZ(),false);
+        proyectil = fachada->addSphere(enemigoPosition->getPosX()-10,enemigoPosition->getPosY(),enemigoPosition->getPosZ(),false);
     }
 
     if (proyectil) /** SI HEMOS CREADO EL CUBO **/
     {  
-        driver = fachada->getDriver();
-        tam = new Posicion(0.5f,0.5f,0.5f);
-        fachada ->setScala(proyectil, tam);
+        //driver = fachada->getDriver();
+        //tam = new Posicion(0.5f,0.5f,0.5f);
+        //fachada ->setScala(proyectil, tam);
         proyectilPos = fachada->getPosicion(proyectil);
 
     }
@@ -45,7 +45,7 @@ FUNCION PARA DESTRUIR EL PROYECTIL DEL ENEMIGO
 */
 void Proyectil::destroyProyectil()
 {	
-	fachada->destruirObjeto(proyectil);
+	//fachada->destruirObjeto(proyectil);
 }
 /*
 FUNCION PARA LANZAR EL PROYECTIL EN LA DIRECCION QUE ESTA MIRANDO EL ENEMIGO
@@ -100,5 +100,5 @@ Proyectil::~Proyectil()
     //proyectil = nullptr;
     driver = nullptr; 
 
-    delete tam;
+    //delete tam;
 }

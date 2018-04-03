@@ -21,6 +21,8 @@ FCamara::FCamara(){
 	rotacion->setEntidad(rot);
 	traslacion->setEntidad(tras);
 	nodo->setEntidad(camara);
+	
+	camara->setPerspectiva(0.9, 0.8, 0.1, 2000);
 
 	//TMotorTAG::getInstance()->registrarCamara(camara);
 

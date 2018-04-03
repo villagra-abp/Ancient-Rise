@@ -15,7 +15,11 @@ Protagonista::Protagonista():energy(nullptr), life(nullptr), Body(nullptr), rec(
     en (0,0,30) y le asignamos una texura. Como no tenemos luces dinamicas en esta escena
     desabilitamos la luz en cada modelo (sino los modelos serian negros )
     **/ 
-    rec=fachada->addSphere(0,0,30,false);
+    FObjeto* protaObjeto = fachada->addMalla(0, 0,30,"resources/personaje.obj");
+    rec = protaObjeto;
+    fachada->rotObj(protaObjeto, 0, 1, 0, -90);
+    
+ /*
     energy=fachada->addCube(0,0,30,true);
     life=fachada->addCube(0,0,30,false);
     
@@ -32,7 +36,7 @@ Protagonista::Protagonista():energy(nullptr), life(nullptr), Body(nullptr), rec(
     
     fachada->setScala(energy,energyScale);
     fachada->setScala(life,lifeScale);
-
+*/
     combate = false;
     pos_combate = 2; 
 
@@ -42,6 +46,10 @@ Protagonista::Protagonista():energy(nullptr), life(nullptr), Body(nullptr), rec(
     omae = sonido->create2DSound(sonido->SOUND_BOSS3_OMAE);
     grito = sonido->create2DSound(sonido->SOUND_BOSS3_GRITO1);
     risa = sonido->create3DSound(sonido->SOUND_BOSS3_RISA);
+    
+    /////solo es para probar que no peta
+    Posicion* pos= new Posicion(0,0,30);
+    protaPosition=pos;
 
 }
 
@@ -85,9 +93,9 @@ void Protagonista::CreateBox(b2World& world, float X, float Y)
     BodyDef.position = b2Vec2(X/SCALE, Y/SCALE);
     BodyDef.type = b2_dynamicBody;
     Body = world.CreateBody(&BodyDef);
-    Shape.SetAsBox((20.f/2)/SCALE, (20.f/2)/SCALE);
+    Shape.SetAsBox((100.f/2)/SCALE, (200.f/2)/SCALE);
     b2FixtureDef FixtureDef;
-    FixtureDef.density = 1.2f;
+    FixtureDef.density = 1.6f;
     FixtureDef.friction = 0.35f;
     FixtureDef.shape = &Shape;
     FixtureDef.isSensor = false;
@@ -108,7 +116,7 @@ void Protagonista::CreateGround(b2World& world, float X, float Y,int largo)
     BodyDef.type = b2_staticBody;
     b2Body* Ground = world.CreateBody(&BodyDef);
     b2PolygonShape Shape;
-    Shape.SetAsBox((largo/2)/SCALE, (300.f/2)/SCALE);
+    Shape.SetAsBox((largo/2)/SCALE, (600.f/2)/SCALE);
     b2FixtureDef FixtureDef;
     FixtureDef.density = 0.f;
     FixtureDef.friction = 0.65f;
@@ -202,11 +210,19 @@ void Protagonista::ataque(EnemigoBasico* e)
 /**
 FUNCION PARA CONTROLAR EL MOVIMIENTO DEL PROTA
 **/
-void Protagonista::movimiento(const f32 Time)
+void Protagonista::movimiento(const glm::f32 Time)
 {
+    //bool flag;
+
     b2Vec2 velo=Body->GetLinearVelocity();
     if(direccion==0) // MOVIMIENTO HACIA LA IZQUIERDA
     {
+       /* flag = sonido->playSound(risa);
+        if(flag){
+            DSP* dsp = sonido->createDSP("echo");
+            omae->getCanal()->addDSP(dsp);
+            omae->getCanal()->setGrupoCanales(sonido->getGrupoVoces());
+        }*/
 
         if(sigilo==true)
         {
@@ -234,6 +250,12 @@ void Protagonista::movimiento(const f32 Time)
     }
     else        //MOVIMIENTO HACIA LA DERECHA
     {
+       /* flag = sonido->playSound(nani);
+        if(flag){
+            DSP* dsp = sonido->createDSP("echo");
+            omae->getCanal()->addDSP(dsp);
+            omae->getCanal()->setGrupoCanales(sonido->getGrupoVoces());
+        }*/
          if(sigilo==true)
             {
                 velo.x=10.f;
@@ -435,7 +457,7 @@ void Protagonista::setPosCombate(int n)
 /**
 FUNCION PARA RECUPERAR LA VIDA DEL PROTA
 **/
-void Protagonista::setVida(f32 cantidad,const f32 Time)
+void Protagonista::setVida(glm::f32 cantidad,const glm::f32 Time)
 {
     if(vida<100)
         vida+=cantidad* Time;
@@ -449,7 +471,7 @@ void Protagonista::setVida(f32 cantidad,const f32 Time)
 /**
 METODO PARA GESTIONAR LA ENERGIA
 **/
-void Protagonista::setEnergia(f32 cantidad,const f32 Time)
+void Protagonista::setEnergia(glm::f32 cantidad,const glm::f32 Time)
 {
     if(energia>0 || energia<100)
         energia+=cantidad* Time;
@@ -470,33 +492,27 @@ void Protagonista::setSalto(bool s)
     b2Vec2 velocidad=Body->GetLinearVelocity();
     //std::cout<<velocidad.y<<"\n";
     if(velocidad.y>=-5 && velocidad.y<5 && s && !saltando && !sigilo){
+        flag = sonido->playSound(omae);
+        if(flag){
+            DSP* dsp = sonido->createDSP("echo");
+            omae->getCanal()->addDSP(dsp);
+            omae->getCanal()->setGrupoCanales(sonido->getGrupoVoces());
+        }
         if(correr && energia>10)
         {   
-            flag = sonido->playSound(omae);
-            if(flag){
-                DSP* dsp = sonido->createDSP("echo");
-                omae->getCanal()->addDSP(dsp);
-                omae->getCanal()->setGrupoCanales(sonido->getGrupoVoces());
-            }
-            Body->ApplyForceToCenter(b2Vec2(0.f,10000.f),true);
+            Body->ApplyForceToCenter(b2Vec2(0.f,10000000.f),true);
         }else if(energia<10)
         {
-            sonido->playSound(grito);
-            grito->getCanal()->setGrupoCanales(sonido->getGrupoVoces());
-            Body->ApplyForceToCenter(b2Vec2(0.f,2500.f),true);
+           /* sonido->playSound(grito);
+            grito->getCanal()->setGrupoCanales(sonido->getGrupoVoces());*/
+            Body->ApplyForceToCenter(b2Vec2(0.f,2500000.f),true);
         }
         else{
-            flag = sonido->playSound(nani);
-            if(flag){
-                nani->getCanal()->setGrupoCanales(sonido->getGrupoVoces());
-                DSP* dsp = sonido->createDSP("echo");
-                nani->getCanal()->addDSP(dsp);
-            }
-            Body->ApplyForceToCenter(b2Vec2(0.f,6000.f),true);    
+            Body->ApplyForceToCenter(b2Vec2(0.f,6000000.f),true);    
         }
         //cont_salto=1;
         //saltando=s;
-        setEnergia(1.f,-15);
+        setEnergia(0.1f,-15);
     }
     saltando=s;
 }
@@ -567,7 +583,7 @@ void Protagonista::setCombate()
     }
 }
 
-void Protagonista::quitarVida(f32 cantidad)
+void Protagonista::quitarVida(glm::f32 cantidad)
 {
     vida -=cantidad; 
 }
@@ -590,7 +606,7 @@ Posicion* Protagonista::getPosition()
    return protaPosition;
 }
 
-f32 Protagonista::getEnergia()
+glm::f32 Protagonista::getEnergia()
 {
     return energia;
 }
@@ -614,10 +630,11 @@ int Protagonista::getPosCombate()
 Protagonista::~Protagonista()
 {
     //dtor
+    //std::cout<<"peta peta"<<endl;
     rec = nullptr;
     energy = nullptr;
     life = nullptr;  
-
-    delete energyPosition;
-    delete lifePosition;
+    
+    //delete energyPosition;
+    //delete lifePosition;
 }
