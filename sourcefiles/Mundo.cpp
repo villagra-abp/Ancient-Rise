@@ -215,7 +215,8 @@ Fachada* fachada=fachada->getInstance();
 	enemE.push_back(enemE1);
 	addGameObject(enemE1);
 */
-    
+    ///Añado el menu
+    fachada->addMenu(1);
     
 
 }	
@@ -380,6 +381,8 @@ void Mundo::protaUpdate(const u32 now, const f32 frameDeltaTime, f32 tiempo){
 
 }
 void Mundo::checkInput(){
+    
+    
 	if(sf::Joystick::isConnected(0)){
 		JoyY=sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
 		JoyX=sf::Joystick::getAxisPosition(0, sf::Joystick::X);
@@ -453,6 +456,10 @@ void Mundo::checkInput(){
     	}else
 		prota->setSalto(false);
        	
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){
+        	estado=0;
+    	}else
+            estado=1;
 	       
 }
 
@@ -494,12 +501,17 @@ void Mundo::camUpdate(const f32 frameDeltaTime){
     
 	Posicion* protaPosition = prota->getPosition();
 	//vec3 camPosition = cam->getPosicion();
-
+    if(estado>0){
     cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-20,-200)); // cambio 5O A ProtaPosition.Y
     //camPosition=vec3(protaPosition->getPosX(),protaPosition->getPosY()+30,protaPosition->getPosZ());
     //camPosition.y=protaPosition->getPosY()+30;
     //Falta funcion para enfocar la camara
     //cam->setTarget(camPosition);
+    }
+    if(estado==0){
+        cam->setPosicion(vec3(0,2,-20));
+        //cam->Rotar(vec3(0,1,0), 3.0f);
+    }
 }
 
 void Mundo::fpsControl(){

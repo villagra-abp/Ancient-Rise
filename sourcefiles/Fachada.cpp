@@ -395,6 +395,34 @@ void Fachada::drawTerreno(){
     
     
 }
+void Fachada::addMenu(int tipo){
+    
+    FObjeto* menu = new FObjeto();
+    addFlecha(1);
+    if(tipo==1){
+        ///Añado el menu
+        menu->setMalla("resources/menu.obj");
+        menu->setPosicion(vec3(.5f,-.5f,.5f));
+        menu->Escalar(vec3(.1f,.1f,.1f));
+        menu->Rotar(vec3(1,0,0), 1.5f);
+        
+    }else{
+        ///Añado el menu
+        menu->setMalla("resources/menu.obj");
+        menu->setPosicion(vec3(.5f,-.5f,.5f));
+        menu->Escalar(vec3(.1f,.1f,.1f));
+        menu->Rotar(vec3(1,0,0), 1.5f);
+        
+    }
+}
+void Fachada::addFlecha(int pos){
+    
+    FObjeto* flecha = new FObjeto();
+    flecha->setMalla("resources/porraelite.3DS");
+    flecha->setPosicion(vec3(-4.f,pos*3,.5f));
+    flecha->Escalar(vec3(.01f,.01f,.01f));
+    
+}
 FCamara* Fachada::addCamara(Posicion* p){
  
     //cam = smgr->addCameraSceneNode(0, core::vector3df(p->getPosX(),50,-140), core::vector3df(0,5,0));

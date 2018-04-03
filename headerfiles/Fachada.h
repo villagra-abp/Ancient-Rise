@@ -67,6 +67,8 @@ public:
 	//void drawDrawEscena();
 	//void drawGUI();
     void drawTerreno();
+    void addMenu(int t);
+    void addFlecha(int pos);
 	
     FObjeto* addCube(int x,int y,int z,bool flag);
     FObjeto* addSphere(int x,int y,int z,bool flag);
@@ -101,6 +103,8 @@ private:
         b2Body* Body;
         b2BodyDef BodyDef;
         b2PolygonShape Shape;
+        
+    
 
 };
 

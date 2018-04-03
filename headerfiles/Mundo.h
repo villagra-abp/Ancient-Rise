@@ -57,6 +57,9 @@ class Mundo : public Entorno
         
         void checkInput();
         void checkCombate();
+        
+        
+        int estado=1;
 
     protected:
     /* METHODS */
@@ -74,7 +77,8 @@ class Mundo : public Entorno
 
  	/* VARIABLES */
 
-   
+        
+        int PosFlecha=3;
 
     	//PROTAGONISTA
     	Protagonista*  prota;

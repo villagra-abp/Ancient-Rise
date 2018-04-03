@@ -36,9 +36,7 @@ int main()
     minimap.setViewport(sf::FloatRect(1.f-static_cast<float>(minimap.getSize().x)/ventana->getSize().x-0.02f, 1.f-static_cast<float>(minimap.getSize().y)/ventana->getSize().y-0.02f, static_cast<float>(minimap.getSize().x)/ventana->getSize().x, static_cast<float>(minimap.getSize().y)/ventana->getSize().y));
     minimap.zoom(4.f);
 
-    
-    
-
+   
 	// BUCLE PRINCIPAL DEL JUEGO 
 
 	while(ventana->isOpen())
@@ -66,9 +64,9 @@ int main()
 		            //device->closeDevice();
 
 		        break;
-		    }
+               
 		    
-		    
+            }
 		}
 
         //ventana->clear();
@@ -86,8 +84,8 @@ int main()
     //ventana->draw(rectangle);
     //ventana->popGLStates();
     //ventana->setView(minimap);
-    glViewport(0, 500, 800, 100); 
-    mundo->draw();
+    //glViewport(0, 500, 800, 100); 
+    //mundo->draw();
     ventana->display();
 
 	}
