@@ -455,11 +455,6 @@ void Mundo::checkInput(){
         	prota->setSalto(true);
     	}else
 		prota->setSalto(false);
-       	
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){
-        	estado=0;
-    	}else
-            estado=1;
 	       
 }
 
@@ -562,7 +557,14 @@ GameObject* Mundo::getGameObject(uint8_t pos) const{
 
 	return o;
 }
-
+void Mundo::CambioEstado(){
+    if(estado==0){
+        estado=1;
+    }
+    else
+        estado=0;
+    
+}
 Mundo::~Mundo()	//DESTRUCTOR
 {
 	/* DELETE PROTAGONISTA */

@@ -58,8 +58,9 @@ class Mundo : public Entorno
         void checkInput();
         void checkCombate();
         
+        void CambioEstado();
         
-        int estado=1;
+        
 
     protected:
     /* METHODS */
@@ -77,7 +78,7 @@ class Mundo : public Entorno
 
  	/* VARIABLES */
 
-        
+        int estado=1;
         int PosFlecha=3;
 
     	//PROTAGONISTA

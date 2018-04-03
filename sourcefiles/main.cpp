@@ -64,8 +64,25 @@ int main()
 		            //device->closeDevice();
 
 		        break;
-               
-		    
+               case sf::Event::KeyPressed:
+		        {    
+		            inputKey = evento->key.code;
+		            //std::cout<<evento->key.code<<std::endl;		
+		            switch(inputKey){
+                        case 36: 		//escape
+		            		mundo->CambioEstado();
+		            		break;
+		            	case 73: 		//arriba
+		            		//mundo->estado=0;
+		            		break;
+		            	case 74: 		//abajoo
+		            		//camara->Mover(vec3(0,0,1));
+		            		break;
+		            	
+		            }
+		            keyPressed = true;
+		        }   
+                break;
             }
 		}
 
