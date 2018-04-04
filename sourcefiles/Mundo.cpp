@@ -1,21 +1,9 @@
 #include "../headerfiles/Mundo.h"
 
-Mundo::Mundo():device(nullptr),driver(nullptr),smgr(nullptr),guienv(nullptr),prota(nullptr),
-rec(nullptr),Terrain(nullptr),c(nullptr),f(nullptr),a(nullptr),t(nullptr),bebida(nullptr),b(nullptr),enem1(nullptr),enem2(nullptr),enemE1(nullptr),Plataforma(nullptr),
+Mundo::Mundo():prota(nullptr),c(nullptr),f(nullptr),a(nullptr),t(nullptr),bebida(nullptr),b(nullptr),enem1(nullptr),enem2(nullptr),enemE1(nullptr),Plataforma(nullptr),
 Plataforma2(nullptr), Plataforma3(nullptr), cam(nullptr), terrain(nullptr),selector(nullptr),anim(nullptr)	//CONSTRUCTOR
 {
 Fachada* fachada=fachada->getInstance();
-/* CREAMOS IRRLICHT DEVICE */	 
-	//.    e   device = fachada->getDevice();
-	//receiver = mainReceiver;
-
-/** PUNTEROS 
- A VideoDriver, al SceneManager y al entorno de interfaz de usuario, para no tener que
- estar llamandolos siempre y solo los llamamos una vez
-**/
-	//driver = fachada->getDriver();
-	//smgr = fachada->getScene();
-	//guienv = fachada->getGUI();
 
 
 /*CREAMOS GESTOR DE SONIDO*/
@@ -26,16 +14,21 @@ Fachada* fachada=fachada->getInstance();
 	musicaBosque = sonido->createMusic(sonido->SOUND_MUSIC_BOSQUE);
 /* CREAMOS PROTA */
 	prota = prota->getInstance();
-    
+    //
 	addGameObject(prota);
     
 
 	//creo el suelo, el bounding box del prota y la plataforma
-	prota->CreateGround(world, 0.f, -150.f,1000*1000);
-    prota->CreateGround(world, 6600.f, 900.f,3200);
-    prota->CreateGround(world, 9600.f, 1800.f,3200);
-    prota->CreateGround(world, 12600.f, 2700.f,3200);
+	//prota->CreateGround(world, 0.f, -150.f,1000*1000);
+    prota->CreateGround(world, 6600.f, 800.f,3200);
+    prota->CreateGround(world, 9600.f, 1700.f,3200);
+    prota->CreateGround(world, 12600.f, 2600.f,3200);
     prota->CreateBox(world, -5000.f, 0.f);
+    
+    fachada->CreateGround(world, 0.25f, 128.f,176.25f, 22);
+    fachada->CreateGround(world, 177.f, 143.f,220,22);
+    //fachada->CreateGround(world, 9600.f, 1800.f,3200,300);
+    //fachada->CreateGround(world, 12600.f, 2700.f,3200,300);
 
 
 /* CREAMOS VECTOR DE POSICIONES PARA EL ENEMIGO */
@@ -94,35 +87,36 @@ Fachada* fachada=fachada->getInstance();
 	 
 
 /* CREAMOS PLATAFORMAS */
-    Posicion* escala = new Posicion(55.f,9.f,20.f);
+    Posicion* escala = new Posicion(55.f,5.f,20.f);
 
-	Plataforma = fachada->addCube(220,25,30,false);
+    Plataforma = fachada->addCube(220,25,30,false);
 
-	if (Plataforma)
-	{
-		fachada->setScala(Plataforma,escala);
+    if (Plataforma)
+    {
+        fachada->setScala(Plataforma,escala);
         //fachada->setMaterial(Plataforma,"resources/plataf.bmp");
         Plataforma->Rotar(vec3(0,1,0), 1.5f);
-		
-	}
+        
+    }
 
-	Plataforma2= fachada->addCube(320,55,30,false);
+    Plataforma2= fachada->addCube(320,55,30,false);
 
-	if (Plataforma2)
-	{
-		fachada->setScala(Plataforma2,escala);
-		//fachada->setMaterial(Plataforma2,"resources/plataf.bmp");
+    if (Plataforma2)
+    {
+        fachada->setScala(Plataforma2,escala);
+        //fachada->setMaterial(Plataforma2,"resources/plataf.bmp");
         Plataforma2->Rotar(vec3(0,1,0), 1.5f);
-	}
+    }
 
-	Plataforma3= fachada->addCube(420,85,30,false);
+    Plataforma3= fachada->addCube(420,85,30,false);
 
-	if (Plataforma3)
-	{
-		fachada->setScala(Plataforma3,escala);
-		//fachada->setMaterial(Plataforma3,"resources/plataf.bmp");
+    if (Plataforma3)
+    {
+        fachada->setScala(Plataforma3,escala);
+        //fachada->setMaterial(Plataforma3,"resources/plataf.bmp");
         Plataforma3->Rotar(vec3(0,1,0), 1.5f);
-	}
+    }
+
 
 
 /** ESTABLECEMOS LA CAMARA
@@ -221,7 +215,8 @@ Fachada* fachada=fachada->getInstance();
 	enemE.push_back(enemE1);
 	addGameObject(enemE1);
 */
-    
+    ///Añado el menu
+    fachada->addMenu(1);
     
 
 }	
@@ -386,6 +381,8 @@ void Mundo::protaUpdate(const u32 now, const f32 frameDeltaTime, f32 tiempo){
 
 }
 void Mundo::checkInput(){
+    
+    
 	if(sf::Joystick::isConnected(0)){
 		JoyY=sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
 		JoyX=sf::Joystick::getAxisPosition(0, sf::Joystick::X);
@@ -458,7 +455,6 @@ void Mundo::checkInput(){
         	prota->setSalto(true);
     	}else
 		prota->setSalto(false);
-       	
 	       
 }
 
@@ -478,14 +474,39 @@ void Mundo::checkCombate()
 }
 
 void Mundo::camUpdate(const f32 frameDeltaTime){
+    //prueba zoom camara
+    /*
+    if(prota->getCaida()){
+       while(CamZ>-200){
+            CamZ-=0.00001f;
+            //std::cout<<"con zoom"<<endl;
+        }
+    }
+    if(prota->getSalto()){
+        while(CamZ<-100){
+            CamZ+=0.00001f;
+            //std::cout<<"con zoom"<<endl;
+        }
+        
+        zoom=false;
+        //CamZ=-200;
+    }
+    //std::cout<<"Camz"<<CamZ<<endl;
+    */
+    
 	Posicion* protaPosition = prota->getPosition();
 	//vec3 camPosition = cam->getPosicion();
-
-    cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-20,-120)); // cambio 5O A ProtaPosition.Y
+    if(estado>0){
+    cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-20,-200)); // cambio 5O A ProtaPosition.Y
     //camPosition=vec3(protaPosition->getPosX(),protaPosition->getPosY()+30,protaPosition->getPosZ());
     //camPosition.y=protaPosition->getPosY()+30;
     //Falta funcion para enfocar la camara
     //cam->setTarget(camPosition);
+    }
+    if(estado==0){
+        cam->setPosicion(vec3(0,2,-20));
+        //cam->Rotar(vec3(0,1,0), 3.0f);
+    }
 }
 
 void Mundo::fpsControl(){
@@ -520,7 +541,7 @@ void Mundo::timeWait(){
 
 void Mundo::draw(){
 	
-    fachada->draw(255,100,101,140);
+    fachada->draw();
 }
 
 void Mundo::addGameObject (GameObject* o){
@@ -536,7 +557,14 @@ GameObject* Mundo::getGameObject(uint8_t pos) const{
 
 	return o;
 }
-
+void Mundo::CambioEstado(){
+    if(estado==0){
+        estado=1;
+    }
+    else
+        estado=0;
+    
+}
 Mundo::~Mundo()	//DESTRUCTOR
 {
 	/* DELETE PROTAGONISTA */
@@ -560,9 +588,10 @@ Mundo::~Mundo()	//DESTRUCTOR
 	pos2.clear();
 	pos3.clear();
 
-    delete b;
     delete c;
+    delete c2;
     delete f;
+    delete f2;
     delete a;
     delete a2;
     delete bebida;
@@ -583,5 +612,6 @@ Mundo::~Mundo()	//DESTRUCTOR
    		delete aristas[cont4];
    	}
    	aristas.clear();
-
+    
+    
 }

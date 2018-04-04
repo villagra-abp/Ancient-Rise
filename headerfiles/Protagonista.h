@@ -20,18 +20,18 @@ class Protagonista : public GameObject
 
          void* getNode();
 
-         void salto(const f32 Time);
+         void salto(const glm::f32 Time);
          void ataque(EnemigoBasico* e);
-         void movimiento(const f32 Time);
-         void recuperarEnergia(const f32 Time);
-         void recuperarVida(const f32 Time);
+         void movimiento(const glm::f32 Time);
+         void recuperarEnergia(const glm::f32 Time);
+         void recuperarVida(const glm::f32 Time);
          void pintarInterfaz();
          void comprobarColision(EnemigoBasico *e);
          void comprobarColision(Enemigo *e);
          void comprobarColision(Comida *comida);
          void comprobarColision(Bebida *bebida);
          void comprobarColision(Trampa *trampa);
-         void gravedad(const f32 Time);
+         void gravedad(const glm::f32 Time);
          void CreateGround(b2World& world, float X, float Y,int largo);
          void CreateBox(b2World& world, float X, float Y);
          void update(Blackboard* b);
@@ -43,8 +43,8 @@ class Protagonista : public GameObject
          void setSalto(bool s);
          Posicion* getPosition();
          void setPosition(Posicion* v);
-         f32  getEnergia();
-         f32  getVida();
+         glm::f32  getEnergia();
+         glm::f32  getVida();
 
          bool getSigilo();
          bool getCorrer();
@@ -54,8 +54,8 @@ class Protagonista : public GameObject
          void setDireccion(int d);
 
          void setAtaque(bool d);
-         void setEnergia(f32 cantidad, const f32 Time);
-         void setVida(f32 cantidad, const f32 Time);
+         void setEnergia(glm::f32 cantidad, const glm::f32 Time);
+         void setVida(glm::f32 cantidad, const glm::f32 Time);
          void updateBody(b2World& world);
          bool checkVida();
 
@@ -65,7 +65,7 @@ class Protagonista : public GameObject
          void setPosCombate(int n);
          int getPosCombate();
          void checkPosCombate();
-         void quitarVida(f32 cantidad);
+         void quitarVida(glm::f32 cantidad);
 
 
 
@@ -77,8 +77,8 @@ class Protagonista : public GameObject
         void * rec;
         void * energy;
         void * life;
-        f32 energia=100.f;
-        f32 vida=100.f;
+        glm::f32 energia=100.f;
+        glm::f32 vida=100.f;
         bool saltando=false;
         bool sigilo=false;
         bool correr=false;
@@ -91,7 +91,7 @@ class Protagonista : public GameObject
         int cont_defensa=0;
         int cont_salto=0;
         int cont_recarga_enemigo=0;
-        const f32 VELOCIDAD_MOVIMIENTO=90.f;
+        const glm::f32 VELOCIDAD_MOVIMIENTO=90.f;
 
         Posicion* protaPosition;
         Posicion* enemigoPosition;

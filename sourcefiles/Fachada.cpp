@@ -28,7 +28,7 @@ u32 Fachada::getTime(){
 
 //Destructor
 Fachada::~Fachada(){
-	device->drop();
+	//device->drop();
 }
 
 //Constructor. Solo accesible desde getInstance
@@ -38,8 +38,13 @@ Fachada::Fachada(int h, int w, bool fullscreen){
     settings.depthBits = 24;
     settings.stencilBits = 8;
     settings.antialiasingLevel = 4;
-    settings.majorVersion = 4.6;
+    settings.majorVersion = 4.3;
     settings.minorVersion = 3.3;
+    
+    std::cout << "depth bits:" << settings.depthBits << std::endl;
+std::cout << "stencil bits:" << settings.stencilBits << std::endl;
+std::cout << "antialiasing level:" << settings.antialiasingLevel << std::endl;
+std::cout << "version:" << settings.majorVersion << "." << settings.minorVersion << std::endl;
     /** SUBTITULO DE VENTANA
  Para poner texto en el subtitulo de la ventana. Necesita de una 'L' delante del string
  debido a que lo necesita el motor de irrlicht
@@ -93,13 +98,8 @@ void Fachada::cursorPersonalizar(std::string path){
 }
 
 //Dibuja todo lo dibujable
-void Fachada::draw(int a, int b, int c, int d){
-	driver->beginScene(true, true, video::SColor(a,b,c,d));
-
-	smgr->drawAll(); // draw the 3d scene
-	device->getGUIEnvironment()->drawAll(); // draw the gui environment (the logo)
-
-	driver->endScene();
+void Fachada::draw(){
+	motorgrafico->draw();
 }
 
 void Fachada::suspension(){
@@ -176,7 +176,7 @@ FObjeto* Fachada::addCube(int x,int y,int z,bool flag){
     */
     FObjeto* enem = new FObjeto();
 	
-    enem->setMalla("resources/cajitaobj.obj");
+    enem->setMalla("resources/pared.obj");
     enem->Escalar(vec3(2,2,2));
 	
 
@@ -384,14 +384,43 @@ void Fachada::drawTerreno(){
 	FObjeto* suelo = new FObjeto();
 	
     //suelo->setMalla("resources/escenario.obj");
-    suelo->setMalla("resources/random.obj");
-    suelo->Escalar(vec3(7000,700,700));
+    suelo->setMalla("resources/nivel1.obj");
+    //suelo = addCube(-220,-9,0, false);
+    suelo->Escalar(vec3(0.23,0.2,0.2));
 	
-
-	suelo->Mover(vec3(-220,-9,5));
-	//prota->Rotar(vec3(0,1,0), -3.f);
+	suelo->Mover(vec3(365,-540,5));
+	//suelo->Rotar(vec3(0,1,0), -3.f);
+    suelo->Rotar(vec3(1,0,0), 1.5f);
 	
     
+    
+}
+void Fachada::addMenu(int tipo){
+    
+    FObjeto* menu = new FObjeto();
+    addFlecha(1);
+    if(tipo==1){
+        ///Añado el menu
+        menu->setMalla("resources/menu.obj");
+        menu->setPosicion(vec3(.5f,-.5f,.5f));
+        menu->Escalar(vec3(.1f,.1f,.1f));
+        menu->Rotar(vec3(1,0,0), 1.5f);
+        
+    }else{
+        ///Añado el menu
+        menu->setMalla("resources/menu.obj");
+        menu->setPosicion(vec3(.5f,-.5f,.5f));
+        menu->Escalar(vec3(.1f,.1f,.1f));
+        menu->Rotar(vec3(1,0,0), 1.5f);
+        
+    }
+}
+void Fachada::addFlecha(int pos){
+    
+    FObjeto* flecha = new FObjeto();
+    flecha->setMalla("resources/porraelite.3DS");
+    flecha->setPosicion(vec3(-4.f,pos*3,.5f));
+    flecha->Escalar(vec3(.01f,.01f,.01f));
     
 }
 FCamara* Fachada::addCamara(Posicion* p){
@@ -430,4 +459,35 @@ void Fachada::cambiaColorLuz(glm::vec4 color){
     FColor* colorin = new FColor(color);
 
     luz->setColor(colorin);
+}
+/**
+FUNCION PARA crear el objeto estatico
+**/
+void Fachada::CreateGround(b2World& world, float X, float Y,float largo,float alto)
+{
+    Y=-Y+100;
+    //if(X>0){
+    //    X=X*2;
+    //}else
+       X=X-290;
+    float posX=X+(largo/2);
+    float posY=Y+(alto/2)/10;
+    /*
+    std::cout<<"posX vale: "<<posX <<endl;
+    std::cout<<"posY vale: "<<posY <<endl;
+    std::cout<<"largo vale: "<<largo <<endl;
+    std::cout<<"alto vale: "<<alto <<endl;
+    */
+    b2BodyDef BodyDef;
+    BodyDef.position.Set(posX, posY);
+    BodyDef.type = b2_staticBody;
+    b2Body* Ground = world.CreateBody(&BodyDef);
+    b2PolygonShape Shape;
+    Shape.SetAsBox(largo/2, alto/2);
+    b2FixtureDef FixtureDef;
+    FixtureDef.density = 0.f;
+    FixtureDef.friction = 0.65f;
+    FixtureDef.shape = &Shape;
+    Ground->CreateFixture(&FixtureDef);
+
 }

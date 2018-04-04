@@ -5,6 +5,7 @@
 
 #include <irrlicht/irrlicht.h>
 #include <GL/glew.h>
+#include <Box2D/Box2D.h>
 #include "../headerfiles/Posicion.h"
 #include <SFML/Window/Window.hpp>
 #ifndef GL3_PROTOTYPES 
@@ -31,7 +32,7 @@ public:
 	virtual ~Fachada();
 
 	static Fachada* getInstance();
-    static Fachada* getInstance(int h, int w, bool fullscreen);	
+    static Fachada* getInstance(int h, int w, bool fullscreen);
 
 	bool getVentanaEstado();
 	bool getVentanaActiva();
@@ -57,7 +58,7 @@ public:
 
 	void cursorVisible(bool f);
 	void cursorPersonalizar(std::string path);
-	void draw(int a, int b, int c, int d);
+	void draw();
 	void suspension();
 	void cerrar();
 	void destruirObjeto(void* nodo);
@@ -66,6 +67,8 @@ public:
 	//void drawDrawEscena();
 	//void drawGUI();
     void drawTerreno();
+    void addMenu(int t);
+    void addFlecha(int pos);
 	
     FObjeto* addCube(int x,int y,int z,bool flag);
     FObjeto* addSphere(int x,int y,int z,bool flag);
@@ -75,6 +78,8 @@ public:
 
     void rotObj(FObjeto* o, float x, float y, float z, float angulo);
     void movObj(FObjeto* o, float x, float y, float z);
+    
+    void CreateGround(b2World& world, float X, float Y,float largo, float ancho);
 
     void moverLuz(Posicion* pos);
     void cambiaColorLuz(glm::vec4 color);
@@ -94,6 +99,15 @@ private:
     TNodo* Escena;
     //CAMARA
     	scene::ICameraSceneNode* cam;
+    //MOTOR GRAFICO
+    TMotorTAG* motorgrafico = TMotorTAG::getInstance();
+    
+    /* BOX2D */
+        b2Body* Body;
+        b2BodyDef BodyDef;
+        b2PolygonShape Shape;
+        
+    
 
     FLuz* luz;
 

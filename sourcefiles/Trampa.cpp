@@ -5,7 +5,8 @@ Trampa::Trampa(IrrlichtDevice *dev, ISceneManager* smgr, Posicion* pos):Objeto(p
 {
 	GameObject::setTipo(TRAMPA);
     Fachada* fachada=fachada->getInstance();
-	FObjeto* obObjeto = fachada->addMalla(pos->getPosX(),pos->getPosY(),pos->getPosZ(),"resources/pinchos.obj");
+    FObjeto* obObjeto = fachada->addCube(pos->getPosX(),pos->getPosY(),pos->getPosZ(),false);
+	//FObjeto* obObjeto = fachada->addMalla(pos->getPosX(),pos->getPosY(),pos->getPosZ(),"resources/pinchos.obj");
 	objeto = obObjeto;
     //posicion = &pos;
     std::cout<<"Pinchos: " << this->getPosition()->getPosX()<<endl;

@@ -20,9 +20,23 @@ int main()
 	/* CREAMOS MUNDO DEL JUEGO */
 
 	Mundo* mundo = new Mundo();
-    TMotorTAG* motorgrafico = TMotorTAG::getInstance();
+    //TMotorTAG* motorgrafico = TMotorTAG::getInstance();
 	
+    sf::RectangleShape rectangle;
+    rectangle.setPosition(400.f,300.f);
+    rectangle.setSize(sf::Vector2f(300,300));
+    rectangle.setFillColor(sf::Color(255, 255, 255));
+    
+    sf::View fixed = ventana->getView(); // The 'fixed' view will never change
 
+    sf::View standard = fixed; // The 'standard' view will be the one that gets always displayed
+
+    unsigned int size = 200; // The 'minimap' view will show a smaller picture of the map
+    sf::View minimap(sf::FloatRect(standard.getCenter().x, standard.getCenter().y, static_cast<float>(size), static_cast<float>(ventana->getSize().y*size/ventana->getSize().x)));
+    minimap.setViewport(sf::FloatRect(1.f-static_cast<float>(minimap.getSize().x)/ventana->getSize().x-0.02f, 1.f-static_cast<float>(minimap.getSize().y)/ventana->getSize().y-0.02f, static_cast<float>(minimap.getSize().x)/ventana->getSize().x, static_cast<float>(minimap.getSize().y)/ventana->getSize().y));
+    minimap.zoom(4.f);
+
+   
 	// BUCLE PRINCIPAL DEL JUEGO 
 
 	while(ventana->isOpen())
@@ -30,9 +44,11 @@ int main()
 		char inputKey;
 		bool keyPressed;
         
+        ventana->clear();
         glClearColor(0.0f,0.2f,0.5f,0.0f);
 		glClearDepth(1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        
 
 		//Evento
 		sf::Event* evento = new sf::Event; 
@@ -48,30 +64,55 @@ int main()
 		            //device->closeDevice();
 
 		        break;
-		    }
-		    
-		    
+               case sf::Event::KeyPressed:
+		        {    
+		            inputKey = evento->key.code;
+		            //std::cout<<evento->key.code<<std::endl;		
+		            switch(inputKey){
+                        case 36: 		//escape
+		            		mundo->CambioEstado();
+		            		break;
+		            	case 73: 		//arriba
+		            		//mundo->estado=0;
+		            		break;
+		            	case 74: 		//abajoo
+		            		//camara->Mover(vec3(0,0,1));
+		            		break;
+		            	
+		            }
+		            keyPressed = true;
+		        }   
+                break;
+            }
 		}
 
         //ventana->clear();
         
 		//
-		//ventana.draw(rectangle);
+		//
 		// ACTUALIZAMOS EL MUNDO 
 		mundo->update();
 		
-    motorgrafico->draw();
+    glViewport(0, 0, 800, 500); 
+    mundo->draw();
+    //ventana->pushGLStates();
+    //ventana->setView(view);
+	//ventana->setActive(false);
+    //ventana->draw(rectangle);
+    //ventana->popGLStates();
+    //ventana->setView(minimap);
+    //glViewport(0, 500, 800, 100); 
+    //mundo->draw();
     ventana->display();
 
 	}
 
-	cout<<"1"<<endl;
+
     delete mundo;
-    cout<<"2"<<endl;
-    delete motorgrafico;
-    cout<<"3"<<endl;
+    std::cout<<"mundo"<<endl;
 	delete fachada;
-	cout<<"4"<<endl;
+    std::cout<<"fachada"<<endl;
+
 
 }
 

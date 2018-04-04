@@ -95,9 +95,9 @@ void Protagonista::CreateBox(b2World& world, float X, float Y)
     BodyDef.position = b2Vec2(X/SCALE, Y/SCALE);
     BodyDef.type = b2_dynamicBody;
     Body = world.CreateBody(&BodyDef);
-    Shape.SetAsBox((20.f/2)/SCALE, (20.f/2)/SCALE);
+    Shape.SetAsBox((100.f/2)/SCALE, (200.f/2)/SCALE);
     b2FixtureDef FixtureDef;
-    FixtureDef.density = 1.2f;
+    FixtureDef.density = 1.6f;
     FixtureDef.friction = 0.35f;
     FixtureDef.shape = &Shape;
     FixtureDef.isSensor = false;
@@ -118,7 +118,7 @@ void Protagonista::CreateGround(b2World& world, float X, float Y,int largo)
     BodyDef.type = b2_staticBody;
     b2Body* Ground = world.CreateBody(&BodyDef);
     b2PolygonShape Shape;
-    Shape.SetAsBox((largo/2)/SCALE, (300.f/2)/SCALE);
+    Shape.SetAsBox((largo/2)/SCALE, (600.f/2)/SCALE);
     b2FixtureDef FixtureDef;
     FixtureDef.density = 0.f;
     FixtureDef.friction = 0.65f;
@@ -212,7 +212,7 @@ void Protagonista::ataque(EnemigoBasico* e)
 /**
 FUNCION PARA CONTROLAR EL MOVIMIENTO DEL PROTA
 **/
-void Protagonista::movimiento(const f32 Time)
+void Protagonista::movimiento(const glm::f32 Time)
 {
     //bool flag;
 
@@ -459,7 +459,7 @@ void Protagonista::setPosCombate(int n)
 /**
 FUNCION PARA RECUPERAR LA VIDA DEL PROTA
 **/
-void Protagonista::setVida(f32 cantidad,const f32 Time)
+void Protagonista::setVida(glm::f32 cantidad,const glm::f32 Time)
 {
     if(vida<100)
         vida+=cantidad* Time;
@@ -473,7 +473,7 @@ void Protagonista::setVida(f32 cantidad,const f32 Time)
 /**
 METODO PARA GESTIONAR LA ENERGIA
 **/
-void Protagonista::setEnergia(f32 cantidad,const f32 Time)
+void Protagonista::setEnergia(glm::f32 cantidad,const glm::f32 Time)
 {
     if(energia>0 || energia<100)
         energia+=cantidad* Time;
@@ -502,15 +502,15 @@ void Protagonista::setSalto(bool s)
         }
         if(correr && energia>10)
         {   
-            Body->ApplyForceToCenter(b2Vec2(0.f,10000.f),true);
+            Body->ApplyForceToCenter(b2Vec2(0.f,10000000.f),true);
         }else if(energia<10)
         {
            /* sonido->playSound(grito);
             grito->getCanal()->setGrupoCanales(sonido->getGrupoVoces());*/
-            Body->ApplyForceToCenter(b2Vec2(0.f,2500.f),true);
+            Body->ApplyForceToCenter(b2Vec2(0.f,2500000.f),true);
         }
         else{
-            Body->ApplyForceToCenter(b2Vec2(0.f,6000.f),true);    
+            Body->ApplyForceToCenter(b2Vec2(0.f,6000000.f),true);    
         }
         //cont_salto=1;
         //saltando=s;
@@ -585,7 +585,7 @@ void Protagonista::setCombate()
     }
 }
 
-void Protagonista::quitarVida(f32 cantidad)
+void Protagonista::quitarVida(glm::f32 cantidad)
 {
     vida -=cantidad; 
 }
@@ -608,7 +608,7 @@ Posicion* Protagonista::getPosition()
    return protaPosition;
 }
 
-f32 Protagonista::getEnergia()
+glm::f32 Protagonista::getEnergia()
 {
     return energia;
 }
@@ -632,12 +632,12 @@ int Protagonista::getPosCombate()
 Protagonista::~Protagonista()
 {
     //dtor
+    //std::cout<<"peta peta"<<endl;
     rec = nullptr;
     energy = nullptr;
     life = nullptr;  
-    cout<<"1sss"<<endl;
+
+    
     //delete energyPosition;
-    //cout<<"1fdsf"<<endl;
     //delete lifePosition;
-    cout<<"ssss"<<endl;
 }
