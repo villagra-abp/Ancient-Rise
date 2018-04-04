@@ -6,7 +6,7 @@ class Posicion
 {
     public:
         Posicion(float x, float y, float z);
-        virtual ~Posicion();
+        virtual ~Posicion() = default;
 
         float getPosX();
         float getPosY();

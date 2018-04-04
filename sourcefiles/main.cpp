@@ -65,10 +65,13 @@ int main()
 
 	}
 
-	
+	cout<<"1"<<endl;
     delete mundo;
+    cout<<"2"<<endl;
     delete motorgrafico;
+    cout<<"3"<<endl;
 	delete fachada;
+	cout<<"4"<<endl;
 
 }
 

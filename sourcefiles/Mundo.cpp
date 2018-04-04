@@ -540,8 +540,9 @@ GameObject* Mundo::getGameObject(uint8_t pos) const{
 Mundo::~Mundo()	//DESTRUCTOR
 {
 	/* DELETE PROTAGONISTA */
+    cout<<"me"<<endl;
 	delete prota;
-
+    cout<<"eee"<<endl;
 	/* DELETE ENEMIGOS */
 	for(int cont=0; cont<enemB.size();cont++)
 	{
@@ -554,7 +555,7 @@ Mundo::~Mundo()	//DESTRUCTOR
 		delete enemE[cont2];
 	}
 	enemE.clear();
-
+    cout<<"ja"<<endl;
 	pos.clear();
 	pos2.clear();
 	pos3.clear();
@@ -569,7 +570,7 @@ Mundo::~Mundo()	//DESTRUCTOR
     delete sonido;
 
    // delete pC, pC2, pF, pF2, pA, pA2, posbebida, postrampa;
-
+    cout<<"..."<<endl;
     /* DELETE DEL GRAFO PROVISIONAL */
    	for(int cont3=0; cont3<nodos.size();cont3++)
    	{

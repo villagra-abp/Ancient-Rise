@@ -18,6 +18,8 @@ Protagonista::Protagonista():energy(nullptr), life(nullptr), Body(nullptr), rec(
     FObjeto* protaObjeto = fachada->addMalla(0, 0,30,"resources/personaje.obj");
     rec = protaObjeto;
     fachada->rotObj(protaObjeto, 0, 1, 0, -90);
+
+    energyPosition = new Posicion(0.0f,0.0f,0.0f);
     
  /*
     energy=fachada->addCube(0,0,30,true);
@@ -633,7 +635,9 @@ Protagonista::~Protagonista()
     rec = nullptr;
     energy = nullptr;
     life = nullptr;  
-
-    delete energyPosition;
-    delete lifePosition;
+    cout<<"1sss"<<endl;
+    //delete energyPosition;
+    //cout<<"1fdsf"<<endl;
+    //delete lifePosition;
+    cout<<"ssss"<<endl;
 }

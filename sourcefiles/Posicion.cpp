@@ -37,7 +37,4 @@ void Posicion::setPosZ(float z)
 {
     posZ=z;
 }
-Posicion::~Posicion()
-{
-    //dtor
-}
+

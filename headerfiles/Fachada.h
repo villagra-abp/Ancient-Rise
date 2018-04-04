@@ -76,6 +76,9 @@ public:
     void rotObj(FObjeto* o, float x, float y, float z, float angulo);
     void movObj(FObjeto* o, float x, float y, float z);
 
+    void moverLuz(Posicion* pos);
+    void cambiaColorLuz(glm::vec4 color);
+
 private:
 	Fachada(int h, int w, bool fullscreen);
 	
@@ -91,6 +94,8 @@ private:
     TNodo* Escena;
     //CAMARA
     	scene::ICameraSceneNode* cam;
+
+    FLuz* luz;
 
 };
 
