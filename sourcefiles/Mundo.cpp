@@ -127,7 +127,7 @@ Fachada* fachada=fachada->getInstance();
 
 /* CREAMOS EL TERRENO Y COLISIONES DE CAMARA */
 
-	this->terrainBuilder();
+	//this->terrainBuilder();
 
 /** TIME AND FRAMES
  Para poder hacer un movimiento independiente del framerate, tenemos que saber
@@ -231,7 +231,7 @@ Fachada* fachada=fachada->getInstance();
      aristas.push_back(a7);
      Arista *a8 = new Arista(5,1);
      aristas.push_back(a8);
-     Arista *a9 = new Arista(5,1);
+     Arista *a9 = new Arista(5,3);
      aristas.push_back(a9);
      Arista *a10 = new Arista(5,1);
      aristas.push_back(a10);
@@ -255,7 +255,7 @@ Fachada* fachada=fachada->getInstance();
      aristas.push_back(a19);
      Arista *a20 = new Arista(5,1);
      aristas.push_back(a20);
-     Arista *a21 = new Arista(5,1);
+     Arista *a21 = new Arista(5,3);
      aristas.push_back(a21);
      Arista *a22 = new Arista(5,1);
      aristas.push_back(a22);
@@ -265,7 +265,7 @@ Fachada* fachada=fachada->getInstance();
      aristas.push_back(a24);
      Arista *a25 = new Arista(5,1);
      aristas.push_back(a25);
-     Arista *a26 = new Arista(5,1);
+     Arista *a26 = new Arista(5,3);
      aristas.push_back(a26);
      Arista *a27 = new Arista(5,1);
      aristas.push_back(a27);
@@ -275,7 +275,7 @@ Fachada* fachada=fachada->getInstance();
      aristas.push_back(a29);
       Arista *a30 = new Arista(5,1);
      aristas.push_back(a30);
-     Arista *a31 = new Arista(5,1);
+     Arista *a31 = new Arista(5,3);
      aristas.push_back(a31);
      Arista *a32 = new Arista(5,1);
      aristas.push_back(a32);
@@ -395,7 +395,7 @@ void Mundo::posBuilder(){	//CONSTRUCTOR DE POSICIONES DE ENEMIGOS
     pos5.push_back(p10);
     */
 
-    Posicion *p0 = new Posicion(60.f,0.f,30.f);
+    Posicion *p0 = new Posicion(87.475f,0.34f,30.f);
     pos.push_back(p0);
 
 
@@ -409,11 +409,11 @@ void Mundo::posBuilder(){	//CONSTRUCTOR DE POSICIONES DE ENEMIGOS
     pos.push_back(p4);
 */
 
-    Posicion *p5 = new Posicion(340.f,0.f,30.f);
+    Posicion *p5 = new Posicion(354.475f,0.34f,30.f);
     pos2.push_back(p5);
-    Posicion *p6 = new Posicion(250.f,0.f,30.f);
+    Posicion *p6 = new Posicion(245.475f,0.34f,30.f);
     pos2.push_back(p6);
-    Posicion *p7 = new Posicion(100.f,0.f,30.f);
+    Posicion *p7 = new Posicion(173.475f ,0.34f,30.f);
     pos2.push_back(p7);
 
 

@@ -61,6 +61,9 @@ Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos
     memoria = false;
     orden = 0;                                            // Ninguna orden recibida
     saltando = false;
+    inv = true;
+
+    vuelta = false;
 
 
 }
@@ -443,6 +446,11 @@ bool Enemigo::getSaltando()
     return saltando;
 }
 
+bool Enemigo::getVuelta()
+{
+    return vuelta;
+}
+
 
 void Enemigo::setSalud(f32 s)
 {
@@ -536,6 +544,11 @@ void Enemigo::setInvisible()
     {
         inv = false;
     }
+}
+
+void Enemigo::setVuelta(bool v)
+{
+    vuelta = v;
 }
 
 

@@ -7,6 +7,7 @@ enum Comportamiento  // Enumerador para definir el comportamiento que debe segui
 {
 	SALTO, 			// El NPC tiene que ejecutar un salto
 	NORMAL,
+	BAJADA,
 };
 
 class Arista

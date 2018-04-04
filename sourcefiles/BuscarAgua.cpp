@@ -208,6 +208,7 @@ Status BuscarAgua::run(Enemigo *e)
                      if(time>4)     // BEBIENDO
                      {
                          e->setSed(100.f);       // RECUPERAMOS SED
+                         e->setVuelta(true);     // Indicamos que estamos volviendo a la patrulla
                          f[pos]->setActivando(false);
                          contador  = 0;
                          /* Inicializamos todo otra vez para que la proxima vez que ocurra funcione todo bien */
@@ -399,6 +400,7 @@ void BuscarAgua::onInitialize(Blackboard *b)
    posNodoI = nullptr;
    g = new Grafo();
    iC = 0;
+
 }
 
 

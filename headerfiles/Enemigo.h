@@ -61,6 +61,7 @@ class Enemigo : public GameObject
         bool getDisparo();
         Objeto* getAlarmaActivar();
         bool getSaltando();
+        bool getVuelta();
 
         void setSed(f32 se);
         void setEnergia(f32 e);
@@ -80,6 +81,7 @@ class Enemigo : public GameObject
         void setAlarmaActivar(Objeto *a);
         void setSaltando(bool s);
         void setInvisible();
+        void setVuelta(bool v);
 
         /* COMBATE */   
         void setCombate(bool b);
@@ -137,6 +139,8 @@ class Enemigo : public GameObject
         vector<NodoGrafo*> nodos;                    // CONTIENE TODOS LOS NODOS DEL GRAFO
         vector<Posicion*> patrulla;                 // CONTIENE TODAS LAS POS DE LA PATRULLA DEL ENEMIGO
         Posicion* nodoPosition;
+        bool vuelta;                                // Para saber si el enemigo esta volviendo a su patrulla o no
+        bool interrupcion;                          // Si interrumpen al enemigo durante su camino de vuelta y que vuelva a calcular el camino desde donde se encuentra ahora
 
         /* MEMORIA */ 
         sf::Clock reloj;                            // Reloj para controlar el tiempo que tiene que estar huyendo
