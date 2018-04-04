@@ -6,7 +6,7 @@
 CONSTRUCTOR DE ENEMIGO BASICO
 Parametros : Irrlicht objetos, vector con posiciones para la patrulla, entero para indicar si melee/distancia, Blackboard con datos necesarios para el arbol
 **/
-EnemigoBasico::EnemigoBasico(IrrlichtDevice *dev, ISceneManager *smgr, vector<Posicion*> pos, float xlength, float pendValue, int t, const Entorno* e, Blackboard *b, b2World& world):Enemigo(dev, smgr, pos, xlength, pendValue, e, b)
+EnemigoBasico::EnemigoBasico(vector<Posicion*> pos, float xlength, float pendValue, int t, const Entorno* e, Blackboard *b, b2World& world):Enemigo(pos, xlength, pendValue, e, b)
 {
 
     //ESTABLECEMOS LAS ESTADISTICAS ENEMIGO BASICO

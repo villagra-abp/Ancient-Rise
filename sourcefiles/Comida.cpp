@@ -2,7 +2,7 @@
 
 
 
-Comida::Comida(IrrlichtDevice *dev, ISceneManager* smgr, Posicion* pos):Objeto(pos)
+Comida::Comida(Posicion* pos):Objeto(pos)
 {
 	GameObject::setTipo(COMIDA);
 	Fachada* fachada=fachada->getInstance();

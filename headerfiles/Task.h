@@ -12,13 +12,7 @@
 
 
 using namespace std;
-using namespace irr;
 
-using namespace core;
-using namespace scene;
-using namespace video;
-using namespace io;
-using namespace gui;
 
 
 enum Status // CADA COMPORTAMIENTO, CUANDO SE EJECUTA, DEVUELVE UN ESTADO QUE ES CRITICO PARA QUE EL EBHAVIOR TREE FUNCIONE

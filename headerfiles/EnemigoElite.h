@@ -12,7 +12,7 @@ Clase que define el tipo de enemigo mas fuerte, con mecanicas especiales. Dos ti
 class EnemigoElite : public Enemigo
 {
     public:
-         EnemigoElite(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos, float xlength, float pendValue, int t, const Entorno* e, Blackboard *b, b2World& world);
+         EnemigoElite(vector<Posicion*> pos, float xlength, float pendValue, int t, const Entorno* e, Blackboard *b, b2World& world);
 
         void Update(Posicion* prota);
         virtual void comprobarEnergia() override;
@@ -24,7 +24,7 @@ class EnemigoElite : public Enemigo
         virtual ~EnemigoElite();
 
     private:
-    	const f32 ENERGIA_MAX=100.f;
+    	const glm::f32 ENERGIA_MAX=100.f;
 
 
 };

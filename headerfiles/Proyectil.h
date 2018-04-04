@@ -10,7 +10,7 @@ class Proyectil : public GameObject
 {
 	public:
 		
-		Proyectil(IrrlichtDevice* device, ISceneManager* smgr, Enemigo *e);
+		Proyectil(Enemigo *e);
 		void destroyProyectil();
 		void update(Enemigo *e, Blackboard *b);
 		void disparoProyectil(Enemigo *e, Blackboard *b);
@@ -28,7 +28,6 @@ class Proyectil : public GameObject
 	private:
 		
 		void *proyectil;
-		IVideoDriver*       driver;
 
 		Posicion* proyectilPos;
 	    Posicion* enemigoPosition;

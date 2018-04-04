@@ -3,7 +3,7 @@
 
 
 
-#include <irrlicht/irrlicht.h>
+
 #include <GL/glew.h>
 #include <Box2D/Box2D.h>
 #include "../headerfiles/Posicion.h"
@@ -23,7 +23,7 @@
 #include <iostream>
 
 
-using namespace irr;
+
 using namespace std;
 
 class Fachada {
@@ -36,12 +36,9 @@ public:
 
 	bool getVentanaEstado();
 	bool getVentanaActiva();
-	video::IVideoDriver* getDriver();
-	scene::ISceneManager* getScene();
-	gui::IGUIEnvironment* getGUI();
-	IrrlichtDevice* getDevice();
+	
 	int getFPS();
-	u32 getTime();
+	glm::u32 getTime();
     sf::RenderWindow* getVentana();
     Posicion* getPosicion(void * nodo);
     Posicion* getScala(void * nodo);
@@ -51,7 +48,7 @@ public:
     bool setScala(void * nodo,Posicion* scala);
     bool setPosicion(void * nodo,Posicion* pos);
     bool setMaterialFlag(void * nodo,bool b);
-    bool setMaterial(void * nodo,const io::path& ruta);
+    bool setMaterial(void * nodo,std::string ruta);
     
 	void setNombreVentana(std::string text);
 	void setNombreVentana(wchar_t* text);
@@ -81,24 +78,15 @@ public:
     
     void CreateGround(b2World& world, float X, float Y,float largo, float ancho);
 
-    void moverLuz(Posicion* pos);
-    void cambiaColorLuz(glm::vec4 color);
-
 private:
 	Fachada(int h, int w, bool fullscreen);
 	
-    //MyEventReceiver* mainReceiver;
-    IrrlichtDevice *device;
-
-	video::IVideoDriver* driver;
-	scene::ISceneManager* smgr;
-	gui::IGUIEnvironment* guienv;
+    
     
     sf::RenderWindow* ventana;
 
     TNodo* Escena;
-    //CAMARA
-    	scene::ICameraSceneNode* cam;
+    
     //MOTOR GRAFICO
     TMotorTAG* motorgrafico = TMotorTAG::getInstance();
     
@@ -108,8 +96,6 @@ private:
         b2PolygonShape Shape;
         
     
-
-    FLuz* luz;
 
 };
 

@@ -20,7 +20,7 @@ class Blackboard
 		Blackboard();
 		
 		void setProta(float pX);
-		void setTime(const f32 T);
+		void setTime(const glm::f32 T);
 		void setFuente(vector<Objeto*> f);
 		void setComida(vector<Objeto*> c);
 		void setAlarma(vector<Objeto*>a);
@@ -31,7 +31,7 @@ class Blackboard
 
 
 		float getProta();
-		f32 getTime();
+		glm::f32 getTime();
 		vector<Objeto*> getFuente();
 		vector<Objeto*> getComida();
 		vector<Objeto*> getAlarma();
@@ -45,7 +45,7 @@ class Blackboard
 	private:
 		
 		float protaX;
-		f32 time;
+		glm::f32 time;
 		
 		/* OBJETOS DEL JUEGO */
 		vecObjetos fuentes;

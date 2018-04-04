@@ -1,6 +1,6 @@
 #include "../headerfiles/NodoGrafo.h"
 
-NodoGrafo::NodoGrafo(char n, f32 x, f32 y):path(nullptr)
+NodoGrafo::NodoGrafo(char n, glm::f32 x, glm::f32 y):path(nullptr)
 {	
 	GameObject::setTipo(NODOGRAFO);
 	nombre = n;

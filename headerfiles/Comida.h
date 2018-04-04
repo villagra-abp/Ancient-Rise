@@ -10,7 +10,7 @@ class Comida : public Objeto
 
 	public:
 
-		Comida(IrrlichtDevice *dev, ISceneManager* smgr, Posicion* pos);
+		Comida(Posicion* pos);
 		void* getNode();
 
 	private:

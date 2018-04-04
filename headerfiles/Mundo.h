@@ -70,8 +70,8 @@ class Mundo : public Entorno
         void terrainBuilder();
 
         //UPDATERS
-        void protaUpdate(const u32 now, const f32 frameDeltaTime, f32 tiempo);
-        void camUpdate(const f32 frameDeltaTime);
+        void protaUpdate(const glm::u32 now, const glm::f32 frameDeltaTime, glm::f32 tiempo);
+        void camUpdate(const glm::f32 frameDeltaTime);
         void fpsControl();
         void timeWait();
 
@@ -120,17 +120,12 @@ class Mundo : public Entorno
     	//CAMARA
     	FCamara* cam;
 
-    	//TERRENO
-    	scene::ITerrainSceneNode* terrain;
-
-    	//COLISIONES
-    	scene::ITriangleSelector* 	selector;
-    	scene::ISceneNodeAnimator* 	anim;
+    	
 
     	//TIME AND FRAMES
         int lastFPS;
-    	u32 then;
-    	u32 time_input;
+    	glm::u32 then;
+    	glm::u32 time_input;
 
     	//MUNDO BOX2D
     	b2Vec2 gravedad=b2Vec2(0.f, -9.8f*20);
