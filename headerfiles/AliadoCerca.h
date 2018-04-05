@@ -18,8 +18,7 @@ class AliadoCerca : public Task
 		Blackboard *board;
 	    void* enemigoNode;
 	    vector<EnemigoBasico*> enemigosB;
-	    vec3 enemBPosition;
-	    
+	   
 	
 		
 };

@@ -17,7 +17,7 @@ class OrdenAtaque : public Task
 		
 		Blackboard *board;
 	    EnemigoBasico *enemBActual;
-	    vec3 enemBPosition;
+	   
 	    
 	
 		
