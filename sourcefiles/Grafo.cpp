@@ -13,25 +13,29 @@ Grafo::Grafo():current(nullptr), nodoFinal(nullptr), startRecord(nullptr), endNo
 
 vector<Arista*> Grafo::pathfindDijkstra(NodoGrafo *inicio, NodoGrafo *fin)
 {	
-	cout<<"ENTRANDO"<<endl;
+	//cout<<"ENTRANDO"<<endl;
 	// Resetamos los valores para evitar problemas
 	reset();
 
 	startRecord = inicio; 																// Almacenamos el nodo donde empezamos el camino
+	nodosReset.push_back(inicio);
 
+	//cout<<"Coste Nodo Inicio "<<inicio->getCostSoFar()<<endl;
+	//cout<<"Coste Nodo FInal "<<fin->getCostSoFar()<<endl;
 	itA = abierta.begin(); 																// Inicializamos el iterador de la lista Abierta
 	abierta.push_back(startRecord); 													// Metemos el nodo inicial en la lista 
 	itC = cerrada.begin();
 
-
 	while(abierta.size()>0 && encontrado!=true) 										// Mientras que queden nodos por procesar en la lista abierta
 	{
-		cout<<"entro Bucle"<<endl;
+		//cout<<"dentro : "<<abierta.size()<<endl;
+		//cout<<"entro Bucle"<<endl;
 		smallestElement(); 																// Encontramos el nodo con el menor coste de la lista abierta
-		
+		//cout<<"Nombre1: "<<current->getNombre()<<endl;
 		if(current->getNombre()==fin->getNombre()) 										// Si el nodo con el coste mas bajo ya es el nodo final del camino, terminamos
 		{
 			encontrado = true;
+			//cout<<"ENCONTRADO!"<<endl;
 		}
 		else
 		{
@@ -40,6 +44,7 @@ vector<Arista*> Grafo::pathfindDijkstra(NodoGrafo *inicio, NodoGrafo *fin)
 			for(int cont=0;cont<aristas.size();cont++) 									// Recorremos todas las aristas salientes buscando sus nodos FInales para establecer su coste
 			{	
 				nodoFinal = aristas[cont]->getNodoFin();    							// Obtenemos el nodoFinal de la arista en la que nos encontramos
+				nodosReset.push_back(nodoFinal);
 				//cout<<nodoFinal->getNombre()<<endl;
 				nodoFinalCoste = current->getCostSoFar() + aristas[cont]->getCoste();	// Calculamos el cost_so_far del nodoFinal de la arista, suamndo el coste dle nodo incial de la arista
 																						//(nodo actual en el que estamos) con el coste de la arista (AUn no lo hemos almacenado)
@@ -85,11 +90,25 @@ vector<Arista*> Grafo::pathfindDijkstra(NodoGrafo *inicio, NodoGrafo *fin)
 			}
 
 			// Hemos terminado de mirar todas las aristas del nodo actual por lo que lo eliminamos de la lista abierta y lo metemos en la cerrada
-			abierta.remove(current);
+			//abierta.remove(current);
+			itA = find(abierta.begin(), abierta.end(), current);
+			if(itA!=abierta.end())
+			{
+				itA = abierta.erase(itA);
+				//cout<<"BORRADO"<<endl;
+				//cout<<"BOrradoTam :"<<abierta.size()<<endl;
+			}
+			
+			//current->setCostSoFar(0);
 			cerrada.push_back(current);
 
 		}
 
+	}
+
+	for(int i=0; i<nodosReset.size(); i++)
+	{
+		nodosReset[i]->setCostSoFar(0);
 	}
 
 	// Hemos llegado hasta aqui si hemos encontrado el ndoo Final del camino o si ya no hay mas nodos que buscar
@@ -110,6 +129,8 @@ vector<Arista*> Grafo::pathfindDijkstra(NodoGrafo *inicio, NodoGrafo *fin)
 		
 		reverse(path.begin(),path.end()); 				// Le damos la vuelta al vector
 
+
+
 		return path;
 	}
 
@@ -118,11 +139,13 @@ vector<Arista*> Grafo::pathfindDijkstra(NodoGrafo *inicio, NodoGrafo *fin)
 /* Funcion para encontrar el nodo con el cost-so-far mas bajo de la lista abierta */
 void Grafo::smallestElement()
 {
-	double costeMasBajo = 100;
+	double costeMasBajo = 10000;
 
 	for(itA = abierta.begin(); itA!=abierta.end();++itA)
 	{
+		//cout<<"CostaMasBajo :"<<costeMasBajo<<endl;
 		double coste = (*itA)->getCostSoFar(); 		// Accedemos al nodo mediante el puntero del iterador
+		//cout<<"Coste :"<<coste<<endl;
 
 		if(coste<costeMasBajo)
 		{
@@ -142,6 +165,7 @@ void Grafo::reset()
 	cerrada.clear();
 	nodoFinalCoste = 0;
 	encontrado = false;
+	endNodeRecord = nullptr;
 }
 
 Grafo::~Grafo()

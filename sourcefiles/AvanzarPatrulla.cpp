@@ -72,7 +72,6 @@ Status AvanzarPatrulla::run(Enemigo *e)
         /* Calculamos el camino mas corto entre el nodo Inicial (inicioBueno) y el nodo Final que sera en la pos de la patrulla en la que nos quedamos */
         if(caminoCorto.size()==0)           // Para calcular el camino solo 1 vez y no siempre
         {
-                cout<<"entro 1"<<endl;
                 g = new Grafo();
                 caminoCorto = g->pathfindDijkstra(inicioBueno, fin);
                 delete g;
