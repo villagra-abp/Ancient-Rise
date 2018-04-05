@@ -8,7 +8,7 @@
 class Fuente : public Objeto
 {
 	public:
-		Fuente(IrrlichtDevice *dev, ISceneManager* smgr, Posicion* pos);
+		Fuente( Posicion* pos);
 
 	private:
         //core::vector3df fuentePosition;

@@ -4,7 +4,7 @@
 /**
 CONSTRUCTOR DE OBJETO para inicializar los valores comunes de todos los objetos consumibles
 **/
-Fuente::Fuente(IrrlichtDevice *dev, ISceneManager* smgr, Posicion* pos):Objeto(pos)
+Fuente::Fuente(Posicion* pos):Objeto(pos)
 {
 	GameObject::setTipo(FUENTE);
 	Fachada* fachada=fachada->getInstance();

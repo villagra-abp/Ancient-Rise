@@ -16,7 +16,7 @@ class IrAlarma : public Task
 	private:
 		
 		Blackboard *board;
-	    f32 frameDeltaTime;		  // Tiempo
+	    glm::f32 frameDeltaTime;		  // Tiempo
 	    vector<Objeto*> a;
 	    void* enemigoNode;
 		

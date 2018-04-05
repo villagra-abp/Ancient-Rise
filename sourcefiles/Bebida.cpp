@@ -1,6 +1,6 @@
 #include "../headerfiles/Bebida.h"
 
-Bebida::Bebida(IrrlichtDevice *dev, ISceneManager* smgr, Posicion* pos):Objeto(pos)
+Bebida::Bebida(Posicion* pos):Objeto(pos)
 {
 	GameObject::setTipo(BEBIDA);
 	Fachada* fachada=fachada->getInstance();

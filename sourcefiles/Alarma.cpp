@@ -1,7 +1,7 @@
 #include "../headerfiles/Alarma.h"
 
 
-Alarma::Alarma(IrrlichtDevice *dev, ISceneManager* smgr, Posicion* pos):Objeto(pos)
+Alarma::Alarma(Posicion* pos):Objeto(pos)
 {
 	GameObject::setTipo(ALARMA);
     Fachada* fachada=fachada->getInstance();

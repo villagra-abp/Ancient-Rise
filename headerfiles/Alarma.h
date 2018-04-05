@@ -9,7 +9,7 @@ class Alarma : public Objeto
 {
 
 	public:
-		Alarma(IrrlichtDevice *dev, ISceneManager* smgr, Posicion* pos);
+		Alarma(Posicion* pos);
 		void update();
 		void checkActivada();
 		void startClock();

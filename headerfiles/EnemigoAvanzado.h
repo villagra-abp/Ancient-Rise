@@ -11,7 +11,7 @@ class EnemigoAvanzado : public Enemigo
 
 	public:
 
-       EnemigoAvanzado(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos, float xlength, float pendValue, int t, const Entorno* e, Blackboard *b, b2World& world);
+       EnemigoAvanzado(vector<Posicion*> pos, float xlength, float pendValue, int t, const Entorno* e, Blackboard *b, b2World& world);
 
         void Update(Posicion* prota);
         virtual void comprobarEnergia() override;
@@ -22,7 +22,7 @@ class EnemigoAvanzado : public Enemigo
 
     private:
 
-    	const f32 ENERGIA_MAX=100.f;
+    	const glm::f32 ENERGIA_MAX=100.f;
 
 };
 

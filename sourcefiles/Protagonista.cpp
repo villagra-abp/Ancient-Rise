@@ -233,7 +233,7 @@ void Protagonista::movimiento(const glm::f32 Time)
         }else if(correr==true && energia>10.1)
         {
             velo.x=-90.f;
-            Body->ApplyForceToCenter(b2Vec2(-150.f,0.f),true);
+            Body->ApplyForceToCenter(b2Vec2(-5000.f,0.f),true);
              //Body->SetLinearVelocity(velo);
             //protaPosition.X -= VELOCIDAD_MOVIMIENTO * Time*3;
 
@@ -263,7 +263,7 @@ void Protagonista::movimiento(const glm::f32 Time)
                Body->SetLinearVelocity(velo);
             }else if(correr==true && energia>10.1){
                 velo.x=90.f;
-                Body->ApplyForceToCenter(b2Vec2(150.f,0.f),true);
+                Body->ApplyForceToCenter(b2Vec2(5000.f,0.f),true);
                 //Body->SetLinearVelocity(velo);
                 if(energia<10)
                     correr=false;

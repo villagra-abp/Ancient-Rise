@@ -1,7 +1,7 @@
 #include "../headerfiles/Mundo.h"
 
 Mundo::Mundo():prota(nullptr),c(nullptr),f(nullptr),a(nullptr),t(nullptr),bebida(nullptr),b(nullptr),enem1(nullptr),enem2(nullptr),enemE1(nullptr),Plataforma(nullptr),
-Plataforma2(nullptr), Plataforma3(nullptr), cam(nullptr), terrain(nullptr),selector(nullptr),anim(nullptr)	//CONSTRUCTOR
+Plataforma2(nullptr), Plataforma3(nullptr), cam(nullptr)	//CONSTRUCTOR
 {
 Fachada* fachada=fachada->getInstance();
 
@@ -38,41 +38,41 @@ Fachada* fachada=fachada->getInstance();
 /* CREAMOS OBJETOS */
 
 	Posicion* pC= new Posicion(-220.f, 0.34f, 30.f);
-	c = new Comida(NULL, NULL, pC);
+	c = new Comida(pC);
 	comidas.push_back(c);
 	addGameObject(c);
 
 	Posicion* pC2= new Posicion(190.f, 0.34f, 30.f);
-	c2 = new Comida(NULL, NULL, pC2);
+	c2 = new Comida(pC2);
 	comidas.push_back(c2);
 	addGameObject(c2);
 
 	Posicion* pF= new Posicion(-190.f,0.34f,40.f);
-	f = new Fuente(NULL, NULL, pF);
+	f = new Fuente( pF);
 	fuentes.push_back(f);
 	addGameObject(f);
 
 	Posicion* pF2= new Posicion(320.f,0.34f,40.f);
-	f2 = new Fuente(NULL, NULL, pF2);
+	f2 = new Fuente( pF2);
 	fuentes.push_back(f2);
 	addGameObject(f2);
 
 	Posicion* pA= new Posicion(120.f,0.34f,40.f);
-	a = new Alarma(NULL, NULL, pA);
+	a = new Alarma( pA);
 	alarmas.push_back(a);
 	addGameObject(a);
 
 	Posicion* pA2= new Posicion(-160.f,0.34f,40.f);
-	a2 = new Alarma(NULL, NULL, pA2);
+	a2 = new Alarma( pA2);
 	alarmas.push_back(a2);
 	addGameObject(a2);
 
 	Posicion* posbebida= new Posicion(-300,0.34f,30.f);
- 	bebida = new Bebida(NULL, NULL, posbebida);
+ 	bebida = new Bebida(posbebida);
  	addGameObject(bebida);
 
 	Posicion* postrampa= new Posicion(520,0.34f,30.f);
- 	t = new Trampa(NULL, NULL, postrampa);
+ 	t = new Trampa(postrampa);
  	addGameObject(t);
 
 
@@ -197,11 +197,11 @@ Fachada* fachada=fachada->getInstance();
 
  /* CREAMOS ENEMIGOS BASICOS */
    
-	enem1 = new EnemigoBasico(NULL, NULL, pos, 140.0, 0.8, 2, this, b, world);
+	enem1 = new EnemigoBasico( pos, 140.0, 0.8, 2, this, b, world);
 	enemB.push_back(enem1);
 	addGameObject(enem1);
 	
-	enem2 = new EnemigoBasico(NULL, NULL, pos2, 140.0, 0.8, 1, this, b, world);
+	enem2 = new EnemigoBasico(pos2, 140.0, 0.8, 1, this, b, world);
 	enemB.push_back(enem2);
 	addGameObject(enem2); 
 	
@@ -211,7 +211,7 @@ Fachada* fachada=fachada->getInstance();
 	}	
 
 	/* CREAMOS ENEMIGOS ELITES */
-	/*enemE1 = new EnemigoElite(NULL, NULL, pos3, 120.0, 0.8, 2, this, b, world);
+	/*enemE1 = new EnemigoElite(pos3, 120.0, 0.8, 2, this, b, world);
 	enemE.push_back(enemE1);
 	addGameObject(enemE1);
 */
@@ -263,10 +263,10 @@ void Mundo::update(){
 
 	/* Creamos el framedeltatime y el tiempo */
 
-	const u32 now = fachada->getTime();
-	const f32 frameDeltaTime = (f32)(now - then) / 1000.f; // Time in seconds
+	const glm::u32 now = fachada->getTime();
+	const glm::f32 frameDeltaTime = (glm::f32)(now - then) / 1000.f; // Time in seconds
 	then = now;
-	f32 tiempo=(f32)(now - time_input)/1000.f;
+	glm::f32 tiempo=(glm::f32)(now - time_input)/1000.f;
 
 	Posicion* protaPosition = prota->getPosition();
 	//core::vector3df camPosition = cam->getPosition();
@@ -322,7 +322,7 @@ void Mundo::update(){
 
 }
 
-void Mundo::protaUpdate(const u32 now, const f32 frameDeltaTime, f32 tiempo){
+void Mundo::protaUpdate(const glm::u32 now, const glm::f32 frameDeltaTime, glm::f32 tiempo){
 	//scene::ISceneNode* pro = (scene::ISceneNode*)prota->getNode();
     //core::vector3df protaPosition = pro->getPosition();
 
@@ -343,7 +343,7 @@ void Mundo::protaUpdate(const u32 now, const f32 frameDeltaTime, f32 tiempo){
 
 	if(tiempo>0.2f) 	// HACEMOS QUE LO QUE HAYA DENTRO SE HAGA MENOS VECES POR SEGUNDO
     {
-        f32 energia=prota->getEnergia();
+        glm::f32 energia=prota->getEnergia();
 
         time_input=now;
 
@@ -473,7 +473,7 @@ void Mundo::checkCombate()
     }
 }
 
-void Mundo::camUpdate(const f32 frameDeltaTime){
+void Mundo::camUpdate(const glm::f32 frameDeltaTime){
     //prueba zoom camara
     /*
     if(prota->getCaida()){
@@ -515,10 +515,10 @@ void Mundo::fpsControl(){
 
 	if (lastFPS != fps)
 	{
-		core::stringw tmp(L"Movement Example - Irrlicht Engine [");
+		//core::stringw tmp(L"Movement Example - Irrlicht Engine [");
 		//tmp += driver->getName();
-		tmp += L"] fps: ";
-		tmp += fps;
+		//tmp += L"] fps: ";
+		//tmp += fps;
 
 		//device->setWindowCaption(tmp.c_str());
 		lastFPS = fps;
@@ -540,7 +540,11 @@ void Mundo::timeWait(){
 }
 
 void Mundo::draw(){
-	
+	//estado=1;
+    //camUpdate(5.f);
+    //fachada->draw();
+    //estado=0;
+    //camUpdate(5.f);
     fachada->draw();
 }
 
@@ -557,7 +561,7 @@ GameObject* Mundo::getGameObject(uint8_t pos) const{
 
 	return o;
 }
-void Mundo::CambioEstado(){
+ void Mundo::CambioEstado(){
     if(estado==0){
         estado=1;
     }

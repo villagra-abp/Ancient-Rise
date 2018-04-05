@@ -18,7 +18,7 @@ class EjecutarOrden : public Task
 		
 		Blackboard *board;
 	    EnemigoBasico *enemBActual;
-	    core::vector3df enemBPosition;
+	    
 	    Atacar *at = new Atacar();
 	    
 	

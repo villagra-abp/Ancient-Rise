@@ -17,7 +17,7 @@ class ActivarAlarma : public Task
 	private:
 		
 		Blackboard *board;
-	    f32 frameDeltaTime;		  // Tiempo
+	    glm::f32 frameDeltaTime;		  // Tiempo
 	    vector<Objeto*> a;
 	    void* enemigoNode;
 	    sf::Clock reloj; 		  			// Reloj para controlar el tiempo que se tarda en activar la alarma

@@ -19,14 +19,10 @@
 #include "../headerfiles/Posicion.h"
 #include "../headerfiles/Fachada.h"
 
-using namespace irr;
+
 using namespace std;
 
-using namespace core;
-using namespace scene;
-using namespace video;
-using namespace io;
-using namespace gui;
+
 
 class GameObject {
 public:

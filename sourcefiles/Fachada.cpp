@@ -14,11 +14,8 @@ Fachada* Fachada::getInstance() {
     
     return (instance);
 }
-IrrlichtDevice* Fachada::getDevice(){
-	return device;
-}
 
-u32 Fachada::getTime(){
+glm::u32 Fachada::getTime(){
     sf::Clock clock; 
 	sf::Time elapsed1 = clock.getElapsedTime();
     //std::cout << elapsed1.asSeconds() << std::endl;
@@ -84,11 +81,9 @@ sf::RenderWindow* Fachada::getVentana(){
 
 }
 
-
-
 //Modifica la visibilidad del cursor
 void Fachada::cursorVisible(bool f){
-	device->getCursorControl()->setVisible(f);
+	//device->getCursorControl()->setVisible(f);
 
 }
 
@@ -103,11 +98,11 @@ void Fachada::draw(){
 }
 
 void Fachada::suspension(){
-	device->yield();
+	//device->yield();
 }
 
 void Fachada::cerrar(){
-	device->closeDevice();
+	ventana->close();
 }
 
 void Fachada::destruirObjeto(void* nodo)
@@ -117,50 +112,30 @@ void Fachada::destruirObjeto(void* nodo)
     node->isActive(false);
 }
 
-/*void Motorgrafico::drawGUI(){
-	driver->beginScene(true, true, SColor(255,100,101,140));
-
-
-	driver->endScene();
-}*/
-
-
 
 bool Fachada::getVentanaEstado(){
-	return device->run();
+	return ventana->isOpen();
 }
 
 
 
 bool Fachada::getVentanaActiva(){
-	return device->isWindowActive();
-}
-
-video::IVideoDriver* Fachada::getDriver(){
-	return driver;
-}
-
-scene::ISceneManager* Fachada::getScene(){
-	return smgr;
-}
-
-gui::IGUIEnvironment* Fachada::getGUI(){
-	return guienv;
+	//return device->isWindowActive();
 }
 
 int Fachada::getFPS(){
-	return driver->getFPS();
+	return 60;
 }
 
 void Fachada::setNombreVentana(std::string text){
 	wstring wide_string = wstring(text.begin(), text.end());
 	const wchar_t* result = wide_string.c_str();
 
-	device->setWindowCaption(result);
+	//device->setWindowCaption(result);
 }
 
 void Fachada::setNombreVentana(wchar_t* text){
-	device->setWindowCaption(text);
+	//device->setWindowCaption(text);
 }
 FObjeto* Fachada::addCube(int x,int y,int z,bool flag){
     /*
@@ -239,14 +214,7 @@ Posicion* Fachada::getPosicion(void * nodo){
     //std::cout<<posicion->getPosX()<<endl;
     return posicion;
 }
-Posicion* Fachada::getScala(void * nodo){
-    
-    scene::ISceneNode * node=(scene::ISceneNode*)nodo;
-    core::vector3df esc= node->getScale();
-    Posicion* escala = new Posicion(esc.X,esc.Y,esc.Z);
-    
-    return escala;
-}
+
 bool Fachada::setScala(void * nodo,Posicion* scala){
     
     FObjeto * node=(FObjeto*)nodo;
@@ -264,13 +232,13 @@ bool Fachada::setPosicion(void * nodo,Posicion* pos){
     return true;
 }
 bool Fachada::setMaterialFlag(void * nodo,bool b){
-    scene::ISceneNode * node=(scene::ISceneNode*)nodo;
-    node->setMaterialFlag(video::EMF_LIGHTING, b);
+    //scene::ISceneNode * node=(scene::ISceneNode*)nodo;
+    //node->setMaterialFlag(video::EMF_LIGHTING, b);
     return true;
 }
-bool Fachada::setMaterial(void * nodo,const io::path& ruta){
-    scene::ISceneNode * node=(scene::ISceneNode*)nodo;
-    node->setMaterialTexture(0,driver->getTexture(ruta));
+bool Fachada::setMaterial(void * nodo,std::string ruta){
+    //scene::ISceneNode * node=(scene::ISceneNode*)nodo;
+    //node->setMaterialTexture(0,driver->getTexture(ruta));
     return true;
 }
 //Dibuja la escena

@@ -1,7 +1,7 @@
 #include "../headerfiles/Trampa.h"
 
 
-Trampa::Trampa(IrrlichtDevice *dev, ISceneManager* smgr, Posicion* pos):Objeto(pos)
+Trampa::Trampa(Posicion* pos):Objeto(pos)
 {
 	GameObject::setTipo(TRAMPA);
     Fachada* fachada=fachada->getInstance();

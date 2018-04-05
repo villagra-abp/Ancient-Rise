@@ -19,10 +19,10 @@ class Blackboard;
 class Enemigo : public GameObject
 {
     public:
-        Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos, float xlength, float pendValue, const Entorno* e, Blackboard *b);
+        Enemigo(vector<Posicion*> pos, float xlength, float pendValue, const Entorno* e, Blackboard *b);
 
         void update(Posicion* prota);
-        void updateTiempo(const f32 Time);
+        void updateTiempo(const glm::f32 Time);
         void actualizarHambre();
         void actualizarSed();
         virtual void comprobarEnergia()=0;
@@ -37,11 +37,11 @@ class Enemigo : public GameObject
 
         /* Getters y Setters */
         Posicion* getPosition() const override{ return EnemigoPosition; }
-        f32 getVelocidad();
-        f32 getSed();
-        f32 getSalud();
-        f32 getHambre();
-        const f32 getVelNormal();
+        glm::f32 getVelocidad();
+        glm::f32 getSed();
+        glm::f32 getSalud();
+        glm::f32 getHambre();
+        const glm::f32 getVelNormal();
         int getTipo();
         int getClaseEnemigo();
 
@@ -55,19 +55,18 @@ class Enemigo : public GameObject
         b2Body* getBody();
         b2Vec2 getVelocidad2d();
         bool getUltDirecVisto();
-        IVideoDriver* getDriver();
         int getOrden();
         bool getDisparo();
 
-        void setSed(f32 se);
-        void setEnergia(f32 e);
-        void setHambre(f32 h);
-        void setSalud(f32 s);
-        void setVelocidad(f32 v);
+        void setSed(glm::f32 se);
+        void setEnergia(glm::f32 e);
+        void setHambre(glm::f32 h);
+        void setSalud(glm::f32 s);
+        void setVelocidad(glm::f32 v);
         void setPosition(Posicion* v);
         void setAvistadoProta(bool a);
-        void setVelHambre(f32 v);
-        void setVelSed(f32 v);
+        void setVelHambre(glm::f32 v);
+        void setVelSed(glm::f32 v);
         void setXRange(float xRange);
         void setYPend(float yPend);
         void setLastFacedDir(bool dirx);
@@ -87,12 +86,12 @@ class Enemigo : public GameObject
 
     protected:
         void * enemigo;
-        IVideoDriver*       driver;
+        
         Posicion* EnemigoPosition;            // VECTOR 3D CON LA POSICION DEL ENEMIGO 
         int contadorPatrulla;                       // PARA SABER LA POSICION EN LA QUE SE ENCUENTRA EN LA PATRULLA
-        IGUIEnvironment *env;
+        
         bool encontradoComida;                      // PARA SABER SI HA ENCONTRADO COMIDA
-        f32 frameDeltaTime;
+        glm::f32 frameDeltaTime;
 
         BehaviorTree *comportamiento;               // Comportamiento del enemigo definido mediante un arbol de comportamiento (BEHAVIOR TREE)
         Blackboard *board;
@@ -106,16 +105,16 @@ class Enemigo : public GameObject
         vector<GameObject*> vistos;              
 
         /* ESTADISTICAS DEL ENEMIGO */
-        f32 energia;
-        f32 sed;
-        f32 hambre;
-        f32 salud;
-        f32 VELOCIDAD_ENEMIGO;                      // VELOCIDAD DEL ENEMIGO
-        f32 velHambre;                              // INDICA LA VELOCIDAD A LA QUE BAJA EL HAMBRE
-        f32 velSed;                                 // INDICA LA VELOCIDAD A LA QUE BAJA LA SED
+        glm::f32 energia;
+        glm::f32 sed;
+        glm::f32 hambre;
+        glm::f32 salud;
+        glm::f32 VELOCIDAD_ENEMIGO;                      // VELOCIDAD DEL ENEMIGO
+        glm::f32 velHambre;                              // INDICA LA VELOCIDAD A LA QUE BAJA EL HAMBRE
+        glm::f32 velSed;                                 // INDICA LA VELOCIDAD A LA QUE BAJA LA SED
         int tipo;                                   // Indica el tipo de enemigo ( 1 = Melee 2 = Distancia) 
         int claseEnemigo;                           // Indica que clase enemigo es (1 = Basico, 2 = Avanzado, 3 = Elite )       
-        const f32 VELOCIDAD_NORMAL = 15.f;          // Constante para saber cual es la velocidad normal de los enemigos que no consume energia   
+        const glm::f32 VELOCIDAD_NORMAL = 15.f;          // Constante para saber cual es la velocidad normal de los enemigos que no consume energia   
 
 
          /* BOX2D */

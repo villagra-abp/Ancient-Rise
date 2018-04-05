@@ -1,8 +1,7 @@
 #include "../headerfiles/Proyectil.h"
 
 
-Proyectil::Proyectil(IrrlichtDevice* device, ISceneManager* smgr, Enemigo *e):driver(nullptr),proyectil(nullptr), enemigoPosition(nullptr), proyectilPos(nullptr), tam(nullptr)
-,fachada(nullptr)
+Proyectil::Proyectil(Enemigo *e):proyectil(nullptr), enemigoPosition(nullptr), proyectilPos(nullptr), tam(nullptr),fachada(nullptr)
 {
 	GameObject::setTipo(PROYECTIL);
     fachada=fachada->getInstance();
@@ -98,7 +97,6 @@ void Proyectil::setPosition(Posicion* v)
 Proyectil::~Proyectil()
 {
     //proyectil = nullptr;
-    driver = nullptr; 
 
     //delete tam;
 }
