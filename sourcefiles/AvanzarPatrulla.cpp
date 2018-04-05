@@ -72,32 +72,12 @@ Status AvanzarPatrulla::run(Enemigo *e)
         /* Calculamos el camino mas corto entre el nodo Inicial (inicioBueno) y el nodo Final que sera en la pos de la patrulla en la que nos quedamos */
         if(caminoCorto.size()==0)           // Para calcular el camino solo 1 vez y no siempre
         {
-            //cout<<"Tam camino antes:"<<caminoCorto.size()<<endl;
-            //cout<<"Patrulla : "<<pos[contadorPatrulla]->getPosX()<<endl;
-            if(inicioBuenoAux!=nullptr && finAux!=nullptr)
-            {
-                if(inicioBuenoAux!=inicioBueno && finAux!=fin)
-                {
-                    g = new Grafo();
-                    caminoCorto = g->pathfindDijkstra(inicioBueno, fin);
-                    delete g;
-                    inicioBuenoAux = inicioBueno;
-                    finAux = fin;
-                    caminoCortoAux = caminoCorto;
-                    //cout<<"entro2"<<endl;
-                }
-            }
-            else
-            {
+                cout<<"entro 1"<<endl;
                 g = new Grafo();
                 caminoCorto = g->pathfindDijkstra(inicioBueno, fin);
                 delete g;
 
-                inicioBuenoAux = inicioBueno;
-                finAux = fin;
-                caminoCortoAux = caminoCorto;
-                //cout<<"entro"<<endl;
-            }
+                
             //cout<<"Tam camino despues:"<<caminoCorto.size()<<endl;
         }
 
@@ -125,13 +105,13 @@ Status AvanzarPatrulla::run(Enemigo *e)
         }
 
         /* Realizamos el recorrido a lo largo del camino corto calculado */
-        if(llegadoFin==false && llegadoInicio==true && caminoCortoAux.size()!=0)
+        if(llegadoFin==false && llegadoInicio==true && caminoCorto.size()!=0)
         {
-            if(iC<caminoCortoAux.size())
+            if(iC<caminoCorto.size())
             {
-                fin = caminoCortoAux[iC]->getNodoFin();
+                fin = caminoCorto[iC]->getNodoFin();
 
-                if(caminoCortoAux[iC]->getComportamiento()==NORMAL)         // Movimiento normal del enemigo
+                if(caminoCorto[iC]->getComportamiento()==NORMAL)         // Movimiento normal del enemigo
                 {   
                     posNodoI = fin->getPosition();
                     distNodoF = posNodoI->getPosX() - enemigoX;
@@ -154,7 +134,7 @@ Status AvanzarPatrulla::run(Enemigo *e)
                 }
                 else
                 {
-                    if(caminoCortoAux[iC]->getComportamiento()==SALTO)         // SALTO
+                    if(caminoCorto[iC]->getComportamiento()==SALTO)         // SALTO
                     {   
                         posNodoI = fin->getPosition();
                         distNodoF = posNodoI->getPosX() - enemigoX;
@@ -195,7 +175,7 @@ Status AvanzarPatrulla::run(Enemigo *e)
                     }
                     else
                     {
-                        if(caminoCortoAux[iC]->getComportamiento()==BAJADA)     // BAJADA DE SALTO
+                        if(caminoCorto[iC]->getComportamiento()==BAJADA)     // BAJADA DE SALTO
                         {
                             posNodoI = fin->getPosition();
                             distNodoF = posNodoI->getPosX() - enemigoX;
@@ -234,7 +214,7 @@ Status AvanzarPatrulla::run(Enemigo *e)
                 }
             }
 
-            if(iC==caminoCortoAux.size())
+            if(iC==caminoCorto.size())
             {
                llegadoFin = true;
                iC = 0;
@@ -243,7 +223,7 @@ Status AvanzarPatrulla::run(Enemigo *e)
             }
         }
 
-        if(caminoCortoAux.size()==0)       // Solo si no calculamos el camino corto por estar al lado
+        if(caminoCorto.size()==0)       // Solo si no calculamos el camino corto por estar al lado
         {
             if (distanciaNodoX<-3.0f) // AVANZAMOS HACIA LA IZQUIERDA
              {

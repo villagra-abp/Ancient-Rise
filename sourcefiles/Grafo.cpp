@@ -13,6 +13,7 @@ Grafo::Grafo():current(nullptr), nodoFinal(nullptr), startRecord(nullptr), endNo
 
 vector<Arista*> Grafo::pathfindDijkstra(NodoGrafo *inicio, NodoGrafo *fin)
 {	
+	cout<<"ENTRANDO"<<endl;
 	// Resetamos los valores para evitar problemas
 	reset();
 
@@ -25,6 +26,7 @@ vector<Arista*> Grafo::pathfindDijkstra(NodoGrafo *inicio, NodoGrafo *fin)
 
 	while(abierta.size()>0 && encontrado!=true) 										// Mientras que queden nodos por procesar en la lista abierta
 	{
+		cout<<"entro Bucle"<<endl;
 		smallestElement(); 																// Encontramos el nodo con el menor coste de la lista abierta
 		
 		if(current->getNombre()==fin->getNombre()) 										// Si el nodo con el coste mas bajo ya es el nodo final del camino, terminamos
