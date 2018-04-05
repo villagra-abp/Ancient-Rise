@@ -540,7 +540,11 @@ void Mundo::timeWait(){
 }
 
 void Mundo::draw(){
-	
+	//estado=1;
+    //camUpdate(5.f);
+    //fachada->draw();
+    //estado=0;
+    //camUpdate(5.f);
     fachada->draw();
 }
 
@@ -557,7 +561,7 @@ GameObject* Mundo::getGameObject(uint8_t pos) const{
 
 	return o;
 }
-void Mundo::CambioEstado(){
+ void Mundo::CambioEstado(){
     if(estado==0){
         estado=1;
     }
