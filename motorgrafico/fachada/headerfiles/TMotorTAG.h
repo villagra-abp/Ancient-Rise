@@ -6,6 +6,7 @@
 #include "../../headerfiles/TLuz.h"
 #include "../../headerfiles/TMalla.h"
 #include "../../headerfiles/TCamara.h"
+#include "../../headerfiles/TGestorRecursos.h"
 
 //#include "FObjeto.h"
 //#include "FCamara.h"

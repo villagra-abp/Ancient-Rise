@@ -19,7 +19,10 @@ TGestorRecursos::TGestorRecursos(){
 }
 
 TGestorRecursos::~TGestorRecursos(){
-
+	delete shader;
+	for(int i = 0; i < recursos.size(); i++)
+		delete recursos[i];
+	
 }
 
 TRecursoMalla* TGestorRecursos::getRecursoMalla(string path){

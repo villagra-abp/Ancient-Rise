@@ -15,6 +15,7 @@ TMotorTAG::TMotorTAG() : camara(nullptr)
 TMotorTAG::~TMotorTAG(){
 	delete escena;
 	escena = nullptr;
+	delete TGestorRecursos::getInstance();
 }
 
 
