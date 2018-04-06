@@ -68,10 +68,10 @@ Fachada* fachada=fachada->getInstance();
 	alarmas.push_back(a);
 	addGameObject(a);
 
-	/*Posicion* pA2= new Posicion(-10.f,0.34f,40.f);
+	Posicion* pA2= new Posicion(500.f,0.34f,40.f);
 	a2 = new Alarma(device, smgr, pA2);
 	alarmas.push_back(a2);
-	addGameObject(a2);*/
+	addGameObject(a2);
 
 	Posicion* posbebida= new Posicion(300,0.34f,30.f);
  	bebida = new Bebida(device, smgr, posbebida);
@@ -167,7 +167,7 @@ Fachada* fachada=fachada->getInstance();
      nodos.push_back(nE);
      addGameObject(nE);
 
-     NodoGrafo *nF = new NodoGrafo('F',87.475f, 0.34f);            // Bajar Platf 1                  
+     NodoGrafo *nF = new NodoGrafo('F',72.475f, 0.34f);            // Bajar Platf 1                  
      nodos.push_back(nF);
      addGameObject(nF);
 
@@ -336,9 +336,9 @@ Fachada* fachada=fachada->getInstance();
 
  /* CREAMOS ENEMIGOS BASICOS */
    
-	enem1 = new EnemigoBasico(device, smgr, pos, 140.0, 0.8, 2, this, b, world);
+	/*enem1 = new EnemigoBasico(device, smgr, pos, 140.0, 0.8, 2, this, b, world);
 	enemB.push_back(enem1);
-	addGameObject(enem1);
+	addGameObject(enem1); */
 	
 	enem2 = new EnemigoBasico(device, smgr, pos2, 140.0, 0.8, 1, this, b, world);
 	enemB.push_back(enem2);
@@ -465,7 +465,7 @@ void Mundo::update(){
 
     /* ALARMA UPDATE*/
     a->update();
-    //a2->update();
+    a2->update();
 
 
     /* UPDATE DE LOS ENEMIGOS */

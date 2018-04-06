@@ -7,7 +7,6 @@ EnemigoAvanzado::EnemigoAvanzado(IrrlichtDevice *dev, ISceneManager *smgr, vecto
     //ESTABLECEMOS LAS ESTADISTICAS ENEMIGO AVANZADO
 
     setEnergia(ENERGIA_MAX);
-    setHambre(100.f);
     salud = 100.f;
     setSed(100.f);
     setVelocidad(VELOCIDAD_NORMAL);
@@ -20,7 +19,6 @@ EnemigoAvanzado::EnemigoAvanzado(IrrlichtDevice *dev, ISceneManager *smgr, vecto
     
 
      /* Velocidad a la que bajan las estadisticas del enemigo */
-    setVelHambre(-0.2);
     setVelSed(-0.4);
 
     /* BOX2D */

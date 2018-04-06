@@ -29,7 +29,7 @@ Status ActivarAlarma::run(Enemigo *e)
        for(int i=0; i<nodos.size();i++)
        {    
            posNodo = nodos[i]->getPosition();
-           if(alarmaY==posNodo->getPosY())        // Solo si el nodo esta a la misma altura que la pos de la fuente
+           if(alarmaY==posNodo->getPosY())        // Solo si el nodo esta a la misma altura que la alarma
            {
                 if(fin==nullptr)
                 {
@@ -48,7 +48,8 @@ Status ActivarAlarma::run(Enemigo *e)
     {
         g = new Grafo();
         caminoCorto = g->pathfindDijkstra(inicioBueno, fin);
-        al->setActivando(true);     // Activando alarma
+        delete g;
+        al->setActivando(true);     // Indicamos que la alarma se esta activando para que no la active nadie mas
     }
 
 
@@ -69,8 +70,7 @@ Status ActivarAlarma::run(Enemigo *e)
                 }
                 else // Si hemos llegado al nodo Inicio
                 {
-                    llegadoInicio = true;
-                    
+                    llegadoInicio = true;  
                 }
             }
     }
@@ -199,13 +199,12 @@ Status ActivarAlarma::run(Enemigo *e)
                      fin = nullptr;
                      caminoCorto.clear();
                     
-                      return BH_SUCCESS;
+                     return BH_SUCCESS;
                   }
               }
 
             }
     }
-
 
   return BH_RUNNING;        // Hasta que no active la alarma no habra terminado
 }
@@ -255,17 +254,12 @@ void ActivarAlarma::buscarNodoInicial(Enemigo *e, float posX)
 /* Funcion para recorrer todos los nodos del grafo y comprobar si el enemigo puede ver alguno */
 void ActivarAlarma::recorrerNodos(Enemigo* e, uint8_t v, float posX)
 {
-
     for(int i=0; i<nodos.size();i++)
     {
         if(e->see(nodos[i]))            // Comprobamos si el enemigo ve al nodo
         {   
-            //posNodoI = nodos[i]->getPosition();
-           // cout<<"visto nodo:"<<posNodoI.X<<endl;
-
             if(v==1)
             {
-                //cout<<"primera"<<endl;
                 if(inicio1==nullptr)         
                 {    
                     inicio1 = nodos[i];
@@ -379,7 +373,4 @@ ActivarAlarma::~ActivarAlarma()
     caminoCorto.clear();
 
     delete g;
-
-   // delete board;
-    //delete a;
 }

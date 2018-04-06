@@ -15,6 +15,8 @@ class IrAlarma : public Task
 		void movimientoDireccion(Enemigo *e, bool d);
 		void comprobarAlarmaSonando(float posEnemX);
 		NodoGrafo* calcularNodoMasCercano(NodoGrafo* i, NodoGrafo* i2, float posX);
+		void reset();
+		void checkComportamiento(Enemigo *e);
 		virtual ~IrAlarma();
 
 
@@ -22,6 +24,7 @@ class IrAlarma : public Task
 		
 		Blackboard *board;
 	    vector<Objeto*> a;
+	    float enemigoX, enemigoY;
 
 		//Datos de alarma
 	    Posicion* alarmaPosition;
@@ -33,12 +36,15 @@ class IrAlarma : public Task
 	    vector<NodoGrafo*> nodos;
 	    NodoGrafo *inicio1, *inicio2, *inicioBueno, *fin;
 	    Posicion* posNodoI, *posNodo;
-	    vector <Arista*> caminoCorto; 		// Contiene el camino mas corto calculado hasta el punto donde se queria ir
+	    vector <Arista*> caminoCorto; 							// Contiene el camino mas corto calculado hasta el punto donde se queria ir
 	    bool llegadoInicio = false;
 	    bool llegadoFin = false;
-	    Grafo *g; 							// Para poder calcular el camino mas corto
+	    bool llegadoAlarma = false;
+	    Grafo *g; 												// Para poder calcular el camino mas corto
 	    int iC;
 	    float distNodoF, distNodoFY, distNodoI;
+	    Comportamiento tipo;
+	    bool bajada;
 		
 };
 

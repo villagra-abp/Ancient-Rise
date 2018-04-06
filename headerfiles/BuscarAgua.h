@@ -17,6 +17,8 @@ class BuscarAgua : public Task
 		void recorrerNodos(Enemigo *e, uint8_t v, float posX);
 		void buscarFuenteCercana(float posEnemX);
 		void movimientoDireccion(Enemigo *e, bool d);
+		void checkComportamiento(Enemigo *e);
+		void reset();
 		NodoGrafo* calcularNodoMasCercano(NodoGrafo* i, NodoGrafo* i2, float posX);
 
 	private:
@@ -25,6 +27,8 @@ class BuscarAgua : public Task
 		Blackboard *board;
 		sf::Clock reloj; 		  			// Reloj para controlar el tiempo que tarda en beber
 	    int contador; 			  			// Para reiniciar el reloj cuando toca
+
+	    float enemigoY, enemigoX;
 		
 	    /* DATOS DE LA FUENTE */
 	    Posicion* fuentePosition;
@@ -40,8 +44,10 @@ class BuscarAgua : public Task
 	    vector <Arista*> caminoCorto; 								// Contiene el camino mas corto calculado hasta el punto donde se queria ir
 	    bool llegadoInicio=false; 									// Para saber si hemos llegado al nodo inicio
 	    bool llegadoFin=false;
-	    int iC;
-	    float distNodoF, distNodoFY;
+	    int iC; 													// COntador para el recorrido del pathfinding
+	    float distNodoF, distNodoFY; 								// Valores para las distancias de los nodos en x e y
+	    Comportamiento tipo;
+	    bool bajada;
 
 
 };

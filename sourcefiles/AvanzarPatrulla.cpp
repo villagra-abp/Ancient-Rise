@@ -4,12 +4,10 @@
 
 Status AvanzarPatrulla::run(Enemigo *e)
 {
-    protaPosition = board->getProta();
-
     pos = e->getPosicion();
 
-    float enemigoX=e->getPosition()->getPosX();
-    float enemigoY = e->getPosition()->getPosY();
+    enemigoX = e->getPosition()->getPosX();
+    enemigoY = e->getPosition()->getPosY();
 
     float posPatrullaX = pos[contadorPatrulla]->getPosX();
 
@@ -17,9 +15,14 @@ Status AvanzarPatrulla::run(Enemigo *e)
 
     e->setCombate(false);
 
+    if(e->getInterrumpido()==true)      // Si han interrumpido al enemigo durante su camino de vuelta, lo vuelve a calcular desde donde se encuentre
+    {
+        reset(e);
+        e->setInterrumpido(false);
+    }
+
     if(e->getVuelta()==false)       // Ya se encuentra en la patrulla
     {
-        //cout<<"Vuelta False"<<endl;
         if(distanciaNodoX==0) // SI ESTAMOS EN UNO DE LOS NODOS DE LA PATRULLA BUSCAMOS EL SIGUIENTE NODO
         {
             if(contadorPatrulla==pos.size()-1) // Si llegamos al final reiniciamos
@@ -58,33 +61,25 @@ Status AvanzarPatrulla::run(Enemigo *e)
         if(inicio1==nullptr && inicio2==nullptr)  // Solo buscaremos el nodo inicio si no lo habiamos encontrado ya
         {
             buscarNodoInicial(e, enemigoX);
-            //cout<<"Inicio: "<<inicioBueno->getPosition()->getPosX()<<endl;
         }  
 
         if(fin==nullptr)
         {
             buscarNodoFinal(e);
-            //cout<<"FIn :"<<fin->getPosition()->getPosX()<<endl;
         }
-
-        //cout<<fin->getPosition()->getPosX()<<endl;
 
         /* Calculamos el camino mas corto entre el nodo Inicial (inicioBueno) y el nodo Final que sera en la pos de la patrulla en la que nos quedamos */
         if(caminoCorto.size()==0)           // Para calcular el camino solo 1 vez y no siempre
         {
-                g = new Grafo();
-                caminoCorto = g->pathfindDijkstra(inicioBueno, fin);
-                delete g;
-
-                
-            //cout<<"Tam camino despues:"<<caminoCorto.size()<<endl;
+            g = new Grafo();
+            caminoCorto = g->pathfindDijkstra(inicioBueno, fin);
+            delete g;
         }
 
         /* Nos acercamos al nodo Inicio del camino */
         posNodoI = inicioBueno->getPosition();
         float distNodoI = posNodoI->getPosX() - enemigoX;
-        //cout<<distNodoI<<endl;
-        //cout<<enemigoX<<endl;
+
         if(llegadoInicio==false)        // Solo lo haremos si no habiamos llegado ya al nodo Inicio del camino
         {
             if(distNodoI<-1.0f)
@@ -108,109 +103,7 @@ Status AvanzarPatrulla::run(Enemigo *e)
         {
             if(iC<caminoCorto.size())
             {
-                fin = caminoCorto[iC]->getNodoFin();
-
-                if(caminoCorto[iC]->getComportamiento()==NORMAL)         // Movimiento normal del enemigo
-                {   
-                    posNodoI = fin->getPosition();
-                    distNodoF = posNodoI->getPosX() - enemigoX;
-
-                    //cout<<"DIstNodoF "<<distNodoF<<endl;
-                    if (distNodoF<-3.0f) 
-                     {
-                          movimientoDireccion(e,false);                                   
-                     }
-                     else{
-                            if(distNodoF>3.0f) 
-                            {
-                                movimientoDireccion(e,true);                                    
-                            }
-                            else
-                            {
-                              iC++;
-                            }
-                        }
-                }
-                else
-                {
-                    if(caminoCorto[iC]->getComportamiento()==SALTO)         // SALTO
-                    {   
-                        posNodoI = fin->getPosition();
-                        distNodoF = posNodoI->getPosX() - enemigoX;
-                        distNodoFY = posNodoI->getPosY() - enemigoY;
-                
-                        if(distNodoFY>2.0f)
-                        {
-                            e->setSaltando(true);
-                            e->getBody()->ApplyForceToCenter(b2Vec2(0.f,3000.f),true);
-                        }
-                        else
-                        {
-                            e->setSaltando(false);
-                        }
-
-                        if(e->getSaltando()!=true)
-                        {
-                            if(distNodoF<-2.0f) // AVANZAMOS HACIA LA IZQUIERDA
-                                {
-
-                                    e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
-                                    e->setLastFacedDir(false);                                    
-                                }
-                            else{
-                                    if(distNodoF>2.0f) // AVANZAMOS HACIA LA DERECHA
-                                    {
-
-                                        e->getBody()->SetLinearVelocity(e->getVelocidad2d());
-                                        e->setLastFacedDir(true);                                    
-                                    }
-                                    else // Si hemos llegado al nodo Fin
-                                    {
-                                        iC++;
-                                    }
-                                }
-                        }
-
-                    }
-                    else
-                    {
-                        if(caminoCorto[iC]->getComportamiento()==BAJADA)     // BAJADA DE SALTO
-                        {
-                            posNodoI = fin->getPosition();
-                            distNodoF = posNodoI->getPosX() - enemigoX;
-                            distNodoFY = posNodoI->getPosY() - enemigoY;
-
-                            if (distNodoF<-3.0f) 
-                             {
-                                  e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));
-                                  bajada = false;                                   
-                             }
-                             else{
-                                    if(distNodoF>3.0f) 
-                                    {
-                                        e->getBody()->SetLinearVelocity(e->getVelocidad2d());
-                                        bajada = false;                                    
-                                    }
-                                    else
-                                    {
-                                        bajada = true;
-                                    }
-                                }
-
-                            if(bajada == true)
-                            {
-                                if(distNodoFY<-1.0f)
-                                {
-                                    e->getBody()->ApplyForceToCenter(b2Vec2(0.f,-3000.f),true);
-                                }
-                                else
-                                {
-                                    iC++;
-                                }
-                            }
-                        }
-                    }
-                }
+                checkComportamiento(e);       // Comprobamos que comportamiento tiene que ejecutar el enemigo
             }
 
             if(iC==caminoCorto.size())
@@ -218,6 +111,7 @@ Status AvanzarPatrulla::run(Enemigo *e)
                llegadoFin = true;
                iC = 0;
 
+               e->setVuelta(false);
                reset(e);
             }
         }
@@ -245,7 +139,6 @@ Status AvanzarPatrulla::run(Enemigo *e)
         
    }
 
-
    return BH_SUCCESS;
 }
 
@@ -256,11 +149,10 @@ void AvanzarPatrulla::buscarNodoInicial(Enemigo *e, float posX)
 
     if(e->getLastFaceDir()==true)                      // Comprobamos a donde esta mirando el enemigo y hacemos que mire al lado contrario
     {   
-        //cout<<"izquierda"<<endl;
         e->setLastFacedDir(false);
     } 
     else
-    {   //cout<<"derecha"<<endl;
+    {   
         e->setLastFacedDir(true);
     }
 
@@ -310,12 +202,8 @@ void AvanzarPatrulla::recorrerNodos(Enemigo* e, uint8_t v, float posX)
     {
         if(e->see(nodos[i]))            // Comprobamos si el enemigo ve al nodo
         {   
-            //posNodoI = nodos[i]->getPosition();
-           // cout<<"visto nodo:"<<posNodoI.X<<endl;
-
             if(v==1)
             {
-                //cout<<"primera"<<endl;
                 if(inicio1==nullptr)         
                 {    
                     inicio1 = nodos[i];
@@ -390,6 +278,118 @@ void AvanzarPatrulla::startClock()
     }
 }
 
+/* Funcion para que el enemigo sepa que comportamiento tiene que hacer durante el pathfinding */
+void AvanzarPatrulla::checkComportamiento(Enemigo *e)
+{
+    fin = caminoCorto[iC]->getNodoFin();
+
+    tipo = caminoCorto[iC]->getComportamiento();
+
+    switch(tipo)
+    {
+       case NORMAL:
+       {
+         posNodoI = fin->getPosition();
+         distNodoF = posNodoI->getPosX() - enemigoX;
+
+          if (distNodoF<-1.0f) 
+          {
+              movimientoDireccion(e,false);                                   
+          }
+          else{
+                if(distNodoF>1.0f) 
+                {
+                    movimientoDireccion(e,true);                                    
+                }
+                else
+                {
+                    iC++;
+                }
+              }
+
+         break;
+       }
+
+       case SALTO:
+       {
+          posNodoI = fin->getPosition();
+          distNodoF = posNodoI->getPosX() - enemigoX;
+          distNodoFY = posNodoI->getPosY() - enemigoY;
+            
+          if(distNodoFY>1.0f)
+          {
+            e->setSaltando(true);
+            e->getBody()->ApplyForceToCenter(b2Vec2(0.f,3000.f),true);
+          }
+          else
+         {
+            e->setSaltando(false);
+         }
+
+          if(e->getSaltando()!=true)
+          {
+            if(distNodoF<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
+            {
+              e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
+              e->setLastFacedDir(false);                                    
+            }
+            else{
+                  if(distNodoF>1.0f) // AVANZAMOS HACIA LA DERECHA
+                  {
+
+                    e->getBody()->SetLinearVelocity(e->getVelocidad2d());
+                    e->setLastFacedDir(true);                                    
+                  }
+                  else // Si hemos llegado al nodo Fin
+                  {
+                    iC++;
+                  }
+                }
+          }
+
+        break;
+       }
+
+       case BAJADA:
+       {
+         posNodoI = fin->getPosition();
+        distNodoF = posNodoI->getPosX() - enemigoX;
+        distNodoFY = posNodoI->getPosY() - enemigoY;
+
+          if (distNodoF<-3.0f) 
+          {
+            e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));
+            bajada = false;                                   
+          }
+          else{
+                if(distNodoF>3.0f) 
+                {
+                  e->getBody()->SetLinearVelocity(e->getVelocidad2d());
+                  bajada = false;                                    
+                }
+                else
+                {
+                  bajada = true;
+                }
+              }
+
+              if(bajada == true)
+              {
+                if(distNodoFY<-1.0f)
+                {
+                  e->getBody()->ApplyForceToCenter(b2Vec2(0.f,-3000.f),true);
+                }
+                else
+                {
+                  iC++;
+                }
+              }
+        break;
+       }
+
+    }
+}
+
 void AvanzarPatrulla::reset(Enemigo *e)
 {
     /* Inicializamos todo otra vez para que la proxima vez que ocurra funcione todo bien */
@@ -401,7 +401,6 @@ void AvanzarPatrulla::reset(Enemigo *e)
     caminoCorto.clear();
     inicioBueno = nullptr;
     bajada = false;
-    e->setVuelta(false);
 
 }
 
@@ -442,6 +441,4 @@ AvanzarPatrulla::~AvanzarPatrulla()
     pos.clear();
 
     delete g;
-    caminoCortoAux.clear();
-
 }

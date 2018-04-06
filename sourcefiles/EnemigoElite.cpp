@@ -7,7 +7,6 @@ EnemigoElite::EnemigoElite(IrrlichtDevice *dev, ISceneManager *smgr, vector<Posi
     //ESTABLECEMOS LAS ESTADISTICAS ENEMIGO AVANZADO
 
     setEnergia(ENERGIA_MAX);
-    setHambre(100.f);
     salud = 100.f;
     setSed(100.f);
     setVelocidad(VELOCIDAD_NORMAL);
@@ -23,7 +22,6 @@ EnemigoElite::EnemigoElite(IrrlichtDevice *dev, ISceneManager *smgr, vector<Posi
     comportamiento = new BehaviorTree(2, b);  
 
      /* Velocidad a la que bajan las estadisticas del enemigo */
-    setVelHambre(-0.1);
     setVelSed(-0.2);
 
     /* BOX2D */

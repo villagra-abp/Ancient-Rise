@@ -23,7 +23,6 @@ class Enemigo : public GameObject
 
         void update(Posicion* prota);
         void updateTiempo(const f32 Time);
-        void actualizarHambre();
         void actualizarSed();
         virtual void comprobarEnergia()=0;
         
@@ -41,7 +40,6 @@ class Enemigo : public GameObject
         f32 getVelocidad();
         f32 getSed();
         f32 getSalud();
-        f32 getHambre();
         const f32 getVelNormal();
         int getTipo();
         int getClaseEnemigo();
@@ -62,10 +60,10 @@ class Enemigo : public GameObject
         Objeto* getAlarmaActivar();
         bool getSaltando();
         bool getVuelta();
+        bool getInterrumpido();
 
         void setSed(f32 se);
         void setEnergia(f32 e);
-        void setHambre(f32 h);
         void setSalud(f32 s);
         void setVelocidad(f32 v);
         void setPosition(Posicion* v);
@@ -82,6 +80,7 @@ class Enemigo : public GameObject
         void setSaltando(bool s);
         void setInvisible();
         void setVuelta(bool v);
+        void setInterrumpido(bool i);
 
         /* COMBATE */   
         void setCombate(bool b);
@@ -117,7 +116,6 @@ class Enemigo : public GameObject
         /* ESTADISTICAS DEL ENEMIGO */
         f32 energia;
         f32 sed;
-        f32 hambre;
         f32 salud;
         f32 VELOCIDAD_ENEMIGO;                      // VELOCIDAD DEL ENEMIGO
         f32 velHambre;                              // INDICA LA VELOCIDAD A LA QUE BAJA EL HAMBRE

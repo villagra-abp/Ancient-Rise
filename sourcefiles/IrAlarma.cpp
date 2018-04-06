@@ -7,11 +7,11 @@ Status IrAlarma::run(Enemigo *e)
   nodos = board->getNodosGrafo();
 
   // DATOS  ENEMIGO
-  float enemigoX=e->getPosition()->getPosX();
-  float enemigoY=e->getPosition()->getPosY();
+  enemigoX = e->getPosition()->getPosX();
+  enemigoY = e->getPosition()->getPosY();
 
   comprobarAlarmaSonando(enemigoX);
-/*
+
   if(distanciaAlarma>-20  && distanciaAlarma<20)
   {
     return BH_SUCCESS;
@@ -51,6 +51,7 @@ Status IrAlarma::run(Enemigo *e)
     {
         g = new Grafo();
         caminoCorto = g->pathfindDijkstra(inicioBueno, fin);
+        delete g;
     }
 
      /* Nos acercamos al nodo Inicio del camino */
@@ -81,71 +82,7 @@ Status IrAlarma::run(Enemigo *e)
       {
           if(iC<caminoCorto.size())
           {
-              fin = caminoCorto[iC]->getNodoFin();
-
-              if(caminoCorto[iC]->getComportamiento()==NORMAL)         // Movimiento normal del enemigo
-              {   
-                  posNodoI = fin->getPosition();
-                  distNodoF = posNodoI->getPosX() - enemigoX;
-
-                  //cout<<"DIstNodoF "<<distNodoF<<endl;
-                  if (distNodoF<-1.0f) 
-                   {
-                        movimientoDireccion(e,false);                                   
-                   }
-                   else{
-                          if(distNodoF>1.0f) 
-                          {
-                              movimientoDireccion(e,true);                                    
-                          }
-                          else
-                          {
-                            iC++;
-                          }
-                      }
-              }
-              else
-              {
-                  if(caminoCorto[iC]->getComportamiento()==SALTO)         // SALTO
-                  {   
-                      posNodoI = fin->getPosition();
-                      distNodoF = posNodoI->getPosX() - enemigoX;
-                      distNodoFY = posNodoI->getPosY() - enemigoY;
-              
-                      if(distNodoFY>1.0f)
-                      {
-                          e->setSaltando(true);
-                          e->getBody()->ApplyForceToCenter(b2Vec2(0.f,3000.f),true);
-                      }
-                      else
-                      {
-                          e->setSaltando(false);
-                      }
-
-                      if(e->getSaltando()!=true)
-                      {
-                          if(distNodoF<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
-                              {
-
-                                  e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
-                                  e->setLastFacedDir(false);                                    
-                              }
-                          else{
-                                  if(distNodoF>1.0f) // AVANZAMOS HACIA LA DERECHA
-                                  {
-
-                                      e->getBody()->SetLinearVelocity(e->getVelocidad2d());
-                                      e->setLastFacedDir(true);                                    
-                                  }
-                                  else // Si hemos llegado al nodo Fin
-                                  {
-                                      iC++;
-                                  }
-                              }
-                      }
-
-                  }
-              }
+            checkComportamiento(e);       // Comprobamos que comportamiento tiene que ejecutar el enemigo
           }
 
           if(iC==caminoCorto.size())
@@ -181,6 +118,7 @@ Status IrAlarma::run(Enemigo *e)
                 }
                 else
                 {
+                       //llegadoAlarma = true;
                      /* Inicializamos todo otra vez para que la proxima vez que ocurra funcione todo bien */
                        llegadoFin = false;
                        llegadoInicio = true;
@@ -192,7 +130,8 @@ Status IrAlarma::run(Enemigo *e)
 
               }
       
-    }
+        }
+      }
     
 return BH_SUCCESS;
 
@@ -247,9 +186,6 @@ void IrAlarma::recorrerNodos(Enemigo* e, uint8_t v, float posX)
     {
         if(e->see(nodos[i]))            // Comprobamos si el enemigo ve al nodo
         {   
-            //posNodoI = nodos[i]->getPosition();
-           // cout<<"visto nodo:"<<posNodoI.X<<endl;
-
             if(v==1)
             {
                 //cout<<"primera"<<endl;
@@ -364,12 +300,138 @@ void IrAlarma::movimientoDireccion(Enemigo *e, bool d)
     }
 }
 
+/* Funcion para que el enemigo sepa que comportamiento tiene que hacer durante el pathfinding */
+void IrAlarma::checkComportamiento(Enemigo *e)
+{
+    fin = caminoCorto[iC]->getNodoFin();
+
+    tipo = caminoCorto[iC]->getComportamiento();
+
+    switch(tipo)
+    {
+       case NORMAL:
+       {
+         posNodoI = fin->getPosition();
+         distNodoF = posNodoI->getPosX() - enemigoX;
+
+          if (distNodoF<-1.0f) 
+          {
+              movimientoDireccion(e,false);                                   
+          }
+          else{
+                if(distNodoF>1.0f) 
+                {
+                    movimientoDireccion(e,true);                                    
+                }
+                else
+                {
+                    iC++;
+                }
+              }
+
+         break;
+       }
+
+       case SALTO:
+       {
+          posNodoI = fin->getPosition();
+          distNodoF = posNodoI->getPosX() - enemigoX;
+          distNodoFY = posNodoI->getPosY() - enemigoY;
+            
+          if(distNodoFY>1.0f)
+          {
+            e->setSaltando(true);
+            e->getBody()->ApplyForceToCenter(b2Vec2(0.f,3000.f),true);
+          }
+          else
+         {
+            e->setSaltando(false);
+         }
+
+          if(e->getSaltando()!=true)
+          {
+            if(distNodoF<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
+            {
+              e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
+              e->setLastFacedDir(false);                                    
+            }
+            else{
+                  if(distNodoF>1.0f) // AVANZAMOS HACIA LA DERECHA
+                  {
+
+                    e->getBody()->SetLinearVelocity(e->getVelocidad2d());
+                    e->setLastFacedDir(true);                                    
+                  }
+                  else // Si hemos llegado al nodo Fin
+                  {
+                    iC++;
+                  }
+                }
+          }
+
+        break;
+       }
+
+       case BAJADA:
+       {
+         posNodoI = fin->getPosition();
+        distNodoF = posNodoI->getPosX() - enemigoX;
+        distNodoFY = posNodoI->getPosY() - enemigoY;
+
+          if (distNodoF<-3.0f) 
+          {
+            e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));
+            bajada = false;                                   
+          }
+          else{
+                if(distNodoF>3.0f) 
+                {
+                  e->getBody()->SetLinearVelocity(e->getVelocidad2d());
+                  bajada = false;                                    
+                }
+                else
+                {
+                  bajada = true;
+                }
+              }
+
+              if(bajada == true)
+              {
+                if(distNodoFY<-1.0f)
+                {
+                  e->getBody()->ApplyForceToCenter(b2Vec2(0.f,-3000.f),true);
+                }
+                else
+                {
+                  iC++;
+                }
+              }
+        break;
+       }
+
+    }
+}
+
+void IrAlarma::reset()
+{
+    /* Inicializamos todo otra vez para que la proxima vez que ocurra funcione todo bien */
+    llegadoFin = false;
+    llegadoInicio = false;
+    inicio1 = nullptr;
+    inicio2 = nullptr;
+    fin = nullptr;
+    caminoCorto.clear();
+    inicioBueno = nullptr;
+    bajada = false;
+
+}
+
 void IrAlarma::onInitialize(Blackboard *b)
 {
-  board = b;
-  a = board->getAlarma();
-  alarmaX = 0.0;
-  distanciaAlarma = 0;
+    board = b;
+    a = board->getAlarma();
+    alarmaX = 0.0;
+    distanciaAlarma = 0;
 
    /* Pathfinding */
     inicio1 = nullptr;
@@ -379,6 +441,7 @@ void IrAlarma::onInitialize(Blackboard *b)
     posNodoI = nullptr;
     posNodo = nullptr;
     iC = 0;
+    g = nullptr;
 }
 
 IrAlarma::~IrAlarma()
@@ -387,11 +450,20 @@ IrAlarma::~IrAlarma()
 
     for(int i = 0 ; i < a.size(); i++){
       a[i] = nullptr;
-      delete a[i];  //No se si es necesario
     }
-
     a.clear();
 
-    //delete board;
-    //delete a;
+    for(int i=0; i<caminoCorto.size();i++)
+    {
+        caminoCorto[i] = nullptr;
+    }
+    caminoCorto.clear();
+
+    for(int i=0; i<nodos.size();i++)
+    {
+        nodos[i] = nullptr;
+    }
+    nodos.clear();
+
+
 }

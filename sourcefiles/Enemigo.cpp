@@ -63,7 +63,9 @@ Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos
     saltando = false;
     inv = true;
 
+    /* Pathfinding */
     vuelta = false;
+    interrupcion = false;
 
 
 }
@@ -79,7 +81,6 @@ void Enemigo::update(Posicion* Posprota)
 
     if(enemigo!=nullptr)  // Solo si existe el enemigo hacemos su update
     { 
-        actualizarHambre(); 
         actualizarSed();
 
         //cout<<"Vida: "<<salud<<endl;
@@ -140,19 +141,6 @@ void Enemigo::update(Posicion* Posprota)
         }
         
     }
-
-}
-
-
-/**
-FUNCION PARA ACTUALIZAR EL ESTADO DEL HAMBRE DEL ENEMIGO EN FUNCION DE LA CANTIDAD QUE LE PASEMOS
-**/
-
-void Enemigo::actualizarHambre()
-{
-    //hambre+=velHambre*frameDeltaTime;
-
-    //cout<<round(hambre)<<endl;
 
 }
 
@@ -350,11 +338,6 @@ f32 Enemigo::getSalud()
     return salud;
 }
 
-f32 Enemigo::getHambre()
-{
-    return hambre;
-}
-
 vector<Posicion*> Enemigo::getPosicion()
 {
     return patrulla;
@@ -451,6 +434,11 @@ bool Enemigo::getVuelta()
     return vuelta;
 }
 
+bool Enemigo::getInterrumpido()
+{
+    return interrupcion;
+}
+
 
 void Enemigo::setSalud(f32 s)
 {
@@ -460,11 +448,6 @@ void Enemigo::setSalud(f32 s)
 void Enemigo::setEnergia(f32 e)
 {
     energia=e;
-}
-
-void Enemigo::setHambre(f32 h)
-{
-    hambre=h;
 }
 
 void Enemigo::setVelocidad(f32 v)
@@ -549,6 +532,11 @@ void Enemigo::setInvisible()
 void Enemigo::setVuelta(bool v)
 {
     vuelta = v;
+}
+
+void Enemigo::setInterrumpido(bool i)
+{
+    interrupcion = i;
 }
 
 

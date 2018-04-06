@@ -12,7 +12,6 @@ EnemigoBasico::EnemigoBasico(IrrlichtDevice *dev, ISceneManager *smgr, vector<Po
     //ESTABLECEMOS LAS ESTADISTICAS ENEMIGO BASICO
 
     setEnergia(ENERGIA_MAX);
-    setHambre(100.f);
     salud = 100;
     setSed(100.f);
     setVelocidad(VELOCIDAD_NORMAL);
@@ -27,8 +26,7 @@ EnemigoBasico::EnemigoBasico(IrrlichtDevice *dev, ISceneManager *smgr, vector<Po
     
 
      /* Velocidad a la que bajan las estadisticas del enemigo */
-    setVelHambre(-0.3);
-    setVelSed(-3.3);
+    setVelSed(-0.3);
 
 
     /* BOX2D */
