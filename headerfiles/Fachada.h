@@ -73,8 +73,8 @@ public:
     FCamara* addCamara(Posicion*);
     FLuz* addLuz(Posicion*);
 
-    void rotObj(FObjeto* o, float x, float y, float z, float angulo);
-    void movObj(FObjeto* o, float x, float y, float z);
+    void rotObj(void* o, float x, float y, float z, float angulo);
+    void movObj(void* o, float x, float y, float z);
     
     void CreateGround(b2World& world, float X, float Y,float largo, float ancho);
 

@@ -196,13 +196,13 @@ FObjeto* Fachada::addMalla(int x,int y,int z,string ruta){
     return prota;
 }
 
-void Fachada::rotObj(FObjeto* o, float x, float y, float z, float angulo){
-    
+void Fachada::rotObj(void* nodo, float x, float y, float z, float angulo){
+    FObjeto* o=(FObjeto*)nodo;
     o->Rotar(vec3(x,y,z), angulo);
 }
 
-void Fachada::movObj(FObjeto* o, float x, float y, float z){
-    
+void Fachada::movObj(void* nodo, float x, float y, float z){
+    FObjeto* o=(FObjeto*)nodo;
     o->Mover(vec3(x,y,z));
 }
 

@@ -70,7 +70,14 @@ int main()
 		            //std::cout<<evento->key.code<<std::endl;		
 		            switch(inputKey){
                         case 36: 		//escape
-		            		mundo->CambioEstado();
+                            if(mundo->getEstado()==0){
+                                mundo->CambioEstado(2);
+                            }
+                            else if(mundo->getEstado()==1){
+                                mundo->CambioEstado(2);
+                            }
+                            else if(mundo->getEstado()==2)
+                                mundo->CambioEstado(1);
 		            		break;
 		            	case 73: 		//arriba
 		            		//mundo->estado=0;
@@ -92,6 +99,7 @@ int main()
 		//
 		// ACTUALIZAMOS EL MUNDO 
 		mundo->update();
+        
 		
     glViewport(0, 0, 800, 500); 
     mundo->draw();

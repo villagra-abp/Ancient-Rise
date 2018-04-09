@@ -15,6 +15,8 @@
 #include "../headerfiles/Entorno.h"
 #include "../headerfiles/Fachada.h"
 #include "../headerfiles/NodoGrafo.h"
+#include "../headerfiles/Menu.h"
+#include "../headerfiles/Pausa.h"
 
 #include "../motorsonido/headerfiles/GestorSonido.h"
 
@@ -58,7 +60,8 @@ class Mundo : public Entorno
         void checkInput();
         void checkCombate();
         
-        void CambioEstado();
+        void CambioEstado(int n);
+        int getEstado();
         
         
 
@@ -78,7 +81,7 @@ class Mundo : public Entorno
 
  	/* VARIABLES */
 
-        int estado=1;
+        int estado=0;
         int PosFlecha=3;
 
     	//PROTAGONISTA

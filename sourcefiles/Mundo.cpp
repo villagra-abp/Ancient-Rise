@@ -87,6 +87,7 @@ Fachada* fachada=fachada->getInstance();
 	 
 
 /* CREAMOS PLATAFORMAS */
+/*
     Posicion* escala = new Posicion(55.f,5.f,20.f);
 
     Plataforma = fachada->addCube(220,25,30,false);
@@ -117,7 +118,7 @@ Fachada* fachada=fachada->getInstance();
         Plataforma3->Rotar(vec3(0,1,0), 1.5f);
     }
 
-
+*/
 
 /** ESTABLECEMOS LA CAMARA
  Aqui indicamos la posicion de la camara en el espacio 3d. En este caso,
@@ -216,7 +217,15 @@ Fachada* fachada=fachada->getInstance();
 	addGameObject(enemE1);
 */
     ///Añado el menu
-    fachada->addMenu(1);
+    //fachada->addMenu(1);
+    
+    Posicion* posmenu= new Posicion(.5f,-.5f,.5f);
+ 	Menu* menu = new Menu(posmenu);
+ 	addGameObject(menu);
+    
+    Posicion* pospausa= new Posicion(-20.5f,-.5f,.5f);
+ 	Pausa* pausa = new Pausa(pospausa);
+ 	addGameObject(pausa);
     
 
 }	
@@ -496,12 +505,16 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
     
 	Posicion* protaPosition = prota->getPosition();
 	//vec3 camPosition = cam->getPosicion();
-    if(estado>0){
+    if(estado==2){
     cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-20,-200)); // cambio 5O A ProtaPosition.Y
     //camPosition=vec3(protaPosition->getPosX(),protaPosition->getPosY()+30,protaPosition->getPosZ());
     //camPosition.y=protaPosition->getPosY()+30;
     //Falta funcion para enfocar la camara
     //cam->setTarget(camPosition);
+    }
+    if(estado==1){
+        cam->setPosicion(vec3(20,2,-20));
+        //cam->Rotar(vec3(0,1,0), 3.0f);
     }
     if(estado==0){
         cam->setPosicion(vec3(0,2,-20));
@@ -561,13 +574,11 @@ GameObject* Mundo::getGameObject(uint8_t pos) const{
 
 	return o;
 }
- void Mundo::CambioEstado(){
-    if(estado==0){
-        estado=1;
-    }
-    else
-        estado=0;
-    
+ void Mundo::CambioEstado(int n){
+    estado=n;
+}
+int Mundo::getEstado(){
+    return estado;
 }
 Mundo::~Mundo()	//DESTRUCTOR
 {
