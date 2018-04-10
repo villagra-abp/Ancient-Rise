@@ -16,6 +16,10 @@
 #include "../headerfiles/Fachada.h"
 #include "../headerfiles/NodoGrafo.h"
 
+//#include "../inc/tinyxml/tinystr.h"
+//#include "../inc/tinyxml/tinyxml.h"
+#include <tinyxml.h>
+
 #include "../motorsonido/headerfiles/GestorSonido.h"
 
 /*
@@ -59,6 +63,8 @@ class Mundo : public Entorno
         void checkCombate();
         
         void CambioEstado();
+
+        void cargarNivel();
         
         
 
