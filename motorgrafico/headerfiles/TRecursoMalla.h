@@ -9,6 +9,7 @@
 #include "directorios.h"
 #include "TRecurso.h"
 #include "TRecursoMaterial.h"
+#include "TRecursoTextura.h"
 
 using namespace std;
 
@@ -18,7 +19,7 @@ using namespace std;
 
 class TRecursoMalla : public TRecurso{
     public:
-    	vector<Texture> textures_loaded;
+    	vector<TRecursoTextura*> textures_loaded;
         vector<rMesh> meshes;
 
         TRecursoMalla()

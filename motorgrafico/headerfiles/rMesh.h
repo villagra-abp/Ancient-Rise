@@ -16,6 +16,7 @@
 
 #include "../headerfiles/Shader.h"
 #include "TRecursoMaterial.h"
+#include "TRecursoTextura.h"
 
 using namespace std;
 
@@ -24,23 +25,23 @@ struct Vertex{
 		glm::vec3 Normal;
 		glm::vec2 TexCoords;
 	};
-
+/*
 struct Texture{
 	unsigned int id;
 	string type;
 	string path;
 };
-
+*/
 
   
 class rMesh{
 	public:
 		vector<Vertex> vertices;
 		vector<unsigned int> indices;
-		vector<Texture> textures;
+		vector<TRecursoTextura*> textures;
 		unsigned int VAO;
 
-		rMesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures, TRecursoMaterial* material);
+		rMesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<TRecursoTextura*> textures, TRecursoMaterial* material);
 		void draw(Shader shader, glm::mat4 mmodelo, glm::mat4 view, glm::mat4 projection, float intensidad, glm::vec4 color, glm::vec3 luzPosicion, 
 			glm::vec3 camaraPosicion);
 

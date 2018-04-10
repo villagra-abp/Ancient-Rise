@@ -49,7 +49,7 @@ private:
  	TRecursoMalla* cargarFichero(string nombre);
 	void processNode(aiNode *node, const aiScene *scene, TRecursoMalla* malla);
     rMesh processMesh(aiMesh *mesh, const aiScene *scene);
-    vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, 
+    vector<TRecursoTextura*> loadMaterialTextures(aiMaterial *mat, aiTextureType type, 
                                              string typeName);
 
 	vector<TRecurso*> recursos;

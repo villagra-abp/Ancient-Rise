@@ -11,6 +11,7 @@ struct Material {
 
 in vec3 Normal;
 in vec3 FragPos;
+in vec2 TexCoords;
 
 out vec4 FragColor;
 
@@ -19,6 +20,7 @@ uniform vec3 camPos;
 uniform vec4 color;
 uniform float lightIntensity;
 uniform Material material;
+uniform sampler2D ourTexture;
 
 							
 void main(){
@@ -34,7 +36,7 @@ void main(){
 		vec3 lightDir = normalize(luzPos - FragPos);  
 
 		float diff = max(dot(norm, lightDir), 0.0);
-		vec3 diffuse = vec3(color) * (diff * material.diffuse);
+		vec3 diffuse = vec3(texture(ourTexture, TexCoords)) * vec3(color) * (diff * material.diffuse);
 		
 		//specular
 		vec3 viewDir = normalize(camPos - FragPos);
@@ -44,7 +46,10 @@ void main(){
 		vec3 specular = vec3(color) * (spec * material.specular);
 
 		//result
-		vec3 result = ambient + diffuse + specular;
+		//vec3 result = ambient + diffuse + specular;
+		//vec3 result = diffuse;
+		//vec3 result = ambient + specular;
+		vec3 result = specular;
 		FragColor = vec4(result, 1.0f);
 		//FragColor = vec4(0, 1.0f, 1.0f, 1.0f) * 0.25f;
 }
