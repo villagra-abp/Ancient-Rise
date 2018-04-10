@@ -226,6 +226,8 @@ Fachada* fachada=fachada->getInstance();
     Posicion* pospausa= new Posicion(-20.5f,-.5f,.5f);
  	Pausa* pausa = new Pausa(pospausa);
  	addGameObject(pausa);
+
+    cargarNivel();
     
 
 }	
@@ -580,6 +582,236 @@ GameObject* Mundo::getGameObject(uint8_t pos) const{
 int Mundo::getEstado(){
     return estado;
 }
+
+
+
+void Mundo::cargarNivel(){
+
+TiXmlDocument doc;
+
+if(doc.TiXmlDocument::LoadFile("../resources/mapa3.xml",TIXML_ENCODING_UTF8 )){ //TIXML_ENCODING_UTF8
+  std::cout <<"Leyendo bien"<<endl;
+    
+}
+
+//OBTENER ELEMENTO MAPA
+TiXmlElement* map = doc.FirstChildElement("map");
+
+if(map){ 
+  std::cout <<"Obtenido elemento raiz(mapa)"<<endl;
+
+//MOSTRAR ATRIBUTOS MAPA
+      TiXmlAttribute* atri = map->FirstAttribute();
+      
+      int i=0;
+      int ival;
+      double dval;
+     
+      
+      std::cout <<"Obtenido atributos del mapa:"<<endl;
+      while (atri)
+      {
+      printf( "%s%s:", atri->Name(), atri->Value());
+
+      if (atri->QueryIntValue(&ival)==TIXML_SUCCESS)    printf( " int=%d", ival);//muestra su valor entero
+      if (atri->QueryDoubleValue(&dval)==TIXML_SUCCESS) printf( " d=%1.1f", dval);//muestra su valor doble
+      printf( "\n" );
+      i++;
+      atri=atri->Next();
+
+      }
+
+      //OBTENER ELEMENTO TILESET
+
+        TiXmlElement* tileset = map->FirstChildElement("tileset");
+
+       if(tileset){ 
+
+         std::cout <<"Obtenido elemento (tileset)"<<endl;
+         
+         TiXmlAttribute* atri2 = tileset->FirstAttribute();
+          
+          int i2=0;
+          int ival2;
+          double dval2;
+         
+          printf("\n");
+          std::cout <<"Obtenido atributos del tileset:"<<endl;
+              while (atri2)
+              {
+                printf( "%s%s:", atri2->Name(), atri2->Value());
+
+                if (atri2->QueryIntValue(&ival2)==TIXML_SUCCESS)    printf( " int=%d", ival2);//muestra su valor entero
+                if (atri2->QueryDoubleValue(&dval2)==TIXML_SUCCESS) printf( " d=%1.1f", dval2);//muestra su valor doble
+                printf( "\n" );
+                i2++;
+                atri2=atri2->Next();
+               
+              }
+      } 
+
+      //OBTENER ELEMENTO LAYER
+
+        TiXmlElement* layer = map->FirstChildElement("layer");//a la misma altura que tileset(hijos de mapa)
+           if(layer){ 
+              std::cout <<"Layer ok"<<endl;
+           }
+
+    //OBTENER ELEMENTO DATA
+
+        TiXmlElement* data = layer->FirstChildElement("data");//data es hijo de layer
+           if(data){ 
+              std::cout <<"data ok"<<endl;
+           }
+
+    //OBTENER ELEMENTO OBJECTGROUP
+        TiXmlElement* grupo = map->FirstChildElement("objectgroup");//objectgroup es hijo de map
+           if(grupo){ 
+              std::cout <<"objectgroup suelo OK"<<endl;
+                
+
+//OBTENER ELEMENTO SUELO
+
+    TiXmlElement* obje = grupo->FirstChildElement("object");//object es hjo de objectgroup
+
+
+    
+      
+          int id;
+          int i3;
+          double altura;
+          double ancho;
+          double x;
+          double y;
+                  
+            
+
+              printf("\n");
+              std::cout <<"Obtenido atributos del suelo:"<<endl;
+
+              while(obje){
+                 TiXmlAttribute* atri3 = obje->FirstAttribute();
+
+                     std::cout <<"Plataforma:"<<i3<<endl;
+                      i3++;
+
+                        while (atri3)
+                        {
+                             //printf( "%s%s:", atri3->Name(), atri3->Value()
+                            
+                           
+
+                             if(strcmp(atri3->Name(),"id")==0){
+                              atri3->QueryIntValue(&id);
+                                std::cout <<"Id:"<<id<<endl;
+
+                            }
+
+                            //OBTENER DIMENSIONES DE LAS CAJAS QUE FORMAN EL SUELO
+
+
+                             if(strcmp(atri3->Name(),"x")==0){
+                              atri3->QueryDoubleValue(&x);
+                                std::cout <<"X:"<<(float)x<<endl;
+
+                            }//CAJAS MAS ALTAS QUE ANCHAS NO TRATARLAS
+
+                             if(strcmp(atri3->Name(),"y")==0){
+                              atri3->QueryDoubleValue(&y);
+                                std::cout <<"Y:"<<(float)y<<endl;
+
+                            }
+
+                              if(strcmp(atri3->Name(),"width")==0){
+                              atri3->QueryDoubleValue(&ancho);
+                                std::cout <<"Ancho:"<<(float)ancho<<endl;
+
+                            }
+
+                            if(strcmp(atri3->Name(),"height")==0){
+                              atri3->QueryDoubleValue(&altura);
+                                std::cout <<"Altura:"<<(float)altura<<endl;
+
+                            }            
+
+                        atri3=atri3->Next();
+
+                        }//atributos
+                      obje=obje->NextSiblingElement("object");//pasamos a la siguiente caja
+                       printf("\n");
+                         
+                   }//objeto/elemento    
+
+
+                   //TRATAMOS LAS PLATAFORMAS DE UNA FORMA LIGERAMENTE DISTINTA, LOSDEMAS OBJETOS COMPARTEN NUMERO Y TIPODE ATRIBUTOS
+                   TiXmlElement* grupo2=grupo->NextSiblingElement("objectgroup");
+              
+              while(grupo2){ 
+               
+                  double dval9;
+                  TiXmlAttribute* atriE = grupo2->FirstAttribute();
+                   std::cout <<"Objectgroup de:"<<atriE->Value()<<endl;
+                    while(atriE){
+                        atriE->QueryDoubleValue(&dval9)==TIXML_SUCCESS;
+                         printf( " d=%1.1f", dval9);
+                         atriE=atriE->Next();
+                         printf("\n");
+                     }//atributosGrupoEnemigos
+               
+               TiXmlElement* ene = grupo2->FirstChildElement("object");//object es hjo de objectgroup
+
+                int idE;
+                int iE;
+                int tipo;
+                double xEn;
+                double yEn;
+                
+                  while(ene){
+                      TiXmlAttribute* atriEn = ene->FirstAttribute();
+                      std::cout <<"Objeto:"<<iE<<endl;
+                      iE++;
+                          while(atriEn){
+                           
+                            if(strcmp(atriEn->Name(),"id")==0){
+                              atriEn->QueryIntValue(&idE);
+                                std::cout <<"Id:"<<idE<<endl;
+                            }
+
+                            if(strcmp(atriEn->Name(),"type")==0){
+                              atriEn->QueryIntValue(&tipo);
+                              
+                                std::cout <<"Tipo:"<<tipo<<endl;
+                              
+                            }
+
+                            if(strcmp(atriEn->Name(),"x")==0){
+                              atriEn->QueryDoubleValue(&xEn);
+                                std::cout <<"X:"<<xEn<<endl;
+                            }
+
+                            if(strcmp(atriEn->Name(),"y")==0){
+                              atriEn->QueryDoubleValue(&yEn);
+                                std::cout <<"Y:"<<yEn<<endl;
+                            }
+
+                            atriEn=atriEn->Next();
+
+                          }//atributosEnemigo
+                          printf("\n");
+                    ene=ene->NextSiblingElement("object");//pasamos a la siguiente caja
+                  }//enemigo
+                  grupo2=grupo2->NextSiblingElement("objectgroup");//pasamos a la siguiente caja
+              }//grupo2
+
+
+           }//objectgroup
+              
+    }//mapa
+
+}    
+
+
+
 Mundo::~Mundo()	//DESTRUCTOR
 {
 	/* DELETE PROTAGONISTA */

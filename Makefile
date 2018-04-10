@@ -1,4 +1,4 @@
-LIBS := -lIrrlicht -lGLEW -lglut -lGLU -lGL -lX11 -lXxf86vm -lBox2D -lfmod -lfmodstudio -lsfml-graphics -lsfml-window -lsfml-system -lassimp
+LIBS := -ltinyxml -lIrrlicht -lGLEW -lglut -lGLU -lGL -lX11 -lXxf86vm -lBox2D -lfmod -lfmodstudio -lsfml-graphics -lsfml-window -lsfml-system -lassimp
 CC=g++
 CFLAGS= -g -I. -I./inc
 PATHS:= -Llib/

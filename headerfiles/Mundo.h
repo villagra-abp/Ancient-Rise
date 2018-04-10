@@ -17,6 +17,7 @@
 #include "../headerfiles/NodoGrafo.h"
 #include "../headerfiles/Menu.h"
 #include "../headerfiles/Pausa.h"
+#include <tinyxml.h>
 
 #include "../motorsonido/headerfiles/GestorSonido.h"
 
@@ -62,6 +63,7 @@ class Mundo : public Entorno
         
         void CambioEstado(int n);
         int getEstado();
+        void cargarNivel();
         
         
 
