@@ -137,7 +137,7 @@ void Protagonista::updateBody(b2World& world)
     protaPosition->setPosY(Body->GetPosition().y);
     
     fachada->setPosicion(rec,protaPosition);
-    std::cout<<"pos x: "<<Body->GetPosition().x<<"pos y: "<<Body->GetPosition().y<<endl;
+    //std::cout<<"pos x: "<<Body->GetPosition().x<<"pos y: "<<Body->GetPosition().y<<endl;
 
 }
 /**
