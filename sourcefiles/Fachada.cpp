@@ -226,7 +226,7 @@ bool Fachada::setPosicion(void * nodo,Posicion* pos){
 
     //std::cout<<pos->getPosX()<<endl;
     FObjeto* node=(FObjeto*)nodo;
-    vec3 position=vec3(pos->getPosX(),pos->getPosY(),30);
+    vec3 position=vec3(pos->getPosX(),pos->getPosY(),0);
     //cout<<position.x<<" "<<position.y<<" "<<position.z<<endl;
     node->setPosicion(position);
     return true;
@@ -354,9 +354,9 @@ void Fachada::drawTerreno(){
     //suelo->setMalla("resources/escenario.obj");
     suelo->setMalla("resources/nivel1.obj");
     //suelo = addCube(-220,-9,0, false);
-    suelo->Escalar(vec3(0.23,0.2,0.2));
+    suelo->Escalar(vec3(0.23,0.226,0.23));
 	
-	suelo->Mover(vec3(365,-540,5));
+	suelo->Mover(vec3(365,-600,8));
 	//suelo->Rotar(vec3(0,1,0), -3.f);
     suelo->Rotar(vec3(1,0,0), 1.5f);
 	
@@ -424,12 +424,10 @@ FUNCION PARA crear el objeto estatico
 void Fachada::CreateGround(b2World& world, float X, float Y,float largo,float alto)
 {
     Y=-Y+100;
-    //if(X>0){
-    //    X=X*2;
-    //}else
-       X=X-290;
+   
+    X=X-290;
     float posX=X+(largo/2);
-    float posY=Y+(alto/2)/10;
+    float posY=Y+(alto/2);
     /*
     std::cout<<"posX vale: "<<posX <<endl;
     std::cout<<"posY vale: "<<posY <<endl;

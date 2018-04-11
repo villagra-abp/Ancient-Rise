@@ -50,6 +50,9 @@ Protagonista::Protagonista():energy(nullptr), life(nullptr), Body(nullptr), rec(
     /////solo es para probar que no peta
     Posicion* pos= new Posicion(0,0,30);
     protaPosition=pos;
+    
+    delete pos;
+    
 
 }
 
@@ -134,7 +137,7 @@ void Protagonista::updateBody(b2World& world)
     protaPosition->setPosY(Body->GetPosition().y);
     
     fachada->setPosicion(rec,protaPosition);
-
+    //std::cout<<"pos x: "<<Body->GetPosition().x<<"pos y: "<<Body->GetPosition().y<<endl;
 
 }
 /**
