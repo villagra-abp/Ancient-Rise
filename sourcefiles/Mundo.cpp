@@ -509,7 +509,7 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
 	Posicion* protaPosition = prota->getPosition();
 	//vec3 camPosition = cam->getPosicion();
     if(estado==2){
-    cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-20,-200)); // cambio 5O A ProtaPosition.Y
+    cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-50,-150)); // cambio 5O A ProtaPosition.Y
     //camPosition=vec3(protaPosition->getPosX(),protaPosition->getPosY()+30,protaPosition->getPosZ());
     //camPosition.y=protaPosition->getPosY()+30;
     //Falta funcion para enfocar la camara
@@ -592,7 +592,7 @@ void Mundo::cargarNivel(){
 
 TiXmlDocument doc;
 
-if(doc.TiXmlDocument::LoadFile("resources/mapa3.xml",TIXML_ENCODING_UTF8 )){ //TIXML_ENCODING_UTF8
+if(doc.TiXmlDocument::LoadFile("resources/mapa.xml",TIXML_ENCODING_UTF8 )){ //TIXML_ENCODING_UTF8
   //std::cout <<"Leyendo bien"<<endl;
     
 }
@@ -706,7 +706,7 @@ if(map){
 
                              if(strcmp(atri3->Name(),"id")==0){
                               atri3->QueryIntValue(&id);
-                                std::cout <<"Id:"<<id<<endl;
+                                //std::cout <<"Id:"<<id<<endl;
 
                             }
 
@@ -807,8 +807,34 @@ if(map){
 
                           }//atributosEnemigo
                           //printf("\n");
+                  if(strcmp(grupo2->FirstAttribute()->Value(),"Enemigos")==0){
+                      cout<<"Enemigo tipo: "<<tipo<<endl;
+                  }   
+                  if(strcmp(grupo2->FirstAttribute()->Value(),"Recolectables")==0){
+                      cout<<"Recolectables tipo: "<<tipo<<endl;
+                  }  
+                  if(strcmp(grupo2->FirstAttribute()->Value(),"armas")==0){
+                      cout<<"armas tipo: "<<tipo<<endl;
+                  }  
+                  if(strcmp(grupo2->FirstAttribute()->Value(),"alarmas")==0){
+                      cout<<"alarmas"<<endl;
+                        Posicion* posA= new Posicion(xEn,-yEn,30.f);
+                        Alarma* alarm = new Alarma( posA);
+                        alarmas.push_back(alarm);
+                        addGameObject(alarm);
+                        delete posA;
+                  }  
+                  if(strcmp(grupo2->FirstAttribute()->Value(),"fuentes")==0){
+                      cout<<"fuentes"<<endl;
+                        Posicion* posF= new Posicion(xEn,-yEn,30.f);
+                        Fuente* fuente = new Fuente( posF);
+                        fuentes.push_back(fuente);
+                        addGameObject(fuente);
+                        delete posF;
+                  }  
                     ene=ene->NextSiblingElement("object");//pasamos a la siguiente caja
                   }//enemigo
+                  
                   grupo2=grupo2->NextSiblingElement("objectgroup");//pasamos a la siguiente caja
               }//grupo2
 

@@ -11,7 +11,7 @@ Fuente::Fuente(Posicion* pos):Objeto(pos)
 	FObjeto* obObeto = fachada->addMalla(pos->getPosX(),pos->getPosY(),pos->getPosZ(),"resources/Pozo.obj");
     objeto = obObeto;
     //posicion = &pos;
-    //std::cout<<pos.getPosX()<<endl;
+    //std::cout<<pos->getPosX()<<endl;
 	if (objeto)
 	{
         
