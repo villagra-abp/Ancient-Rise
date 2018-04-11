@@ -354,9 +354,9 @@ void Fachada::drawTerreno(){
     //suelo->setMalla("resources/escenario.obj");
     suelo->setMalla("resources/nivel1.obj");
     //suelo = addCube(-220,-9,0, false);
-    suelo->Escalar(vec3(0.23,0.2,0.2));
+    suelo->Escalar(vec3(0.23,0.237,0.23));
 	
-	suelo->Mover(vec3(365,-540,5));
+	suelo->Mover(vec3(365,-615,3));
 	//suelo->Rotar(vec3(0,1,0), -3.f);
     suelo->Rotar(vec3(1,0,0), 1.5f);
 	
@@ -429,13 +429,13 @@ void Fachada::CreateGround(b2World& world, float X, float Y,float largo,float al
     //}else
        X=X-290;
     float posX=X+(largo/2);
-    float posY=Y+(alto/2)/10;
-    /*
+    float posY=Y+(alto/2);
+    
     std::cout<<"posX vale: "<<posX <<endl;
     std::cout<<"posY vale: "<<posY <<endl;
     std::cout<<"largo vale: "<<largo <<endl;
     std::cout<<"alto vale: "<<alto <<endl;
-    */
+    
     b2BodyDef BodyDef;
     BodyDef.position.Set(posX, posY);
     BodyDef.type = b2_staticBody;
