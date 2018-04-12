@@ -84,7 +84,6 @@ void EnemigoBasico::comprobarEnergia()
 /**
 FUNCION PARA crear el objeto dinamico
 **/
-
 void EnemigoBasico::CreateBox(b2World& world, float X, float Y)
 {
 

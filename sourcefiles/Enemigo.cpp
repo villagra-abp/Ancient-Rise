@@ -83,7 +83,6 @@ void Enemigo::update(Posicion* Posprota)
     { 
         actualizarSed();
 
-        //cout<<"Vida: "<<salud<<endl;
         //COMPROBAMOS GAMEOBJECTS DENTRO DE LA VISTA
         vistos.clear();
 
@@ -100,7 +99,7 @@ void Enemigo::update(Posicion* Posprota)
              contador = 0;
             
         }else{
-            if(recordarProta())
+            if(recordarProta()==false)
             {
                 visto = false;
                 fachada->setMaterial(enemigo,"resources/verde.jpg");
@@ -135,9 +134,7 @@ void Enemigo::update(Posicion* Posprota)
                     }
                 }
             }
-
                 proyectil->update(this,board);
-
         }
         
     }
@@ -166,7 +163,6 @@ FUNCION PARA RECORDAR DURANTE UNOS SEGUNDOS AL PROTA DESPUES DE PERDERLE DE VIST
 */
 bool Enemigo::recordarProta()
 {
-
     memoria = true;
 
     if(contador==0)

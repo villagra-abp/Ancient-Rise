@@ -4,7 +4,7 @@ Status AliadoCerca::run(Enemigo *e)
 {   
    e->setCombate(false);
 
-   for(int i=0;i<enemigosB.size();i++)
+   for(size_t i=0;i<enemigosB.size();i++)
    {
 	   	if( e->see(enemigosB[i]) )
 	   	{

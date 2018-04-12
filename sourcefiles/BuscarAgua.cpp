@@ -11,8 +11,6 @@ Status BuscarAgua::run(Enemigo *e)
     enemigoX =EnemigoPosition->getPosX();
     enemigoY =EnemigoPosition->getPosY(); 
 
-    nodos = board->getNodosGrafo();
-
     /* Buscamos el nodo Inicial mas cercano al enemigo */
     if(inicio1==nullptr && inicio2==nullptr)  // Solo buscaremos el nodo inicio si no lo habiamos encontrado ya
     {
@@ -27,7 +25,7 @@ Status BuscarAgua::run(Enemigo *e)
     {
        fuenteX = f[pos]->getVector3df()->getPosX();
        fuenteY = f[pos]->getVector3df()->getPosY();
-       for(int i=0; i<nodos.size();i++)
+       for(size_t i=0; i<nodos.size();i++)
        {    
            posNodo = nodos[i]->getPosition();
            if(fuenteY==posNodo->getPosY())        // Solo si el nodo esta a la misma altura que la pos de la fuente
@@ -49,6 +47,7 @@ Status BuscarAgua::run(Enemigo *e)
     {
         g = new Grafo();
         caminoCorto = g->pathfindDijkstra(inicioBueno, fin);
+        delete g;
     }
 
     /* Nos acercamos al nodo Inicio del camino */
@@ -91,11 +90,10 @@ Status BuscarAgua::run(Enemigo *e)
     // Hemos llegado al ultimo nodo del camino calculado o hemos llegado al inicio y ademas no hay camino corto, puesto que ya estamos en el nodo mas cercano al objetivo
     if((llegadoFin==true) || (llegadoInicio==true && caminoCorto.size()==0))
     {
-      //cout<<"DistanFuente "<<distanciaFuente<<endl;
         if (distanciaFuente<-3.0f) // AVANZAMOS HACIA LA IZQUIERDA
          {
-              e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
-              e->setLastFacedDir(false);                                             
+            e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
+            e->setLastFacedDir(false);                                             
          }
          else{
                 if(distanciaFuente>3.0f) // AVANZAMOS HACIA LA DERECHA
@@ -106,16 +104,16 @@ Status BuscarAgua::run(Enemigo *e)
                 else // Si hemos llegado
                 {
                       /* RELOJ BEBER AGUA */
-                     startClock();                             // INICIAMOS EL RELOJ (O RESEATEAMOS)
+                     startClock();                                       // INICIAMOS EL RELOJ (O RESEATEAMOS)
 
-                     int time = reloj.getElapsedTime().asSeconds();  // OBTENEMOS SU DURACION EN SEGUNDOS
+                     int time = reloj.getElapsedTime().asSeconds();      // OBTENEMOS SU DURACION EN SEGUNDOS
 
                      f[pos]->setActivando(true);                         // ENEMIGO BEBIENDO
 
                      if(time>4)     // BEBIENDO
                      {
-                         e->setSed(100.f);       // RECUPERAMOS SED
-                         e->setVuelta(true);     // Indicamos que estamos volviendo a la patrulla
+                         e->setSed(100.f);                               // RECUPERAMOS SED
+                         e->setVuelta(true);                             // Indicamos que estamos volviendo a la patrulla
                          f[pos]->setActivando(false);
                          contador  = 0;
                          reset();
@@ -181,7 +179,7 @@ void BuscarAgua::buscarNodoInicial(Enemigo *e, float posX)
 void BuscarAgua::recorrerNodos(Enemigo* e, uint8_t v, float posX)
 {
 
-    for(int i=0; i<nodos.size();i++)
+    for(size_t i=0; i<nodos.size();i++)
     {
         if(e->see(nodos[i]))            // Comprobamos si el enemigo ve al nodo
         {   
@@ -241,7 +239,7 @@ void BuscarAgua::buscarFuenteCercana(float posEnemX)
     distanciaFuente = fuenteX - posEnemX;  // Calculamos la distancia hasta la fuente
     pos = 0;
 
-       for (int i = 1; i < f.size(); i++){
+       for (size_t i = 1; i < f.size(); i++){
           
           fuentePosition = f[i]->getVector3df();
           fuenteX=fuentePosition->getPosX();
@@ -282,13 +280,14 @@ void BuscarAgua::checkComportamiento(Enemigo *e)
 
     tipo = caminoCorto[iC]->getComportamiento();
 
+    posNodoI = fin->getPosition();
+    distNodoF = posNodoI->getPosX() - enemigoX;
+    distNodoFY = posNodoI->getPosY() - enemigoY;
+
     switch(tipo)
     {
        case NORMAL:
        {
-         posNodoI = fin->getPosition();
-         distNodoF = posNodoI->getPosX() - enemigoX;
-
           if (distNodoF<-1.0f) 
           {
               movimientoDireccion(e,false);                                   
@@ -309,10 +308,6 @@ void BuscarAgua::checkComportamiento(Enemigo *e)
 
        case SALTO:
        {
-          posNodoI = fin->getPosition();
-          distNodoF = posNodoI->getPosX() - enemigoX;
-          distNodoFY = posNodoI->getPosY() - enemigoY;
-            
           if(distNodoFY>1.0f)
           {
             e->setSaltando(true);
@@ -349,10 +344,6 @@ void BuscarAgua::checkComportamiento(Enemigo *e)
 
        case BAJADA:
        {
-         posNodoI = fin->getPosition();
-        distNodoF = posNodoI->getPosX() - enemigoX;
-        distNodoFY = posNodoI->getPosY() - enemigoY;
-
           if (distNodoF<-3.0f) 
           {
             e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));
@@ -411,13 +402,13 @@ void BuscarAgua::onInitialize(Blackboard *b)
    contador = 0;
 
    /* Pathfinding */
+   nodos = board->getNodosGrafo();
    inicio1 = nullptr;
    inicio2 = nullptr;
    inicioBueno = nullptr;
    fin = nullptr;
    posNodo = nullptr;
    posNodoI = nullptr;
-   g = new Grafo();
    iC = 0;
    bajada = false;
 
@@ -434,23 +425,20 @@ BuscarAgua::~BuscarAgua()
    posNodo = nullptr;
    posNodoI = nullptr;
 
-    for(int i = 0 ; i < f.size(); i++){
+    for(size_t i = 0 ; i < f.size(); i++){
       f[i] = nullptr;
     }
-
     f.clear();
 
-    for(int i=0; i<caminoCorto.size();i++)
+    for(size_t i=0; i<caminoCorto.size();i++)
     {
         caminoCorto[i] = nullptr;
     }
     caminoCorto.clear();
 
-    for(int i=0; i<nodos.size();i++)
+    for(size_t i=0; i<nodos.size();i++)
     {
         nodos[i] = nullptr;
     }
     nodos.clear();
-
-    delete g;
 }

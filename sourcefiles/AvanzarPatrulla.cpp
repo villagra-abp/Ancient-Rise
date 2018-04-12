@@ -27,8 +27,7 @@ Status AvanzarPatrulla::run(Enemigo *e)
         {
             if(contadorPatrulla==pos.size()-1) // Si llegamos al final reiniciamos
             {
-                contadorPatrulla = 0;
-                        
+                contadorPatrulla = 0;        
             }
             else {
                     contadorPatrulla++;
@@ -61,7 +60,7 @@ Status AvanzarPatrulla::run(Enemigo *e)
         if(inicio1==nullptr && inicio2==nullptr)  // Solo buscaremos el nodo inicio si no lo habiamos encontrado ya
         {
             buscarNodoInicial(e, enemigoX);
-        }  
+        } 
 
         if(fin==nullptr)
         {
@@ -70,7 +69,7 @@ Status AvanzarPatrulla::run(Enemigo *e)
 
         /* Calculamos el camino mas corto entre el nodo Inicial (inicioBueno) y el nodo Final que sera en la pos de la patrulla en la que nos quedamos */
         if(caminoCorto.size()==0)           // Para calcular el camino solo 1 vez y no siempre
-        {
+        { 
             g = new Grafo();
             caminoCorto = g->pathfindDijkstra(inicioBueno, fin);
             delete g;
@@ -84,12 +83,12 @@ Status AvanzarPatrulla::run(Enemigo *e)
         {
             if(distNodoI<-1.0f)
              {
-                    movimientoDireccion(e,false);                             
+               movimientoDireccion(e,false);                             
              }
              else{
                     if(distNodoI>1.0f) 
                     {
-                        movimientoDireccion(e,true);                                  
+                      movimientoDireccion(e,true);                                  
                     }
                     else // Si hemos llegado al nodo Inicio
                     {
@@ -185,7 +184,7 @@ void AvanzarPatrulla::buscarNodoInicial(Enemigo *e, float posX)
 void AvanzarPatrulla::buscarNodoFinal(Enemigo* e)
 {
     
-    for(int i=0; i<nodos.size(); i++)
+    for(size_t i=0; i<nodos.size(); i++)
     {
         if(pos[contadorPatrulla]->getPosY() == nodos[i]->getPosition()->getPosY() && pos[contadorPatrulla]->getPosX() == nodos[i]->getPosition()->getPosX())
         {
@@ -198,7 +197,7 @@ void AvanzarPatrulla::buscarNodoFinal(Enemigo* e)
 void AvanzarPatrulla::recorrerNodos(Enemigo* e, uint8_t v, float posX)
 {
 
-    for(int i=0; i<nodos.size();i++)
+    for(size_t i=0; i<nodos.size();i++)
     {
         if(e->see(nodos[i]))            // Comprobamos si el enemigo ve al nodo
         {   
@@ -285,13 +284,14 @@ void AvanzarPatrulla::checkComportamiento(Enemigo *e)
 
     tipo = caminoCorto[iC]->getComportamiento();
 
+    posNodoI = fin->getPosition();
+    distNodoF = posNodoI->getPosX() - enemigoX;
+    distNodoFY = posNodoI->getPosY() - enemigoY;
+
     switch(tipo)
     {
        case NORMAL:
        {
-         posNodoI = fin->getPosition();
-         distNodoF = posNodoI->getPosX() - enemigoX;
-
           if (distNodoF<-1.0f) 
           {
               movimientoDireccion(e,false);                                   
@@ -312,10 +312,6 @@ void AvanzarPatrulla::checkComportamiento(Enemigo *e)
 
        case SALTO:
        {
-          posNodoI = fin->getPosition();
-          distNodoF = posNodoI->getPosX() - enemigoX;
-          distNodoFY = posNodoI->getPosY() - enemigoY;
-            
           if(distNodoFY>1.0f)
           {
             e->setSaltando(true);
@@ -352,10 +348,6 @@ void AvanzarPatrulla::checkComportamiento(Enemigo *e)
 
        case BAJADA:
        {
-         posNodoI = fin->getPosition();
-        distNodoF = posNodoI->getPosX() - enemigoX;
-        distNodoFY = posNodoI->getPosY() - enemigoY;
-
           if (distNodoF<-3.0f) 
           {
             e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));
@@ -410,7 +402,7 @@ void AvanzarPatrulla::onInitialize(Blackboard *b)
     contadorReloj = 0;
     board = b;
 
-    for(int cont=0; cont<pos.size();cont++)
+    for(size_t cont=0; cont<pos.size();cont++)
     {
         pos[cont] = nullptr;
     }
@@ -424,7 +416,6 @@ void AvanzarPatrulla::onInitialize(Blackboard *b)
    fin = nullptr;
    posNodo = nullptr;
    posNodoI = nullptr;
-   g = new Grafo();
    iC = 0;
 }
 
@@ -433,12 +424,22 @@ AvanzarPatrulla::~AvanzarPatrulla()
 {
     board  = nullptr;
 
-    for(int cont=0; cont<pos.size();cont++)
+    for(size_t cont=0; cont<pos.size();cont++)
     {
         pos[cont] = nullptr;
     }
-
     pos.clear();
 
-    delete g;
+    for(size_t cont=0; cont<caminoCorto.size();cont++)
+    {
+        caminoCorto[cont] = nullptr;
+    }
+    caminoCorto.clear();
+
+    for(size_t cont=0; cont<nodos.size();cont++)
+    {
+        nodos[cont] = nullptr;
+    }
+    nodos.clear();
+
 }

@@ -67,12 +67,13 @@ Fachada* fachada=fachada->getInstance();
 	a = new Alarma(device, smgr, pA);
 	alarmas.push_back(a);
 	addGameObject(a);
-
+/*
 	Posicion* pA2= new Posicion(500.f,0.34f,40.f);
 	a2 = new Alarma(device, smgr, pA2);
 	alarmas.push_back(a2);
 	addGameObject(a2);
 
+*/
 	Posicion* posbebida= new Posicion(300,0.34f,30.f);
  	bebida = new Bebida(device, smgr, posbebida);
  	addGameObject(bebida);
@@ -336,11 +337,11 @@ Fachada* fachada=fachada->getInstance();
 
  /* CREAMOS ENEMIGOS BASICOS */
    
-	/*enem1 = new EnemigoBasico(device, smgr, pos, 140.0, 0.8, 2, this, b, world);
+	enem1 = new EnemigoBasico(device, smgr, pos, 140.0, 0.8, 2, this, b, world);
 	enemB.push_back(enem1);
-	addGameObject(enem1); */
+	addGameObject(enem1); 
 	
-	enem2 = new EnemigoBasico(device, smgr, pos2, 140.0, 0.8, 1, this, b, world);
+	enem2 = new EnemigoBasico(device, smgr, pos2, 140.0, 0.8, 2, this, b, world);
 	enemB.push_back(enem2);
 	addGameObject(enem2); 
     /*
@@ -358,9 +359,9 @@ Fachada* fachada=fachada->getInstance();
 	}	
 
 	/* CREAMOS ENEMIGOS ELITES */
-	/*enemE1 = new EnemigoElite(device, smgr, pos3, 120.0, 0.8, 2, this, b, world);
+	enemE1 = new EnemigoElite(device, smgr, pos3, 120.0, 0.8, 2, this, b, world);
 	enemE.push_back(enemE1);
-	addGameObject(enemE1);*/
+	addGameObject(enemE1);
     
 
 }	
@@ -368,34 +369,7 @@ Fachada* fachada=fachada->getInstance();
 void Mundo::posBuilder(){	//CONSTRUCTOR DE POSICIONES DE ENEMIGOS
 
 	/* SE LEE DE FICHERO LAS POSICIONES DE LA PATRULLA DE CADA ENEMIGO Y SE ALMACENAN EN LOS VECTORES */
-  /*
-    Posicion *p0 = new Posicion(41.9f, 0.34f,30.f);
-    pos.push_back(p0);
-    Posicion *p1 = new Posicion(277.5f, 65.34f,30.f);
-    pos.push_back(p1);
-
-    Posicion *p3 = new Posicion(120.7f,0.34f,30.f);
-    pos2.push_back(p3);
-    Posicion *p4 = new Posicion(498.9f,0.34f,30.f);
-    pos2.push_back(p4);
-
-    Posicion *p5 = new Posicion(120.7f,0.34f,30.f);
-    pos3.push_back(p5);
-    Posicion *p6 = new Posicion(-334.259f,0.34f,30.f);
-    pos3.push_back(p6);
-
-    Posicion *p7 = new Posicion(-157.4f,0.34f,30.f);
-    pos4.push_back(p7);
-    Posicion *p8 = new Posicion(155.3f,0.34f,30.f);
-    pos4.push_back(p8);
-
-    Posicion *p9 = new Posicion(498.9f,0.34f,30.f);
-    pos5.push_back(p9);
-    Posicion *p10 = new Posicion(249.2f,0.34f,30.f);
-    pos5.push_back(p10);
-    */
-
-    Posicion *p0 = new Posicion(87.475f,0.34f,30.f);
+    Posicion *p0 = new Posicion(72.475f,0.34f,30.f);
     pos.push_back(p0);
 
 
@@ -417,13 +391,13 @@ void Mundo::posBuilder(){	//CONSTRUCTOR DE POSICIONES DE ENEMIGOS
     pos2.push_back(p7);
 
 
-    Posicion *p8 = new Posicion(200.f,0.f,30.f);
+    Posicion *p8 = new Posicion(577.475f,0.34f,30.f);
     pos3.push_back(p8);
-    Posicion *p9 = new Posicion(150.f,0.f,30.f);
+    Posicion *p9 = new Posicion(471.475f,0.34f,30.f);
     pos3.push_back(p9);
-    Posicion *p10 = new Posicion(60.f,0.f,30.f);
+    Posicion *p10 = new Posicion(354.475f,0.34f,30.f);
     pos3.push_back(p10);
-    Posicion *p11 = new Posicion(0.f,0.f,30.f);
+    Posicion *p11 = new Posicion(245.475f,0.34f,30.f);
     pos3.push_back(p11);
 
 }
@@ -465,7 +439,7 @@ void Mundo::update(){
 
     /* ALARMA UPDATE*/
     a->update();
-    a2->update();
+    //a2->update();
 
 
     /* UPDATE DE LOS ENEMIGOS */
@@ -530,10 +504,9 @@ void Mundo::protaUpdate(const u32 now, const f32 frameDeltaTime, f32 tiempo){
         checkCombate(); 							// Comprobamos si hemos pulsado la tecla de combate (K)
 
          if(sf::Keyboard::isKeyPressed(sf::Keyboard::J))
-        {   //cout<<"entro"<<endl;
+        {   
             for(int i=0; i<enemB.size();i++)
             {
-
                 enemB[i]->setInvisible();
             }
         }

@@ -4,8 +4,6 @@ Status IrAlarma::run(Enemigo *e)
 {   
   e->setCombate(false);
 
-  nodos = board->getNodosGrafo();
-
   // DATOS  ENEMIGO
   enemigoX = e->getPosition()->getPosX();
   enemigoY = e->getPosition()->getPosY();
@@ -14,6 +12,8 @@ Status IrAlarma::run(Enemigo *e)
 
   if(distanciaAlarma>-20  && distanciaAlarma<20)
   {
+    reset();
+    e->setVuelta(true);
     return BH_SUCCESS;
   }
   else
@@ -24,13 +24,12 @@ Status IrAlarma::run(Enemigo *e)
         buscarNodoInicial(e, enemigoX);
     }
 
-
     /* Buscamos el nodo mas cercano a la alarma */
     if(fin==nullptr)        // Solo si no lo habiamos encontrado ya
     {   
         alarmaX = a[pos]->getVector3df()->getPosX();
         alarmaY = a[pos]->getVector3df()->getPosY();
-        for(int i=0; i<nodos.size();i++)
+        for(size_t i=0; i<nodos.size();i++)
         {    
             posNodo = nodos[i]->getPosition();
             if(alarmaY==posNodo->getPosY())        // Solo si el nodo esta a la misma altura que la pos de la fuente
@@ -118,20 +117,14 @@ Status IrAlarma::run(Enemigo *e)
                 }
                 else
                 {
-                       //llegadoAlarma = true;
-                     /* Inicializamos todo otra vez para que la proxima vez que ocurra funcione todo bien */
-                       llegadoFin = false;
-                       llegadoInicio = true;
-                       inicio1 = nullptr;
-                       inicio2 = nullptr;
-                       fin = nullptr;
-                       caminoCorto.clear();
+                   reset();
+                   e->setVuelta(true);
                 }
 
               }
       
-        }
       }
+  }
     
 return BH_SUCCESS;
 
@@ -182,7 +175,7 @@ void IrAlarma::buscarNodoInicial(Enemigo *e, float posX)
 void IrAlarma::recorrerNodos(Enemigo* e, uint8_t v, float posX)
 {
 
-    for(int i=0; i<nodos.size();i++)
+    for(size_t i=0; i<nodos.size();i++)
     {
         if(e->see(nodos[i]))            // Comprobamos si el enemigo ve al nodo
         {   
@@ -255,7 +248,7 @@ void IrAlarma::comprobarAlarmaSonando(float posEnemX)
    */
        distanciaAlarma = 0;
 
-       for (int i = 0; i < a.size(); i++)
+       for (size_t i = 0; i < a.size(); i++)
        {
            alarmaX = a[i]->getVector3df()->getPosX();
           distAlarmAux = alarmaX - posEnemX;  // Calculamos la distancia hasta la fuente
@@ -307,13 +300,14 @@ void IrAlarma::checkComportamiento(Enemigo *e)
 
     tipo = caminoCorto[iC]->getComportamiento();
 
+    posNodoI = fin->getPosition();
+    distNodoF = posNodoI->getPosX() - enemigoX;
+    distNodoFY = posNodoI->getPosY() - enemigoY;
+
     switch(tipo)
     {
        case NORMAL:
        {
-         posNodoI = fin->getPosition();
-         distNodoF = posNodoI->getPosX() - enemigoX;
-
           if (distNodoF<-1.0f) 
           {
               movimientoDireccion(e,false);                                   
@@ -334,10 +328,6 @@ void IrAlarma::checkComportamiento(Enemigo *e)
 
        case SALTO:
        {
-          posNodoI = fin->getPosition();
-          distNodoF = posNodoI->getPosX() - enemigoX;
-          distNodoFY = posNodoI->getPosY() - enemigoY;
-            
           if(distNodoFY>1.0f)
           {
             e->setSaltando(true);
@@ -374,10 +364,6 @@ void IrAlarma::checkComportamiento(Enemigo *e)
 
        case BAJADA:
        {
-         posNodoI = fin->getPosition();
-        distNodoF = posNodoI->getPosX() - enemigoX;
-        distNodoFY = posNodoI->getPosY() - enemigoY;
-
           if (distNodoF<-3.0f) 
           {
             e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));
@@ -429,11 +415,13 @@ void IrAlarma::reset()
 void IrAlarma::onInitialize(Blackboard *b)
 {
     board = b;
+    /* Info Alarma */
     a = board->getAlarma();
     alarmaX = 0.0;
     distanciaAlarma = 0;
 
    /* Pathfinding */
+    nodos = board->getNodosGrafo();
     inicio1 = nullptr;
     inicio2 = nullptr;
     inicioBueno = nullptr;
@@ -448,18 +436,18 @@ IrAlarma::~IrAlarma()
 {
     board = nullptr;
 
-    for(int i = 0 ; i < a.size(); i++){
+    for(size_t i = 0 ; i < a.size(); i++){
       a[i] = nullptr;
     }
     a.clear();
 
-    for(int i=0; i<caminoCorto.size();i++)
+    for(size_t i=0; i<caminoCorto.size();i++)
     {
         caminoCorto[i] = nullptr;
     }
     caminoCorto.clear();
 
-    for(int i=0; i<nodos.size();i++)
+    for(size_t i=0; i<nodos.size();i++)
     {
         nodos[i] = nullptr;
     }

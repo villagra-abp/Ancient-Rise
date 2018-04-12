@@ -15,6 +15,8 @@ class ActivarAlarma : public Task
 		void recorrerNodos(Enemigo *e, uint8_t v, float posX);
 		void movimientoDireccion(Enemigo *e, bool d);
 		NodoGrafo* calcularNodoMasCercano(NodoGrafo* i, NodoGrafo* i2, float posX);
+		void checkComportamiento(Enemigo *e);
+		void reset();
 		virtual ~ActivarAlarma();
 
 
@@ -24,6 +26,7 @@ class ActivarAlarma : public Task
 	    vector<Objeto*> a;
 	    sf::Clock reloj; 		  			// Reloj para controlar el tiempo que se tarda en activar la alarma
 	    int contador;
+	    float enemigoX, enemigoY;
 
 	    //Datos de alarma
 		float alarmaX, alarmaY;
@@ -40,6 +43,8 @@ class ActivarAlarma : public Task
 	    Grafo *g; 							// Para poder calcular el camino mas corto
 	    int iC;
 	    float distNodoF, distNodoFY, distNodoI;
+	    Comportamiento tipo;
+	    bool bajada;
 		
 };
 

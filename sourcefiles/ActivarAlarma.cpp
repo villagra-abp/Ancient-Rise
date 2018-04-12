@@ -4,12 +4,10 @@ Status ActivarAlarma::run(Enemigo *e)
 {   
    e->setCombate(false);
 
-   nodos = board->getNodosGrafo();
-
    // DATOS DEL ENEMIGO
    Posicion* EnemigoPosition = e->getPosition(); 
-   float enemigoX=EnemigoPosition->getPosX();
-   float enemigoY =EnemigoPosition->getPosY(); 
+   enemigoX = EnemigoPosition->getPosX();
+   enemigoY = EnemigoPosition->getPosY(); 
 
    Objeto* al = e->getAlarmaActivar();        // Obtenemos la alarma que tiene que activar el enemigo
 
@@ -80,71 +78,7 @@ Status ActivarAlarma::run(Enemigo *e)
     {
         if(iC<caminoCorto.size())
         {
-            fin = caminoCorto[iC]->getNodoFin();
-
-            if(caminoCorto[iC]->getComportamiento()==NORMAL)         // Movimiento normal del enemigo
-            {   
-                posNodoI = fin->getPosition();
-                distNodoF = posNodoI->getPosX() - enemigoX;
-
-                //cout<<"DIstNodoF "<<distNodoF<<endl;
-                if (distNodoF<-1.0f) 
-                 {
-                      movimientoDireccion(e,false);                                   
-                 }
-                 else{
-                        if(distNodoF>1.0f) 
-                        {
-                            movimientoDireccion(e,true);                                    
-                        }
-                        else
-                        {
-                          iC++;
-                        }
-                    }
-            }
-            else
-            {
-                if(caminoCorto[iC]->getComportamiento()==SALTO)         // SALTO
-                {   
-                    posNodoI = fin->getPosition();
-                    distNodoF = posNodoI->getPosX() - enemigoX;
-                    distNodoFY = posNodoI->getPosY() - enemigoY;
-            
-                    if(distNodoFY>1.0f)
-                    {
-                        e->setSaltando(true);
-                        e->getBody()->ApplyForceToCenter(b2Vec2(0.f,3000.f),true);
-                    }
-                    else
-                    {
-                        e->setSaltando(false);
-                    }
-
-                    if(e->getSaltando()!=true)
-                    {
-                        if(distNodoF<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
-                            {
-
-                                e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
-                                e->setLastFacedDir(false);                                    
-                            }
-                        else{
-                                if(distNodoF>1.0f) // AVANZAMOS HACIA LA DERECHA
-                                {
-
-                                    e->getBody()->SetLinearVelocity(e->getVelocidad2d());
-                                    e->setLastFacedDir(true);                                    
-                                }
-                                else // Si hemos llegado al nodo Fin
-                                {
-                                    iC++;
-                                }
-                            }
-                    }
-
-                }
-            }
+          checkComportamiento(e);       // Comprobamos que comportamiento tiene que ejecutar el enemigo
         }
 
         if(iC==caminoCorto.size())
@@ -187,19 +121,12 @@ Status ActivarAlarma::run(Enemigo *e)
 
                   if(duration > 2)        // TIEMPO QUE TARDA EN ACTIVARLA
                   {
-                      al->setActivado(true);     
-                      al->setActivando(false);
-                      contador = 0; // Para resetear el reloj
-
-                      /* Inicializamos todo otra vez para que la proxima vez que ocurra funcione todo bien */
-                     llegadoFin = false;
-                     llegadoInicio = true;
-                     inicio1 = nullptr;
-                     inicio2 = nullptr;
-                     fin = nullptr;
-                     caminoCorto.clear();
+                    al->setActivado(true);     
+                    al->setActivando(false);
+                    contador = 0; // Para resetear el reloj
+                    reset();
                     
-                     return BH_SUCCESS;
+                    return BH_SUCCESS;
                   }
               }
 
@@ -334,17 +261,138 @@ void ActivarAlarma::movimientoDireccion(Enemigo *e, bool d)
     }
 }
 
+/* Funcion para que el enemigo sepa que comportamiento tiene que hacer durante el pathfinding */
+void ActivarAlarma::checkComportamiento(Enemigo *e)
+{
+    fin = caminoCorto[iC]->getNodoFin();
+
+    tipo = caminoCorto[iC]->getComportamiento();
+
+    posNodoI = fin->getPosition();
+    distNodoF = posNodoI->getPosX() - enemigoX;
+    distNodoFY = posNodoI->getPosY() - enemigoY;
+
+    switch(tipo)
+    {
+       case NORMAL:
+       {
+          if (distNodoF<-1.0f) 
+          {
+              movimientoDireccion(e,false);                                   
+          }
+          else{
+                if(distNodoF>1.0f) 
+                {
+                    movimientoDireccion(e,true);                                    
+                }
+                else
+                {
+                    iC++;
+                }
+              }
+
+         break;
+       }
+
+       case SALTO:
+       {
+          if(distNodoFY>1.0f)
+          {
+            e->setSaltando(true);
+            e->getBody()->ApplyForceToCenter(b2Vec2(0.f,3000.f),true);
+          }
+          else
+         {
+            e->setSaltando(false);
+         }
+
+          if(e->getSaltando()!=true)
+          {
+            if(distNodoF<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
+            {
+              e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
+              e->setLastFacedDir(false);                                    
+            }
+            else{
+                  if(distNodoF>1.0f) // AVANZAMOS HACIA LA DERECHA
+                  {
+
+                    e->getBody()->SetLinearVelocity(e->getVelocidad2d());
+                    e->setLastFacedDir(true);                                    
+                  }
+                  else // Si hemos llegado al nodo Fin
+                  {
+                    iC++;
+                  }
+                }
+          }
+
+        break;
+       }
+
+       case BAJADA:
+       {
+          if (distNodoF<-3.0f) 
+          {
+            e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));
+            bajada = false;                                   
+          }
+          else{
+                if(distNodoF>3.0f) 
+                {
+                  e->getBody()->SetLinearVelocity(e->getVelocidad2d());
+                  bajada = false;                                    
+                }
+                else
+                {
+                  bajada = true;
+                }
+              }
+
+              if(bajada == true)
+              {
+                if(distNodoFY<-1.0f)
+                {
+                  e->getBody()->ApplyForceToCenter(b2Vec2(0.f,-3000.f),true);
+                }
+                else
+                {
+                  iC++;
+                }
+              }
+        break;
+       }
+
+    }
+}
+
+void ActivarAlarma::reset()
+{
+    /* Inicializamos todo otra vez para que la proxima vez que ocurra funcione todo bien */
+    llegadoFin = false;
+    llegadoInicio = false;
+    inicio1 = nullptr;
+    inicio2 = nullptr;
+    fin = nullptr;
+    caminoCorto.clear();
+    inicioBueno = nullptr;
+    bajada = false;
+
+}
+
 void ActivarAlarma::onInitialize(Blackboard *b)
 {
     board = b;
-    a = board->getAlarma();
+    
     /* Info Alarma */
+    a = board->getAlarma();
     contador = 0;
     alarmaX = 0.0;
     distanciaAlarma = 0;
     pos = 0;
 
     /* Pathfinding */
+    nodos = board->getNodosGrafo();
     inicio1 = nullptr;
     inicio2 = nullptr;
     inicioBueno = nullptr;
@@ -352,8 +400,6 @@ void ActivarAlarma::onInitialize(Blackboard *b)
     posNodoI = nullptr;
     posNodo = nullptr;
     iC = 0;
-
-    g = new Grafo();
 }
 
 ActivarAlarma::~ActivarAlarma()
@@ -371,6 +417,4 @@ ActivarAlarma::~ActivarAlarma()
         caminoCorto[i] = nullptr;
     }
     caminoCorto.clear();
-
-    delete g;
 }
