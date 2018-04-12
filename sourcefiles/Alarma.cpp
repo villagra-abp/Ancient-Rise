@@ -14,6 +14,7 @@ Alarma::Alarma(Posicion* pos):Objeto(pos)
 		fachada->setScala(objeto,&escala);
 		
         //fachada->setMaterial(objeto,"resources/desactivada.jpeg");
+        
 	}
 
 	contador = 0;

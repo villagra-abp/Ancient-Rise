@@ -17,8 +17,12 @@ Protagonista::Protagonista():energy(nullptr), life(nullptr), Body(nullptr), rec(
     **/ 
     FObjeto* protaObjeto = fachada->addMalla(0, 0,30,"resources/personaje.obj");
     rec = protaObjeto;
-    fachada->rotObj(protaObjeto, 0, 1, 0, -90);
     
+    Posicion escala(2.5f,2.5f,2.5f);
+    fachada->setScala((void*)protaObjeto,&escala);
+		
+    fachada->rotObj(protaObjeto, 0, 1, 0, -90);
+        
  /*
     energy=fachada->addCube(0,0,30,true);
     life=fachada->addCube(0,0,30,false);
@@ -93,13 +97,13 @@ FUNCION PARA crear el objeto dinamico
 **/
 void Protagonista::CreateBox(b2World& world, float X, float Y)
 {
-    BodyDef.position = b2Vec2(X/SCALE, Y/SCALE);
+    BodyDef.position = b2Vec2(X/SCALE, Y+280/SCALE);
     BodyDef.type = b2_dynamicBody;
     Body = world.CreateBody(&BodyDef);
-    Shape.SetAsBox((100.f/2)/SCALE, (200.f/2)/SCALE);
+    Shape.SetAsBox((60.f/2)/SCALE, (280.f/2)/SCALE);
     b2FixtureDef FixtureDef;
-    FixtureDef.density = 1.6f;
-    FixtureDef.friction = 0.35f;
+    FixtureDef.density = 0.5f;
+    FixtureDef.friction = 0.45f;
     FixtureDef.shape = &Shape;
     FixtureDef.isSensor = false;
     FixtureDef.filter.groupIndex = GROUP_PLAYER;
@@ -236,7 +240,7 @@ void Protagonista::movimiento(const glm::f32 Time)
         }else if(correr==true && energia>10.1)
         {
             velo.x=-90.f;
-            Body->ApplyForceToCenter(b2Vec2(-5000.f,0.f),true);
+            Body->ApplyForceToCenter(b2Vec2(-3000.f,0.f),true);
              //Body->SetLinearVelocity(velo);
             //protaPosition.X -= VELOCIDAD_MOVIMIENTO * Time*3;
 
@@ -266,7 +270,7 @@ void Protagonista::movimiento(const glm::f32 Time)
                Body->SetLinearVelocity(velo);
             }else if(correr==true && energia>10.1){
                 velo.x=90.f;
-                Body->ApplyForceToCenter(b2Vec2(5000.f,0.f),true);
+                Body->ApplyForceToCenter(b2Vec2(3000.f,0.f),true);
                 //Body->SetLinearVelocity(velo);
                 if(energia<10)
                     correr=false;
