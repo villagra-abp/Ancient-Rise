@@ -19,18 +19,23 @@ public:
 	void setPosicion(vec3 pos) override;
 	void setRotacion(vec3 rot, float ang) override;
 
-	void isActive(bool flag) override;
+	
 
-	void Unir(FEntidad* padre) override;
+	void Unir(FEntidad* nPadre) override;
 
 	bool getActive() override;
 	TNodo* getNodo() override;
+	TNodo* getTraslacion() override;
+	TNodo* getRotacion() override;
+	vec3 getPosicion();
 
 private:
 
 	bool active;
 	TNodo *padre;
 	TNodo *nodo, *rotacion, *traslacion;
+
+	void isActive(bool flag) override;
 
 };
 

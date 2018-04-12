@@ -17,7 +17,7 @@ class OrdenAtaque : public Task
 		
 		Blackboard *board;
 	    EnemigoBasico *enemBActual;
-	    core::vector3df enemBPosition;
+	   
 	    
 	
 		

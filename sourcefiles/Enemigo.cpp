@@ -8,26 +8,27 @@
  CONSTRUCTOR DE ENEMIGO
  Parametros : Objetos Irrlicht, vector con posiciones de la patrulla
 */
-Enemigo::Enemigo(IrrlichtDevice *dev, ISceneManager* smgr, vector<Posicion*> pos, float xlength, float pendValue, const Entorno* e, Blackboard *b) 
-: enemigo(nullptr), env(nullptr), driver(nullptr), ent(e), board(nullptr), proyectil(nullptr)
+Enemigo::Enemigo(vector<Posicion*> pos, float xlength, float pendValue, const Entorno* e, Blackboard *b) : enemigo(nullptr), ent(e), board(nullptr), proyectil(nullptr)
 {
     GameObject::setTipo(ENEMY);
     Fachada* fachada=fachada->getInstance();
-	enemigo = fachada->addCube(pos[0]->getPosX(),pos[0]->getPosY(),pos[0]->getPosZ(),false);
-
+	//enemigo = fachada->addCube(pos[0]->getPosX(),pos[0]->getPosY(),pos[0]->getPosZ(),false);
+    FObjeto* enemigoObjeto = fachada->addMalla(pos[0]->getPosX(),pos[0]->getPosY(),pos[0]->getPosZ(), "resources/personaje.obj");
+    enemigo = enemigoObjeto;
+    cout<<pos[0]->getPosX()<<" "<<pos[0]->getPosY()<<" "<<pos[0]->getPosZ()<<endl;
     if (enemigo) /** SI HEMOS CREADO EL CUBO **/
 	{  
-         driver = fachada->getDriver();
-        fachada ->setMaterial(enemigo,"resources/verde.jpg");
-
-        EnemigoPosition = fachada->getPosicion(enemigo);
+         //driver = fachada->getDriver();
+        //fachada ->setMaterial(enemigo,"resources/verde.jpg");
+        Posicion* pos= new Posicion(pos[0].getPosX(),pos[0].getPosY(),pos[0].getPosZ());
+        EnemigoPosition = pos;
 
 
 	}
 
     board = b;                                             // Guardamos la blackboard 
 
-    env = dev->getGUIEnvironment();
+    //env = dev->getGUIEnvironment();
 
     /* Valores por defecto para los parametros para el rango de vision del enemigo */
     lastFacedDir = true;
@@ -73,9 +74,10 @@ void Enemigo::update(Posicion* Posprota)
 
     if(enemigo!=nullptr)  // Solo si existe el enemigo hacemos su update
     { 
+
         actualizarHambre(); 
         actualizarSed();
-
+    
         //cout<<"Vida: "<<salud<<endl;
         //COMPROBAMOS GAMEOBJECTS DENTRO DE LA VISTA
         vistos.clear();
@@ -83,20 +85,21 @@ void Enemigo::update(Posicion* Posprota)
         for(int i = 0; i < ent->getSize(); i++){
             if(checkInSight(ent->getGameObject(i)->getPosition())){
                 vistos.push_back(ent->getGameObject(i));
+                
             }
         }
 
         // COMPROBAMOS SI HEMOS VISTO AL PROTAGONISTA 
         if(checkInSight(Posprota)){              
             visto = true;
-             fachada->setMaterial(enemigo,"resources/activada.jpeg");  
+             //fachada->setMaterial(enemigo,"resources/activada.jpeg");  
              contador = 0;
             
         }else{
             if(recordarProta())
             {
                 visto = false;
-                fachada->setMaterial(enemigo,"resources/verde.jpg");
+                //fachada->setMaterial(enemigo,"resources/verde.jpg");
             }
             
         }
@@ -115,7 +118,7 @@ void Enemigo::update(Posicion* Posprota)
                     proyectil->destroyProyectil();
                     proyectil = nullptr;
                 }
-                proyectil = new Proyectil(fachada->getDevice(),fachada->getScene(),this);
+                proyectil = new Proyectil(this);
             }
             else  // Aun no disparamos otra vez
             {
@@ -144,7 +147,7 @@ FUNCION PARA ACTUALIZAR EL ESTADO DEL HAMBRE DEL ENEMIGO EN FUNCION DE LA CANTID
 
 void Enemigo::actualizarHambre()
 {
-    hambre+=velHambre*frameDeltaTime;
+    //hambre+=velHambre*frameDeltaTime;
 
     //cout<<round(hambre)<<endl;
 
@@ -156,13 +159,13 @@ FUNCION PARA ACTUALIZAR EL ESTADO DE SED DEL ENEMIGO
 
 void Enemigo::actualizarSed()
 {
-     sed+=velSed*frameDeltaTime;
+     //sed+=velSed*frameDeltaTime;
 
      //cout<<round(sed)<<endl;
 
 }
 
-void Enemigo::updateTiempo(const f32 Time)
+void Enemigo::updateTiempo(const glm::f32 Time)
 {
     frameDeltaTime = Time;
 }
@@ -317,22 +320,22 @@ void* Enemigo::getNode()
 }
 
 
-f32 Enemigo::getVelocidad()
+glm::f32 Enemigo::getVelocidad()
 {
     return VELOCIDAD_ENEMIGO;
 }
 
-f32 Enemigo::getSed()
+glm::f32 Enemigo::getSed()
 {
     return sed;
 }
 
-f32 Enemigo::getSalud()
+glm::f32 Enemigo::getSalud()
 {
     return salud;
 }
 
-f32 Enemigo::getHambre()
+glm::f32 Enemigo::getHambre()
 {
     return hambre;
 }
@@ -342,7 +345,7 @@ vector<NodoGrafo*> Enemigo::getPosicion()
     return patrulla;
 }
 
-const f32 Enemigo::getVelNormal()
+const glm::f32 Enemigo::getVelNormal()
 {
     return VELOCIDAD_NORMAL;
 }
@@ -388,11 +391,6 @@ bool Enemigo::getUltDirecVisto()
     return direccVistoUlt;
 }
 
-IVideoDriver* Enemigo::getDriver()
-{
-    return driver;
-}
-
 int Enemigo::getPosCombate()
 {
     return pos_combate;
@@ -419,29 +417,29 @@ Proyectil* Enemigo::getProyectil()
 }
 
 
-void Enemigo::setSalud(f32 s)
+void Enemigo::setSalud(glm::f32 s)
 {
     salud+=s;
 }
 
-void Enemigo::setEnergia(f32 e)
+void Enemigo::setEnergia(glm::f32 e)
 {
     energia=e;
 }
 
-void Enemigo::setHambre(f32 h)
+void Enemigo::setHambre(glm::f32 h)
 {
     hambre=h;
 }
 
-void Enemigo::setVelocidad(f32 v)
+void Enemigo::setVelocidad(glm::f32 v)
 {
     //VELOCIDAD_ENEMIGO=v;
 
     velocidad2d.x = v;
 }
 
-void Enemigo::setSed(f32 se)
+void Enemigo::setSed(glm::f32 se)
 {
     sed=se;
 }
@@ -452,12 +450,12 @@ void Enemigo::setPosition(Posicion* position)
     EnemigoPosition = position;
 }
 
-void Enemigo::setVelHambre(f32 v)
+void Enemigo::setVelHambre(glm::f32 v)
 {
     velHambre = v;
 }
 
-void Enemigo::setVelSed(f32 v)
+void Enemigo::setVelSed(glm::f32 v)
 {
     velSed = v;
 }

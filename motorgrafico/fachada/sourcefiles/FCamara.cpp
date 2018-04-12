@@ -21,6 +21,8 @@ FCamara::FCamara(){
 	rotacion->setEntidad(rot);
 	traslacion->setEntidad(tras);
 	nodo->setEntidad(camara);
+	
+	camara->setPerspectiva(0.9, 0.8, 0.1, 2000);
 
 	//TMotorTAG::getInstance()->registrarCamara(camara);
 
@@ -75,9 +77,20 @@ TNodo* FCamara::getNodo(){
 	return nodo;
 }
 
+TNodo* FCamara::getTraslacion(){
+	return traslacion;
+}
+
+TNodo* FCamara::getRotacion(){
+	return rotacion;
+}
+
+vec3 FCamara::getPosicion(){}
+
 
 void FCamara::Unir(FEntidad* nPadre){
-	padre->changePadre(nPadre->getNodo(), rotacion);
+	padre->changePadre(nPadre->getTraslacion(), rotacion);
+	padre = nPadre->getNodo();
 
 }
 

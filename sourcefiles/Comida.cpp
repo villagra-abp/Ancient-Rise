@@ -2,11 +2,12 @@
 
 
 
-Comida::Comida(IrrlichtDevice *dev, ISceneManager* smgr, Posicion* pos):Objeto(pos)
+Comida::Comida(Posicion* pos):Objeto(pos)
 {
 	GameObject::setTipo(COMIDA);
 	Fachada* fachada=fachada->getInstance();
-	objeto = fachada->addSphere(pos->getPosX(),pos->getPosY(),pos->getPosZ(),false);
+	//objeto = fachada->addSphere(pos->getPosX(),pos->getPosY(),pos->getPosZ(),false);
+	objeto = fachada->addMalla(pos->getPosX(),pos->getPosY(),pos->getPosZ(), "resources/manzana.obj");
     //posicion = &pos;
     //std::cout<<pos.getPosX()<<endl;
 	if (objeto)
@@ -18,7 +19,7 @@ Comida::Comida(IrrlichtDevice *dev, ISceneManager* smgr, Posicion* pos):Objeto(p
 		fachada->setScala(objeto,&escala);
 		//objeto ->setMaterialFlag(video::EMF_LIGHTING, false);
 		//objeto ->setMaterialTexture(0,driver->getTexture("resources/pinchos.jpeg"));
-        fachada->setMaterial(objeto,"resources/elon.jpeg");
+        //fachada->setMaterial(objeto,"resources/elon.jpeg");
 
 	}
 

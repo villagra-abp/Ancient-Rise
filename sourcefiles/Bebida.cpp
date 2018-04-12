@@ -1,19 +1,20 @@
 #include "../headerfiles/Bebida.h"
 
-Bebida::Bebida(IrrlichtDevice *dev, ISceneManager* smgr, Posicion* pos):Objeto(pos)
+Bebida::Bebida(Posicion* pos):Objeto(pos)
 {
 	GameObject::setTipo(BEBIDA);
 	Fachada* fachada=fachada->getInstance();
-	objeto = fachada->addCube(pos->getPosX(),pos->getPosY(),pos->getPosZ(),false);
+	//objeto = fachada->addCube(pos->getPosX(),pos->getPosY(),pos->getPosZ(),false);
+    objeto = fachada->addMalla(pos->getPosX(),pos->getPosY(),pos->getPosZ(), "resources/Pocion.obj");
     //posicion = &pos;
     //std::cout<<pos.getPosX()<<endl;
 	if (objeto)
 	{
         
-        Posicion escala(0.5f,1.5f,0.5f);
+        Posicion escala(1.0f,1.0f,0.5f);
 		fachada->setScala(objeto,&escala);
 	
-        fachada->setMaterial(objeto,"resources/pocion.png");
+        //fachada->setMaterial(objeto,"resources/pocion.png");
 
 	}
 

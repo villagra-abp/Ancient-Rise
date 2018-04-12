@@ -1,24 +1,37 @@
 #ifndef LUZ_H
 #define LUZ_H
 
+#include <glm/glm.hpp>
+
 #include "TEntidad.h"
 
 using namespace std;
 
-class TLuz: public TEntidad{
+class TLuz : public TEntidad{
 public:
 	TLuz();
+	TLuz(glm::vec4 color);
+	TLuz(float intensidad, glm::vec4 color);
 	virtual ~TLuz();
-	//void setIntensidad(TColor c);
-	//TColor getIntensidad();
-	virtual void beginDraw(glm::mat4 view, glm::mat4 projection) override;
-	virtual void endDraw() override;
+
+	virtual void beginDraw(glm::mat4 view, glm::mat4 projection, float intensidad, glm::vec4 color, glm::vec3 luzPosicion, glm::vec3 camaraPosicion) override{ /*vacia*/};
+	virtual void endDraw() override{/*vacia*/};
+	
 	virtual tEnt getTipo() override{ return luz; }
+	glm::vec4 getColor();
+	float getIntensidad();
+
+	virtual void setActive(bool flag);
+	void setIntensidad(float intensidad);
+	void setColor(glm::vec4 color);
 
 
 private:	
 
 	//TColor intensidad;
+	bool active;
+	glm::vec4 color;
+	float intensidad;
 
 } ;
 

@@ -20,7 +20,7 @@ public:
 	void invertir();
 
 	//Draw
-	virtual void beginDraw(glm::mat4 view, glm::mat4 projection) override;
+	virtual void beginDraw(glm::mat4 view, glm::mat4 projection, float intensidad, glm::vec4 color, glm::vec3 luzPosicion, glm::vec3 camaraPosicion) override;
 	virtual void endDraw() override;
 	virtual tEnt getTipo() override{ return transf; }
 

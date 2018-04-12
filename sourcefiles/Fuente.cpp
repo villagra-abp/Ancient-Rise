@@ -4,20 +4,23 @@
 /**
 CONSTRUCTOR DE OBJETO para inicializar los valores comunes de todos los objetos consumibles
 **/
-Fuente::Fuente(IrrlichtDevice *dev, ISceneManager* smgr, Posicion* pos):Objeto(pos)
+Fuente::Fuente(Posicion* pos):Objeto(pos)
 {
 	GameObject::setTipo(FUENTE);
 	Fachada* fachada=fachada->getInstance();
-	objeto = fachada->addCube(pos->getPosX(),pos->getPosY(),pos->getPosZ(),false);
+	FObjeto* obObeto = fachada->addMalla(pos->getPosX(),pos->getPosY(),pos->getPosZ(),"resources/Pozo.obj");
+    objeto = obObeto;
     //posicion = &pos;
-    //std::cout<<pos.getPosX()<<endl;
+    //std::cout<<pos->getPosX()<<endl;
 	if (objeto)
 	{
         
-        Posicion escala(2.5f,1.f,1.f);
+        Posicion escala(0.2f,0.2f,0.2f);
 		fachada->setScala(objeto,&escala);
+		fachada->rotObj(obObeto, 0, 1, 0, 90);
+		fachada->movObj(obObeto, 0, -2, 0);
 		
-        fachada->setMaterial(objeto,"resources/gota.jpg");
+        //fachada->setMaterial(objeto,"resources/gota.jpg");
 
 	}
 

@@ -1,10 +1,8 @@
 #ifndef FACHADA_H
 #define FACHADA_H
 
-
-
-#include <irrlicht.h>
 #include <GL/glew.h>
+#include <Box2D/Box2D.h>
 #include "../headerfiles/Posicion.h"
 #include <SFML/Window/Window.hpp>
 #ifndef GL3_PROTOTYPES 
@@ -18,14 +16,11 @@
 
 #include <glm/vec3.hpp>
 
-#include "../motorgrafico/headerfiles/TNodo.h"
-#include "../motorgrafico/headerfiles/TTransf.h"
-#include "../motorgrafico/headerfiles/TLuz.h"
-#include "../motorgrafico/headerfiles/TCamara.h"
+#include "../motorgrafico/fachada/headerfiles/Fachada.h"
 #include <iostream>
 
 
-using namespace irr;
+
 using namespace std;
 
 class Fachada {
@@ -34,16 +29,13 @@ public:
 	virtual ~Fachada();
 
 	static Fachada* getInstance();
-    static Fachada* getInstance(int h, int w, bool fullscreen);	
+    static Fachada* getInstance(int h, int w, bool fullscreen);
 
 	bool getVentanaEstado();
 	bool getVentanaActiva();
-	video::IVideoDriver* getDriver();
-	scene::ISceneManager* getScene();
-	gui::IGUIEnvironment* getGUI();
-	IrrlichtDevice* getDevice();
+	
 	int getFPS();
-	u32 getTime();
+	glm::u32 getTime();
     sf::RenderWindow* getVentana();
     Posicion* getPosicion(void * nodo);
     Posicion* getScala(void * nodo);
@@ -53,14 +45,14 @@ public:
     bool setScala(void * nodo,Posicion* scala);
     bool setPosicion(void * nodo,Posicion* pos);
     bool setMaterialFlag(void * nodo,bool b);
-    bool setMaterial(void * nodo,const io::path& ruta);
+    bool setMaterial(void * nodo,std::string ruta);
     
 	void setNombreVentana(std::string text);
 	void setNombreVentana(wchar_t* text);
 
 	void cursorVisible(bool f);
 	void cursorPersonalizar(std::string path);
-	void draw(int a, int b, int c, int d);
+	void draw();
 	void suspension();
 	void cerrar();
 	void destruirObjeto(void* nodo);
@@ -69,23 +61,38 @@ public:
 	//void drawDrawEscena();
 	//void drawGUI();
     void drawTerreno();
+    void addMenu(int t);
+    void addFlecha(int pos);
 	
-    scene::ISceneNode * addCube(int x,int y,int z,bool flag);
-    scene::ISceneNode * addSphere(int x,int y,int z,bool flag);
+    FObjeto* addCube(int x,int y,int z,bool flag);
+    FObjeto* addSphere(int x,int y,int z,bool flag);
+    FObjeto* addMalla(int x,int y,int z,string ruta);
+    FCamara* addCamara(Posicion*);
+    FLuz* addLuz(Posicion*);
+
+    void rotObj(void* o, float x, float y, float z, float angulo);
+    void movObj(void* o, float x, float y, float z);
+    
+    void CreateGround(b2World& world, float X, float Y,float largo, float ancho);
 
 private:
 	Fachada(int h, int w, bool fullscreen);
 	
-    //MyEventReceiver* mainReceiver;
-    IrrlichtDevice *device;
-
-	video::IVideoDriver* driver;
-	scene::ISceneManager* smgr;
-	gui::IGUIEnvironment* guienv;
+    
     
     sf::RenderWindow* ventana;
 
     TNodo* Escena;
+    
+    //MOTOR GRAFICO
+    TMotorTAG* motorgrafico = TMotorTAG::getInstance();
+    
+    /* BOX2D */
+        b2Body* Body;
+        b2BodyDef BodyDef;
+        b2PolygonShape Shape;
+        
+    
 
 };
 

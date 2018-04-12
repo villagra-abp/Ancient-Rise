@@ -1,7 +1,7 @@
 #include "../headerfiles/EnemigoAvanzado.h"
 #include "../headerfiles/BehaviorTree.h"
 
-EnemigoAvanzado::EnemigoAvanzado(IrrlichtDevice *dev, ISceneManager *smgr, vector<Posicion*> pos, float xlength, float pendValue, int t, const Entorno* e, Blackboard *b, b2World& world):Enemigo(dev, smgr, pos, xlength, pendValue, e, b)
+EnemigoAvanzado::EnemigoAvanzado(vector<Posicion*> pos, float xlength, float pendValue, int t, const Entorno* e, Blackboard *b, b2World& world):Enemigo(pos, xlength, pendValue, e, b)
 {
 
     //ESTABLECEMOS LAS ESTADISTICAS ENEMIGO AVANZADO

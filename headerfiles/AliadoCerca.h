@@ -16,10 +16,9 @@ class AliadoCerca : public Task
 	private:
 		
 		Blackboard *board;
-	    scene::ISceneNode* enemigoNode;
+	    void* enemigoNode;
 	    vector<EnemigoBasico*> enemigosB;
-	    core::vector3df enemBPosition;
-	    
+	   
 	
 		
 };

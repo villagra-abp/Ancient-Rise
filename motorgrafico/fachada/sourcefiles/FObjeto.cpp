@@ -38,7 +38,7 @@ void FObjeto::Rotar(vec3 rot, float ang){
 }
 
 void FObjeto::Escalar(vec3 escalado){
-	//Falta implementar
+	dynamic_cast<TTransf*>(rotacion->getEntidad())->escalar(escalado.x, escalado.y, escalado.z);
 }
 
 //Mueve el objeto teniendo en cuenta la posicion previa
@@ -64,7 +64,8 @@ void FObjeto::isActive(bool flag){
 
 //Cambia el padre del objeto a otro objeto, asociandolo tambien a las transformaciones que sufre el nuevo padre
 void FObjeto::Unir(FEntidad* nPadre){
-	padre->changePadre(nPadre->getNodo(), rotacion);
+	padre->changePadre(nPadre->getTraslacion(), rotacion);
+	padre = nPadre->getNodo();
 }
 
 bool FObjeto::getActive(){
@@ -75,8 +76,28 @@ TNodo* FObjeto::getNodo(){
 	return nodo;
 }
 
+TNodo* FObjeto::getTraslacion(){
+	return traslacion;
+}
+
+TNodo* FObjeto::getRotacion(){
+	return rotacion;
+}
+
+vec3 FObjeto::getPosicion(){
+	glm::vec3 pos = nodo->getPosicion();
+	vec3 posicion = vec3(pos.x, pos.y, pos.z);
+	return posicion;
+}
+
 void FObjeto::setMalla(string path){
 	dynamic_cast<TMalla*>(nodo->getEntidad())->cargarMalla(path);
+}
+
+void FObjeto::setMaterial(string nombre){
+	dynamic_cast<TMalla*>(nodo->getEntidad())->setMaterial(nombre);
+	//Anyadir errores si no existe material
+
 }
 
 

@@ -15,6 +15,9 @@
 #include "../headerfiles/Entorno.h"
 #include "../headerfiles/Fachada.h"
 #include "../headerfiles/NodoGrafo.h"
+#include "../headerfiles/Menu.h"
+#include "../headerfiles/Pausa.h"
+#include <tinyxml.h>
 
 #include "../motorsonido/headerfiles/GestorSonido.h"
 
@@ -28,11 +31,7 @@ Estos son los 5 sub namespace del motor de Irrlicht
 5º irr::video--> Contiene clases para acceder al driver del video. Todo el rendererizado 3d o 2d se realiza aqui
 */
 
-using namespace core;
-using namespace scene;
-using namespace video;
-using namespace io;
-using namespace gui;
+
 
 class Mundo : public Entorno
 {
@@ -61,6 +60,12 @@ class Mundo : public Entorno
         
         void checkInput();
         void checkCombate();
+        
+        void CambioEstado(int n);
+        int getEstado();
+        void cargarNivel();
+        
+        
 
     protected:
     /* METHODS */
@@ -70,29 +75,20 @@ class Mundo : public Entorno
         void terrainBuilder();
 
         //UPDATERS
-        void protaUpdate(const u32 now, const f32 frameDeltaTime, f32 tiempo);
-        void camUpdate(const f32 frameDeltaTime);
+        void protaUpdate(const glm::u32 now, const glm::f32 frameDeltaTime, glm::f32 tiempo);
+        void camUpdate(const glm::f32 frameDeltaTime);
         void fpsControl();
         void timeWait();
 
 
  	/* VARIABLES */
 
-    	//EVENTS
-    	//MyEventReceiver* receiver;
-
-    	//DEVICE
-    	IrrlichtDevice* device;
-
-    	//ESCENA
-    	IVideoDriver* 		driver;
-    	ISceneManager* 		smgr;
-    	IGUIEnvironment* 	guienv;
+        int estado=0;
+        int PosFlecha=3;
 
     	//PROTAGONISTA
     	Protagonista*  prota;
-    	scene::ISceneNode*	rec;
-    	scene::ISceneNode* 	Terrain;
+    	
 
     	//POSICIONES ENEMIGOS
     	patrulla pos, pos2, pos3, pos4;	//Vector de posiciones para los enemigos
@@ -118,31 +114,26 @@ class Mundo : public Entorno
         EnemigoElite *enemE1;
 
     	//PLATAFORMAS
-    	scene::ISceneNode* Plataforma;
-	    scene::ISceneNode* Plataforma2;
-	    scene::ISceneNode* Plataforma3;
+    	FObjeto* Plataforma;
+	    FObjeto* Plataforma2;
+	    FObjeto* Plataforma3;
 
         //GRAFO PATHFINDING
         vector<NodoGrafo*> nodos;            // Contiene todos los nodos del grafo
         vector<Arista*> aristas;
 
     	//CAMARA
-    	scene::ICameraSceneNode* cam;
+    	FCamara* cam;
 
-    	//TERRENO
-    	scene::ITerrainSceneNode* terrain;
-
-    	//COLISIONES
-    	scene::ITriangleSelector* 	selector;
-    	scene::ISceneNodeAnimator* 	anim;
+    	
 
     	//TIME AND FRAMES
         int lastFPS;
-    	u32 then;
-    	u32 time_input;
+    	glm::u32 then;
+    	glm::u32 time_input;
 
     	//MUNDO BOX2D
-    	b2Vec2 gravedad=b2Vec2(0.f, -9.8f*20);
+    	b2Vec2 gravedad=b2Vec2(0.f, -9.8f*10);
     	b2World world=b2World(gravedad);
 
         //VARIABLES RECUPERACION ENERGIA PROTAGONISTA

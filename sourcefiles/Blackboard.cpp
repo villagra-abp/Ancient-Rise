@@ -8,7 +8,7 @@ Blackboard::Blackboard():enemBActual(nullptr), prota(nullptr)
 }
 
 
-f32 Blackboard::getTime()
+glm::f32 Blackboard::getTime()
 {
 	return time;
 }
@@ -55,7 +55,7 @@ vector<NodoGrafo*> Blackboard::getNodosGrafo()
 }
 
 
-void Blackboard::setTime(const f32 T)
+void Blackboard::setTime(const glm::f32 T)
 {
 	time = T;
 }

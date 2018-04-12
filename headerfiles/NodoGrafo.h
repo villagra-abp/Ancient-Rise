@@ -9,7 +9,7 @@ class NodoGrafo : public GameObject
 {
 	public:
 		
-		NodoGrafo(char n, f32 x, f32 y);
+		NodoGrafo(char n, glm::f32 x, glm::f32 y);
 		void insertAristaS(Arista *s, NodoGrafo *final);
 		void insertAristaE(Arista *e);
 

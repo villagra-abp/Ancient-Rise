@@ -3,6 +3,7 @@
 
 #include "vec3.h"
 #include "FEntidad.h"
+#include "glm/glm.hpp"
 
 class FObjeto : public FEntidad{
 	public:
@@ -22,9 +23,13 @@ class FObjeto : public FEntidad{
 		void Unir(FEntidad* padre) override;
 
 		void setMalla(string path);
+		void setMaterial(string nombre);
 
 		bool getActive() override;
 		TNodo* getNodo() override;
+		TNodo* getTraslacion() override;
+		TNodo* getRotacion() override;
+		vec3 getPosicion();
 
 	private:
 
