@@ -1,11 +1,11 @@
 #include "../headerfiles/TRecursoMalla.h"
 
 
-void TRecursoMalla::draw(Shader shader, glm::mat4 mmodelo, glm::mat4 view, glm::mat4 projection, float intensidad, glm::vec4 color, glm::vec3 luzPosicion,
+void TRecursoMalla::draw(glm::mat4 mmodelo, glm::mat4 view, glm::mat4 projection, float intensidad, glm::vec4 color, glm::vec3 luzPosicion,
 				glm::vec3 camPosicion)
 {
     for(unsigned int i = 0; i < meshes.size(); i++)
-        meshes[i].draw(shader, mmodelo, view, projection, intensidad, color, luzPosicion, camPosicion);
+        meshes[i].draw(mmodelo, view, projection, intensidad, color, luzPosicion, camPosicion);
 }  
 
 void TRecursoMalla::addMesh(rMesh mesh){

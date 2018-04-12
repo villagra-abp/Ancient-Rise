@@ -9,6 +9,7 @@
 #include "directorios.h"
 #include "TRecurso.h"
 #include "TRecursoMaterial.h"
+#include "TRecursoTextura.h"
 
 using namespace std;
 
@@ -18,7 +19,7 @@ using namespace std;
 
 class TRecursoMalla : public TRecurso{
     public:
-    	vector<Texture> textures_loaded;
+    	vector<TRecursoTextura*> textures_loaded;
         vector<rMesh> meshes;
 
         TRecursoMalla()
@@ -26,7 +27,7 @@ class TRecursoMalla : public TRecurso{
             //cargarFichero(name);
         }
         virtual ~TRecursoMalla() = default;
-        void draw(Shader shader, glm::mat4 mmodelo, glm::mat4 view, glm::mat4 projection, float intensidad, glm::vec4 color, glm::vec3 luzPosicion,
+        void draw(glm::mat4 mmodelo, glm::mat4 view, glm::mat4 projection, float intensidad, glm::vec4 color, glm::vec3 luzPosicion,
                     glm::vec3 camPosicion);	
 
         void addMesh(rMesh mesh);

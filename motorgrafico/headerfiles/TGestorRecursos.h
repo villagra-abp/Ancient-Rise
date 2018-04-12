@@ -41,7 +41,7 @@ public:
 //	TRecursoTexture *getRecursoT(string nombre);
 	TRecurso* buscarRecurso(string nombre);
 
-	Shader* getShader();
+	Shader* getShader(int shader);
 
 private:
 	TGestorRecursos();
@@ -49,11 +49,11 @@ private:
  	TRecursoMalla* cargarFichero(string nombre);
 	void processNode(aiNode *node, const aiScene *scene, TRecursoMalla* malla);
     rMesh processMesh(aiMesh *mesh, const aiScene *scene);
-    vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, 
+    vector<TRecursoTextura*> loadMaterialTextures(aiMaterial *mat, aiTextureType type, 
                                              string typeName);
 
 	vector<TRecurso*> recursos;
-	Shader* shader;
+	Shader *shaderText, *shaderNoText;
 	int nivel;
 
 };

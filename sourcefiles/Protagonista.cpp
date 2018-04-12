@@ -16,6 +16,8 @@ Protagonista::Protagonista():energy(nullptr), life(nullptr), Body(nullptr), rec(
     desabilitamos la luz en cada modelo (sino los modelos serian negros )
     **/ 
     FObjeto* protaObjeto = fachada->addMalla(0, 0,30,"resources/personaje.obj");
+//    FObjeto* protaObjeto = fachada->addMalla(0, 0,30,"resources/cubo.obj");
+
     rec = protaObjeto;
     
     Posicion escala(2.5f,2.5f,2.5f);

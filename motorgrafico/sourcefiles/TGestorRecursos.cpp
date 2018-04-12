@@ -1,8 +1,8 @@
 #include "../headerfiles/TGestorRecursos.h"
 
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
-#undef STB_IMAGE_IMPLEMENTATION
+//#define STB_IMAGE_IMPLEMENTATION
+//#include <stb_image.h>
+//#undef STB_IMAGE_IMPLEMENTATION
 
 static TGestorRecursos* instance = NULL;
 
@@ -15,11 +15,13 @@ TGestorRecursos* TGestorRecursos::getInstance(){
 
 
 TGestorRecursos::TGestorRecursos(){
-	shader = new Shader("motorgrafico/shaders/vertex.vs", "motorgrafico/shaders/fragment1.fs");
+	shaderText = new Shader("motorgrafico/shaders/vertex.vs", "motorgrafico/shaders/fragment1.fs");
+	shaderNoText = new Shader("motorgrafico/shaders/vertex.vs", "motorgrafico/shaders/noText.fs");
 }
 
 TGestorRecursos::~TGestorRecursos(){
-	delete shader;
+	delete shaderText;
+	delete shaderNoText;
 	for(int i = 0; i < recursos.size(); i++)
 		delete recursos[i];
 	
@@ -69,11 +71,23 @@ TRecurso* TGestorRecursos::buscarRecurso(string path){
 
 
 
-Shader* TGestorRecursos::getShader(){
+Shader* TGestorRecursos::getShader(int shad){
+	Shader* shader;
+
+	switch (shad){
+		case 0:
+			shader = shaderNoText;
+		case 1:
+			shader = shaderText;
+		default:
+			shader = shaderNoText;
+	}
 	return shader;
 }
 
-//ASSIMP
+
+
+//ASSIMP - Mallas
 
 TRecursoMalla* TGestorRecursos::cargarFichero(string path){
 
@@ -115,7 +129,7 @@ rMesh TGestorRecursos::processMesh(aiMesh *mesh, const aiScene *scene)
 
     vector<Vertex> vertices;
     vector<unsigned int> indices;
-    vector<Texture> textures;
+    vector<TRecursoTextura*> textures;
     TRecursoMaterial* rMaterial;
 
     for(unsigned int i = 0; i < mesh->mNumVertices; i++)
@@ -140,6 +154,7 @@ rMesh TGestorRecursos::processMesh(aiMesh *mesh, const aiScene *scene)
 		    glm::vec2 vec;
 		    vec.x = mesh->mTextureCoords[0][i].x; 
 		    vec.y = mesh->mTextureCoords[0][i].y;
+		    //cout<<vec.x<<" "<<vec.y<<endl;
 		    vertex.TexCoords = vec;
 		}
 		else
@@ -193,10 +208,10 @@ rMesh TGestorRecursos::processMesh(aiMesh *mesh, const aiScene *scene)
 
 
        	//Texturas
-    	vector<Texture> diffuseMaps = loadMaterialTextures(material, 
+    	vector<TRecursoTextura*> diffuseMaps = loadMaterialTextures(material, 
                                         aiTextureType_DIFFUSE, "texture_diffuse");
     	textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-    	vector<Texture> specularMaps = loadMaterialTextures(material, 
+    	vector<TRecursoTextura*> specularMaps = loadMaterialTextures(material, 
                                         aiTextureType_SPECULAR, "texture_specular");
     	textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
     }
@@ -204,13 +219,14 @@ rMesh TGestorRecursos::processMesh(aiMesh *mesh, const aiScene *scene)
     return rMesh(vertices, indices, textures, rMaterial);
 }  
 
-vector<Texture> TGestorRecursos::loadMaterialTextures(aiMaterial *mat, aiTextureType type, string typeName){
- 
-	vector<Texture> textures;
+vector<TRecursoTextura*> TGestorRecursos::loadMaterialTextures(aiMaterial *mat, aiTextureType type, string typeName){
+
+	vector<TRecursoTextura*> textures;
 	for(unsigned int i = 0; i < mat->GetTextureCount(type); i++){
 		aiString str;
 		mat->GetTexture(type, i, &str);
 		bool skip = false;
+		TRecursoTextura *texture = nullptr;
 		/*
 		for(unsigned int j = 0; j < textures_loaded.size(); j++){
 			if(std::strcmp(textures_loaded[j].path.data(), str.C_Str()) == 0){
@@ -220,18 +236,21 @@ vector<Texture> TGestorRecursos::loadMaterialTextures(aiMaterial *mat, aiTexture
 			}
 		}
 		*/
-		if(!skip){
-			Texture texture;
-			texture.id = TextureFromFile(str.C_Str(), "directory");
-			texture.type = typeName;
-			texture.path = str.C_Str();
+		texture = dynamic_cast<TRecursoTextura*>(buscarRecurso(str.C_Str()));
+		if(texture == nullptr){
+			cout<<"Cargando textura: "<<str.C_Str()<<" "<<typeName<<endl;
+			TRecursoTextura *texture = new TRecursoTextura(str.C_Str(), typeName);
+//			Texture texture;
+//			texture.id = TextureFromFile(str.C_Str(), "directory");
+//			texture.type = typeName;
+//			texture.path = str.C_Str();
 			textures.push_back(texture);
 			//textures_loaded.push_back(texture);
 		}		
 	}
 	return textures;
 }
-
+/*
 unsigned int TGestorRecursos::TextureFromFile(const char *path, const string &directory, bool gamma){
 	string filename = string(path);
 	filename = directory + '/' + filename;
@@ -268,3 +287,5 @@ unsigned int TGestorRecursos::TextureFromFile(const char *path, const string &di
 
 	return textureID;
 }
+*/
+//ASSIMP - Mallas

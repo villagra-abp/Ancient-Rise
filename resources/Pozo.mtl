@@ -1,38 +1,30 @@
-# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
-# File Created: 26.03.2018 05:31:27
+# Blender MTL File: 'None'
+# Material Count: 2
 
-newmtl 02___Default
-	Ns 10.0000
-	Ni 1.5000
-	d 1.0000
-	Tr 0.0000
-	Tf 1.0000 1.0000 1.0000 
-	illum 2
-	Ka 0.2824 0.2824 0.2824
-	Kd 0.2824 0.2824 0.2824
-	Ks 0.0000 0.0000 0.0000
-	Ke 0.0000 0.0000 0.0000
+newmtl Cuerda
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.686300 0.125500 0.125500
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Pozo/Cuerda_Base_Color.png
+map_Bump Pozo/Cuerda_Roughness.png
+map_Ka Pozo/Cuerda_Base_Color.png
+map_Ks Pozo/Cuerda_Metallic.png
 
-newmtl 03___Default
-	Ns 10.0000
-	Ni 1.5000
-	d 1.0000
-	Tr 0.0000
-	Tf 1.0000 1.0000 1.0000 
-	illum 2
-	Ka 0.2353 0.1216 0.0118
-	Kd 0.2353 0.1216 0.0118
-	Ks 0.0000 0.0000 0.0000
-	Ke 0.0000 0.0000 0.0000
-
-newmtl 07___Default
-	Ns 10.0000
-	Ni 1.5000
-	d 1.0000
-	Tr 0.0000
-	Tf 1.0000 1.0000 1.0000 
-	illum 2
-	Ka 0.1961 0.1961 0.1961
-	Kd 0.1961 0.1961 0.1961
-	Ks 0.0000 0.0000 0.0000
-	Ke 0.0000 0.0000 0.0000
+newmtl Piedra
+Ns 9.803922
+Ka 0.588000 0.588000 0.588000
+Kd 0.588000 0.588000 0.588000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd Pozo/Piedra_Base_Color.png
+map_Bump Pozo/Piedra_Roughness.png
+map_Ka Pozo/Piedra_Base_Color.png
+map_Ks Pozo/Cuerda_Metallic.png
