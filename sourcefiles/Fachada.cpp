@@ -102,7 +102,7 @@ void Fachada::suspension(){
 }
 
 void Fachada::cerrar(){
-	ventana->close();
+	//ventana->close();
 }
 
 void Fachada::destruirObjeto(void* nodo)
@@ -354,11 +354,11 @@ void Fachada::drawTerreno(){
     //suelo->setMalla("resources/escenario.obj");
     suelo->setMalla("resources/nivel1.obj");
     //suelo = addCube(-220,-9,0, false);
-    suelo->Escalar(vec3(0.23,0.226,0.23));
+    suelo->Escalar(vec3(0.23,0.2285,0.23));
 	
-	suelo->Mover(vec3(365,-600,8));
+	suelo->Mover(vec3(363,-599,10));
 	//suelo->Rotar(vec3(0,1,0), -3.f);
-    suelo->Rotar(vec3(1,0,0), 1.5f);
+    suelo->Rotar(vec3(1,0,0), 1.57f);
 	
     
     
