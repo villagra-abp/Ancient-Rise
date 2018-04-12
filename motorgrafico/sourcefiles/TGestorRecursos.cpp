@@ -15,11 +15,13 @@ TGestorRecursos* TGestorRecursos::getInstance(){
 
 
 TGestorRecursos::TGestorRecursos(){
-	shader = new Shader("motorgrafico/shaders/vertex.vs", "motorgrafico/shaders/fragment1.fs");
+	shaderText = new Shader("motorgrafico/shaders/vertex.vs", "motorgrafico/shaders/fragment1.fs");
+	shaderNoText = new Shader("motorgrafico/shaders/vertex.vs", "motorgrafico/shaders/noText.fs");
 }
 
 TGestorRecursos::~TGestorRecursos(){
-	delete shader;
+	delete shaderText;
+	delete shaderNoText;
 	for(int i = 0; i < recursos.size(); i++)
 		delete recursos[i];
 	
@@ -69,7 +71,17 @@ TRecurso* TGestorRecursos::buscarRecurso(string path){
 
 
 
-Shader* TGestorRecursos::getShader(){
+Shader* TGestorRecursos::getShader(int shad){
+	Shader* shader;
+
+	switch (shad){
+		case 0:
+			shader = shaderNoText;
+		case 1:
+			shader = shaderText;
+		default:
+			shader = shaderNoText;
+	}
 	return shader;
 }
 
@@ -142,6 +154,7 @@ rMesh TGestorRecursos::processMesh(aiMesh *mesh, const aiScene *scene)
 		    glm::vec2 vec;
 		    vec.x = mesh->mTextureCoords[0][i].x; 
 		    vec.y = mesh->mTextureCoords[0][i].y;
+		    //cout<<vec.x<<" "<<vec.y<<endl;
 		    vertex.TexCoords = vec;
 		}
 		else

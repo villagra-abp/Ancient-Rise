@@ -17,6 +17,7 @@
 #include "../headerfiles/Shader.h"
 #include "TRecursoMaterial.h"
 #include "TRecursoTextura.h"
+//#include "TGestorRecursos.h"
 
 using namespace std;
 
@@ -42,13 +43,16 @@ class rMesh{
 		unsigned int VAO;
 
 		rMesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<TRecursoTextura*> textures, TRecursoMaterial* material);
-		void draw(Shader shader, glm::mat4 mmodelo, glm::mat4 view, glm::mat4 projection, float intensidad, glm::vec4 color, glm::vec3 luzPosicion, 
+		void draw(glm::mat4 mmodelo, glm::mat4 view, glm::mat4 projection, float intensidad, glm::vec4 color, glm::vec3 luzPosicion, 
 			glm::vec3 camaraPosicion);
 
 		void setMaterial(TRecursoMaterial* mat);
 
 	private:
 		unsigned int  VBO, EBO;
+
+		static Shader *shaderText, *shaderNoText;
+		static TRecursoTextura *estandar;
 
 		void setupMesh();
 		TRecursoMaterial* material;

@@ -41,7 +41,7 @@ public:
 //	TRecursoTexture *getRecursoT(string nombre);
 	TRecurso* buscarRecurso(string nombre);
 
-	Shader* getShader();
+	Shader* getShader(int shader);
 
 private:
 	TGestorRecursos();
@@ -53,7 +53,7 @@ private:
                                              string typeName);
 
 	vector<TRecurso*> recursos;
-	Shader* shader;
+	Shader *shaderText, *shaderNoText;
 	int nivel;
 
 };

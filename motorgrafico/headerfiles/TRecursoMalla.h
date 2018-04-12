@@ -27,7 +27,7 @@ class TRecursoMalla : public TRecurso{
             //cargarFichero(name);
         }
         virtual ~TRecursoMalla() = default;
-        void draw(Shader shader, glm::mat4 mmodelo, glm::mat4 view, glm::mat4 projection, float intensidad, glm::vec4 color, glm::vec3 luzPosicion,
+        void draw(glm::mat4 mmodelo, glm::mat4 view, glm::mat4 projection, float intensidad, glm::vec4 color, glm::vec3 luzPosicion,
                     glm::vec3 camPosicion);	
 
         void addMesh(rMesh mesh);

@@ -7,9 +7,10 @@
 TRecursoTextura::TRecursoTextura(string path, string type){
 	nombre = path;
 	tipo = type;
+	path = "resources/" + path;
 	const char* c = path.c_str();
 	unsigned char *data= stbi_load(c, &width, &height, &nrChannels, 0);
-	cout<<c<<endl;
+
 	setupText(data);
 }
 
@@ -26,13 +27,13 @@ void TRecursoTextura::setupText(unsigned char* data){
 
 	if(data){
 	//Hay que usar RGBA luego
+		cout<<width<<" "<<height<<endl;
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
 	} else {
 		cout<<"Fallo en la carga de textura "<<nombre<<endl;
 	}
 	stbi_image_free(data);
-	cout<<"lll"<<endl;
 
 }
 
