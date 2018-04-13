@@ -133,7 +133,7 @@ class Mundo : public Entorno
     	glm::u32 time_input;
 
     	//MUNDO BOX2D
-    	b2Vec2 gravedad=b2Vec2(0.f, -9.8f*10);
+    	b2Vec2 gravedad=b2Vec2(0.f, -9.8f*20);
     	b2World world=b2World(gravedad);
 
         //VARIABLES RECUPERACION ENERGIA PROTAGONISTA
