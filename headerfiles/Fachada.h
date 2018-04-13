@@ -1,9 +1,6 @@
 #ifndef FACHADA_H
 #define FACHADA_H
 
-
-
-
 #include <GL/glew.h>
 #include <Box2D/Box2D.h>
 #include "../headerfiles/Posicion.h"

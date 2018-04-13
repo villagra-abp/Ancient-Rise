@@ -91,7 +91,7 @@ class Mundo : public Entorno
     	
 
     	//POSICIONES ENEMIGOS
-    	patrulla pos, pos2, pos3;	//Vector de posiciones para los enemigos
+    	patrulla pos, pos2, pos3, pos4;	//Vector de posiciones para los enemigos
 
     	//OBJETOS
     	Comida *c, *c2;
@@ -108,7 +108,7 @@ class Mundo : public Entorno
 
     	//ENEMIGOS
     	enemigosBasicos enemB;	//Vector de enemigos Basicos
-    	EnemigoBasico 	*enem1, *enem2;
+    	EnemigoBasico 	*enem1, *enem2, *enem3;
 
         enemigosElites enemE;
         EnemigoElite *enemE1;
@@ -133,7 +133,7 @@ class Mundo : public Entorno
     	glm::u32 time_input;
 
     	//MUNDO BOX2D
-    	b2Vec2 gravedad=b2Vec2(0.f, -9.8f*10);
+    	b2Vec2 gravedad=b2Vec2(0.f, -9.8f*20);
     	b2World world=b2World(gravedad);
 
         //VARIABLES RECUPERACION ENERGIA PROTAGONISTA

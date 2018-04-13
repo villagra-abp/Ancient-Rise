@@ -147,7 +147,7 @@ FUNCION PARA ACTUALIZAR EL ESTADO DEL HAMBRE DEL ENEMIGO EN FUNCION DE LA CANTID
 
 void Enemigo::actualizarHambre()
 {
-    hambre+=velHambre*frameDeltaTime;
+    //hambre+=velHambre*frameDeltaTime;
 
     //cout<<round(hambre)<<endl;
 
@@ -159,7 +159,7 @@ FUNCION PARA ACTUALIZAR EL ESTADO DE SED DEL ENEMIGO
 
 void Enemigo::actualizarSed()
 {
-     sed+=velSed*frameDeltaTime;
+     //sed+=velSed*frameDeltaTime;
 
      //cout<<round(sed)<<endl;
 
