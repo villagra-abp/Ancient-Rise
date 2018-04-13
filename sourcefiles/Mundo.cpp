@@ -23,7 +23,7 @@ Fachada* fachada=fachada->getInstance();
     //prota->CreateGround(world, 6600.f, 800.f,3200);
    // prota->CreateGround(world, 9600.f, 1700.f,3200);
     //prota->CreateGround(world, 12600.f, 2600.f,3200);
-    prota->CreateBox(world, -5000.f, 30.f);
+    prota->CreateBox(world, -170.f, 0.f);
     
     //fachada->CreateGround(world, 0.25f, 128.f,176.25f, 22);
     //fachada->CreateGround(world, 177.f, 143.f,220,22);
@@ -515,7 +515,7 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
 	Posicion* protaPosition = prota->getPosition();
 	//vec3 camPosition = cam->getPosicion();
     if(estado==2){
-    cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-40,-170)); // cambio 5O A ProtaPosition.Y
+    cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-35,-130)); // cambio 5O A ProtaPosition.Y
     //camPosition=vec3(protaPosition->getPosX(),protaPosition->getPosY()+30,protaPosition->getPosZ());
     //camPosition.y=protaPosition->getPosY()+30;
     //Falta funcion para enfocar la camara
