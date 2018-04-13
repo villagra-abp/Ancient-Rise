@@ -267,7 +267,7 @@ void Mundo::posBuilder(){	//CONSTRUCTOR DE POSICIONES DE ENEMIGOS
 
 void Mundo::terrainBuilder(){	//CONSTRUCTOR DEL TERRENOS Y COLISIONES DE CAMARA
 
-    //fachada->drawTerreno();
+    fachada->drawTerreno();
 
 }
 
