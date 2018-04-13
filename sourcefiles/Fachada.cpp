@@ -354,9 +354,9 @@ void Fachada::drawTerreno(){
     //suelo->setMalla("resources/escenario.obj");
     suelo->setMalla("resources/nivel2.obj");
     //suelo = addCube(-220,-9,0, false);
-    suelo->Escalar(vec3(0.8,0.8,0.8));
+    suelo->Escalar(vec3(0.8,0.8,2.));
 	
-	suelo->Mover(vec3(-103,-6,10));
+	suelo->Mover(vec3(-103,-7,-35));
 	//suelo->Rotar(vec3(0,1,0), -3.f);
     suelo->Rotar(vec3(1,0,0), 1.57f);
 	
