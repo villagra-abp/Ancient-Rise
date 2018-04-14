@@ -23,7 +23,6 @@ class Enemigo : public GameObject
 
         void update(Posicion* prota);
         void updateTiempo(const glm::f32 Time);
-        void actualizarHambre();
         void actualizarSed();
         virtual void comprobarEnergia()=0;
         
@@ -32,6 +31,7 @@ class Enemigo : public GameObject
         bool see(GameObject* o);
         bool recordarProta();
         void actualizarVistos();
+        void changeLastFaceDir();
 
         virtual void CreateBox(b2World& world, float X, float Y)=0;
 
@@ -40,14 +40,12 @@ class Enemigo : public GameObject
         glm::f32 getVelocidad();
         glm::f32 getSed();
         glm::f32 getSalud();
-        glm::f32 getHambre();
         const glm::f32 getVelNormal();
         int getTipo();
         int getClaseEnemigo();
-
         void* getNode();
         bool getAvistadoProta();
-        vector <NodoGrafo*> getPosicion();
+        vector <Posicion*> getPosicion();
         float getXRange();
         float getYPend();
         bool getVisto();
@@ -57,10 +55,14 @@ class Enemigo : public GameObject
         bool getUltDirecVisto();
         int getOrden();
         bool getDisparo();
+        Objeto* getAlarmaActivar();
+        bool getSaltando();
+        bool getVuelta();
+        bool getInterrumpido();
+
 
         void setSed(glm::f32 se);
         void setEnergia(glm::f32 e);
-        void setHambre(glm::f32 h);
         void setSalud(glm::f32 s);
         void setVelocidad(glm::f32 v);
         void setPosition(Posicion* v);
@@ -73,6 +75,11 @@ class Enemigo : public GameObject
         void setUltDirecVisto(bool v);
         void setOrden(int o);
         void setDisparo(bool d);
+        void setAlarmaActivar(Objeto *a);
+        void setSaltando(bool s);
+        void setInvisible();
+        void setVuelta(bool v);
+        void setInterrumpido(bool i);
 
         /* COMBATE */   
         void setCombate(bool b);
@@ -95,6 +102,7 @@ class Enemigo : public GameObject
 
         BehaviorTree *comportamiento;               // Comportamiento del enemigo definido mediante un arbol de comportamiento (BEHAVIOR TREE)
         Blackboard *board;
+        Objeto *alActivar;                          // Para saber que alarma tiene que activar el enemigo
 
         /* PARA LA VISION */
         bool lastFacedDir;                          // Para saber a que lado esta mirando el enemigo  (True -> Derecha / False -> Izquierda)
@@ -107,7 +115,6 @@ class Enemigo : public GameObject
         /* ESTADISTICAS DEL ENEMIGO */
         glm::f32 energia;
         glm::f32 sed;
-        glm::f32 hambre;
         glm::f32 salud;
         glm::f32 VELOCIDAD_ENEMIGO;                      // VELOCIDAD DEL ENEMIGO
         glm::f32 velHambre;                              // INDICA LA VELOCIDAD A LA QUE BAJA EL HAMBRE
@@ -115,6 +122,7 @@ class Enemigo : public GameObject
         int tipo;                                   // Indica el tipo de enemigo ( 1 = Melee 2 = Distancia) 
         int claseEnemigo;                           // Indica que clase enemigo es (1 = Basico, 2 = Avanzado, 3 = Elite )       
         const glm::f32 VELOCIDAD_NORMAL = 15.f;          // Constante para saber cual es la velocidad normal de los enemigos que no consume energia   
+        bool saltando;
 
 
          /* BOX2D */
@@ -126,8 +134,10 @@ class Enemigo : public GameObject
 
         /* PATHFINDING */
         vector<NodoGrafo*> nodos;                    // CONTIENE TODOS LOS NODOS DEL GRAFO
-        vector<NodoGrafo*> patrulla;                 // CONTIENE TODAS LAS POS DE LA PATRULLA DEL ENEMIGO
+        vector<Posicion*> patrulla;                 // CONTIENE TODAS LAS POS DE LA PATRULLA DEL ENEMIGO
         Posicion* nodoPosition;
+        bool vuelta;                                // Para saber si el enemigo esta volviendo a su patrulla o no
+        bool interrupcion;                          // Si interrumpen al enemigo durante su camino de vuelta y que vuelva a calcular el camino desde donde se encuentra ahora
 
         /* MEMORIA */ 
         sf::Clock reloj;                            // Reloj para controlar el tiempo que tiene que estar huyendo
@@ -147,6 +157,8 @@ class Enemigo : public GameObject
         
 
         Fachada* fachada=fachada->getInstance();
+
+        bool inv=false;
 };
 
 #endif // ENEMIGO_H

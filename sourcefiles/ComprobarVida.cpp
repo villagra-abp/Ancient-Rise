@@ -23,7 +23,7 @@ Status ComprobarVida::run(Enemigo *e)
 
         case(2): /* Enemigo Avanzado */
         {
-            if(e->getSalud()<20)
+            if(e->getSalud()<20 && e->see(board->getProtagonista()))
             {
                 return BH_SUCCESS;
             }

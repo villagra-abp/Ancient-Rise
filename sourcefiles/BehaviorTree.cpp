@@ -10,8 +10,6 @@
 #include "../headerfiles/CheckAlarmaDes.h"
 #include "../headerfiles/ActivarAlarma.h"
 #include "../headerfiles/Atacar.h"
-#include "../headerfiles/ComprobarHambre.h"
-#include "../headerfiles/BuscarComida.h"
 #include "../headerfiles/AlarmaSonando.h"
 #include "../headerfiles/IrAlarma.h"
 #include "../headerfiles/AliadoCerca.h"
@@ -30,9 +28,7 @@ BehaviorTree::BehaviorTree(int c, Blackboard *b):board(b)
 			AvanzarPatrulla *avanzarP = new AvanzarPatrulla();  	// Patrulla
 			DetectarProta *detectP = new DetectarProta();  			// Deteccion Protagonista
 			ComprobarSed *checkSed = new ComprobarSed();			// Comprobacion sed
-			ComprobarHambre *checkHambre = new ComprobarHambre();   // COmprobacion hambre
 			BuscarAgua *bAgua = new BuscarAgua();					// Busqueda de agua
-			BuscarComida *bComida = new BuscarComida(); 			// Busqueda de comida
 			ComprobarVida *cVida = new ComprobarVida();				// Comprobar Vida del enemigo
 			Huir *huir = new Huir(); 								// Huir
 			CheckAlarmaDes *checkAD = new CheckAlarmaDes(); 		// Comprobar alarma cerca y desactivada
@@ -55,8 +51,6 @@ BehaviorTree::BehaviorTree(int c, Blackboard *b):board(b)
 			checkAD->onInitialize(b);
 			actAlarm->onInitialize(b);
 			ataque->onInitialize(b);
-			checkHambre->onInitialize(b);
-			bComida->onInitialize(b);
 			alarmS->onInitialize(b);
 			irAlarm->onInitialize(b);
 			ejOrden->onInitialize(b);
@@ -123,19 +117,6 @@ BehaviorTree::BehaviorTree(int c, Blackboard *b):board(b)
 			seqSed->addChildren(checkSed); 							// Añadimos sus hijos
 			seqSed->addChildren(bAgua);
 			seqSed->onInitialize(board);
-
-
-			/*    BUSQUEDA DE COMIDA	*/ 
-
-			/* Sequencia para comprobar hambre y buscar comida */
-			Sequence *seqHambre = new Sequence(); 
-
-			seqHambre->addChildren(checkHambre);
-			seqHambre->addChildren(bComida);
-			seqHambre->onInitialize(board);
-
-
-
 						
 			/*    RAIZ DEL ARBOL		*/ 
 
@@ -146,7 +127,6 @@ BehaviorTree::BehaviorTree(int c, Blackboard *b):board(b)
 			m_pRoot->addChildren(seqDetect);						// 2º Comprobamos si ha visto al prota
 			m_pRoot->addChildren(seqAlarmAct); 						// 3º Comprobamos si no hay ninguna alarma cerca sonando
 			m_pRoot->addChildren(seqSed);							// 4º Secuencia para ver si tiene sed
-			m_pRoot->addChildren(seqHambre); 						// 5º Secuencia para ver si tiene hambre
 			m_pRoot->addChildren(avanzarP);							// 6º Metemos un hijo en el selector creado (Recorrido patrulla)
 			m_pRoot->onInitialize(board);							// Inicializamos el selector para que el iterador apunte al principio del vector de hijos
 
@@ -158,7 +138,6 @@ BehaviorTree::BehaviorTree(int c, Blackboard *b):board(b)
 			comp.push_back(seqSed);
 			comp.push_back(seqCVida);
 			comp.push_back(seqAlarmaDes);
-			comp.push_back(seqHambre);
 			comp.push_back(seqAlarmAct);
 			comp.push_back(seqOrden);
 			
@@ -173,7 +152,6 @@ BehaviorTree::BehaviorTree(int c, Blackboard *b):board(b)
 			task.push_back(checkAD);
 			task.push_back(actAlarm);
 			task.push_back(ataque);
-			task.push_back(bComida);
 			task.push_back(alarmS);
 			task.push_back(irAlarm);
 			task.push_back(checkOrden);
@@ -187,10 +165,8 @@ BehaviorTree::BehaviorTree(int c, Blackboard *b):board(b)
 			AvanzarPatrulla *avanzarP = new AvanzarPatrulla();  	// Patrulla
 			DetectarProta *detectP = new DetectarProta();  			// Deteccion Protagonista
 			ComprobarSed *checkSed = new ComprobarSed();			// Comprobacion sed
-			ComprobarHambre *checkHambre = new ComprobarHambre();   // COmprobacion hambre
 			Atacar *ataque = new Atacar(); 							// Ataque
 			BuscarAgua *bAgua = new BuscarAgua();					// Busqueda de agua
-			BuscarComida *bComida = new BuscarComida(); 			// Busqueda de comida
 			AlarmaSonando *alarmS = new AlarmaSonando(); 			// Alarma sonando cerca
 			AliadoCerca *aliadoC = new AliadoCerca(); 				// Aliado cerca
 			OrdenAtaque *orAtaq = new OrdenAtaque(); 				// Orden de Ataque
@@ -202,8 +178,6 @@ BehaviorTree::BehaviorTree(int c, Blackboard *b):board(b)
 			detectP->onInitialize(b);
 			checkSed->onInitialize(b);
 			bAgua->onInitialize(b);
-			checkHambre->onInitialize(b);
-			bComida->onInitialize(b);
 			alarmS->onInitialize(b);
 			aliadoC->onInitialize(b);
 			orAtaq->onInitialize(b);
@@ -251,15 +225,6 @@ BehaviorTree::BehaviorTree(int c, Blackboard *b):board(b)
 			seqSed->onInitialize(board);
 
 
-			/*    BUSQUEDA DE COMIDA	*/ 
-
-			/* Sequencia para comprobar hambre y buscar comida */
-			Sequence *seqHambre = new Sequence(); 
-
-			seqHambre->addChildren(checkHambre);
-			seqHambre->addChildren(bComida);
-			seqHambre->onInitialize(board);
-
 			/*    ALARMA SONANDO		*/ 
 			/* Sequencia para comprobar si la alarma esta sonando y ver si hay algun aliado cerca */
 			Sequence *seqAlarmAct = new Sequence();
@@ -276,7 +241,6 @@ BehaviorTree::BehaviorTree(int c, Blackboard *b):board(b)
 			m_pRoot->addChildren(seqDetect); 						// 1º Comprobamos si ha detectado al prota
 			m_pRoot->addChildren(seqAlarmAct); 						// 2º Comprobamos si hay una alarma sonando
 			m_pRoot->addChildren(seqSed);							// 3º Si tenemos sed
-			m_pRoot->addChildren(seqHambre); 						// 4º SI tenemos hambre
 			m_pRoot->addChildren(avanzarP); 						// 5º Avanzar patrulla
 			m_pRoot->onInitialize(board);
 
@@ -284,7 +248,6 @@ BehaviorTree::BehaviorTree(int c, Blackboard *b):board(b)
 			// Metemos todos los composites/Decoradores en el vector
 			comp.push_back(seqDetect);
 			comp.push_back(seqSed);
-			comp.push_back(seqHambre);
 			comp.push_back(seqAlarmAct);
 			comp.push_back(seqAliadoC);
 			comp.push_back(selOrden);
@@ -297,8 +260,6 @@ BehaviorTree::BehaviorTree(int c, Blackboard *b):board(b)
 			task.push_back(detectP);
 			task.push_back(checkSed);
 			task.push_back(bAgua);
-			task.push_back(checkHambre);
-			task.push_back(bComida);
 			task.push_back(alarmS);
 			task.push_back(aliadoC);
 			task.push_back(orAtaq);
@@ -314,9 +275,7 @@ BehaviorTree::BehaviorTree(int c, Blackboard *b):board(b)
 			AvanzarPatrulla *avanzarP = new AvanzarPatrulla();  	// Patrulla
 			DetectarProta *detectP = new DetectarProta();  			// Deteccion Protagonista
 			ComprobarSed *checkSed = new ComprobarSed();			// Comprobacion sed
-			ComprobarHambre *checkHambre = new ComprobarHambre();   // COmprobacion hambre
 			BuscarAgua *bAgua = new BuscarAgua();					// Busqueda de agua
-			BuscarComida *bComida = new BuscarComida(); 			// Busqueda de comida
 			ComprobarVida *cVida = new ComprobarVida();				// Comprobar Vida del enemigo
 			Huir *huir = new Huir(); 								// Huir
 			CheckAlarmaDes *checkAD = new CheckAlarmaDes(); 		// Comprobar alarma cerca y desactivada
@@ -336,8 +295,6 @@ BehaviorTree::BehaviorTree(int c, Blackboard *b):board(b)
 			checkAD->onInitialize(b);
 			actAlarm->onInitialize(b);
 			ataque->onInitialize(b);
-			checkHambre->onInitialize(b);
-			bComida->onInitialize(b);
 			alarmS->onInitialize(b);
 			irAlarm->onInitialize(b);
 
@@ -390,14 +347,6 @@ BehaviorTree::BehaviorTree(int c, Blackboard *b):board(b)
 			seqSed->onInitialize(board);
 
 
-			/*    BUSQUEDA DE COMIDA	*/ 
-			/* Sequencia para comprobar hambre y buscar comida */
-			Sequence *seqHambre = new Sequence(); 
-
-			seqHambre->addChildren(checkHambre);
-			seqHambre->addChildren(bComida);
-			seqHambre->onInitialize(board);
-
 			/*    RAIZ DEL ARBOL		*/ 
 			Selector *s1 = new Selector();
 			m_pRoot=s1;												// Tarea raiz del arbol
@@ -405,7 +354,6 @@ BehaviorTree::BehaviorTree(int c, Blackboard *b):board(b)
 			m_pRoot->addChildren(seqDetect);						// 1º Comprobamos si ha visto al prota
 			m_pRoot->addChildren(seqAlarmAct); 						// 2º Comprobamos si no hay ninguna alarma cerca sonando
 			m_pRoot->addChildren(seqSed);							// 3º Secuencia para ver si tiene sed
-			m_pRoot->addChildren(seqHambre); 						// 4º Secuencia para ver si tiene hambre
 			m_pRoot->addChildren(avanzarP);							// 5º Metemos un hijo en el selector creado (Recorrido patrulla)
 			m_pRoot->onInitialize(board);							// Inicializamos el selector para que el iterador apunte al principio del vector de hijos
 
@@ -415,7 +363,6 @@ BehaviorTree::BehaviorTree(int c, Blackboard *b):board(b)
 			comp.push_back(seqSed);
 			comp.push_back(seqCVida);
 			comp.push_back(seqAlarmaDes);
-			comp.push_back(seqHambre);
 			comp.push_back(seqAlarmAct);
 
 			// Metemos todos las tareas en el vector
@@ -428,7 +375,6 @@ BehaviorTree::BehaviorTree(int c, Blackboard *b):board(b)
 			task.push_back(checkAD);
 			task.push_back(actAlarm);
 			task.push_back(ataque);
-			task.push_back(bComida);
 			task.push_back(alarmS);
 			task.push_back(irAlarm);
 

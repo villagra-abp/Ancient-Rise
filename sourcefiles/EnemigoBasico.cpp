@@ -11,7 +11,6 @@ EnemigoBasico::EnemigoBasico(vector<Posicion*> pos, float xlength, float pendVal
 
     //ESTABLECEMOS LAS ESTADISTICAS ENEMIGO BASICO
     setEnergia(ENERGIA_MAX);
-    setHambre(100.f);
     salud = 100;
     setSed(100.f);
     setVelocidad(VELOCIDAD_NORMAL);
@@ -26,14 +25,14 @@ EnemigoBasico::EnemigoBasico(vector<Posicion*> pos, float xlength, float pendVal
     
 
      /* Velocidad a la que bajan las estadisticas del enemigo */
-    setVelHambre(-0.3);
-    setVelSed(-0.5);
+    setVelSed(-0.3);
 
 
     /* BOX2D */
-    nodoPosition = patrulla[0]->getPosition();
+  /*  nodoPosition = patrulla[0]->getPosition();
     CreateBox(world, nodoPosition->getPosX()*30, nodoPosition->getPosY()*30);
-
+*/
+    CreateBox(world, patrulla[0]->getPosX()*30, patrulla[0]->getPosY()*30);
     velocidad2d = Body->GetLinearVelocity();
 
     velocidad2d.x = 25.f;
@@ -86,7 +85,6 @@ void EnemigoBasico::comprobarEnergia()
 /**
 FUNCION PARA crear el objeto dinamico
 **/
-
 void EnemigoBasico::CreateBox(b2World& world, float X, float Y)
 {
 

@@ -75,8 +75,8 @@ Protagonista* Protagonista::getInstance() {
 /* Funcion para hacer el update del protagonista */
 void Protagonista::update(Blackboard* b)
 {   
-   // cout<<"X: "<<protaPosition.X<<endl;
-    //cout<<"Y: "<<protaPosition.Y<<endl;
+    //cout<<"X: "<<protaPosition->getPosX()<<endl;
+    //cout<<"Y: "<<protaPosition->getPosY()<<endl;
     time = relojAtq.getElapsedTime().asSeconds();
     
     if( ataca == true && time>2)       // PROTA EN COMBATE Y ATACANDO

@@ -14,13 +14,19 @@ Status AlarmaSonando::run(Enemigo *e)
    e->setCombate(false);
 
    bool avalible = false; 
-   for (int i = 0; i < a.size(); i++){
+   for (size_t i = 0; i < a.size(); i++){
       
       alarmaPosition = a[i]->getVector3df();
       alarmaX=alarmaPosition->getPosX();
       distanciaAlarma = alarmaX - enemigoX;
 
-      if( abs(distanciaAlarma)<100  && a[i]->getActivado() ) {  // Alarma cerca (RANGO DE ESCUCHA) y activada
+      if( abs(distanciaAlarma)<200  && a[i]->getActivado() ) // Alarma cerca (RANGO DE ESCUCHA) y activada
+      { /* 
+        if(abs(distanciaAlarma)<20) // Si ya estamos al lado de la alarma no hay que ir hacia ella
+        {
+          cout<<"Cerca"<<endl;
+          return BH_FAILURE;
+        }*/
         return BH_SUCCESS;
       }
    }
@@ -42,13 +48,9 @@ AlarmaSonando::~AlarmaSonando()
     board = nullptr;
     enemigoNode = nullptr;
 
-    for(int i = 0 ; i < a.size(); i++){
+    for(size_t i = 0 ; i < a.size(); i++){
       a[i] = nullptr;
-      delete a[i];  //No se si es necesario
     }
 
     a.clear();
-    
-    //delete board;
-    //delete a;
 }

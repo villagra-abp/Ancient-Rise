@@ -9,7 +9,6 @@ Alarma::Alarma(Posicion* pos):Objeto(pos)
     //std::cout<<pos.getPosX()<<endl;
 	if (objeto)
 	{
-        
         Posicion escala(0.3f,0.3f,0.3f);
 		fachada->setScala(objeto,&escala);
 		
@@ -43,7 +42,7 @@ void Alarma::checkActivada()
 
 		int time = reloj.getElapsedTime().asSeconds();  // OBTENEMOS SU DURACION EN SEGUNDOS
 
-		if(time>35) 		// DURACION ALARMA ACTIVADA
+		if(time>20) 		// DURACION ALARMA ACTIVADA
 		{
 			activado = false;
 			fachada->setMaterialFlag(objeto , false);

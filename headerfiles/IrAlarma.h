@@ -10,20 +10,41 @@ class IrAlarma : public Task
 		
 		virtual Status run(Enemigo *e) override;   
 		virtual void onInitialize(Blackboard *b) override;
+		void buscarNodoInicial(Enemigo *e, float posX);
+		void recorrerNodos(Enemigo *e, uint8_t v, float posX);
+		void movimientoDireccion(Enemigo *e, bool d);
+		void comprobarAlarmaSonando(float posEnemX);
+		NodoGrafo* calcularNodoMasCercano(NodoGrafo* i, NodoGrafo* i2, float posX);
+		void reset();
+		void checkComportamiento(Enemigo *e);
 		virtual ~IrAlarma();
 
 
 	private:
 		
 		Blackboard *board;
-	    glm::f32 frameDeltaTime;		  // Tiempo
 	    vector<Objeto*> a;
-	    void* enemigoNode;
-		
+	    float enemigoX, enemigoY;
+
 		//Datos de alarma
 	    Posicion* alarmaPosition;
-		float alarmaX;
-		int distanciaAlarma;
+		float alarmaX, alarmaY;
+		int distanciaAlarma, distAlarmAux;
+		int pos;
+
+		/* PATHFINDING */
+	    vector<NodoGrafo*> nodos;
+	    NodoGrafo *inicio1, *inicio2, *inicioBueno, *fin;
+	    Posicion* posNodoI, *posNodo;
+	    vector <Arista*> caminoCorto; 							// Contiene el camino mas corto calculado hasta el punto donde se queria ir
+	    bool llegadoInicio = false;
+	    bool llegadoFin = false;
+	    bool llegadoAlarma = false;
+	    Grafo *g; 												// Para poder calcular el camino mas corto
+	    int iC;
+	    float distNodoF, distNodoFY, distNodoI;
+	    Comportamiento tipo;
+	    bool bajada;
 		
 };
 

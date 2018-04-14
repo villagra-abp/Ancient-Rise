@@ -34,6 +34,8 @@ class Grafo
 		NodoGrafo *endNodeRecord; 				// Para poder tener un seguimiento de la informacion del nodo final de la arista
 
 		bool encontrado;
+
+		vector<NodoGrafo*> nodosReset;
 		
 		
 };

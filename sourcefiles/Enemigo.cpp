@@ -8,7 +8,7 @@
  CONSTRUCTOR DE ENEMIGO
  Parametros : Objetos Irrlicht, vector con posiciones de la patrulla
 */
-Enemigo::Enemigo(vector<Posicion*> pos, float xlength, float pendValue, const Entorno* e, Blackboard *b) : enemigo(nullptr), ent(e), board(nullptr), proyectil(nullptr)
+Enemigo::Enemigo(vector<Posicion*> pos, float xlength, float pendValue, const Entorno* e, Blackboard *b) : enemigo(nullptr), ent(e), board(nullptr), proyectil(nullptr), alActivar(nullptr)
 {
     GameObject::setTipo(ENEMY);
     Fachada* fachada=fachada->getInstance();
@@ -31,15 +31,17 @@ Enemigo::Enemigo(vector<Posicion*> pos, float xlength, float pendValue, const En
     //env = dev->getGUIEnvironment();
 
     /* Valores por defecto para los parametros para el rango de vision del enemigo */
-    lastFacedDir = true;
+    lastFacedDir = false;
     visionXmax = xlength;
     valorPendiente = pendValue;
     visto = false;
     direccVistoUlt = false;
 
+    patrulla = pos;
+    /*
     nodos = board->getNodosGrafo();              // Obtenemos todos los nodos del grafo
     /* COMPROBAMOS QUE LAS POSICIONES DE PATRULLA COINCIDEN CON LOS NODOS DEL GRAFO */
-    for(int i=0; i<pos.size();i++)
+ /*   for(int i=0; i<pos.size();i++)
     {
         for(int i2=0;i2<nodos.size();i2++)
         {
@@ -59,6 +61,12 @@ Enemigo::Enemigo(vector<Posicion*> pos, float xlength, float pendValue, const En
     contador = 0;
     memoria = false;
     orden = 0;                                            // Ninguna orden recibida
+    saltando = false;
+    inv = true;
+
+    /* Pathfinding */
+    vuelta = false;
+    interrupcion = false;
 
 
 }
@@ -69,16 +77,12 @@ void Enemigo::update(Posicion* Posprota)
 
     if(salud<0)
     {
-        //enemigo->remove();
+        fachada->destruirObjeto(enemigo);
     }
 
     if(enemigo!=nullptr)  // Solo si existe el enemigo hacemos su update
     { 
-
-        actualizarHambre(); 
-        actualizarSed();
-    
-        //cout<<"Vida: "<<salud<<endl;
+        //actualizarSed();
         //COMPROBAMOS GAMEOBJECTS DENTRO DE LA VISTA
         vistos.clear();
 
@@ -90,13 +94,13 @@ void Enemigo::update(Posicion* Posprota)
         }
 
         // COMPROBAMOS SI HEMOS VISTO AL PROTAGONISTA 
-        if(checkInSight(Posprota)){              
+        if(checkInSight(Posprota) && inv==false){              
             visto = true;
              //fachada->setMaterial(enemigo,"resources/activada.jpeg");  
              contador = 0;
             
         }else{
-            if(recordarProta())
+            if(recordarProta()==false)
             {
                 visto = false;
                 //fachada->setMaterial(enemigo,"resources/verde.jpg");
@@ -131,32 +135,16 @@ void Enemigo::update(Posicion* Posprota)
                     }
                 }
             }
-
                 proyectil->update(this,board);
-
         }
         
     }
 
 }
 
-
-/**
-FUNCION PARA ACTUALIZAR EL ESTADO DEL HAMBRE DEL ENEMIGO EN FUNCION DE LA CANTIDAD QUE LE PASEMOS
-**/
-
-void Enemigo::actualizarHambre()
-{
-    //hambre+=velHambre*frameDeltaTime;
-
-    //cout<<round(hambre)<<endl;
-
-}
-
 /**
 FUNCION PARA ACTUALIZAR EL ESTADO DE SED DEL ENEMIGO
 **/
-
 void Enemigo::actualizarSed()
 {
      //sed+=velSed*frameDeltaTime;
@@ -175,7 +163,6 @@ FUNCION PARA RECORDAR DURANTE UNOS SEGUNDOS AL PROTA DESPUES DE PERDERLE DE VIST
 */
 bool Enemigo::recordarProta()
 {
-
     memoria = true;
 
     if(contador==0)
@@ -308,6 +295,18 @@ void Enemigo::actualizarVistos()
             }
         }
 }
+/* Funcion para cambiar al lado contrario a donde estaba mirando el enemigo en ese momento */
+void Enemigo::changeLastFaceDir()
+{
+    if(lastFacedDir==true)
+    {
+        lastFacedDir = false;
+    }
+    else
+    {
+        lastFacedDir = true;
+    }
+}
 
 /**
 ==============================================
@@ -335,12 +334,7 @@ glm::f32 Enemigo::getSalud()
     return salud;
 }
 
-glm::f32 Enemigo::getHambre()
-{
-    return hambre;
-}
-
-vector<NodoGrafo*> Enemigo::getPosicion()
+vector<Posicion*> Enemigo::getPosicion()
 {
     return patrulla;
 }
@@ -416,6 +410,26 @@ Proyectil* Enemigo::getProyectil()
     return proyectil;
 }
 
+Objeto* Enemigo::getAlarmaActivar()
+{
+    return alActivar;
+}
+
+bool Enemigo::getSaltando()
+{
+    return saltando;
+}
+
+bool Enemigo::getVuelta()
+{
+    return vuelta;
+}
+
+bool Enemigo::getInterrumpido()
+{
+    return interrupcion;
+}
+
 
 void Enemigo::setSalud(glm::f32 s)
 {
@@ -425,11 +439,6 @@ void Enemigo::setSalud(glm::f32 s)
 void Enemigo::setEnergia(glm::f32 e)
 {
     energia=e;
-}
-
-void Enemigo::setHambre(glm::f32 h)
-{
-    hambre=h;
 }
 
 void Enemigo::setVelocidad(glm::f32 v)
@@ -487,6 +496,38 @@ void Enemigo::setOrden(int o)
 void Enemigo::setDisparo(bool d)
 {
     disparo = d;
+}
+
+void Enemigo::setAlarmaActivar(Objeto* a)
+{
+    alActivar = a;
+}
+
+void Enemigo::setSaltando(bool s)
+{
+    saltando = s;
+}
+
+void Enemigo::setInvisible()
+{
+    if(inv==false)
+    {
+        inv = true;
+    }
+    else
+    {
+        inv = false;
+    }
+}
+
+void Enemigo::setVuelta(bool v)
+{
+    vuelta = v;
+}
+
+void Enemigo::setInterrumpido(bool i)
+{
+    interrupcion = i;
 }
 
 

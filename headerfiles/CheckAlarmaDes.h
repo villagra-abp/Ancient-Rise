@@ -18,7 +18,6 @@ class CheckAlarmaDes : public Task
 		Blackboard *board;
 	    glm::f32 frameDeltaTime;		  // Tiempo
 	    vector<Objeto*> a;
-	    void* enemigoNode;
 	
 		
 };
