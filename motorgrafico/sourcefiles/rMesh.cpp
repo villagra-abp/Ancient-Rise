@@ -104,14 +104,14 @@ void rMesh::draw(glm::mat4 mmodelo, glm::mat4 view, glm::mat4 projection, vector
 //	shader->setFloat("pointLights[1].constant",);
 //	shader->setFloat("pointLights[1].linear",);
 //	shader->setFloat("pointLights[1].quadratic",);
-	shader->setVec3("pointLights[1].position", luzPosicion[1]);
-	shader->setVec3("pointLights[1].color", color[1]);
+//	shader->setVec3("pointLights[1].position", luzPosicion[1]);
+//	shader->setVec3("pointLights[1].color", color[1]);
 
 //	shader->setFloat("pointLights[2].constant",);
 //	shader->setFloat("pointLights[2].linear",);
 //	shader->setFloat("pointLights[2].quadratic",);
-	shader->setVec3("pointLights[2].position", luzPosicion[2]);
-	shader->setVec3("pointLights[2].color", color[2]);
+//	shader->setVec3("pointLights[2].position", luzPosicion[2]);
+//	shader->setVec3("pointLights[2].color", color[2]);
 	
 //	if(textures.size() != 0)
 //		glBindTexture(GL_TEXTURE_2D, textures[0]->getID());
