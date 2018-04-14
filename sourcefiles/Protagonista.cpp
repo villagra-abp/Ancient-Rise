@@ -18,7 +18,7 @@ Protagonista::Protagonista():energy(nullptr), life(nullptr), Body(nullptr), rec(
     FObjeto* protaObjeto = fachada->addMalla(0, 0,30,"resources/personaje.obj");
     rec = protaObjeto;
     
-    Posicion escala(2.5f,2.5f,2.5f);
+    Posicion escala(5.f,5.f,5.f);
     fachada->setScala((void*)protaObjeto,&escala);
 		
     fachada->rotObj(protaObjeto, 0, 1, 0, -90);

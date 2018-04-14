@@ -267,7 +267,7 @@ void Mundo::posBuilder(){	//CONSTRUCTOR DE POSICIONES DE ENEMIGOS
 
 void Mundo::terrainBuilder(){	//CONSTRUCTOR DEL TERRENOS Y COLISIONES DE CAMARA
 
-    //fachada->drawTerreno();
+    fachada->drawTerreno();
 
 }
 
@@ -301,9 +301,12 @@ void Mundo::update(){
     b->setProta(protaPosition->getPosX());
 
     /* ALARMA UPDATE*/
-    a->update();
-    a2->update();
-
+    //a->update();
+    //a2->update();
+    for(int i=0; i<alarmas.size();i++)
+    {
+        alarmas[i]->update();
+    }
 
     /* UPDATE DE LOS ENEMIGOS */
 
@@ -807,11 +810,11 @@ if(map){
                
                TiXmlElement* ene = grupo2->FirstChildElement("object");//object es hjo de objectgroup
 
-                int idE;
-                int iE;
-                int tipo;
-                double xEn;
-                double yEn;
+                int idE;        // Identificador de los objects del xml
+                int iE;         // No se
+                int tipo;       
+                double xEn;     // Pos en X del object
+                double yEn;     // Pos en Y del object
                 
                   while(ene){
                       TiXmlAttribute* atriEn = ene->FirstAttribute();
