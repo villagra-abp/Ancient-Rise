@@ -23,8 +23,8 @@ void TMalla::beginDraw(glm::mat4 view, glm::mat4 projection, float intensidad, g
 //		glm::vec3 diffuse = material->getDifusa();
 //		glm::vec3 specular = material->getEspecular();
 //		float shininess =	material->getBrillo();
-
-		mesh->draw(*gestor->getShader(), mmodelo, view, projection, intensidad, color, luzPosicion, camaraPosicion); // (...) //Dibujado del recurso de malla OpenGL
+		
+		mesh->draw(mmodelo, view, projection, intensidad, color, luzPosicion, camaraPosicion); // (...) //Dibujado del recurso de malla OpenGL
 	}
 }
 void TMalla::endDraw(){

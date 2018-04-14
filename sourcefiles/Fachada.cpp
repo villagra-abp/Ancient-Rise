@@ -352,15 +352,15 @@ void Fachada::drawTerreno(){
 	FObjeto* suelo = new FObjeto();
 	
     //suelo->setMalla("resources/escenario.obj");
-    suelo->setMalla("resources/nivel1.obj");
+    suelo->setMalla("resources/nivel2.obj");
     //suelo = addCube(-220,-9,0, false);
-    suelo->Escalar(vec3(0.23,0.2285,0.23));
+    suelo->Escalar(vec3(0.8,0.8,2.));
 	
-	suelo->Mover(vec3(363,-599,10));
+	suelo->Mover(vec3(-103,-7,-35));
 	//suelo->Rotar(vec3(0,1,0), -3.f);
     suelo->Rotar(vec3(1,0,0), 1.57f);
 	
-    
+    std::cout<<"crea suelo"<<endl;
     
 }
 void Fachada::addMenu(int tipo){
@@ -423,9 +423,9 @@ FUNCION PARA crear el objeto estatico
 **/
 void Fachada::CreateGround(b2World& world, float X, float Y,float largo,float alto)
 {
-    Y=-Y+100;
+    Y=-Y+50;
    
-    X=X-290;
+    X=X-190;
     float posX=X+(largo/2);
     float posY=Y+(alto/2);
     /*

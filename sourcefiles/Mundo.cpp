@@ -23,7 +23,7 @@ Fachada* fachada=fachada->getInstance();
     //prota->CreateGround(world, 6600.f, 800.f,3200);
    // prota->CreateGround(world, 9600.f, 1700.f,3200);
     //prota->CreateGround(world, 12600.f, 2600.f,3200);
-    prota->CreateBox(world, -5000.f, 30.f);
+    prota->CreateBox(world, -170.f, 0.f);
     
     //fachada->CreateGround(world, 0.25f, 128.f,176.25f, 22);
     //fachada->CreateGround(world, 177.f, 143.f,220,22);
@@ -301,12 +301,12 @@ void Mundo::update(){
     b->setProta(protaPosition->getPosX());
 
     /* ALARMA UPDATE*/
-    //a->update();
+    a->update();
     //a2->update();
-    for(int i=0; i<alarmas.size();i++)
+    /*for(int i=0; i<alarmas.size();i++)
     {
         alarmas[i]->update();
-    }
+    }*/
 
     /* UPDATE DE LOS ENEMIGOS */
 
@@ -518,7 +518,7 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
 	Posicion* protaPosition = prota->getPosition();
 	//vec3 camPosition = cam->getPosicion();
     if(estado==2){
-    cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-40,-150)); // cambio 5O A ProtaPosition.Y
+    cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-35,-130)); // cambio 5O A ProtaPosition.Y
     //camPosition=vec3(protaPosition->getPosX(),protaPosition->getPosY()+30,protaPosition->getPosZ());
     //camPosition.y=protaPosition->getPosY()+30;
     //Falta funcion para enfocar la camara
@@ -600,7 +600,7 @@ void Mundo::cargarNivel(){
    
 TiXmlDocument doc;
 
-if(doc.TiXmlDocument::LoadFile("resources/mapa2.xml",TIXML_ENCODING_UTF8 )){ //TIXML_ENCODING_UTF8
+if(doc.TiXmlDocument::LoadFile("resources/nivel2.xml",TIXML_ENCODING_UTF8 )){ //TIXML_ENCODING_UTF8
   //std::cout <<"Leyendo bien"<<endl;
     
 }
@@ -782,7 +782,7 @@ if(map){
                         //if(id==i3){
                                 i3++;
                                 fachada->CreateGround(world, (int)x, (int)y,(int)ancho, (int)altura);
-                                
+                                //std::cout<<"cuenta: "<<x<<endl;
                             //}
                       obje=obje->NextSiblingElement("object");//pasamos a la siguiente caja
                        //printf("\n");
@@ -860,34 +860,34 @@ if(map){
 
                           //printf("\n");
                   if(strcmp(grupo2->FirstAttribute()->Value(),"Enemigos")==0){
-                      cout<<"Enemigo tipo: "<<tipo<<endl;
+                      //cout<<"Enemigo tipo: "<<tipo<<endl;
                   }   
                   if(strcmp(grupo2->FirstAttribute()->Value(),"Recolectables")==0){
-                      cout<<"Recolectables tipo: "<<tipo<<endl;
+                      //cout<<"Recolectables tipo: "<<tipo<<endl;
                   }  
                   if(strcmp(grupo2->FirstAttribute()->Value(),"armas")==0){
-                      cout<<"armas tipo: "<<tipo<<endl;
+                      //cout<<"armas tipo: "<<tipo<<endl;
                   }  
                   if(strcmp(grupo2->FirstAttribute()->Value(),"alarmas")==0){
-                      cout<<"alarmas"<<endl;
-                        Posicion* posA= new Posicion(xEn-290,-yEn+120,30.f);
+                      //cout<<"alarmas"<<endl;
+                        Posicion* posA= new Posicion(xEn-190,-yEn+60,30.f);
                         Alarma* alarm = new Alarma( posA);
                         alarmas.push_back(alarm);
                         addGameObject(alarm);
                         delete posA;
                   }  
                   if(strcmp(grupo2->FirstAttribute()->Value(),"fuentes")==0){
-                      cout<<"fuentes"<<endl;
-                        Posicion* posF= new Posicion(xEn-290,-yEn+120,30.f);
+                      //cout<<"fuentes"<<endl;
+                        Posicion* posF= new Posicion(xEn-190,-yEn+60,30.f);
                         Fuente* fuente = new Fuente( posF);
                         fuentes.push_back(fuente);
                         addGameObject(fuente);
                         delete posF;
                   }  
                   if(strcmp(grupo2->FirstAttribute()->Value(),"Nodos")==0){
-                      cout<<"Nodos "<<endl;
-                      Posicion* posN= new Posicion(xEn-290,-yEn+120,30.f);
-                      //std::cout<<posN->getPosX()<<"++++"<<posN->getPosY()<<endl;
+                      //cout<<"Nodos "<<endl;
+                      Posicion* posN= new Posicion(xEn-190,-yEn+60,30.f);
+                      //std::cout<<posN->getPosX()<<"++1+"<<posN->getPosY()<<endl;
                       
                       delete posN;
                   } 

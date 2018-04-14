@@ -16,9 +16,11 @@ Protagonista::Protagonista():energy(nullptr), life(nullptr), Body(nullptr), rec(
     desabilitamos la luz en cada modelo (sino los modelos serian negros )
     **/ 
     FObjeto* protaObjeto = fachada->addMalla(0, 0,30,"resources/personaje.obj");
+//    FObjeto* protaObjeto = fachada->addMalla(0, 0,30,"resources/cubo.obj");
+
     rec = protaObjeto;
     
-    Posicion escala(5.f,5.f,5.f);
+    Posicion escala(2.f,2.f,2.f);
     fachada->setScala((void*)protaObjeto,&escala);
 		
     fachada->rotObj(protaObjeto, 0, 1, 0, -90);
@@ -97,10 +99,10 @@ FUNCION PARA crear el objeto dinamico
 **/
 void Protagonista::CreateBox(b2World& world, float X, float Y)
 {
-    BodyDef.position = b2Vec2(X/SCALE, Y+280/SCALE);
+    BodyDef.position = b2Vec2(X+5, Y+7);
     BodyDef.type = b2_dynamicBody;
     Body = world.CreateBody(&BodyDef);
-    Shape.SetAsBox((60.f/2)/SCALE, (280.f/2)/SCALE);
+    Shape.SetAsBox((10.f/2), (15.f/2));
     b2FixtureDef FixtureDef;
     FixtureDef.density = 0.5f;
     FixtureDef.friction = 0.45f;
@@ -240,7 +242,7 @@ void Protagonista::movimiento(const glm::f32 Time)
         }else if(correr==true && energia>10.1)
         {
             velo.x=-90.f;
-            Body->ApplyForceToCenter(b2Vec2(-3000.f,0.f),true);
+            Body->ApplyForceToCenter(b2Vec2(-10000.f,0.f),true);
              //Body->SetLinearVelocity(velo);
             //protaPosition.X -= VELOCIDAD_MOVIMIENTO * Time*3;
 
@@ -270,7 +272,7 @@ void Protagonista::movimiento(const glm::f32 Time)
                Body->SetLinearVelocity(velo);
             }else if(correr==true && energia>10.1){
                 velo.x=90.f;
-                Body->ApplyForceToCenter(b2Vec2(3000.f,0.f),true);
+                Body->ApplyForceToCenter(b2Vec2(10000.f,0.f),true);
                 //Body->SetLinearVelocity(velo);
                 if(energia<10)
                     correr=false;
