@@ -224,16 +224,21 @@ glm::vec3 TNodo::getPosicion(){
 
 void TNodo::draw(glm::mat4 view, glm::mat4 projection,TNodo* camara, vector<TNodo*> luces)
 {
-	float intensidad;
-	glm::vec4 color;
-	glm::vec3 luzPosicion , camaraPosicion;
+	vector<float> intensidad;
+	vector<glm::vec4> color;
+	glm::vec3 camaraPosicion;
+	vector<glm::vec3> luzPosicion;
 
-	luzPosicion = luces[0]->getPosicion();
+	
 	camaraPosicion = camara->getPosicion();
 
+	for(int i = 0; i < luces.size(); i++){
+		luzPosicion.push_back(luces[i]->getPosicion());
+		intensidad.push_back(dynamic_cast<TLuz*>(luces[0]->getEntidad())->getIntensidad());
+		color.push_back(dynamic_cast<TLuz*>(luces[0]->getEntidad())->getColor());
+	}
 
-	intensidad = dynamic_cast<TLuz*>(luces[0]->getEntidad())->getIntensidad();
-	color = dynamic_cast<TLuz*>(luces[0]->getEntidad())->getColor();
+	
 
 	if(entidad!=nullptr){
 		entidad -> beginDraw(view, projection, intensidad, color, luzPosicion, camaraPosicion);

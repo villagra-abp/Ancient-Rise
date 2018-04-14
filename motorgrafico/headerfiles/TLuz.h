@@ -14,7 +14,8 @@ public:
 	TLuz(float intensidad, glm::vec4 color);
 	virtual ~TLuz();
 
-	virtual void beginDraw(glm::mat4 view, glm::mat4 projection, float intensidad, glm::vec4 color, glm::vec3 luzPosicion, glm::vec3 camaraPosicion) override{ /*vacia*/};
+	virtual void beginDraw(glm::mat4 view, glm::mat4 projection, vector<float> intensidad, vector<glm::vec4> color, vector<glm::vec3> luzPosicion,
+			 glm::vec3 camaraPosicion) override{ /*vacia*/};
 	virtual void endDraw() override{/*vacia*/};
 	
 	virtual tEnt getTipo() override{ return luz; }

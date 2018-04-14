@@ -55,8 +55,9 @@ void rMesh::setupMesh(){
 	
 }
 
-void rMesh::draw(glm::mat4 mmodelo, glm::mat4 view, glm::mat4 projection, float intensidad, glm::vec4 color, glm::vec3 luzPosicion,
+void rMesh::draw(glm::mat4 mmodelo, glm::mat4 view, glm::mat4 projection, vector<float> intensidad, vector<glm::vec4> color, vector<glm::vec3> luzPosicion,
 		 glm::vec3 camaraPosicion){
+	
 	Shader* shader = shaderNoText;
 	glm::vec3 ambient, diffuse, specular;
 	float shininess;
@@ -83,15 +84,34 @@ void rMesh::draw(glm::mat4 mmodelo, glm::mat4 view, glm::mat4 projection, float 
 	//model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f));
 	//model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
 	shader->setMat4("model", mmodelo);
-	shader->setVec4("color", color);
-	shader->setVec3("luzPos", luzPosicion);
+//	shader->setVec4("color", color);
+//	shader->setVec3("luzPos", luzPosicion);
 	shader->setVec3("camPos", camaraPosicion);
-	shader->setFloat("lightIntensity", intensidad);
+	shader->setFloat("lightIntensity", intensidad[0]);
 
 	shader->setVec3("material.ambient",  ambient);
 	shader->setVec3("material.diffuse",  diffuse);
 	shader->setVec3("material.specular", specular);
 	shader->setFloat("material.shininess", shininess);
+
+	//declarando lucecitas
+//	shader->setFloat("pointLights[0].constant",);
+//	shader->setFloat("pointLights[0].linear",);
+//	shader->setFloat("pointLights[0].quadratic",);
+	shader->setVec3("pointLights[0].position", luzPosicion[0]);
+	shader->setVec3("pointLights[0].color", color[0]);
+
+//	shader->setFloat("pointLights[1].constant",);
+//	shader->setFloat("pointLights[1].linear",);
+//	shader->setFloat("pointLights[1].quadratic",);
+	shader->setVec3("pointLights[1].position", luzPosicion[1]);
+	shader->setVec3("pointLights[1].color", color[1]);
+
+//	shader->setFloat("pointLights[2].constant",);
+//	shader->setFloat("pointLights[2].linear",);
+//	shader->setFloat("pointLights[2].quadratic",);
+	shader->setVec3("pointLights[2].position", luzPosicion[2]);
+	shader->setVec3("pointLights[2].color", color[2]);
 	
 //	if(textures.size() != 0)
 //		glBindTexture(GL_TEXTURE_2D, textures[0]->getID());

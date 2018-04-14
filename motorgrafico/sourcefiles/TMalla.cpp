@@ -17,7 +17,8 @@ void TMalla::setMaterial(string nombre){
 	//material = gestor->getRecursoMat(nombre);
 }
 
-void TMalla::beginDraw(glm::mat4 view, glm::mat4 projection, float intensidad, glm::vec4 color, glm::vec3 luzPosicion, glm::vec3 camaraPosicion){
+void TMalla::beginDraw(glm::mat4 view, glm::mat4 projection, vector<float> intensidad, vector<glm::vec4> color, vector<glm::vec3> luzPosicion, 
+		glm::vec3 camaraPosicion){
 	if(visible){
 //		glm::vec3 ambient = material->getAmbiente();
 //		glm::vec3 diffuse = material->getDifusa();
