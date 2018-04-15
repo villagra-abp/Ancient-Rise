@@ -43,6 +43,80 @@
   <object id="28" x="799.614" y="14" width="20.0227" height="8"/>
   <object id="29" x="799.864" y="5.75" width="20.0227" height="8"/>
  </objectgroup>
+ <objectgroup name="nodos" visible="0" locked="1">
+  <object id="30" x="12.9091" y="61.8182">
+   <point/>
+  </object>
+  <object id="31" x="68.3636" y="61.8182">
+   <point/>
+  </object>
+  <object id="32" x="78.9091" y="54.1818">
+   <point/>
+  </object>
+  <object id="33" x="140.182" y="54.1818">
+   <point/>
+  </object>
+  <object id="34" x="151.125" y="46.75">
+   <point/>
+  </object>
+  <object id="36" x="172.625" y="46.875">
+   <point/>
+  </object>
+  <object id="37" x="179.875" y="22.25">
+   <point/>
+  </object>
+  <object id="38" x="221.375" y="22.125">
+   <point/>
+  </object>
+  <object id="39" x="230.25" y="47.25">
+   <point/>
+  </object>
+  <object id="40" x="293.273" y="47.0909">
+   <point/>
+  </object>
+  <object id="41" x="300.727" y="63">
+   <point/>
+  </object>
+  <object id="42" x="363.364" y="63">
+   <point/>
+  </object>
+  <object id="43" x="372.909" y="46.1818">
+   <point/>
+  </object>
+  <object id="44" x="453.25" y="46.375">
+   <point/>
+  </object>
+  <object id="45" x="459.5" y="63">
+   <point/>
+  </object>
+  <object id="46" x="517.125" y="63">
+   <point/>
+  </object>
+  <object id="47" x="523.75" y="37.875">
+   <point/>
+  </object>
+  <object id="48" x="565.375" y="38.25">
+   <point/>
+  </object>
+  <object id="53" x="572.364" y="62.9091">
+   <point/>
+  </object>
+  <object id="54" x="635.625" y="62.625">
+   <point/>
+  </object>
+  <object id="55" x="644.125" y="37.625">
+   <point/>
+  </object>
+  <object id="56" x="693.625" y="38.5">
+   <point/>
+  </object>
+  <object id="57" x="700.25" y="62.75">
+   <point/>
+  </object>
+  <object id="58" x="795.5" y="62.625">
+   <point/>
+  </object>
+ </objectgroup>
  <objectgroup name="fuentes" visible="0" locked="1">
   <object id="121" x="605.636" y="63.6364">
    <point/>
@@ -86,98 +160,24 @@
   <object id="113" type="1" x="336" y="62.5">
    <point/>
   </object>
-  <object id="114" type="2" x="420.75" y="46.25">rr
+  <object id="114" type="2" x="420.75" y="46.25">
    <point/>
   </object>
  </objectgroup>
- <objectgroup name="enemigos" visible="0" locked="1">
-  <object id="105" type="1" x="108.909" y="54.9091">
+ <objectgroup name="enemigos">
+  <object id="105" name="3233" type="11" x="108.909" y="54.9091">
    <point/>
   </object>
-  <object id="106" type="1" x="263" y="47.3333">
+  <object id="106" name="3940" type="11" x="263" y="47.3333">
    <point/>
   </object>
-  <object id="107" type="1" x="413.091" y="47.2727">
+  <object id="107" name="4344" type="12" x="413.091" y="47.2727">
    <point/>
   </object>
-  <object id="108" type="2" x="543.636" y="38.5455">
+  <object id="108" name="4748" type="21" x="543.636" y="38.5455">
    <point/>
   </object>
-  <object id="109" type="1" x="615.636" y="63.0909">
-   <point/>
-  </object>
- </objectgroup>
- <objectgroup name="nodos" visible="0" locked="1">
-  <object id="30" x="12.9091" y="61.8182">
-   <point/>
-  </object>
-  <object id="31" x="68.3636" y="61.8182">
-   <point/>
-  </object>
-  <object id="32" x="78.9091" y="54.1818">
-   <point/>
-  </object>
-  <object id="33" x="140.182" y="54.1818">
-   <point/>
-  </object>
-  <object id="34" x="151.125" y="46.75">
-   <point/>
-  </object>
-  <object id="36" x="172.625" y="46.75">
-   <point/>
-  </object>
-  <object id="37" x="179.875" y="22.25">
-   <point/>
-  </object>
-  <object id="38" x="221.375" y="22.25">
-   <point/>
-  </object>
-  <object id="39" x="230.25" y="47.25">
-   <point/>
-  </object>
-  <object id="40" x="293.273" y="47.25">
-   <point/>
-  </object>
-  <object id="41" x="300.727" y="63">
-   <point/>
-  </object>
-  <object id="42" x="363.364" y="63">
-   <point/>
-  </object>
-  <object id="43" x="372.909" y="46.75">
-   <point/>
-  </object>
-  <object id="44" x="453.25" y="46.75">
-   <point/>
-  </object>
-  <object id="45" x="459.5" y="63">
-   <point/>
-  </object>
-  <object id="46" x="517.125" y="63">
-   <point/>
-  </object>
-  <object id="47" x="523.75" y="37.875">
-   <point/>
-  </object>
-  <object id="48" x="565.375" y="37.875">
-   <point/>
-  </object>
-  <object id="53" x="572.364" y="62.9091">
-   <point/>
-  </object>
-  <object id="54" x="635.625" y="62.625">
-   <point/>
-  </object>
-  <object id="55" x="644.125" y="37.625">
-   <point/>
-  </object>
-  <object id="56" x="693.625" y="38.5">
-   <point/>
-  </object>
-  <object id="57" x="700.25" y="62.75">
-   <point/>
-  </object>
-  <object id="58" x="795.5" y="62.625">
+  <object id="109" name="5354" type="22" x="615.636" y="63.0909">
    <point/>
   </object>
  </objectgroup>
@@ -194,112 +194,112 @@
   <object id="62" name="3332" type="51" x="140.364" y="37.2727">
    <polyline points="0,0 -61.4545,-0.181818"/>
   </object>
-  <object id="63" name="3435" type="51" x="151.625" y="24.125">
+  <object id="63" name="3436" type="51" x="151.625" y="24.125">
    <polyline points="0,0 22,0"/>
   </object>
-  <object id="64" name="3534" type="51" x="173.25" y="29.125">
+  <object id="64" name="3634" type="51" x="173.25" y="29.125">
    <polyline points="0,0 -22,0"/>
   </object>
-  <object id="65" name="3536" type="72" x="170.125" y="24.6875">
+  <object id="65" name="3637" type="72" x="170.125" y="24.6875">
    <polyline points="0,0 6.875,-23.125"/>
   </object>
-  <object id="66" name="3635" type="73" x="182.313" y="3.25">
+  <object id="66" name="3736" type="73" x="182.313" y="3.25">
    <polyline points="0,0 -7,23.1875"/>
   </object>
-  <object id="67" name="3538" type="51" x="175.5" y="26.75">
+  <object id="67" name="3639" type="51" x="175.5" y="26.75">
    <polyline points="0,0 52.5,-0.25"/>
   </object>
-  <object id="68" name="3835" type="51" x="229.25" y="30.5">
+  <object id="68" name="3936" type="51" x="229.25" y="30.5">
    <polyline points="0,0 -55,-0.5"/>
   </object>
-  <object id="69" name="3637" type="51" x="180" y="-1">
+  <object id="69" name="3738" type="51" x="180" y="-1">
    <polyline points="0,0 41.25,0.25"/>
   </object>
-  <object id="70" name="3736" type="51" x="221" y="4.25">
+  <object id="70" name="3837" type="51" x="221" y="4.25">
    <polyline points="0,0 -38.75,0"/>
   </object>
-  <object id="71" name="3738" type="72" x="223.727" y="0.454545">
+  <object id="71" name="3839" type="72" x="223.727" y="0.454545">
    <polyline points="0,0 9.63636,26.2727"/>
   </object>
-  <object id="72" name="3837" type="73" x="227.273" y="27.7273">
+  <object id="72" name="3938" type="73" x="227.273" y="27.7273">
    <polyline points="0,0 -7.72727,-22.7273"/>
   </object>
-  <object id="73" name="3839" type="51" x="230.625" y="24.375">
+  <object id="73" name="3940" type="51" x="230.625" y="24.375">
    <polyline points="0,0 61.125,0"/>
   </object>
-  <object id="74" name="3938" type="51" x="292.25" y="29.375">
+  <object id="74" name="4039" type="51" x="292.25" y="29.375">
    <polyline points="0,0 -61.375,0.625"/>
   </object>
-  <object id="75" name="3940" type="72" x="296.125" y="26.125">
+  <object id="75" name="4041" type="72" x="296.125" y="26.125">
    <polyline points="0,0 6.875,15.25"/>
   </object>
-  <object id="76" name="4039" type="73" x="297.375" y="43.875">
+  <object id="76" name="4140" type="73" x="297.375" y="43.875">
    <polyline points="0,0 -5.5,-14.25"/>
   </object>
-  <object id="77" name="4041" type="51" x="302.727" y="40.1818">
+  <object id="77" name="4142" type="51" x="302.727" y="40.1818">
    <polyline points="0,0 59.0909,0"/>
   </object>
-  <object id="78" name="4140" type="51" x="362.364" y="46.1818">
+  <object id="78" name="4241" type="51" x="362.364" y="46.1818">
    <polyline points="0,0 -60.7273,0"/>
   </object>
-  <object id="79" name="4142" type="72" x="361.455" y="40.7273">
+  <object id="79" name="4243" type="72" x="361.455" y="40.7273">
    <polyline points="0,0 9.27273,-15.6364"/>
   </object>
-  <object id="80" name="4241" type="73" x="374.727" y="28">
+  <object id="80" name="4342" type="73" x="374.727" y="28">
    <polyline points="0,0 -8.90909,16.3636"/>
   </object>
-  <object id="81" name="4243" type="51" x="374.727" y="23.2727">
+  <object id="81" name="4344" type="51" x="374.727" y="23.2727">
    <polyline points="0,0 77.6364,0.727273"/>
   </object>
-  <object id="82" name="4342" type="51" x="452.364" y="29.0909">
+  <object id="82" name="4443" type="51" x="452.364" y="29.0909">
    <polyline points="0,0 -77.8182,0"/>
   </object>
-  <object id="83" name="4344" type="72" x="455.818" y="24.9091">
+  <object id="83" name="4445" type="72" x="455.818" y="24.9091">
    <polyline points="0,0 6,16"/>
   </object>
-  <object id="84" name="4443" type="73" x="456.545" y="43.4545">
+  <object id="84" name="4544" type="73" x="456.545" y="43.4545">
    <polyline points="0,0 -4.54545,-14"/>
   </object>
-  <object id="85" name="4445" type="51" x="460" y="39.6364">
+  <object id="85" name="4546" type="51" x="460" y="39.6364">
    <polyline points="0,0 56.5455,0.727273"/>
   </object>
-  <object id="86" name="4544" type="51" x="517.455" y="44.7273">
+  <object id="86" name="4645" type="51" x="517.455" y="44.7273">
    <polyline points="0,0 -57.8182,1.63636"/>
   </object>
-  <object id="87" name="4546" type="72" x="515.091" y="40.5455">
+  <object id="87" name="4647" type="72" x="515.091" y="40.5455">
    <polyline points="0,0 6.54545,-24.5455"/>
   </object>
-  <object id="88" name="4645" type="73" x="526.182" y="18.9091">
+  <object id="88" name="4746" type="73" x="526.182" y="18.9091">
    <polyline points="0,0 -6.54545,25.8182"/>
   </object>
-  <object id="89" name="4647" type="51" x="525.455" y="14.9091">
+  <object id="89" name="4748" type="51" x="525.455" y="14.9091">
    <polyline points="0,0 37.4545,0.727273"/>
   </object>
-  <object id="90" name="4746" type="51" x="563.818" y="20.3636">
+  <object id="90" name="4847" type="51" x="563.818" y="20.3636">
    <polyline points="0,0 -38.3636,-0.363636"/>
   </object>
-  <object id="91" name="4748" type="72" x="568.75" y="18.625">
+  <object id="91" name="4853" type="72" x="568.75" y="18.625">
    <polyline points="0,0 5.625,22.25"/>
   </object>
-  <object id="92" name="4847" type="73" x="569.125" y="43.625">
+  <object id="92" name="5348" type="73" x="569.125" y="43.625">
    <polyline points="0,0 -6.25,-23.5"/>
   </object>
-  <object id="93" name="4849" type="51" x="574.125" y="40">
+  <object id="93" name="5354" type="51" x="574.125" y="40">
    <polyline points="0,0 60.5,0"/>
   </object>
-  <object id="94" name="4948" type="51" x="635.125" y="45.375">
+  <object id="94" name="5453" type="51" x="635.125" y="45.375">
    <polyline points="0,0 -62.125,0.25"/>
   </object>
-  <object id="95" name="4950" type="72" x="633.182" y="40.7273">
+  <object id="95" name="5455" type="72" x="633.182" y="40.7273">
    <polyline points="0,0 8.27273,-24.1818"/>
   </object>
-  <object id="96" name="5049" type="73" x="646.545" y="18.7273">
+  <object id="96" name="5554" type="73" x="646.545" y="18.7273">
    <polyline points="0,0 -8.27273,24.5455"/>
   </object>
-  <object id="97" name="5051" type="51" x="645" y="14.5455">
+  <object id="97" name="5556" type="51" x="645" y="14.5455">
    <polyline points="0,0 48.0909,1.27273"/>
   </object>
-  <object id="98" name="5150" type="51" x="693.545" y="21.0909">
+  <object id="98" name="5655" type="51" x="693.545" y="21.0909">
    <polyline points="0,0 -48.0909,-0.818182"/>
   </object>
   <object id="99" name="5152" type="72" x="696.182" y="17.0909">
@@ -308,16 +308,16 @@
   <object id="100" name="5251" type="73" x="697.364" y="43.9091">
    <polyline points="0,0 -5.90909,-23.5455"/>
   </object>
-  <object id="101" name="4952" type="51" x="637.364" y="40.1818">
+  <object id="101" name="5457" type="51" x="637.364" y="40.1818">
    <polyline points="0,0 62.3636,-0.0909091"/>
   </object>
-  <object id="102" name="5249" type="51" x="700" y="45.4545">
+  <object id="102" name="5754" type="51" x="700" y="45.4545">
    <polyline points="0,0 -63.4545,0.0909091"/>
   </object>
-  <object id="103" name="5253" type="51" x="701.273" y="40.7273">
+  <object id="103" name="5758" type="51" x="701.273" y="40.7273">
    <polyline points="0,0 93.8182,-0.545455"/>
   </object>
-  <object id="104" name="5352" type="51" x="796" y="45.2727">
+  <object id="104" name="5857" type="51" x="796" y="45.2727">
    <polyline points="0,0 -94.3636,0.363636"/>
   </object>
   <object id="123" name="3132" type="72" x="66.125" y="39.75">
@@ -332,10 +332,10 @@
   <object id="126" name="3433" type="73" x="151.5" y="28.625">
    <polyline points="0,0 -10,8.125"/>
   </object>
-  <object id="127" name="4548" type="51" x="518.125" y="39.875">
+  <object id="127" name="4653" type="51" x="518.125" y="39.875">
    <polyline points="0,0 53.125,0.5"/>
   </object>
-  <object id="128" name="4845" type="51" x="571.75" y="45.875">
+  <object id="128" name="5346" type="51" x="571.75" y="45.875">
    <polyline points="0,0 -53.375,-0.375"/>
   </object>
  </objectgroup>
