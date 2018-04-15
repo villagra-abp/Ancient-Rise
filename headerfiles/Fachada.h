@@ -69,6 +69,8 @@ public:
     FObjeto* addMalla(int x,int y,int z,string ruta);
     FCamara* addCamara(Posicion*);
     FLuz* addLuz(Posicion*);
+    FLuz* addLuzDireccional(Posicion* p);
+    FLuz* addLuzDirigida(Posicion* p, Posicion* d);
 
     void rotObj(void* o, float x, float y, float z, float angulo);
     void movObj(void* o, float x, float y, float z);

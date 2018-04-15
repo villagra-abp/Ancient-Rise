@@ -55,9 +55,8 @@ void rMesh::setupMesh(){
 	
 }
 
-void rMesh::draw(glm::mat4 mmodelo, glm::mat4 view, glm::mat4 projection, vector<float> intensidad, vector<glm::vec4> color, vector<glm::vec3> luzPosicion,
-		 glm::vec3 camaraPosicion){
-	
+void rMesh::draw(glm::mat4 mmodelo, TDatosEntidad *datos){
+	//glm::mat4 view, glm::mat4 projection, vector<glm::vec4> color, vector<glm::vec3> luzPosicion, glm::vec3 camaraPosicion
 	Shader* shader = shaderNoText;
 	glm::vec3 ambient, diffuse, specular;
 	float shininess;
@@ -72,7 +71,26 @@ void rMesh::draw(glm::mat4 mmodelo, glm::mat4 view, glm::mat4 projection, vector
 	specular = material->getEspecular();
 	shininess = material->getBrillo();
 
+	glm::mat4 projection = *(datos->projection);
+	glm::mat4 view = *(datos->view);
+	glm::vec3 camaraPosicion = *(datos->camaraPosicion);
+
+	//Datos luces puntuales
+	vector<glm::vec4> colorPuntual = *(datos->colorPuntual);
+	vector<glm::vec3> posicionPuntual = *(datos->posicionPuntual);
+	vector<vector<float>> atenuacionPuntual = *(datos->atenuacionPuntual);
+
+	//Datos luz dirigida
+	glm::vec3 colorDir = *(datos->colorDir);
+	glm::vec3 directionDir = *(datos->directionDir);
 	//cout<<luzPosicion.x<<" "<<luzPosicion.y<<" "<<luzPosicion.z<<endl;
+
+	glm::vec3 positionFlash = *(datos->positionFlash);
+ 	glm::vec3 directionFlash = *(datos->directionFlash);
+ 	glm::vec3 colorFlash = *(datos->colorFlash);
+
+ 	vector<float> cortes = *(datos->corteFlash);
+ 	vector<float> atenuacionFlash = *(datos->atenuacionFlash);
 
 	shader->use();
 	//glm::mat4 projection = glm::mat4(1);
@@ -87,7 +105,6 @@ void rMesh::draw(glm::mat4 mmodelo, glm::mat4 view, glm::mat4 projection, vector
 //	shader->setVec4("color", color);
 //	shader->setVec3("luzPos", luzPosicion);
 	shader->setVec3("camPos", camaraPosicion);
-	shader->setFloat("lightIntensity", intensidad[0]);
 
 	shader->setVec3("material.ambient",  ambient);
 	shader->setVec3("material.diffuse",  diffuse);
@@ -95,23 +112,35 @@ void rMesh::draw(glm::mat4 mmodelo, glm::mat4 view, glm::mat4 projection, vector
 	shader->setFloat("material.shininess", shininess);
 
 	//declarando lucecitas
-//	shader->setFloat("pointLights[0].constant",);
-//	shader->setFloat("pointLights[0].linear",);
-//	shader->setFloat("pointLights[0].quadratic",);
-	shader->setVec3("pointLights[0].position", luzPosicion[0]);
-	shader->setVec3("pointLights[0].color", color[0]);
+	//Puntuales
+	shader->setFloat("pointLights[0].linear", atenuacionPuntual[0][0]);
+	shader->setFloat("pointLights[0].quadratic", atenuacionPuntual[0][1]);
+	shader->setVec3("pointLights[0].position", posicionPuntual[0]);
+	shader->setVec3("pointLights[0].color", colorPuntual[0]);
 
-//	shader->setFloat("pointLights[1].constant",);
-//	shader->setFloat("pointLights[1].linear",);
-//	shader->setFloat("pointLights[1].quadratic",);
+//	shader->setFloat("pointLights[1].linear",atenuacionPuntual[1][0]);
+//	shader->setFloat("pointLights[1].quadratic", atenuacionPuntual[1][1]);
 //	shader->setVec3("pointLights[1].position", luzPosicion[1]);
 //	shader->setVec3("pointLights[1].color", color[1]);
 
-//	shader->setFloat("pointLights[2].constant",);
-//	shader->setFloat("pointLights[2].linear",);
-//	shader->setFloat("pointLights[2].quadratic",);
+//	shader->setFloat("pointLights[2].linear",atenuacionPuntual[2][0]);
+//	shader->setFloat("pointLights[2].quadratic", atenuacionPuntual[2][1]);
 //	shader->setVec3("pointLights[2].position", luzPosicion[2]);
 //	shader->setVec3("pointLights[2].color", color[2]);
+
+	//Dirigidas
+	shader->setFloat("flashLight.linear", atenuacionFlash[0]);
+	shader->setFloat("flashLight.quadratic", atenuacionFlash[1]);
+	shader->setVec3("flashLight.position", positionFlash);
+	shader->setVec3("flashLight.direction", directionFlash);
+	shader->setVec3("flashLight.color", colorFlash);
+	shader->setFloat("flashLight.cutOff", cortes[0]);
+	shader->setFloat("flashLight.extCutOff",cortes[1]);
+
+	//Direccionales
+
+	shader->setVec3("dirLight.color", colorDir);
+	shader->setVec3("dirLight.direction", directionDir);
 	
 //	if(textures.size() != 0)
 //		glBindTexture(GL_TEXTURE_2D, textures[0]->getID());
