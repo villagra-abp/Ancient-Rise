@@ -26,7 +26,7 @@ EnemigoBasico::EnemigoBasico(IrrlichtDevice *dev, ISceneManager *smgr, vector<Po
     
 
      /* Velocidad a la que bajan las estadisticas del enemigo */
-    setVelSed(-0.3);
+    setVelSed(-3.3);
 
 
     /* BOX2D */

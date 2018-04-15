@@ -140,75 +140,75 @@ Fachada* fachada=fachada->getInstance();
 
 	/* CREANDO GRAFO PARA EL MAPA PROTOTIPO */
 
-     NodoGrafo *nA = new NodoGrafo('A',-374.475f, 0.34f);           // Salir Nivel izq
+     NodoGrafo *nA = new NodoGrafo(1,-374.475f, 0.34f);           // Salir Nivel izq
      nodos.push_back(nA);
      addGameObject(nA);
 
-     NodoGrafo *nB = new NodoGrafo('B',-240.475f, 0.34f);               
+     NodoGrafo *nB = new NodoGrafo(2,-240.475f, 0.34f);               
      nodos.push_back(nB);
      addGameObject(nB);
 
-     NodoGrafo *nC = new NodoGrafo('C',-154.475f, 0.34f);           
+     NodoGrafo *nC = new NodoGrafo(3,-154.475f, 0.34f);           
      nodos.push_back(nC);
      addGameObject(nC);
 
-     NodoGrafo *nD = new NodoGrafo('D',-60.475f, 0.34f);             // Salto 1              
+     NodoGrafo *nD = new NodoGrafo(4,-60.475f, 0.34f);             // Salto 1              
      nodos.push_back(nD);
      addGameObject(nD);
 
-     NodoGrafo *nR = new NodoGrafo('R',-44.475f, 35.34f);                
+     NodoGrafo *nR = new NodoGrafo(5,-44.475f, 35.34f);                
      nodos.push_back(nR);
      addGameObject(nR);
 
-     NodoGrafo *nX = new NodoGrafo('X',0.35f, 0.34f);                
+     NodoGrafo *nX = new NodoGrafo(6,0.35f, 0.34f);                
      nodos.push_back(nX);
      addGameObject(nX);
 
-     NodoGrafo *nE = new NodoGrafo('E',45.26f, 35.34f);                
+     NodoGrafo *nE = new NodoGrafo(7,45.26f, 35.34f);                
      nodos.push_back(nE);
      addGameObject(nE);
 
-     NodoGrafo *nF = new NodoGrafo('F',72.475f, 0.34f);            // Bajar Platf 1                  
+     NodoGrafo *nF = new NodoGrafo(8,72.475f, 0.34f);            // Bajar Platf 1                  
      nodos.push_back(nF);
      addGameObject(nF);
 
-     NodoGrafo *nG = new NodoGrafo('G',173.475f, 0.34f);                    
+     NodoGrafo *nG = new NodoGrafo(9,173.475f, 0.34f);                    
      nodos.push_back(nG);
      addGameObject(nG);
 
-     NodoGrafo *nH = new NodoGrafo('H',245.475f, 0.34f);                   
+     NodoGrafo *nH = new NodoGrafo(10,245.475f, 0.34f);                   
      nodos.push_back(nH);
      addGameObject(nH);
 
-     NodoGrafo *nJ = new NodoGrafo('J',354.475f, 0.34f);         // Salto 2               
+     NodoGrafo *nJ = new NodoGrafo(11,354.475f, 0.34f);         // Salto 2               
      nodos.push_back(nJ);
      addGameObject(nJ);
 
-     NodoGrafo *nK = new NodoGrafo('K',375.475f, 35.34f);               
+     NodoGrafo *nK = new NodoGrafo(12,375.475f, 35.34f);               
      nodos.push_back(nK);
      addGameObject(nK);
 
-     NodoGrafo *nP = new NodoGrafo('P',460.475f, 35.34f);          // Salto 3      
+     NodoGrafo *nP = new NodoGrafo(13,460.475f, 35.34f);          // Salto 3      
      nodos.push_back(nP);
      addGameObject(nP);
 
-     NodoGrafo *nQ = new NodoGrafo('Q',471.475f, 0.34f);                 
+     NodoGrafo *nQ = new NodoGrafo(14,471.475f, 0.34f);                 
      nodos.push_back(nQ);
      addGameObject(nQ);
 
-     NodoGrafo *nS = new NodoGrafo('S',480.475f, 65.34f);                
+     NodoGrafo *nS = new NodoGrafo(15,480.475f, 65.34f);                
      nodos.push_back(nS);
      addGameObject(nS);
 
-      NodoGrafo *nT = new NodoGrafo('T',577.475f, 0.34f);               
+      NodoGrafo *nT = new NodoGrafo(16,577.475f, 0.34f);               
      nodos.push_back(nT);
      addGameObject(nT);
 
-      NodoGrafo *nZ = new NodoGrafo('Z',564.475f, 65.34f);               
+      NodoGrafo *nZ = new NodoGrafo(17,564.475f, 65.34f);               
      nodos.push_back(nZ);
      addGameObject(nZ);
 
-      NodoGrafo *nY = new NodoGrafo('Y',658.475f, 0.34f);        // Final nivel derecha     
+      NodoGrafo *nY = new NodoGrafo(18,658.475f, 0.34f);        // Final nivel derecha     
      nodos.push_back(nY);
      addGameObject(nY);
 

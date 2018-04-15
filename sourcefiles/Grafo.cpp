@@ -72,7 +72,7 @@ vector<Arista*> Grafo::pathfindDijkstra(NodoGrafo *inicio, NodoGrafo *fin)
 					}
 					else  // Tenemos un nodo no visitado por lo que hacemos una grabacion de el
 					{
-						endNodeRecord = new NodoGrafo('Z', 0, 0);
+						endNodeRecord = new NodoGrafo(100, 0, 0);
 						endNodeRecord = nodoFinal;  			// Guardamos el nodoFinal de la arista
 
 						// Actualizamos la informacion del nodo (su cost_so_far y la arista)

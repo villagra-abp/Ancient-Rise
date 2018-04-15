@@ -1,9 +1,9 @@
 #include "../headerfiles/NodoGrafo.h"
 
-NodoGrafo::NodoGrafo(char n, f32 x, f32 y):path(nullptr)
+NodoGrafo::NodoGrafo(uint8_t n, f32 x, f32 y):path(nullptr)
 {	
 	GameObject::setTipo(NODOGRAFO);
-	nombre = n;
+	id = n;
 	cost_so_far = 0; 			// Inicialmente no tendra coste asociado ya que se calcula durante el algoritmo
 	nodoPosition = new Posicion(x,y,0);
 	//nodoPosition.X = x;			//
@@ -43,9 +43,9 @@ double NodoGrafo::getCostSoFar()
 	return cost_so_far;
 }
 
-char NodoGrafo::getNombre()
+uint8_t NodoGrafo::getNombre()
 {
-	return nombre;
+	return id;
 }
 
 Arista* NodoGrafo::getAristaPath()

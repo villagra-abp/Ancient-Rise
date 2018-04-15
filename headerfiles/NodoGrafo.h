@@ -9,14 +9,14 @@ class NodoGrafo : public GameObject
 {
 	public:
 		
-		NodoGrafo(char n, f32 x, f32 y);
+		NodoGrafo(uint8_t n, f32 x, f32 y);
 		void insertAristaS(Arista *s, NodoGrafo *final);
 		void insertAristaE(Arista *e);
 
 		/* Getters y Setters */
 		vector<Arista*> getAristasS();
 		vector<Arista*> getAristasE();
-		char getNombre();
+		uint8_t getNombre();
 		double getCostSoFar();
 		Arista* getAristaPath();
 		virtual Posicion* getPosition() const override { return nodoPosition; }
@@ -29,7 +29,7 @@ class NodoGrafo : public GameObject
 
 	private:
 	
-		char nombre; 					// Nombre del nodo
+		uint8_t id; 					// Nombre del nodo
 		double cost_so_far; 			// Coste total del camino hasta este nodo
 		vector<Arista*> aristasEnt;		// Vector con todas las aristas entrantes del nodo
 		vector<Arista*> aristasSal; 	// Vector con todas las aristas salientes del nodo
