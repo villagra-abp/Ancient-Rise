@@ -18,6 +18,7 @@
 #include <glm/gtx/string_cast.hpp>
 
 #include "PilaMat.h"
+#include "TDatosEntidad.h"
 
 
 using namespace std;
@@ -29,8 +30,7 @@ public:
 enum tEnt { transf, malla, luz, camara };
 
 	virtual ~TEntidad() = default;
-	virtual void beginDraw(glm::mat4 view, glm::mat4 projection , vector<float> intensidad, vector<glm::vec4> color, vector<glm::vec3> luzPosicion,
-		 glm::vec3 camaraPosicion)=0;
+	virtual void beginDraw(TDatosEntidad *datos)=0;
 	virtual void endDraw()=0;
 	virtual tEnt getTipo()=0;
 

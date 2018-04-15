@@ -10,6 +10,7 @@
 #include "TLuz.h"
 #include "TTransf.h"
 
+
 using namespace std;
 
 class TNodo{
