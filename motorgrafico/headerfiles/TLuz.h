@@ -10,29 +10,52 @@ using namespace std;
 class TLuz : public TEntidad{
 public:
 	TLuz();
-	TLuz(glm::vec4 color);
-	TLuz(float intensidad, glm::vec4 color);
+	TLuz(glm::vec4 color); 																	//COnstructor para luz puntual estandar de color dado
+	TLuz(glm::vec4 color, float linear, float quadratic);									//Constructor para luz puntual
+	TLuz(glm::vec4 color, glm::vec3 direction);												//Constructor para luz direccional
+	TLuz(glm::vec4 color, glm::vec3 direction, float cutOff, float outerCutOff);			//Constructor para luz dirigida
+	TLuz(glm::vec4 color, glm::vec3 direction, float cutOff, float outerCutOff, 			//Constructor para luz dirigida
+			float linear, float quadratic);			
+//	TLuz(float intensidad, glm::vec4 color);
 	virtual ~TLuz();
 
-	virtual void beginDraw(glm::mat4 view, glm::mat4 projection, vector<float> intensidad, vector<glm::vec4> color, vector<glm::vec3> luzPosicion,
-			 glm::vec3 camaraPosicion) override{ /*vacia*/};
+	virtual void beginDraw(TDatosEntidad *datos) override{ /*vacia*/};
 	virtual void endDraw() override{/*vacia*/};
 	
 	virtual tEnt getTipo() override{ return luz; }
+	int getType();
 	glm::vec4 getColor();
-	float getIntensidad();
+	glm::vec3 getDireccion();
+	float getLineal();
+	float getCuadratico();
+	vector<float> getPuntualParametros();
+	float getCorte();
+	float getCorteExterno();
+	vector<float> getCortes();
+//	float getIntensidad();
 
 	virtual void setActive(bool flag);
-	void setIntensidad(float intensidad);
+//	void setIntensidad(float intensidad);
 	void setColor(glm::vec4 color);
+	void setDireccion(glm::vec3 direction);
+	void setLineal(float linear);
+	void setCuadratico(float cuadratico);
+	void setPuntualParametros(vector<float> parametros);
+	void setCorte(float cutOff);
+	void setCorteExterno(float outerCutOff);
+	void setCortes(vector<float> cortes);
 
 
 private:	
 
 	//TColor intensidad;
+	int tipo;
 	bool active;
 	glm::vec4 color;
-	float intensidad;
+//	float intensidad;
+	glm::vec3 direccion;
+	float lineal, cuadratico, corte, corteExterno;
+
 
 } ;
 

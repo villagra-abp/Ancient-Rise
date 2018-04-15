@@ -1,11 +1,10 @@
 #include "../headerfiles/TRecursoMalla.h"
 
 
-void TRecursoMalla::draw(glm::mat4 mmodelo, glm::mat4 view, glm::mat4 projection, vector<float> intensidad, vector<glm::vec4> color, 
-		vector<glm::vec3> luzPosicion, glm::vec3 camPosicion)
+void TRecursoMalla::draw(glm::mat4 mmodelo, TDatosEntidad *datos)
 {
     for(unsigned int i = 0; i < meshes.size(); i++)
-        meshes[i].draw(mmodelo, view, projection, intensidad, color, luzPosicion, camPosicion);
+        meshes[i].draw(mmodelo, datos);
 }  
 
 void TRecursoMalla::addMesh(rMesh mesh){

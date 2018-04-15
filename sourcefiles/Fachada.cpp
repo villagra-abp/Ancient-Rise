@@ -413,12 +413,38 @@ FLuz* Fachada::addLuz(Posicion* p){
     FColor* color = new FColor(1.0f,		1.0f,	1.0f, 1.0f);
 	glm::vec4 vColor;
 
-	FLuz* luz = new FLuz(1.0f,color);
+	FLuz* luz = new FLuz(color);
 	vec3 luzOrigin = vec3(-160,0,80);
 	luz->Mover(luzOrigin);
     
     return luz;
 }
+
+FLuz* Fachada::addLuzDireccional(Posicion* p){
+    FColor* color = new FColor(0.0f,        1.0f,   0.0f, 1.0f);
+
+    vec3 dir(p->getPosX(), p->getPosY(), p->getPosZ());
+
+    FLuz* luz = new FLuz(color, dir);
+    
+    return luz;
+}
+
+
+FLuz* Fachada::addLuzDirigida(Posicion* p, Posicion* d){
+    FColor* color = new FColor(1.0f,        0.0f,   0.0f, 1.0f);
+
+    vec3 pos(p->getPosX(), p->getPosY(), p->getPosZ());
+    vec3 dir(d->getPosX(), d->getPosY(), d->getPosZ());
+
+    FLuz* luz = new FLuz(color, dir, 20.0f, 25.0f);
+    vec3 luzOrigin = vec3(-160,0,80);
+    luz->Mover(pos);
+    
+    return luz;
+}
+
+
 /**
 FUNCION PARA crear el objeto estatico
 **/

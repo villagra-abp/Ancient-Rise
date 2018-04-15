@@ -10,6 +10,7 @@
 #include "TRecurso.h"
 #include "TRecursoMaterial.h"
 #include "TRecursoTextura.h"
+#include "TDatosEntidad.h"
 
 using namespace std;
 
@@ -27,8 +28,7 @@ class TRecursoMalla : public TRecurso{
             //cargarFichero(name);
         }
         virtual ~TRecursoMalla() = default;
-        void draw(glm::mat4 mmodelo, glm::mat4 view, glm::mat4 projection, vector<float> intensidad, vector<glm::vec4> color, vector<glm::vec3> luzPosicion,
-                    glm::vec3 camPosicion);	
+        void draw(glm::mat4 mmodelo, TDatosEntidad *datos);	
 
         void addMesh(rMesh mesh);
        
