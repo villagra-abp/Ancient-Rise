@@ -86,7 +86,7 @@
   <object id="113" type="1" x="336" y="62.5">
    <point/>
   </object>
-  <object id="114" type="2" x="420.75" y="46.25">
+  <object id="114" type="2" x="420.75" y="46.25">rr
    <point/>
   </object>
  </objectgroup>
@@ -104,6 +104,80 @@
    <point/>
   </object>
   <object id="109" type="1" x="615.636" y="63.0909">
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup name="nodos" visible="0" locked="1">
+  <object id="30" x="12.9091" y="61.8182">
+   <point/>
+  </object>
+  <object id="31" x="68.3636" y="61.8182">
+   <point/>
+  </object>
+  <object id="32" x="78.9091" y="54.1818">
+   <point/>
+  </object>
+  <object id="33" x="140.182" y="54.1818">
+   <point/>
+  </object>
+  <object id="34" x="151.125" y="46.75">
+   <point/>
+  </object>
+  <object id="36" x="172.625" y="46.75">
+   <point/>
+  </object>
+  <object id="37" x="179.875" y="22.25">
+   <point/>
+  </object>
+  <object id="38" x="221.375" y="22.25">
+   <point/>
+  </object>
+  <object id="39" x="230.25" y="47.25">
+   <point/>
+  </object>
+  <object id="40" x="293.273" y="47.25">
+   <point/>
+  </object>
+  <object id="41" x="300.727" y="63">
+   <point/>
+  </object>
+  <object id="42" x="363.364" y="63">
+   <point/>
+  </object>
+  <object id="43" x="372.909" y="46.75">
+   <point/>
+  </object>
+  <object id="44" x="453.25" y="46.75">
+   <point/>
+  </object>
+  <object id="45" x="459.5" y="63">
+   <point/>
+  </object>
+  <object id="46" x="517.125" y="63">
+   <point/>
+  </object>
+  <object id="47" x="523.75" y="37.875">
+   <point/>
+  </object>
+  <object id="48" x="565.375" y="37.875">
+   <point/>
+  </object>
+  <object id="53" x="572.364" y="62.9091">
+   <point/>
+  </object>
+  <object id="54" x="635.625" y="62.625">
+   <point/>
+  </object>
+  <object id="55" x="644.125" y="37.625">
+   <point/>
+  </object>
+  <object id="56" x="693.625" y="38.5">
+   <point/>
+  </object>
+  <object id="57" x="700.25" y="62.75">
+   <point/>
+  </object>
+  <object id="58" x="795.5" y="62.625">
    <point/>
   </object>
  </objectgroup>
@@ -263,80 +337,6 @@
   </object>
   <object id="128" name="4845" type="51" x="571.75" y="45.875">
    <polyline points="0,0 -53.375,-0.375"/>
-  </object>
- </objectgroup>
- <objectgroup name="nodos" visible="0" locked="1">
-  <object id="30" x="12.9091" y="61.8182">
-   <point/>
-  </object>
-  <object id="31" x="68.3636" y="61.8182">
-   <point/>
-  </object>
-  <object id="32" x="78.9091" y="54.1818">
-   <point/>
-  </object>
-  <object id="33" x="140.182" y="54.1818">
-   <point/>
-  </object>
-  <object id="34" x="151.125" y="46.75">
-   <point/>
-  </object>
-  <object id="36" x="172.625" y="46.875">
-   <point/>
-  </object>
-  <object id="37" x="179.875" y="22.25">
-   <point/>
-  </object>
-  <object id="38" x="221.375" y="22.125">
-   <point/>
-  </object>
-  <object id="39" x="230.25" y="47.25">
-   <point/>
-  </object>
-  <object id="40" x="293.273" y="47.0909">
-   <point/>
-  </object>
-  <object id="41" x="300.727" y="63">
-   <point/>
-  </object>
-  <object id="42" x="363.364" y="63">
-   <point/>
-  </object>
-  <object id="43" x="372.909" y="46.1818">
-   <point/>
-  </object>
-  <object id="44" x="453.25" y="46.375">
-   <point/>
-  </object>
-  <object id="45" x="459.5" y="63">
-   <point/>
-  </object>
-  <object id="46" x="517.125" y="63">
-   <point/>
-  </object>
-  <object id="47" x="523.75" y="37.875">
-   <point/>
-  </object>
-  <object id="48" x="565.375" y="38.25">
-   <point/>
-  </object>
-  <object id="53" x="572.364" y="62.9091">
-   <point/>
-  </object>
-  <object id="54" x="635.625" y="62.625">
-   <point/>
-  </object>
-  <object id="55" x="644.125" y="37.625">
-   <point/>
-  </object>
-  <object id="56" x="693.625" y="38.5">
-   <point/>
-  </object>
-  <object id="57" x="700.25" y="62.75">
-   <point/>
-  </object>
-  <object id="58" x="795.5" y="62.625">
-   <point/>
   </object>
  </objectgroup>
 </map>

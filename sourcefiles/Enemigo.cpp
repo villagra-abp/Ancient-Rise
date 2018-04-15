@@ -82,7 +82,7 @@ void Enemigo::update(Posicion* Posprota)
 
     if(enemigo!=nullptr)  // Solo si existe el enemigo hacemos su update
     { 
-        //actualizarSed();
+        actualizarSed();
         //COMPROBAMOS GAMEOBJECTS DENTRO DE LA VISTA
         vistos.clear();
 
@@ -147,7 +147,7 @@ FUNCION PARA ACTUALIZAR EL ESTADO DE SED DEL ENEMIGO
 **/
 void Enemigo::actualizarSed()
 {
-     //sed+=velSed*frameDeltaTime;
+     sed+=velSed*frameDeltaTime;
 
      //cout<<round(sed)<<endl;
 

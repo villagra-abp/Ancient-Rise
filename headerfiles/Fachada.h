@@ -35,7 +35,7 @@ public:
 	bool getVentanaActiva();
 	
 	int getFPS();
-	glm::u32 getTime();
+	glm::f32 getTime();
     sf::RenderWindow* getVentana();
     Posicion* getPosicion(void * nodo);
     Posicion* getScala(void * nodo);
@@ -91,6 +91,8 @@ private:
         b2Body* Body;
         b2BodyDef BodyDef;
         b2PolygonShape Shape;
+
+    sf::Clock reloj; 
         
     
 

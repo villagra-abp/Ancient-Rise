@@ -6,21 +6,23 @@ static Fachada* instance = NULL;
 
 //Con esto hacemos que sea singleton. Solo se puede crear el motorgrafico llamando a getInstance. Esta devuelve el motor si ya estaba creado, y sino lo crea
 //Parametros: h-> Alto de la ventana, w-> Ancho de la ventana, fullscreen-> si será pantalla completa o no
-Fachada* Fachada::getInstance(int h, int w, bool fullscreen) {
+Fachada* Fachada::getInstance(int h, int w, bool fullscreen) 
+{
     if (instance == NULL) instance = new Fachada(h, w, fullscreen);
     return (instance);
 }
+
 Fachada* Fachada::getInstance() {
     
     return (instance);
 }
 
-glm::u32 Fachada::getTime(){
-    sf::Clock clock; 
-	sf::Time elapsed1 = clock.getElapsedTime();
+glm::f32 Fachada::getTime()
+{
+	sf::Time elapsed1 = reloj.getElapsedTime();
     //std::cout << elapsed1.asSeconds() << std::endl;
-    clock.restart();
-    return elapsed1.asSeconds() ;
+    reloj.restart();
+    return elapsed1.asSeconds();
 }
 
 //Destructor

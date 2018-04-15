@@ -1,11 +1,24 @@
 #include "../headerfiles/NodoGrafo.h"
 
-NodoGrafo::NodoGrafo(uint8_t n, glm::f32 x, glm::f32 y):path(nullptr)
+NodoGrafo::NodoGrafo(int n, glm::f32 x, glm::f32 y):path(nullptr)
 {	
 	GameObject::setTipo(NODOGRAFO);
 	id = n;
 	cost_so_far = 0; 			// Inicialmente no tendra coste asociado ya que se calcula durante el algoritmo
 	nodoPosition = new Posicion(x,y,0);
+
+	Fachada* fachada=fachada->getInstance();
+	objeto = fachada->addMalla(x,y,0.f,"resources/manzana.obj");
+    //std::cout<<pos.getPosX()<<endl;
+	if (objeto)
+	{
+        Posicion escala(0.3f,0.3f,0.3f);
+		fachada->setScala(objeto,&escala);
+		
+        //fachada->setMaterial(objeto,"resources/desactivada.jpeg");
+        
+	}
+
 	//nodoPosition.X = x;			//
 	//nodoPosition.Y = y; 		// Estos valores no variaran nunca
 }
@@ -43,7 +56,7 @@ double NodoGrafo::getCostSoFar()
 	return cost_so_far;
 }
 
-uint8_t NodoGrafo::getNombre()
+int NodoGrafo::getNombre()
 {
 	return id;
 }

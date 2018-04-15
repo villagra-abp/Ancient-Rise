@@ -115,9 +115,7 @@ int main()
 	}
 
     delete mundo;
-    std::cout<<"mundo"<<endl;
 	delete fachada;
-    std::cout<<"fachada"<<endl;
 
 }
 

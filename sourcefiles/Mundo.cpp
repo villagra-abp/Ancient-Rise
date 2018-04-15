@@ -21,10 +21,6 @@ Fachada* fachada=fachada->getInstance();
     prota->CreateBox(world, -170.f, 0.f);
     
 
-/* CREAMOS VECTOR DE POSICIONES PARA EL ENEMIGO */
-
-	posBuilder();
-
 /* CREAMOS OBJETOS */
 
 	Posicion* pC= new Posicion(-220.f, 0.34f, 30.f);
@@ -99,205 +95,8 @@ Fachada* fachada=fachada->getInstance();
  cuanto ha pasado desde el ultimo frame
 **/
 	lastFPS = -1;
-	then = fachada->getTime();
-	time_input = fachada->getTime();
 
 	/* CREANDO GRAFO PARA EL MAPA PROTOTIPO */
-
-     NodoGrafo *nA = new NodoGrafo(1,-374.475f, 0.34f);           // Salir Nivel izq
-     nodos.push_back(nA);
-     addGameObject(nA);
-
-     NodoGrafo *nB = new NodoGrafo(2,-240.475f, 0.34f);               
-     nodos.push_back(nB);
-     addGameObject(nB);
-
-     NodoGrafo *nC = new NodoGrafo(3,-154.475f, 0.34f);           
-     nodos.push_back(nC);
-     addGameObject(nC);
-
-     NodoGrafo *nD = new NodoGrafo(4,-60.475f, 0.34f);             // Salto 1              
-     nodos.push_back(nD);
-     addGameObject(nD);
-
-     NodoGrafo *nR = new NodoGrafo(5,-44.475f, 35.34f);                
-     nodos.push_back(nR);
-     addGameObject(nR);
-
-     NodoGrafo *nX = new NodoGrafo(6,0.35f, 0.34f);                
-     nodos.push_back(nX);
-     addGameObject(nX);
-
-     NodoGrafo *nE = new NodoGrafo(7,45.26f, 35.34f);                
-     nodos.push_back(nE);
-     addGameObject(nE);
-
-     NodoGrafo *nF = new NodoGrafo(8,72.475f, 0.34f);            // Bajar Platf 1                  
-     nodos.push_back(nF);
-     addGameObject(nF);
-
-     NodoGrafo *nG = new NodoGrafo(9,173.475f, 0.34f);                    
-     nodos.push_back(nG);
-     addGameObject(nG);
-
-     NodoGrafo *nH = new NodoGrafo(10,245.475f, 0.34f);                   
-     nodos.push_back(nH);
-     addGameObject(nH);
-
-     NodoGrafo *nJ = new NodoGrafo(11,354.475f, 0.34f);         // Salto 2               
-     nodos.push_back(nJ);
-     addGameObject(nJ);
-
-     NodoGrafo *nK = new NodoGrafo(12,375.475f, 35.34f);               
-     nodos.push_back(nK);
-     addGameObject(nK);
-
-     NodoGrafo *nP = new NodoGrafo(13,460.475f, 35.34f);          // Salto 3      
-     nodos.push_back(nP);
-     addGameObject(nP);
-
-     NodoGrafo *nQ = new NodoGrafo(14,471.475f, 0.34f);                 
-     nodos.push_back(nQ);
-     addGameObject(nQ);
-
-     NodoGrafo *nS = new NodoGrafo(15,480.475f, 65.34f);                
-     nodos.push_back(nS);
-     addGameObject(nS);
-
-      NodoGrafo *nT = new NodoGrafo(16,577.475f, 0.34f);               
-     nodos.push_back(nT);
-     addGameObject(nT);
-
-      NodoGrafo *nZ = new NodoGrafo(17,564.475f, 65.34f);               
-     nodos.push_back(nZ);
-     addGameObject(nZ);
-
-      NodoGrafo *nY = new NodoGrafo(18,658.475f, 0.34f);        // Final nivel derecha     
-     nodos.push_back(nY);
-     addGameObject(nY);
-
-
-
-     b->setNodosGrafo(nodos);                               // Pasamos los nodos a la blackboard
-
-     Arista *a1 = new Arista(5,1);                          // Arista con coste 5 y del tipo NORMAL
-     aristas.push_back(a1);
-     Arista *a2 = new Arista(5,1);
-     aristas.push_back(a2);
-     Arista *a3 = new Arista(5,1);
-     aristas.push_back(a3);
-     Arista *a4 = new Arista(5,1);
-     aristas.push_back(a4);
-     Arista *a5 = new Arista(5,1);
-     aristas.push_back(a5);
-     Arista *a6 = new Arista(5,1);
-     aristas.push_back(a6);
-     Arista *a7 = new Arista(5,1);
-     aristas.push_back(a7);
-     Arista *a8 = new Arista(5,1);
-     aristas.push_back(a8);
-     Arista *a9 = new Arista(5,3);
-     aristas.push_back(a9);
-     Arista *a10 = new Arista(5,1);
-     aristas.push_back(a10);
-     Arista *a11 = new Arista(7,2);
-     aristas.push_back(a11);
-     Arista *a12 = new Arista(7,2);
-     aristas.push_back(a12);
-     Arista *a13 = new Arista(5,1);
-     aristas.push_back(a13);
-     Arista *a14 = new Arista(5,1);
-     aristas.push_back(a14);
-     Arista *a15 = new Arista(5,1);
-     aristas.push_back(a15);
-     Arista *a16 = new Arista(5,1);
-     aristas.push_back(a16);
-     Arista *a17 = new Arista(5,1);
-     aristas.push_back(a17);
-     Arista *a18 = new Arista(5,1);
-     aristas.push_back(a18);
-     Arista *a19 = new Arista(5,1);
-     aristas.push_back(a19);
-     Arista *a20 = new Arista(5,1);
-     aristas.push_back(a20);
-     Arista *a21 = new Arista(5,3);
-     aristas.push_back(a21);
-     Arista *a22 = new Arista(5,1);
-     aristas.push_back(a22);
-     Arista *a23 = new Arista(5,1);
-     aristas.push_back(a23);
-     Arista *a24 = new Arista(5,1);
-     aristas.push_back(a24);
-     Arista *a25 = new Arista(5,1);
-     aristas.push_back(a25);
-     Arista *a26 = new Arista(5,3);
-     aristas.push_back(a26);
-     Arista *a27 = new Arista(5,1);
-     aristas.push_back(a27);
-     Arista *a28 = new Arista(5,1);
-     aristas.push_back(a28);
-     Arista *a29 = new Arista(7,2);
-     aristas.push_back(a29);
-      Arista *a30 = new Arista(5,1);
-     aristas.push_back(a30);
-     Arista *a31 = new Arista(5,3);
-     aristas.push_back(a31);
-     Arista *a32 = new Arista(5,1);
-     aristas.push_back(a32);
-     Arista *a33 = new Arista(7,2);
-     aristas.push_back(a33);
-     Arista *a34 = new Arista(5,1);
-     aristas.push_back(a34);
-     Arista *a35 = new Arista(5,1);
-     aristas.push_back(a35);
-     Arista *a36 = new Arista(7,2);
-     aristas.push_back(a36);
-     Arista *a37 = new Arista(5,1);
-     aristas.push_back(a37);
-     Arista *a38 = new Arista(7,2);
-     aristas.push_back(a38);
-     Arista *a39 = new Arista(5,1);
-     aristas.push_back(a39);
-     Arista *a40 = new Arista(5,1);
-     aristas.push_back(a40);
-
-
-     nA->insertAristaS(a1,nB);                          // Arista que sale del nodo A hasta el nodo B
-     nB->insertAristaS(a2,nA);                          
-     nB->insertAristaS(a3,nC);
-     nC->insertAristaS(a4,nB);
-     nC->insertAristaS(a5,nD);
-     nD->insertAristaS(a6,nC);
-     nD->insertAristaS(a29,nR);
-     nD->insertAristaS(a30,nX);
-     nR->insertAristaS(a31,nD);
-     nR->insertAristaS(a32,nE);
-     nE->insertAristaS(a8,nR);
-     nE->insertAristaS(a9,nF);
-     nX->insertAristaS(a34,nD);
-     nX->insertAristaS(a35,nF);
-     nF->insertAristaS(a33,nE);
-     nF->insertAristaS(a14,nG);
-     nF->insertAristaS(a13,nX);
-     nG->insertAristaS(a15,nF);
-     nG->insertAristaS(a10,nH);
-     nH->insertAristaS(a16,nG);
-     nH->insertAristaS(a17,nJ);
-     nJ->insertAristaS(a19,nH);
-     nJ->insertAristaS(a36,nK);
-     nJ->insertAristaS(a7,nQ);
-     nK->insertAristaS(a21,nJ);
-     nK->insertAristaS(a37,nP);
-     nP->insertAristaS(a22,nK);
-     nP->insertAristaS(a38,nS);
-     nS->insertAristaS(a26,nP);
-     nS->insertAristaS(a27,nZ);
-     nZ->insertAristaS(a23,nS);
-     nQ->insertAristaS(a24,nJ);
-     nQ->insertAristaS(a25,nT);
-     nT->insertAristaS(a28,nQ);
-     nT->insertAristaS(a39,nY);
-     nY->insertAristaS(a40,nT);
 
  /* CREAMOS ENEMIGOS BASICOS */
 	/*enem1 = new EnemigoBasico( pos, 140.0, 0.8, 2, this, b, world);
@@ -331,55 +130,14 @@ Fachada* fachada=fachada->getInstance();
 
     cargarNivel();
 
+    b->setNodosGrafo(nodos);            // Pasamos los nodos a la blackboard
+
      for(int i=0;i<enemB.size();i++)   // Añadimos todos los enemigos basicos que existen a la blackboard
     {
         b->setEnemB(enemB[i]);
     }
 
 }	
-
-void Mundo::posBuilder(){	//CONSTRUCTOR DE POSICIONES DE ENEMIGOS
-
-	/* SE LEE DE FICHERO LAS POSICIONES DE LA PATRULLA DE CADA ENEMIGO Y SE ALMACENAN EN LOS VECTORES */
-    //Posicion *p0 = new Posicion(77.475f,15.5f,30.f);
-    //pos.push_back(p0);
-
-
-   /* Posicion *p1 = new Posicion(0.f,0.f,30.f);
-    pos.push_back(p1);
-    Posicion *p2 = new Posicion(-40.f,0.f,30.f);
-    pos.push_back(p2);
-    Posicion *p3 = new Posicion(-60.f,0.f,30.f);
-    pos.push_back(p3);
-    Posicion *p4 = new Posicion(-80.f,0.f,30.f);
-    pos.push_back(p4);
-
-
-    Posicion *p5 = new Posicion(182.096f,16.15f,30.f);
-    pos2.push_back(p5);
-    Posicion *p6 = new Posicion(215.869f,16.15f,30.f);
-    pos2.push_back(p6);
-    Posicion *p7 = new Posicion(260.045f ,16.15f,30.f);
-    pos2.push_back(p7);
-
-/*
-    Posicion *p8 = new Posicion(577.475f,0.34f,30.f);
-    pos3.push_back(p8);
-    Posicion *p9 = new Posicion(471.475f,0.34f,30.f);
-    pos3.push_back(p9);
-    Posicion *p10 = new Posicion(354.475f,0.34f,30.f);
-    pos3.push_back(p10);
-    Posicion *p11 = new Posicion(245.475f,0.34f,30.f);
-    pos3.push_back(p11);
-
-    Posicion *p9 = new Posicion(153.782f,0.34f,30.f);
-    pos4.push_back(p9);
-    Posicion *p10 = new Posicion(-9.8f,0.34f,30.f);
-    pos4.push_back(p10);
-    Posicion *p11 = new Posicion(-190.08f,0.34f,30.f);
-    pos4.push_back(p11);
-*/
-}
 
 void Mundo::terrainBuilder(){	//CONSTRUCTOR DEL TERRENOS Y COLISIONES DE CAMARA
 
@@ -397,17 +155,14 @@ void Mundo::update(){
 
 	/* Creamos el framedeltatime y el tiempo */
 
-	const glm::u32 now = fachada->getTime();
-	const glm::f32 frameDeltaTime = (glm::f32)(now - then) / 1000.f; // Time in seconds
-	then = now;
-	glm::f32 tiempo=(glm::f32)(now - time_input)/1000.f;
+	float frameDeltaTime = fachada->getTime(); // Time in seconds
 
 	Posicion* protaPosition = prota->getPosition();
 	//core::vector3df camPosition = cam->getPosition();
 
 	/* PROTA UPDATE */
 
-	protaUpdate(now, frameDeltaTime, tiempo);
+	protaUpdate(frameDeltaTime);
 
 	/* CAM UPDATE*/
 
@@ -431,7 +186,7 @@ void Mundo::update(){
     {
     	if(enemB[i]->getNode()!=nullptr) 	// Solo si existen hacemos su update
     	{
-	       	//enemB[i]->updateTiempo(frameDeltaTime);
+	       	enemB[i]->updateTiempo(frameDeltaTime);
 	     	enemB[i]->Update(prota->getPosition());
 	    }
     }
@@ -460,7 +215,8 @@ void Mundo::update(){
 
 }
 
-void Mundo::protaUpdate(const glm::u32 now, const glm::f32 frameDeltaTime, glm::f32 tiempo){
+void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
+{
 	//scene::ISceneNode* pro = (scene::ISceneNode*)prota->getNode();
     //core::vector3df protaPosition = pro->getPosition();
 
@@ -482,8 +238,6 @@ void Mundo::protaUpdate(const glm::u32 now, const glm::f32 frameDeltaTime, glm::
 	//if(tiempo>0.2f) 	// HACEMOS QUE LO QUE HAYA DENTRO SE HAGA MENOS VECES POR SEGUNDO
     //{
         glm::f32 energia=prota->getEnergia();
-
-        time_input=now;
 
         checkCombate(); 							// Comprobamos si hemos pulsado la tecla de combate (K)
 
@@ -825,6 +579,7 @@ void Mundo::cargarNivel()
                 int tipo;       
                 double xEn;     // Pos en X del object
                 double yEn;     // Pos en Y del object
+                int name;
                     
                 while(ene)
                 {
@@ -852,6 +607,11 @@ void Mundo::cargarNivel()
                             atriEn->QueryDoubleValue(&yEn);
                         }
 
+                        if(strcmp(atriEn->Name(),"name")==0)
+                        {
+                            atriEn->QueryIntValue(&name);
+                        }
+
                         atriEn=atriEn->Next();
 
                     }//atributosEnemigo
@@ -859,7 +619,7 @@ void Mundo::cargarNivel()
 
                     if(strcmp(grupo2->FirstAttribute()->Value(),"enemigos")==0)
                     {
-                        Posicion *p0 = new Posicion(xEn,yEn,30.f);
+                        Posicion *p0 = new Posicion(xEn-190,-yEn+60,30.f);
                         pos.push_back(p0);
 
                         enem1 = new EnemigoBasico( pos, 140.0, 0.8, tipo, this, b, world);
@@ -867,10 +627,10 @@ void Mundo::cargarNivel()
                         addGameObject(enem1);
 
                         pos.clear();    // Vaciamos el vector para que no de problemas para el siguiente
-
+                        
                     }   
 
-                    if(strcmp(grupo2->FirstAttribute()->Value(),"Recolectables")==0)
+                    if(strcmp(grupo2->FirstAttribute()->Value(),"recolectables")==0)
                     {
                     
                     } 
@@ -902,11 +662,41 @@ void Mundo::cargarNivel()
                         delete posF;
                     }  
 
-                    if(strcmp(grupo2->FirstAttribute()->Value(),"Nodos")==0)
+                    if(strcmp(grupo2->FirstAttribute()->Value(),"nodos")==0)
                     {
-                          Posicion* posN= new Posicion(xEn-190,-yEn+60,30.f);
+                        NodoGrafo *nA = new NodoGrafo(idE,xEn-190, -yEn+60);           
+                        nodos.push_back(nA);
+                        addGameObject(nA);
+                        //cout<<idE<<endl;
+                    } 
 
-                          delete posN;
+                    if(strcmp(grupo2->FirstAttribute()->Value(),"aristas")==0)
+                    {
+                        int p = tipo/10;
+                        int t = tipo%10;
+
+                        Arista *a1 = new Arista(p,t);      // Indicamos peso y tipo de la arista
+                        aristas.push_back(a1);
+
+                        int nodoI = name/100;
+                        int nodoF = name%100;
+                        
+                        NodoGrafo *nI, *nF;                        
+                        for(int i=0; i<nodos.size();i++)
+                        {
+                            if(nodos[i]->getNombre()==nodoI)
+                            {
+                                nI = nodos[i];
+                            }
+
+                            if(nodos[i]->getNombre()==nodoF)
+                            {
+                                nF = nodos[i];
+                            }
+                        }
+
+                        nI->insertAristaS(a1,nF);
+
                     } 
 
                     ene=ene->NextSiblingElement("object");//pasamos a la siguiente caja

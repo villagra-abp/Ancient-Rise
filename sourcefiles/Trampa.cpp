@@ -9,7 +9,6 @@ Trampa::Trampa(Posicion* pos):Objeto(pos)
 	//FObjeto* obObjeto = fachada->addMalla(pos->getPosX(),pos->getPosY(),pos->getPosZ(),"resources/pinchos.obj");
 	objeto = obObjeto;
     //posicion = &pos;
-    std::cout<<"Pinchos: " << this->getPosition()->getPosX()<<endl;
 	if (objeto)
 	{
         
