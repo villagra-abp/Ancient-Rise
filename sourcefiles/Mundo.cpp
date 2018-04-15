@@ -14,21 +14,12 @@ Fachada* fachada=fachada->getInstance();
 	musicaBosque = sonido->createMusic(sonido->SOUND_MUSIC_BOSQUE);
 /* CREAMOS PROTA */
 	prota = prota->getInstance();
-    //
 	addGameObject(prota);
     
 
-	//creo el suelo, el bounding box del prota y la plataforma
-	//prota->CreateGround(world, 0.f, -150.f,1000*1000);
-    //prota->CreateGround(world, 6600.f, 800.f,3200);
-   // prota->CreateGround(world, 9600.f, 1700.f,3200);
-    //prota->CreateGround(world, 12600.f, 2600.f,3200);
+	//creo el suelo, el bounding box del prota
     prota->CreateBox(world, -170.f, 0.f);
     
-    //fachada->CreateGround(world, 0.25f, 128.f,176.25f, 22);
-    //fachada->CreateGround(world, 177.f, 143.f,220,22);
-    //fachada->CreateGround(world, 9600.f, 1800.f,3200,300);
-    //fachada->CreateGround(world, 12600.f, 2700.f,3200,300);
 
 /* CREAMOS VECTOR DE POSICIONES PARA EL ENEMIGO */
 
@@ -113,75 +104,75 @@ Fachada* fachada=fachada->getInstance();
 
 	/* CREANDO GRAFO PARA EL MAPA PROTOTIPO */
 
-     NodoGrafo *nA = new NodoGrafo('A',-374.475f, 0.34f);           // Salir Nivel izq
+     NodoGrafo *nA = new NodoGrafo(1,-374.475f, 0.34f);           // Salir Nivel izq
      nodos.push_back(nA);
      addGameObject(nA);
 
-     NodoGrafo *nB = new NodoGrafo('B',-240.475f, 0.34f);               
+     NodoGrafo *nB = new NodoGrafo(2,-240.475f, 0.34f);               
      nodos.push_back(nB);
      addGameObject(nB);
 
-     NodoGrafo *nC = new NodoGrafo('C',-154.475f, 0.34f);           
+     NodoGrafo *nC = new NodoGrafo(3,-154.475f, 0.34f);           
      nodos.push_back(nC);
      addGameObject(nC);
 
-     NodoGrafo *nD = new NodoGrafo('D',-60.475f, 0.34f);             // Salto 1              
+     NodoGrafo *nD = new NodoGrafo(4,-60.475f, 0.34f);             // Salto 1              
      nodos.push_back(nD);
      addGameObject(nD);
 
-     NodoGrafo *nR = new NodoGrafo('R',-44.475f, 35.34f);                
+     NodoGrafo *nR = new NodoGrafo(5,-44.475f, 35.34f);                
      nodos.push_back(nR);
      addGameObject(nR);
 
-     NodoGrafo *nX = new NodoGrafo('X',0.35f, 0.34f);                
+     NodoGrafo *nX = new NodoGrafo(6,0.35f, 0.34f);                
      nodos.push_back(nX);
      addGameObject(nX);
 
-     NodoGrafo *nE = new NodoGrafo('E',45.26f, 35.34f);                
+     NodoGrafo *nE = new NodoGrafo(7,45.26f, 35.34f);                
      nodos.push_back(nE);
      addGameObject(nE);
 
-     NodoGrafo *nF = new NodoGrafo('F',72.475f, 0.34f);            // Bajar Platf 1                  
+     NodoGrafo *nF = new NodoGrafo(8,72.475f, 0.34f);            // Bajar Platf 1                  
      nodos.push_back(nF);
      addGameObject(nF);
 
-     NodoGrafo *nG = new NodoGrafo('G',173.475f, 0.34f);                    
+     NodoGrafo *nG = new NodoGrafo(9,173.475f, 0.34f);                    
      nodos.push_back(nG);
      addGameObject(nG);
 
-     NodoGrafo *nH = new NodoGrafo('H',245.475f, 0.34f);                   
+     NodoGrafo *nH = new NodoGrafo(10,245.475f, 0.34f);                   
      nodos.push_back(nH);
      addGameObject(nH);
 
-     NodoGrafo *nJ = new NodoGrafo('J',354.475f, 0.34f);         // Salto 2               
+     NodoGrafo *nJ = new NodoGrafo(11,354.475f, 0.34f);         // Salto 2               
      nodos.push_back(nJ);
      addGameObject(nJ);
 
-     NodoGrafo *nK = new NodoGrafo('K',375.475f, 35.34f);               
+     NodoGrafo *nK = new NodoGrafo(12,375.475f, 35.34f);               
      nodos.push_back(nK);
      addGameObject(nK);
 
-     NodoGrafo *nP = new NodoGrafo('P',460.475f, 35.34f);          // Salto 3      
+     NodoGrafo *nP = new NodoGrafo(13,460.475f, 35.34f);          // Salto 3      
      nodos.push_back(nP);
      addGameObject(nP);
 
-     NodoGrafo *nQ = new NodoGrafo('Q',471.475f, 0.34f);                 
+     NodoGrafo *nQ = new NodoGrafo(14,471.475f, 0.34f);                 
      nodos.push_back(nQ);
      addGameObject(nQ);
 
-     NodoGrafo *nS = new NodoGrafo('S',480.475f, 65.34f);                
+     NodoGrafo *nS = new NodoGrafo(15,480.475f, 65.34f);                
      nodos.push_back(nS);
      addGameObject(nS);
 
-      NodoGrafo *nT = new NodoGrafo('T',577.475f, 0.34f);               
+      NodoGrafo *nT = new NodoGrafo(16,577.475f, 0.34f);               
      nodos.push_back(nT);
      addGameObject(nT);
 
-      NodoGrafo *nZ = new NodoGrafo('Z',564.475f, 65.34f);               
+      NodoGrafo *nZ = new NodoGrafo(17,564.475f, 65.34f);               
      nodos.push_back(nZ);
      addGameObject(nZ);
 
-      NodoGrafo *nY = new NodoGrafo('Y',658.475f, 0.34f);        // Final nivel derecha     
+      NodoGrafo *nY = new NodoGrafo(18,658.475f, 0.34f);        // Final nivel derecha     
      nodos.push_back(nY);
      addGameObject(nY);
 
@@ -309,18 +300,18 @@ Fachada* fachada=fachada->getInstance();
      nY->insertAristaS(a40,nT);
 
  /* CREAMOS ENEMIGOS BASICOS */
-	enem1 = new EnemigoBasico( pos, 140.0, 0.8, 2, this, b, world);
+	/*enem1 = new EnemigoBasico( pos, 140.0, 0.8, 2, this, b, world);
 	enemB.push_back(enem1);
 	addGameObject(enem1); 
 	
 	enem2 = new EnemigoBasico(pos2, 140.0, 0.8, 1, this, b, world);
 	enemB.push_back(enem2);
-	addGameObject(enem2); 
+	addGameObject(enem2); */
 
-	for(int i=0;i<enemB.size();i++)   // Añadimos todos los enemigos basicos que existen a la blackboard
+	/*for(int i=0;i<enemB.size();i++)   // Añadimos todos los enemigos basicos que existen a la blackboard
 	{
 		b->setEnemB(enemB[i]);
-	}	
+	}	*/
 
 	/* CREAMOS ENEMIGOS ELITES */
 	/*enemE1 = new EnemigoElite(pos3, 120.0, 0.8, 2, this, b, world);
@@ -340,13 +331,18 @@ Fachada* fachada=fachada->getInstance();
 
     cargarNivel();
 
+     for(int i=0;i<enemB.size();i++)   // Añadimos todos los enemigos basicos que existen a la blackboard
+    {
+        b->setEnemB(enemB[i]);
+    }
+
 }	
 
 void Mundo::posBuilder(){	//CONSTRUCTOR DE POSICIONES DE ENEMIGOS
 
 	/* SE LEE DE FICHERO LAS POSICIONES DE LA PATRULLA DE CADA ENEMIGO Y SE ALMACENAN EN LOS VECTORES */
-    Posicion *p0 = new Posicion(72.475f,0.34f,30.f);
-    pos.push_back(p0);
+    //Posicion *p0 = new Posicion(77.475f,15.5f,30.f);
+    //pos.push_back(p0);
 
 
    /* Posicion *p1 = new Posicion(0.f,0.f,30.f);
@@ -357,13 +353,13 @@ void Mundo::posBuilder(){	//CONSTRUCTOR DE POSICIONES DE ENEMIGOS
     pos.push_back(p3);
     Posicion *p4 = new Posicion(-80.f,0.f,30.f);
     pos.push_back(p4);
-*/
 
-    Posicion *p5 = new Posicion(354.475f,0.34f,30.f);
+
+    Posicion *p5 = new Posicion(182.096f,16.15f,30.f);
     pos2.push_back(p5);
-    Posicion *p6 = new Posicion(245.475f,0.34f,30.f);
+    Posicion *p6 = new Posicion(215.869f,16.15f,30.f);
     pos2.push_back(p6);
-    Posicion *p7 = new Posicion(173.475f ,0.34f,30.f);
+    Posicion *p7 = new Posicion(260.045f ,16.15f,30.f);
     pos2.push_back(p7);
 
 /*
@@ -483,8 +479,8 @@ void Mundo::protaUpdate(const glm::u32 now, const glm::f32 frameDeltaTime, glm::
     if(!prota->checkVida())
 		fachada->cerrar();
 
-	if(tiempo>0.2f) 	// HACEMOS QUE LO QUE HAYA DENTRO SE HAGA MENOS VECES POR SEGUNDO
-    {
+	//if(tiempo>0.2f) 	// HACEMOS QUE LO QUE HAYA DENTRO SE HAGA MENOS VECES POR SEGUNDO
+    //{
         glm::f32 energia=prota->getEnergia();
 
         time_input=now;
@@ -498,10 +494,9 @@ void Mundo::protaUpdate(const glm::u32 now, const glm::f32 frameDeltaTime, glm::
                 enemB[i]->setInvisible();
             }
         }
-
         prota->update(b);
             
-    }
+    //}
 
     if(prota->getCombate()==false)
     {
@@ -680,317 +675,252 @@ int Mundo::getEstado(){
 }
 
 
+/* Funcion para hacer la lectura de la logica de los niveles a partir de un xml */ 
+void Mundo::cargarNivel()
+{
+    TiXmlDocument doc;
 
-void Mundo::cargarNivel(){
+    if(doc.TiXmlDocument::LoadFile("resources/nivel2.xml",TIXML_ENCODING_UTF8 )) //TIXML_ENCODING_UTF8
+    { 
+      //std::cout <<"Leyendo bien"<<endl;    
+    }
 
-   
-TiXmlDocument doc;
+    //OBTENER ELEMENTO MAPA
+    TiXmlElement* map = doc.FirstChildElement("map");
 
-if(doc.TiXmlDocument::LoadFile("resources/nivel2.xml",TIXML_ENCODING_UTF8 )){ //TIXML_ENCODING_UTF8
-  //std::cout <<"Leyendo bien"<<endl;
-    
-}
-//std::cout<<"CargarNivel"<<endl;
+    if(map)
+    { 
+        //MOSTRAR ATRIBUTOS MAPA
+        TiXmlAttribute* atri = map->FirstAttribute();
+          
+        int i=0;
+        int ival;
+        double dval;
+         
+          
+        while (atri)
+        {
+          if (atri->QueryIntValue(&ival)==TIXML_SUCCESS)    //printf( " int=%d", ival);//muestra su valor entero
+          if (atri->QueryDoubleValue(&dval)==TIXML_SUCCESS) //printf( " d=%1.1f", dval);//muestra su valor doble
+          //printf( "\n" );
 
-//OBTENER ELEMENTO MAPA
-TiXmlElement* map = doc.FirstChildElement("map");
+          i++;
+          atri=atri->Next();
 
-if(map){ 
+        }
 
-  //std::cout <<"Obtenido elemento raiz(mapa)"<<endl;
-
-
-//MOSTRAR ATRIBUTOS MAPA
-      TiXmlAttribute* atri = map->FirstAttribute();
-      
-      int i=0;
-      int ival;
-      double dval;
-     
-      
-
-      //std::cout <<"Obtenido atributos del mapa:"<<endl;
-      while (atri)
-      {
-      //printf( "%s%s:", atri->Name(), atri->Value());
-
-      if (atri->QueryIntValue(&ival)==TIXML_SUCCESS)    //printf( " int=%d", ival);//muestra su valor entero
-      if (atri->QueryDoubleValue(&dval)==TIXML_SUCCESS) //printf( " d=%1.1f", dval);//muestra su valor doble
-      //printf( "\n" );
-
-      i++;
-      atri=atri->Next();
-
-      }
-
-      //OBTENER ELEMENTO TILESET
-
+        //OBTENER ELEMENTO TILESET
         TiXmlElement* tileset = map->FirstChildElement("tileset");
 
-       if(tileset){ 
-
-
-         //std::cout <<"Obtenido elemento (tileset)"<<endl;
-
-         
-         TiXmlAttribute* atri2 = tileset->FirstAttribute();
-          
-          int i2=0;
-          int ival2;
-          double dval2;
-         
-
-          //printf("\n");
-          //std::cout <<"Obtenido atributos del tileset:"<<endl;
-              while (atri2)
-              {
-                //printf( "%s%s:", atri2->Name(), atri2->Value());
-
-                if (atri2->QueryIntValue(&ival2)==TIXML_SUCCESS)    //printf( " int=%d", ival2);//muestra su valor entero
-                if (atri2->QueryDoubleValue(&dval2)==TIXML_SUCCESS) //printf( " d=%1.1f", dval2);//muestra su valor doble
-                //printf( "\n" );
+        if(tileset)
+        { 
+            TiXmlAttribute* atri2 = tileset->FirstAttribute();
+              
+            int i2=0;
+            int ival2;
+            double dval2;
+             
+            while (atri2)
+            {
+              if (atri2->QueryIntValue(&ival2)==TIXML_SUCCESS)    //printf( " int=%d", ival2);//muestra su valor entero
+              if (atri2->QueryDoubleValue(&dval2)==TIXML_SUCCESS) //printf( " d=%1.1f", dval2);//muestra su valor doble
 
                 i2++;
                 atri2=atri2->Next();
-               
-              }
-      } 
+                   
+            }
+          } 
 
-      //OBTENER ELEMENTO LAYER
-
+        //OBTENER ELEMENTO LAYER
         TiXmlElement* layer = map->FirstChildElement("layer");//a la misma altura que tileset(hijos de mapa)
-           if(layer){ 
+        if(layer)
+        { 
+            //std::cout <<"Layer ok"<<endl;
+        }
 
-              //std::cout <<"Layer ok"<<endl;
-
-           }
-
-    //OBTENER ELEMENTO DATA
-
+        //OBTENER ELEMENTO DATA
         TiXmlElement* data = layer->FirstChildElement("data");//data es hijo de layer
-           if(data){ 
+        if(data)
+        { 
+            //std::cout <<"data ok"<<endl;
+        }
 
-              //std::cout <<"data ok"<<endl;
-
-           }
-
-    //OBTENER ELEMENTO OBJECTGROUP
+        //OBTENER ELEMENTO OBJECTGROUP
         TiXmlElement* grupo = map->FirstChildElement("objectgroup");//objectgroup es hijo de map
-           if(grupo){ 
+        if(grupo)
+        {                     
+            //OBTENER ELEMENTO SUELO
+            TiXmlElement* obje = grupo->FirstChildElement("object");//object es hjo de objectgroup
 
-              //std::cout <<"objectgroup suelo OK"<<endl;
+            int id;
+            int i3=1;
+            double altura;
+            double ancho;
+            double x;
+            double y;
 
-                
+            while(obje)
+            {
+                TiXmlAttribute* atri3 = obje->FirstAttribute();
+                          
+                while (atri3)
+                {
+                    if(strcmp(atri3->Name(),"id")==0)
+                    {
+                        atri3->QueryIntValue(&id);
+                    }
 
-//OBTENER ELEMENTO SUELO
+                    //OBTENER DIMENSIONES DE LAS CAJAS QUE FORMAN EL SUELO
+                    if(strcmp(atri3->Name(),"x")==0)
+                    {
+                        atri3->QueryDoubleValue(&x);
+                    }//CAJAS MAS ALTAS QUE ANCHAS NO TRATARLAS
 
-    TiXmlElement* obje = grupo->FirstChildElement("object");//object es hjo de objectgroup
+                    if(strcmp(atri3->Name(),"y")==0)
+                    {
+                        atri3->QueryDoubleValue(&y);
+                    }
+
+                    if(strcmp(atri3->Name(),"width")==0)
+                    {
+                        atri3->QueryDoubleValue(&ancho);
+                    }
+
+                    if(strcmp(atri3->Name(),"height")==0)
+                    {
+                        atri3->QueryDoubleValue(&altura);
+
+                    }  
+                                
+                    atri3=atri3->Next();   
+
+                }//atributos
+                            
+                i3++;
+                fachada->CreateGround(world, (int)x, (int)y,(int)ancho, (int)altura);
+                obje=obje->NextSiblingElement("object");//pasamos a la siguiente caja
+
+                             
+            }//objeto/elemento    
 
 
-    
-      
-          int id;
-
-          int i3=1;
-
-          double altura;
-          double ancho;
-          double x;
-          double y;
+            //TRATAMOS LAS PLATAFORMAS DE UNA FORMA LIGERAMENTE DISTINTA, LOSDEMAS OBJETOS COMPARTEN NUMERO Y TIPODE ATRIBUTOS
+            TiXmlElement* grupo2=grupo->NextSiblingElement("objectgroup");
                   
-            
+            while(grupo2)
+            { 
+                double dval9;
+                TiXmlAttribute* atriE = grupo2->FirstAttribute();
 
-
-              //printf("\n");
-              //std::cout <<"Obtenido atributos del suelo:"<<endl;
-
-
-              while(obje){
-                 TiXmlAttribute* atri3 = obje->FirstAttribute();
-
-
-                     //std::cout <<"Plataforma:"<<i3<<endl;
-                      
-
-                        while (atri3)
-                        {
-                             ////printf( "%s%s:", atri3->Name(), atri3->Value()
-
-                            
-                           
-
-                             if(strcmp(atri3->Name(),"id")==0){
-                              atri3->QueryIntValue(&id);
-
-                                //std::cout <<"Id:"<<id<<endl;
-
-
-                            }
-
-                            //OBTENER DIMENSIONES DE LAS CAJAS QUE FORMAN EL SUELO
-
-
-                             if(strcmp(atri3->Name(),"x")==0){
-                              atri3->QueryDoubleValue(&x);
-
-                                //std::cout <<"X:"<<(float)x<<endl;
-
-
-                            }//CAJAS MAS ALTAS QUE ANCHAS NO TRATARLAS
-
-                             if(strcmp(atri3->Name(),"y")==0){
-                              atri3->QueryDoubleValue(&y);
-
-                                //std::cout <<"Y:"<<(float)y<<endl;
-
-
-                            }
-
-                              if(strcmp(atri3->Name(),"width")==0){
-                              atri3->QueryDoubleValue(&ancho);
-
-                                //std::cout <<"Ancho:"<<(float)ancho<<endl;
-
-
-                            }
-
-                            if(strcmp(atri3->Name(),"height")==0){
-                              atri3->QueryDoubleValue(&altura);
-
-                                //std::cout <<"Altura:"<<(float)altura<<endl;
-
-                            }  
-                            //std::cout<<"cuenta: "<<i3<<endl;
-                            
-                             atri3=atri3->Next();   
-
-                        }//atributos
-                        //if(id==i3){
-                                i3++;
-                                fachada->CreateGround(world, (int)x, (int)y,(int)ancho, (int)altura);
-                                //std::cout<<"cuenta: "<<x<<endl;
-                            //}
-                      obje=obje->NextSiblingElement("object");//pasamos a la siguiente caja
-                       //printf("\n");
-
-                         
-                   }//objeto/elemento    
-
-
-                   //TRATAMOS LAS PLATAFORMAS DE UNA FORMA LIGERAMENTE DISTINTA, LOSDEMAS OBJETOS COMPARTEN NUMERO Y TIPODE ATRIBUTOS
-                   TiXmlElement* grupo2=grupo->NextSiblingElement("objectgroup");
-              
-              while(grupo2){ 
-               
-                  double dval9;
-                  TiXmlAttribute* atriE = grupo2->FirstAttribute();
-
-                   //std::cout <<"Objectgroup de:"<<atriE->Value()<<endl;
-                    while(atriE){
-                        atriE->QueryDoubleValue(&dval9)==TIXML_SUCCESS;
-                         //printf( " d=%1.1f", dval9);
-                         atriE=atriE->Next();
-                         //printf("\n");
-
-                     }//atributosGrupoEnemigos
-               
-               TiXmlElement* ene = grupo2->FirstChildElement("object");//object es hjo de objectgroup
+                while(atriE)
+                {
+                    atriE->QueryDoubleValue(&dval9)==TIXML_SUCCESS;
+                    atriE=atriE->Next();
+                }//atributosGrupoEnemigos
+                   
+                TiXmlElement* ene = grupo2->FirstChildElement("object");//object es hjo de objectgroup
 
                 int idE;        // Identificador de los objects del xml
                 int iE;         // No se
                 int tipo;       
                 double xEn;     // Pos en X del object
                 double yEn;     // Pos en Y del object
+                    
+                while(ene)
+                {
+                    TiXmlAttribute* atriEn = ene->FirstAttribute();
+                    iE++;
+                    while(atriEn)
+                    {
+                        if(strcmp(atriEn->Name(),"id")==0)
+                        {
+                            atriEn->QueryIntValue(&idE);
+                        }
+
+                        if(strcmp(atriEn->Name(),"type")==0)
+                        {
+                            atriEn->QueryIntValue(&tipo);                                                                    
+                        }
+
+                        if(strcmp(atriEn->Name(),"x")==0)
+                        {
+                            atriEn->QueryDoubleValue(&xEn);
+                        }
+
+                        if(strcmp(atriEn->Name(),"y")==0)
+                        {
+                            atriEn->QueryDoubleValue(&yEn);
+                        }
+
+                        atriEn=atriEn->Next();
+
+                    }//atributosEnemigo
+
+
+                    if(strcmp(grupo2->FirstAttribute()->Value(),"enemigos")==0)
+                    {
+                        Posicion *p0 = new Posicion(xEn,yEn,30.f);
+                        pos.push_back(p0);
+
+                        enem1 = new EnemigoBasico( pos, 140.0, 0.8, tipo, this, b, world);
+                        enemB.push_back(enem1);
+                        addGameObject(enem1);
+
+                        pos.clear();    // Vaciamos el vector para que no de problemas para el siguiente
+
+                    }   
+
+                    if(strcmp(grupo2->FirstAttribute()->Value(),"Recolectables")==0)
+                    {
+                    
+                    } 
+
+                    if(strcmp(grupo2->FirstAttribute()->Value(),"armas")==0)
+                    {
                 
-                  while(ene){
-                      TiXmlAttribute* atriEn = ene->FirstAttribute();
+                    }  
 
-                      //std::cout <<"Objeto:"<<iE<<endl;
-
-                      iE++;
-                          while(atriEn){
-                           
-                            if(strcmp(atriEn->Name(),"id")==0){
-                              atriEn->QueryIntValue(&idE);
-
-                                //std::cout <<"Id:"<<idE<<endl;
-
-                            }
-
-                            if(strcmp(atriEn->Name(),"type")==0){
-                              atriEn->QueryIntValue(&tipo);
-                              
-
-                                //std::cout <<"Tipo:"<<tipo<<endl;
-
-                              
-                            }
-
-                            if(strcmp(atriEn->Name(),"x")==0){
-                              atriEn->QueryDoubleValue(&xEn);
-
-                                //std::cout <<"X:"<<xEn<<endl;
-
-                            }
-
-                            if(strcmp(atriEn->Name(),"y")==0){
-                              atriEn->QueryDoubleValue(&yEn);
-
-                                //std::cout <<"Y:"<<yEn<<endl;
-
-                            }
-
-                            atriEn=atriEn->Next();
-
-                          }//atributosEnemigo
-
-                          //printf("\n");
-                  if(strcmp(grupo2->FirstAttribute()->Value(),"Enemigos")==0){
-                      //cout<<"Enemigo tipo: "<<tipo<<endl;
-                  }   
-                  if(strcmp(grupo2->FirstAttribute()->Value(),"Recolectables")==0){
-                      //cout<<"Recolectables tipo: "<<tipo<<endl;
-                  }  
-                  if(strcmp(grupo2->FirstAttribute()->Value(),"armas")==0){
-                      //cout<<"armas tipo: "<<tipo<<endl;
-                  }  
-                  if(strcmp(grupo2->FirstAttribute()->Value(),"alarmas")==0){
-                      //cout<<"alarmas"<<endl;
+                    if(strcmp(grupo2->FirstAttribute()->Value(),"alarmas")==0)
+                    {
                         Posicion* posA= new Posicion(xEn-190,-yEn+60,30.f);
+
                         Alarma* alarm = new Alarma( posA);
                         alarmas.push_back(alarm);
                         addGameObject(alarm);
+
                         delete posA;
-                  }  
-                  if(strcmp(grupo2->FirstAttribute()->Value(),"fuentes")==0){
-                      //cout<<"fuentes"<<endl;
+                    }  
+
+                    if(strcmp(grupo2->FirstAttribute()->Value(),"fuentes")==0)
+                    {
                         Posicion* posF= new Posicion(xEn-190,-yEn+60,30.f);
+
                         Fuente* fuente = new Fuente( posF);
                         fuentes.push_back(fuente);
                         addGameObject(fuente);
+
                         delete posF;
-                  }  
-                  if(strcmp(grupo2->FirstAttribute()->Value(),"Nodos")==0){
-                      //cout<<"Nodos "<<endl;
-                      Posicion* posN= new Posicion(xEn-190,-yEn+60,30.f);
-                      //std::cout<<posN->getPosX()<<"++1+"<<posN->getPosY()<<endl;
-                      
-                      delete posN;
-                  } 
+                    }  
+
+                    if(strcmp(grupo2->FirstAttribute()->Value(),"Nodos")==0)
+                    {
+                          Posicion* posN= new Posicion(xEn-190,-yEn+60,30.f);
+
+                          delete posN;
+                    } 
+
                     ene=ene->NextSiblingElement("object");//pasamos a la siguiente caja
-                  }//enemigo
+                }//enemigo
+                      
+
+                grupo2=grupo2->NextSiblingElement("objectgroup");//pasamos a la siguiente caja
+            }//grupo2
+
+        }//objectgroup
                   
-
-                  grupo2=grupo2->NextSiblingElement("objectgroup");//pasamos a la siguiente caja
-              }//grupo2
-
-
-           }//objectgroup
-              
     }//mapa
 
 }    
-
 
 
 Mundo::~Mundo()	//DESTRUCTOR

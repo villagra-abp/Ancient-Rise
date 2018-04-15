@@ -359,7 +359,7 @@ void Fachada::drawTerreno(){
 	//suelo->Rotar(vec3(0,1,0), -3.f);
     suelo->Rotar(vec3(1,0,0), 1.57f);
 	
-    std::cout<<"crea suelo"<<endl;
+    //std::cout<<"crea suelo"<<endl;
     
 }
 void Fachada::addMenu(int tipo){
