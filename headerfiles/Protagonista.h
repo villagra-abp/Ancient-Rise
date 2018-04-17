@@ -25,7 +25,7 @@ class Protagonista : public GameObject
          void movimiento(const glm::f32 Time);
          void recuperarEnergia(const glm::f32 Time);
          void recuperarVida(const glm::f32 Time);
-         void pintarInterfaz();
+         
          void comprobarColision(EnemigoBasico *e);
          void comprobarColision(Enemigo *e);
          void comprobarColision(Comida *comida);
@@ -98,11 +98,8 @@ class Protagonista : public GameObject
         Posicion* comidaPosition;
         Posicion* bebidaPosition;
         Posicion* trampaPosition;
-        Posicion* energyPosition;
         Posicion* nodoPosition;
-        Posicion* energyScale;
-        Posicion* lifePosition;
-        Posicion* lifeScale;
+        
         
         /* BOX2D */
         b2Body* Body;

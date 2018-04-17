@@ -128,6 +128,7 @@ class Mundo : public Entorno
 
     	//TIME AND FRAMES
         int lastFPS;
+        glm::f32 Tiempo;
 
     	//MUNDO BOX2D
     	b2Vec2 gravedad=b2Vec2(0.f, -9.8f*20);
