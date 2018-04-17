@@ -6,6 +6,7 @@
 #include "../../headerfiles/TLuz.h"
 #include "../../headerfiles/TMalla.h"
 #include "../../headerfiles/TCamara.h"
+#include "../../headerfiles/TSkybox.h"
 #include "../../headerfiles/TGestorRecursos.h"
 
 //#include "FObjeto.h"
@@ -40,6 +41,7 @@ public:
 	void activarCamara(TNodo* cam);
 	void registrarLuz(TNodo* luz);
 	bool eliminarLuz(TNodo* luz);
+	void registrarSkybox(TNodo* skybox);
 
 	//bool setCamara(TEntidad* cam);
 
@@ -58,8 +60,9 @@ private:
 	TNodo* escena;
 	//vector<TNodo*> regCam;
 	//vector<bool> estadoCam;  	//True Camara activada. SOLO UNA
-	TNodo* camara;
-	vector<TNodo*> regLuz;	
+	TNodo* camara;				//Camara activa
+	vector<TNodo*> regLuz;		//Luces
+	TNodo* skybox;				//Skybox activa
 //	vector<bool> estadoLuz;		//True Luz activada.
 	//vector<> regVPort;
 

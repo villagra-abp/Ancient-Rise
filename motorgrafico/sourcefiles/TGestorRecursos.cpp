@@ -40,6 +40,22 @@ TRecursoMalla* TGestorRecursos::getRecursoMalla(string path){
 	return r;
 }
 
+TRecursoSkybox* TGestorRecursos::getRecursoSkybox(vector<string> paths){
+	TRecursoSkybox* r = nullptr;
+	for(int i = 0; i < paths.size() && r == nullptr; i++){
+		r = dynamic_cast<TRecursoSkybox*>(buscarRecurso(paths[i]));
+	}
+
+	if(r == nullptr){
+		
+		r = new TRecursoSkybox(paths);
+		r->setNombre(paths[0]);
+		recursos.push_back(r);
+	}
+
+	return r;
+}
+
 /*
 TRecursoMaterial* TGestorRecursos::getRecursoMat(string nombre){
 		Tipo* r = dynamic_cast<Tipo*>(buscarRecurso(nombre_fichero));

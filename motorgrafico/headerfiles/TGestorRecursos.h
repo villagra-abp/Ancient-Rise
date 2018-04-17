@@ -13,6 +13,7 @@
 #include "TRecurso.h"
 #include "TRecursoMalla.h"
 #include "TRecursoMaterial.h"
+#include "TRecursoSkybox.h"
 #include "Shader.h"
 
 class TGestorRecursos{
@@ -37,6 +38,7 @@ public:
 		return r;
 	}*/
 	TRecursoMalla* getRecursoMalla(string path);
+	TRecursoSkybox* getRecursoSkybox(vector<string> paths);
 //	TRecursoMaterial* getRecursoMat(string nombre);
 //	TRecursoTexture *getRecursoT(string nombre);
 	TRecurso* buscarRecurso(string nombre);

@@ -13,14 +13,12 @@
 
 #include "Shader.h"
 #include "TDatosEntidad.h"
+#include "TRecurso.h"
+#include "stbpijo.h"
 
 using namespace std;
 
-struct Vertex{
-		glm::vec3 Position;
-		glm::vec3 Normal;
-		glm::vec2 TexCoords;
-	};
+
 
 class TRecursoSkybox : public TRecurso{
 public:
@@ -34,10 +32,11 @@ public:
 	void setNombre(string nombre) override {name = nombre;}
 private:
 	string name;
-	vector<Vertex> vertices;
-	vector<unsigned int> indices;
+
 	unsigned int skyboxID;
 	unsigned int VAO, VBO, EBO;
+
+    stbpijo* pijo;
 
 	static Shader* shader;
 
@@ -45,7 +44,7 @@ private:
 	void setupSkybox(vector<string> paths);
 
 
-	float skyboxVertices[] = {
+	float skyboxVertices[108] = {
     // positions          
     -1.0f,  1.0f, -1.0f,
     -1.0f, -1.0f, -1.0f,
@@ -89,6 +88,6 @@ private:
     -1.0f, -1.0f,  1.0f,
      1.0f, -1.0f,  1.0f
 	};
-}
+};
 
 #endif //TRECURSOSKYBOX_H

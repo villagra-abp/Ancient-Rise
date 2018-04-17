@@ -4,7 +4,7 @@
 TSkybox::TSkybox(){}
 
 
-TSkybox::TSkybox(string path){
+TSkybox::TSkybox(vector<string> path){
 	cargarSkybox(path);
 }
 
@@ -12,8 +12,8 @@ TSkybox::TSkybox(string path){
 TSkybox::~TSkybox(){}
 
 
-void TSkybox::cargarSkybox(string path){
-	skybox = TGestorRecursos::getInstance()->getSkybox(path);
+void TSkybox::cargarSkybox(vector<string> path){
+	skybox = TGestorRecursos::getInstance()->getRecursoSkybox(path);
 }
 
 

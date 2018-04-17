@@ -8,15 +8,15 @@
 class TSkybox : public TEntidad{
 public:
 	TSkybox();
-	TSkybox(string path);
+	TSkybox(vector<string> path);
 	virtual ~TSkybox();
-	void cargarSkybox(string path);
+	void cargarSkybox(vector<string> path);						//Se le pasa un vector con la ruta para 6 texturas
 	void beginDraw(TDatosEntidad *datos) override;
 	void endDraw() override;
-	tEnt getTipo() override {return skybox ;}
+	virtual tEnt getTipo() override {return sky ;}
 private:
 	TRecursoSkybox *skybox;
 //	TGestorRecursos *gestor;
-}
+};
 
 #endif //TSKYBOX_H

@@ -20,8 +20,18 @@ TMotorTAG::~TMotorTAG(){
 
 
 void TMotorTAG::draw(){
-
+	//Dibujamos toda la escena menos el skybox
 	escena->draw(getCamaraMat(), getCamaraProj(), camara, getLuces());
+	
+	//DIbujamos el skybox
+	TDatosEntidad datos;
+	glm::mat4 view, proj;
+	view = glm::mat4(glm::mat3(getCamaraMat()));
+	proj = getCamaraProj();
+	datos.view = &view;
+	datos.projection = &proj;
+	dynamic_cast<TSkybox*>(skybox->getEntidad())->beginDraw(&datos);
+
 }
 
 
@@ -47,6 +57,10 @@ bool TMotorTAG::eliminarLuz(TNodo* luz){
 	}
 
 	return flag;
+}
+
+void TMotorTAG::registrarSkybox(TNodo* sky){
+	skybox = sky;
 }
 /*
 TNodo* TMotorTAG::crearNodo(TNodo *padre, TEntidad *ent){

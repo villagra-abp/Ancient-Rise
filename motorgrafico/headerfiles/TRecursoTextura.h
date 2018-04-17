@@ -9,6 +9,7 @@
 #include <GL/glut.h>
 
 #include "TRecurso.h"
+#include "stbpijo.h"
 
 using namespace std;
 
@@ -30,6 +31,7 @@ private:
 	string nombre, tipo;
 	int width, height, nrChannels;
 	unsigned int id;
+	stbpijo* pijo;
 };
 
 

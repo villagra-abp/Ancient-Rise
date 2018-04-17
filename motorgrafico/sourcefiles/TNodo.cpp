@@ -276,7 +276,8 @@ void TNodo::draw(glm::mat4 view, glm::mat4 projection,TNodo* camara, vector<TNod
 	datos.atenuacionFlash = &atenuacionFlash;
 
 	if(entidad!=nullptr){
-		entidad -> beginDraw(&datos);
+		if(entidad->getTipo() != 4 /* 4 = sky*/)
+			entidad -> beginDraw(&datos);
 	}
 	//para cada nodo hijo i
 	for(int i=0; i<hijos.size(); i++){
