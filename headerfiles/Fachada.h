@@ -71,6 +71,7 @@ public:
     FLuz* addLuz(Posicion*);
     FLuz* addLuzDireccional(Posicion* p);
     FLuz* addLuzDirigida(Posicion* p, Posicion* d);
+    FSkybox* addSkybox(vector<string> paths);
 
     void rotObj(void* o, float x, float y, float z, float angulo);
     void movObj(void* o, float x, float y, float z);

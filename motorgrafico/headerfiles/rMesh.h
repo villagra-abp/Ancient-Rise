@@ -38,18 +38,21 @@ struct Texture{
   
 class rMesh{
 	public:
-		vector<Vertex> vertices;
-		vector<unsigned int> indices;
-		vector<TRecursoTextura*> textures;
-		unsigned int VAO;
+		
 
 		rMesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<TRecursoTextura*> textures, TRecursoMaterial* material);
+		virtual ~rMesh() = default;
 		void draw(glm::mat4 mmodelo, TDatosEntidad *datos);
 
 		void setMaterial(TRecursoMaterial* mat);
 
 	private:
 		unsigned int  VBO, EBO;
+
+		vector<Vertex> vertices;
+		vector<unsigned int> indices;
+		vector<TRecursoTextura*> textures;
+		unsigned int VAO;
 
 		static Shader *shaderText, *shaderNoText;
 		static TRecursoTextura *estandar;

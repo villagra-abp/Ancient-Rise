@@ -90,6 +90,15 @@ Fachada* fachada=fachada->getInstance();
     Posicion* d = new Posicion(0,1,0);
     Posicion* origen = new Posicion(0,65,0);
     fachada->addLuzDirigida(origen,d);
+
+    vector<string> pathsSkybox;
+    pathsSkybox.push_back("resources/skybox/skybox_1.tga");
+    pathsSkybox.push_back("resources/skybox/skybox_3.tga");
+    pathsSkybox.push_back("resources/skybox/skybox_up.tga");
+    pathsSkybox.push_back("resources/skybox/skybox_down.tga");
+    pathsSkybox.push_back("resources/skybox/skybox_2.tga");
+    pathsSkybox.push_back("resources/skybox/skybox_4.tga");
+    fachada->addSkybox(pathsSkybox);
     
 /* CREAMOS EL TERRENO Y COLISIONES DE CAMARA */
 

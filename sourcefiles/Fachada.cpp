@@ -445,6 +445,14 @@ FLuz* Fachada::addLuzDirigida(Posicion* p, Posicion* d){
 }
 
 
+FSkybox* Fachada::addSkybox(vector<string> paths){
+    FSkybox* skybox = new FSkybox();
+
+    skybox->setSkybox(paths);
+
+    return skybox;
+}
+
 /**
 FUNCION PARA crear el objeto estatico
 **/

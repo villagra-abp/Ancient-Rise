@@ -3,6 +3,7 @@
 #include "FObjeto.h"
 #include "FLuz.h"
 #include "FColor.h"
+#include "FSkybox.h"
 //#include ".h"
 //#include ".h"
 //#include ".h"

@@ -5,6 +5,10 @@
 #include <glm/vec4.hpp> // glm::vec4
 #include <glm/mat4x4.hpp> // glm::mat4
 
+#include <iostream>
+
+using namespace std;
+
 struct TDatosEntidad{
 	
 	glm::mat4 *view, *projection;
