@@ -2,7 +2,7 @@
 
 Status Atacar::run(Enemigo *e)
 {   
-	//float posProta = board->getProta();
+	//cout<<"ENTRO"<<endl;
     p = board->getProtagonista();
     protaX = p->getPosition()->getPosX();
     protaY = p->getPosition()->getPosY();
@@ -28,6 +28,8 @@ Status Atacar::run(Enemigo *e)
     /* Comprobamos la distancia a la que tiene que estar para atacar */
     if(abs(distanciaProta)<separacionAtaque && distProtaY<10 && distProtaY>-10)       //ATACANDO
     {
+        cout<<"ATACANDO"<<endl;
+        
         e->setVuelta(true);
         reset();                     // Reseteamos los valores para el pathfinding
 
@@ -59,6 +61,7 @@ Status Atacar::run(Enemigo *e)
             {
                 if(p->getCombate()!=true || p->getPosCombate()!=pos_combate)        // Si el prota no esta en modo combate o no esta en la pos_combate donde ataca el enemigo, le quita vida
                 {
+                    cout<<"Danyo"<<endl;
                     p->quitarVida(10.f);
                 }
                 contAtq=0;
@@ -78,10 +81,12 @@ Status Atacar::run(Enemigo *e)
             }
 
             e->setDisparo(false);  
-        }   
+        }
+           
     }
     else        // PERSIGUIENDO
     {
+        nodos = board->getNodosGrafo();
         e->setVuelta(true);        // Para el recorrido de vuelta a la patrulla
         e->setCombate(false);
         contRec = 0;              // Para resetear el reloj de recargar proyectil y que tarde siempre lo mismo en recargar
@@ -97,8 +102,9 @@ Status Atacar::run(Enemigo *e)
         for(size_t i=0; i<nodos.size();i++)
         {    
             posNodo = nodos[i]->getPosition();
-            if(board->getProtagonista()->getPosition()->getPosY()>=posNodo->getPosY()-5 && board->getProtagonista()->getPosition()->getPosY()<=posNodo->getPosY()+5)        
+            if(board->getProtagonista()->getPosition()->getPosY()>=posNodo->getPosY()-10 && board->getProtagonista()->getPosition()->getPosY()<=posNodo->getPosY()+10)        
             {
+                cout<<"entro1"<<endl;
                 if(fin==nullptr)
                 {
                     fin = nodos[i];
@@ -113,10 +119,11 @@ Status Atacar::run(Enemigo *e)
         //cout<<"Fin : "<<fin->getPosition()->getPosX()<<endl;
 
         if(inicioBueno!=nullptr && fin!=nullptr)
-        {   
+        {   cout<<"entro2"<<endl;
             g=new Grafo();
             caminoCorto = g->pathfindDijkstra(inicioBueno, fin);
             delete g;
+            cout<<"Tam "<<caminoCorto.size()<<endl;
         }
         else
         {
@@ -214,6 +221,7 @@ void Atacar::recorrerNodos(Enemigo* e, uint8_t v, float posX)
     {
         if(e->see(nodos[i]))            // Comprobamos si el enemigo ve al nodo
         {   
+            cout<<"entro3"<<endl;
             if(v==1)
             {
                 if(inicio1==nullptr)         
@@ -453,7 +461,6 @@ void Atacar::onInitialize(Blackboard *b)
    fin = nullptr;
    contador = 0;
 
-   nodos = board->getNodosGrafo();
    primera = true;
 
 }
