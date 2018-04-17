@@ -122,8 +122,7 @@ Fachada* fachada=fachada->getInstance();
 	enemE.push_back(enemE1);
 	addGameObject(enemE1);
 */
-    ///Añado el menu
-    //fachada->addMenu(1);
+
     
     Posicion* posmenu= new Posicion(.5f,-.5f,.5f);
  	Menu* menu = new Menu(posmenu);
@@ -136,6 +135,13 @@ Fachada* fachada=fachada->getInstance();
     cargarNivel();
 
     b->setNodosGrafo(nodos);            // Pasamos los nodos a la blackboard
+
+   /* cout<<aristas.size()<<endl;
+    for(int i=0; i<aristas.size();i++)
+    {
+        cout<<"Nodo Inicio "<<aristas[i]->getNodoInicio()->getNombre()<<" Nodo FInal "<<aristas[i]->getNodoFin()->getNombre()<<endl;
+    }
+*/
 
      for(int i=0;i<enemB.size();i++)   // Añadimos todos los enemigos basicos que existen a la blackboard
     {
@@ -623,14 +629,58 @@ void Mundo::cargarNivel()
 
 
                     if(strcmp(grupo2->FirstAttribute()->Value(),"enemigos")==0)
-                    {
-                        Posicion *p0 = new Posicion(xEn-190,-yEn+60,30.f);
+                    {   
+                        int nodoI = name/100;
+                        int nodoF = name%100;
+
+                        NodoGrafo *nI, *nF;                        
+                        for(int i=0; i<nodos.size();i++)
+                        {
+                            if(nodos[i]->getNombre()==nodoI)
+                            {
+                                nI = nodos[i];
+                            }
+
+                            if(nodos[i]->getNombre()==nodoF)
+                            {
+                                nF = nodos[i];
+                            }
+                        }
+
+
+                        Posicion *p0 = new Posicion(nI->getPosition()->getPosX(),(nI->getPosition()->getPosY()),30.f);
                         pos.push_back(p0);
 
-                        enem1 = new EnemigoBasico( pos, 140.0, 0.8, tipo, this, b, world);
-                        enemB.push_back(enem1);
-                        addGameObject(enem1);
+                        Posicion *p1 = new Posicion(nF->getPosition()->getPosX(),(nF->getPosition()->getPosY()),30.f);
+                        pos.push_back(p1);
 
+                        int t = tipo/10;    // Tipo de enemigo
+                        int a = tipo%10;    // TIpo de ataque
+
+                        switch (t)
+                        {   
+                            case 1: // Enemigos Basicos
+                            {
+                                enem1 = new EnemigoBasico( pos, 140.0, 0.8, a, this, b, world);
+                                enemB.push_back(enem1);
+                                addGameObject(enem1);
+                                break;
+                            }
+
+                            case 2: // Enemigos Avanzados
+                            {
+                                break;
+                            }
+
+                            case 3: // Enemigos Elites
+                            {
+                                enemE1 = new EnemigoElite( pos, 120.0, 0.8, a, this, b, world);
+                                enemE.push_back(enemE1);
+                                addGameObject(enemE1);
+                                break;
+                            }
+
+                        }
                         pos.clear();    // Vaciamos el vector para que no de problemas para el siguiente
                         
                     }   
@@ -647,7 +697,7 @@ void Mundo::cargarNivel()
 
                     if(strcmp(grupo2->FirstAttribute()->Value(),"alarmas")==0)
                     {
-                        Posicion* posA= new Posicion(xEn-190,-yEn+60,30.f);
+                        Posicion* posA= new Posicion(xEn-190,-yEn+60,0.f);
 
                         Alarma* alarm = new Alarma( posA);
                         alarmas.push_back(alarm);
@@ -658,7 +708,7 @@ void Mundo::cargarNivel()
 
                     if(strcmp(grupo2->FirstAttribute()->Value(),"fuentes")==0)
                     {
-                        Posicion* posF= new Posicion(xEn-190,-yEn+60,30.f);
+                        Posicion* posF= new Posicion(xEn-190,-yEn+60,0.f);
 
                         Fuente* fuente = new Fuente( posF);
                         fuentes.push_back(fuente);
@@ -677,14 +727,14 @@ void Mundo::cargarNivel()
 
                     if(strcmp(grupo2->FirstAttribute()->Value(),"aristas")==0)
                     {
-                        int p = tipo/10;
-                        int t = tipo%10;
+                        int p = tipo/10;                    // Peso de la arista
+                        int t = tipo%10;                    // Tipo de comportamiento
 
-                        Arista *a1 = new Arista(p,t);      // Indicamos peso y tipo de la arista
+                        Arista *a1 = new Arista(p,t);       // Indicamos peso y tipo de la arista
                         aristas.push_back(a1);
 
-                        int nodoI = name/100;
-                        int nodoF = name%100;
+                        int nodoI = name/100;               // Nodo Inicio
+                        int nodoF = name%100;               // Nodo FInal
                         
                         NodoGrafo *nI, *nF;                        
                         for(int i=0; i<nodos.size();i++)

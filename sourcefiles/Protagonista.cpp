@@ -79,6 +79,7 @@ void Protagonista::update(Blackboard* b)
     //cout<<"Y: "<<protaPosition->getPosY()<<endl;
     time = relojAtq.getElapsedTime().asSeconds();
     
+    //cout<<vida<<endl;
     if( ataca == true && time>2)       // PROTA EN COMBATE Y ATACANDO
     {   
         relojAtq.restart();
