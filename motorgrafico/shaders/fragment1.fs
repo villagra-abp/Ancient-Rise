@@ -67,10 +67,10 @@ void main(){
 		vec3 ambient = vec3(1,1,1) * vec3(texture(diffTexture, TexCoords)) * material.ambient * AMBIENT;
 		vec3 result = ambient;
 
-//		result += CalcDirLight(dirLight,norm, viewDir);
+		result += CalcDirLight(dirLight,norm, viewDir);
 
 		for(int i = 0; i< NR_POINT_LIGHTS; i++)
-//			result += CalcPointLight(pointLights[i], norm, FragPos, viewDir);
+			result += CalcPointLight(pointLights[i], norm, FragPos, viewDir);
 
 		result += CalcFlashLight(flashLight, norm, viewDir, FragPos);
 
