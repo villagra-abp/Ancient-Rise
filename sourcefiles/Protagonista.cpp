@@ -25,24 +25,10 @@ Protagonista::Protagonista():energy(nullptr), life(nullptr), Body(nullptr), rec(
 		
     fachada->rotObj(protaObjeto, 0, 1, 0, -90);
         
- /*
-    energy=fachada->addCube(0,0,30,true);
-    life=fachada->addCube(0,0,30,false);
+    energy=fachada->addMalla(-170,15,0,"resources/cajitaobj.obj");
+    life=fachada->addMalla(-170,20,0,"resources/cajaColor.obj");
     
-    protaPosition=fachada->getPosicion(rec);
-    
-    energyScale=fachada->getScala(energy);
-    energyScale->setPosZ(0.1f);  
-    
-    lifeScale=fachada->getScala(life);
-    lifeScale->setPosZ(0.1f);
-   
-    energyPosition=new Posicion(0.f,0.f,0.f);
-    lifePosition=new Posicion(0.f,0.f,0.f);
-    
-    fachada->setScala(energy,energyScale);
-    fachada->setScala(life,lifeScale);
-*/
+
     combate = false;
     pos_combate = 2; 
 
@@ -144,39 +130,16 @@ void Protagonista::updateBody(b2World& world)
     protaPosition->setPosY(Body->GetPosition().y);
     
     fachada->setPosicion(rec,protaPosition);
+    protaPosition->setPosY(protaPosition->getPosY()+15);
+    fachada->setPosicion(energy,protaPosition);
+    protaPosition->setPosY(protaPosition->getPosY()+5);
+    fachada->setPosicion(life,protaPosition);
+    Posicion escalaEnergy(energia/5,2.f,0.f);
+    Posicion escalaLife(vida/10,2.f,0.f);
+    fachada->setScala(energy,&escalaEnergy);
+    fachada->setScala(life,&escalaLife);
     //std::cout<<"pos x: "<<Body->GetPosition().x<<"pos y: "<<Body->GetPosition().y<<endl;
 
-}
-/**
-FUNCION PARA DIBUJAR LA INTERFAZ
-**/
-void Protagonista::pintarInterfaz()
-{
-    
-     //barra para mostrar la enegia
-    float energyPositionX=protaPosition->getPosX()- 110;
-    float energyPositionY=protaPosition->getPosY()+ 100;
-    float energyPositionZ=protaPosition->getPosZ()- 30;
-    energyPosition->setPosX(energyPositionX);
-    energyPosition->setPosY(energyPositionY);
-    energyPosition->setPosZ(energyPositionZ);
-    fachada->setPosicion(energy,energyPosition);
-    
-    
-    float lifePositionX=energyPositionX;
-    float lifePositionY=energyPositionY+ 10;
-    float lifePositionZ=energyPositionZ;
-    
-    lifePosition->setPosX(lifePositionX);
-    lifePosition->setPosY(lifePositionY);
-    lifePosition->setPosZ(lifePositionZ);
-
-    fachada->setPosicion(life,lifePosition);
-
-    energyScale->setPosX(energia/10);
-    fachada->setScala(energy,energyScale);
-    lifeScale->setPosX(vida/10);
-    fachada->setScala(life,lifeScale);
 }
 
 /**
@@ -469,7 +432,8 @@ FUNCION PARA RECUPERAR LA VIDA DEL PROTA
 **/
 void Protagonista::setVida(glm::f32 cantidad,const glm::f32 Time)
 {
-    if(vida<100)
+    //std::cout<<Time<<endl;
+    if(vida>0 || vida<100)
         vida+=cantidad* Time;
     if(vida<0){
         vida=0;
@@ -487,7 +451,7 @@ void Protagonista::setEnergia(glm::f32 cantidad,const glm::f32 Time)
         energia+=cantidad* Time;
     if(energia<0){
         energia=0;
-        //setVida(-5,Time);
+        setVida(-5,Time);
     }else if(energia>100)
         energia=100;
 
@@ -508,21 +472,21 @@ void Protagonista::setSalto(bool s)
             omae->getCanal()->addDSP(dsp);
             omae->getCanal()->setGrupoCanales(sonido->getGrupoVoces());
         }
-        if(correr && energia>10)
+        if(correr && energia>20)
         {   
             Body->ApplyForceToCenter(b2Vec2(0.f,10000000.f),true);
-        }else if(energia<10)
+        }else if(energia<20)
         {
            /* sonido->playSound(grito);
             grito->getCanal()->setGrupoCanales(sonido->getGrupoVoces());*/
-            Body->ApplyForceToCenter(b2Vec2(0.f,2500000.f),true);
+            Body->ApplyForceToCenter(b2Vec2(0.f,350000.f),true);
         }
         else{
             Body->ApplyForceToCenter(b2Vec2(0.f,6000000.f),true);    
         }
         //cont_salto=1;
         //saltando=s;
-        setEnergia(0.1f,-15);
+        setEnergia(1.1f,-15);
     }
     saltando=s;
 }
@@ -553,7 +517,10 @@ void Protagonista::setSigilo()
 
 void Protagonista::setCorrer(bool s)
 {
-    correr=s;
+    if(energia>20){
+        correr=s;
+    }
+    
 }
 
 void Protagonista::setDireccion(int d)

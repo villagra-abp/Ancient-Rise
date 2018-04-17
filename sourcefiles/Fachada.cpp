@@ -104,7 +104,7 @@ void Fachada::suspension(){
 }
 
 void Fachada::cerrar(){
-	//ventana->close();
+	ventana->close();
 }
 
 void Fachada::destruirObjeto(void* nodo)
@@ -421,7 +421,7 @@ FLuz* Fachada::addLuz(Posicion* p){
 }
 
 FLuz* Fachada::addLuzDireccional(Posicion* p){
-    FColor* color = new FColor(1.0f,        0.0f,   1.0f, 1.0f);
+    FColor* color = new FColor(0.0f,        1.0f,   0.0f, 1.0f);
 
     vec3 dir(p->getPosX(), p->getPosY(), p->getPosZ());
 
@@ -432,12 +432,12 @@ FLuz* Fachada::addLuzDireccional(Posicion* p){
 
 
 FLuz* Fachada::addLuzDirigida(Posicion* p, Posicion* d){
-    FColor* color = new FColor(0.0f,        1.0f,   0.0f, 1.0f);
+    FColor* color = new FColor(1.0f,        0.0f,   0.0f, 1.0f);
 
     vec3 pos(p->getPosX(), p->getPosY(), p->getPosZ());
     vec3 dir(d->getPosX(), d->getPosY(), d->getPosZ());
 
-    FLuz* luz = new FLuz(color, dir, 8.5f, 10.5f);
+    FLuz* luz = new FLuz(color, dir, 20.0f, 25.0f);
     vec3 luzOrigin = vec3(-160,0,80);
     luz->Mover(pos);
     
@@ -452,7 +452,7 @@ void Fachada::CreateGround(b2World& world, float X, float Y,float largo,float al
 {
     Y=-Y+50;
    
-    X=X-190;
+    X=X-191;
     float posX=X+(largo/2);
     float posY=Y+(alto/2);
     /*

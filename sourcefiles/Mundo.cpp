@@ -124,11 +124,11 @@ Fachada* fachada=fachada->getInstance();
 */
 
     
-    Posicion* posmenu= new Posicion(.5f,-.5f,.5f);
+    Posicion* posmenu= new Posicion(.5f,101.5f,.5f);
  	Menu* menu = new Menu(posmenu);
  	addGameObject(menu);
     
-    Posicion* pospausa= new Posicion(-20.5f,-.5f,.5f);
+    Posicion* pospausa= new Posicion(-20.5f,101.5f,.5f);
  	Pausa* pausa = new Pausa(pospausa);
  	addGameObject(pausa);
 
@@ -228,9 +228,8 @@ void Mundo::update(){
 
 void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
 {
-	//scene::ISceneNode* pro = (scene::ISceneNode*)prota->getNode();
-    //core::vector3df protaPosition = pro->getPosition();
-
+	Tiempo=Tiempo+frameDeltaTime;
+    
 	energiaAnterior = prota->getEnergia();
 
     //prota->ataque(frameDeltaTime);
@@ -246,8 +245,8 @@ void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
     if(!prota->checkVida())
 		fachada->cerrar();
 
-	//if(tiempo>0.2f) 	// HACEMOS QUE LO QUE HAYA DENTRO SE HAGA MENOS VECES POR SEGUNDO
-    //{
+	if(Tiempo>0.4f) 	// HACEMOS QUE LO QUE HAYA DENTRO SE HAGA MENOS VECES POR SEGUNDO
+    {
         glm::f32 energia=prota->getEnergia();
 
         checkCombate(); 							// Comprobamos si hemos pulsado la tecla de combate (K)
@@ -261,7 +260,7 @@ void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
         }
         prota->update(b);
             
-    //}
+    }
 
     if(prota->getCombate()==false)
     {
@@ -279,7 +278,7 @@ void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
     tiempoTrans = relojDescanso.getElapsedTime().asSeconds();
     
     if(tiempoTrans > 0.8f)	
-    	prota->setEnergia(25,frameDeltaTime);  //CAMBIO 5 a 15
+    	prota->setEnergia(5,frameDeltaTime);  //CAMBIO 5 a 15
     else
     	prota->setEnergia(2, frameDeltaTime);
 
@@ -302,7 +301,7 @@ void Mundo::checkInput(){
     		if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)||sf::Joystick::isButtonPressed(0, 5))
     		{
                 prota->setCorrer(true);
-      		    prota->setEnergia(-1.0f,0.2f);
+      		    prota->setEnergia(-2.f,0.2f);
     		}else
 		  prota->setCorrer(false);
         }
@@ -314,7 +313,7 @@ void Mundo::checkInput(){
     		if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)||sf::Joystick::isButtonPressed(0, 5))
     		{
 		  prota->setCorrer(true);
-      		  prota->setEnergia(-1.0f,0.2f);
+      		  prota->setEnergia(-2.f,0.2f);
     		}else
 		  prota->setCorrer(false);
         }
@@ -338,6 +337,7 @@ void Mundo::checkCombate()
     {
         prota->setCombate();
     }
+    //std::cout<<prota->getCombate()<<endl;
 }
 
 void Mundo::camUpdate(const glm::f32 frameDeltaTime){
@@ -364,18 +364,18 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
 	Posicion* protaPosition = prota->getPosition();
 	//vec3 camPosition = cam->getPosicion();
     if(estado==2){
-    cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-35,-130)); // cambio 5O A ProtaPosition.Y
+    cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-15,-120)); // cambio 5O A ProtaPosition.Y
     //camPosition=vec3(protaPosition->getPosX(),protaPosition->getPosY()+30,protaPosition->getPosZ());
     //camPosition.y=protaPosition->getPosY()+30;
     //Falta funcion para enfocar la camara
     //cam->setTarget(camPosition);
     }
     if(estado==1){
-        cam->setPosicion(vec3(20,2,-20));
+        cam->setPosicion(vec3(20,-100,-20));
         //cam->Rotar(vec3(0,1,0), 3.0f);
     }
     if(estado==0){
-        cam->setPosicion(vec3(0,2,-20));
+        cam->setPosicion(vec3(0,-100,-20));
         //cam->Rotar(vec3(0,1,0), 3.0f);
     }
 }
