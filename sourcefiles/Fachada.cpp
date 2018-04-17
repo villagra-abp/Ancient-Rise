@@ -421,7 +421,7 @@ FLuz* Fachada::addLuz(Posicion* p){
 }
 
 FLuz* Fachada::addLuzDireccional(Posicion* p){
-    FColor* color = new FColor(0.0f,        1.0f,   0.0f, 1.0f);
+    FColor* color = new FColor(1.0f,        0.0f,   1.0f, 1.0f);
 
     vec3 dir(p->getPosX(), p->getPosY(), p->getPosZ());
 
@@ -432,12 +432,12 @@ FLuz* Fachada::addLuzDireccional(Posicion* p){
 
 
 FLuz* Fachada::addLuzDirigida(Posicion* p, Posicion* d){
-    FColor* color = new FColor(1.0f,        0.0f,   0.0f, 1.0f);
+    FColor* color = new FColor(0.0f,        1.0f,   0.0f, 1.0f);
 
     vec3 pos(p->getPosX(), p->getPosY(), p->getPosZ());
     vec3 dir(d->getPosX(), d->getPosY(), d->getPosZ());
 
-    FLuz* luz = new FLuz(color, dir, 20.0f, 25.0f);
+    FLuz* luz = new FLuz(color, dir, 8.5f, 10.5f);
     vec3 luzOrigin = vec3(-160,0,80);
     luz->Mover(pos);
     
