@@ -21,6 +21,8 @@ rMesh::rMesh(vector<Vertex> vert, vector<unsigned int> ind, vector<TRecursoTextu
 }
 
 
+
+
 void rMesh::setupMesh(){
 
 	glGenBuffers(1,&VBO);

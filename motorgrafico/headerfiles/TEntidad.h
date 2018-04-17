@@ -27,7 +27,7 @@ using namespace std;
 class TEntidad{
 public:
 	
-enum tEnt { transf, malla, luz, camara };
+enum tEnt { transf, malla, luz, camara, skybox };
 
 	virtual ~TEntidad() = default;
 	virtual void beginDraw(TDatosEntidad *datos)=0;

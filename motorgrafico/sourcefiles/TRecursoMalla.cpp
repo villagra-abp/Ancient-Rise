@@ -27,29 +27,3 @@ string TRecursoMalla::getDirectorio(){
 	return directory;
 }
 
-string TRecursoMalla::getPath(string name){
-	
-	string path;
-	/*
-	switch (name){
-		case "caja":
-			path = mCaja;
-			break;
-		case "ironMan":
-			path = mIronMan;
-			break;
-		default:
-			path = mCaja;
-			break;
-	}
-*/
-	if (name == "caja")
-		path = mCaja;
-	else if(name == "ironMan")
-		path = mIronMan;
-	else
-		path = mCaja;
-
-	return path;
-}
-

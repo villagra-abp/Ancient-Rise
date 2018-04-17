@@ -3,7 +3,7 @@
 TMalla::TMalla(){
 	gestor = TGestorRecursos::getInstance();
 	visible = true;
-	setMaterial("mat_naranja");
+	//setMaterial("mat_naranja");
 }
 TMalla::~TMalla(){
 

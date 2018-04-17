@@ -20,8 +20,7 @@ using namespace std;
 
 class TRecursoMalla : public TRecurso{
     public:
-    	vector<TRecursoTextura*> textures_loaded;
-        vector<rMesh> meshes;
+    	
 
         TRecursoMalla()
         {
@@ -34,7 +33,7 @@ class TRecursoMalla : public TRecurso{
        
         string getNombre() override;
         string getDirectorio();
-        string getPath(string name);
+//      string getPath(string name);
 
 		void setNombre(string nombre) override;
 		void setDirectorio(string direct);
@@ -45,7 +44,8 @@ class TRecursoMalla : public TRecurso{
         string directory;
     	string name;
         
-
+        vector<TRecursoTextura*> textures_loaded;
+        vector<rMesh> meshes;
         
 
 		
