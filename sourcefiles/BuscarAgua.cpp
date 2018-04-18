@@ -1,10 +1,10 @@
 #include "../headerfiles/BuscarAgua.h"
 
-
-
 Status BuscarAgua::run(Enemigo *e)
 {   
     e->setCombate(false);
+
+    nodos = board->getNodosGrafo();
 
     // DATOS DEL ENEMIGO
     Posicion* EnemigoPosition = e->getPosition(); 
@@ -25,11 +25,13 @@ Status BuscarAgua::run(Enemigo *e)
     {
        fuenteX = f[pos]->getVector3df()->getPosX();
        fuenteY = f[pos]->getVector3df()->getPosY();
+       cout<<"pOSy "<<fuenteY<<endl;
        for(size_t i=0; i<nodos.size();i++)
        {    
            posNodo = nodos[i]->getPosition();
-           if(fuenteY==posNodo->getPosY())        // Solo si el nodo esta a la misma altura que la pos de la fuente
+           if(fuenteY<posNodo->getPosY()+10 && fuenteY>posNodo->getPosY()-10)        // Solo si el nodo esta a la misma altura que la pos de la fuente
            {
+            cout<<"entro"<<endl;
                 if(fin==nullptr)
                 {
                     fin = nodos[i];
@@ -394,15 +396,16 @@ void BuscarAgua::reset()
 
 void BuscarAgua::onInitialize(Blackboard *b)
 {
+  cout<<"onInitialize buscarAgua"<<endl;
    /* INfo fuente */
    f = b->getFuente();
+   cout<<"onInitialize tam fuentes :"<<f.size()<<endl;
    fuentePosition = nullptr;
 
    board = b;
    contador = 0;
 
    /* Pathfinding */
-   nodos = board->getNodosGrafo();
    inicio1 = nullptr;
    inicio2 = nullptr;
    inicioBueno = nullptr;

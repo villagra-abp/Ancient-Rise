@@ -98,6 +98,7 @@ void Blackboard::setProtagonista(Protagonista* p)
 void Blackboard::setNodosGrafo(vector<NodoGrafo*> n)
 {
 	nodos = n;
+	cout<<"Nodos size2: "<<nodos.size()<<endl;
 }
 
 

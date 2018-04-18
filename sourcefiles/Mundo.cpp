@@ -5,7 +5,6 @@ Plataforma2(nullptr), Plataforma3(nullptr), cam(nullptr)	//CONSTRUCTOR
 {
     Fachada* fachada=fachada->getInstance();
 
-
     /*CREAMOS GESTOR DE SONIDO*/
     sonido = GestorSonido::getInstance();
     reverbCueva = sonido->create3DReverb();
@@ -13,29 +12,24 @@ Plataforma2(nullptr), Plataforma3(nullptr), cam(nullptr)	//CONSTRUCTOR
     reverbCueva->setTipo(sonido->REVERB_CUEVA);
     musicaBosque = sonido->createMusic(sonido->SOUND_MUSIC_BOSQUE);
 
+    /* CREAMOS PROTA */
+    prota = prota->getInstance();
+    addGameObject(prota);
+    //creo el suelo, el bounding box del prota
+    prota->CreateBox(world, -170.f, 0.f);
+
     /* CREAMOS LA BLACKBOARD */
     b=new Blackboard();
 
     /* Lectura del XML para la logica del juego */
     cargarNivel();
 
-    /* Pasamos toda la info necesaria a la blackboard */
-    b->setFuente(fuentes);
-    b->setComida(comidas);
-    b->setAlarma(alarmas);
-    b->setProtagonista(prota);
-    b->setNodosGrafo(nodos);            // Pasamos los nodos a la blackboard
+    
 
     for(int i=0;i<enemB.size();i++)   // Añadimos todos los enemigos basicos que existen a la blackboard
     {
         b->setEnemB(enemB[i]);
     }
-
-    /* CREAMOS PROTA */
-    prota = prota->getInstance();
-    addGameObject(prota);
-    //creo el suelo, el bounding box del prota
-    prota->CreateBox(world, -170.f, 0.f);
         
 
     /* CREAMOS OBJETOS */
@@ -92,15 +86,12 @@ Plataforma2(nullptr), Plataforma3(nullptr), cam(nullptr)	//CONSTRUCTOR
         
     Posicion* posmenu= new Posicion(.5f,-5001.5f,.5f);
     Menu* menu = new Menu(posmenu);
-    addGameObject(menu);
-        
+
     Posicion* pospausa= new Posicion(-20.5f,-5001.5f,.5f);
     Pausa* pausa = new Pausa(pospausa);
-    addGameObject(pausa);
         
     Posicion* poshud= new Posicion(-40.5f,-5001.5f,.5f);
     Hud* hud = new Hud(poshud);
-    addGameObject(hud);
 
 }	
 
@@ -715,7 +706,13 @@ void Mundo::cargarNivel()
 
                     ene=ene->NextSiblingElement("object");//pasamos a la siguiente caja
                 }//enemigo
-                      
+                
+                /* Pasamos toda la info necesaria a la blackboard */
+                b->setFuente(fuentes);
+                b->setComida(comidas);
+                b->setAlarma(alarmas);
+                b->setProtagonista(prota);
+                b->setNodosGrafo(nodos);            // Pasamos los nodos a la blackboard
 
                 grupo2=grupo2->NextSiblingElement("objectgroup");//pasamos a la siguiente caja
             }//grupo2

@@ -2,7 +2,6 @@
 
 Status Atacar::run(Enemigo *e)
 {   
-	//cout<<"ENTRO"<<endl;
     p = board->getProtagonista();
     protaX = p->getPosition()->getPosX();
     protaY = p->getPosition()->getPosY();
@@ -86,7 +85,6 @@ Status Atacar::run(Enemigo *e)
     }
     else        // PERSIGUIENDO
     {
-        nodos = board->getNodosGrafo();
         e->setVuelta(true);        // Para el recorrido de vuelta a la patrulla
         e->setCombate(false);
         contRec = 0;              // Para resetear el reloj de recargar proyectil y que tarde siempre lo mismo en recargar
@@ -451,6 +449,8 @@ void Atacar::reset()
 void Atacar::onInitialize(Blackboard *b)
 {
    board = b;
+   nodos = board->getNodosGrafo();
+   cout<<"Nodos size4: "<<nodos.size()<<endl;
    separacionAtaque = 10;
    p = board->getProtagonista();
    p = nullptr;
