@@ -421,7 +421,7 @@ FLuz* Fachada::addLuz(Posicion* p){
 }
 
 FLuz* Fachada::addLuzDireccional(Posicion* p){
-    FColor* color = new FColor(0.0f,        1.0f,   0.0f, 1.0f);
+    FColor* color = new FColor(1.0f,        1.0f,   1.0f, 1.0f);
 
     vec3 dir(p->getPosX(), p->getPosY(), p->getPosZ());
 

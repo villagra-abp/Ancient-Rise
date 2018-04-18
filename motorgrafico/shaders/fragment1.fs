@@ -1,6 +1,6 @@
 #version 330 core
 
-#define AMBIENT 0.05
+#define AMBIENT 0.1
 #define PI 3.1415926535897
 
 struct Material {
