@@ -477,7 +477,7 @@ void Fachada::CreateGround(b2World& world, float X, float Y,float largo,float al
     Shape.SetAsBox(largo/2, alto/2);
     b2FixtureDef FixtureDef;
     FixtureDef.density = 0.f;
-    FixtureDef.friction = 0.65f;
+    FixtureDef.friction = 0.4f;
     FixtureDef.shape = &Shape;
     Ground->CreateFixture(&FixtureDef);
 

@@ -17,6 +17,7 @@
 #include "../headerfiles/NodoGrafo.h"
 #include "../headerfiles/Menu.h"
 #include "../headerfiles/Pausa.h"
+#include "../headerfiles/Hud.h"
 #include <tinyxml.h>
 
 #include "../motorsonido/headerfiles/GestorSonido.h"
@@ -84,6 +85,7 @@ class Mundo : public Entorno
 
         int estado=0;
         int PosFlecha=3;
+        bool pintaHud=false;
 
     	//PROTAGONISTA
     	Protagonista*  prota;
