@@ -92,7 +92,7 @@ void Protagonista::CreateBox(b2World& world, float X, float Y)
     Shape.SetAsBox((10.f/2), (15.f/2));
     b2FixtureDef FixtureDef;
     FixtureDef.density = 0.5f;
-    FixtureDef.friction = 0.45f;
+    FixtureDef.friction = 0.2f;
     FixtureDef.shape = &Shape;
     FixtureDef.isSensor = false;
     FixtureDef.filter.groupIndex = GROUP_PLAYER;
@@ -102,23 +102,7 @@ void Protagonista::CreateBox(b2World& world, float X, float Y)
 
   
 }
-/**
-FUNCION PARA crear el objeto estatico
-**/
-void Protagonista::CreateGround(b2World& world, float X, float Y,int largo)
-{
-    b2BodyDef BodyDef;
-    BodyDef.position = b2Vec2(X/SCALE, Y/SCALE);
-    BodyDef.type = b2_staticBody;
-    b2Body* Ground = world.CreateBody(&BodyDef);
-    b2PolygonShape Shape;
-    Shape.SetAsBox((largo/2)/SCALE, (600.f/2)/SCALE);
-    b2FixtureDef FixtureDef;
-    FixtureDef.density = 0.f;
-    FixtureDef.friction = 0.65f;
-    FixtureDef.shape = &Shape;
-    Ground->CreateFixture(&FixtureDef);
-}
+
 /**
 FUNCION PARA actualizar el cuerpo
 **/
@@ -214,7 +198,7 @@ void Protagonista::movimiento(const glm::f32 Time)
                 correr=false;
         }else
         {
-            velo.x=-40.f;
+            velo.x=-30.f;
             //Body->ApplyForceToCenter(b2Vec2(-60.f,0.f),true);
             Body->SetLinearVelocity(velo);
             //protaPosition.X -= VELOCIDAD_MOVIMIENTO * Time*1.5;
@@ -241,7 +225,7 @@ void Protagonista::movimiento(const glm::f32 Time)
                 if(energia<10)
                     correr=false;
             }else{
-                velo.x=40.f;
+                velo.x=30.f;
                 //Body->ApplyForceToCenter(b2Vec2(60.f,0.f),true);
                 Body->SetLinearVelocity(velo);
             }

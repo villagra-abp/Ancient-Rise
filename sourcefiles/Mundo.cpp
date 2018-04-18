@@ -133,13 +133,17 @@ Fachada* fachada=fachada->getInstance();
 */
 
     
-    Posicion* posmenu= new Posicion(.5f,101.5f,.5f);
+    Posicion* posmenu= new Posicion(.5f,-5001.5f,.5f);
  	Menu* menu = new Menu(posmenu);
  	addGameObject(menu);
     
-    Posicion* pospausa= new Posicion(-20.5f,101.5f,.5f);
+    Posicion* pospausa= new Posicion(-20.5f,-5001.5f,.5f);
  	Pausa* pausa = new Pausa(pospausa);
  	addGameObject(pausa);
+    
+    Posicion* poshud= new Posicion(-40.5f,-5001.5f,.5f);
+ 	Hud* hud = new Hud(poshud);
+ 	addGameObject(hud);
 
     cargarNivel();
 
@@ -373,6 +377,10 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
 	Posicion* protaPosition = prota->getPosition();
 	//vec3 camPosition = cam->getPosicion();
     if(estado==2){
+        if(pintaHud){
+            cam->setPosicion(vec3(40,5000,-20));
+        }
+        else
     cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-15,-120)); // cambio 5O A ProtaPosition.Y
     //camPosition=vec3(protaPosition->getPosX(),protaPosition->getPosY()+30,protaPosition->getPosZ());
     //camPosition.y=protaPosition->getPosY()+30;
@@ -380,11 +388,11 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
     //cam->setTarget(camPosition);
     }
     if(estado==1){
-        cam->setPosicion(vec3(20,-100,-20));
+        cam->setPosicion(vec3(20,5000,-20));
         //cam->Rotar(vec3(0,1,0), 3.0f);
     }
     if(estado==0){
-        cam->setPosicion(vec3(0,-100,-20));
+        cam->setPosicion(vec3(0,5000,-20));
         //cam->Rotar(vec3(0,1,0), 3.0f);
     }
 }
@@ -420,11 +428,11 @@ void Mundo::timeWait(){
 }
 
 void Mundo::draw(){
-	//estado=1;
-    //camUpdate(5.f);
-    //fachada->draw();
-    //estado=0;
-    //camUpdate(5.f);
+	pintaHud=false;
+    camUpdate(5.f);
+    fachada->draw();
+    pintaHud=true;
+    camUpdate(5.f);
     fachada->draw();
 }
 

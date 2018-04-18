@@ -100,7 +100,7 @@ int main()
 		// ACTUALIZAMOS EL MUNDO 
 		mundo->update();
 
-    glViewport(0, 0, 800, 500); 
+    glViewport(0, 0, 800, 600); 
     mundo->draw();
     //ventana->pushGLStates();
     //ventana->setView(view);
