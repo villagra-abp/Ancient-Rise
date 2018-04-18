@@ -23,7 +23,7 @@ class ActivarAlarma : public Task
 	private:
 		
 		Blackboard *board;
-	    vector<Objeto*> a;
+	    vector<Alarma*> a;
 	    sf::Clock reloj; 		  			// Reloj para controlar el tiempo que se tarda en activar la alarma
 	    int contador;
 	    float enemigoX, enemigoY;

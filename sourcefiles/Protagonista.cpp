@@ -266,7 +266,7 @@ void Protagonista::comprobarColision(Enemigo *e)
 /**
 FUNCION PARA COMPROBAR LAS COLISIONES CON COMIDA
 **/
-void Protagonista::comprobarColision(Comida *comida)
+void Protagonista::comprobarColision(Objeto *comida)
 {
     float protaPosX=protaPosition->getPosX();
     float protaPosY=protaPosition->getPosY();

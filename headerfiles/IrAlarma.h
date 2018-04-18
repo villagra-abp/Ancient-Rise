@@ -23,7 +23,7 @@ class IrAlarma : public Task
 	private:
 		
 		Blackboard *board;
-	    vector<Objeto*> a;
+	    vector<Alarma*> a;
 	    float enemigoX, enemigoY;
 
 		//Datos de alarma

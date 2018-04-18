@@ -17,7 +17,7 @@ class AlarmaSonando : public Task
 		
 		Blackboard *board;
 	    glm::f32 frameDeltaTime;		  // Tiempo
-	    vector<Objeto*> a;
+	    vector<Alarma*> a;
 	    void* enemigoNode;
 	
 		//Datos de alarma

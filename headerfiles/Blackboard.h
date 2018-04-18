@@ -6,7 +6,7 @@
 #include "../headerfiles/Objeto.h"
 
 class NodoGrafo;
-
+class Alarma;
 
 /*
 Clase para poder almacenar informacion que puedan necesitar los arboles de comportamiento
@@ -23,7 +23,7 @@ class Blackboard
 		void setTime(const glm::f32 T);
 		void setFuente(vector<Objeto*> f);
 		void setComida(vector<Objeto*> c);
-		void setAlarma(vector<Objeto*>a);
+		void setAlarma(vector<Alarma*>a);
 		void setEnemB(EnemigoBasico *e);
 		void setEnemBActual(EnemigoBasico *e);
 		void setProtagonista(Protagonista* p);
@@ -34,7 +34,7 @@ class Blackboard
 		glm::f32 getTime();
 		vector<Objeto*> getFuente();
 		vector<Objeto*> getComida();
-		vector<Objeto*> getAlarma();
+		vector<Alarma*> getAlarma();
 		vector<EnemigoBasico*> getEnemB();
 		EnemigoBasico* getEnemBActual();
 		Protagonista* getProtagonista();
@@ -50,7 +50,7 @@ class Blackboard
 		/* OBJETOS DEL JUEGO */
 		vecObjetos fuentes;
 		vecObjetos comidas;
-		vecObjetos alarmas;
+		vector<Alarma*> alarmas;
 
 		/* ENEMIGOS BASICOS */
 		vector<EnemigoBasico*> enemigosB;

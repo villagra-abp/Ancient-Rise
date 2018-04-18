@@ -29,7 +29,7 @@ vector<Objeto*> Blackboard::getComida()
 	return comidas;
 }
 
-vector<Objeto*> Blackboard::getAlarma()
+vector<Alarma*> Blackboard::getAlarma()
 {
 	return alarmas;
 }
@@ -75,7 +75,7 @@ void Blackboard::setComida(vector<Objeto*> c)
 	comidas = c;
 }
 
-void Blackboard::setAlarma(vector<Objeto*> a)
+void Blackboard::setAlarma(vector<Alarma*> a)
 {
 	alarmas = a;
 }
