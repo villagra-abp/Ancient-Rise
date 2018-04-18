@@ -3,163 +3,104 @@
 Mundo::Mundo():prota(nullptr),c(nullptr),f(nullptr),a(nullptr),t(nullptr),bebida(nullptr),b(nullptr),enem1(nullptr),enem2(nullptr),enemE1(nullptr),Plataforma(nullptr),
 Plataforma2(nullptr), Plataforma3(nullptr), cam(nullptr)	//CONSTRUCTOR
 {
-Fachada* fachada=fachada->getInstance();
+    Fachada* fachada=fachada->getInstance();
 
 
-/*CREAMOS GESTOR DE SONIDO*/
-	sonido = GestorSonido::getInstance();
-	reverbCueva = sonido->create3DReverb();
-	reverbCueva->setAtributos3D(0.0f,0.0f,0.0f, 10.0f, 2000.0f);
-	reverbCueva->setTipo(sonido->REVERB_CUEVA);
-	musicaBosque = sonido->createMusic(sonido->SOUND_MUSIC_BOSQUE);
-/* CREAMOS PROTA */
-	prota = prota->getInstance();
-	addGameObject(prota);
-    
+    /*CREAMOS GESTOR DE SONIDO*/
+    sonido = GestorSonido::getInstance();
+    reverbCueva = sonido->create3DReverb();
+    reverbCueva->setAtributos3D(0.0f,0.0f,0.0f, 10.0f, 2000.0f);
+    reverbCueva->setTipo(sonido->REVERB_CUEVA);
+    musicaBosque = sonido->createMusic(sonido->SOUND_MUSIC_BOSQUE);
 
-	//creo el suelo, el bounding box del prota
-    prota->CreateBox(world, -170.f, 0.f);
-    
+    /* CREAMOS LA BLACKBOARD */
+    b=new Blackboard();
 
-/* CREAMOS OBJETOS */
-
-	Posicion* pC= new Posicion(-220.f, 0.34f, 30.f);
-	c = new Comida(pC);
-	comidas.push_back(c);
-	addGameObject(c);
-
-	Posicion* pC2= new Posicion(190.f, 0.34f, 30.f);
-	c2 = new Comida(pC2);
-	comidas.push_back(c2);
-	addGameObject(c2);
-
-	Posicion* pF= new Posicion(-190.f,0.34f,40.f);
-	f = new Fuente( pF);
-	fuentes.push_back(f);
-	addGameObject(f);
-
-	Posicion* pF2= new Posicion(320.f,0.34f,40.f);
-	f2 = new Fuente( pF2);
-	fuentes.push_back(f2);
-	addGameObject(f2);
-
-	Posicion* pA= new Posicion(120.f,0.34f,40.f);
-	a = new Alarma( pA);
-	alarmas.push_back(a);
-	addGameObject(a);
-
-	Posicion* pA2= new Posicion(-160.f,0.34f,40.f);
-	a2 = new Alarma( pA2);
-	alarmas.push_back(a2);
-	addGameObject(a2);
-
-	Posicion* posbebida= new Posicion(-300,0.34f,30.f);
- 	bebida = new Bebida(posbebida);
- 	addGameObject(bebida);
-
-	Posicion* postrampa= new Posicion(520,0.34f,30.f);
- 	t = new Trampa(postrampa);
- 	addGameObject(t);
-
-
-/* CREAMOS LA BLACKBOARD */
-
-	b=new Blackboard();
-    
-	 b->setFuente(fuentes);
-	 b->setComida(comidas);
-	 b->setAlarma(alarmas);
-	 b->setProtagonista(prota);
-	 
-
-/** ESTABLECEMOS LA CAMARA
- Aqui indicamos la posicion de la camara en el espacio 3d. En este caso,
- esta mirando desde la posicion (0, 30, -40) a la (0, 5, 0) donde es
- aproximadamente donde esta el objeto.
-**/
-    Posicion* camaraPos = new Posicion(prota->getPosition()->getPosX(),50,-140);
-    
-	cam = fachada->addCamara(camaraPos);
-	//device->getCursorControl()->setVisible(true);
-
- /* AÑADIMOS UNA LUZ */   
-    Posicion* luzPos=camaraPos;
-    fachada->addLuz(luzPos);
-    Posicion* dir = new Posicion(0,-1,1);
-    fachada->addLuzDireccional(dir);
-    Posicion* d = new Posicion(0,1,0);
-    Posicion* origen = new Posicion(0,65,0);
-    fachada->addLuzDirigida(origen,d);
-
-    vector<string> pathsSkybox;
-    pathsSkybox.push_back("resources/skybox/skybox_1.tga");
-    pathsSkybox.push_back("resources/skybox/skybox_3.tga");
-    pathsSkybox.push_back("resources/skybox/skybox_up.tga");
-    pathsSkybox.push_back("resources/skybox/skybox_down.tga");
-    pathsSkybox.push_back("resources/skybox/skybox_2.tga");
-    pathsSkybox.push_back("resources/skybox/skybox_4.tga");
-    fachada->addSkybox(pathsSkybox);
-    
-/* CREAMOS EL TERRENO Y COLISIONES DE CAMARA */
-
-	terrainBuilder();
-
-/** TIME AND FRAMES
- Para poder hacer un movimiento independiente del framerate, tenemos que saber
- cuanto ha pasado desde el ultimo frame
-**/
-	lastFPS = -1;
-
-	/* CREANDO GRAFO PARA EL MAPA PROTOTIPO */
-
- /* CREAMOS ENEMIGOS BASICOS */
-	/*enem1 = new EnemigoBasico( pos, 140.0, 0.8, 2, this, b, world);
-	enemB.push_back(enem1);
-	addGameObject(enem1); 
-	
-	enem2 = new EnemigoBasico(pos2, 140.0, 0.8, 1, this, b, world);
-	enemB.push_back(enem2);
-	addGameObject(enem2); */
-
-	/*for(int i=0;i<enemB.size();i++)   // Añadimos todos los enemigos basicos que existen a la blackboard
-	{
-		b->setEnemB(enemB[i]);
-	}	*/
-
-	/* CREAMOS ENEMIGOS ELITES */
-	/*enemE1 = new EnemigoElite(pos3, 120.0, 0.8, 2, this, b, world);
-	enemE.push_back(enemE1);
-	addGameObject(enemE1);
-*/
-
-    
-    Posicion* posmenu= new Posicion(.5f,-5001.5f,.5f);
- 	Menu* menu = new Menu(posmenu);
- 	addGameObject(menu);
-    
-    Posicion* pospausa= new Posicion(-20.5f,-5001.5f,.5f);
- 	Pausa* pausa = new Pausa(pospausa);
- 	addGameObject(pausa);
-    
-    Posicion* poshud= new Posicion(-40.5f,-5001.5f,.5f);
- 	Hud* hud = new Hud(poshud);
- 	addGameObject(hud);
-
+    /* Lectura del XML para la logica del juego */
     cargarNivel();
 
+    /* Pasamos toda la info necesaria a la blackboard */
+    b->setFuente(fuentes);
+    b->setComida(comidas);
+    b->setAlarma(alarmas);
+    b->setProtagonista(prota);
     b->setNodosGrafo(nodos);            // Pasamos los nodos a la blackboard
 
-   /* cout<<aristas.size()<<endl;
-    for(int i=0; i<aristas.size();i++)
-    {
-        cout<<"Nodo Inicio "<<aristas[i]->getNodoInicio()->getNombre()<<" Nodo FInal "<<aristas[i]->getNodoFin()->getNombre()<<endl;
-    }
-*/
-
-     for(int i=0;i<enemB.size();i++)   // Añadimos todos los enemigos basicos que existen a la blackboard
+    for(int i=0;i<enemB.size();i++)   // Añadimos todos los enemigos basicos que existen a la blackboard
     {
         b->setEnemB(enemB[i]);
     }
+
+    /* CREAMOS PROTA */
+    prota = prota->getInstance();
+    addGameObject(prota);
+    //creo el suelo, el bounding box del prota
+    prota->CreateBox(world, -170.f, 0.f);
+        
+
+    /* CREAMOS OBJETOS */
+
+    	Posicion* posbebida= new Posicion(-300,0.34f,30.f);
+     	bebida = new Bebida(posbebida);
+        bebidas.push_back(bebida);
+     	addGameObject(bebida);
+
+    	Posicion* postrampa= new Posicion(520,0.34f,30.f);
+     	t = new Trampa(postrampa);
+        trampas.push_back(t);
+     	addGameObject(t);
+
+    	 
+    /** ESTABLECEMOS LA CAMARA
+     Aqui indicamos la posicion de la camara en el espacio 3d. En este caso,
+     esta mirando desde la posicion (0, 30, -40) a la (0, 5, 0) donde es
+     aproximadamente donde esta el objeto.
+    **/
+        Posicion* camaraPos = new Posicion(prota->getPosition()->getPosX(),50,-140);
+        
+    	cam = fachada->addCamara(camaraPos);
+    	//device->getCursorControl()->setVisible(true);
+
+     /* AÑADIMOS UNA LUZ */   
+        Posicion* luzPos=camaraPos;
+        fachada->addLuz(luzPos);
+        Posicion* dir = new Posicion(0,-1,1);
+        fachada->addLuzDireccional(dir);
+        Posicion* d = new Posicion(0,1,0);
+        Posicion* origen = new Posicion(0,65,0);
+        fachada->addLuzDirigida(origen,d);
+
+        vector<string> pathsSkybox;
+        pathsSkybox.push_back("resources/skybox/skybox_1.tga");
+        pathsSkybox.push_back("resources/skybox/skybox_3.tga");
+        pathsSkybox.push_back("resources/skybox/skybox_up.tga");
+        pathsSkybox.push_back("resources/skybox/skybox_down.tga");
+        pathsSkybox.push_back("resources/skybox/skybox_2.tga");
+        pathsSkybox.push_back("resources/skybox/skybox_4.tga");
+        fachada->addSkybox(pathsSkybox);
+        
+    /* CREAMOS EL TERRENO Y COLISIONES DE CAMARA */
+
+    	terrainBuilder();
+
+    /** TIME AND FRAMES
+     Para poder hacer un movimiento independiente del framerate, tenemos que saber
+     cuanto ha pasado desde el ultimo frame
+    **/
+    	lastFPS = -1;
+
+        
+    Posicion* posmenu= new Posicion(.5f,-5001.5f,.5f);
+    Menu* menu = new Menu(posmenu);
+    addGameObject(menu);
+        
+    Posicion* pospausa= new Posicion(-20.5f,-5001.5f,.5f);
+    Pausa* pausa = new Pausa(pospausa);
+    addGameObject(pausa);
+        
+    Posicion* poshud= new Posicion(-40.5f,-5001.5f,.5f);
+    Hud* hud = new Hud(poshud);
+    addGameObject(hud);
 
 }	
 
@@ -169,7 +110,8 @@ void Mundo::terrainBuilder(){	//CONSTRUCTOR DEL TERRENOS Y COLISIONES DE CAMARA
 
 }
 
-void Mundo::update(){
+void Mundo::update()
+{
     //Comprueba las entradas del teclado
 	checkInput();
 	//pasos de las fisicas en el mundo
@@ -177,36 +119,28 @@ void Mundo::update(){
 	//reinicio las fuerzas en el mundo
 	world.ClearForces();
 
-	/* Creamos el framedeltatime y el tiempo */
-
+	/* Creamos el framedeltatime */
 	float frameDeltaTime = fachada->getTime(); // Time in seconds
 
 	Posicion* protaPosition = prota->getPosition();
-	//core::vector3df camPosition = cam->getPosition();
 
 	/* PROTA UPDATE */
-
 	protaUpdate(frameDeltaTime);
 
 	/* CAM UPDATE*/
-
     camUpdate(frameDeltaTime);
 
     b->setTime(frameDeltaTime);
     b->setProta(protaPosition->getPosX());
 
     /* ALARMA UPDATE*/
-    a->update();
-    //a2->update();
-
-    /*for(int i=0; i<alarmas.size();i++)
+    for(size_t i=0; i<alarmas.size();i++)
     {
         alarmas[i]->update();
-    }*/
+    }
 
     /* UPDATE DE LOS ENEMIGOS */
-
-    for(int i=0; i<enemB.size();i++)   		// Enemigos Basicos
+    for(size_t i=0; i<enemB.size();i++)   		// Enemigos Basicos
     {
     	if(enemB[i]->getNode()!=nullptr) 	// Solo si existen hacemos su update
     	{
@@ -214,7 +148,7 @@ void Mundo::update(){
 	     	enemB[i]->Update(prota->getPosition());
 	    }
     }
-/*
+
     for(int i2=0; i2<enemE.size();i2++) 	// Enemigos Elites
     {
     	if(enemE[i2]->getNode()!=nullptr)
@@ -223,7 +157,7 @@ void Mundo::update(){
 	     	enemE[i2]->Update(prota->getPosition());
 	    }
     }
-*/
+
     /* DRAW SCENE */
 
     //draw();
@@ -244,14 +178,21 @@ void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
 	Tiempo=Tiempo+frameDeltaTime;
     
 	energiaAnterior = prota->getEnergia();
+    
+    for(size_t i=0; i<comidas.size(); i++)
+    {
+	   prota->comprobarColision(comidas[i]);
+    }
 
-    //prota->ataque(frameDeltaTime);
-    
-    //prota->pintarInterfaz();
-    
-	prota->comprobarColision(c);
-    prota->comprobarColision(bebida);
-    prota->comprobarColision(t);
+    for(size_t i=0; i<bebidas.size(); i++)
+    {
+       prota->comprobarColision(bebidas[i]);
+    }
+
+    for(size_t i=0; i<trampas.size(); i++)
+    {
+       prota->comprobarColision(trampas[i]);
+    } 
 
     prota->updateBody(world);
     
@@ -698,6 +639,7 @@ void Mundo::cargarNivel()
                             }
 
                         }
+
                         pos.clear();    // Vaciamos el vector para que no de problemas para el siguiente
                         
                     }   
@@ -791,66 +733,61 @@ Mundo::~Mundo()	//DESTRUCTOR
 	delete prota;
 
 	/* DELETE ENEMIGOS */
-	for(int cont=0; cont<enemB.size();cont++)
+	for(size_t cont=0; cont<enemB.size();cont++)
 	{
 		delete enemB[cont];
 	}
 	enemB.clear();
 
-	for(int cont2=0; cont2<enemE.size();cont2++)
+	for(size_t cont2=0; cont2<enemE.size();cont2++)
 	{
 		delete enemE[cont2];
 	}
 	enemE.clear();
 
-    for(int cont3=0; cont3<pos.size();cont3++)
-    {
-        delete pos[cont3];
-    }
-	pos.clear();
-
-    for(int cont4=0; cont4<pos2.size();cont4++)
-    {
-        delete pos2[cont4];
-    }
-    pos2.clear();
-
-    for(int cont5=0; cont5<pos3.size();cont5++)
-    {
-        delete pos3[cont5];
-    }
-    pos3.clear();
-
-    for(int cont6=0; cont6<pos4.size();cont6++)
-    {
-        delete pos4[cont6];
-    }
-    pos4.clear();
-
-    delete c;
-    delete c2;
-    delete f;
-    delete f2;
-    delete a;
-    delete a2;
-    delete bebida;
-    delete t;
-    delete sonido;
-
-   // delete pC, pC2, pF, pF2, pA, pA2, posbebida, postrampa;
-
     /* DELETE DEL GRAFO PROVISIONAL */
-   	for(int cont3=0; cont3<nodos.size();cont3++)
+   	for(size_t cont3=0; cont3<nodos.size();cont3++)
    	{
    		delete nodos[cont3];
    	}
    	nodos.clear();
 
-   	for(int cont4=0; cont4<aristas.size();cont4++)
+   	for(size_t cont4=0; cont4<aristas.size();cont4++)
    	{
    		delete aristas[cont4];
    	}
    	aristas.clear();
+
+    /* DELETE DE LOS OBJETOS DEL MAPA */
+    for (size_t cont=0; cont<alarmas.size();cont++)
+    {
+        delete alarmas[cont];
+    }
+    alarmas.clear();
+
+    for (size_t cont=0; cont<fuentes.size();cont++)
+    {
+        delete fuentes[cont];
+    }
+    fuentes.clear();
+
+    for (size_t cont=0; cont<comidas.size();cont++)
+    {
+        delete comidas[cont];
+    }
+    comidas.clear();
+
+    for (size_t cont=0; cont<bebidas.size();cont++)
+    {
+        delete bebidas[cont];
+    }
+    bebidas.clear();
+
+    for (size_t cont=0; cont<trampas.size();cont++)
+    {
+        delete trampas[cont];
+    }
+    trampas.clear();
     
     
 }

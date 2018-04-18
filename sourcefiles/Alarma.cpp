@@ -6,14 +6,11 @@ Alarma::Alarma(Posicion* pos):Objeto(pos)
 	GameObject::setTipo(ALARMA);
     Fachada* fachada=fachada->getInstance();
 	objeto = fachada->addMalla(pos->getPosX(),pos->getPosY(),pos->getPosZ(),"resources/alarma.obj");
-    //std::cout<<pos.getPosX()<<endl;
+
 	if (objeto)
 	{
         Posicion escala(0.3f,0.3f,0.3f);
 		fachada->setScala(objeto,&escala);
-		
-        //fachada->setMaterial(objeto,"resources/desactivada.jpeg");
-        
 	}
 
 	contador = 0;
@@ -22,9 +19,7 @@ Alarma::Alarma(Posicion* pos):Objeto(pos)
 
 void Alarma::update()
 {
-	
 	checkActivada();
-	
 }
 
 /*

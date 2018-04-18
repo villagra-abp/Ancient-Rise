@@ -18,13 +18,9 @@ class Alarma : public Objeto
 
 
 	private:
-		//IVideoDriver* 		driver;
+
 		sf::Clock reloj; 		  			// Reloj para controlar el tiempo que tiene que estar activada la alarma
 	    int contador; 			  			// Para reiniciar el reloj cuando toca
-	    Posicion* alarmaPosition;		// Posicion de la alarma en el mapa
-
-
-
 };
 
 #endif

@@ -28,7 +28,7 @@ class Protagonista : public GameObject
          
          void comprobarColision(EnemigoBasico *e);
          void comprobarColision(Enemigo *e);
-         void comprobarColision(Comida *comida);
+         void comprobarColision(Objeto *comida);
          void comprobarColision(Bebida *bebida);
          void comprobarColision(Trampa *trampa);
          void gravedad(const glm::f32 Time);
