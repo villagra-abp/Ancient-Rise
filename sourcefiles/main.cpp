@@ -4,9 +4,10 @@
 
 int main()
 {
-
+	int ancho = 1400;
+	int alto = 900;
     //Creo la fachada 
-    Fachada* fachada = fachada->getInstance(800,600,false);
+    Fachada* fachada = fachada->getInstance(ancho,alto,false);
     //Protagonista* prota = prota->getInstance();
 	/* CREAMOS IRRLICHT DEVICE */
 
@@ -100,7 +101,7 @@ int main()
 		// ACTUALIZAMOS EL MUNDO 
 		mundo->update();
 
-    glViewport(0, 0, 800, 600); 
+    glViewport(0, 0, ancho,alto); 
     mundo->draw();
     //ventana->pushGLStates();
     //ventana->setView(view);
