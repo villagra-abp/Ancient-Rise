@@ -58,7 +58,7 @@ Plataforma2(nullptr), Plataforma3(nullptr), cam(nullptr)	//CONSTRUCTOR
      /* AÑADIMOS UNA LUZ */   
         Posicion* luzPos=camaraPos;
         fachada->addLuz(luzPos);
-        Posicion* dir = new Posicion(0,-1,1);
+        Posicion* dir = new Posicion(0,-1,-1);
         fachada->addLuzDireccional(dir);
         Posicion* d = new Posicion(0,1,0);
         Posicion* origen = new Posicion(0,65,0);

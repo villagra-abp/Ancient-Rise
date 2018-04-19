@@ -8,6 +8,9 @@ int main()
 	int ancho = 1400;
 	int alto = 900;
 
+//	int ancho = 800;
+//	int alto = 600;
+
     //Creo la fachada 
     Fachada* fachada = fachada->getInstance(ancho,alto,false);
     //Protagonista* prota = prota->getInstance();

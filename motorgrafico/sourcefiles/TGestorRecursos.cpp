@@ -77,6 +77,7 @@ TRecurso* TGestorRecursos::buscarRecurso(string path){
 	TRecurso *rec = nullptr;
 
 	for(int i=0;i<recursos.size() && !flag;i++){
+//		cout<<path<<" "<<recursos[i]->getNombre()<<endl;
 		if(recursos[i]->getNombre()==path){
 			flag = true;
 			rec = recursos[i];
@@ -261,8 +262,11 @@ vector<TRecursoTextura*> TGestorRecursos::loadMaterialTextures(aiMaterial *mat, 
 //			texture.type = typeName;
 //			texture.path = str.C_Str();
 			textures.push_back(texture);
+			recursos.push_back(texture);
 			//textures_loaded.push_back(texture);
-		}		
+		}	else {
+			textures.push_back(texture);
+		}	
 	}
 	return textures;
 }
