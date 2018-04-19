@@ -4,8 +4,6 @@ Status BuscarAgua::run(Enemigo *e)
 {   
     e->setCombate(false);
 
-    nodos = board->getNodosGrafo();
-
     // DATOS DEL ENEMIGO
     Posicion* EnemigoPosition = e->getPosition(); 
     enemigoX =EnemigoPosition->getPosX();
@@ -25,13 +23,11 @@ Status BuscarAgua::run(Enemigo *e)
     {
        fuenteX = f[pos]->getVector3df()->getPosX();
        fuenteY = f[pos]->getVector3df()->getPosY();
-       cout<<"pOSy "<<fuenteY<<endl;
        for(size_t i=0; i<nodos.size();i++)
        {    
            posNodo = nodos[i]->getPosition();
            if(fuenteY<posNodo->getPosY()+10 && fuenteY>posNodo->getPosY()-10)        // Solo si el nodo esta a la misma altura que la pos de la fuente
            {
-            cout<<"entro"<<endl;
                 if(fin==nullptr)
                 {
                     fin = nodos[i];
@@ -114,6 +110,7 @@ Status BuscarAgua::run(Enemigo *e)
 
                      if(time>4)     // BEBIENDO
                      {
+                      cout<<"BEBIENDO"<<endl;
                          e->setSed(100.f);                               // RECUPERAMOS SED
                          e->setVuelta(true);                             // Indicamos que estamos volviendo a la patrulla
                          f[pos]->setActivando(false);
@@ -290,6 +287,7 @@ void BuscarAgua::checkComportamiento(Enemigo *e)
     {
        case NORMAL:
        {
+        cout<<"NORMAL"<<endl;
           if (distNodoF<-1.0f) 
           {
               movimientoDireccion(e,false);                                   
@@ -310,18 +308,22 @@ void BuscarAgua::checkComportamiento(Enemigo *e)
 
        case SALTO:
        {
+        cout<<"SALTO"<<endl;
           if(distNodoFY>1.0f)
           {
+            cout<<"SALTO2"<<endl;
             e->setSaltando(true);
-            e->getBody()->ApplyForceToCenter(b2Vec2(0.f,3000.f),true);
+            e->getBody()->ApplyForceToCenter(b2Vec2(0.f,350000.f),true);
           }
           else
          {
+          cout<<"NoSALTO2"<<endl;
             e->setSaltando(false);
          }
 
           if(e->getSaltando()!=true)
           {
+            cout<<"SALTO3"<<endl;
             if(distNodoF<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
             {
               e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
@@ -346,6 +348,7 @@ void BuscarAgua::checkComportamiento(Enemigo *e)
 
        case BAJADA:
        {
+        cout<<"BAJADA"<<endl;
           if (distNodoF<-3.0f) 
           {
             e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));
@@ -396,16 +399,16 @@ void BuscarAgua::reset()
 
 void BuscarAgua::onInitialize(Blackboard *b)
 {
-  cout<<"onInitialize buscarAgua"<<endl;
    /* INfo fuente */
    f = b->getFuente();
-   cout<<"onInitialize tam fuentes :"<<f.size()<<endl;
+
    fuentePosition = nullptr;
 
    board = b;
    contador = 0;
 
    /* Pathfinding */
+   nodos = board->getNodosGrafo();
    inicio1 = nullptr;
    inicio2 = nullptr;
    inicioBueno = nullptr;

@@ -25,7 +25,7 @@ EnemigoBasico::EnemigoBasico(vector<Posicion*> pos, float xlength, float pendVal
     
 
      /* Velocidad a la que bajan las estadisticas del enemigo */
-    setVelSed(-3.3);
+    setVelSed(-0.3);
 
 
     /* BOX2D */
@@ -93,9 +93,10 @@ void EnemigoBasico::CreateBox(b2World& world, float X, float Y)
     Body = world.CreateBody(&BodyDef);
     Shape.SetAsBox((10.f/2), (15.f/2));
     b2FixtureDef FixtureDef;
-    FixtureDef.density = 1.2f;
-    FixtureDef.friction = 0.35f;
+    FixtureDef.density = 0.5f;
+    FixtureDef.friction = 0.2f;
     FixtureDef.shape = &Shape;
+    FixtureDef.isSensor = false;
     FixtureDef.filter.groupIndex = GROUP_ENEMIGOS;
     Body->CreateFixture(&FixtureDef);
 

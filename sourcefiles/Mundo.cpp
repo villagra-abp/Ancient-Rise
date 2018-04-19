@@ -1,7 +1,7 @@
 #include "../headerfiles/Mundo.h"
 
-Mundo::Mundo():prota(nullptr),c(nullptr),f(nullptr),a(nullptr),t(nullptr),bebida(nullptr),b(nullptr),enem1(nullptr),enem2(nullptr),enemE1(nullptr),Plataforma(nullptr),
-Plataforma2(nullptr), Plataforma3(nullptr), cam(nullptr)	//CONSTRUCTOR
+Mundo::Mundo():prota(nullptr),c(nullptr),f(nullptr),a(nullptr),t(nullptr),bebida(nullptr),b(nullptr),enem1(nullptr),enemE1(nullptr), cam(nullptr),
+posA(nullptr), posF(nullptr), p1(nullptr), p0(nullptr)	//CONSTRUCTOR
 {
     Fachada* fachada=fachada->getInstance();
 
@@ -24,13 +24,14 @@ Plataforma2(nullptr), Plataforma3(nullptr), cam(nullptr)	//CONSTRUCTOR
     /* Lectura del XML para la logica del juego */
     cargarNivel();
 
-    
+    /* Pasamos toda la info necesaria a la blackboard */
+    b->setComida(comidas);
+    b->setProtagonista(prota);
 
     for(int i=0;i<enemB.size();i++)   // Añadimos todos los enemigos basicos que existen a la blackboard
     {
         b->setEnemB(enemB[i]);
-    }
-        
+    }      
 
     /* CREAMOS OBJETOS */
 
@@ -597,10 +598,10 @@ void Mundo::cargarNivel()
                         }
 
 
-                        Posicion *p0 = new Posicion(nI->getPosition()->getPosX(),(nI->getPosition()->getPosY()),30.f);
+                        p0 = new Posicion(nI->getPosition()->getPosX(),(nI->getPosition()->getPosY()),30.f);
                         pos.push_back(p0);
 
-                        Posicion *p1 = new Posicion(nF->getPosition()->getPosX(),(nF->getPosition()->getPosY()),30.f);
+                        p1 = new Posicion(nF->getPosition()->getPosX(),(nF->getPosition()->getPosY()),30.f);
                         pos.push_back(p1);
 
                         int t = tipo/10;    // Tipo de enemigo
@@ -647,24 +648,24 @@ void Mundo::cargarNivel()
 
                     if(strcmp(grupo2->FirstAttribute()->Value(),"alarmas")==0)
                     {
-                        Posicion* posA= new Posicion(xEn-190,-yEn+60,0.f);
+                        posA= new Posicion(xEn-190,-yEn+60,0.f);
 
                         Alarma* alarm = new Alarma( posA);
                         alarmas.push_back(alarm);
                         addGameObject(alarm);
 
-                        delete posA;
+                        b->setAlarma(alarmas);
                     }  
 
                     if(strcmp(grupo2->FirstAttribute()->Value(),"fuentes")==0)
                     {
-                        Posicion* posF= new Posicion(xEn-190,-yEn+60,0.f);
+                        posF= new Posicion(xEn-190,-yEn+60,0.f);
 
-                        Fuente* fuente = new Fuente( posF);
+                        Fuente* fuente = new Fuente(posF);
                         fuentes.push_back(fuente);
                         addGameObject(fuente);
 
-                        delete posF;
+                        b->setFuente(fuentes);
                     }  
 
                     if(strcmp(grupo2->FirstAttribute()->Value(),"nodos")==0)
@@ -672,7 +673,8 @@ void Mundo::cargarNivel()
                         NodoGrafo *nA = new NodoGrafo(idE,xEn-190, -yEn+60);           
                         nodos.push_back(nA);
                         addGameObject(nA);
-                        //cout<<idE<<endl;
+
+                        b->setNodosGrafo(nodos);            // Pasamos los nodos a la blackboard
                     } 
 
                     if(strcmp(grupo2->FirstAttribute()->Value(),"aristas")==0)
@@ -706,13 +708,6 @@ void Mundo::cargarNivel()
 
                     ene=ene->NextSiblingElement("object");//pasamos a la siguiente caja
                 }//enemigo
-                
-                /* Pasamos toda la info necesaria a la blackboard */
-                b->setFuente(fuentes);
-                b->setComida(comidas);
-                b->setAlarma(alarmas);
-                b->setProtagonista(prota);
-                b->setNodosGrafo(nodos);            // Pasamos los nodos a la blackboard
 
                 grupo2=grupo2->NextSiblingElement("objectgroup");//pasamos a la siguiente caja
             }//grupo2
@@ -785,6 +780,11 @@ Mundo::~Mundo()	//DESTRUCTOR
         delete trampas[cont];
     }
     trampas.clear();
+
+    delete posA;
+    delete posF;
+    delete p0;
+    delete p1;
     
     
 }

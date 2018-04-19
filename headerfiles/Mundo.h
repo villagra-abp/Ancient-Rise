@@ -92,7 +92,11 @@ class Mundo : public Entorno
     	
 
     	//POSICIONES ENEMIGOS
-    	patrulla pos, pos2, pos3, pos4;	//Vector de posiciones para los enemigos
+    	patrulla pos;	//Vector de posiciones para los enemigos
+        Posicion *p0, *p1;
+
+        // POsiciones Objetos
+        Posicion* posA, *posF;
 
     	//OBJETOS
     	Comida *c, *c2;
@@ -111,15 +115,10 @@ class Mundo : public Entorno
 
     	//ENEMIGOS
     	enemigosBasicos enemB;	//Vector de enemigos Basicos
-    	EnemigoBasico 	*enem1, *enem2, *enem3;
+    	EnemigoBasico 	*enem1;
 
         enemigosElites enemE;
         EnemigoElite *enemE1;
-
-    	//PLATAFORMAS
-    	FObjeto* Plataforma;
-	    FObjeto* Plataforma2;
-	    FObjeto* Plataforma3;
 
         //GRAFO PATHFINDING
         vector<NodoGrafo*> nodos;            // Contiene todos los nodos del grafo
