@@ -27,7 +27,15 @@ Protagonista::Protagonista():energy(nullptr), life(nullptr), Body(nullptr), rec(
         
     energy=fachada->addMalla(-170,15,0,"resources/cajitaobj.obj");
     life=fachada->addMalla(-170,20,0,"resources/cajaColor.obj");
-    
+    flecha1=fachada->addMalla(-160,8,0,"resources/flecha.obj");
+    flecha0=fachada->addMalla(-170,8,0,"resources/flecha.obj");
+    Posicion escalar(0.f,0.f,.0f);
+    fachada->setScala(flecha1,&escalar);
+    fachada->rotObj(flecha1, 1, 0, 0, -45);
+    fachada->setScala(flecha0,&escalar);
+    fachada->rotObj(flecha0, 1, 0, 0, -45);
+    fachada->rotObj(flecha0, 0, 1, 0, -3);
+
 
     combate = false;
     pos_combate = 2; 
@@ -86,10 +94,10 @@ FUNCION PARA crear el objeto dinamico
 **/
 void Protagonista::CreateBox(b2World& world, float X, float Y)
 {
-    BodyDef.position = b2Vec2(X+5, Y+7);
+    BodyDef.position = b2Vec2(X+4, Y+4);
     BodyDef.type = b2_dynamicBody;
     Body = world.CreateBody(&BodyDef);
-    Shape.SetAsBox((10.f/2), (15.f/2));
+    Shape.SetAsBox((8.f/2), (10.f/2));
     b2FixtureDef FixtureDef;
     FixtureDef.density = 0.5f;
     FixtureDef.friction = 0.2f;
@@ -114,7 +122,55 @@ void Protagonista::updateBody(b2World& world)
     protaPosition->setPosY(Body->GetPosition().y);
     
     fachada->setPosicion(rec,protaPosition);
-    protaPosition->setPosY(protaPosition->getPosY()+15);
+    protaPosition->setPosX(protaPosition->getPosX()+5);
+    if(pos_combate==2){
+        protaPosition->setPosY(protaPosition->getPosY()+5);
+    }
+        
+    if(pos_combate==1){
+        protaPosition->setPosY(protaPosition->getPosY()+10);
+    }
+        
+    if(pos_combate==3){
+        protaPosition->setPosY(protaPosition->getPosY());
+    }
+    fachada->setPosicion(flecha1,protaPosition);
+    protaPosition->setPosX(protaPosition->getPosX()-10);
+    fachada->setPosicion(flecha0,protaPosition);
+    if(pos_combate==1){
+        protaPosition->setPosY(protaPosition->getPosY()-5);
+    }
+        
+    if(pos_combate==3){
+        protaPosition->setPosY(protaPosition->getPosY()+5);
+    }
+    
+    Posicion escalaFlechaCorta(0,0.f,0.f);
+    Posicion escalaFlechaLarga(0.1,.1f,0.1f);
+    Posicion escalaFlechaLarga2(0.2,.1f,0.1f);
+    
+    if(direccion==1&&combate){
+        fachada->setScala(flecha0,&escalaFlechaCorta);
+        if(!ataca){
+            fachada->setScala(flecha1,&escalaFlechaLarga);
+        }else
+            fachada->setScala(flecha1,&escalaFlechaLarga2);
+        
+    }
+    if(direccion==0&&combate){
+        fachada->setScala(flecha1,&escalaFlechaCorta);
+        if(!ataca){
+            fachada->setScala(flecha0,&escalaFlechaLarga);
+        }else
+            fachada->setScala(flecha0,&escalaFlechaLarga2);
+    }
+    if(!combate){
+        fachada->setScala(flecha1,&escalaFlechaCorta);
+        fachada->setScala(flecha0,&escalaFlechaCorta);
+        
+    }
+    protaPosition->setPosX(protaPosition->getPosX()+5);
+    protaPosition->setPosY(protaPosition->getPosY()+10);
     fachada->setPosicion(energy,protaPosition);
     protaPosition->setPosY(protaPosition->getPosY()+5);
     fachada->setPosicion(life,protaPosition);
@@ -123,7 +179,8 @@ void Protagonista::updateBody(b2World& world)
     fachada->setScala(energy,&escalaEnergy);
     fachada->setScala(life,&escalaLife);
     //std::cout<<"pos x: "<<Body->GetPosition().x<<"pos y: "<<Body->GetPosition().y<<endl;
-
+    //protaPosition->setPosY(protaPosition->getPosY()-10);
+    //checkPosCombate();
 }
 
 /**
@@ -361,23 +418,28 @@ void Protagonista::checkPosCombate()
     
     if(pos_combate == 1)    // ARRIBA
     {
-        protaPosition->setPosY(10.f); 
-        fachada->setPosicion(rec,protaPosition);
+        protaPosition->setPosY(protaPosition->getPosY()+5);
+        fachada->setPosicion(flecha1,protaPosition);
+        fachada->setPosicion(flecha0,protaPosition);
+        protaPosition->setPosY(protaPosition->getPosY()-5);
     }
     else
     {
         if(pos_combate == 3) // ABAJO
         {
-            protaPosition->setPosY(0.f); 
-            fachada->setPosicion(rec,protaPosition);
+            protaPosition->setPosY(protaPosition->getPosY()-5);
+            fachada->setPosicion(flecha1,protaPosition);
+            fachada->setPosicion(flecha0,protaPosition);
+            protaPosition->setPosY(protaPosition->getPosY()+5);
         }
         else        // CENTRO
         {
-            protaPosition->setPosY(5.f); 
-            fachada->setPosicion(rec,protaPosition);
+            protaPosition->setPosY(protaPosition->getPosY());
+            fachada->setPosicion(flecha1,protaPosition);
+            fachada->setPosicion(flecha0,protaPosition);
         }
     }
-  
+  //std::cout<<pos_combate<<endl;
 }
 
 /**
@@ -535,13 +597,14 @@ void Protagonista::setCombate()
     if(combate == true)
     {
         combate = false;        // DESACTIVAMOS MODO COMBATE
-        fachada->setMaterialFlag(rec,false);
+        
     }
     else
     {
         combate = true;         // MODO COMBATE ACTIVADO
-        fachada->setMaterialFlag(rec,true);
+        
     }
+    //std::cout<<combate<<endl;
 }
 
 void Protagonista::quitarVida(glm::f32 cantidad)
