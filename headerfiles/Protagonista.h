@@ -77,6 +77,8 @@ class Protagonista : public GameObject
         void * rec;
         void * energy;
         void * life;
+        void * flecha0;
+        void * flecha1;
         glm::f32 energia=100.f;
         glm::f32 vida=100.f;
         bool saltando=false;

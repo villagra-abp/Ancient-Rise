@@ -191,7 +191,7 @@ void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
     if(!prota->checkVida())
 		fachada->cerrar();
 
-	if(Tiempo>0.4f) 	// HACEMOS QUE LO QUE HAYA DENTRO SE HAGA MENOS VECES POR SEGUNDO
+	if(Tiempo>0.3f) 	// HACEMOS QUE LO QUE HAYA DENTRO SE HAGA MENOS VECES POR SEGUNDO
     {
         glm::f32 energia=prota->getEnergia();
 
@@ -205,6 +205,7 @@ void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
             }
         }
         prota->update(b);
+        Tiempo=0;
             
     }
 
@@ -267,6 +268,18 @@ void Mundo::checkInput(){
         	prota->setSalto(true);
     	}else
 		prota->setSalto(false);
+        
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)||JoyY>=50)//W
+    {
+        prota->setPosCombate(1);
+        
+    }
+    else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)||JoyY<=-50)
+    {
+        prota->setPosCombate(3);
+    }
+    else
+        prota->setPosCombate(2);
 	       
 }
 
@@ -276,8 +289,8 @@ void Mundo::checkCombate()
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::P)||sf::Joystick::isButtonPressed(0, 2))//p
     {  
         prota->setAtaque(true);
-    }
-        
+    }else
+      prota->setAtaque(false);  
     /* control de defensa*/
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::K)||sf::Joystick::isButtonPressed(0, 4))//k
     {
