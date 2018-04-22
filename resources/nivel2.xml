@@ -43,7 +43,7 @@
   <object id="28" x="799.614" y="14" width="20.0227" height="8"/>
   <object id="29" x="799.864" y="5.75" width="20.0227" height="8"/>
  </objectgroup>
- <objectgroup name="nodos" visible="0" locked="1">
+ <objectgroup name="nodos">
   <object id="30" x="12.9091" y="61.8182">
    <point/>
   </object>
@@ -53,7 +53,7 @@
   <object id="32" x="78.9091" y="54.1818">
    <point/>
   </object>
-  <object id="33" x="135.182" y="54.1818">
+  <object id="33" x="140.182" y="54.1818">
    <point/>
   </object>
   <object id="34" x="151.125" y="46.75">
@@ -164,12 +164,24 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup name="enemigos">
+ <objectgroup name="enemigos" visible="0" locked="1">
   <object id="105" name="3233" type="11" x="108.909" y="54.9091">
    <point/>
   </object>
+  <object id="106" name="3940" type="11" x="263" y="47.3333">
+   <point/>
+  </object>
+  <object id="107" name="4344" type="12" x="413.091" y="47.2727">
+   <point/>
+  </object>
+  <object id="108" name="4748" type="21" x="543.636" y="38.5455">
+   <point/>
+  </object>
+  <object id="109" name="5354" type="22" x="615.636" y="63.0909">
+   <point/>
+  </object>
  </objectgroup>
- <objectgroup name="aristas" visible="0" locked="1">
+ <objectgroup name="aristas">
   <object id="59" name="3031" type="51" x="13.8182" y="40.5455">
    <polyline points="0,0 55.2727,0.363636"/>
   </object>
@@ -290,10 +302,10 @@
   <object id="98" name="5655" type="51" x="693.545" y="21.0909">
    <polyline points="0,0 -48.0909,-0.818182"/>
   </object>
-  <object id="99" name="5152" type="72" x="696.182" y="17.0909">
+  <object id="99" name="5657" type="72" x="696.182" y="17.0909">
    <polyline points="0,0 6.45455,24.9091"/>
   </object>
-  <object id="100" name="5251" type="73" x="697.364" y="43.9091">
+  <object id="100" name="5756" type="73" x="697.364" y="43.9091">
    <polyline points="0,0 -5.90909,-23.5455"/>
   </object>
   <object id="101" name="5457" type="51" x="637.364" y="40.1818">
