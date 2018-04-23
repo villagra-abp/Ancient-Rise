@@ -211,7 +211,7 @@ bool Enemigo::checkInSight(Posicion* objPos){
 
     //Para depuracion
     float ymaxABS;
-    float ymaxABS;
+    float yminABS;
 
     //Valores necesarios para el Anyadido.
     float ylength = visionXmax * valorPendiente;        
@@ -230,6 +230,11 @@ bool Enemigo::checkInSight(Posicion* objPos){
 
     fachada->setPosicion( dep1, EnemigoPosition);
     //std::cout << enemigo->getPosition().X << endl;
+
+    //Depuracion
+    ymaxABS = visionXmax * valorPendiente;
+    yminABS = EnemigoPosition->getPosY() - (ymaxABS - EnemigoPosition->getPosY());
+
     if(lastFacedDir){   //Mira hacia derecha
         pjxmin = EnemigoPosition->getPosX();
         pjxmax = EnemigoPosition->getPosX() + visionXmax;
@@ -239,13 +244,12 @@ bool Enemigo::checkInSight(Posicion* objPos){
         //Depuracion
         Posicion suputamadre(pjxmax, EnemigoPosition->getPosY(), 30.f);
         fachada->setPosicion( dep2, &suputamadre);
-        /*ymaxABS = pjxmax * valorPendiente;
-        yminABS = EnemigoPosition->getPosY() - (ymaxABS - EnemigoPosition->getPosY());
+        
         //Depuracion
         Posicion suputamadre2(pjxmax, ymaxABS, 30.f);
         fachada->setPosicion( dep3, &suputamadre2);
         Posicion suputamadre3(pjxmax, yminABS, 30.f);
-        fachada->setPosicion( dep4, &suputamadre3);*/
+        fachada->setPosicion( dep4, &suputamadre3);
 
     }else{              //Mira hacia izquierda
         pjxmin = EnemigoPosition->getPosX() - visionXmax;
@@ -256,13 +260,12 @@ bool Enemigo::checkInSight(Posicion* objPos){
        //Depuracion
         Posicion suputamadre(pjxmin, EnemigoPosition->getPosY(), 30.f);
         fachada->setPosicion( dep2, &suputamadre);
-        /*ymaxABS = pjxmin * valorPendiente;
-        yminABS = EnemigoPosition->getPosY() - (ymaxABS - EnemigoPosition->getPosY());
+        
         //Depuracion
         Posicion suputamadre2(pjxmin, ymaxABS, 30.f);
         fachada->setPosicion( dep3, &suputamadre2);
         Posicion suputamadre3(pjxmin, yminABS, 30.f);
-        fachada->setPosicion( dep4, &suputamadre3);*/
+        fachada->setPosicion( dep4, &suputamadre3);
     }
 
     if(posObjX < pjxmax && posObjX > pjxmin){
