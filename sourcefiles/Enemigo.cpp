@@ -209,7 +209,10 @@ bool Enemigo::checkInSight(Posicion* objPos){
     float pjymax;          // Valor real en la ventana del punto del area con Y Maxima, respecto a la X recibida.
     float xReady;
 
-    
+    //Para depuracion
+    float ymaxABS;
+    float ymaxABS;
+
     //Valores necesarios para el Anyadido.
     float ylength = visionXmax * valorPendiente;        
     float xlength = visionXmax;
@@ -233,21 +236,38 @@ bool Enemigo::checkInSight(Posicion* objPos){
         pjxmax2 = pjxmax + xprima;
         xReady = posObjX - pjxmin;
 
+        //Depuracion
         Posicion suputamadre(pjxmax, EnemigoPosition->getPosY(), 30.f);
-    fachada->setPosicion( dep2, &suputamadre);
+        fachada->setPosicion( dep2, &suputamadre);
+        /*ymaxABS = pjxmax * valorPendiente;
+        yminABS = EnemigoPosition->getPosY() - (ymaxABS - EnemigoPosition->getPosY());
+        //Depuracion
+        Posicion suputamadre2(pjxmax, ymaxABS, 30.f);
+        fachada->setPosicion( dep3, &suputamadre2);
+        Posicion suputamadre3(pjxmax, yminABS, 30.f);
+        fachada->setPosicion( dep4, &suputamadre3);*/
+
     }else{              //Mira hacia izquierda
         pjxmin = EnemigoPosition->getPosX() - visionXmax;
         pjxmax = EnemigoPosition->getPosX();
         pjxmin2 = pjxmin - xprima;
         xReady = -(posObjX - pjxmax);
+
+       //Depuracion
         Posicion suputamadre(pjxmin, EnemigoPosition->getPosY(), 30.f);
         fachada->setPosicion( dep2, &suputamadre);
+        /*ymaxABS = pjxmin * valorPendiente;
+        yminABS = EnemigoPosition->getPosY() - (ymaxABS - EnemigoPosition->getPosY());
+        //Depuracion
+        Posicion suputamadre2(pjxmin, ymaxABS, 30.f);
+        fachada->setPosicion( dep3, &suputamadre2);
+        Posicion suputamadre3(pjxmin, yminABS, 30.f);
+        fachada->setPosicion( dep4, &suputamadre3);*/
     }
 
     if(posObjX < pjxmax && posObjX > pjxmin){
         pjymax = xReady * valorPendiente + EnemigoPosition->getPosY();
         pjymin = EnemigoPosition->getPosY() - (pjymax - EnemigoPosition->getPosY());
-
         
         if(posObjY > pjymin && posObjY < pjymax)
             inSight = true;
