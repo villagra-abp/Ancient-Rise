@@ -24,7 +24,7 @@ posA(nullptr), posF(nullptr), p1(nullptr), p0(nullptr)	//CONSTRUCTOR
     /* Lectura del XML para la logica del juego */
     cargarNivel();
 
-    for(int i=0; i<nodos.size();i++)
+    /*for(int i=0; i<nodos.size();i++)
     {
         cout<<"Nodo "<<nodos[i]->getNombre();
         cout<<" en X: "<<nodos[i]->getPosition()->getPosX();
@@ -50,10 +50,10 @@ posA(nullptr), posF(nullptr), p1(nullptr), p0(nullptr)	//CONSTRUCTOR
         {
                 cout<<"BAJADA"<<endl;
         }
-            
+           
 
     }
-
+*/
     //cout<<aristas.size()<<endl;
 
     /* Pasamos toda la info necesaria a la blackboard */
@@ -657,7 +657,7 @@ void Mundo::cargarNivel()
                         {   
                             case 1: // Enemigos Basicos
                             {
-                                enem1 = new EnemigoBasico( pos, 140.0, 0.8, a, this, b, world);
+                                enem1 = new EnemigoBasico( pos, 80.0, 0.8, a, this, b, world);
                                 enemB.push_back(enem1);
                                 addGameObject(enem1);
                                 break;
@@ -733,8 +733,6 @@ void Mundo::cargarNivel()
 
                         Arista *a1 = new Arista(p,t);       // Indicamos peso y tipo de la arista
                         aristas.push_back(a1);
-
-                        cout<<a1->getComportamiento()<<endl;
 
                         int nodoI = name/100;               // Nodo Inicio
                         int nodoF = name%100;               // Nodo FInal

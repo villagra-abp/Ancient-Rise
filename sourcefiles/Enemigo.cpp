@@ -22,6 +22,21 @@ Enemigo::Enemigo(vector<Posicion*> pos, float xlength, float pendValue, const En
         EnemigoPosition = pos;
 	}
 
+    dep1=fachada->addMalla(-170,15,0,"resources/manzana.obj");
+    dep2=fachada->addMalla(-175,15,0,"resources/manzana.obj");
+    dep3=fachada->addMalla(-175,15,0,"resources/manzana.obj");
+    dep4=fachada->addMalla(-175,15,0,"resources/manzana.obj");
+    energy=fachada->addMalla(-170,15,0,"resources/cajitaobj.obj");
+    life=fachada->addMalla(-170,20,0,"resources/cajaColor.obj");
+    flecha1=fachada->addMalla(-160,8,0,"resources/flecha.obj");
+    flecha0=fachada->addMalla(-170,8,0,"resources/flecha.obj");
+    Posicion escalar(0.f,0.f,.0f);
+    fachada->setScala(flecha1,&escalar);
+    fachada->rotObj(flecha1, 1, 0, 0, -45);
+    fachada->setScala(flecha0,&escalar);
+    fachada->rotObj(flecha0, 1, 0, 0, -45);
+    fachada->rotObj(flecha0, 0, 1, 0, -3);
+
     board = b;                                             // Guardamos la blackboard 
 
     /* Valores por defecto para los parametros para el rango de vision del enemigo */
@@ -68,8 +83,7 @@ Enemigo::Enemigo(vector<Posicion*> pos, float xlength, float pendValue, const En
 
 /* Update para todos los enemigos*/
 void Enemigo::update(Posicion* Posprota)
-{
-
+{   
     if(salud<0)
     {
         fachada->destruirObjeto(enemigo);
@@ -77,6 +91,8 @@ void Enemigo::update(Posicion* Posprota)
 
     if(enemigo!=nullptr)  // Solo si existe el enemigo hacemos su update
     { 
+        hudEnemigos();
+
         actualizarSed();
         //COMPROBAMOS GAMEOBJECTS DENTRO DE LA VISTA
         vistos.clear();
@@ -100,7 +116,6 @@ void Enemigo::update(Posicion* Posprota)
                 visto = false;
                 //fachada->setMaterial(enemigo,"resources/verde.jpg");
             }
-            
         }
 
         
@@ -210,22 +225,29 @@ bool Enemigo::checkInSight(Posicion* objPos){
     float pend1 = yprima/xprima1;
     float pend2 = yprima/(xprima - xprima1);
 
+    fachada->setPosicion( dep1, EnemigoPosition);
     //std::cout << enemigo->getPosition().X << endl;
     if(lastFacedDir){   //Mira hacia derecha
-        pjxmin = fachada->getPosicion(enemigo)->getPosX();
-        pjxmax = fachada->getPosicion(enemigo)->getPosX() + visionXmax;
+        pjxmin = EnemigoPosition->getPosX();
+        pjxmax = EnemigoPosition->getPosX() + visionXmax;
         pjxmax2 = pjxmax + xprima;
         xReady = posObjX - pjxmin;
+
+        Posicion suputamadre(pjxmax, EnemigoPosition->getPosY(), 30.f);
+    fachada->setPosicion( dep2, &suputamadre);
     }else{              //Mira hacia izquierda
-        pjxmin = fachada->getPosicion(enemigo)->getPosX() - visionXmax;
-        pjxmax = fachada->getPosicion(enemigo)->getPosX();
+        pjxmin = EnemigoPosition->getPosX() - visionXmax;
+        pjxmax = EnemigoPosition->getPosX();
         pjxmin2 = pjxmin - xprima;
         xReady = -(posObjX - pjxmax);
+        Posicion suputamadre(pjxmin, EnemigoPosition->getPosY(), 30.f);
+        fachada->setPosicion( dep2, &suputamadre);
     }
 
     if(posObjX < pjxmax && posObjX > pjxmin){
         pjymax = xReady * valorPendiente + EnemigoPosition->getPosY();
         pjymin = EnemigoPosition->getPosY() - (pjymax - EnemigoPosition->getPosY());
+
         
         if(posObjY > pjymin && posObjY < pjymax)
             inSight = true;
@@ -301,6 +323,67 @@ void Enemigo::changeLastFaceDir()
     {
         lastFacedDir = true;
     }
+}
+/* FUncion para mostrar el hud de los enemigos */
+void Enemigo::hudEnemigos()
+{
+    Posicion posicionHUD(EnemigoPosition->getPosX(), EnemigoPosition->getPosY(),0.f);
+    posicionHUD.setPosX(posicionHUD.getPosX()+5);
+        if(pos_combate==2){
+            posicionHUD.setPosY(posicionHUD.getPosY()+5);
+        }
+            
+        if(pos_combate==1){
+            posicionHUD.setPosY(posicionHUD.getPosY()+10);
+        }
+            
+        if(pos_combate==3){
+            posicionHUD.setPosY(posicionHUD.getPosY());
+        }
+        fachada->setPosicion(flecha1,&posicionHUD);
+        posicionHUD.setPosX(posicionHUD.getPosX()-10);
+        fachada->setPosicion(flecha0,&posicionHUD);
+        if(pos_combate==1){
+            posicionHUD.setPosY(posicionHUD.getPosY()-5);
+        }
+            
+        if(pos_combate==3){
+            posicionHUD.setPosY(posicionHUD.getPosY()+5);
+        }
+        
+        Posicion escalaFlechaCorta(0,0.f,0.f);
+        Posicion escalaFlechaLarga(0.1,.1f,0.1f);
+        Posicion escalaFlechaLarga2(0.2,.1f,0.1f);
+        
+        if(lastFacedDir==true &&combate){
+            fachada->setScala(flecha0,&escalaFlechaCorta);
+            if(!ataca){
+                fachada->setScala(flecha1,&escalaFlechaLarga);
+            }else
+                fachada->setScala(flecha1,&escalaFlechaLarga2);
+            
+        }
+        if(lastFacedDir==false  &&combate){
+            fachada->setScala(flecha1,&escalaFlechaCorta);
+            if(!ataca){
+                fachada->setScala(flecha0,&escalaFlechaLarga);
+            }else
+                fachada->setScala(flecha0,&escalaFlechaLarga2);
+        }
+        if(!combate){
+            fachada->setScala(flecha1,&escalaFlechaCorta);
+            fachada->setScala(flecha0,&escalaFlechaCorta);
+            
+        }
+        posicionHUD.setPosX(posicionHUD.getPosX()+5);
+        posicionHUD.setPosY(posicionHUD.getPosY()+10);
+        fachada->setPosicion(energy,&posicionHUD);
+        posicionHUD.setPosY(posicionHUD.getPosY()+5);
+        fachada->setPosicion(life,&posicionHUD);
+        Posicion escalaEnergy(energia/10,2.f,0.f);
+        Posicion escalaLife(salud/20,2.f,0.f);
+        fachada->setScala(energy,&escalaEnergy);
+        fachada->setScala(life,&escalaLife);
 }
 
 /**

@@ -24,6 +24,7 @@ class Enemigo : public GameObject
         void update(Posicion* prota);
         void updateTiempo(const glm::f32 Time);
         void actualizarSed();
+        void hudEnemigos();
         virtual void comprobarEnergia()=0;
         
         /* Vision del Enemigo */
@@ -93,6 +94,11 @@ class Enemigo : public GameObject
 
     protected:
         void * enemigo;
+        void * energy;
+        void * life;
+        void * flecha0;
+        void * flecha1;
+        void *dep1, *dep2, *dep3, *dep4;
         
         Posicion* EnemigoPosition;            // VECTOR 3D CON LA POSICION DEL ENEMIGO 
         int contadorPatrulla;                       // PARA SABER LA POSICION EN LA QUE SE ENCUENTRA EN LA PATRULLA

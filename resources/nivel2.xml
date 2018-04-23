@@ -165,7 +165,7 @@
   </object>
  </objectgroup>
  <objectgroup name="enemigos" visible="0" locked="1">
-<object id="105" name="3233" type="11" x="108.909" y="54.9091">
+  <object id="107" name="4344" type="12" x="413.091" y="47.2727">
    <point/>
   </object>
  </objectgroup>
