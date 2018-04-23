@@ -90,7 +90,6 @@ class Mundo : public Entorno
     	//PROTAGONISTA
     	Protagonista*  prota;
     	
-
     	//POSICIONES ENEMIGOS
     	patrulla pos;	//Vector de posiciones para los enemigos
         Posicion *p0, *p1;

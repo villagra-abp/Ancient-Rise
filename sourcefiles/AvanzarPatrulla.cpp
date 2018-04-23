@@ -3,7 +3,8 @@
 
 
 Status AvanzarPatrulla::run(Enemigo *e)
-{
+{  
+    e->setVelocidad(e->getVelNormal());     // Movimiento sin coste de energia
     pos = e->getPosicion();
 
     enemigoX = e->getPosition()->getPosX();
@@ -292,6 +293,7 @@ void AvanzarPatrulla::checkComportamiento(Enemigo *e)
     {
        case NORMAL:
        {
+        cout<<"NORMAL"<<endl;
           if (distNodoF<-1.0f) 
           {
               movimientoDireccion(e,false);                                   
@@ -312,6 +314,7 @@ void AvanzarPatrulla::checkComportamiento(Enemigo *e)
 
        case SALTO:
        {
+        cout<<"SALTO"<<endl;
           if(distNodoFY>1.0f)
           {
             e->setSaltando(true);
@@ -348,6 +351,7 @@ void AvanzarPatrulla::checkComportamiento(Enemigo *e)
 
        case BAJADA:
        {
+        cout<<"BAJADA"<<endl;
           if (distNodoF<-3.0f) 
           {
             e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));
@@ -367,9 +371,9 @@ void AvanzarPatrulla::checkComportamiento(Enemigo *e)
 
               if(bajada == true)
               {
-                if(distNodoFY<-1.0f)
+                if(distNodoFY<-5.0f)
                 {
-                  e->getBody()->ApplyForceToCenter(b2Vec2(0.f,-3000.f),true);
+                  e->getBody()->ApplyForceToCenter(b2Vec2(0.f,-5000.f),true);
                 }
                 else
                 {

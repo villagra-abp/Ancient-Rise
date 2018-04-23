@@ -3,6 +3,7 @@
 Status BuscarAgua::run(Enemigo *e)
 {   
     e->setCombate(false);
+    e->setVelocidad(20.f);
 
     // DATOS DEL ENEMIGO
     Posicion* EnemigoPosition = e->getPosition(); 
@@ -13,10 +14,12 @@ Status BuscarAgua::run(Enemigo *e)
     if(inicio1==nullptr && inicio2==nullptr)  // Solo buscaremos el nodo inicio si no lo habiamos encontrado ya
     {
         buscarNodoInicial(e, enemigoX);
+        cout<<"INICIOBUENO"<<inicioBueno->getNombre()<<endl;
     }
        
     /* BUSCAR FUENTE MAS CERCANA */
       buscarFuenteCercana(enemigoX);
+      //cout<<"EnemigoY"
 
      /* Buscamos el nodo mas cercano a la fuente elegida para ir */
     if(fin==nullptr)        // Solo si no lo habiamos encontrado ya
@@ -137,14 +140,17 @@ void BuscarAgua::startClock()
 /* Metodo para buscar el nodo inicial visible del grafo mas cercano desde la pos del enemigo, siempre y cuando no lo hayamos encontrado ya antes */
 void BuscarAgua::buscarNodoInicial(Enemigo *e, float posX)
 {
+    e->actualizarVistos();
     recorrerNodos(e,1, posX);
 
     if(e->getLastFaceDir()==true)                      // Comprobamos a donde esta mirando el enemigo y hacemos que mire al lado contrario
     {   
+      cout<<"Cambio true"<<endl;
         e->setLastFacedDir(false);
     } 
     else
     {   
+      cout<<"Cambio False"<<endl;
         e->setLastFacedDir(true);
     }
 
@@ -177,12 +183,12 @@ void BuscarAgua::buscarNodoInicial(Enemigo *e, float posX)
 /* Funcion para recorrer todos los nodos del grafo y comprobar si el enemigo puede ver alguno */
 void BuscarAgua::recorrerNodos(Enemigo* e, uint8_t v, float posX)
 {
-
+  cout<<"entro"<<endl;
     for(size_t i=0; i<nodos.size();i++)
     {
         if(e->see(nodos[i]))            // Comprobamos si el enemigo ve al nodo
         {   
-
+           cout<<nodos[i]->getNombre()<<endl;
             if(v==1)
             {
                 if(inicio1==nullptr)         
@@ -258,15 +264,13 @@ void BuscarAgua::movimientoDireccion(Enemigo *e, bool d)
 {
     if(d==false)   // Izquierda
     {
-      e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
-      e->getBody()->ApplyForceToCenter(b2Vec2(-300.f,0.f),true);             // Fuerza para correr
+      e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Obtenemos la velocidad del enemigo
 
       e->setLastFacedDir(d); 
     }
     else  // Derecha
     {
-        e->getBody()->SetLinearVelocity(e->getVelocidad2d());
-        e->getBody()->ApplyForceToCenter(b2Vec2(300.f,0.f),true);          
+        e->getBody()->SetLinearVelocity(e->getVelocidad2d());     
 
         e->setLastFacedDir(d);   
     }
@@ -311,19 +315,16 @@ void BuscarAgua::checkComportamiento(Enemigo *e)
         cout<<"SALTO"<<endl;
           if(distNodoFY>1.0f)
           {
-            cout<<"SALTO2"<<endl;
             e->setSaltando(true);
             e->getBody()->ApplyForceToCenter(b2Vec2(0.f,350000.f),true);
           }
           else
          {
-          cout<<"NoSALTO2"<<endl;
             e->setSaltando(false);
          }
 
           if(e->getSaltando()!=true)
           {
-            cout<<"SALTO3"<<endl;
             if(distNodoF<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
             {
               e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
@@ -368,7 +369,7 @@ void BuscarAgua::checkComportamiento(Enemigo *e)
 
               if(bajada == true)
               {
-                if(distNodoFY<-1.0f)
+                if(distNodoFY<-5.0f)
                 {
                   e->getBody()->ApplyForceToCenter(b2Vec2(0.f,-3000.f),true);
                 }

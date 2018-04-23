@@ -3,6 +3,7 @@
 Status Huir::run(Enemigo *e)
 {   
     e->setCombate(false);
+    e->setVelocidad(20.f);
 
     Posicion* EnemigoPosition = e->getPosition(); 
     float enemigoX=EnemigoPosition->getPosX();

@@ -3,6 +3,7 @@
 Status ActivarAlarma::run(Enemigo *e)
 {   
    e->setCombate(false);
+   e->setVelocidad(20.f);
 
    // DATOS DEL ENEMIGO
    Posicion* EnemigoPosition = e->getPosition(); 
@@ -27,7 +28,7 @@ Status ActivarAlarma::run(Enemigo *e)
        for(int i=0; i<nodos.size();i++)
        {    
            posNodo = nodos[i]->getPosition();
-           if(alarmaY==posNodo->getPosY())        // Solo si el nodo esta a la misma altura que la alarma
+           if(alarmaY<posNodo->getPosY()+10 && alarmaY>posNodo->getPosY()-10)        // Solo si el nodo esta a la misma altura que la alarma
            {
                 if(fin==nullptr)
                 {
@@ -121,6 +122,7 @@ Status ActivarAlarma::run(Enemigo *e)
 
                   if(duration > 2)        // TIEMPO QUE TARDA EN ACTIVARLA
                   {
+                    cout<<"Activada"<<endl;
                     al->setActivado(true);     
                     al->setActivando(false);
                     contador = 0; // Para resetear el reloj
@@ -248,14 +250,12 @@ void ActivarAlarma::movimientoDireccion(Enemigo *e, bool d)
     if(d==false)   // Izquierda
     {
       e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
-      e->getBody()->ApplyForceToCenter(b2Vec2(-300.f,0.f),true);             // Fuerza para correr
 
       e->setLastFacedDir(d); 
     }
     else  // Derecha
     {
-        e->getBody()->SetLinearVelocity(e->getVelocidad2d());
-        e->getBody()->ApplyForceToCenter(b2Vec2(300.f,0.f),true);          
+        e->getBody()->SetLinearVelocity(e->getVelocidad2d());         
 
         e->setLastFacedDir(d);   
     }

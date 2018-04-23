@@ -25,7 +25,7 @@ EnemigoBasico::EnemigoBasico(vector<Posicion*> pos, float xlength, float pendVal
     
 
      /* Velocidad a la que bajan las estadisticas del enemigo */
-    setVelSed(-0.3);
+    setVelSed(-3.3);
 
 
     /* BOX2D */
@@ -34,8 +34,6 @@ EnemigoBasico::EnemigoBasico(vector<Posicion*> pos, float xlength, float pendVal
 */
     CreateBox(world, patrulla[0]->getPosX(), patrulla[0]->getPosY());
     velocidad2d = Body->GetLinearVelocity();
-
-    velocidad2d.x = 25.f;
 
 
 }
@@ -88,10 +86,10 @@ FUNCION PARA crear el objeto dinamico
 void EnemigoBasico::CreateBox(b2World& world, float X, float Y)
 {
 
-    BodyDef.position = b2Vec2(X+5, Y+7);
+    BodyDef.position = b2Vec2(X+4, Y+4);
     BodyDef.type = b2_dynamicBody;
     Body = world.CreateBody(&BodyDef);
-    Shape.SetAsBox((10.f/2), (15.f/2));
+    Shape.SetAsBox((8.f/2), (10.f/2));
     b2FixtureDef FixtureDef;
     FixtureDef.density = 0.5f;
     FixtureDef.friction = 0.2f;

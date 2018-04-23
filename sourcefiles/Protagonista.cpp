@@ -178,9 +178,6 @@ void Protagonista::updateBody(b2World& world)
     Posicion escalaLife(vida/10,2.f,0.f);
     fachada->setScala(energy,&escalaEnergy);
     fachada->setScala(life,&escalaLife);
-    //std::cout<<"pos x: "<<Body->GetPosition().x<<"pos y: "<<Body->GetPosition().y<<endl;
-    //protaPosition->setPosY(protaPosition->getPosY()-10);
-    //checkPosCombate();
 }
 
 /**

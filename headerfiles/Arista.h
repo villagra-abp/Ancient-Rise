@@ -5,6 +5,7 @@ class NodoGrafo;
 
 enum Comportamiento  // Enumerador para definir el comportamiento que debe seguir el NPC mientras este pasando esta arista
 {
+	
 	SALTO, 			// El NPC tiene que ejecutar un salto
 	NORMAL,
 	BAJADA,

@@ -3,6 +3,7 @@
 Status IrAlarma::run(Enemigo *e)
 {   
   e->setCombate(false);
+  e->setVelocidad(20.f);
 
   // DATOS  ENEMIGO
   enemigoX = e->getPosition()->getPosX();
@@ -32,7 +33,7 @@ Status IrAlarma::run(Enemigo *e)
         for(size_t i=0; i<nodos.size();i++)
         {    
             posNodo = nodos[i]->getPosition();
-            if(alarmaY==posNodo->getPosY())        // Solo si el nodo esta a la misma altura que la pos de la fuente
+            if(alarmaY<posNodo->getPosY()+10 && alarmaY>posNodo->getPosY()-10)        // Solo si el nodo esta a la misma altura que la pos de la fuente
             {
                 if(fin==nullptr)
                 {
@@ -280,14 +281,12 @@ void IrAlarma::movimientoDireccion(Enemigo *e, bool d)
     if(d==false)   // Izquierda
     {
       e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
-      e->getBody()->ApplyForceToCenter(b2Vec2(-300.f,0.f),true);             // Fuerza para correr
 
       e->setLastFacedDir(d); 
     }
     else  // Derecha
     {
         e->getBody()->SetLinearVelocity(e->getVelocidad2d());
-        e->getBody()->ApplyForceToCenter(b2Vec2(300.f,0.f),true);          
 
         e->setLastFacedDir(d);   
     }

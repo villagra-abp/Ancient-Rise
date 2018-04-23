@@ -12,23 +12,17 @@ Enemigo::Enemigo(vector<Posicion*> pos, float xlength, float pendValue, const En
 {
     GameObject::setTipo(ENEMY);
     Fachada* fachada=fachada->getInstance();
-	//enemigo = fachada->addCube(pos[0]->getPosX(),pos[0]->getPosY(),pos[0]->getPosZ(),false);
+	
     FObjeto* enemigoObjeto = fachada->addMalla(pos[0]->getPosX(),pos[0]->getPosY(),pos[0]->getPosZ(), "resources/personaje.obj");
     enemigo = enemigoObjeto;
-    cout<<pos[0]->getPosX()<<" "<<pos[0]->getPosY()<<" "<<pos[0]->getPosZ()<<endl;
+
     if (enemigo) /** SI HEMOS CREADO EL CUBO **/
 	{  
-         //driver = fachada->getDriver();
-        //fachada ->setMaterial(enemigo,"resources/verde.jpg");
         Posicion* pos= new Posicion(pos[0].getPosX(),pos[0].getPosY(),pos[0].getPosZ());
         EnemigoPosition = pos;
-
-
 	}
 
     board = b;                                             // Guardamos la blackboard 
-
-    //env = dev->getGUIEnvironment();
 
     /* Valores por defecto para los parametros para el rango de vision del enemigo */
     lastFacedDir = false;
@@ -68,7 +62,8 @@ Enemigo::Enemigo(vector<Posicion*> pos, float xlength, float pendValue, const En
     vuelta = false;
     interrupcion = false;
 
-
+    /* Establecemos su velocidad de movimiento estandar la cual no consume energia */
+    velocidad2d.x = VELOCIDAD_NORMAL;
 }
 
 /* Update para todos los enemigos*/
@@ -443,8 +438,6 @@ void Enemigo::setEnergia(glm::f32 e)
 
 void Enemigo::setVelocidad(glm::f32 v)
 {
-    //VELOCIDAD_ENEMIGO=v;
-
     velocidad2d.x = v;
 }
 

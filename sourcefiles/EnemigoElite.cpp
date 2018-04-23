@@ -31,8 +31,6 @@ EnemigoElite::EnemigoElite(vector<Posicion*> pos, float xlength, float pendValue
     CreateBox(world, patrulla[0]->getPosX()*30, patrulla[0]->getPosY()*30);
     velocidad2d = Body->GetLinearVelocity();
 
-    velocidad2d.x = 25.f;
-
 }
 
 void EnemigoElite::Update(Posicion* prota)

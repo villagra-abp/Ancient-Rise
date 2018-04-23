@@ -24,6 +24,38 @@ posA(nullptr), posF(nullptr), p1(nullptr), p0(nullptr)	//CONSTRUCTOR
     /* Lectura del XML para la logica del juego */
     cargarNivel();
 
+    for(int i=0; i<nodos.size();i++)
+    {
+        cout<<"Nodo "<<nodos[i]->getNombre();
+        cout<<" en X: "<<nodos[i]->getPosition()->getPosX();
+        cout<<" y en Y: "<<nodos[i]->getPosition()->getPosY()<<endl;
+    }
+
+    for(int i=0; i<aristas.size();i++)
+    {
+        cout<<"Arista "<<i;
+        cout<<" con nodo Inicio "<<aristas[i]->getNodoInicio()->getNombre();
+        cout<<" y nodo FIn: "<<aristas[i]->getNodoFin()->getNombre();
+        cout<<" y compotamiento : ";
+
+        if(aristas[i]->getComportamiento()==NORMAL)
+        {
+            cout<<"NORMAL"<<endl;
+        }
+        if(aristas[i]->getComportamiento()==SALTO)
+        {
+                cout<<"SALTO"<<endl;
+        }
+        if(aristas[i]->getComportamiento()==BAJADA)
+        {
+                cout<<"BAJADA"<<endl;
+        }
+            
+
+    }
+
+    //cout<<aristas.size()<<endl;
+
     /* Pasamos toda la info necesaria a la blackboard */
     b->setComida(comidas);
     b->setProtagonista(prota);
@@ -191,7 +223,7 @@ void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
     if(!prota->checkVida())
 		fachada->cerrar();
 
-	if(Tiempo>0.3f) 	// HACEMOS QUE LO QUE HAYA DENTRO SE HAGA MENOS VECES POR SEGUNDO
+	if(Tiempo>0.1f) 	// HACEMOS QUE LO QUE HAYA DENTRO SE HAGA MENOS VECES POR SEGUNDO
     {
         glm::f32 energia=prota->getEnergia();
 
@@ -202,6 +234,7 @@ void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
             for(int i=0; i<enemB.size();i++)
             {
                 enemB[i]->setInvisible();
+                cout<<"entro"<<endl;
             }
         }
         prota->update(b);
@@ -687,6 +720,9 @@ void Mundo::cargarNivel()
                         nodos.push_back(nA);
                         addGameObject(nA);
 
+                        //cout<<"PosX "<<xEn<<endl;
+                        //cout<<"PosY "<<yEn<<endl;
+
                         b->setNodosGrafo(nodos);            // Pasamos los nodos a la blackboard
                     } 
 
@@ -697,6 +733,8 @@ void Mundo::cargarNivel()
 
                         Arista *a1 = new Arista(p,t);       // Indicamos peso y tipo de la arista
                         aristas.push_back(a1);
+
+                        cout<<a1->getComportamiento()<<endl;
 
                         int nodoI = name/100;               // Nodo Inicio
                         int nodoF = name%100;               // Nodo FInal
@@ -716,6 +754,7 @@ void Mundo::cargarNivel()
                         }
 
                         nI->insertAristaS(a1,nF);
+                        
 
                     } 
 

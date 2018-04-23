@@ -2,6 +2,7 @@
 
 Status Atacar::run(Enemigo *e)
 {   
+    e->setVelocidad(20.f);
     p = board->getProtagonista();
     protaX = p->getPosition()->getPosX();
     protaY = p->getPosition()->getPosY();
@@ -313,15 +314,13 @@ void Atacar::movimientoDireccion(Enemigo *e, bool d)
 {
     if(d==false)   // Izquierda
     {
-      e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
-      e->getBody()->ApplyForceToCenter(b2Vec2(-300.f,0.f),true);             // Fuerza para correr
+      e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Obtenemogs la velocidad de movimiento del enemigo
 
       e->setLastFacedDir(d); 
     }
     else  // Derecha
     {
-        e->getBody()->SetLinearVelocity(e->getVelocidad2d());
-        e->getBody()->ApplyForceToCenter(b2Vec2(300.f,0.f),true);          
+        e->getBody()->SetLinearVelocity(e->getVelocidad2d());    
 
         e->setLastFacedDir(d);   
     }
@@ -450,7 +449,6 @@ void Atacar::onInitialize(Blackboard *b)
 {
    board = b;
    nodos = board->getNodosGrafo();
-   cout<<"Nodos size4: "<<nodos.size()<<endl;
    separacionAtaque = 10;
    p = board->getProtagonista();
    p = nullptr;
