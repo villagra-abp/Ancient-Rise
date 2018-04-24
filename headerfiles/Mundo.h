@@ -159,6 +159,8 @@ class Mundo : public Entorno
         float JoyX;
 
         Fachada* fachada=fachada->getInstance();
+        
+        Hud* hud;
     private:
 };
 

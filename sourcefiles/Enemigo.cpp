@@ -22,10 +22,10 @@ Enemigo::Enemigo(vector<Posicion*> pos, float xlength, float pendValue, const En
         EnemigoPosition = pos;
 	}
 
-    dep1=fachada->addMalla(-170,15,0,"resources/manzana.obj");
-    dep2=fachada->addMalla(-175,15,0,"resources/manzana.obj");
-    dep3=fachada->addMalla(-175,15,0,"resources/manzana.obj");
-    dep4=fachada->addMalla(-175,15,0,"resources/manzana.obj");
+    //dep1=fachada->addMalla(-170,15,0,"resources/manzana.obj");
+    //dep2=fachada->addMalla(-175,15,0,"resources/manzana.obj");
+    //dep3=fachada->addMalla(-175,15,0,"resources/manzana.obj");
+    //dep4=fachada->addMalla(-175,15,0,"resources/manzana.obj");
     energy=fachada->addMalla(-170,15,0,"resources/cajitaobj.obj");
     life=fachada->addMalla(-170,20,0,"resources/cajaColor.obj");
     flecha1=fachada->addMalla(-160,8,0,"resources/flecha.obj");
@@ -91,7 +91,7 @@ void Enemigo::update(Posicion* Posprota)
 
     if(enemigo!=nullptr)  // Solo si existe el enemigo hacemos su update
     { 
-        hudEnemigos();
+        //hudEnemigos();
 
         actualizarSed();
         //COMPROBAMOS GAMEOBJECTS DENTRO DE LA VISTA
@@ -228,7 +228,7 @@ bool Enemigo::checkInSight(Posicion* objPos){
     float pend1 = yprima/xprima1;
     float pend2 = yprima/(xprima - xprima1);
 
-    fachada->setPosicion( dep1, EnemigoPosition);
+    //fachada->setPosicion( dep1, EnemigoPosition);
     //std::cout << enemigo->getPosition().X << endl;
 
     //Depuracion
@@ -243,13 +243,13 @@ bool Enemigo::checkInSight(Posicion* objPos){
 
         //Depuracion
         Posicion suputamadre(pjxmax, EnemigoPosition->getPosY(), 30.f);
-        fachada->setPosicion( dep2, &suputamadre);
+        //fachada->setPosicion( dep2, &suputamadre);
         
         //Depuracion
         Posicion suputamadre2(pjxmax, ymaxABS, 30.f);
-        fachada->setPosicion( dep3, &suputamadre2);
+        //fachada->setPosicion( dep3, &suputamadre2);
         Posicion suputamadre3(pjxmax, yminABS, 30.f);
-        fachada->setPosicion( dep4, &suputamadre3);
+        //fachada->setPosicion( dep4, &suputamadre3);
 
     }else{              //Mira hacia izquierda
         pjxmin = EnemigoPosition->getPosX() - visionXmax;
@@ -259,13 +259,13 @@ bool Enemigo::checkInSight(Posicion* objPos){
 
        //Depuracion
         Posicion suputamadre(pjxmin, EnemigoPosition->getPosY(), 30.f);
-        fachada->setPosicion( dep2, &suputamadre);
+        //fachada->setPosicion( dep2, &suputamadre);
         
         //Depuracion
         Posicion suputamadre2(pjxmin, ymaxABS, 30.f);
-        fachada->setPosicion( dep3, &suputamadre2);
+        //fachada->setPosicion( dep3, &suputamadre2);
         Posicion suputamadre3(pjxmin, yminABS, 30.f);
-        fachada->setPosicion( dep4, &suputamadre3);
+        //fachada->setPosicion( dep4, &suputamadre3);
     }
 
     if(posObjX < pjxmax && posObjX > pjxmin){
@@ -556,6 +556,7 @@ void Enemigo::setPosition(Posicion* position)
 {
     fachada->setPosicion(enemigo,position);
     EnemigoPosition = position;
+    //std::cout<<position->getPosX()<<endl;
 }
 
 void Enemigo::setVelHambre(glm::f32 v)

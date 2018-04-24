@@ -14,7 +14,7 @@ Status BuscarAgua::run(Enemigo *e)
     if(inicio1==nullptr && inicio2==nullptr)  // Solo buscaremos el nodo inicio si no lo habiamos encontrado ya
     {
         buscarNodoInicial(e, enemigoX);
-       // cout<<"INICIOBUENO"<<inicioBueno->getNombre()<<endl;
+        cout<<"INICIOBUENO"<<inicioBueno->getNombre()<<endl;
     }
        
     /* BUSCAR FUENTE MAS CERCANA */
@@ -113,7 +113,7 @@ Status BuscarAgua::run(Enemigo *e)
 
                      if(time>4)     // BEBIENDO
                      {
-                      cout<<"BEBIENDO"<<endl;
+                      //cout<<"BEBIENDO"<<endl;
                          e->setSed(100.f);                               // RECUPERAMOS SED
                          e->setVuelta(true);                             // Indicamos que estamos volviendo a la patrulla
                          f[pos]->setActivando(false);
@@ -190,6 +190,7 @@ void BuscarAgua::recorrerNodos(Enemigo* e, uint8_t v, float posX)
   }*/
     for(size_t i=0; i<nodos.size();i++)
     {
+        
         if(e->see(nodos[i]))            // Comprobamos si el enemigo ve al nodo
         {   
            //cout<<"Nodo X "<<nodos[i]->getPosition()->getPosX()<<endl;
@@ -297,7 +298,7 @@ void BuscarAgua::checkComportamiento(Enemigo *e)
     {
        case NORMAL:
        {
-        cout<<"NORMAL"<<endl;
+        //cout<<"NORMAL"<<endl;
           if (distNodoF<-1.0f) 
           {
               movimientoDireccion(e,false);                                   
@@ -318,7 +319,7 @@ void BuscarAgua::checkComportamiento(Enemigo *e)
 
        case SALTO:
        {
-        cout<<"SALTO"<<endl;
+        //cout<<"SALTO"<<endl;
           if(distNodoFY>1.0f)
           {
             e->setSaltando(true);
@@ -355,7 +356,7 @@ void BuscarAgua::checkComportamiento(Enemigo *e)
 
        case BAJADA:
        {
-        cout<<"BAJADA"<<endl;
+        //cout<<"BAJADA"<<endl;
           if (distNodoF<-3.0f) 
           {
             e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));
