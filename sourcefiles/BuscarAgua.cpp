@@ -190,6 +190,7 @@ void BuscarAgua::recorrerNodos(Enemigo* e, uint8_t v, float posX)
   }*/
     for(size_t i=0; i<nodos.size();i++)
     {
+        
         if(e->see(nodos[i]))            // Comprobamos si el enemigo ve al nodo
         {   
            //cout<<"Nodo X "<<nodos[i]->getPosition()->getPosX()<<endl;

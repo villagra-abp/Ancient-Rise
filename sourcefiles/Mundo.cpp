@@ -222,6 +222,17 @@ void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
 
     prota->updateBody(world);
     
+    /*
+    for(size_t i=0; i<nodos.size();i++)
+    {
+        
+        if(nodos[i]->getNombre()==41){
+        cout<<"Nodo X "<<nodos[i]->getPosition()->getPosX()<<endl;
+        cout<<"Nodo ID "<<nodos[i]->getNombre()<<endl;
+        
+        }
+    }
+    */
     if(!prota->checkVida())
 		fachada->cerrar();
 
@@ -362,7 +373,7 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
             cam->setPosicion(vec3(40,5000,-20));
         }
         else
-    cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-15,-120)); // cambio 5O A ProtaPosition.Y
+    cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-25,-120)); // cambio 5O A ProtaPosition.Y
     //camPosition=vec3(protaPosition->getPosX(),protaPosition->getPosY()+30,protaPosition->getPosZ());
     //camPosition.y=protaPosition->getPosY()+30;
     //Falta funcion para enfocar la camara

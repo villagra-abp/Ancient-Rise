@@ -22,10 +22,10 @@ Enemigo::Enemigo(vector<Posicion*> pos, float xlength, float pendValue, const En
         EnemigoPosition = pos;
 	}
 
-    dep1=fachada->addMalla(-170,15,0,"resources/manzana.obj");
-    dep2=fachada->addMalla(-175,15,0,"resources/manzana.obj");
-    dep3=fachada->addMalla(-175,15,0,"resources/manzana.obj");
-    dep4=fachada->addMalla(-175,15,0,"resources/manzana.obj");
+    //dep1=fachada->addMalla(-170,15,0,"resources/manzana.obj");
+    //dep2=fachada->addMalla(-175,15,0,"resources/manzana.obj");
+    //dep3=fachada->addMalla(-175,15,0,"resources/manzana.obj");
+    //dep4=fachada->addMalla(-175,15,0,"resources/manzana.obj");
     energy=fachada->addMalla(-170,15,0,"resources/cajitaobj.obj");
     life=fachada->addMalla(-170,20,0,"resources/cajaColor.obj");
     flecha1=fachada->addMalla(-160,8,0,"resources/flecha.obj");
