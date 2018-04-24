@@ -6,7 +6,7 @@ NodoGrafo::NodoGrafo(int n, glm::f32 x, glm::f32 y):path(nullptr)
 	id = n;
 	cost_so_far = 0; 			// Inicialmente no tendra coste asociado ya que se calcula durante el algoritmo
 	nodoPosition = new Posicion(x,y,0);
-
+/*
 	Fachada* fachada=fachada->getInstance();
 	objeto = fachada->addMalla(x,y,0.f,"resources/manzana.obj");
     //std::cout<<pos.getPosX()<<endl;
@@ -18,7 +18,7 @@ NodoGrafo::NodoGrafo(int n, glm::f32 x, glm::f32 y):path(nullptr)
         //fachada->setMaterial(objeto,"resources/desactivada.jpeg");
         
 	}
-
+*/
 	//nodoPosition.X = x;			//
 	//nodoPosition.Y = y; 		// Estos valores no variaran nunca
 }

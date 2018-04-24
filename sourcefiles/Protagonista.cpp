@@ -121,7 +121,13 @@ void Protagonista::updateBody(b2World& world)
     protaPosition->setPosX(Body->GetPosition().x);
     protaPosition->setPosY(Body->GetPosition().y);
     
-    fachada->setPosicion(rec,protaPosition);
+    FObjeto* objeto=(FObjeto*)rec;
+    vec3 position=vec3(Body->GetPosition().x,Body->GetPosition().y,0);
+    //cout<<position.x<<" "<<position.y<<" "<<position.z<<endl;
+    objeto->setPosicion(position);
+    //fachada->setPosicion(rec,protaPosition);
+    
+    /*
     protaPosition->setPosX(protaPosition->getPosX()+5);
     if(pos_combate==2){
         protaPosition->setPosY(protaPosition->getPosY()+5);
@@ -178,6 +184,7 @@ void Protagonista::updateBody(b2World& world)
     Posicion escalaLife(vida/10,2.f,0.f);
     fachada->setScala(energy,&escalaEnergy);
     fachada->setScala(life,&escalaLife);
+    */
 }
 
 /**
@@ -398,7 +405,7 @@ void Protagonista::comprobarColision(Trampa *trampa)
         && (tramPosX-(protaPosX+10))>-28
         && protaPosY<10){
         
-        //std::cout<<tramPosX<<endl;
+        std::cout<<tramPosX<<endl;
            vida-=0.4f;
            //protaPosition.X-=15; //+=15 animacion, rebote de la trampa 
        
@@ -416,8 +423,8 @@ void Protagonista::checkPosCombate()
     if(pos_combate == 1)    // ARRIBA
     {
         protaPosition->setPosY(protaPosition->getPosY()+5);
-        fachada->setPosicion(flecha1,protaPosition);
-        fachada->setPosicion(flecha0,protaPosition);
+        //fachada->setPosicion(flecha1,protaPosition);
+        //fachada->setPosicion(flecha0,protaPosition);
         protaPosition->setPosY(protaPosition->getPosY()-5);
     }
     else
@@ -425,15 +432,15 @@ void Protagonista::checkPosCombate()
         if(pos_combate == 3) // ABAJO
         {
             protaPosition->setPosY(protaPosition->getPosY()-5);
-            fachada->setPosicion(flecha1,protaPosition);
-            fachada->setPosicion(flecha0,protaPosition);
+            //fachada->setPosicion(flecha1,protaPosition);
+            //fachada->setPosicion(flecha0,protaPosition);
             protaPosition->setPosY(protaPosition->getPosY()+5);
         }
         else        // CENTRO
         {
             protaPosition->setPosY(protaPosition->getPosY());
-            fachada->setPosicion(flecha1,protaPosition);
-            fachada->setPosicion(flecha0,protaPosition);
+            //fachada->setPosicion(flecha1,protaPosition);
+            //fachada->setPosicion(flecha0,protaPosition);
         }
     }
   //std::cout<<pos_combate<<endl;
@@ -560,7 +567,7 @@ void Protagonista::setSigilo()
 
 void Protagonista::setCorrer(bool s)
 {
-    if(energia>20){
+    if(energia>10){
         correr=s;
     }
     
@@ -630,6 +637,10 @@ Posicion* Protagonista::getPosition()
 glm::f32 Protagonista::getEnergia()
 {
     return energia;
+}
+glm::f32 Protagonista::getVida()
+{
+    return vida;
 }
 
 bool Protagonista::getSigilo()

@@ -11,6 +11,7 @@ class Hud : public Objeto
 	public:
 		Hud( Posicion* pos);
 		void* getNode();
+        void update(float vida,float energia);
 
 	private:
         void * hud1;

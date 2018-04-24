@@ -74,7 +74,7 @@ posA(nullptr), posF(nullptr), p1(nullptr), p0(nullptr)	//CONSTRUCTOR
 
     	Posicion* postrampa= new Posicion(520,0.34f,30.f);
      	t = new Trampa(postrampa);
-        trampas.push_back(t);
+        //trampas.push_back(t);
      	addGameObject(t);
 
     	 
@@ -124,7 +124,7 @@ posA(nullptr), posF(nullptr), p1(nullptr), p0(nullptr)	//CONSTRUCTOR
     Pausa* pausa = new Pausa(pospausa);
         
     Posicion* poshud= new Posicion(-40.5f,-5001.5f,.5f);
-    Hud* hud = new Hud(poshud);
+    hud = new Hud(poshud);
 
 }	
 
@@ -150,7 +150,9 @@ void Mundo::update()
 
 	/* PROTA UPDATE */
 	protaUpdate(frameDeltaTime);
-
+    
+    /*HUD UPDATE*/
+    hud->update(prota->getVida(),prota->getEnergia());
 	/* CAM UPDATE*/
     camUpdate(frameDeltaTime);
 
