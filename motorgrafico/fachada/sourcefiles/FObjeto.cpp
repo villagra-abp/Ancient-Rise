@@ -100,4 +100,7 @@ void FObjeto::setMaterial(string nombre){
 
 }
 
+void FObjeto::setAnimacion(string path){
+	dynamic_cast<TAnimacion*>(nodo->getEntidad())->setAnimacion(path);
+}
 

@@ -56,6 +56,20 @@ TRecursoSkybox* TGestorRecursos::getRecursoSkybox(vector<string> paths){
 	return r;
 }
 
+TRecursoAnimacion* TGestorRecursos::getRecursoAnimacion(string path){
+	TRecursoAnimacion* r = nullptr;
+
+	r = dynamic_cast<TRecursoAnimacion*>(buscarRecurso(path));
+
+	if(r == nullptr){
+		r = cargarAnimacion(path);
+		r->setNombre(path);
+		recursos.push_back(r);
+	}
+	
+	return r;
+}
+
 /*
 TRecursoMaterial* TGestorRecursos::getRecursoMat(string nombre){
 		Tipo* r = dynamic_cast<Tipo*>(buscarRecurso(nombre_fichero));
@@ -102,7 +116,17 @@ Shader* TGestorRecursos::getShader(int shad){
 	return shader;
 }
 
+TRecursoAnimacion* TGestorRecursos::cargarAnimacion(string path){
+	//Cargamos el fichero de texto con la informacion de la animacion. Primera fila path de las animaciones, segunda fila numero de frames, tercera fila duracion de animacion
+	ifstream fichero;
+	try{
+		fichero.open(path);
 
+	}catch(ifstream::failure e){
+		 cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ"  << endl;
+	}
+	//Cargamos cargamos todos los recurso malla necesarios
+}
 
 //ASSIMP - Mallas
 
@@ -125,6 +149,8 @@ TRecursoMalla* TGestorRecursos::cargarFichero(string path){
 
     return malla;
 }
+
+
 
 void TGestorRecursos::processNode(aiNode *node, const aiScene *scene, TRecursoMalla* malla)
 {
