@@ -89,11 +89,11 @@ posA(nullptr), posF(nullptr), p1(nullptr), p0(nullptr)	//CONSTRUCTOR
     	//device->getCursorControl()->setVisible(true);
 
      /* AÑADIMOS UNA LUZ */   
-        Posicion* luzPos=camaraPos;
+        Posicion* luzPos= new Posicion(prota->getPosition()->getPosX() + 500,50,-140);
         fachada->addLuz(luzPos);
-        Posicion* dir = new Posicion(0,-1,-1);
+        Posicion* dir = new Posicion(-0.5,-1,-1);
         fachada->addLuzDireccional(dir);
-        Posicion* d = new Posicion(0,1,0);
+        Posicion* d = new Posicion(-1,1,0);
         Posicion* origen = new Posicion(0,65,0);
         fachada->addLuzDirigida(origen,d);
 
@@ -195,6 +195,9 @@ void Mundo::update()
     sonido->update();
 	sonido->setListener(prota->getPosition()->getPosX(), prota->getPosition()->getPosY(), prota->getPosition()->getPosZ());
 
+//    cam->Rotar(vec3(0,1,0),0.02);
+//    cam->Mover(vec3(0,0,1));
+
 }
 
 void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
@@ -276,26 +279,31 @@ void Mundo::checkInput(){
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)||JoyX<=-50)//A
         {
-            prota->setDireccion(0);
-            prota->movimiento(0.1f);
-    		if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)||sf::Joystick::isButtonPressed(0, 5))
-    		{
-                prota->setCorrer(true);
-      		    prota->setEnergia(-2.f,0.2f);
-    		}else
-		  prota->setCorrer(false);
+//            cam->Rotar(vec3(0,1,0), 0.01);
+            cam->Mover(vec3(-1,0,0));
+        //    prota->setDireccion(0);
+        //    prota->movimiento(0.1f);
+    	//	if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)||sf::Joystick::isButtonPressed(0, 5))
+    	//	{
+        //        prota->setCorrer(true);
+      	//	    prota->setEnergia(-2.f,0.2f);
+        //        
+    	//	}else
+		//  prota->setCorrer(false);
         }
 
         else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)||JoyX>=50){//D
-
-            prota->setDireccion(1);
-            prota->movimiento(0.1f);
-    		if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)||sf::Joystick::isButtonPressed(0, 5))
-    		{
-		  prota->setCorrer(true);
-      		  prota->setEnergia(-2.f,0.2f);
-    		}else
-		  prota->setCorrer(false);
+            //cam->Rotar(vec3(0,1,0), -0.01);
+           cam->Mover(vec3(1,0,0));
+        //    prota->setDireccion(1);
+        //    prota->movimiento(0.1f);
+    	//	if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)||sf::Joystick::isButtonPressed(0, 5))
+    	//	{
+		//      prota->setCorrer(true);
+      	//	  prota->setEnergia(-2.f,0.2f);
+        //      
+    	//	}else
+		//  prota->setCorrer(false);
         }
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)||sf::Joystick::isButtonPressed(0, 0)){
         	prota->setSalto(true);
@@ -304,12 +312,14 @@ void Mundo::checkInput(){
         
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)||JoyY>=50)//W
     {
-        prota->setPosCombate(1);
+        //prota->setPosCombate(1);
+        cam->Mover(vec3(0,1,0));
         
     }
     else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)||JoyY<=-50)
     {
-        prota->setPosCombate(3);
+        //prota->setPosCombate(3);
+        cam->Mover(vec3(0,-1,0));
     }
     else
         prota->setPosCombate(2);
@@ -358,20 +368,21 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
     if(estado==2){
         if(pintaHud){
             cam->setPosicion(vec3(40,5000,-20));
+                cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-15,-120)); // cambio 5O A ProtaPosition.Y
+
         }
-        else
-    cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-15,-120)); // cambio 5O A ProtaPosition.Y
+//        else
     //camPosition=vec3(protaPosition->getPosX(),protaPosition->getPosY()+30,protaPosition->getPosZ());
     //camPosition.y=protaPosition->getPosY()+30;
     //Falta funcion para enfocar la camara
     //cam->setTarget(camPosition);
     }
     if(estado==1){
-        cam->setPosicion(vec3(20,5000,-20));
+    //    cam->setPosicion(vec3(20,5000,-20));
         //cam->Rotar(vec3(0,1,0), 3.0f);
     }
     if(estado==0){
-        cam->setPosicion(vec3(0,5000,-20));
+    //    cam->setPosicion(vec3(0,5000,-20));
         //cam->Rotar(vec3(0,1,0), 3.0f);
     }
 }

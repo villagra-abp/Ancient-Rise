@@ -61,22 +61,23 @@ void main(){
 
 	
 
-		vec3 norm = normalize(Normal);
+		vec3 norm = Normal;
 //		vec3 viewDir = normalize(camPos - FragPos);
 		vec3 viewDir = normalize(-FragPos);
 
-		vec3 ambient = vec3(1,1,1) * vec3(texture(diffTexture, TexCoords)) * material.ambient * AMBIENT;
-		vec3 result = ambient;
-//		vec3 result = vec3(0,0,0);
+//		vec3 ambient = vec3(1,1,1) * vec3(texture(diffTexture, TexCoords)) * material.ambient * AMBIENT;
+//		vec3 result = ambient;
+		vec3 result = vec3(0,0,0);
 
-		result += CalcDirLight(dirLight,norm, viewDir);
+//		result += CalcDirLight(dirLight,norm, viewDir);
 
 		for(int i = 0; i< NR_POINT_LIGHTS; i++)
-			result += CalcPointLight(pointLights[i], norm, FragPos, viewDir);
+//			result += CalcPointLight(pointLights[i], norm, FragPos, viewDir);
 
 		result += CalcFlashLight(flashLight, norm, viewDir, FragPos);
 
 		FragColor = vec4(result, 1.0);
+//		FragColor = vec4(1,1,1,1);
 
 
 }
@@ -109,8 +110,8 @@ vec3 CalcFlashLight(FlashLight light, vec3 normal, vec3 viewDir, vec3 fragPos){
 	diffuse *= attenuation;
 	specular *= attenuation;
 
-	return(diffuse + specular);
-//	return(specular);
+//	return(diffuse + specular);
+	return(specular);
 }
 
 vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir){
@@ -152,5 +153,6 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir){
 
 	return(diffuse + specular);
 //	return (specular);
+//	return (diffuse);
 }
 

@@ -48,7 +48,7 @@ public:
 	//bool setLuz(TLuz* lz, bool b);
 
 	vector<TNodo*> getLuces();
-	glm::mat4 getCamaraMat();
+	glm::mat4 getViewMat();
 	glm::mat4 getCamaraProj();
 	TNodo* getEscena();
 

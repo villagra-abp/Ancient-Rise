@@ -77,6 +77,13 @@ void rMesh::draw(glm::mat4 mmodelo, TDatosEntidad *datos){
 	glm::mat4 view = *(datos->view);
 	glm::vec3 camaraPosicion = *(datos->camaraPosicion);
 
+//	cout<<view[0][0]<<endl;
+
+//	for(int i = 0; i < 16; i++){
+//		cout<<view[i][0]<<view[i][1]<<view[i][2]<<view[i][3]<<endl;
+//	}
+	
+
 	//Datos luces puntuales
 	vector<glm::vec4> colorPuntual = *(datos->colorPuntual);
 	vector<glm::vec3> posicionPuntual = *(datos->posicionPuntual);

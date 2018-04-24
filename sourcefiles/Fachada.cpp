@@ -371,14 +371,16 @@ void Fachada::addMenu(int tipo){
     if(tipo==1){
         ///Añado el menu
         menu->setMalla("resources/menu.obj");
-        menu->setPosicion(vec3(.5f,-.5f,.5f));
+//        menu->setPosicion(vec3(.5f,-.5f,.5f));
+        menu->setPosicion(vec3(0,0,0));
         menu->Escalar(vec3(.1f,.1f,.1f));
         menu->Rotar(vec3(1,0,0), 1.5f);
         
     }else{
         ///Añado el menu
         menu->setMalla("resources/menu.obj");
-        menu->setPosicion(vec3(.5f,-.5f,.5f));
+//        menu->setPosicion(vec3(.5f,-.5f,.5f));
+        menu->setPosicion(vec3(0,0,0));
         menu->Escalar(vec3(.1f,.1f,.1f));
         menu->Rotar(vec3(1,0,0), 1.5f);
         
@@ -399,10 +401,12 @@ FCamara* Fachada::addCamara(Posicion* p){
     
     FCamara* camara = new FCamara();
 	camara->Activar();
-	vec3 camaraOrigin = vec3(-160,-20,-130);
+//	vec3 camaraOrigin = vec3(-160,-20,-130);
+    vec3 camaraOrigin = vec3(0,0,100);
 	//cajita->Unir(cajita2);
 	//cajita->Mover(vec3(0,0,4));
-	camara->Mover(camaraOrigin);
+	camara->setPosicion(camaraOrigin);
+//    camara->Rotar(vec3(0,1,0), 0.5);
 	//camara->Rotar(vec3(0,1,0), 3.0f);
     
     return camara;
@@ -414,7 +418,7 @@ FLuz* Fachada::addLuz(Posicion* p){
 	glm::vec4 vColor;
 
 	FLuz* luz = new FLuz(color);
-	vec3 luzOrigin = vec3(-160,0,80);
+	vec3 luzOrigin = vec3(10,80,10);
 	luz->Mover(luzOrigin);
     
     return luz;
@@ -438,7 +442,6 @@ FLuz* Fachada::addLuzDirigida(Posicion* p, Posicion* d){
     vec3 dir(d->getPosX(), d->getPosY(), d->getPosZ());
 
     FLuz* luz = new FLuz(color, dir, 20.0f, 25.0f);
-    vec3 luzOrigin = vec3(-160,0,80);
     luz->Mover(pos);
     
     return luz;
