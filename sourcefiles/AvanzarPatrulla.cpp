@@ -293,7 +293,7 @@ void AvanzarPatrulla::checkComportamiento(Enemigo *e)
     {
        case NORMAL:
        {
-        cout<<"NORMAL"<<endl;
+        //cout<<"NORMAL"<<endl;
           if (distNodoF<-1.0f) 
           {
               movimientoDireccion(e,false);                                   
@@ -314,7 +314,7 @@ void AvanzarPatrulla::checkComportamiento(Enemigo *e)
 
        case SALTO:
        {
-        cout<<"SALTO"<<endl;
+        //cout<<"SALTO"<<endl;
           if(distNodoFY>1.0f)
           {
             e->setSaltando(true);
@@ -351,7 +351,7 @@ void AvanzarPatrulla::checkComportamiento(Enemigo *e)
 
        case BAJADA:
        {
-        cout<<"BAJADA"<<endl;
+        //cout<<"BAJADA"<<endl;
           if (distNodoF<-3.0f) 
           {
             e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));

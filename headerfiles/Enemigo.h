@@ -164,7 +164,7 @@ class Enemigo : public GameObject
 
         Fachada* fachada=fachada->getInstance();
 
-        bool inv=false;
+        bool inv;
 };
 
 #endif // ENEMIGO_H

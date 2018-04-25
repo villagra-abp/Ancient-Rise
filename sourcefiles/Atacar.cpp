@@ -28,8 +28,6 @@ Status Atacar::run(Enemigo *e)
     /* Comprobamos la distancia a la que tiene que estar para atacar */
     if(abs(distanciaProta)<separacionAtaque && distProtaY<10 && distProtaY>-10)       //ATACANDO
     {
-        cout<<"ATACANDO"<<endl;
-        
         e->setVuelta(true);
         reset();                     // Reseteamos los valores para el pathfinding
 
@@ -103,7 +101,6 @@ Status Atacar::run(Enemigo *e)
             posNodo = nodos[i]->getPosition();
             if(board->getProtagonista()->getPosition()->getPosY()>=posNodo->getPosY()-10 && board->getProtagonista()->getPosition()->getPosY()<=posNodo->getPosY()+10)        
             {
-                cout<<"entro1"<<endl;
                 if(fin==nullptr)
                 {
                     fin = nodos[i];
@@ -118,11 +115,10 @@ Status Atacar::run(Enemigo *e)
         //cout<<"Fin : "<<fin->getPosition()->getPosX()<<endl;
 
         if(inicioBueno!=nullptr && fin!=nullptr)
-        {   cout<<"entro2"<<endl;
+        {  
             g=new Grafo();
             caminoCorto = g->pathfindDijkstra(inicioBueno, fin);
             delete g;
-            cout<<"Tam "<<caminoCorto.size()<<endl;
         }
         else
         {
@@ -220,7 +216,6 @@ void Atacar::recorrerNodos(Enemigo* e, uint8_t v, float posX)
     {
         if(e->see(nodos[i]))            // Comprobamos si el enemigo ve al nodo
         {   
-            cout<<"entro3"<<endl;
             if(v==1)
             {
                 if(inicio1==nullptr)         

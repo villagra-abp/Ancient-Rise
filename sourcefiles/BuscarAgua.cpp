@@ -14,7 +14,7 @@ Status BuscarAgua::run(Enemigo *e)
     if(inicio1==nullptr && inicio2==nullptr)  // Solo buscaremos el nodo inicio si no lo habiamos encontrado ya
     {
         buscarNodoInicial(e, enemigoX);
-       cout<<"INICIOBUENO "<<inicioBueno->getNombre()<<endl;
+       //cout<<"INICIOBUENO "<<inicioBueno->getNombre()<<endl;
     }
        
     /* BUSCAR FUENTE MAS CERCANA */
@@ -179,22 +179,22 @@ void BuscarAgua::buscarNodoInicial(Enemigo *e, float posX)
 /* Funcion para recorrer todos los nodos del grafo y comprobar si el enemigo puede ver alguno */
 void BuscarAgua::recorrerNodos(Enemigo* e, uint8_t v, float posX)
 {
-  if(e->getLastFaceDir()==true)
+ /* if(e->getLastFaceDir()==true)
   {
     cout<<"DERECHA"<<endl;
   }
   else
   {
     cout<<"IZQUIERDA"<<endl;
-  }
+  }*/
     for(size_t i=0; i<nodos.size();i++)
     {
         
         if(e->see(nodos[i]))            // Comprobamos si el enemigo ve al nodo
         {   
-           cout<<"Nodo X "<<nodos[i]->getPosition()->getPosX()<<endl;
-           cout<<"Nodo ID "<<nodos[i]->getNombre()<<endl;
-           cout<<"Enemigo X "<<e->getPosition()->getPosX()<<endl;
+           //cout<<"Nodo X "<<nodos[i]->getPosition()->getPosX()<<endl;
+           //cout<<"Nodo ID "<<nodos[i]->getNombre()<<endl;
+           //cout<<"Enemigo X "<<e->getPosition()->getPosX()<<endl;
             if(v==1)
             {
                 if(inicio1==nullptr)         

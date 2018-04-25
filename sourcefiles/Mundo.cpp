@@ -216,7 +216,7 @@ void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
         glm::f32 energia=prota->getEnergia();
 
         checkCombate(); 							// Comprobamos si hemos pulsado la tecla de combate (K)
-
+        
          if(sf::Keyboard::isKeyPressed(sf::Keyboard::J))
         {   
             for(int i=0; i<enemB.size();i++)

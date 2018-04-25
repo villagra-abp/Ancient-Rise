@@ -72,7 +72,7 @@ Enemigo::Enemigo(vector<Posicion*> pos, float xlength, float pendValue, const En
     memoria = false;
     orden = 0;                                            // Ninguna orden recibida
     saltando = false;
-    inv = true;
+    inv = false;
 
     /* Pathfinding */
     vuelta = false;
