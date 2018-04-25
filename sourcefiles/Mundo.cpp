@@ -136,8 +136,7 @@ void Mundo::terrainBuilder(){	//CONSTRUCTOR DEL TERRENOS Y COLISIONES DE CAMARA
 
 void Mundo::update()
 {
-    //Comprueba las entradas del teclado
-	checkInput();
+    
 	//pasos de las fisicas en el mundo
 	world.Step(1/60.f, 8, 3);
 	//reinicio las fuerzas en el mundo
@@ -147,12 +146,19 @@ void Mundo::update()
 	float frameDeltaTime = fachada->getTime(); // Time in seconds
 
 	Posicion* protaPosition = prota->getPosition();
-
-	/* PROTA UPDATE */
-	protaUpdate(frameDeltaTime);
+    if(estado==2){
+        //Comprueba las entradas del teclado
+        checkInput();
+        
     
+        
+    }
+	/* PROTA UPDATE */
+        protaUpdate(frameDeltaTime);
+        
     /*HUD UPDATE*/
     hud->update(prota->getVida(),prota->getEnergia());
+    
 	/* CAM UPDATE*/
     camUpdate(frameDeltaTime);
 
@@ -164,7 +170,7 @@ void Mundo::update()
     {
         alarmas[i]->update();
     }
-
+if(estado==2){
     /* UPDATE DE LOS ENEMIGOS */
     for(size_t i=0; i<enemB.size();i++)   		// Enemigos Basicos
     {
@@ -196,7 +202,7 @@ void Mundo::update()
     sonido->playSound(musicaBosque);
     sonido->update();
 	sonido->setListener(prota->getPosition()->getPosX(), prota->getPosition()->getPosY(), prota->getPosition()->getPosZ());
-
+}
 }
 
 void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
