@@ -226,11 +226,8 @@ bool Fachada::setScala(void * nodo,Posicion* scala){
     
 }
 bool Fachada::setPosicion(void * nodo,Posicion* pos){
-    //std::cout<<pos->getPosX()<<endl;
-    cout<<pos->getPosX()<<endl;
     FObjeto* node=(FObjeto*)nodo;
     vec3 position=vec3(pos->getPosX(),pos->getPosY(),0);
-    //cout<<position.x<<" "<<position.y<<" "<<position.z<<endl;
     
     node->setPosicion(position);
     return true;

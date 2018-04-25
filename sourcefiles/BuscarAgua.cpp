@@ -2,14 +2,6 @@
 
 Status BuscarAgua::run(Enemigo *e)
 {   
- /* for(int i=0; i<nodos.size();i++)
-    {
-        cout<<"Nodo "<<nodos[i]->getNombre();
-        cout<<" en X: "<<nodos[i]->getPosition()->getPosX();
-        cout<<" y en Y: "<<nodos[i]->getPosition()->getPosY()<<endl;
-    }
-    cout<<"SIGUIENTE"<<endl;*/
-
     e->setCombate(false);
     e->setVelocidad(20.f);
 
@@ -24,11 +16,9 @@ Status BuscarAgua::run(Enemigo *e)
         buscarNodoInicial(e, enemigoX);
        cout<<"INICIOBUENO "<<inicioBueno->getNombre()<<endl;
     }
-    //cout<<inicioBueno->getPosition()->getPosX()<<endl;
        
     /* BUSCAR FUENTE MAS CERCANA */
       buscarFuenteCercana(enemigoX);
-      //cout<<"EnemigoY"
 
      /* Buscamos el nodo mas cercano a la fuente elegida para ir */
     if(fin==nullptr)        // Solo si no lo habiamos encontrado ya
@@ -122,7 +112,7 @@ Status BuscarAgua::run(Enemigo *e)
 
                      if(time>4)     // BEBIENDO
                      {
-                      cout<<"BEBIENDO"<<endl;
+                      //cout<<"BEBIENDO"<<endl;
                          e->setSed(100.f);                               // RECUPERAMOS SED
                          e->setVuelta(true);                             // Indicamos que estamos volviendo a la patrulla
                          f[pos]->setActivando(false);
@@ -199,6 +189,7 @@ void BuscarAgua::recorrerNodos(Enemigo* e, uint8_t v, float posX)
   }
     for(size_t i=0; i<nodos.size();i++)
     {
+        
         if(e->see(nodos[i]))            // Comprobamos si el enemigo ve al nodo
         {   
            cout<<"Nodo X "<<nodos[i]->getPosition()->getPosX()<<endl;
@@ -425,16 +416,6 @@ void BuscarAgua::onInitialize(Blackboard *b)
 
    /* Pathfinding */
    nodos = board->getNodosGrafo();
-/*
-   for(int i=0; i<nodos.size();i++)
-    {
-        cout<<"Nodo2 "<<nodos[i]->getNombre();
-        cout<<" en X: "<<nodos[i]->getPosition()->getPosX();
-        cout<<" y en Y: "<<nodos[i]->getPosition()->getPosY()<<endl;
-    }
-    cout<<"SIGUIENTE"<<endl;
-    */
-
    inicio1 = nullptr;
    inicio2 = nullptr;
    inicioBueno = nullptr;

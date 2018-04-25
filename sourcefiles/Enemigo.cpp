@@ -22,10 +22,11 @@ Enemigo::Enemigo(vector<Posicion*> pos, float xlength, float pendValue, const En
         EnemigoPosition = pos;
 	}
 
-   /* dep1=fachada->addMalla(-170,15,0,"resources/manzana.obj");
-    dep2=fachada->addMalla(-175,15,0,"resources/manzana.obj");
-    dep3=fachada->addMalla(-175,15,0,"resources/manzana.obj");
-    dep4=fachada->addMalla(-175,15,0,"resources/manzana.obj");*/
+
+    //dep1=fachada->addMalla(-170,15,0,"resources/manzana.obj");
+    //dep2=fachada->addMalla(-175,15,0,"resources/manzana.obj");
+    //dep3=fachada->addMalla(-175,15,0,"resources/manzana.obj");
+    //dep4=fachada->addMalla(-175,15,0,"resources/manzana.obj");
     energy=fachada->addMalla(-170,15,0,"resources/cajitaobj.obj");
     life=fachada->addMalla(-170,20,0,"resources/cajaColor.obj");
     flecha1=fachada->addMalla(-160,8,0,"resources/flecha.obj");
@@ -263,7 +264,7 @@ bool Enemigo::checkInSight(Posicion* objPos){
         
         //Depuracion
         Posicion suputamadre2(pjxmin, ymaxABS, 30.f);
-        fachada->setPosicion( dep3, &suputamadre2);
+        //fachada->setPosicion( dep3, &suputamadre2);
         Posicion suputamadre3(pjxmin, yminABS, 30.f);
         fachada->setPosicion( dep4, &suputamadre3);*/
     }
@@ -556,6 +557,7 @@ void Enemigo::setPosition(Posicion* position)
 {
     fachada->setPosicion(enemigo,position);
     EnemigoPosition = position;
+    //std::cout<<position->getPosX()<<endl;
 }
 
 void Enemigo::setVelHambre(glm::f32 v)

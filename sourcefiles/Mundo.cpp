@@ -23,30 +23,6 @@ posA(nullptr), posF(nullptr), p1(nullptr), p0(nullptr)	//CONSTRUCTOR
 
     /* Lectura del XML para la logica del juego */
     cargarNivel();
-/*
-    for(int i=0; i<aristas.size();i++)
-    {
-        cout<<"Arista "<<i;
-        cout<<" con nodo Inicio "<<aristas[i]->getNodoInicio()->getNombre();
-        cout<<" y nodo FIn: "<<aristas[i]->getNodoFin()->getNombre();
-        cout<<" y compotamiento : ";
-
-        if(aristas[i]->getComportamiento()==NORMAL)
-        {
-            cout<<"NORMAL"<<endl;
-        }
-        if(aristas[i]->getComportamiento()==SALTO)
-        {
-                cout<<"SALTO"<<endl;
-        }
-        if(aristas[i]->getComportamiento()==BAJADA)
-        {
-                cout<<"BAJADA"<<endl;
-        }
-           
-
-    }
-*/
     //cout<<aristas.size()<<endl;
 
     /* Pasamos toda la info necesaria a la blackboard */
@@ -67,7 +43,7 @@ posA(nullptr), posF(nullptr), p1(nullptr), p0(nullptr)	//CONSTRUCTOR
 
     	Posicion* postrampa= new Posicion(520,0.34f,30.f);
      	t = new Trampa(postrampa);
-        trampas.push_back(t);
+        //trampas.push_back(t);
      	addGameObject(t);
     	 
     /** ESTABLECEMOS LA CAMARA
@@ -117,18 +93,7 @@ posA(nullptr), posF(nullptr), p1(nullptr), p0(nullptr)	//CONSTRUCTOR
     Pausa* pausa = new Pausa(pospausa);
         
     Posicion* poshud= new Posicion(-40.5f,-5001.5f,.5f);
-    Hud* hud = new Hud(poshud);
-
-for(int i=0; i<nodos.size();i++)
-    {   
-        if(nodos[i]->getNombre()==41)
-        {
-            cout<<"PRIMERA COMPROBACION"<<endl;
-            cout<<"Nodo "<<nodos[i]->getNombre();
-            cout<<" en X: "<<nodos[i]->getPosition()->getPosX();
-            cout<<" y en Y: "<<nodos[i]->getPosition()->getPosY()<<endl;
-        }
-    }
+    hud = new Hud(poshud);
 
 }	
 
@@ -139,19 +104,8 @@ void Mundo::terrainBuilder(){	//CONSTRUCTOR DEL TERRENOS Y COLISIONES DE CAMARA
 }
 
 void Mundo::update()
-{/*
-    for(int i=0; i<nodos.size();i++)
-    {   
-        if(nodos[i]->getNombre()==41)
-        {
-            cout<<"INFINITA COMPROBACION"<<endl;
-            cout<<"Nodo "<<nodos[i]->getNombre();
-            cout<<" en X: "<<nodos[i]->getPosition()->getPosX();
-            cout<<" y en Y: "<<nodos[i]->getPosition()->getPosY()<<endl;
-        }
-    }*/
-    //Comprueba las entradas del teclado
-	checkInput();
+{
+    
 	//pasos de las fisicas en el mundo
 	world.Step(1/60.f, 8, 3);
 	//reinicio las fuerzas en el mundo
@@ -162,21 +116,17 @@ void Mundo::update()
 	float frameDeltaTime = fachada->getTime(); // Time in seconds
 
 	Posicion* protaPosition = prota->getPosition();
-
+    if(estado==2){
+        //Comprueba las entradas del teclado
+        checkInput();
+          
+    }
 	/* PROTA UPDATE */
-	protaUpdate(frameDeltaTime);
-/*
-    for(int i=0; i<nodos.size();i++)
-    {   
-        if(nodos[i]->getNombre()==41)
-        {
-            cout<<"INFINITA 3 COMPROBACION"<<endl;
-            cout<<"Nodo "<<nodos[i]->getNombre();
-            cout<<" en X: "<<nodos[i]->getPosition()->getPosX();
-            cout<<" y en Y: "<<nodos[i]->getPosition()->getPosY()<<endl;
-        }
-    }*/
-
+    protaUpdate(frameDeltaTime);
+        
+    /*HUD UPDATE*/
+    hud->update(prota->getVida(),prota->getEnergia());
+    
 	/* CAM UPDATE*/
     camUpdate(frameDeltaTime);
 
@@ -188,38 +138,39 @@ void Mundo::update()
     {
         alarmas[i]->update();
     }
+if(estado==2){
+        /* UPDATE DE LOS ENEMIGOS */
+        for(size_t i=0; i<enemB.size();i++)   		// Enemigos Basicos
+        {
+        	if(enemB[i]->getNode()!=nullptr) 	// Solo si existen hacemos su update
+        	{
+    	       	enemB[i]->updateTiempo(frameDeltaTime);
+    	     	enemB[i]->Update(prota->getPosition());
+    	    }
+        }
 
-    /* UPDATE DE LOS ENEMIGOS */
-    for(size_t i=0; i<enemB.size();i++)   		// Enemigos Basicos
-    {
-    	if(enemB[i]->getNode()!=nullptr) 	// Solo si existen hacemos su update
-    	{
-	       	enemB[i]->updateTiempo(frameDeltaTime);
-	     	enemB[i]->Update(prota->getPosition());
-	    }
+        for(int i2=0; i2<enemE.size();i2++) 	// Enemigos Elites
+        {
+        	if(enemE[i2]->getNode()!=nullptr)
+        	{
+    	    	enemE[i2]->updateTiempo(frameDeltaTime);
+    	     	enemE[i2]->Update(prota->getPosition());
+    	    }
+        }
+
+        /* DRAW SCENE */
+
+        //draw();
+
+        /* CONTROL DE FRAMES POR SEGUNDO */
+
+        //fpsControl();
+
+        /*UPDATE DE SONIDO*/
+        sonido->playSound(musicaBosque);
+        sonido->update();
+    	sonido->setListener(prota->getPosition()->getPosX(), prota->getPosition()->getPosY(), prota->getPosition()->getPosZ());
     }
-
-    for(int i2=0; i2<enemE.size();i2++) 	// Enemigos Elites
-    {
-    	if(enemE[i2]->getNode()!=nullptr)
-    	{
-	    	enemE[i2]->updateTiempo(frameDeltaTime);
-	     	enemE[i2]->Update(prota->getPosition());
-	    }
-    }
-
-    /* DRAW SCENE */
-
-    //draw();
-
-    /* CONTROL DE FRAMES POR SEGUNDO */
-
-    //fpsControl();
-
-    /*UPDATE DE SONIDO*/
-    sonido->playSound(musicaBosque);
-    sonido->update();
-	sonido->setListener(prota->getPosition()->getPosX(), prota->getPosition()->getPosY(), prota->getPosition()->getPosZ());
 
 }
 
@@ -245,18 +196,18 @@ void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
     } 
 
     prota->updateBody(world);
-/*
-    for(int i=0; i<nodos.size();i++)
+
+   /* for(int i=0; i<nodos.size();i++)
     {   
         if(nodos[i]->getNombre()==41)
         {
-            cout<<"INFINITA 2 COMPROBACION"<<endl;
+            cout<<"INFINITA COMPROBACION"<<endl;
             cout<<"Nodo "<<nodos[i]->getNombre();
             cout<<" en X: "<<nodos[i]->getPosition()->getPosX();
             cout<<" y en Y: "<<nodos[i]->getPosition()->getPosY()<<endl;
         }
-    }
-    */
+    }*/
+
     if(!prota->checkVida())
 		fachada->cerrar();
 
@@ -271,7 +222,6 @@ void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
             for(int i=0; i<enemB.size();i++)
             {
                 enemB[i]->setInvisible();
-                cout<<"entro"<<endl;
             }
         }
         prota->update(b);
@@ -397,7 +347,7 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
             cam->setPosicion(vec3(40,5000,-20));
         }
         else
-    cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-15,-120)); // cambio 5O A ProtaPosition.Y
+    cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-25,-120)); // cambio 5O A ProtaPosition.Y
     //camPosition=vec3(protaPosition->getPosX(),protaPosition->getPosY()+30,protaPosition->getPosZ());
     //camPosition.y=protaPosition->getPosY()+30;
     //Falta funcion para enfocar la camara

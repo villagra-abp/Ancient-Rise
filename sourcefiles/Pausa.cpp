@@ -5,7 +5,7 @@ Pausa::Pausa(Posicion* pos):Objeto(pos)
 	
 	Fachada* fachada=fachada->getInstance();
 
-    pausa = fachada->addMalla(pos->getPosX(),pos->getPosY(),pos->getPosZ(), "resources/pausa_bueno.obj");
+    pausa = fachada->addMalla(pos->getPosX(),pos->getPosY(),pos->getPosZ(), "resources/continue.obj");
     
     
 	if (pausa)

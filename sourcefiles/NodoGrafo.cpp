@@ -8,6 +8,9 @@ NodoGrafo::NodoGrafo(int n, glm::f32 x, glm::f32 y):path(nullptr)
 	nodoPosition = new Posicion(x,y,0);
 
 	/*Fachada* fachada=fachada->getInstance();
+/*
+	Fachada* fachada=fachada->getInstance();
+>>>>>>> 1ab88a617aa152473ef0628f6f02026dd9cdc399
 	objeto = fachada->addMalla(x,y,0.f,"resources/manzana.obj");
     //std::cout<<pos.getPosX()<<endl;
 	if (objeto)

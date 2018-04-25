@@ -165,7 +165,19 @@
   </object>
  </objectgroup>
  <objectgroup name="enemigos" visible="0" locked="1">
+ <object id="105" name="3233" type="11" x="108.909" y="54.9091">
+   <point/>
+  </object>
+  <object id="106" name="3940" type="11" x="263" y="47.3333">
+   <point/>
+  </object>
   <object id="107" name="4344" type="12" x="413.091" y="47.2727">
+   <point/>
+  </object>
+  <object id="108" name="4748" type="11" x="543.636" y="38.5455">
+   <point/>
+  </object>
+  <object id="109" name="5354" type="12" x="615.636" y="63.0909">
    <point/>
   </object>
  </objectgroup>
