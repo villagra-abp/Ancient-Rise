@@ -16,7 +16,6 @@ Protagonista::Protagonista():energy(nullptr), life(nullptr), Body(nullptr), rec(
     desabilitamos la luz en cada modelo (sino los modelos serian negros )
     **/ 
     FObjeto* protaObjeto = fachada->addMalla(0, 0,30,"resources/personaje.obj");
-//    FObjeto* protaObjeto = fachada->addMalla(0, 0,30,"resources/cubo.obj");
 
     rec = protaObjeto;
     
@@ -118,66 +117,11 @@ void Protagonista::updateBody(b2World& world)
 {
     
     
+    
     protaPosition->setPosX(Body->GetPosition().x);
     protaPosition->setPosY(Body->GetPosition().y);
     
     fachada->setPosicion(rec,protaPosition);
-    protaPosition->setPosX(protaPosition->getPosX()+5);
-    if(pos_combate==2){
-        protaPosition->setPosY(protaPosition->getPosY()+5);
-    }
-        
-    if(pos_combate==1){
-        protaPosition->setPosY(protaPosition->getPosY()+10);
-    }
-        
-    if(pos_combate==3){
-        protaPosition->setPosY(protaPosition->getPosY());
-    }
-    fachada->setPosicion(flecha1,protaPosition);
-    protaPosition->setPosX(protaPosition->getPosX()-10);
-    fachada->setPosicion(flecha0,protaPosition);
-    if(pos_combate==1){
-        protaPosition->setPosY(protaPosition->getPosY()-5);
-    }
-        
-    if(pos_combate==3){
-        protaPosition->setPosY(protaPosition->getPosY()+5);
-    }
-    
-    Posicion escalaFlechaCorta(0,0.f,0.f);
-    Posicion escalaFlechaLarga(0.1,.1f,0.1f);
-    Posicion escalaFlechaLarga2(0.2,.1f,0.1f);
-    
-    if(direccion==1&&combate){
-        fachada->setScala(flecha0,&escalaFlechaCorta);
-        if(!ataca){
-            fachada->setScala(flecha1,&escalaFlechaLarga);
-        }else
-            fachada->setScala(flecha1,&escalaFlechaLarga2);
-        
-    }
-    if(direccion==0&&combate){
-        fachada->setScala(flecha1,&escalaFlechaCorta);
-        if(!ataca){
-            fachada->setScala(flecha0,&escalaFlechaLarga);
-        }else
-            fachada->setScala(flecha0,&escalaFlechaLarga2);
-    }
-    if(!combate){
-        fachada->setScala(flecha1,&escalaFlechaCorta);
-        fachada->setScala(flecha0,&escalaFlechaCorta);
-        
-    }
-    protaPosition->setPosX(protaPosition->getPosX()+5);
-    protaPosition->setPosY(protaPosition->getPosY()+10);
-    fachada->setPosicion(energy,protaPosition);
-    protaPosition->setPosY(protaPosition->getPosY()+5);
-    fachada->setPosicion(life,protaPosition);
-    Posicion escalaEnergy(energia/5,2.f,0.f);
-    Posicion escalaLife(vida/10,2.f,0.f);
-    fachada->setScala(energy,&escalaEnergy);
-    fachada->setScala(life,&escalaLife);
 }
 
 /**

@@ -23,14 +23,7 @@ posA(nullptr), posF(nullptr), p1(nullptr), p0(nullptr)	//CONSTRUCTOR
 
     /* Lectura del XML para la logica del juego */
     cargarNivel();
-
-    /*for(int i=0; i<nodos.size();i++)
-    {
-        cout<<"Nodo "<<nodos[i]->getNombre();
-        cout<<" en X: "<<nodos[i]->getPosition()->getPosX();
-        cout<<" y en Y: "<<nodos[i]->getPosition()->getPosY()<<endl;
-    }
-
+/*
     for(int i=0; i<aristas.size();i++)
     {
         cout<<"Arista "<<i;
@@ -63,7 +56,7 @@ posA(nullptr), posF(nullptr), p1(nullptr), p0(nullptr)	//CONSTRUCTOR
     for(int i=0;i<enemB.size();i++)   // Añadimos todos los enemigos basicos que existen a la blackboard
     {
         b->setEnemB(enemB[i]);
-    }      
+    }
 
     /* CREAMOS OBJETOS */
 
@@ -76,7 +69,6 @@ posA(nullptr), posF(nullptr), p1(nullptr), p0(nullptr)	//CONSTRUCTOR
      	t = new Trampa(postrampa);
         trampas.push_back(t);
      	addGameObject(t);
-
     	 
     /** ESTABLECEMOS LA CAMARA
      Aqui indicamos la posicion de la camara en el espacio 3d. En este caso,
@@ -105,6 +97,7 @@ posA(nullptr), posF(nullptr), p1(nullptr), p0(nullptr)	//CONSTRUCTOR
         pathsSkybox.push_back("resources/skybox/skybox_2.tga");
         pathsSkybox.push_back("resources/skybox/skybox_4.tga");
         fachada->addSkybox(pathsSkybox);
+
         
     /* CREAMOS EL TERRENO Y COLISIONES DE CAMARA */
 
@@ -126,6 +119,17 @@ posA(nullptr), posF(nullptr), p1(nullptr), p0(nullptr)	//CONSTRUCTOR
     Posicion* poshud= new Posicion(-40.5f,-5001.5f,.5f);
     Hud* hud = new Hud(poshud);
 
+for(int i=0; i<nodos.size();i++)
+    {   
+        if(nodos[i]->getNombre()==41)
+        {
+            cout<<"PRIMERA COMPROBACION"<<endl;
+            cout<<"Nodo "<<nodos[i]->getNombre();
+            cout<<" en X: "<<nodos[i]->getPosition()->getPosX();
+            cout<<" y en Y: "<<nodos[i]->getPosition()->getPosY()<<endl;
+        }
+    }
+
 }	
 
 void Mundo::terrainBuilder(){	//CONSTRUCTOR DEL TERRENOS Y COLISIONES DE CAMARA
@@ -135,13 +139,24 @@ void Mundo::terrainBuilder(){	//CONSTRUCTOR DEL TERRENOS Y COLISIONES DE CAMARA
 }
 
 void Mundo::update()
-{
+{/*
+    for(int i=0; i<nodos.size();i++)
+    {   
+        if(nodos[i]->getNombre()==41)
+        {
+            cout<<"INFINITA COMPROBACION"<<endl;
+            cout<<"Nodo "<<nodos[i]->getNombre();
+            cout<<" en X: "<<nodos[i]->getPosition()->getPosX();
+            cout<<" y en Y: "<<nodos[i]->getPosition()->getPosY()<<endl;
+        }
+    }*/
     //Comprueba las entradas del teclado
 	checkInput();
 	//pasos de las fisicas en el mundo
 	world.Step(1/60.f, 8, 3);
 	//reinicio las fuerzas en el mundo
 	world.ClearForces();
+
 
 	/* Creamos el framedeltatime */
 	float frameDeltaTime = fachada->getTime(); // Time in seconds
@@ -150,6 +165,17 @@ void Mundo::update()
 
 	/* PROTA UPDATE */
 	protaUpdate(frameDeltaTime);
+/*
+    for(int i=0; i<nodos.size();i++)
+    {   
+        if(nodos[i]->getNombre()==41)
+        {
+            cout<<"INFINITA 3 COMPROBACION"<<endl;
+            cout<<"Nodo "<<nodos[i]->getNombre();
+            cout<<" en X: "<<nodos[i]->getPosition()->getPosX();
+            cout<<" y en Y: "<<nodos[i]->getPosition()->getPosY()<<endl;
+        }
+    }*/
 
 	/* CAM UPDATE*/
     camUpdate(frameDeltaTime);
@@ -219,7 +245,18 @@ void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
     } 
 
     prota->updateBody(world);
-    
+/*
+    for(int i=0; i<nodos.size();i++)
+    {   
+        if(nodos[i]->getNombre()==41)
+        {
+            cout<<"INFINITA 2 COMPROBACION"<<endl;
+            cout<<"Nodo "<<nodos[i]->getNombre();
+            cout<<" en X: "<<nodos[i]->getPosition()->getPosX();
+            cout<<" y en Y: "<<nodos[i]->getPosition()->getPosY()<<endl;
+        }
+    }
+    */
     if(!prota->checkVida())
 		fachada->cerrar();
 
@@ -657,7 +694,7 @@ void Mundo::cargarNivel()
                         {   
                             case 1: // Enemigos Basicos
                             {
-                                enem1 = new EnemigoBasico( pos, 80.0, 0.8, a, this, b, world);
+                                enem1 = new EnemigoBasico( pos, 50.0, 0.9, a, this, b, world);
                                 enemB.push_back(enem1);
                                 addGameObject(enem1);
                                 break;

@@ -1,4 +1,5 @@
 #include "../headerfiles/Fachada.h"
+#include "../headerfiles/NodoGrafo.h"
 
 static Fachada* instance = NULL;
 
@@ -186,16 +187,16 @@ FObjeto* Fachada::addSphere(int x,int y,int z,bool flag){
 }
 FObjeto* Fachada::addMalla(int x,int y,int z,string ruta){
     
-    FObjeto* prota = new FObjeto();
+    FObjeto* malla = new FObjeto();
 	
-    prota->setMalla(ruta);
-    prota->Escalar(vec3(2,2,2));
+    malla->setMalla(ruta);
+    malla->Escalar(vec3(2,2,2));
 	
 
-	prota->setPosicion(vec3(x,y,z));
-	//prota->Rotar(vec3(0,1,0), -4.5f);
+	malla->setPosicion(vec3(x,y,z));
+	//malla->Rotar(vec3(0,1,0), -4.5f);
     
-    return prota;
+    return malla;
 }
 
 void Fachada::rotObj(void* nodo, float x, float y, float z, float angulo){
@@ -226,9 +227,11 @@ bool Fachada::setScala(void * nodo,Posicion* scala){
 }
 bool Fachada::setPosicion(void * nodo,Posicion* pos){
     //std::cout<<pos->getPosX()<<endl;
+    cout<<pos->getPosX()<<endl;
     FObjeto* node=(FObjeto*)nodo;
     vec3 position=vec3(pos->getPosX(),pos->getPosY(),0);
     //cout<<position.x<<" "<<position.y<<" "<<position.z<<endl;
+    
     node->setPosicion(position);
     return true;
 }
