@@ -703,7 +703,25 @@ void Mundo::cargarNivel()
 
                     if(strcmp(grupo2->FirstAttribute()->Value(),"recolectables")==0)
                     {
-                    
+                        int t = tipo/10;    // Tipo de recolectable
+                        
+
+                        switch (t)
+                        {   
+                            case 1: // Agua
+                            {
+                               
+                                break;
+                            }
+
+                            case 2: // Comida
+                            {
+                                break;
+                            }
+
+                        
+
+                        }
                     } 
 
                     if(strcmp(grupo2->FirstAttribute()->Value(),"armas")==0)
@@ -713,7 +731,7 @@ void Mundo::cargarNivel()
 
                     if(strcmp(grupo2->FirstAttribute()->Value(),"alarmas")==0)
                     {
-                        posA= new Posicion(xEn-190,-yEn+60,0.f);
+                        posA= new Posicion(xEn-190,-yEn+59,0.f);
 
                         Alarma* alarm = new Alarma( posA);
                         alarmas.push_back(alarm);
@@ -724,7 +742,7 @@ void Mundo::cargarNivel()
 
                     if(strcmp(grupo2->FirstAttribute()->Value(),"fuentes")==0)
                     {
-                        posF= new Posicion(xEn-190,-yEn+60,0.f);
+                        posF= new Posicion(xEn-190,-yEn+59,0.f);
 
                         Fuente* fuente = new Fuente(posF);
                         fuentes.push_back(fuente);
