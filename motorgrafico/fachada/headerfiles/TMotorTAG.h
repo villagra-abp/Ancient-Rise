@@ -5,6 +5,7 @@
 #include "../../headerfiles/TTransf.h"
 #include "../../headerfiles/TLuz.h"
 #include "../../headerfiles/TMalla.h"
+#include "../../headerfiles/TAnimacion.h"
 #include "../../headerfiles/TCamara.h"
 #include "../../headerfiles/TSkybox.h"
 #include "../../headerfiles/TGestorRecursos.h"

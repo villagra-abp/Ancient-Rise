@@ -118,20 +118,58 @@ Shader* TGestorRecursos::getShader(int shad){
 
 TRecursoAnimacion* TGestorRecursos::cargarAnimacion(string path){
 	//Cargamos el fichero de texto con la informacion de la animacion. Primera fila path de las animaciones, segunda fila numero de frames, tercera fila duracion de animacion
+	TRecursoAnimacion* animacion;
+	TRecursoMalla* malla;
 	ifstream fichero;
+	string aux, pathMallas;
+	int numFrames;
+	double duracion;
+
 	try{
 		fichero.open(path);
+
+		int i = 0;
+		while(!fichero.eof()){
+			getline(fichero,aux);
+
+			switch(i){
+				case 0:
+					pathMallas = aux;
+					break;
+				case 1:
+					numFrames = stoi(aux);
+					break;
+				case 2:
+					duracion = stod(aux);
+					break;
+				default:
+					break;
+			}
+
+			i++;
+		}
+
+		fichero.close();
 
 	}catch(ifstream::failure e){
 		 cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ"  << endl;
 	}
 	//Cargamos cargamos todos los recurso malla necesarios
+	animacion = new TRecursoAnimacion(duracion);
+
+	for(int i = 0; i < numFrames; i++){
+		aux = pathMallas + to_string(i) + ".obj";
+//		cout<<aux<<endl;
+		malla = getRecursoMalla(aux);
+		animacion->addMalla(malla);
+	}
+
+	return animacion;
 }
 
 //ASSIMP - Mallas
 
 TRecursoMalla* TGestorRecursos::cargarFichero(string path){
-
 	//string path = getPath(name);
 	TRecursoMalla *malla = new TRecursoMalla();
 

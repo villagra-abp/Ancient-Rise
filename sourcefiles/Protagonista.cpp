@@ -15,7 +15,8 @@ Protagonista::Protagonista():energy(nullptr), life(nullptr), Body(nullptr), rec(
     en (0,0,30) y le asignamos una texura. Como no tenemos luces dinamicas en esta escena
     desabilitamos la luz en cada modelo (sino los modelos serian negros )
     **/ 
-    FObjeto* protaObjeto = fachada->addMalla(0, 0,30,"resources/personaje.obj");
+    //FObjeto* protaObjeto = fachada->addMalla(0, 0,30,"resources/personaje.obj");
+    FObjeto* protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/Prueba/prueba");
 //    FObjeto* protaObjeto = fachada->addMalla(0, 0,30,"resources/cubo.obj");
 
     rec = protaObjeto;

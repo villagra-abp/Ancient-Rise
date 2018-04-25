@@ -2,15 +2,17 @@
 #define TANIMACION_H
 
 
-#include <ctime> //time.h
+#include <chrono>
 #include "TEntidad.h"
 #include "TRecursoAnimacion.h"
-#include "TGestorRecurso.h"
+#include "TGestorRecursos.h"
+
+using namespace std::chrono;
 
 class TAnimacion : public TEntidad{
 public:
 	TAnimacion();
-	virtual ~TAnimacion();
+	virtual ~TAnimacion() = default;
 
 	void cargarAnimacion(string path);
 	void beginDraw(TDatosEntidad *datos) override;
@@ -18,19 +20,22 @@ public:
 	tEnt getTipo() override{ return anim;}
 	int getFrame();
 
+	void setTime(double tiempo);
+	void setTimeZero();
+
 	bool isVisible(bool flag);
 
 private:
-	float time;									//Progreso de la animacion en segundos
-	float duracion;								//Duracion total de la animacion en segundos
-	float dMalla;								//Duracion de cada malla en segundos
-	time_t now, antes;
+	double time;									//Progreso de la animacion en segundos
+	double duracion;								//Duracion total de la animacion en segundos
+	double dMalla;								//Duracion de cada malla en segundos
+	steady_clock::time_point now, antes;
 
-	float getTime();
+	double getTime();
 	bool visible;
 
 	TRecursoAnimacion* animacion;
-	TGestorRecurso* gestor;
+	TGestorRecursos* gestor;
 };
 
 #endif //TANIMACION_H

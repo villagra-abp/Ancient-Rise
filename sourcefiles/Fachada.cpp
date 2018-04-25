@@ -175,7 +175,7 @@ FObjeto* Fachada::addSphere(int x,int y,int z,bool flag){
     
     FObjeto* prota = new FObjeto();
 	
-    prota->setMalla("resources/esfera.obj");
+    prota->setAnimacion("resources/esfera.obj");
     prota->Escalar(vec3(2,2,2));
 	
 
@@ -196,6 +196,20 @@ FObjeto* Fachada::addMalla(int x,int y,int z,string ruta){
 	//prota->Rotar(vec3(0,1,0), -4.5f);
     
     return prota;
+}
+
+FObjeto* Fachada::addAnimacion(int x, int y, int z, string path){
+
+    FObjeto* objeto = new FObjeto();
+    
+    objeto->setAnimacion(path);
+    objeto->Escalar(vec3(2,2,2));
+    
+
+    objeto->setPosicion(vec3(x,y,z));
+    //prota->Rotar(vec3(0,1,0), -4.5f);
+    
+    return objeto;
 }
 
 void Fachada::rotObj(void* nodo, float x, float y, float z, float angulo){

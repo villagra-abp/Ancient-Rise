@@ -2,7 +2,7 @@
 #define TGESTORRECURSOS_H
 
 #include <iostream>
-#include <ifstream>
+#include <fstream>
 #include <vector>
 #include <math.h>
 #include <glm/glm.hpp>

@@ -91,16 +91,21 @@ vec3 FObjeto::getPosicion(){
 }
 
 void FObjeto::setMalla(string path){
+	TMalla* mesh = new TMalla();
+	nodo->setEntidad(mesh);
 	dynamic_cast<TMalla*>(nodo->getEntidad())->cargarMalla(path);
 }
 
 void FObjeto::setMaterial(string nombre){
+
 	dynamic_cast<TMalla*>(nodo->getEntidad())->setMaterial(nombre);
 	//Anyadir errores si no existe material
 
 }
 
 void FObjeto::setAnimacion(string path){
-	dynamic_cast<TAnimacion*>(nodo->getEntidad())->setAnimacion(path);
+	TAnimacion* mesh = new TAnimacion();
+	nodo->setEntidad(mesh);
+	dynamic_cast<TAnimacion*>(nodo->getEntidad())->cargarAnimacion(path);
 }
 

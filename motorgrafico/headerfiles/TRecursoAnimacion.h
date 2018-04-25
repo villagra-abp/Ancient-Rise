@@ -6,24 +6,25 @@
 
 class TRecursoAnimacion : public TRecurso{
 	public:
-	TRecursoAnimacion(){}
-	virtual ~TRecursoAnimacion();
+	TRecursoAnimacion(double duracion);
+	virtual ~TRecursoAnimacion() = default;
 
     void draw(glm::mat4 mmodelo, TDatosEntidad *datos, int frame);	
     void addMalla(TRecursoMalla* malla);
 
 	string getNombre() override {return nombre;}
-	float getDuracion();
+	double getDuracion();
+	double getDMalla();
 	void setNombre(string nombre) override;
 	//virtual void cargarFichero(string nombre) = 0;
 
 
 private:	
 
-	float duracion, dMalla;
+	double duracion, dMalla;
 
 	string nombre;
 	vector<TRecursoMalla*> mallas;
-}
+};
 
 #endif //TRECURSOANIMACION_H
