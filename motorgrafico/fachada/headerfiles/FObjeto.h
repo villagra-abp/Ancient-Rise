@@ -23,6 +23,7 @@ class FObjeto : public FEntidad{
 		void Unir(FEntidad* padre) override;
 
 		void setMalla(string path);
+		void setAnimacion(string path);
 		void setMaterial(string nombre);
 
 		bool getActive() override;

@@ -56,6 +56,20 @@ TRecursoSkybox* TGestorRecursos::getRecursoSkybox(vector<string> paths){
 	return r;
 }
 
+TRecursoAnimacion* TGestorRecursos::getRecursoAnimacion(string path){
+	TRecursoAnimacion* r = nullptr;
+
+	r = dynamic_cast<TRecursoAnimacion*>(buscarRecurso(path));
+
+	if(r == nullptr){
+		r = cargarAnimacion(path);
+		r->setNombre(path);
+		recursos.push_back(r);
+	}
+	
+	return r;
+}
+
 /*
 TRecursoMaterial* TGestorRecursos::getRecursoMat(string nombre){
 		Tipo* r = dynamic_cast<Tipo*>(buscarRecurso(nombre_fichero));
@@ -102,12 +116,60 @@ Shader* TGestorRecursos::getShader(int shad){
 	return shader;
 }
 
+TRecursoAnimacion* TGestorRecursos::cargarAnimacion(string path){
+	//Cargamos el fichero de texto con la informacion de la animacion. Primera fila path de las animaciones, segunda fila numero de frames, tercera fila duracion de animacion
+	TRecursoAnimacion* animacion;
+	TRecursoMalla* malla;
+	ifstream fichero;
+	string aux, pathMallas;
+	int numFrames;
+	double duracion;
 
+	try{
+		fichero.open(path);
+
+		int i = 0;
+		while(!fichero.eof()){
+			getline(fichero,aux);
+
+			switch(i){
+				case 0:
+					pathMallas = aux;
+					break;
+				case 1:
+					numFrames = stoi(aux);
+					break;
+				case 2:
+					duracion = stod(aux);
+					break;
+				default:
+					break;
+			}
+
+			i++;
+		}
+
+		fichero.close();
+
+	}catch(ifstream::failure e){
+		 cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ"  << endl;
+	}
+	//Cargamos cargamos todos los recurso malla necesarios
+	animacion = new TRecursoAnimacion(duracion);
+
+	for(int i = 0; i < numFrames; i++){
+		aux = pathMallas + to_string(i) + ".obj";
+//		cout<<aux<<endl;
+		malla = getRecursoMalla(aux);
+		animacion->addMalla(malla);
+	}
+
+	return animacion;
+}
 
 //ASSIMP - Mallas
 
 TRecursoMalla* TGestorRecursos::cargarFichero(string path){
-
 	//string path = getPath(name);
 	TRecursoMalla *malla = new TRecursoMalla();
 
@@ -125,6 +187,8 @@ TRecursoMalla* TGestorRecursos::cargarFichero(string path){
 
     return malla;
 }
+
+
 
 void TGestorRecursos::processNode(aiNode *node, const aiScene *scene, TRecursoMalla* malla)
 {

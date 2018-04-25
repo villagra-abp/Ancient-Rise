@@ -2,6 +2,7 @@
 #define TGESTORRECURSOS_H
 
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <math.h>
 #include <glm/glm.hpp>
@@ -14,6 +15,7 @@
 #include "TRecursoMalla.h"
 #include "TRecursoMaterial.h"
 #include "TRecursoSkybox.h"
+#include "TRecursoAnimacion.h"
 #include "Shader.h"
 
 class TGestorRecursos{
@@ -39,6 +41,7 @@ public:
 	}*/
 	TRecursoMalla* getRecursoMalla(string path);
 	TRecursoSkybox* getRecursoSkybox(vector<string> paths);
+	TRecursoAnimacion* getRecursoAnimacion(string path);
 //	TRecursoMaterial* getRecursoMat(string nombre);
 //	TRecursoTexture *getRecursoT(string nombre);
 	TRecurso* buscarRecurso(string nombre);
@@ -49,6 +52,7 @@ private:
 	TGestorRecursos();
 	unsigned int TextureFromFile(const char *path, const string &directory, bool gamma = false);
  	TRecursoMalla* cargarFichero(string nombre);
+ 	TRecursoAnimacion* cargarAnimacion(string path);
 	void processNode(aiNode *node, const aiScene *scene, TRecursoMalla* malla);
     rMesh processMesh(aiMesh *mesh, const aiScene *scene);
     vector<TRecursoTextura*> loadMaterialTextures(aiMaterial *mat, aiTextureType type, 

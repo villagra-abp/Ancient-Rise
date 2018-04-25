@@ -17,13 +17,13 @@ void TMalla::setMaterial(string nombre){
 	//material = gestor->getRecursoMat(nombre);
 }
 
+
 void TMalla::beginDraw(TDatosEntidad *datos){
 	if(visible){
 //		glm::vec3 ambient = material->getAmbiente();
 //		glm::vec3 diffuse = material->getDifusa();
 //		glm::vec3 specular = material->getEspecular();
 //		float shininess =	material->getBrillo();
-		
 		mesh->draw(mmodelo, datos); // (...) //Dibujado del recurso de malla OpenGL
 	}
 }
