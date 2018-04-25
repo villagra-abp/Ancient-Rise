@@ -92,7 +92,7 @@ void Enemigo::update(Posicion* Posprota)
 
     if(enemigo!=nullptr)  // Solo si existe el enemigo hacemos su update
     { 
-        //hudEnemigos();
+        hudEnemigos();
 
         actualizarSed();
         //COMPROBAMOS GAMEOBJECTS DENTRO DE LA VISTA
@@ -243,14 +243,14 @@ bool Enemigo::checkInSight(Posicion* objPos){
         xReady = posObjX - pjxmin;
 
         //Depuracion
-        //Posicion suputamadre(pjxmax, EnemigoPosition->getPosY(), 30.f);
-        //fachada->setPosicion( dep2, &suputamadre);
+        Posicion depurar(pjxmax, EnemigoPosition->getPosY(), 30.f);
+        //fachada->setPosicion( dep2, &depurar);
         
         //Depuracion
-        /*Posicion suputamadre2(pjxmax, ymaxABS, 30.f);
-        fachada->setPosicion( dep3, &suputamadre2);
-        Posicion suputamadre3(pjxmax, yminABS, 30.f);
-        fachada->setPosicion( dep4, &suputamadre3);*/
+        Posicion depurar2(pjxmax, ymaxABS, 30.f);
+        //fachada->setPosicion( dep3, &depurar2);
+        Posicion depurar3(pjxmax, yminABS, 30.f);
+        //fachada->setPosicion( dep4, &depurar3);
 
     }else{              //Mira hacia izquierda
         pjxmin = EnemigoPosition->getPosX() - visionXmax;
@@ -259,14 +259,14 @@ bool Enemigo::checkInSight(Posicion* objPos){
         xReady = -(posObjX - pjxmax);
 
        //Depuracion
-       /* Posicion suputamadre(pjxmin, EnemigoPosition->getPosY(), 30.f);
-        fachada->setPosicion( dep2, &suputamadre);
+        Posicion depurar(pjxmin, EnemigoPosition->getPosY(), 30.f);
+        //fachada->setPosicion( dep2, &depurar);
         
         //Depuracion
-        Posicion suputamadre2(pjxmin, ymaxABS, 30.f);
-        //fachada->setPosicion( dep3, &suputamadre2);
-        Posicion suputamadre3(pjxmin, yminABS, 30.f);
-        fachada->setPosicion( dep4, &suputamadre3);*/
+        Posicion depurar2(pjxmin, ymaxABS, 30.f);
+        //fachada->setPosicion( dep3, &depurar2);
+        Posicion depurar3(pjxmin, yminABS, 30.f);
+        //fachada->setPosicion( dep4, &depurar3);
     }
 
     if(posObjX < pjxmax && posObjX > pjxmin){
@@ -400,12 +400,12 @@ void Enemigo::hudEnemigos()
             
         }
         posicionHUD.setPosX(posicionHUD.getPosX()+5);
-        posicionHUD.setPosY(posicionHUD.getPosY()+10);
+        posicionHUD.setPosY(posicionHUD.getPosY()+7);
         fachada->setPosicion(energy,&posicionHUD);
-        posicionHUD.setPosY(posicionHUD.getPosY()+5);
+        posicionHUD.setPosY(posicionHUD.getPosY()+3);
         fachada->setPosicion(life,&posicionHUD);
-        Posicion escalaEnergy(energia/10,2.f,0.f);
-        Posicion escalaLife(salud/20,2.f,0.f);
+        Posicion escalaEnergy(energia/20,1.5f,0.01f);
+        Posicion escalaLife(salud/40,1.5f,0.01f);
         fachada->setScala(energy,&escalaEnergy);
         fachada->setScala(life,&escalaLife);
 }
