@@ -59,7 +59,7 @@ class Mundo : public Entorno
 
         void draw();
         
-        void checkInput();
+        void checkInput(int tecla);
         void checkCombate();
         
         void CambioEstado(int n);

@@ -22,11 +22,12 @@ Enemigo::Enemigo(vector<Posicion*> pos, float xlength, float pendValue, const En
         EnemigoPosition = pos;
 	}
 
+    /* Para ver visualmente la vision de los enemigos */
+   /* dep1=fachada->addMalla(-170,15,0,"resources/manzana.obj");
+    dep2=fachada->addMalla(-175,15,0,"resources/manzana.obj");
+    dep3=fachada->addMalla(-175,15,0,"resources/manzana.obj");
+    dep4=fachada->addMalla(-175,15,0,"resources/manzana.obj");*/
 
-    //dep1=fachada->addMalla(-170,15,0,"resources/manzana.obj");
-    //dep2=fachada->addMalla(-175,15,0,"resources/manzana.obj");
-    //dep3=fachada->addMalla(-175,15,0,"resources/manzana.obj");
-    //dep4=fachada->addMalla(-175,15,0,"resources/manzana.obj");
     energy=fachada->addMalla(-170,15,0,"resources/cajitaobj.obj");
     life=fachada->addMalla(-170,20,0,"resources/cajaColor.obj");
     flecha1=fachada->addMalla(-160,8,0,"resources/flecha.obj");
@@ -72,7 +73,7 @@ Enemigo::Enemigo(vector<Posicion*> pos, float xlength, float pendValue, const En
     memoria = false;
     orden = 0;                                            // Ninguna orden recibida
     saltando = false;
-    inv = false;
+    inv = true;
 
     /* Pathfinding */
     vuelta = false;
@@ -124,7 +125,7 @@ void Enemigo::update(Posicion* Posprota)
             
 
         /* COMBATE DISTANCIA */
-      /*  if(tipo==2) // Enemigo tipo distancia
+        if(tipo==2) // Enemigo tipo distancia
         {
             if(disparo==true)  // Nuevo disparo, hay que crear un proyectil nuevo
             {   
@@ -148,7 +149,7 @@ void Enemigo::update(Posicion* Posprota)
             }
                 proyectil->update(this,board);
         }
-        */
+        
     }
 
 }

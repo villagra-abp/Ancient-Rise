@@ -18,7 +18,7 @@ Status Atacar::run(Enemigo *e)
     // Comprobamos el tipo de arma que utiliza
     if(e->getTipo()==1)     // Cuerpo a cuerpo, cerca
     {
-        separacionAtaque = 50;
+        separacionAtaque = 20;
     }
     else  // A distancia, ataque desde mas lejos
     {
@@ -59,7 +59,6 @@ Status Atacar::run(Enemigo *e)
             {
                 if(p->getCombate()!=true || p->getPosCombate()!=pos_combate)        // Si el prota no esta en modo combate o no esta en la pos_combate donde ataca el enemigo, le quita vida
                 {
-                    cout<<"Danyo"<<endl;
                     p->quitarVida(10.f);
                 }
                 contAtq=0;

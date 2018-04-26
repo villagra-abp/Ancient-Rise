@@ -118,7 +118,7 @@ void Mundo::update()
 	Posicion* protaPosition = prota->getPosition();
     if(estado==2){
         //Comprueba las entradas del teclado
-        checkInput();
+        checkInput(-1);
           
     }
 	/* PROTA UPDATE */
@@ -138,7 +138,9 @@ void Mundo::update()
     {
         alarmas[i]->update();
     }
-if(estado==2){
+
+    if(estado==2)
+    {
         /* UPDATE DE LOS ENEMIGOS */
         for(size_t i=0; i<enemB.size();i++)   		// Enemigos Basicos
         {
@@ -197,21 +199,10 @@ void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
 
     prota->updateBody(world);
 
-   /* for(int i=0; i<nodos.size();i++)
-    {   
-        if(nodos[i]->getNombre()==41)
-        {
-            cout<<"INFINITA COMPROBACION"<<endl;
-            cout<<"Nodo "<<nodos[i]->getNombre();
-            cout<<" en X: "<<nodos[i]->getPosition()->getPosX();
-            cout<<" y en Y: "<<nodos[i]->getPosition()->getPosY()<<endl;
-        }
-    }*/
-
     if(!prota->checkVida())
 		fachada->cerrar();
 
-	if(Tiempo>0.1f) 	// HACEMOS QUE LO QUE HAYA DENTRO SE HAGA MENOS VECES POR SEGUNDO
+	if(Tiempo>0.3f) 	// HACEMOS QUE LO QUE HAYA DENTRO SE HAGA MENOS VECES POR SEGUNDO
     {
         glm::f32 energia=prota->getEnergia();
 
@@ -250,9 +241,27 @@ void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
     	prota->setEnergia(2, frameDeltaTime);
 
 }
-void Mundo::checkInput(){
+/* Funcion para controlar todas las entradas por teclado del jugador */
+void Mundo::checkInput(int tecla){
     
-    
+       
+    switch(tecla){
+        case 10: // Tecla K Activar/Desactivar Combate
+        {        
+           prota->setCombate();      
+           break;
+        }
+
+        /*case 15:
+        {
+            if(prota->getCombate())
+            {
+
+            }
+            break;
+        }*/
+    }
+        
 	if(sf::Joystick::isConnected(0)){
 		JoyY=sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
 		JoyX=sf::Joystick::getAxisPosition(0, sf::Joystick::X);
@@ -302,21 +311,21 @@ void Mundo::checkInput(){
         prota->setPosCombate(2);
 	       
 }
-
+/* Funcion para activar/desactivar el combate y atacar */
 void Mundo::checkCombate()
 {
-	/* control de ataque*/
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::P)||sf::Joystick::isButtonPressed(0, 2))//p
-    {  
-        prota->setAtaque(true);
-    }else
-      prota->setAtaque(false);  
-    /* control de defensa*/
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::K)||sf::Joystick::isButtonPressed(0, 4))//k
+    /* Control del ataque (Solo si el combate esta activado) */
+    if(prota->getCombate())
     {
-        prota->setCombate();
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::P)||sf::Joystick::isButtonPressed(0, 2))
+        {  
+            prota->setAtaque(true);
+        }
+        else
+        {
+            prota->setAtaque(false);  
+        }
     }
-    //std::cout<<prota->getCombate()<<endl;
 }
 
 void Mundo::camUpdate(const glm::f32 frameDeltaTime){
@@ -448,8 +457,8 @@ void Mundo::cargarNivel()
           
         while (atri)
         {
-          if (atri->QueryIntValue(&ival)==TIXML_SUCCESS)    //printf( " int=%d", ival);//muestra su valor entero
-          if (atri->QueryDoubleValue(&dval)==TIXML_SUCCESS) //printf( " d=%1.1f", dval);//muestra su valor doble
+          if (atri->QueryIntValue(&ival)==TIXML_SUCCESS)    //muestra su valor entero
+          if (atri->QueryDoubleValue(&dval)==TIXML_SUCCESS) //muestra su valor doble
           //printf( "\n" );
 
           i++;
@@ -470,8 +479,8 @@ void Mundo::cargarNivel()
              
             while (atri2)
             {
-              if (atri2->QueryIntValue(&ival2)==TIXML_SUCCESS)    //printf( " int=%d", ival2);//muestra su valor entero
-              if (atri2->QueryDoubleValue(&dval2)==TIXML_SUCCESS) //printf( " d=%1.1f", dval2);//muestra su valor doble
+              if (atri2->QueryIntValue(&ival2)==TIXML_SUCCESS)    //muestra su valor entero
+              if (atri2->QueryDoubleValue(&dval2)==TIXML_SUCCESS) //muestra su valor doble
 
                 i2++;
                 atri2=atri2->Next();
@@ -481,16 +490,16 @@ void Mundo::cargarNivel()
 
         //OBTENER ELEMENTO LAYER
         TiXmlElement* layer = map->FirstChildElement("layer");//a la misma altura que tileset(hijos de mapa)
-        if(layer)
+        if(!layer)
         { 
-            //std::cout <<"Layer ok"<<endl;
+            cout <<"Error Layer"<<endl;
         }
 
         //OBTENER ELEMENTO DATA
         TiXmlElement* data = layer->FirstChildElement("data");//data es hijo de layer
-        if(data)
+        if(!data)
         { 
-            //std::cout <<"data ok"<<endl;
+            cout <<"Error data"<<endl;
         }
 
         //OBTENER ELEMENTO OBJECTGROUP

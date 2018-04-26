@@ -13,10 +13,8 @@ int main()
 
     //Creo la fachada 
     Fachada* fachada = fachada->getInstance(ancho,alto,false);
-    //Protagonista* prota = prota->getInstance();
-	/* CREAMOS IRRLICHT DEVICE */
 
-	//IrrlichtDevice *device = fachada->getDevice();
+	/* CREAMOS LA VENTANA */
     sf::RenderWindow* ventana = fachada->getVentana();
 
 	//if (!device)
@@ -24,7 +22,6 @@ int main()
 	
 
 	/* CREAMOS MUNDO DEL JUEGO */
-
 	Mundo* mundo = new Mundo();
     //TMotorTAG* motorgrafico = TMotorTAG::getInstance();
 	
@@ -43,8 +40,7 @@ int main()
     minimap.zoom(4.f);
 
    
-	// BUCLE PRINCIPAL DEL JUEGO 
-
+	/* BUCLE PRINCIPAL DEL JUEGO */
 	while(ventana->isOpen())
 	{
 		char inputKey;
@@ -74,6 +70,7 @@ int main()
 		        {    
 		            inputKey = evento->key.code;
 		            //std::cout<<evento->key.code<<std::endl;		
+		            mundo->checkInput(inputKey);
 		            switch(inputKey){
                         case 36: 		//escape
                             if(mundo->getEstado()==0){

@@ -50,11 +50,8 @@ Protagonista::Protagonista():energy(nullptr), life(nullptr), Body(nullptr), rec(
     grito = sonido->create2DSound(sonido->SOUND_BOSS3_GRITO1);
     risa = sonido->create3DSound(sonido->SOUND_BOSS3_RISA);
     
-    /////solo es para probar que no peta
-    //Posicion pos(0,0,30);
     protaPosition=fachada->getPosicion(rec);
     
-    //delete pos;
     
 
 }
@@ -119,8 +116,6 @@ FUNCION PARA actualizar el cuerpo
 **/
 void Protagonista::updateBody(b2World& world)
 {
-    
-    
     
     protaPosition->setPosX(Body->GetPosition().x);
     protaPosition->setPosY(Body->GetPosition().y);

@@ -98,9 +98,9 @@ class Enemigo : public GameObject
         void * life;
         void * flecha0;
         void * flecha1;
-        void *dep1, *dep2, *dep3, *dep4;
+        //void *dep1, *dep2, *dep3, *dep4;          // Para poder ver visualmente el rango de vision de los enemigos
         
-        Posicion* EnemigoPosition;            // VECTOR 3D CON LA POSICION DEL ENEMIGO 
+        Posicion* EnemigoPosition;                  // VECTOR 3D CON LA POSICION DEL ENEMIGO 
         int contadorPatrulla;                       // PARA SABER LA POSICION EN LA QUE SE ENCUENTRA EN LA PATRULLA
         
         bool encontradoComida;                      // PARA SABER SI HA ENCONTRADO COMIDA
