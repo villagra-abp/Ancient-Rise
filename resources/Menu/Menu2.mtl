@@ -12,8 +12,8 @@ newmtl 20___Default
 	Kd 0.5880 0.5880 0.5880
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka C:\Users\Home\Desktop\MenuPausa\Menu\Opcion1_2.png
-	map_Kd C:\Users\Home\Desktop\MenuPausa\Menu\Opcion1_2.png
+	map_Ka Menu/Opcion1_2.png
+	map_Kd Menu/Opcion1_2.png
 
 newmtl 15___Default
 	Ns 10.0000
@@ -26,5 +26,5 @@ newmtl 15___Default
 	Kd 0.5882 0.5882 0.5882
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka C:\Users\Home\Desktop\Carrera\4t\RV\Texturizado\Texturas\brown-2696826_1920.jpg
-	map_Kd C:\Users\Home\Desktop\Carrera\4t\RV\Texturizado\Texturas\brown-2696826_1920.jpg
+	map_Ka Menu/brown-2696826_1920.jpg
+	map_Kd Menu/brown-2696826_1920.jpg
