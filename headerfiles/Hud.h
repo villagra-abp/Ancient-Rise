@@ -18,6 +18,7 @@ class Hud : public Objeto
         void * hud2;
         void * hud3;
         void * hud4;
+        void * hud5;
         
 };
 
