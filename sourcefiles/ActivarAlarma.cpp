@@ -116,6 +116,7 @@ Status ActivarAlarma::run(Enemigo *e)
               else
               {
                   /* RELOJ ACTIVACION ALARMA */
+
                   startClock();                                 // INICIAMOS EL RELOJ (O RESEATEAMOS)
 
                   int duration = reloj.getElapsedTime().asSeconds();  // OBTENEMOS SU DURACION EN SEGUNDOS

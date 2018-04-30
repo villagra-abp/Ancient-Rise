@@ -14,6 +14,10 @@ Alarma::Alarma(Posicion* pos):Objeto(pos)
 	}
 
 	contador = 0;
+
+	//GESTION SONIDO
+   	sonido = GestorSonido::getInstance();
+   	alarmaSound = sonido->create2DSound(sonido->SOUND_TRAP_ALARM);
 }
 
 
@@ -32,6 +36,9 @@ void Alarma::checkActivada()
 	{
 		fachada->setMaterialFlag(objeto , false);
 		fachada->setMaterial(objeto ,"resources/activada.jpeg");
+
+		//SONIDO DE ALARMA
+        sonido->playSound(alarmaSound);
 
 		startClock();
 
