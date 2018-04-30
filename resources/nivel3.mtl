@@ -12,8 +12,8 @@ newmtl 02___Default
 	Kd 0.5882 0.5882 0.5882
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka C:\Users\barri\Desktop\pared2.jpg
-	map_Kd C:\Users\barri\Desktop\pared2.jpg
+	map_Ka pared2.jpg
+	map_Kd pared2.jpg
 
 newmtl 01___Default
 	Ns 10.0000
