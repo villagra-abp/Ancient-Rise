@@ -437,7 +437,7 @@ void Mundo::cargarNivel()
 {
     TiXmlDocument doc;
 
-    if(doc.TiXmlDocument::LoadFile("resources/nivel2.xml",TIXML_ENCODING_UTF8 )) //TIXML_ENCODING_UTF8
+    if(doc.TiXmlDocument::LoadFile("resources/nivel3.xml",TIXML_ENCODING_UTF8 )) //TIXML_ENCODING_UTF8
     { 
       //std::cout <<"Leyendo bien"<<endl;    
     }

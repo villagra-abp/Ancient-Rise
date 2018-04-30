@@ -5,7 +5,7 @@ Menu::Menu(Posicion* pos):Objeto(pos)
 	
 	Fachada* fachada=fachada->getInstance();
 
-    menu = fachada->addMalla(pos->getPosX()+1,pos->getPosY()+1,pos->getPosZ(), "resources/Menu/Menu2.obj");
+    menu = fachada->addMalla(pos->getPosX()+1,pos->getPosY()+1,pos->getPosZ(), "resources/Menu/Carajo.obj");
     
     
 	if (menu)

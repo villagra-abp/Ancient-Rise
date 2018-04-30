@@ -367,7 +367,7 @@ void Fachada::drawTerreno(){
 	FObjeto* suelo = new FObjeto();
 	
     //suelo->setMalla("resources/escenario.obj");
-    suelo->setMalla("resources/nivel2.obj");
+    suelo->setMalla("resources/nivel3.obj");
     //suelo = addCube(-220,-9,0, false);
     suelo->Escalar(vec3(0.8,0.8,2.));
 	
