@@ -23,6 +23,12 @@ Arista::Arista(int c, int c2):inicio(nullptr),fin(nullptr)
 			m_eTipo = BAJADA;
 			break;
 		}
+
+		case 4:
+		{
+			m_eTipo = SALTO_GRANDE;
+			break;
+		}
 	}
 	
 }

@@ -5,7 +5,7 @@
 int main()
 {	
 	// Tamaño ventana 
-	int ancho = 1400;
+	int ancho = 1500;
 	int alto = 900;
 
 //	int ancho = 800;
