@@ -420,6 +420,7 @@ void BuscarAgua::checkComportamiento(Enemigo *e)
                   }
                 }
           }
+          break;
        }
 
     }

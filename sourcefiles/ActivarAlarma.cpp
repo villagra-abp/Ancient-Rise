@@ -123,7 +123,7 @@ Status ActivarAlarma::run(Enemigo *e)
 
                   if(duration > 2)        // TIEMPO QUE TARDA EN ACTIVARLA
                   {
-                    cout<<"Activada"<<endl;
+                    //cout<<"Activada"<<endl;
                     al->setActivado(true);     
                     al->setActivando(false);
                     contador = 0; // Para resetear el reloj
@@ -300,7 +300,7 @@ void ActivarAlarma::checkComportamiento(Enemigo *e)
           if(distNodoFY>1.0f)
           {
             e->setSaltando(true);
-            e->getBody()->ApplyForceToCenter(b2Vec2(0.f,3000.f),true);
+            e->getBody()->ApplyForceToCenter(b2Vec2(0.f,350000.f),true);
           }
           else
          {
@@ -352,7 +352,7 @@ void ActivarAlarma::checkComportamiento(Enemigo *e)
 
               if(bajada == true)
               {
-                if(distNodoFY<-1.0f)
+                if(distNodoFY<-5.0f)
                 {
                   e->getBody()->ApplyForceToCenter(b2Vec2(0.f,-3000.f),true);
                 }
@@ -362,6 +362,42 @@ void ActivarAlarma::checkComportamiento(Enemigo *e)
                 }
               }
         break;
+       }
+
+       case SALTO_GRANDE:
+       {
+        //cout<<"SALTO GRANDE"<<endl;
+          if(distNodoFY>1.0f)
+          {
+            e->setSaltando(true);
+            e->getBody()->ApplyForceToCenter(b2Vec2(0.f,500000.f),true);
+          }
+          else
+         {
+            e->setSaltando(false);
+         }
+
+          if(e->getSaltando()!=true)
+          {
+            if(distNodoF<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
+            {
+              e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
+              e->setLastFacedDir(false);                                    
+            }
+            else{
+                  if(distNodoF>1.0f) // AVANZAMOS HACIA LA DERECHA
+                  {
+
+                    e->getBody()->SetLinearVelocity(e->getVelocidad2d());
+                    e->setLastFacedDir(true);                                    
+                  }
+                  else // Si hemos llegado al nodo Fin
+                  {
+                    iC++;
+                  }
+                }
+          }
+          break;
        }
 
     }
