@@ -12,5 +12,5 @@ newmtl 21___Default
 	Kd 0.5882 0.5882 0.5882
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka MarcadorVida0.png
-	map_Kd MarcadorVida0.png
+	map_Ka MarcadorEnergia0.jpg
+	map_Kd MarcadorEnergia0.jpg
