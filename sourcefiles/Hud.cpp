@@ -7,7 +7,7 @@ Hud::Hud(Posicion* pos):Objeto(pos)
 
     hud1 = fachada->addMalla(pos->getPosX()-5,pos->getPosY()-7,pos->getPosZ(), "resources/cajitaobj.obj");
     hud2 = fachada->addMalla(pos->getPosX()+6,pos->getPosY()-7,pos->getPosZ(), "resources/cajitaobj.obj");
-    hud3 = fachada->addMalla(pos->getPosX()-2.85,pos->getPosY()+9.05,pos->getPosZ(), "resources/energia.obj");
+    hud3 = fachada->addMalla(pos->getPosX()-2.7,pos->getPosY()+9.05,pos->getPosZ(), "resources/energia.obj");
     hud4 = fachada->addMalla(pos->getPosX()+4.72,pos->getPosY()+9.05,pos->getPosZ(), "resources/vida.obj");
     hud5 = fachada->addMalla(pos->getPosX()+4,pos->getPosY()+9.5,pos->getPosZ(), "resources/vida0.obj");
     hud6 = fachada->addMalla(pos->getPosX()-3.5,pos->getPosY()+9.5,pos->getPosZ(), "resources/energiaMarco.obj");
@@ -65,7 +65,7 @@ void* Hud::getNode()
 void Hud::update(float vida,float energia){
     Fachada* fachada=fachada->getInstance();
     
-    Posicion escalaEnergy(energia/2350,.085f,0.001f);
+    Posicion escalaEnergy(energia/2050,.088f,0.001f);
     Posicion escalaLife(vida/3000,.085f,0.001f);
     //fachada->setScala(hud1,&escalaEnergy);
     //fachada->setScala(hud2,&escalaLife);
