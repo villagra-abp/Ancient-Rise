@@ -21,6 +21,11 @@ class Alarma : public Objeto
 
 		sf::Clock reloj; 		  			// Reloj para controlar el tiempo que tiene que estar activada la alarma
 	    int contador; 			  			// Para reiniciar el reloj cuando toca
+
+
+	    /* SONIDO */
+        GestorSonido* sonido;
+        Sonido* alarmaSound;
 };
 
 #endif

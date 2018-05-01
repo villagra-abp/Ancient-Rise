@@ -2,6 +2,7 @@
 #define OBJETO_H
 
 #include "../headerfiles/GameObject.h"
+#include "../motorsonido/headerfiles/GestorSonido.h"
 
 // Clase Objeto base para todos los objetos consumibles del juego
 class Objeto : public GameObject

@@ -185,7 +185,7 @@ FObjeto* Fachada::addSphere(int x,int y,int z,bool flag){
     
     return prota;
 }
-FObjeto* Fachada::addMalla(int x,int y,int z,string ruta){
+FObjeto* Fachada::addMalla(float x,float y,float z,string ruta){
     
     FObjeto* malla = new FObjeto();
 	

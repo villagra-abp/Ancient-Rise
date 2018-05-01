@@ -47,6 +47,7 @@ class GestorSonido{
 		const char* SOUND_BOSS3_RISA = "resources/sonido/boss3/boss3_risa.wav";
 		const char* SOUND_BOSS3_GRITO1 = "resources/sonido/boss3/boss3_grito1.wav";
 		const char* SOUND_MUSIC_BOSQUE = "resources/sonido/bs/musica_bosque.mp3";
+		const char* SOUND_TRAP_ALARM = "resources/sonido/CampanaFINEDIT.wav";
 
 		//Tipos de rever
 		const char* REVERB_CUEVA = "cueva";
