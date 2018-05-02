@@ -120,6 +120,9 @@ void rMesh::draw(glm::mat4 mmodelo, TDatosEntidad *datos){
 	shader->setVec3("pointLights[0].position", posicionPuntual[0]);
 	shader->setVec3("pointLights[0].color", colorPuntual[0]);
 
+//	cout<<"Posicion puntual 1: "<<posicionPuntual[0].x<<" "<<posicionPuntual[0].y<<" "<<posicionPuntual[0].z<<endl;
+//	cout<<"Color puntual 1: "<<colorPuntual[0].x<<" "<<colorPuntual[0].y<<" "<<colorPuntual[0].z<<endl;
+
 //	shader->setFloat("pointLights[1].linear",atenuacionPuntual[1][0]);
 //	shader->setFloat("pointLights[1].quadratic", atenuacionPuntual[1][1]);
 //	shader->setVec3("pointLights[1].position", luzPosicion[1]);
