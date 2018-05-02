@@ -23,4 +23,20 @@ void* Pausa::getNode()
 {
     return objeto;
 }
+int Pausa::getEstado()
+{
+    return estado;
+}
+void Pausa::update(int n)
+{
+    if(n==1){
+        if(estado<3){
+            estado++;
+        }
+    }else{
+        if(estado>1)
+            estado--;
+    }
+    //std::cout<<estado<<endl;
+}
 

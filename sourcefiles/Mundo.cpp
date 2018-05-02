@@ -87,10 +87,10 @@ posA(nullptr), posF(nullptr), p1(nullptr), p0(nullptr)	//CONSTRUCTOR
 
         
     Posicion* posmenu= new Posicion(.5f,-5001.5f,.5f);
-    Menu* menu = new Menu(posmenu);
+    menu = new Menu(posmenu);
 
     Posicion* pospausa= new Posicion(-20.5f,-5001.5f,.5f);
-    Pausa* pausa = new Pausa(pospausa);
+    pausa = new Pausa(pospausa);
         
     Posicion* poshud= new Posicion(-40.5f,-5001.5f,.5f);
     hud = new Hud(poshud);
@@ -251,7 +251,26 @@ void Mundo::checkInput(int tecla){
            prota->setCombate();      
            break;
         }
-
+        case 73: 		//arriba
+        {
+            if(estado==0){
+                menu->update(1);
+            }
+            if(estado==1){
+                pausa->update(1);
+            }
+            break;
+        }
+        case 74: 		//abajoo
+        {
+            if(estado==0){
+                menu->update(-1);
+            }
+            if(estado==1){
+                pausa->update(-1);
+            }
+            break;
+        }
         /*case 15:
         {
             if(prota->getCombate())
@@ -289,7 +308,7 @@ void Mundo::checkInput(int tecla){
     		if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)||sf::Joystick::isButtonPressed(0, 5))
     		{
 		  prota->setCorrer(true);
-      		  prota->setEnergia(-2.f,0.2f);
+      		  
     		}else
 		  prota->setCorrer(false);
         }
