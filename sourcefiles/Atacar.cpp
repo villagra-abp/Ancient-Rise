@@ -28,6 +28,7 @@ Status Atacar::run(Enemigo *e)
     /* Comprobamos la distancia a la que tiene que estar para atacar */
     if(abs(distanciaProta)<separacionAtaque && distProtaY<10 && distProtaY>-10)       //ATACANDO
     {
+        //cout<<"Atacando"<<endl;
         e->setVuelta(true);
         reset();                     // Reseteamos los valores para el pathfinding
 
@@ -67,6 +68,7 @@ Status Atacar::run(Enemigo *e)
         }
         else // A Distancia
         {   
+            //cout<<"A distancia"<<endl;
             startClock(2);
             int time = relojRec.getElapsedTime().asSeconds();  // OBTENEMOS SU DURACION EN SEGUNDOS
 
@@ -83,6 +85,7 @@ Status Atacar::run(Enemigo *e)
     }
     else        // PERSIGUIENDO
     {
+        //cout<<"PERSIGUIENDO"<<endl;
         e->setVuelta(true);        // Para el recorrido de vuelta a la patrulla
         e->setCombate(false);
         contRec = 0;              // Para resetear el reloj de recargar proyectil y que tarde siempre lo mismo en recargar
@@ -335,6 +338,7 @@ void Atacar::checkComportamiento(Enemigo *e)
     {
        case NORMAL:
        {
+        //cout<<"NORMAL"<<endl;
           if (distNodoF<-1.0f) 
           {
               movimientoDireccion(e,false);                                   
@@ -355,10 +359,11 @@ void Atacar::checkComportamiento(Enemigo *e)
 
        case SALTO:
        {
+        //cout<<"Salto"<<endl;
           if(distNodoFY>1.0f)
           {
             e->setSaltando(true);
-            e->getBody()->ApplyForceToCenter(b2Vec2(0.f,3000.f),true);
+            e->getBody()->ApplyForceToCenter(b2Vec2(0.f,350000.f),true);
           }
           else
          {
@@ -391,6 +396,7 @@ void Atacar::checkComportamiento(Enemigo *e)
 
        case BAJADA:
        {
+        //cout<<"BAJADA"<<endl;
           if (distNodoF<-3.0f) 
           {
             e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));
@@ -410,7 +416,7 @@ void Atacar::checkComportamiento(Enemigo *e)
 
               if(bajada == true)
               {
-                if(distNodoFY<-1.0f)
+                if(distNodoFY<-5.0f)
                 {
                   e->getBody()->ApplyForceToCenter(b2Vec2(0.f,-3000.f),true);
                 }
@@ -420,6 +426,42 @@ void Atacar::checkComportamiento(Enemigo *e)
                 }
               }
         break;
+       }
+
+       case SALTO_GRANDE:
+       {
+        //cout<<"SALTO GRANDE"<<endl;
+          if(distNodoFY>1.0f)
+          {
+            e->setSaltando(true);
+            e->getBody()->ApplyForceToCenter(b2Vec2(0.f,550000.f),true);
+          }
+          else
+         {
+            e->setSaltando(false);
+         }
+
+          if(e->getSaltando()!=true)
+          {
+            if(distNodoF<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
+            {
+              e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
+              e->setLastFacedDir(false);                                    
+            }
+            else{
+                  if(distNodoF>1.0f) // AVANZAMOS HACIA LA DERECHA
+                  {
+
+                    e->getBody()->SetLinearVelocity(e->getVelocidad2d());
+                    e->setLastFacedDir(true);                                    
+                  }
+                  else // Si hemos llegado al nodo Fin
+                  {
+                    iC++;
+                  }
+                }
+          }
+          break;
        }
 
     }

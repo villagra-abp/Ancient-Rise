@@ -1,5 +1,5 @@
 #include "../headerfiles/Blackboard.h"
-
+#include "../headerfiles/Alarma.h"
 
 
 Blackboard::Blackboard():enemBActual(nullptr), prota(nullptr)

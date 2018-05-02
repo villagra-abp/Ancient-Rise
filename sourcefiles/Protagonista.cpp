@@ -238,13 +238,16 @@ void Protagonista::movimiento(const glm::f32 Time)
             //Body->ApplyForceToCenter(b2Vec2(-35.f,0.f),true);
             Body->SetLinearVelocity(velo);
             //protaPosition.X -= VELOCIDAD_MOVIMIENTO * Time*0.5;
-        }else if(correr==true && energia>10.1)
+        }else if(correr==true && energia>10.1 && velo.y>=-5 && velo.y<5)
         {
-            velo.x=-90.f;
-            Body->ApplyForceToCenter(b2Vec2(-5000.f,0.f),true);
+            setEnergia(-1.f,0.2f);
+            Body->ApplyForceToCenter(b2Vec2(-3500.f,0.f),true);
              //Body->SetLinearVelocity(velo);
             //protaPosition.X -= VELOCIDAD_MOVIMIENTO * Time*3;
-
+            if(velo.x<-80.f){
+                velo.x=-80.f; 
+                Body->SetLinearVelocity(velo);
+            }
             if(energia<10)
                 correr=false;
         }else
@@ -269,10 +272,15 @@ void Protagonista::movimiento(const glm::f32 Time)
                 velo.x=10.f;
                 //Body->ApplyForceToCenter(b2Vec2(35.f,0.f),true);
                Body->SetLinearVelocity(velo);
-            }else if(correr==true && energia>10.1){
-                velo.x=90.f;
-                Body->ApplyForceToCenter(b2Vec2(5000.f,0.f),true);
-                //Body->SetLinearVelocity(velo);
+            }else if(correr==true && energia>10.1&& velo.y>=-5 && velo.y<5){
+                setEnergia(-1.f,0.2f);
+                Body->ApplyForceToCenter(b2Vec2(3500.f,0.f),true);
+                if(velo.x>80.f){
+                    velo.x=80.f;  
+                    Body->SetLinearVelocity(velo);
+                    //std::cout<<"velocidad +90"<<endl;
+                }
+                
                 if(energia<10)
                     correr=false;
             }else{
@@ -491,7 +499,7 @@ void Protagonista::setEnergia(glm::f32 cantidad,const glm::f32 Time)
         energia+=cantidad* Time;
     if(energia<0){
         energia=0;
-        setVida(-5,Time);
+        //setVida(-5,Time);
     }else if(energia>100)
         energia=100;
 
@@ -526,7 +534,7 @@ void Protagonista::setSalto(bool s)
         }
         //cont_salto=1;
         //saltando=s;
-        setEnergia(1.1f,-15);
+        setEnergia(1.5f,-10);
     }
     saltando=s;
 }

@@ -125,7 +125,7 @@ void Enemigo::update(Posicion* Posprota)
             
 
         /* COMBATE DISTANCIA */
-        if(tipo==2) // Enemigo tipo distancia
+        /*if(tipo==2) // Enemigo tipo distancia
         {
             if(disparo==true)  // Nuevo disparo, hay que crear un proyectil nuevo
             {   
@@ -149,6 +149,7 @@ void Enemigo::update(Posicion* Posprota)
             }
                 proyectil->update(this,board);
         }
+        */
         
     }
 
