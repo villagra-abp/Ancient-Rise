@@ -45,14 +45,13 @@ class Protagonista : public GameObject
          void setPosition(Posicion* v);
          glm::f32  getEnergia();
          glm::f32  getVida();
-
          bool getSigilo();
          bool getCorrer();
+         int getTiempoAtaque();
 
          void setSigilo();
          void setCorrer(bool c);
          void setDireccion(int d);
-
          void setAtaque(bool d);
          void setEnergia(glm::f32 cantidad, const glm::f32 Time);
          void setVida(glm::f32 cantidad, const glm::f32 Time);
@@ -100,7 +99,6 @@ class Protagonista : public GameObject
         Posicion* comidaPosition;
         Posicion* bebidaPosition;
         Posicion* trampaPosition;
-        Posicion* nodoPosition;
         
         
         /* BOX2D */
@@ -115,7 +113,7 @@ class Protagonista : public GameObject
         bool ataca=false;               // PROTA ATACANDO O NO
         vector<EnemigoBasico*> enemB;
         sf::Clock relojAtq;
-        int contAtq, time;
+        int contAtq, timeAtq;
         
         /* SONIDO */
         GestorSonido* sonido;

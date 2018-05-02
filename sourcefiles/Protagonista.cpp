@@ -5,22 +5,13 @@
 static Protagonista* instance = NULL;
 
 
-Protagonista::Protagonista():energy(nullptr), life(nullptr), Body(nullptr), rec(nullptr)
+Protagonista::Protagonista():energy(nullptr), life(nullptr), Body(nullptr), rec(nullptr), flecha0(nullptr), flecha1(nullptr), sonido(nullptr),
+protaPosition(nullptr), enemigoPosition(nullptr), comidaPosition(nullptr), trampaPosition(nullptr), bebidaPosition(nullptr)
 {
     
     GameObject::setTipo(PROTA);
 
-    /**
-    Creamos un nodo que va ser movido con las teclas WSAD. Es una esfera que posicionamos
-    en (0,0,30) y le asignamos una texura. Como no tenemos luces dinamicas en esta escena
-    desabilitamos la luz en cada modelo (sino los modelos serian negros )
-    **/ 
-
-    //FObjeto* protaObjeto = fachada->addMalla(0, 0,30,"resources/personaje.obj");
     FObjeto* protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/Prueba/prueba");
-//    FObjeto* protaObjeto = fachada->addMalla(0, 0,30,"resources/cubo.obj");
-
-
     rec = protaObjeto;
     
     Posicion escala(2.f,2.f,2.f);
@@ -28,8 +19,6 @@ Protagonista::Protagonista():energy(nullptr), life(nullptr), Body(nullptr), rec(
 		
     fachada->rotObj(protaObjeto, 0, 1, 0, -90);
         
-    //energy=fachada->addMalla(-170,15,0,"resources/cajitaobj.obj");
-    //life=fachada->addMalla(-170,20,0,"resources/cajaColor.obj");
     flecha1=fachada->addMalla(-160,8,0,"resources/flecha.obj");
     flecha0=fachada->addMalla(-170,8,0,"resources/flecha.obj");
     Posicion escalar(0.f,0.f,.0f);
@@ -60,7 +49,8 @@ Protagonista::Protagonista():energy(nullptr), life(nullptr), Body(nullptr), rec(
 
 //Con esto hacemos que sea singleton. Solo se puede crear el motorgrafico llamando a getInstance. Esta devuelve el motor si ya estaba creado, y sino lo crea
 //Parametros: h-> Alto de la ventana, w-> Ancho de la ventana, fullscreen-> si será pantalla completa o no
-Protagonista* Protagonista::getInstance() {
+Protagonista* Protagonista::getInstance() 
+{
     if (instance == NULL) instance = new Protagonista();
     return (instance);
 }
@@ -69,12 +59,8 @@ Protagonista* Protagonista::getInstance() {
 /* Funcion para hacer el update del protagonista */
 void Protagonista::update(Blackboard* b)
 {   
-    //cout<<"X: "<<protaPosition->getPosX()<<endl;
-    //cout<<"Y: "<<protaPosition->getPosY()<<endl;
-    time = relojAtq.getElapsedTime().asSeconds();
-    
-    //cout<<vida<<endl;
-    if( ataca == true && time>2)       // PROTA EN COMBATE Y ATACANDO
+    timeAtq = relojAtq.getElapsedTime().asSeconds();
+    if( ataca == true && timeAtq>2)       // PROTA EN COMBATE Y ATACANDO
     {   
         relojAtq.restart();
         enemB = b->getEnemB();
@@ -292,7 +278,7 @@ void Protagonista::comprobarColision(EnemigoBasico *e)
     enemigoPosition=e->getPosition();
     int distanciaEnemigo = protaPosition->getPosX() - enemigoPosition->getPosX();
 
-    if(abs(distanciaEnemigo)<25)   // Distancia para poder atacar
+    if(abs(distanciaEnemigo)<20)   // Distancia para poder atacar
     {   
         ataque(e);
     }
@@ -465,7 +451,6 @@ FUNCION PARA CAMBIAR LA POS DE COMBATE DEL PROTA
 void Protagonista::setPosCombate(int n)
 {
     pos_combate = n;
-    //cout<<pos_combate<<endl;
 }
 /**
 FUNCION PARA RECUPERAR LA VIDA DEL PROTA
@@ -491,7 +476,6 @@ void Protagonista::setEnergia(glm::f32 cantidad,const glm::f32 Time)
         energia+=cantidad* Time;
     if(energia<0){
         energia=0;
-        setVida(-5,Time);
     }else if(energia>100)
         energia=100;
 
@@ -570,18 +554,6 @@ void Protagonista::setDireccion(int d)
 
 void Protagonista::setAtaque(bool d)
 {
-
-    /*
-    ataca = d;
-    if(ataca == true)
-    {
-        if(cont_ataque==0 && energia>10)        // CONTADOR PARA LA ANIMACION DE ATAQUE
-        {
-            cont_ataque=1;
-        }
-    }
-    */
-
     ataca = d;
 
 }
@@ -645,6 +617,11 @@ bool Protagonista::getCorrer()
 int Protagonista::getPosCombate()
 {
     return pos_combate;
+}
+
+int Protagonista::getTiempoAtaque()
+{
+    return timeAtq;
 }
 
 
