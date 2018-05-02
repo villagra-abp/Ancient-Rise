@@ -7,10 +7,10 @@ Hud::Hud(Posicion* pos):Objeto(pos)
 
     hud1 = fachada->addMalla(pos->getPosX()-5,pos->getPosY()-7,pos->getPosZ(), "resources/cajitaobj.obj");
     hud2 = fachada->addMalla(pos->getPosX()+6,pos->getPosY()-7,pos->getPosZ(), "resources/cajitaobj.obj");
-    hud3 = fachada->addMalla(pos->getPosX()-2.7,pos->getPosY()+9.05,pos->getPosZ(), "resources/energia.obj");
-    hud4 = fachada->addMalla(pos->getPosX()+4.72,pos->getPosY()+9.05,pos->getPosZ(), "resources/vida.obj");
-    hud5 = fachada->addMalla(pos->getPosX()+4,pos->getPosY()+9.5,pos->getPosZ(), "resources/vida0.obj");
-    hud6 = fachada->addMalla(pos->getPosX()-3.5,pos->getPosY()+9.5,pos->getPosZ(), "resources/energiaMarco.obj");
+    hud3 = fachada->addMalla(pos->getPosX()+5.2,pos->getPosY()+9.05,pos->getPosZ(), "resources/energia.obj");
+    hud4 = fachada->addMalla(pos->getPosX()-2.28,pos->getPosY()+9.05,pos->getPosZ(), "resources/vida.obj");
+    hud5 = fachada->addMalla(pos->getPosX()-3,pos->getPosY()+9.5,pos->getPosZ(), "resources/vida0.obj");
+    hud6 = fachada->addMalla(pos->getPosX()+4.4,pos->getPosY()+9.5,pos->getPosZ(), "resources/energiaMarco.obj");
     
 	if (hud1)
 	{
