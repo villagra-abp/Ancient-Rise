@@ -17,6 +17,7 @@ class Atacar : public Task
 		NodoGrafo* calcularNodoMasCercano(NodoGrafo* i, NodoGrafo* i2, float posX);
 		void movimientoDireccion(Enemigo *e, bool d);
 		void checkComportamiento(Enemigo *e);
+		void randomPosCombate();
 		void reset();
 		virtual ~Atacar();
 
@@ -26,6 +27,7 @@ class Atacar : public Task
 		Blackboard *board;
 	    Protagonista* p;
 	    float enemigoY, enemigoX, protaX, protaY;
+	    int pos_combate;
 
 	    uint8_t separacionAtaque; 			// Separacion que tiene que haber entre el enemigo y el prota en funcion de si utiliza un arma 
 	    									// a distancia o cuerpo a cuerpo

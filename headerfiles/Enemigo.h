@@ -24,7 +24,8 @@ class Enemigo : public GameObject
         void update(Posicion* prota);
         void updateTiempo(const glm::f32 Time);
         void actualizarSed();
-        void hudEnemigos();
+        void hud();
+        void hudCombate();
         virtual void comprobarEnergia()=0;
         
         /* Vision del Enemigo */

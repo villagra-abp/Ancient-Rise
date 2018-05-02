@@ -93,7 +93,7 @@ void Enemigo::update(Posicion* Posprota)
 
     if(enemigo!=nullptr)  // Solo si existe el enemigo hacemos su update
     { 
-        hudEnemigos();
+        hud();
 
         actualizarSed();
         //COMPROBAMOS GAMEOBJECTS DENTRO DE LA VISTA
@@ -351,47 +351,54 @@ void Enemigo::changeLastFaceDir()
     }
 }
 /* FUncion para mostrar el hud de los enemigos */
-void Enemigo::hudEnemigos()
+void Enemigo::hud()
 {
     Posicion posicionHUD(EnemigoPosition->getPosX(), EnemigoPosition->getPosY(),0.f);
     posicionHUD.setPosX(posicionHUD.getPosX()+5);
-        if(pos_combate==2){
-            posicionHUD.setPosY(posicionHUD.getPosY()+5);
-        }
+
+    /* Posicion de las flechas del combate del enemigo */
+    if(pos_combate==2)
+    {
+        posicionHUD.setPosY(posicionHUD.getPosY()+5);
+    }
             
-        if(pos_combate==1){
-            posicionHUD.setPosY(posicionHUD.getPosY()+10);
-        }
+    if(pos_combate==1)
+    {
+        posicionHUD.setPosY(posicionHUD.getPosY()+10);
+    }
             
-        if(pos_combate==3){
-            posicionHUD.setPosY(posicionHUD.getPosY());
-        }
-        fachada->setPosicion(flecha1,&posicionHUD);
-        posicionHUD.setPosX(posicionHUD.getPosX()-10);
-        fachada->setPosicion(flecha0,&posicionHUD);
-        if(pos_combate==1){
-            posicionHUD.setPosY(posicionHUD.getPosY()-5);
-        }
+    if(pos_combate==3)
+    {
+        posicionHUD.setPosY(posicionHUD.getPosY());
+    }
+
+    fachada->setPosicion(flecha1,&posicionHUD);
+    posicionHUD.setPosX(posicionHUD.getPosX()-10);
+    fachada->setPosicion(flecha0,&posicionHUD);
+
+    if(pos_combate==1){
+        posicionHUD.setPosY(posicionHUD.getPosY()-5);
+    }
             
-        if(pos_combate==3){
-            posicionHUD.setPosY(posicionHUD.getPosY()+5);
-        }
+    if(pos_combate==3){
+        posicionHUD.setPosY(posicionHUD.getPosY()+5);
+    }
         
-        Posicion escalaFlechaCorta(0,0.f,0.f);
-        Posicion escalaFlechaLarga(0.1,.1f,0.1f);
-        Posicion escalaFlechaLarga2(0.2,.1f,0.1f);
+    Posicion escalaFlechaCorta(0,0.f,0.f);
+    Posicion escalaFlechaLarga(0.1,.1f,0.1f);
+    Posicion escalaFlechaLarga2(0.2,.1f,0.1f);
         
-        if(lastFacedDir==true &&combate){
-            fachada->setScala(flecha0,&escalaFlechaCorta);
-            if(!ataca){
-                fachada->setScala(flecha1,&escalaFlechaLarga);
-            }else
-                fachada->setScala(flecha1,&escalaFlechaLarga2);
-            
+    if(lastFacedDir==true &&combate){
+        fachada->setScala(flecha0,&escalaFlechaCorta);
+    if(!ataca){
+        fachada->setScala(flecha1,&escalaFlechaLarga);
+    }else
+        fachada->setScala(flecha1,&escalaFlechaLarga2);    
         }
-        if(lastFacedDir==false  &&combate){
-            fachada->setScala(flecha1,&escalaFlechaCorta);
-            if(!ataca){
+
+    if(lastFacedDir==false  &&combate){
+        fachada->setScala(flecha1,&escalaFlechaCorta);
+        if(!ataca){
                 fachada->setScala(flecha0,&escalaFlechaLarga);
             }else
                 fachada->setScala(flecha0,&escalaFlechaLarga2);
@@ -401,15 +408,21 @@ void Enemigo::hudEnemigos()
             fachada->setScala(flecha0,&escalaFlechaCorta);
             
         }
-        posicionHUD.setPosX(posicionHUD.getPosX()+5);
-        posicionHUD.setPosY(posicionHUD.getPosY()+7);
-        fachada->setPosicion(energy,&posicionHUD);
-        posicionHUD.setPosY(posicionHUD.getPosY()+3);
-        fachada->setPosicion(life,&posicionHUD);
-        Posicion escalaEnergy(energia/20,1.5f,0.01f);
-        Posicion escalaLife(salud/40,1.5f,0.01f);
-        fachada->setScala(energy,&escalaEnergy);
-        fachada->setScala(life,&escalaLife);
+
+    posicionHUD.setPosX(posicionHUD.getPosX()+5);
+    posicionHUD.setPosY(posicionHUD.getPosY()+7);
+    fachada->setPosicion(energy,&posicionHUD);
+    posicionHUD.setPosY(posicionHUD.getPosY()+3);
+    fachada->setPosicion(life,&posicionHUD);
+    Posicion escalaEnergy(energia/20,1.5f,0.01f);
+    Posicion escalaLife(salud/40,1.5f,0.01f);
+    fachada->setScala(energy,&escalaEnergy);
+    fachada->setScala(life,&escalaLife);
+}
+
+void Enemigo::hudCombate()
+{
+    
 }
 
 /**
@@ -559,7 +572,6 @@ void Enemigo::setPosition(Posicion* position)
 {
     fachada->setPosicion(enemigo,position);
     EnemigoPosition = position;
-    //std::cout<<position->getPosX()<<endl;
 }
 
 void Enemigo::setVelHambre(glm::f32 v)
