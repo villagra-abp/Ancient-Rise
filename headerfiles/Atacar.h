@@ -17,6 +17,7 @@ class Atacar : public Task
 		NodoGrafo* calcularNodoMasCercano(NodoGrafo* i, NodoGrafo* i2, float posX);
 		void movimientoDireccion(Enemigo *e, bool d);
 		void checkComportamiento(Enemigo *e);
+		void randomPosCombate();
 		void reset();
 		virtual ~Atacar();
 

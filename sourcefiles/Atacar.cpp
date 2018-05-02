@@ -57,7 +57,7 @@ Status Atacar::run(Enemigo *e)
             int time2 = relojAtq.getElapsedTime().asSeconds();
             
             if(time2>2)
-            {/*
+            {
                 if(pos_combate==1)
                 {
                     cout<<"Pos enemigo: Arriba"<<endl;
@@ -73,7 +73,7 @@ Status Atacar::run(Enemigo *e)
                         cout<<"Pos enemigo: Abajo"<<endl;
                     }
                 }
-                
+               /* 
                 if(p->getPosCombate()==1)
                 {
                     cout<<"Pos prota: Arriba"<<endl;
@@ -497,6 +497,11 @@ void Atacar::checkComportamiento(Enemigo *e)
        }
 
     }
+}
+
+void Atacar::randomPosCombate()
+{
+    
 }
 
 void Atacar::reset()
