@@ -161,6 +161,8 @@ class Mundo : public Entorno
         Fachada* fachada=fachada->getInstance();
         
         Hud* hud;
+        Menu* menu;
+        Pausa* pausa;
     private:
 };
 

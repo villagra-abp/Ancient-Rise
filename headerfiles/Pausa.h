@@ -11,9 +11,12 @@ class Pausa : public Objeto
 	public:
 		Pausa( Posicion* pos);
 		void* getNode();
+        void update(int n);
+        int getEstado();
 
 	private:
         void * pausa;
+        int estado=1;
         
 };
 

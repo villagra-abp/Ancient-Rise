@@ -23,4 +23,19 @@ void* Menu::getNode()
 {
     return objeto;
 }
+int Menu::getEstado()
+{
+    return estado;
+}
+void Menu::update(int n)
+{
+    if(n==1){
+        if(estado<3){
+            estado++;
+        }
+    }else{
+        if(estado>1)
+            estado--;
+    }
+}
 

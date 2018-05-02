@@ -8,8 +8,6 @@ int main()
 	int ancho = 1500;
 	int alto = 900;
 
-//	int ancho = 800;
-//	int alto = 600;
 
     //Creo la fachada 
     Fachada* fachada = fachada->getInstance(ancho,alto,false);
@@ -63,7 +61,6 @@ int main()
 		       
 
 		            ventana->close();
-		            //device->closeDevice();
 
 		        break;
                case sf::Event::KeyPressed:
@@ -82,12 +79,7 @@ int main()
                             else if(mundo->getEstado()==2)
                                 mundo->CambioEstado(1);
 		            		break;
-		            	case 73: 		//arriba
-		            		//mundo->estado=0;
-		            		break;
-		            	case 74: 		//abajoo
-		            		//camara->Mover(vec3(0,0,1));
-		            		break;
+		            	
 		            	
 		            }
 		            keyPressed = true;
@@ -96,23 +88,12 @@ int main()
             }
 		}
 
-        //ventana->clear();
-        
-		//
 		//
 		// ACTUALIZAMOS EL MUNDO 
 		mundo->update();
 
     glViewport(0, 0, ancho,alto); 
     mundo->draw();
-    //ventana->pushGLStates();
-    //ventana->setView(view);
-	//ventana->setActive(false);
-    //ventana->draw(rectangle);
-    //ventana->popGLStates();
-    //ventana->setView(minimap);
-    //glViewport(0, 500, 800, 100); 
-    //mundo->draw();
     ventana->display();
 
 	}
