@@ -26,6 +26,7 @@ class Atacar : public Task
 		Blackboard *board;
 	    Protagonista* p;
 	    float enemigoY, enemigoX, protaX, protaY;
+	    int pos_combate;
 
 	    uint8_t separacionAtaque; 			// Separacion que tiene que haber entre el enemigo y el prota en funcion de si utiliza un arma 
 	    									// a distancia o cuerpo a cuerpo

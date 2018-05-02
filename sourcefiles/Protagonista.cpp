@@ -41,8 +41,6 @@ protaPosition(nullptr), enemigoPosition(nullptr), comidaPosition(nullptr), tramp
     
     protaPosition=fachada->getPosicion(rec);
     
-    
-
 }
 
 

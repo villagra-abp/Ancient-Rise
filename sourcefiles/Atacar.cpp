@@ -41,13 +41,13 @@ Status Atacar::run(Enemigo *e)
 
         if(e->getTipo()==1)  // Mele
         {
-            int pos_combate = rand() % 3 + 1;
              /* RELOJ POS COMBATE */
             startClock(1);                                        // INICIAMOS EL RELOJ (O RESEATEAMOS) DE POS_COMBATE
             int time = relojPos.getElapsedTime().asSeconds();     // OBTENEMOS SU DURACION EN SEGUNDOS
 
             if(time>3)
             {
+                pos_combate = rand() % 3 + 1;
                 e->setPosCombate(pos_combate);
                 contPos = 0;
             }
@@ -55,9 +55,41 @@ Status Atacar::run(Enemigo *e)
             /* RELOJ ATAQUE MELE */
             startClock(3);
             int time2 = relojAtq.getElapsedTime().asSeconds();
-    
-            if(time2>1)
-            {
+            
+            if(time2>2)
+            {/*
+                if(pos_combate==1)
+                {
+                    cout<<"Pos enemigo: Arriba"<<endl;
+                }
+                else
+                {
+                    if(pos_combate==2)
+                    {
+                        cout<<"Pos enemigo: Centro"<<endl;
+                    }
+                    else
+                    {
+                        cout<<"Pos enemigo: Abajo"<<endl;
+                    }
+                }
+                
+                if(p->getPosCombate()==1)
+                {
+                    cout<<"Pos prota: Arriba"<<endl;
+                }
+                else
+                {
+                    if(p->getPosCombate()==2)
+                    {
+                        cout<<"Pos prota: Centro"<<endl;
+                    }
+                    else
+                    {
+                        cout<<"Pos prota: Abajo"<<endl;
+                    }
+                }
+                */
                 if(p->getCombate()!=true || p->getPosCombate()!=pos_combate)        // Si el prota no esta en modo combate o no esta en la pos_combate donde ataca el enemigo, le quita vida
                 {
                     p->quitarVida(10.f);
