@@ -5,12 +5,12 @@ Hud::Hud(Posicion* pos):Objeto(pos)
 	
 	Fachada* fachada=fachada->getInstance();
 
-    hud1 = fachada->addMalla(pos->getPosX()-6,pos->getPosY()-7,pos->getPosZ(), "resources/cajitaobj.obj");
+    hud1 = fachada->addMalla(pos->getPosX()-5,pos->getPosY()-7,pos->getPosZ(), "resources/cajitaobj.obj");
     hud2 = fachada->addMalla(pos->getPosX()+6,pos->getPosY()-7,pos->getPosZ(), "resources/cajitaobj.obj");
-    hud3 = fachada->addMalla(pos->getPosX()-4,pos->getPosY()+8,pos->getPosZ(), "resources/energia.obj");
-    hud4 = fachada->addMalla(pos->getPosX()+4.72,pos->getPosY()+8.44,pos->getPosZ(), "resources/vida.obj");
-    hud5 = fachada->addMalla(pos->getPosX()+4,pos->getPosY()+9,pos->getPosZ(), "resources/vida0.obj");
-    
+    hud3 = fachada->addMalla(pos->getPosX()-2.7,pos->getPosY()+9.05,pos->getPosZ(), "resources/energia.obj");
+    hud4 = fachada->addMalla(pos->getPosX()+4.72,pos->getPosY()+9.05,pos->getPosZ(), "resources/vida.obj");
+    hud5 = fachada->addMalla(pos->getPosX()+4,pos->getPosY()+9.5,pos->getPosZ(), "resources/vida0.obj");
+    hud6 = fachada->addMalla(pos->getPosX()-3.5,pos->getPosY()+9.5,pos->getPosZ(), "resources/energiaMarco.obj");
     
 	if (hud1)
 	{
@@ -42,9 +42,16 @@ Hud::Hud(Posicion* pos):Objeto(pos)
 	}
 	if (hud5)
 	{
-        Posicion escala(.11f,.17f,0.001f);
+        Posicion escala(.11f,.12f,0.001f);
 		fachada->setScala(hud5,&escala);
         fachada->rotObj(hud5,1,0,0, 1.5f);
+        
+	}
+	if (hud6)
+	{
+        Posicion escala(.1f,.12f,0.001f);
+		fachada->setScala(hud6,&escala);
+        fachada->rotObj(hud6,1,0,0, 1.5f);
         
 	}
 
@@ -58,8 +65,8 @@ void* Hud::getNode()
 void Hud::update(float vida,float energia){
     Fachada* fachada=fachada->getInstance();
     
-    Posicion escalaEnergy(energia/3000,.1f,0.001f);
-    Posicion escalaLife(vida/3000,.1f,0.001f);
+    Posicion escalaEnergy(energia/2050,.088f,0.001f);
+    Posicion escalaLife(vida/3000,.085f,0.001f);
     //fachada->setScala(hud1,&escalaEnergy);
     //fachada->setScala(hud2,&escalaLife);
     fachada->setScala(hud3,&escalaEnergy);
