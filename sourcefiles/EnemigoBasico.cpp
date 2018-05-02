@@ -25,7 +25,7 @@ EnemigoBasico::EnemigoBasico(vector<Posicion*> pos, float xlength, float pendVal
     
 
      /* Velocidad a la que bajan las estadisticas del enemigo */
-    setVelSed(-1.7);
+    setVelSed(-0.3);
 
 
     /* BOX2D */
