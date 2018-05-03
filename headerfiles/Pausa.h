@@ -16,7 +16,9 @@ class Pausa : public Objeto
 
 	private:
         void * pausa;
-        int estado=1;
+        void * pausa2;
+        void * pausa3;
+        int estado=3;
         
 };
 
