@@ -16,7 +16,9 @@ class Menu : public Objeto
 
 	private:
         void * menu;
-        int estado=1;
+        void * menu2;
+        void * menu3;
+        int estado=3;
 };
 
 #endif // MENU_H
