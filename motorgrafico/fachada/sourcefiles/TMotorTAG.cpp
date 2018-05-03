@@ -21,9 +21,23 @@ TMotorTAG::~TMotorTAG(){
 
 void TMotorTAG::draw(){
 	//Dibujamos toda la escena menos el skybox
-	escena->draw(getCamaraMat(), getCamaraProj(), camara, getLuces());
+	escena->draw(getCamaraMat(), getCamaraProj(), camara, getLuces(), false);
 	
 	//DIbujamos el skybox
+	drawSkybox();
+
+}
+
+void TMotorTAG::drawBounding(){
+	//Dibujamos toda la escena menos el skybox
+	escena->draw(getCamaraMat(), getCamaraProj(), camara, getLuces(), true);
+	
+	//DIbujamos el skybox
+	drawSkybox();
+
+}
+
+void TMotorTAG::drawSkybox(){
 	TDatosEntidad datos;
 	glm::mat4 view, proj;
 	view = glm::mat4(glm::mat3(getCamaraMat()));
@@ -31,9 +45,7 @@ void TMotorTAG::draw(){
 	datos.view = &view;
 	datos.projection = &proj;
 	dynamic_cast<TSkybox*>(skybox->getEntidad())->beginDraw(&datos);
-
 }
-
 
 void TMotorTAG::activarCamara(TNodo* cam){
 	if(camara != nullptr)

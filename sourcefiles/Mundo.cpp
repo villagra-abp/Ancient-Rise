@@ -242,16 +242,28 @@ void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
 
 }
 /* Funcion para controlar todas las entradas por teclado del jugador */
+
 void Mundo::checkInput(int tecla){
     
        
     switch(tecla){
+
         case 10: // Tecla K Activar/Desactivar Combate
         {        
            prota->setCombate();      
            break;
         }
+
         case 73: 		//arriba
+
+        case 14:                            //O    -   Cambiamos el modo de visualizacion de bounding boxes
+            if(fachada->getBounding())
+                fachada->setBounding(false);
+            else
+                fachada->setBounding(true);
+            break;
+
+
         {
             if(estado==0){
                 menu->update(1);
@@ -328,6 +340,9 @@ void Mundo::checkInput(int tecla){
     }
     else
         prota->setPosCombate(2);
+   // if(sf::Keyboard::isKeyPressed(sf::Keyboard::P)){
+   //     
+   // }
 	       
 }
 /* Funcion para activar/desactivar el combate y atacar */

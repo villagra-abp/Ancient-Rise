@@ -192,12 +192,43 @@ TRecursoMalla* TGestorRecursos::cargarFichero(string path){
 
 void TGestorRecursos::processNode(aiNode *node, const aiScene *scene, TRecursoMalla* malla)
 {
+	
+
     // process all the node's meshes (if any)
     for(unsigned int i = 0; i < node->mNumMeshes; i++)
     {	
         aiMesh *mesh = scene->mMeshes[node->mMeshes[i]]; 
-        malla->addMesh(processMesh(mesh, scene));	
+//        if(i == 0){
+//        	max_x = mesh->mVertices[0].x;
+//			min_x = mesh->mVertices[0].x;
+//			max_y = mesh->mVertices[0].y;
+//			min_y = mesh->mVertices[0].y;
+//			max_z = mesh->mVertices[0].z;
+//			min_z = mesh->mVertices[0].z;
+//        }
+//        for(int j = 0; j < mesh->mNumVertices; j++){
+//        	if(mesh->mVertices[j].x > max_x) max_x = mesh->mVertices[j].x;
+//        	if(mesh->mVertices[j].x < min_x) min_x = mesh->mVertices[j].x;
+//        	if(mesh->mVertices[j].y > max_y) max_y = mesh->mVertices[j].y;
+//        	if(mesh->mVertices[j].y < min_y) min_y = mesh->mVertices[j].y;
+//        	if(mesh->mVertices[j].z > max_z) max_z = mesh->mVertices[j].z;
+//        	if(mesh->mVertices[j].z < min_z) min_z = mesh->mVertices[j].z;
+////        	cout<<mesh->mVertices[j].x<<" "<<mesh->mVertices[j].y<<" "<<mesh->mVertices[j].z<<endl;
+//        }
+
+        malla->addMesh(processMesh(mesh, scene, malla));	
     }
+//    cout<<max_x<<" "<<min_x<<" "<<max_y<<" "<<min_y<<" "<<max_z<<" "<<min_z<<endl;
+//    if(node->mNumMeshes != 0){
+//    	if(malla->getMaxX() > max_x) malla->setMaxX(max_x);	
+//    	if(malla->getMaxY() > max_y) malla->setMaxY(max_y);
+//    	if(malla->getMaxZ() > max_z) malla->setMaxZ(max_z);
+//    	if(malla->getMinX() < min_x) malla->setMinX(min_x);
+//    	if(malla->getMinY() < min_y) malla->setMinY(min_y);
+//    	if(malla->getMinZ() < min_z) malla->setMinZ(min_z);
+//    	cout<<malla->getMaxX()<<" "<<malla->getMaxY()<<" "<<malla->getMaxZ()<<" "<<malla->getMinX()<<" "<<malla->getMinY()<<" "<<malla->getMinZ()<<endl;
+//    }
+//    cout<<node->mNumChildren<<endl;
     // then do the same for each of its children
     for(unsigned int i = 0; i < node->mNumChildren; i++)
     {	
@@ -205,8 +236,9 @@ void TGestorRecursos::processNode(aiNode *node, const aiScene *scene, TRecursoMa
     }
 }  
 
-rMesh TGestorRecursos::processMesh(aiMesh *mesh, const aiScene *scene)
+rMesh TGestorRecursos::processMesh(aiMesh *mesh, const aiScene *scene, TRecursoMalla* malla)
 {
+	GLfloat max_x, min_x, max_y, min_y, max_z, min_z;
 
     vector<Vertex> vertices;
     vector<unsigned int> indices;
@@ -224,6 +256,23 @@ rMesh TGestorRecursos::processMesh(aiMesh *mesh, const aiScene *scene)
 		vector.y = mesh->mVertices[i].y;
 		vector.z = mesh->mVertices[i].z; 
 		vertex.Position = vector;
+
+		if(i == 0){
+			max_x = vector.x;
+			min_x = vector.x;
+			max_y = vector.y;
+			min_y = vector.y;
+			max_z = vector.z;
+			min_z = vector.z;
+		} else {
+			if(vector.x > max_x) max_x = vector.x;
+        	if(vector.x < min_x) min_x = vector.x;
+        	if(vector.y > max_y) max_y = vector.y;
+        	if(vector.y < min_y) min_y = vector.y;
+        	if(vector.z > max_z) max_z = vector.z;
+        	if(vector.z < min_z) min_z = vector.z;
+		}
+//		cout<<max_x<<" "<<min_x<<" "<<max_y<<" "<<min_y<<" "<<max_z<<" "<<min_z<<endl;
 		//Normales
 		vector.x = mesh->mNormals[i].x;
 		vector.y = mesh->mNormals[i].y;
@@ -243,6 +292,17 @@ rMesh TGestorRecursos::processMesh(aiMesh *mesh, const aiScene *scene)
 
         vertices.push_back(vertex);
     }
+
+    //Cambiamos los maximos y minimos del TRecursoMalla
+    if(malla->getMaxX() < max_x) malla->setMaxX(max_x);	
+    if(malla->getMinX() > min_x) malla->setMinX(min_x);
+
+    if(malla->getMaxY() < max_y) malla->setMaxY(max_y);
+    if(malla->getMinY() > min_y) malla->setMinY(min_y);
+
+    if(malla->getMaxZ() < max_z) malla->setMaxZ(max_z);
+    if(malla->getMinZ() > min_z) malla->setMinZ(min_z);
+
     // process indices
     for(unsigned int i = 0; i < mesh->mNumFaces; i++)
 	{

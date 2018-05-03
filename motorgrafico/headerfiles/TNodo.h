@@ -37,7 +37,7 @@ public:
 	TNodo * getPadre();
 	glm::vec3 getPosicion();
 
-	void draw(glm::mat4 view, glm::mat4 projection,TNodo* camara, vector<TNodo*> luces);
+	void draw(glm::mat4 view, glm::mat4 projection,TNodo* camara, vector<TNodo*> luces, bool bounding);
 
 
 private:	

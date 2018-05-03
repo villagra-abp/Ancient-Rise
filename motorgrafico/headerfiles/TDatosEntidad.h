@@ -22,6 +22,8 @@ struct TDatosEntidad{
 
 	glm::vec3 *positionFlash, *directionFlash, *colorFlash;
  	vector<float> *atenuacionFlash, *corteFlash;
+
+ 	bool bounding;
   	
 };
 
