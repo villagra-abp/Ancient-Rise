@@ -256,14 +256,7 @@ void Mundo::checkInput(int tecla){
 
         case 73: 		//arriba
 
-        case 14:                            //O    -   Cambiamos el modo de visualizacion de bounding boxes
-            if(fachada->getBounding())
-                fachada->setBounding(false);
-            else
-                fachada->setBounding(true);
-            break;
-
-
+        
         {
             if(estado==0){
                 menu->update(1);
@@ -283,6 +276,15 @@ void Mundo::checkInput(int tecla){
             }
             break;
         }
+	case 14:                            //O    -   Cambiamos el modo de visualizacion de bounding boxes
+	{
+            if(fachada->getBounding())
+                fachada->setBounding(false);
+            else
+                fachada->setBounding(true);
+            break;
+	}
+
         /*case 15:
         {
             if(prota->getCombate())
