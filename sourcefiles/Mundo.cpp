@@ -255,14 +255,13 @@ void Mundo::checkInput(int tecla){
 
         case 73: 		//arriba
 
-        case 15:                            //P    -   Cambiamos el modo de visualizacion de bounding boxes
+        case 14:                            //O    -   Cambiamos el modo de visualizacion de bounding boxes
             if(fachada->getBounding())
                 fachada->setBounding(false);
             else
                 fachada->setBounding(true);
             break;
 
-        /*case 15:
 
         {
             if(estado==0){
