@@ -172,7 +172,7 @@ TRecursoAnimacion* TGestorRecursos::cargarAnimacion(string path){
 TRecursoMalla* TGestorRecursos::cargarFichero(string path){
 	//string path = getPath(name);
 	TRecursoMalla *malla = new TRecursoMalla();
-
+	cout<<"Cargando modelo "<<path<<endl;
 	Assimp::Importer importer;
 	const aiScene *scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
 
@@ -193,42 +193,13 @@ TRecursoMalla* TGestorRecursos::cargarFichero(string path){
 void TGestorRecursos::processNode(aiNode *node, const aiScene *scene, TRecursoMalla* malla)
 {
 	
-
     // process all the node's meshes (if any)
     for(unsigned int i = 0; i < node->mNumMeshes; i++)
     {	
         aiMesh *mesh = scene->mMeshes[node->mMeshes[i]]; 
-//        if(i == 0){
-//        	max_x = mesh->mVertices[0].x;
-//			min_x = mesh->mVertices[0].x;
-//			max_y = mesh->mVertices[0].y;
-//			min_y = mesh->mVertices[0].y;
-//			max_z = mesh->mVertices[0].z;
-//			min_z = mesh->mVertices[0].z;
-//        }
-//        for(int j = 0; j < mesh->mNumVertices; j++){
-//        	if(mesh->mVertices[j].x > max_x) max_x = mesh->mVertices[j].x;
-//        	if(mesh->mVertices[j].x < min_x) min_x = mesh->mVertices[j].x;
-//        	if(mesh->mVertices[j].y > max_y) max_y = mesh->mVertices[j].y;
-//        	if(mesh->mVertices[j].y < min_y) min_y = mesh->mVertices[j].y;
-//        	if(mesh->mVertices[j].z > max_z) max_z = mesh->mVertices[j].z;
-//        	if(mesh->mVertices[j].z < min_z) min_z = mesh->mVertices[j].z;
-////        	cout<<mesh->mVertices[j].x<<" "<<mesh->mVertices[j].y<<" "<<mesh->mVertices[j].z<<endl;
-//        }
-
         malla->addMesh(processMesh(mesh, scene, malla));	
     }
-//    cout<<max_x<<" "<<min_x<<" "<<max_y<<" "<<min_y<<" "<<max_z<<" "<<min_z<<endl;
-//    if(node->mNumMeshes != 0){
-//    	if(malla->getMaxX() > max_x) malla->setMaxX(max_x);	
-//    	if(malla->getMaxY() > max_y) malla->setMaxY(max_y);
-//    	if(malla->getMaxZ() > max_z) malla->setMaxZ(max_z);
-//    	if(malla->getMinX() < min_x) malla->setMinX(min_x);
-//    	if(malla->getMinY() < min_y) malla->setMinY(min_y);
-//    	if(malla->getMinZ() < min_z) malla->setMinZ(min_z);
-//    	cout<<malla->getMaxX()<<" "<<malla->getMaxY()<<" "<<malla->getMaxZ()<<" "<<malla->getMinX()<<" "<<malla->getMinY()<<" "<<malla->getMinZ()<<endl;
-//    }
-//    cout<<node->mNumChildren<<endl;
+//    cout<<malla->getMaxX()<<" "<<malla->getMaxY()<<" "<<malla->getMaxZ()<<" "<<malla->getMinX()<<" "<<malla->getMinY()<<" "<<malla->getMinZ()<<endl;
     // then do the same for each of its children
     for(unsigned int i = 0; i < node->mNumChildren; i++)
     {	
@@ -264,6 +235,16 @@ rMesh TGestorRecursos::processMesh(aiMesh *mesh, const aiScene *scene, TRecursoM
 			min_y = vector.y;
 			max_z = vector.z;
 			min_z = vector.z;
+		    if(isnan(malla->getMaxX())) malla->setMaxX(max_x);	
+		    if(isnan(malla->getMinX())) malla->setMinX(min_x);
+		
+		    if(isnan(malla->getMaxY())) malla->setMaxY(max_y);
+		    if(isnan(malla->getMinY())) malla->setMinY(min_y);
+		
+		    if(isnan(malla->getMaxZ())) malla->setMaxZ(max_z);
+		    if(isnan(malla->getMinZ())) malla->setMinZ(min_z);
+//		cout<<"Inicial : "<<malla->getMaxX()<<" "<<malla->getMaxY()<<" "<<malla->getMaxZ()<<" "<<malla->getMinX()<<" "<<malla->getMinY()<<" "<<malla->getMinZ()<<endl;
+
 		} else {
 			if(vector.x > max_x) max_x = vector.x;
         	if(vector.x < min_x) min_x = vector.x;
@@ -272,6 +253,7 @@ rMesh TGestorRecursos::processMesh(aiMesh *mesh, const aiScene *scene, TRecursoM
         	if(vector.z > max_z) max_z = vector.z;
         	if(vector.z < min_z) min_z = vector.z;
 		}
+
 //		cout<<max_x<<" "<<min_x<<" "<<max_y<<" "<<min_y<<" "<<max_z<<" "<<min_z<<endl;
 		//Normales
 		vector.x = mesh->mNormals[i].x;
@@ -302,6 +284,9 @@ rMesh TGestorRecursos::processMesh(aiMesh *mesh, const aiScene *scene, TRecursoM
 
     if(malla->getMaxZ() < max_z) malla->setMaxZ(max_z);
     if(malla->getMinZ() > min_z) malla->setMinZ(min_z);
+
+//    cout<<"Final : "<<malla->getMaxX()<<" "<<malla->getMaxY()<<" "<<malla->getMaxZ()<<" "<<malla->getMinX()<<" "<<malla->getMinY()<<" "<<malla->getMinZ()<<endl;
+
 
     // process indices
     for(unsigned int i = 0; i < mesh->mNumFaces; i++)

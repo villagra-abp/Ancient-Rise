@@ -65,8 +65,8 @@ void TRecursoSkybox::draw(TDatosEntidad *datos)
     glDepthFunc(GL_LEQUAL);
     shader->use();
 
-    glm::mat4 view = *(datos->view);
-    glm::mat4 projection = *(datos->projection);
+    glm::mat4 view = datos->view;
+    glm::mat4 projection = datos->projection;
     shader->setMat4("view", view);
     shader->setMat4("projection", projection);
 
