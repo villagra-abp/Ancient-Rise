@@ -11,18 +11,19 @@ TMotorTAG* TMotorTAG::getInstance(){
 TMotorTAG::TMotorTAG() : camara(nullptr)
 {
 	escena = new TNodo();
+	datos = new TDatosEntidad();
 }
 TMotorTAG::~TMotorTAG(){
 	delete escena;
 	escena = nullptr;
+	delete datos;
 	delete TGestorRecursos::getInstance();
 }
 
 
 void TMotorTAG::draw(){
 	//Dibujamos toda la escena menos el skybox
-	escena->draw(getCamaraMat(), getCamaraProj(), camara, getLuces(), false);
-	
+	escena->draw(getCamaraMat(), getCamaraProj(), camara, getLuces(), false, datos);
 	//DIbujamos el skybox
 	drawSkybox();
 
@@ -30,7 +31,7 @@ void TMotorTAG::draw(){
 
 void TMotorTAG::drawBounding(){
 	//Dibujamos toda la escena menos el skybox
-	escena->draw(getCamaraMat(), getCamaraProj(), camara, getLuces(), true);
+	escena->draw(getCamaraMat(), getCamaraProj(), camara, getLuces(), true, datos);
 	
 	//DIbujamos el skybox
 	drawSkybox();
@@ -38,13 +39,13 @@ void TMotorTAG::drawBounding(){
 }
 
 void TMotorTAG::drawSkybox(){
-	TDatosEntidad datos;
+	TDatosEntidad datosS;
 	glm::mat4 view, proj;
 	view = glm::mat4(glm::mat3(getCamaraMat()));
 	proj = getCamaraProj();
-	datos.view = &view;
-	datos.projection = &proj;
-	dynamic_cast<TSkybox*>(skybox->getEntidad())->beginDraw(&datos);
+	datosS.view = view;
+	datosS.projection = proj;
+	dynamic_cast<TSkybox*>(skybox->getEntidad())->beginDraw(&datosS);
 }
 
 void TMotorTAG::activarCamara(TNodo* cam){

@@ -9,6 +9,7 @@
 #include "../../headerfiles/TCamara.h"
 #include "../../headerfiles/TSkybox.h"
 #include "../../headerfiles/TGestorRecursos.h"
+#include "../../headerfiles/TDatosEntidad.h"
 
 //#include "FObjeto.h"
 //#include "FCamara.h"
@@ -71,6 +72,8 @@ private:
 	glm::mat4 mVista;			//ViewMatrix
 	glm::mat4 mProyeccion;		//ProyectionMatrix
 	vector<glm::vec4> pLuz;		//Vector Posicion Luz
+
+	TDatosEntidad* datos;
 
 } ;
 

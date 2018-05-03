@@ -3,10 +3,16 @@
 Shader *TRecursoMalla::boundingShader= nullptr;
 TRecursoMalla::TRecursoMalla(){
 	if(boundingShader == nullptr) boundingShader = new Shader("motorgrafico/shaders/vertex.vs", "motorgrafico/shaders/bounding.fs");
+	max_x = NAN;
+	max_y = NAN;
+	max_z = NAN;
+	min_x = NAN;
+	min_y = NAN;
+	min_z = NAN;
 }
 
 void TRecursoMalla::draw(glm::mat4 mmodelo, TDatosEntidad *datos)
-{
+{	
     for(unsigned int i = 0; i < meshes.size(); i++)
         meshes[i].draw(mmodelo, datos);
     if(datos->bounding == true)
@@ -92,8 +98,8 @@ void TRecursoMalla::drawBoundingBox(glm::mat4 mmodelo, TDatosEntidad *datos){
  // unsigned int ID;
  // glUniformMatrix4fv(glGetUniformLocation(ID, "model"), 1, GL_FALSE, glm::value_ptr(m));
   boundingShader->setMat4("model", m);
-  boundingShader->setMat4("projection", *(datos->projection));
-  boundingShader->setMat4("view", *(datos->view));
+  boundingShader->setMat4("projection", datos->projection);
+  boundingShader->setMat4("view", datos->view);
 
   glBindBuffer(GL_ARRAY_BUFFER, vbo_vertices);
   int attribute_v_coord = 0;

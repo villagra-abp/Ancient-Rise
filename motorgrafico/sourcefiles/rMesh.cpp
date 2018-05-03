@@ -73,26 +73,26 @@ void rMesh::draw(glm::mat4 mmodelo, TDatosEntidad *datos){
 	specular = material->getEspecular();
 	shininess = material->getBrillo();
 
-	glm::mat4 projection = *(datos->projection);
-	glm::mat4 view = *(datos->view);
-	glm::vec3 camaraPosicion = *(datos->camaraPosicion);
+	glm::mat4 projection = datos->projection;
+	glm::mat4 view = datos->view;
+	glm::vec3 camaraPosicion = datos->camaraPosicion;
 
 	//Datos luces puntuales
-	vector<glm::vec4> colorPuntual = *(datos->colorPuntual);
-	vector<glm::vec3> posicionPuntual = *(datos->posicionPuntual);
-	vector<vector<float>> atenuacionPuntual = *(datos->atenuacionPuntual);
+	vector<glm::vec4> colorPuntual = datos->colorPuntual;
+	vector<glm::vec3> posicionPuntual = datos->posicionPuntual;
+	vector<vector<float>> atenuacionPuntual = datos->atenuacionPuntual;
 
 	//Datos luz dirigida
-	glm::vec3 colorDir = *(datos->colorDir);
-	glm::vec3 directionDir = *(datos->directionDir);
+	glm::vec3 colorDir = datos->colorDir;
+	glm::vec3 directionDir = datos->directionDir;
 	//cout<<luzPosicion.x<<" "<<luzPosicion.y<<" "<<luzPosicion.z<<endl;
 
-	glm::vec3 positionFlash = *(datos->positionFlash);
- 	glm::vec3 directionFlash = *(datos->directionFlash);
- 	glm::vec3 colorFlash = *(datos->colorFlash);
+	glm::vec3 positionFlash = datos->positionFlash;
+ 	glm::vec3 directionFlash = datos->directionFlash;
+ 	glm::vec3 colorFlash = datos->colorFlash;
 
- 	vector<float> cortes = *(datos->corteFlash);
- 	vector<float> atenuacionFlash = *(datos->atenuacionFlash);
+ 	vector<float> cortes = datos->corteFlash;
+ 	vector<float> atenuacionFlash = datos->atenuacionFlash;
 
 	shader->use();
 	//glm::mat4 projection = glm::mat4(1);
