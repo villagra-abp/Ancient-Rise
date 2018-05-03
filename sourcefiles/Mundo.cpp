@@ -116,7 +116,11 @@ void Mundo::update()
 	float frameDeltaTime = fachada->getTime(); // Time in seconds
 
 	Posicion* protaPosition = prota->getPosition();
-
+    if(estado==2){
+        //Comprueba las entradas del teclado
+        checkInput(-1);
+          
+    }
 	/* PROTA UPDATE */
     protaUpdate(frameDeltaTime);
         
@@ -135,11 +139,8 @@ void Mundo::update()
         alarmas[i]->update();
     }
 
-    if(estado==2) // Estado juego
+    if(estado==2)
     {
-        //Comprueba las entradas del teclado
-        checkInput(-1);
-
         /* UPDATE DE LOS ENEMIGOS */
         for(size_t i=0; i<enemB.size();i++)   		// Enemigos Basicos
         {
@@ -205,7 +206,7 @@ void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
     {
         glm::f32 energia=prota->getEnergia();
 
-       // checkCombate(); 							// Comprobamos si hemos pulsado la tecla de combate (K)
+        checkCombate(); 							// Comprobamos si hemos pulsado la tecla de combate (K)
         
          if(sf::Keyboard::isKeyPressed(sf::Keyboard::J))
         {   
@@ -241,10 +242,10 @@ void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
 
 }
 /* Funcion para controlar todas las entradas por teclado del jugador */
-void Mundo::checkInput(int tecla)
-{
-    switch(tecla)
-    {
+void Mundo::checkInput(int tecla){
+    
+       
+    switch(tecla){
         case 10: // Tecla K Activar/Desactivar Combate
         {        
            prota->setCombate();      
@@ -270,19 +271,14 @@ void Mundo::checkInput(int tecla)
             }
             break;
         }
-        case 15:
+        /*case 15:
         {
-            if(prota->getCombate() && prota->getTiempoAtaque()>2)
+            if(prota->getCombate())
             {
-                prota->setAtaque(true);
-            }       
-            break;
-        }
-    }
 
-    if(prota->getTiempoAtaque()<2 && prota->getCombate())   // Si la animacion de ataque aun se esta ejecutando no podemos realizar un ataque nuevo hasta que acabe
-    {
-        prota->setAtaque(false);
+            }
+            break;
+        }*/
     }
         
 	if(sf::Joystick::isConnected(0)){
@@ -352,6 +348,8 @@ void Mundo::checkCombate()
 }
 
 void Mundo::camUpdate(const glm::f32 frameDeltaTime){
+    int posm=menu->getEstado();
+    int posp=pausa->getEstado();
     //prueba zoom camara
     /*
     if(prota->getCaida()){
@@ -386,11 +384,11 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
     //cam->setTarget(camPosition);
     }
     if(estado==1){
-        cam->setPosicion(vec3(20,5000,-20));
+        cam->setPosicion(vec3(20,5000*posp,-20));
         //cam->Rotar(vec3(0,1,0), 3.0f);
     }
     if(estado==0){
-        cam->setPosicion(vec3(0,5000,-20));
+        cam->setPosicion(vec3(0,5000*posm,-20));
         //cam->Rotar(vec3(0,1,0), 3.0f);
     }
 }
