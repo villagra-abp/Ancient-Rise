@@ -26,6 +26,6 @@ newmtl 21___Default
 	Kd 0.5882 0.5882 0.5882
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka Menu/Opcion1.png
-	map_Kd Menu/Opcion1.png
+	map_Ka Menu/menu_1.jpg
+	map_Kd Menu/menu_1.jpg
 
