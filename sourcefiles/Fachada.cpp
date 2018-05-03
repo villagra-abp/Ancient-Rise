@@ -65,6 +65,8 @@ std::cout << "version:" << settings.majorVersion << "." << settings.minorVersion
 	view.setViewport(sf::FloatRect(0.75f, 0, 0.25f, 0.25f));
 	ventana->setView(view);
 	ventana->setActive(true);
+
+    bounding = false;
     /*
     SIrrlichtCreationParameters Parameters;
     Parameters.DriverType = video::EDT_OPENGL; 
@@ -97,7 +99,10 @@ void Fachada::cursorPersonalizar(std::string path){
 
 //Dibuja todo lo dibujable
 void Fachada::draw(){
-	motorgrafico->draw();
+    if(bounding)
+	   motorgrafico->drawBounding();
+    else
+        motorgrafico->draw();
 }
 
 void Fachada::suspension(){
@@ -139,6 +144,10 @@ void Fachada::setNombreVentana(std::string text){
 
 void Fachada::setNombreVentana(wchar_t* text){
 	//device->setWindowCaption(text);
+}
+
+void Fachada::setBounding(bool flag){
+    bounding = flag;
 }
 FObjeto* Fachada::addCube(int x,int y,int z,bool flag){
     /*

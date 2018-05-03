@@ -39,13 +39,14 @@ public:
     sf::RenderWindow* getVentana();
     Posicion* getPosicion(void * nodo);
     Posicion* getScala(void * nodo);
-    
+    bool getBounding(){return bounding;}
     
     
     bool setScala(void * nodo,Posicion* scala);
     bool setPosicion(void * nodo,Posicion* pos);
     bool setMaterialFlag(void * nodo,bool b);
     bool setMaterial(void * nodo,std::string ruta);
+    void setBounding(bool flag);
     
 	void setNombreVentana(std::string text);
 	void setNombreVentana(wchar_t* text);
@@ -98,7 +99,7 @@ private:
 
     sf::Clock reloj; 
         
-    
+    bool bounding;
 
 };
 
