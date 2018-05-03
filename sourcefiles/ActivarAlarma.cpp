@@ -3,7 +3,7 @@
 Status ActivarAlarma::run(Enemigo *e)
 {   
    e->setCombate(false);
-   e->setVelocidad(20.f);
+   checkVelocidad(e);
 
    // DATOS DEL ENEMIGO
    Posicion* EnemigoPosition = e->getPosition(); 
@@ -115,8 +115,9 @@ Status ActivarAlarma::run(Enemigo *e)
               }
               else
               {
+                e->setVelocidad(e->getVelNormal());             // Para que no gaste energia cuando llegue
+                
                   /* RELOJ ACTIVACION ALARMA */
-
                   startClock();                                 // INICIAMOS EL RELOJ (O RESEATEAMOS)
 
                   int duration = reloj.getElapsedTime().asSeconds();  // OBTENEMOS SU DURACION EN SEGUNDOS
@@ -401,6 +402,21 @@ void ActivarAlarma::checkComportamiento(Enemigo *e)
        }
 
     }
+}
+
+/* Funcion para cambiar la velocidad del enemigo en funcion de su energia */
+void ActivarAlarma::checkVelocidad(Enemigo *e)
+{
+
+  if(e->getEnergia()>=0 && e->getRecargandoEnerg()==false)    // SI queda energia que gastar y no se esta recargando
+  {
+    e->setVelocidad(e->getVelRapida());
+  }
+  else // Sin energia reduccion de velocidad
+  {
+    e->setVelocidad(e->getVelNormal());
+  }
+
 }
 
 void ActivarAlarma::reset()

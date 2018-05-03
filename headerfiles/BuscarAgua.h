@@ -18,6 +18,7 @@ class BuscarAgua : public Task
 		void buscarFuenteCercana(float posEnemX);
 		void movimientoDireccion(Enemigo *e, bool d);
 		void checkComportamiento(Enemigo *e);
+		void checkVelocidad(Enemigo *e);
 		void reset();
 		NodoGrafo* calcularNodoMasCercano(NodoGrafo* i, NodoGrafo* i2, float posX);
 

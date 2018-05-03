@@ -32,6 +32,7 @@ EnemigoBasico::EnemigoBasico(vector<Posicion*> pos, float xlength, float pendVal
   /*  nodoPosition = patrulla[0]->getPosition();
     CreateBox(world, nodoPosition->getPosX()*30, nodoPosition->getPosY()*30);
 */
+
     CreateBox(world, patrulla[0]->getPosX(), patrulla[0]->getPosY());
     velocidad2d = Body->GetLinearVelocity();
 
@@ -63,19 +64,28 @@ FUNCION PARA COMPROBAR LA VELOCIDAD DEL ENEMIGOBASICO Y REDUCIR/AUMENTAR LA ENER
 */
 void EnemigoBasico::comprobarEnergia()
 {
-    if(VELOCIDAD_ENEMIGO >VELOCIDAD_NORMAL)  // Si su velcidad es mayor que la velocidad normal de moviemiento, empieza a bajar la energia
+    if(velocidad2d.x >VELOCIDAD_NORMAL)  // Si su velcidad es mayor que la velocidad normal de movimiento, empieza a bajar la energia
     {
-        if(energia >0)
+        if(energia >=0)
         {
-            energia+= -20.f * frameDeltaTime;
+            if(recargandoEnergia==false) // Solo si no estamos recargando la energia permitimos que se gaste
+            {
+                energia+= -20.f * frameDeltaTime;
+            }
         }
     }
     else{                       // Si no la supera, entonces la energia se recupera hasta su maximo
-            if(energia<=ENERGIA_MAX)
+            if(energia<ENERGIA_MAX)
             {
               energia += 10.f * frameDeltaTime;
+              recargandoEnergia = true;
             }
-    }
+
+            if(energia>=ENERGIA_MAX)
+            {
+                recargandoEnergia = false;
+            }
+        }
 
 }
 

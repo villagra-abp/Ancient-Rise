@@ -192,7 +192,7 @@ void Protagonista::ataque(EnemigoBasico* e)
     }
     */
 
-      if(pos_combate != e->getPosCombate())
+      if(pos_combate != e->getPosCombate() || e->getCombate()!=true)
       {
             e->setSalud(-20.f);
       }

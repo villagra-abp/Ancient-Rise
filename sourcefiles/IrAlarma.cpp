@@ -3,7 +3,7 @@
 Status IrAlarma::run(Enemigo *e)
 {   
   e->setCombate(false);
-  e->setVelocidad(20.f);
+  checkVelocidad(e);
 
   // DATOS  ENEMIGO
   enemigoX = e->getPosition()->getPosX();
@@ -395,6 +395,21 @@ void IrAlarma::checkComportamiento(Enemigo *e)
        }
 
     }
+}
+
+/* Funcion para cambiar la velocidad del enemigo en funcion de su energia */
+void IrAlarma::checkVelocidad(Enemigo *e)
+{
+
+  if(e->getEnergia()>=0 && e->getRecargandoEnerg()==false)    // SI queda energia que gastar y no se esta recargando
+  {
+    e->setVelocidad(e->getVelRapida());
+  }
+  else // Sin energia reduccion de velocidad
+  {
+    e->setVelocidad(e->getVelNormal());
+  }
+
 }
 
 void IrAlarma::reset()

@@ -53,19 +53,28 @@ void EnemigoElite::Update(Posicion* prota)
 
 void EnemigoElite::comprobarEnergia()
 {
-	if(VELOCIDAD_ENEMIGO >VELOCIDAD_NORMAL)  // Si su velcidad es mayor que la velocidad normal de moviemiento, empieza a bajar la energia
+	if(velocidad2d.x >VELOCIDAD_NORMAL)  // Si su velcidad es mayor que la velocidad normal de movimiento, empieza a bajar la energia
     {
-        if(energia >0)
+        if(energia >=0)
         {
-            energia+= -5.f * frameDeltaTime;
+            if(recargandoEnergia==false) // Solo si no estamos recargando la energia permitimos que se gaste
+            {
+                energia+= -5.f * frameDeltaTime;
+            }
         }
     }
     else{                       // Si no la supera, entonces la energia se recupera hasta su maximo
-            if(energia<=ENERGIA_MAX)
+            if(energia<ENERGIA_MAX)
             {
               energia += 15.f * frameDeltaTime;
+              recargandoEnergia = true;
             }
-    }
+
+            if(energia>=ENERGIA_MAX)
+            {
+                recargandoEnergia = false;
+            }
+        }
 
 
 }

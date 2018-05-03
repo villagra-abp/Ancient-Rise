@@ -17,6 +17,7 @@ class ActivarAlarma : public Task
 		NodoGrafo* calcularNodoMasCercano(NodoGrafo* i, NodoGrafo* i2, float posX);
 		void checkComportamiento(Enemigo *e);
 		void reset();
+		void checkVelocidad(Enemigo *e);
 		virtual ~ActivarAlarma();
 
 

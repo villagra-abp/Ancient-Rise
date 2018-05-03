@@ -74,6 +74,7 @@ Enemigo::Enemigo(vector<Posicion*> pos, float xlength, float pendValue, const En
     orden = 0;                                            // Ninguna orden recibida
     saltando = false;
     inv = true;
+    recargandoEnergia = false;
 
     /* Pathfinding */
     vuelta = false;
@@ -86,13 +87,31 @@ Enemigo::Enemigo(vector<Posicion*> pos, float xlength, float pendValue, const En
 /* Update para todos los enemigos*/
 void Enemigo::update(Posicion* Posprota)
 {   
-    if(salud<0)
-    {
+    //cout<<"Entro primera vez Update"<<endl;
+    if(salud<=0) // Enemigo Muerto
+    {   
+        //cout<<"Muerto"<<endl;
+        // Eleminamos el enemigo(parcialmente)
         fachada->destruirObjeto(enemigo);
+        enemigo = nullptr;
+
+        // Elminamos su hud
+        fachada->destruirObjeto(life);
+        life = nullptr;
+        fachada->destruirObjeto(energy);
+        energy = nullptr;
+        fachada->destruirObjeto(flecha0);
+        flecha0= nullptr;
+        fachada->destruirObjeto(flecha1);
+        flecha1 = nullptr;
+
+        //Eliminamos su body
+        Body->GetWorld()->DestroyBody(Body);
     }
 
     if(enemigo!=nullptr)  // Solo si existe el enemigo hacemos su update
     { 
+        //cout<<"Entro"<<endl;
         hud();
 
         actualizarSed();
@@ -107,16 +126,15 @@ void Enemigo::update(Posicion* Posprota)
         }
 
         // COMPROBAMOS SI HEMOS VISTO AL PROTAGONISTA 
-        if(checkInSight(Posprota) && inv==false){              
-            visto = true;
-             //fachada->setMaterial(enemigo,"resources/activada.jpeg");  
+        if(checkInSight(Posprota) && inv==false)
+        {              
+            visto = true; 
              contador = 0;
             
         }else{
             if(recordarProta()==false)
             {
                 visto = false;
-                //fachada->setMaterial(enemigo,"resources/verde.jpg");
             }
         }
 
@@ -435,12 +453,6 @@ void* Enemigo::getNode()
     return enemigo;
 }
 
-
-glm::f32 Enemigo::getVelocidad()
-{
-    return VELOCIDAD_ENEMIGO;
-}
-
 glm::f32 Enemigo::getSed()
 {
     return sed;
@@ -545,6 +557,21 @@ bool Enemigo::getVuelta()
 bool Enemigo::getInterrumpido()
 {
     return interrupcion;
+}
+
+glm::f32 Enemigo::getVelRapida()
+{
+    return VELOCIDAD_RAPIDA;
+}
+
+glm::f32 Enemigo::getEnergia()
+{
+    return energia;
+}
+
+bool Enemigo::getRecargandoEnerg()
+{
+    return recargandoEnergia;
 }
 
 

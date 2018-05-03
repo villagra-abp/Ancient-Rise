@@ -15,6 +15,7 @@ class Huir : public Task
 		void buscarNodoInicial(Enemigo *e, float posX);
 		void recorrerNodos(Enemigo *e, uint8_t v, float posX);
 		void calcularNodoFinal(NodoGrafo* n);
+		void checkVelocidad(Enemigo *e);
 		NodoGrafo* calcularNodoMasCercano(NodoGrafo* i, NodoGrafo* i2, float posX);
 
 

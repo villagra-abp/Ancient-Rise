@@ -17,6 +17,7 @@ class IrAlarma : public Task
 		NodoGrafo* calcularNodoMasCercano(NodoGrafo* i, NodoGrafo* i2, float posX);
 		void reset();
 		void checkComportamiento(Enemigo *e);
+		void checkVelocidad(Enemigo *e);
 		virtual ~IrAlarma();
 
 

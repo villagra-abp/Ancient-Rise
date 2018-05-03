@@ -2,7 +2,8 @@
 
 Status Atacar::run(Enemigo *e)
 {   
-    e->setVelocidad(20.f);
+    checkVelocidad(e);
+
     p = board->getProtagonista();
     protaX = p->getPosition()->getPosX();
     protaY = p->getPosition()->getPosY();
@@ -29,17 +30,18 @@ Status Atacar::run(Enemigo *e)
     if(abs(distanciaProta)<separacionAtaque && distProtaY<10 && distProtaY>-10)       //ATACANDO
     {
         //cout<<"Atacando"<<endl;
+        e->setVelocidad(e->getVelNormal());             // Para que no gaste energia cuando llegue
         e->setVuelta(true);
-        reset();                     // Reseteamos los valores para el pathfinding
+        reset();                                        // Reseteamos los valores para el pathfinding
 
-        if(e->getOrden()==1)        // Ya hemos ejecutado la orden de atacarle mandado por el Elite, la eliminamos
+        if(e->getOrden()==1)                            // Ya hemos ejecutado la orden de atacarle mandado por el Elite, la eliminamos
         {
             e->setOrden(0);
         }
-        e->setCombate(true);    // COMBATIENDO
+        e->setCombate(true);                            // COMBATIENDO
 
 
-        if(e->getTipo()==1)  // Mele
+        if(e->getTipo()==1)                             // Mele
         {
              /* RELOJ POS COMBATE */
             startClock(1);                                        // INICIAMOS EL RELOJ (O RESEATEAMOS) DE POS_COMBATE
@@ -57,7 +59,7 @@ Status Atacar::run(Enemigo *e)
             int time2 = relojAtq.getElapsedTime().asSeconds();
             
             if(time2>2)
-            {
+            {   /*
                 if(pos_combate==1)
                 {
                     cout<<"Pos enemigo: Arriba"<<endl;
@@ -499,10 +501,21 @@ void Atacar::checkComportamiento(Enemigo *e)
     }
 }
 
-void Atacar::randomPosCombate()
+/* Funcion para cambiar la velocidad del enemigo en funcion de su energia */
+void Atacar::checkVelocidad(Enemigo *e)
 {
-    
+
+  if(e->getEnergia()>=0 && e->getRecargandoEnerg()==false)    // SI queda energia que gastar y no se esta recargando
+  {
+    e->setVelocidad(e->getVelRapida());
+  }
+  else // Sin energia reduccion de velocidad
+  {
+    e->setVelocidad(e->getVelNormal());
+  }
+
 }
+
 
 void Atacar::reset()
 {

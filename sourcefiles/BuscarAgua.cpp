@@ -3,7 +3,8 @@
 Status BuscarAgua::run(Enemigo *e)
 {   
     e->setCombate(false);
-    e->setVelocidad(20.f);
+
+    checkVelocidad(e);
 
     // DATOS DEL ENEMIGO
     Posicion* EnemigoPosition = e->getPosition(); 
@@ -102,23 +103,25 @@ Status BuscarAgua::run(Enemigo *e)
                   e->setLastFacedDir(true);                                    
                 }
                 else // Si hemos llegado
-                {
+                {   
+                    e->setVelocidad(e->getVelNormal());             // Para que no gaste energia cuando llegue
+
                       /* RELOJ BEBER AGUA */
-                     startClock();                                       // INICIAMOS EL RELOJ (O RESEATEAMOS)
+                    startClock();                                       // INICIAMOS EL RELOJ (O RESEATEAMOS)
 
-                     int time = reloj.getElapsedTime().asSeconds();      // OBTENEMOS SU DURACION EN SEGUNDOS
+                    int time = reloj.getElapsedTime().asSeconds();      // OBTENEMOS SU DURACION EN SEGUNDOS
 
-                     f[pos]->setActivando(true);                         // ENEMIGO BEBIENDO
+                    f[pos]->setActivando(true);                         // ENEMIGO BEBIENDO
 
-                     if(time>4)     // BEBIENDO
-                     {
-                      //cout<<"BEBIENDO"<<endl;
-                         e->setSed(100.f);                               // RECUPERAMOS SED
-                         e->setVuelta(true);                             // Indicamos que estamos volviendo a la patrulla
-                         f[pos]->setActivando(false);
-                         contador  = 0;
-                         reset();
-                     }
+                    if(time>4)     // BEBIENDO
+                    {
+                    //cout<<"BEBIENDO"<<endl;
+                      e->setSed(100.f);                               // RECUPERAMOS SED
+                      e->setVuelta(true);                             // Indicamos que estamos volviendo a la patrulla
+                      f[pos]->setActivando(false);
+                      contador  = 0;
+                      reset();
+                    }
                 }
             }
     }
@@ -424,6 +427,21 @@ void BuscarAgua::checkComportamiento(Enemigo *e)
        }
 
     }
+}
+
+/* Funcion para cambiar la velocidad del enemigo en funcion de su energia */
+void BuscarAgua::checkVelocidad(Enemigo *e)
+{
+
+  if(e->getEnergia()>=0 && e->getRecargandoEnerg()==false)    // SI queda energia que gastar y no se esta recargando
+  {
+    e->setVelocidad(e->getVelRapida());
+  }
+  else // Sin energia reduccion de velocidad
+  {
+    e->setVelocidad(e->getVelNormal());
+  }
+
 }
 
 void BuscarAgua::reset()

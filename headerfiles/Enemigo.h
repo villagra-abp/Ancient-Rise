@@ -61,6 +61,9 @@ class Enemigo : public GameObject
         bool getSaltando();
         bool getVuelta();
         bool getInterrumpido();
+        glm::f32 getVelRapida();
+        glm::f32 getEnergia();
+        bool getRecargandoEnerg();
 
 
         void setSed(glm::f32 se);
@@ -123,13 +126,14 @@ class Enemigo : public GameObject
         glm::f32 energia;
         glm::f32 sed;
         glm::f32 salud;
-        glm::f32 VELOCIDAD_ENEMIGO;                 // VELOCIDAD DEL ENEMIGO
         glm::f32 velHambre;                         // INDICA LA VELOCIDAD A LA QUE BAJA EL HAMBRE
         glm::f32 velSed;                            // INDICA LA VELOCIDAD A LA QUE BAJA LA SED
         int tipo;                                   // Indica el tipo de enemigo ( 1 = Melee 2 = Distancia) 
         int claseEnemigo;                           // Indica que clase enemigo es (1 = Basico, 2 = Avanzado, 3 = Elite )       
-        const glm::f32 VELOCIDAD_NORMAL = 10.f;     // Constante para saber cual es la velocidad normal de los enemigos que no consume energia   
+        const glm::f32 VELOCIDAD_NORMAL = 10.f;     // Constante para saber cual es la velocidad normal de los enemigos que no consume energia (CAMINANDO)
+        const glm::f32 VELOCIDAD_RAPIDA = 20.f;     // Constante para saber cual es la velocidad que consume energia para ir mas rapido (CORRIENDO)  
         bool saltando;
+        bool recargandoEnergia;
 
 
          /* BOX2D */
