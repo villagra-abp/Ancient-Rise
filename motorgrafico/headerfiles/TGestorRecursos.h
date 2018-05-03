@@ -54,7 +54,7 @@ private:
  	TRecursoMalla* cargarFichero(string nombre);
  	TRecursoAnimacion* cargarAnimacion(string path);
 	void processNode(aiNode *node, const aiScene *scene, TRecursoMalla* malla);
-    rMesh processMesh(aiMesh *mesh, const aiScene *scene);
+    rMesh processMesh(aiMesh *mesh, const aiScene *scene, TRecursoMalla* malla);
     vector<TRecursoTextura*> loadMaterialTextures(aiMaterial *mat, aiTextureType type, 
                                              string typeName);
 

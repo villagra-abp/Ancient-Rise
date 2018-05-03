@@ -35,8 +35,9 @@ public:
 	*/
 	glm::mat4 generateMatrix(TNodo *nodo);
 	
-
 	void draw();
+	void drawBounding();
+	void drawSkybox();
 
 	//void registrarCamara(TNodo* cam);
 	void activarCamara(TNodo* cam);

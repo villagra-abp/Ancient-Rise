@@ -222,7 +222,7 @@ glm::vec3 TNodo::getPosicion(){
 }
 
 
-void TNodo::draw(glm::mat4 view, glm::mat4 projection,TNodo* camara, vector<TNodo*> luces)
+void TNodo::draw(glm::mat4 view, glm::mat4 projection,TNodo* camara, vector<TNodo*> luces, bool bounding)
 {
 	vector<glm::vec4> colorPuntual;
 	glm::vec3 camaraPosicion;
@@ -275,13 +275,15 @@ void TNodo::draw(glm::mat4 view, glm::mat4 projection,TNodo* camara, vector<TNod
 	datos.corteFlash = &corteFlash;
 	datos.atenuacionFlash = &atenuacionFlash;
 
+	datos.bounding = bounding;
+
 	if(entidad!=nullptr){
 		if(entidad->getTipo() != 4 /* 4 = sky*/)
 			entidad -> beginDraw(&datos);
 	}
 	//para cada nodo hijo i
 	for(int i=0; i<hijos.size(); i++){
-		hijos[i]->draw(view, projection, camara, luces);
+		hijos[i]->draw(view, projection, camara, luces, bounding);
 	}
 
 	if(entidad!=nullptr)
