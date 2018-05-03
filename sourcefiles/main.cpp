@@ -68,20 +68,7 @@ int main()
 		            inputKey = evento->key.code;
 		            //std::cout<<evento->key.code<<std::endl;		
 		            mundo->checkInput(inputKey);
-		            switch(inputKey){
-                        case 36: 		//escape
-                            if(mundo->getEstado()==0){
-                                mundo->CambioEstado(2);
-                            }
-                            else if(mundo->getEstado()==1){
-                                mundo->CambioEstado(2);
-                            }
-                            else if(mundo->getEstado()==2)
-                                mundo->CambioEstado(1);
-		            		break;
-		            	
-		            	
-		            }
+		            
 		            keyPressed = true;
 		        }   
                 break;

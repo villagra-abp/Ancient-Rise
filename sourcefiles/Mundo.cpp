@@ -245,7 +245,7 @@ void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
 
 void Mundo::checkInput(int tecla){
     
-       
+     //std::cout<<tecla<<endl;  
     switch(tecla){
 
         case 10: // Tecla K Activar/Desactivar Combate
@@ -253,17 +253,52 @@ void Mundo::checkInput(int tecla){
            prota->setCombate();      
            break;
         }
-
-        case 73: 		//arriba
-
-        case 14:                            //O    -   Cambiamos el modo de visualizacion de bounding boxes
-            if(fachada->getBounding())
-                fachada->setBounding(false);
-            else
-                fachada->setBounding(true);
+        case 36: 		//escape
+        {
+            if(estado==1){
+                CambioEstado(2);
+            }
+            else if(estado==2)
+                CambioEstado(1);
             break;
-
-
+        }
+        case 58: 		//enter
+        {
+            if(estado==0)
+            {
+                int estm=menu->getEstado();
+                if(estm==3)
+                {
+                    estado=2;
+                }
+                if(estm==2)
+                {
+                    //estado=4;   //opciones
+                }
+                if(estm==1)
+                {
+                    fachada->cerrar();
+                }
+                
+            }
+            if(estado==1){
+                int estp=pausa->getEstado();
+                if(estp==3)
+                {
+                    estado=2;
+                }
+                if(estp==2)
+                {
+                    //estado=4;   //opciones
+                }
+                if(estp==1)
+                {
+                    estado=0;
+                }
+            }
+            break;
+        }
+        case 73: 		//arriba
         {
             if(estado==0){
                 menu->update(1);
@@ -283,6 +318,15 @@ void Mundo::checkInput(int tecla){
             }
             break;
         }
+        case 14:                        //O    -   Cambiamos el modo de visualizacion de bounding boxes
+        {
+            if(fachada->getBounding())
+                fachada->setBounding(false);
+            else
+                fachada->setBounding(true);
+            break;
+        }
+
         /*case 15:
         {
             if(prota->getCombate())
