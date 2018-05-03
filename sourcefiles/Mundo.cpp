@@ -116,11 +116,7 @@ void Mundo::update()
 	float frameDeltaTime = fachada->getTime(); // Time in seconds
 
 	Posicion* protaPosition = prota->getPosition();
-    if(estado==2){
-        //Comprueba las entradas del teclado
-        checkInput(-1);
-          
-    }
+
 	/* PROTA UPDATE */
     protaUpdate(frameDeltaTime);
         
@@ -141,6 +137,10 @@ void Mundo::update()
 
     if(estado==2)
     {
+
+        //Comprueba las entradas del teclado
+        checkInput(-1);
+
         /* UPDATE DE LOS ENEMIGOS */
         for(size_t i=0; i<enemB.size();i++)   		// Enemigos Basicos
         {
@@ -206,7 +206,7 @@ void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
     {
         glm::f32 energia=prota->getEnergia();
 
-        checkCombate(); 							// Comprobamos si hemos pulsado la tecla de combate (K)
+        //checkCombate(); 							// Comprobamos si hemos pulsado la tecla de combate (K)
         
          if(sf::Keyboard::isKeyPressed(sf::Keyboard::J))
         {   
@@ -255,8 +255,6 @@ void Mundo::checkInput(int tecla){
         }
 
         case 73: 		//arriba
-
-        
         {
             if(estado==0){
                 menu->update(1);
@@ -276,23 +274,28 @@ void Mundo::checkInput(int tecla){
             }
             break;
         }
-	case 14:                            //O    -   Cambiamos el modo de visualizacion de bounding boxes
-	{
-            if(fachada->getBounding())
-                fachada->setBounding(false);
-            else
-                fachada->setBounding(true);
-            break;
-	}
+    	case 14:                            //O    -   Cambiamos el modo de visualizacion de bounding boxes
+    	{
+                if(fachada->getBounding())
+                    fachada->setBounding(false);
+                else
+                    fachada->setBounding(true);
+                break;
+    	}
 
-        /*case 15:
+        case 15: // Tecla P Ejecutar animacion de ataque
         {
-            if(prota->getCombate())
+            if(prota->getCombate() && prota->getTiempoAtaque()>2)
             {
-
+                prota->setAtaque(true);
             }
             break;
-        }*/
+        }
+    }
+
+    if(prota->getCombate()==false || prota->getTiempoAtaque()<2)
+    {
+        prota->setAtaque(false);
     }
         
 	if(sf::Joystick::isConnected(0)){
