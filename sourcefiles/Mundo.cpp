@@ -86,10 +86,10 @@ posA(nullptr), posF(nullptr), p1(nullptr), p0(nullptr)	//CONSTRUCTOR
     	lastFPS = -1;
 
         
-    Posicion* posmenu= new Posicion(.5f,-5001.5f,.5f);
+    Posicion* posmenu= new Posicion(.5f,-5000.f,.5f);
     menu = new Menu(posmenu);
 
-    Posicion* pospausa= new Posicion(-20.5f,-5001.5f,.5f);
+    Posicion* pospausa= new Posicion(-20.5f,-5000.f,.5f);
     pausa = new Pausa(pospausa);
         
     Posicion* poshud= new Posicion(-40.5f,-5001.5f,.5f);
