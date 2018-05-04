@@ -5,9 +5,9 @@ Pausa::Pausa(Posicion* pos):Objeto(pos)
 	
 	Fachada* fachada=fachada->getInstance();
 
-    pausa = fachada->addMalla(pos->getPosX()+1,pos->getPosY()*3+4.8,pos->getPosZ(), "resources/Pausa/Menu1.obj");
-    pausa2 = fachada->addMalla(pos->getPosX()+1,pos->getPosY()*2+2.8,pos->getPosZ(), "resources/Pausa/Menu2.obj");
-    pausa3 = fachada->addMalla(pos->getPosX()+1,pos->getPosY(),pos->getPosZ(), "resources/Pausa/Menu3.obj");
+    pausa = fachada->addMalla(pos->getPosX()+2,pos->getPosY()*3,pos->getPosZ(), "resources/Pausa/Pausa1.obj");
+    pausa2 = fachada->addMalla(pos->getPosX()+2,pos->getPosY()*2,pos->getPosZ(), "resources/Pausa/Pausa2.obj");
+    pausa3 = fachada->addMalla(pos->getPosX()+2,pos->getPosY(),pos->getPosZ(), "resources/Pausa/Pausa3.obj");
 	if (pausa)
 	{
         Posicion escala(.1f,.12f,0.1f);
