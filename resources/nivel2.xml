@@ -327,4 +327,29 @@
    <polyline points="0,0 -53.375,-0.375"/>
   </object>
  </objectgroup>
+ <objectgroup name="prota" visible="0" locked="1">
+  <object id="129" type="1" x="35" y="62.5455">
+   <point/>
+  </object>
+  <object id="130" type="2" x="768.091" y="62.4545">
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup name="trampa" visible="0" locked="1">
+  <object id="131" type="2" x="595.909" y="62.9091">
+   <point/>
+  </object>
+  <object id="132" type="1" x="540" y="39">
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup name="puerta" visible="0" locked="1">
+  <object id="133" type="2" x="786.438" y="63.25">
+   <point/>
+  </object>
+  <object id="134" type="1" x="746.727" y="63.0909">
+   <point/>
+  </object>
+ </objectgroup>
+
 </map>
