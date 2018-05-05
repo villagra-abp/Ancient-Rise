@@ -95,14 +95,9 @@ class Mundo : public Entorno
         Posicion *p0, *p1;
 
         // POsiciones Objetos
-        Posicion* posA, *posF;
+        Posicion* posA, *posF, *posB, *posC;
 
-    	//OBJETOS
-    	Comida *c, *c2;
-        Fuente *f, *f2;
-        Alarma *a, *a2;
-        Trampa *t;
-        Bebida *bebida;
+    	// Vectores de objetos
         vector<Alarma*> alarmas;
         vector<Objeto*> fuentes;
         vector<Objeto*> comidas;

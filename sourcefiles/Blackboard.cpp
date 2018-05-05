@@ -24,11 +24,6 @@ vector<Objeto*> Blackboard::getFuente()
 	return fuentes;
 }
 
-vector<Objeto*> Blackboard::getComida()
-{
-	return comidas;
-}
-
 vector<Alarma*> Blackboard::getAlarma()
 {
 	return alarmas;
@@ -68,11 +63,6 @@ void Blackboard::setProta(float pX)
 void Blackboard::setFuente(vector<Objeto*> f)
 {
 	fuentes = f;
-}
-
-void Blackboard::setComida(vector<Objeto*> c)
-{
-	comidas = c;
 }
 
 void Blackboard::setAlarma(vector<Alarma*> a)
@@ -116,11 +106,6 @@ Blackboard::~Blackboard()
 		delete alarmas[i];
 	}
 	alarmas.clear();
-
-	for(int i = 0 ; i < comidas.size(); i++){
-		delete comidas[i];
-	}
-	comidas.clear();
 
 	for(int i = 0 ; i < fuentes.size(); i++){
 		delete fuentes[i];

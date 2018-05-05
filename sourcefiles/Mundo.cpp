@@ -1,7 +1,7 @@
 #include "../headerfiles/Mundo.h"
 
-Mundo::Mundo():prota(nullptr),c(nullptr),f(nullptr),a(nullptr),t(nullptr),bebida(nullptr),b(nullptr),enem1(nullptr),enemE1(nullptr), cam(nullptr),
-posA(nullptr), posF(nullptr), p1(nullptr), p0(nullptr)	//CONSTRUCTOR
+Mundo::Mundo():prota(nullptr),b(nullptr),enem1(nullptr),enemE1(nullptr), cam(nullptr),posA(nullptr), posF(nullptr), p1(nullptr),
+p0(nullptr), posC(nullptr), posB(nullptr)	//CONSTRUCTOR
 {
     Fachada* fachada=fachada->getInstance();
 
@@ -23,10 +23,8 @@ posA(nullptr), posF(nullptr), p1(nullptr), p0(nullptr)	//CONSTRUCTOR
 
     /* Lectura del XML para la logica del juego */
     cargarNivel();
-    //cout<<aristas.size()<<endl;
 
     /* Pasamos toda la info necesaria a la blackboard */
-    b->setComida(comidas);
     b->setProtagonista(prota);
 
     for(int i=0;i<enemB.size();i++)   // Añadimos todos los enemigos basicos que existen a la blackboard
@@ -34,18 +32,6 @@ posA(nullptr), posF(nullptr), p1(nullptr), p0(nullptr)	//CONSTRUCTOR
         b->setEnemB(enemB[i]);
     }
 
-    /* CREAMOS OBJETOS */
-
-    	Posicion* posbebida= new Posicion(-300,0.34f,30.f);
-     	bebida = new Bebida(posbebida);
-        bebidas.push_back(bebida);
-     	addGameObject(bebida);
-
-    	Posicion* postrampa= new Posicion(520,0.34f,30.f);
-     	t = new Trampa(postrampa);
-        //trampas.push_back(t);
-     	addGameObject(t);
-    	 
     /** ESTABLECEMOS LA CAMARA
      Aqui indicamos la posicion de la camara en el espacio 3d. En este caso,
      esta mirando desde la posicion (0, 30, -40) a la (0, 5, 0) donde es
@@ -329,7 +315,7 @@ void Mundo::checkInput(int tecla){
             break;
         }
 
-        case 15:
+        case 15:    // TECLA P - Realizar ataque
 
         {
             if(prota->getCombate() && prota->getTiempoAtaque()>2)
@@ -466,16 +452,10 @@ void Mundo::fpsControl(){
 
 	if (lastFPS != fps)
 	{
-		//core::stringw tmp(L"Movement Example - Irrlicht Engine [");
-		//tmp += driver->getName();
-		//tmp += L"] fps: ";
-		//tmp += fps;
-
-		//device->setWindowCaption(tmp.c_str());
 		lastFPS = fps;
 	}
 
-	this->timeWait();
+	timeWait();
 }
 
 void Mundo::timeWait(){
@@ -768,24 +748,28 @@ void Mundo::cargarNivel()
 
                     if(strcmp(grupo2->FirstAttribute()->Value(),"recolectables")==0)
                     {
-                        int t = tipo/10;    // Tipo de recolectable
-                        
+                        int t = tipo%10;    // Tipo de recolectable
 
+                        cout<<t<<endl;
                         switch (t)
                         {   
                             case 1: // Agua
                             {
-                               
+                                posB= new Posicion(xEn-190,-yEn+59,0.f);
+                                Bebida *bebida = new Bebida(posB);
+                                bebidas.push_back(bebida);
+                                addGameObject(bebida);
                                 break;
                             }
 
                             case 2: // Comida
                             {
+                                posC= new Posicion(xEn-190,-yEn+59,0.f);
+                                Comida *comida = new Comida(posC);
+                                comidas.push_back(comida);
+                                addGameObject(comida);
                                 break;
                             }
-
-                        
-
                         }
                     } 
 
@@ -935,6 +919,8 @@ Mundo::~Mundo()	//DESTRUCTOR
 
     delete posA;
     delete posF;
+    delete posB;
+    delete posC;
     delete p0;
     delete p1;
     

@@ -22,7 +22,6 @@ class Blackboard
 		void setProta(float pX);
 		void setTime(const glm::f32 T);
 		void setFuente(vector<Objeto*> f);
-		void setComida(vector<Objeto*> c);
 		void setAlarma(vector<Alarma*>a);
 		void setEnemB(EnemigoBasico *e);
 		void setEnemBActual(EnemigoBasico *e);
@@ -33,7 +32,6 @@ class Blackboard
 		float getProta();
 		glm::f32 getTime();
 		vector<Objeto*> getFuente();
-		vector<Objeto*> getComida();
 		vector<Alarma*> getAlarma();
 		vector<EnemigoBasico*> getEnemB();
 		EnemigoBasico* getEnemBActual();
@@ -49,7 +47,6 @@ class Blackboard
 		
 		/* OBJETOS DEL JUEGO */
 		vecObjetos fuentes;
-		vecObjetos comidas;
 		vector<Alarma*> alarmas;
 
 		/* ENEMIGOS BASICOS */
