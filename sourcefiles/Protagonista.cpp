@@ -379,21 +379,20 @@ void Protagonista::comprobarColision(Bebida *bebida)
 
 void Protagonista::comprobarColision(Trampa *trampa)
 {
+    /* Posicion del prota */
     float protaPosX=protaPosition->getPosX();
     float protaPosY=protaPosition->getPosY();
     
-    trampaPosition=trampa->getPosition();
-    float tramPosX=trampaPosition->getPosX();
-    float tramPosY=trampaPosition->getPosY();
-    
-    if((tramPosX-(protaPosX+10))<8 
-        && (tramPosX-(protaPosX+10))>-28
-        && protaPosY<10){
-        
-        std::cout<<tramPosX<<endl;
-           vida-=0.4f;
-           //protaPosition.X-=15; //+=15 animacion, rebote de la trampa 
-       
+    /* Posicion de la trampa */
+    float tramPosX=trampa->getPosition()->getPosX();
+    float tramPosY=trampa->getPosition()->getPosY();
+
+    if(protaPosY<tramPosY+10 && protaPosY>tramPosY-10)
+    {
+        if(protaPosX>tramPosX-5 && protaPosX<tramPosX+5)
+        {
+            vida-=0.4f;
+        }
     }
     
     
