@@ -1,6 +1,6 @@
 #include "../headerfiles/Menu.h"
 
-Menu::Menu(Posicion* pos):Objeto(pos)
+Menu::Menu(Posicion* pos)
 {
 	
 	Fachada* fachada=fachada->getInstance();
@@ -34,11 +34,6 @@ Menu::Menu(Posicion* pos):Objeto(pos)
 
 }
 
-
-void* Menu::getNode()
-{
-    return objeto;
-}
 int Menu::getEstado()
 {
     return estado;

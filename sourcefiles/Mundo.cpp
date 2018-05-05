@@ -115,10 +115,37 @@ void Mundo::update()
     b->setTime(frameDeltaTime);
     b->setProta(protaPosition->getPosX());
 
-    /* ALARMA UPDATE*/
+    /* UPDATE DE LOS OBJETOS */
     for(size_t i=0; i<alarmas.size();i++)
     {
         alarmas[i]->update();
+    }
+
+    for(size_t i=0; i<bebidas.size();i++)
+    {
+        if(bebidas[i]->getNode()!=nullptr)
+        {
+            prota->comprobarColision(bebidas[i]);
+            bebidas[i]->update();
+        }
+    }
+
+    for(size_t i=0; i<comidas.size();i++)
+    {
+        if(comidas[i]->getNode()!=nullptr)
+        {
+            prota->comprobarColision(comidas[i]);
+            comidas[i]->update();
+        }
+    }
+
+    for(size_t i=0; i<trampas.size();i++)
+    {
+        if(trampas[i]->getNode()!=nullptr)
+        {
+            prota->comprobarColision(trampas[i]);
+            trampas[i]->update();
+        }
     }
 
     if(estado==2)
@@ -146,14 +173,6 @@ void Mundo::update()
     	    }
         }
 
-        /* DRAW SCENE */
-
-        //draw();
-
-        /* CONTROL DE FRAMES POR SEGUNDO */
-
-        //fpsControl();
-
         /*UPDATE DE SONIDO*/
         sonido->playSound(musicaBosque);
         sonido->update();
@@ -167,21 +186,6 @@ void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
 	Tiempo=Tiempo+frameDeltaTime;
     
 	energiaAnterior = prota->getEnergia();
-    
-    for(size_t i=0; i<comidas.size(); i++)
-    {
-	   prota->comprobarColision(comidas[i]);
-    }
-
-    for(size_t i=0; i<bebidas.size(); i++)
-    {
-       prota->comprobarColision(bebidas[i]);
-    }
-
-    for(size_t i=0; i<trampas.size(); i++)
-    {
-       prota->comprobarColision(trampas[i]);
-    } 
 
     prota->updateBody(world);
 
@@ -750,7 +754,6 @@ void Mundo::cargarNivel()
                     {
                         int t = tipo%10;    // Tipo de recolectable
 
-                        cout<<t<<endl;
                         switch (t)
                         {   
                             case 1: // Agua

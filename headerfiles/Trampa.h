@@ -10,6 +10,7 @@ class Trampa : public Objeto
 
 	public:
 		Trampa(Posicion* pos);
+		virtual void update() override;
 		void* getNode();
 
 	private:

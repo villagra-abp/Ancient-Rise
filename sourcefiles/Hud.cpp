@@ -1,6 +1,6 @@
 #include "../headerfiles/Hud.h"
 
-Hud::Hud(Posicion* pos):Objeto(pos)
+Hud::Hud(Posicion* pos)
 {
 	
 	Fachada* fachada=fachada->getInstance();
@@ -57,11 +57,6 @@ Hud::Hud(Posicion* pos):Objeto(pos)
 
 }
 
-
-void* Hud::getNode()
-{
-    return objeto;
-}
 void Hud::update(float vida,float energia){
     Fachada* fachada=fachada->getInstance();
     

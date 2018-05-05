@@ -5,12 +5,11 @@
 
 
 
-class Pausa : public Objeto
+class Pausa
 {
 
 	public:
 		Pausa( Posicion* pos);
-		void* getNode();
         void update(int n);
         int getEstado();
 

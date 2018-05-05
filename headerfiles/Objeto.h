@@ -10,6 +10,7 @@ class Objeto : public GameObject
 
 	public:
 		Objeto(Posicion* p);
+		virtual void update()=0;
 		virtual ~Objeto();
 
 		//getters y setters
@@ -34,6 +35,7 @@ class Objeto : public GameObject
 		bool activado;					// Para saber si el objeto ha sido activado/usado o no
 		bool activando; 				// Si se esta activando o no
 		void * objeto;
+		Fachada* fachada;
         Posicion* posicion;
 		int tipo;  						// Para saber que tipo de objeto es 
  

@@ -5,12 +5,11 @@
 
 
 
-class Menu : public Objeto
+class Menu
 {
 
 	public:
 		Menu( Posicion* pos);
-		void* getNode();
         void update(int n);
         int getEstado();
 

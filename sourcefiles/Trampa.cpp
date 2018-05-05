@@ -4,7 +4,7 @@
 Trampa::Trampa(Posicion* pos):Objeto(pos)
 {
 	GameObject::setTipo(TRAMPA);
-    Fachada* fachada=fachada->getInstance();
+    fachada=fachada->getInstance();
     FObjeto* obObjeto = fachada->addCube(pos->getPosX(),pos->getPosY(),pos->getPosZ(),false);
 	//FObjeto* obObjeto = fachada->addMalla(pos->getPosX(),pos->getPosY(),pos->getPosZ(),"resources/pinchos.obj");
 	objeto = obObjeto;
@@ -23,6 +23,10 @@ Trampa::Trampa(Posicion* pos):Objeto(pos)
 	}
 }
 
+void Trampa::update()
+{
+	
+}
 
 
 void* Trampa::getNode()

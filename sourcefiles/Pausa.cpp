@@ -1,6 +1,6 @@
 #include "../headerfiles/Pausa.h"
 
-Pausa::Pausa(Posicion* pos):Objeto(pos)
+Pausa::Pausa(Posicion* pos)
 {
 	
 	Fachada* fachada=fachada->getInstance();
@@ -32,11 +32,6 @@ Pausa::Pausa(Posicion* pos):Objeto(pos)
 
 }
 
-
-void* Pausa::getNode()
-{
-    return objeto;
-}
 int Pausa::getEstado()
 {
     return estado;

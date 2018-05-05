@@ -6,7 +6,7 @@ static Protagonista* instance = NULL;
 
 
 Protagonista::Protagonista():energy(nullptr), life(nullptr), Body(nullptr), rec(nullptr), flecha0(nullptr), flecha1(nullptr), sonido(nullptr),
-protaPosition(nullptr), enemigoPosition(nullptr), comidaPosition(nullptr), trampaPosition(nullptr), bebidaPosition(nullptr)
+protaPosition(nullptr), enemigoPosition(nullptr), comidaPosition(nullptr), trampaPosition(nullptr)
 {
     
     GameObject::setTipo(PROTA);
@@ -28,6 +28,15 @@ protaPosition(nullptr), enemigoPosition(nullptr), comidaPosition(nullptr), tramp
     fachada->rotObj(flecha0, 1, 0, 0, -45);
     fachada->rotObj(flecha0, 0, 1, 0, -3);
 
+    /* Estadisticas del prota */
+    energia=ENERGIA_MAXIMA;
+    vida=VIDA_MAXIMA;
+    saltando=false;
+    sigilo=false;
+    correr=false;
+    estaEnSuelo=false;
+    estaCayendo=true;
+    direccion=1;
 
     combate = false;
     pos_combate = 2; 
@@ -311,66 +320,60 @@ FUNCION PARA COMPROBAR LAS COLISIONES CON COMIDA
 **/
 void Protagonista::comprobarColision(Objeto *comida)
 {
+    /* Posicion del prota */
     float protaPosX=protaPosition->getPosX();
     float protaPosY=protaPosition->getPosY();
     
-    comidaPosition=comida->getPosition();
-    float comidaPosX=comidaPosition->getPosX();
-    float comidaPosY=comidaPosition->getPosY();
+    /* Posicion de la comida */
+    float comidaPosX=comida->getPosition()->getPosX();
+    float comidaPosY=comida->getPosition()->getPosY();
     
-    
-    //std::cout<<protaPosX<<endl;
-    if((comidaPosX-(protaPosX+10))<-5 
-        && (comidaPosX-(protaPosX+10))>-15){
-        if(/*comida->getNode()->isVisible()&&*/ protaPosY<10)
+    if(protaPosY<comidaPosY+10 && protaPosY>comidaPosY-10)
+    {
+        if(protaPosX>comidaPosX-5 && protaPosX<comidaPosX+5)
         {
-            //std::cout<<comidaPosX<<endl;
-           vida+=10;
-            if(vida>100)
-                vida=100;
-            
-            comidaPosX+=500;
-        if(comidaPosX>2500)
-            comidaPosX=-1900;
-            //comida->getNode()->setPosition(comidaPosition);
+            if(vida<VIDA_MAXIMA) // Solo lo recogemos si nos falta vida
+            {
+                vida+=10;
+                if(vida>VIDA_MAXIMA)
+                {
+                    vida=VIDA_MAXIMA;
+                }
 
+                comida->setRecogido(true);
+            }
         }
-       
     }
-    //else
-        //comida->getNode()->setVisible(true);
     
 }
 
 void Protagonista::comprobarColision(Bebida *bebida)
 {
+ /* Posicion bebida */
+    float bebidaPosX=bebida->getPosition()->getPosX();
+    float bebidaPosY=bebida->getPosition()->getPosY();
+
+    /* Posicion prota*/
     float protaPosX=protaPosition->getPosX();
     float protaPosY=protaPosition->getPosY();
-    
-    bebidaPosition=bebida->getPosition();
-    float bebidaPosX=bebidaPosition->getPosX();
-    float bebidaPosY=bebidaPosition->getPosY();
-    
-    if((bebidaPosX-(protaPosX+10))<=-5 
-        && (bebidaPosX-(protaPosX+10))>-15){
-        if(/*bebida->getNode()->isVisible()&&*/ protaPosY<10)
-        {
-            
-           energia+=10;
-            if(energia>100)
-                energia=100;
 
-            //bebida->getNode()->setVisible(false);
-            
-            bebidaPosX+=400;
-        if(bebidaPosX>2200)
-            bebidaPosX=-1800;
-            //bebida->getNode()->setPosition(bebidaPosition);
+    if(protaPosY<bebidaPosY+10 && protaPosY>bebidaPosY-10)
+    {
+        if(protaPosX>bebidaPosX-5 && protaPosX<bebidaPosX+5)
+        {
+            if(energia<ENERGIA_MAXIMA)
+            {
+                energia+=10;
+                if(energia>ENERGIA_MAXIMA)
+                {
+                    energia=ENERGIA_MAXIMA;
+                }
+
+                bebida->setRecogido(true);
+            }
         }
-       
     }
-    //else
-        //bebida->getNode()->setVisible(true);
+
     
 }
 

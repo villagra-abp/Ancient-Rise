@@ -10,7 +10,7 @@ class Alarma : public Objeto
 
 	public:
 		Alarma(Posicion* pos);
-		void update();
+		virtual void update() override;
 		void checkActivada();
 		void startClock();
 		virtual ~Alarma();

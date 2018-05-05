@@ -100,7 +100,7 @@ class Mundo : public Entorno
     	// Vectores de objetos
         vector<Alarma*> alarmas;
         vector<Objeto*> fuentes;
-        vector<Objeto*> comidas;
+        vector<Comida*> comidas;
         vector<Bebida*> bebidas;
         vector<Trampa*> trampas;
 

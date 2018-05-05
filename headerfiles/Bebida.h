@@ -10,12 +10,11 @@ class Bebida : public Objeto
 
 	public:
 		Bebida( Posicion* pos);
+		virtual void update() override;
 		void* getNode();
 
 	private:
         void * bebida;
-        //core::vector3df bebidaPosition;
-        //IVideoDriver* 		driver;
 };
 
 #endif // BEBDIA_H

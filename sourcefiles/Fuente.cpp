@@ -7,7 +7,7 @@ CONSTRUCTOR DE OBJETO para inicializar los valores comunes de todos los objetos 
 Fuente::Fuente(Posicion* pos):Objeto(pos)
 {
 	GameObject::setTipo(FUENTE);
-	Fachada* fachada=fachada->getInstance();
+	fachada=fachada->getInstance();
 	FObjeto* obObeto = fachada->addMalla(pos->getPosX()-10,pos->getPosY(),pos->getPosZ(),"resources/Pozo.obj");
     objeto = obObeto;
     //posicion = &pos;
@@ -24,4 +24,9 @@ Fuente::Fuente(Posicion* pos):Objeto(pos)
 
 	}
 
+}
+
+void Fuente::update()
+{
+	
 }

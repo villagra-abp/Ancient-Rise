@@ -4,7 +4,7 @@
 /**
 CONSTRUCTOR DE OBJETO para inicializar los valores comunes de todos los objetos consumibles
 **/
-Objeto::Objeto(Posicion* p):objeto(nullptr), posicion(nullptr)
+Objeto::Objeto(Posicion* p):objeto(nullptr), posicion(nullptr), fachada(nullptr)
 {
 	posicion = p;
 	recogido = false;
