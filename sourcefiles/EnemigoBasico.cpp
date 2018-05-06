@@ -25,7 +25,7 @@ EnemigoBasico::EnemigoBasico(vector<Posicion*> pos, float xlength, float pendVal
     
 
      /* Velocidad a la que bajan las estadisticas del enemigo */
-    setVelSed(-1.7);
+    setVelSed(-3.7);
 
 
     /* BOX2D */
@@ -70,14 +70,14 @@ void EnemigoBasico::comprobarEnergia()
         {
             if(recargandoEnergia==false) // Solo si no estamos recargando la energia permitimos que se gaste
             {
-                energia+= -20.f * frameDeltaTime;
+                energia+= -10.f * frameDeltaTime;
             }
         }
     }
     else{                       // Si no la supera, entonces la energia se recupera hasta su maximo
             if(energia<ENERGIA_MAX)
             {
-              energia += 10.f * frameDeltaTime;
+              energia += 15.f * frameDeltaTime;
               recargandoEnergia = true;
             }
 

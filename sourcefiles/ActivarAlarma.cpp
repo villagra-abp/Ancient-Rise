@@ -45,98 +45,107 @@ Status ActivarAlarma::run(Enemigo *e)
      /* Calculamos el camino mas corto entre el nodo Inicial (inicioBueno) y el nodo Final (fin) */
     if(caminoCorto.size()==0)           // Para calcular el camino solo 1 vez y no siempre
     {
+      if(inicioBueno!=nullptr && fin!=nullptr)
+      {
         g = new Grafo();
         caminoCorto = g->pathfindDijkstra(inicioBueno, fin);
         delete g;
         al->setActivando(true);     // Indicamos que la alarma se esta activando para que no la active nadie mas
+      }
+      else
+      {
+        cout<<"No se ha podido calcular el camino hasta la alarma"<<endl;
+      }
     }
 
+     if(inicioBueno!=nullptr && fin!=nullptr)
+     {
+      /* Nos acercamos al nodo Inicio del camino */
+      posNodoI = inicioBueno->getPosition();
+      distNodoI = posNodoI->getPosX() - enemigoX;
 
-    /* Nos acercamos al nodo Inicio del camino */
-    posNodoI = inicioBueno->getPosition();
-    distNodoI = posNodoI->getPosX() - enemigoX;
+      if(llegadoInicio==false)        // Solo lo haremos si no habiamos llegado ya al nodo Inicio del camino
+      {
+          if (distNodoI<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
+           {
+              movimientoDireccion(e,false);                                
+           }
+           else{
+                  if(distNodoI>1.0f) // AVANZAMOS HACIA LA DERECHA
+                  {
+                     movimientoDireccion(e,true);                                
+                  }
+                  else // Si hemos llegado al nodo Inicio
+                  {
+                      llegadoInicio = true;  
+                  }
+              }
+      }
 
-    if(llegadoInicio==false)        // Solo lo haremos si no habiamos llegado ya al nodo Inicio del camino
-    {
-        if (distNodoI<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
-         {
-            movimientoDireccion(e,false);                                
-         }
-         else{
-                if(distNodoI>1.0f) // AVANZAMOS HACIA LA DERECHA
+      /* Realizamos el recorrido a lo largo del camino corto calculado */
+      if(llegadoFin==false && llegadoInicio==true && caminoCorto.size()!=0)
+      {
+          if(iC<caminoCorto.size())
+          {
+            checkComportamiento(e);       // Comprobamos que comportamiento tiene que ejecutar el enemigo
+          }
+
+          if(iC==caminoCorto.size())
+          {
+             llegadoFin = true;
+             iC = 0;
+          }
+      }
+      
+      // Hemos llegado al ultimo nodo del camino calculado o hemos llegado al inicio y ademas no hay camino corto, puesto que ya estamos en el nodo mas cercano al objetivo
+      if((llegadoFin==true) || (llegadoInicio==true && caminoCorto.size()==0))
+      {
+          
+          distanciaAlarma = alarmaX - enemigoX;  
+
+          if (distanciaAlarma<-1.0) // AVANZAMOS HACIA LA IZQUIERDA
+          {
+
+            e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
+            e->getBody()->ApplyForceToCenter(b2Vec2(-100.f,0.f),true);             // Fuerza para correr
+
+            e->setLastFacedDir(false);                        // MIRANDO HACIA LA IZQUIERDA
+    
+          }
+          else{
+                if(distanciaAlarma>1.0) // AVANZAMOS HACIA LA DERECHA
                 {
-                   movimientoDireccion(e,true);                                
+
+                   e->getBody()->SetLinearVelocity(e->getVelocidad2d());
+                   e->getBody()->ApplyForceToCenter(b2Vec2(100.f,0.f),true);             // Fuerza para correr
+
+                   e->setLastFacedDir(true);                // // MIRANDO HACIA LA DERECHA
                 }
-                else // Si hemos llegado al nodo Inicio
+                else
                 {
-                    llegadoInicio = true;  
+                  e->setVelocidad(e->getVelNormal());             // Para que no gaste energia cuando llegue
+                  
+                    /* RELOJ ACTIVACION ALARMA */
+                    startClock();                                 // INICIAMOS EL RELOJ (O RESEATEAMOS)
+
+                    int duration = reloj.getElapsedTime().asSeconds();  // OBTENEMOS SU DURACION EN SEGUNDOS
+
+                    if(duration > 2)        // TIEMPO QUE TARDA EN ACTIVARLA
+                    {
+                      //cout<<"Activada"<<endl;
+                      al->setActivado(true);     
+                      al->setActivando(false);
+                      contador = 0; // Para resetear el reloj
+                      reset();
+                      
+                      return BH_SUCCESS;
+                    }
                 }
-            }
-    }
 
-    /* Realizamos el recorrido a lo largo del camino corto calculado */
-    if(llegadoFin==false && llegadoInicio==true && caminoCorto.size()!=0)
-    {
-        if(iC<caminoCorto.size())
-        {
-          checkComportamiento(e);       // Comprobamos que comportamiento tiene que ejecutar el enemigo
-        }
-
-        if(iC==caminoCorto.size())
-        {
-           llegadoFin = true;
-           iC = 0;
+              }
         }
     }
     
-    // Hemos llegado al ultimo nodo del camino calculado o hemos llegado al inicio y ademas no hay camino corto, puesto que ya estamos en el nodo mas cercano al objetivo
-    if((llegadoFin==true) || (llegadoInicio==true && caminoCorto.size()==0))
-    {
-        
-        distanciaAlarma = alarmaX - enemigoX;  
-
-        if (distanciaAlarma<-1.0) // AVANZAMOS HACIA LA IZQUIERDA
-        {
-
-          e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
-          e->getBody()->ApplyForceToCenter(b2Vec2(-100.f,0.f),true);             // Fuerza para correr
-
-          e->setLastFacedDir(false);                        // MIRANDO HACIA LA IZQUIERDA
-  
-        }
-        else{
-              if(distanciaAlarma>1.0) // AVANZAMOS HACIA LA DERECHA
-              {
-
-                 e->getBody()->SetLinearVelocity(e->getVelocidad2d());
-                 e->getBody()->ApplyForceToCenter(b2Vec2(100.f,0.f),true);             // Fuerza para correr
-
-                 e->setLastFacedDir(true);                // // MIRANDO HACIA LA DERECHA
-              }
-              else
-              {
-                e->setVelocidad(e->getVelNormal());             // Para que no gaste energia cuando llegue
-                
-                  /* RELOJ ACTIVACION ALARMA */
-                  startClock();                                 // INICIAMOS EL RELOJ (O RESEATEAMOS)
-
-                  int duration = reloj.getElapsedTime().asSeconds();  // OBTENEMOS SU DURACION EN SEGUNDOS
-
-                  if(duration > 2)        // TIEMPO QUE TARDA EN ACTIVARLA
-                  {
-                    //cout<<"Activada"<<endl;
-                    al->setActivado(true);     
-                    al->setActivando(false);
-                    contador = 0; // Para resetear el reloj
-                    reset();
-                    
-                    return BH_SUCCESS;
-                  }
-              }
-
-            }
-    }
-
   return BH_RUNNING;        // Hasta que no active la alarma no habra terminado
 }
 

@@ -95,7 +95,7 @@ class Mundo : public Entorno
         Posicion *p0, *p1;
 
         // POsiciones Objetos
-        Posicion* posA, *posF, *posB, *posC;
+        Posicion* posA, *posF, *posB, *posC, *posT;
 
     	// Vectores de objetos
         vector<Alarma*> alarmas;

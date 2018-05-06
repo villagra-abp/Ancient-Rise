@@ -49,81 +49,91 @@ Status IrAlarma::run(Enemigo *e)
 
     if(caminoCorto.size()==0)           // Para calcular el camino solo 1 vez y no siempre
     {
+      if(inicioBueno!=nullptr && fin!=nullptr)
+      {
         g = new Grafo();
         caminoCorto = g->pathfindDijkstra(inicioBueno, fin);
         delete g;
+      }
+      else
+      {
+        cout<<"No se ha podido calcular el camino hasta la alarma"<<endl;
+      }
     }
 
-     /* Nos acercamos al nodo Inicio del camino */
-      posNodoI = inicioBueno->getPosition();
-      distNodoI = posNodoI->getPosX() - enemigoX;
+    if(inicioBueno!=nullptr && fin!=nullptr)
+    {
+       /* Nos acercamos al nodo Inicio del camino */
+        posNodoI = inicioBueno->getPosition();
+        distNodoI = posNodoI->getPosX() - enemigoX;
 
-      if(llegadoInicio==false)        // Solo lo haremos si no habiamos llegado ya al nodo Inicio del camino
-      {
-          if (distNodoI<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
-           {
-              movimientoDireccion(e,false);                                
-           }
-           else{
-                  if(distNodoI>1.0f) // AVANZAMOS HACIA LA DERECHA
-                  {
-                     movimientoDireccion(e,true);                                
-                  }
-                  else // Si hemos llegado al nodo Inicio
-                  {
-                      llegadoInicio = true;
-                      
-                  }
-              }
-      }
-
-      /* Realizamos el recorrido a lo largo del camino corto calculado */
-      if(llegadoFin==false && llegadoInicio==true && caminoCorto.size()!=0)
-      {
-          if(iC<caminoCorto.size())
-          {
-            checkComportamiento(e);       // Comprobamos que comportamiento tiene que ejecutar el enemigo
-          }
-
-          if(iC==caminoCorto.size())
-          {
-             llegadoFin = true;
-             iC = 0;
-          }
-      }
-
-      // Hemos llegado al ultimo nodo del camino calculado o hemos llegado al inicio y ademas no hay camino corto, puesto que ya estamos en el nodo mas cercano al objetivo
-      if((llegadoFin==true) || (llegadoInicio==true && caminoCorto.size()==0))
-      {
-          
-          distanciaAlarma = alarmaX - enemigoX;  
-
-          if (distanciaAlarma<-1.0) // AVANZAMOS HACIA LA IZQUIERDA
-          {
-
-            e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
-            e->getBody()->ApplyForceToCenter(b2Vec2(-100.f,0.f),true);             // Fuerza para correr
-
-            e->setLastFacedDir(false);                        // MIRANDO HACIA LA IZQUIERDA
-    
-          }
-          else{
-                if(distanciaAlarma>1.0) // AVANZAMOS HACIA LA DERECHA
-                {
-
-                   e->getBody()->SetLinearVelocity(e->getVelocidad2d());
-                   e->getBody()->ApplyForceToCenter(b2Vec2(100.f,0.f),true);             // Fuerza para correr
-
-                   e->setLastFacedDir(true);                // // MIRANDO HACIA LA DERECHA
+        if(llegadoInicio==false)        // Solo lo haremos si no habiamos llegado ya al nodo Inicio del camino
+        {
+            if (distNodoI<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
+             {
+                movimientoDireccion(e,false);                                
+             }
+             else{
+                    if(distNodoI>1.0f) // AVANZAMOS HACIA LA DERECHA
+                    {
+                       movimientoDireccion(e,true);                                
+                    }
+                    else // Si hemos llegado al nodo Inicio
+                    {
+                        llegadoInicio = true;
+                        
+                    }
                 }
-                else
-                {
-                   reset();
-                   e->setVuelta(true);
-                }
+        }
 
-              }
+        /* Realizamos el recorrido a lo largo del camino corto calculado */
+        if(llegadoFin==false && llegadoInicio==true && caminoCorto.size()!=0)
+        {
+            if(iC<caminoCorto.size())
+            {
+              checkComportamiento(e);       // Comprobamos que comportamiento tiene que ejecutar el enemigo
+            }
+
+            if(iC==caminoCorto.size())
+            {
+               llegadoFin = true;
+               iC = 0;
+            }
+        }
+
+        // Hemos llegado al ultimo nodo del camino calculado o hemos llegado al inicio y ademas no hay camino corto, puesto que ya estamos en el nodo mas cercano al objetivo
+        if((llegadoFin==true) || (llegadoInicio==true && caminoCorto.size()==0))
+        {
+            
+            distanciaAlarma = alarmaX - enemigoX;  
+
+            if (distanciaAlarma<-1.0) // AVANZAMOS HACIA LA IZQUIERDA
+            {
+
+              e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
+              e->getBody()->ApplyForceToCenter(b2Vec2(-100.f,0.f),true);             // Fuerza para correr
+
+              e->setLastFacedDir(false);                        // MIRANDO HACIA LA IZQUIERDA
       
+            }
+            else{
+                  if(distanciaAlarma>1.0) // AVANZAMOS HACIA LA DERECHA
+                  {
+
+                     e->getBody()->SetLinearVelocity(e->getVelocidad2d());
+                     e->getBody()->ApplyForceToCenter(b2Vec2(100.f,0.f),true);             // Fuerza para correr
+
+                     e->setLastFacedDir(true);                // // MIRANDO HACIA LA DERECHA
+                  }
+                  else
+                  {
+                     reset();
+                     e->setVuelta(true);
+                  }
+
+                }
+        
+        }
       }
   }
     

@@ -1,7 +1,7 @@
 #include "../headerfiles/Mundo.h"
 
 Mundo::Mundo():prota(nullptr),b(nullptr),enem1(nullptr),enemE1(nullptr), cam(nullptr),posA(nullptr), posF(nullptr), p1(nullptr),
-p0(nullptr), posC(nullptr), posB(nullptr)	//CONSTRUCTOR
+p0(nullptr), posC(nullptr), posB(nullptr), posT(nullptr)	//CONSTRUCTOR
 {
     Fachada* fachada=fachada->getInstance();
 
@@ -26,11 +26,8 @@ p0(nullptr), posC(nullptr), posB(nullptr)	//CONSTRUCTOR
 
     /* Pasamos toda la info necesaria a la blackboard */
     b->setProtagonista(prota);
-
-    for(int i=0;i<enemB.size();i++)   // Añadimos todos los enemigos basicos que existen a la blackboard
-    {
-        b->setEnemB(enemB[i]);
-    }
+ 
+    b->setEnemB(enemB);  // Añadimos todos los enemigos basicos que existen a la blackboard
 
     /** ESTABLECEMOS LA CAMARA
      Aqui indicamos la posicion de la camara en el espacio 3d. En este caso,
@@ -322,7 +319,7 @@ void Mundo::checkInput(int tecla){
         case 15:    // TECLA P - Realizar ataque
 
         {
-            if(prota->getCombate() && prota->getTiempoAtaque()>2)
+            if(prota->getCombate() && prota->getTiempoAtaque()>=0.5)
             {
                 prota->setAtaque(true);
             }
@@ -330,7 +327,7 @@ void Mundo::checkInput(int tecla){
         }
     }
 
-    if(prota->getCombate()==false || prota->getTiempoAtaque()<2)
+    if(prota->getCombate()==false || prota->getTiempoAtaque()<0.5)
     {
         prota->setAtaque(false);
     }
@@ -698,7 +695,7 @@ void Mundo::cargarNivel()
                         int nodoF = name%100;
 
                         NodoGrafo *nI, *nF;                        
-                        for(int i=0; i<nodos.size();i++)
+                        for(size_t i=0; i<nodos.size();i++)
                         {
                             if(nodos[i]->getNombre()==nodoI)
                             {
@@ -725,7 +722,7 @@ void Mundo::cargarNivel()
                         {   
                             case 1: // Enemigos Basicos
                             {
-                                enem1 = new EnemigoBasico( pos, 50.0, 0.9, a, this, b, world);
+                                enem1 = new EnemigoBasico( pos, 50.0, 1.2, a, this, b, world);
                                 enemB.push_back(enem1);
                                 addGameObject(enem1);
                                 break;
@@ -803,14 +800,34 @@ void Mundo::cargarNivel()
                         b->setFuente(fuentes);
                     }  
 
+                    if(strcmp(grupo2->FirstAttribute()->Value(),"trampa")==0)
+                    {
+                        int t = tipo%10;    // Tipo de "trampa"
+
+                        switch (t)
+                        {   
+                            case 1: // Palanca
+                            {
+                                break;
+                            }
+
+                            case 2: // Trampa pinchos
+                            {
+                                posT= new Posicion(xEn-190,-yEn+59,0.f);
+                                Trampa *trampa = new Trampa(posT);
+                                trampas.push_back(trampa);
+                                addGameObject(trampa);
+                                break;
+                            }
+                        }
+                
+                    } 
+
                     if(strcmp(grupo2->FirstAttribute()->Value(),"nodos")==0)
                     {
                         NodoGrafo *nA = new NodoGrafo(idE,xEn-190, -yEn+60);           
                         nodos.push_back(nA);
                         addGameObject(nA);
-
-                        //cout<<"PosX "<<xEn<<endl;
-                        //cout<<"PosY "<<yEn<<endl;
 
                         b->setNodosGrafo(nodos);            // Pasamos los nodos a la blackboard
                     } 
@@ -827,7 +844,7 @@ void Mundo::cargarNivel()
                         int nodoF = name%100;               // Nodo FInal
                         
                         NodoGrafo *nI, *nF;                        
-                        for(int i=0; i<nodos.size();i++)
+                        for(size_t i=0; i<nodos.size();i++)
                         {
                             if(nodos[i]->getNombre()==nodoI)
                             {
@@ -924,6 +941,7 @@ Mundo::~Mundo()	//DESTRUCTOR
     delete posF;
     delete posB;
     delete posC;
+    delete posT;
     delete p0;
     delete p1;
     

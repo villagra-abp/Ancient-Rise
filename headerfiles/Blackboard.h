@@ -23,7 +23,7 @@ class Blackboard
 		void setTime(const glm::f32 T);
 		void setFuente(vector<Objeto*> f);
 		void setAlarma(vector<Alarma*>a);
-		void setEnemB(EnemigoBasico *e);
+		void setEnemB(vector<EnemigoBasico*> e);
 		void setEnemBActual(EnemigoBasico *e);
 		void setProtagonista(Protagonista* p);
 		void setNodosGrafo(vector<NodoGrafo*> n);

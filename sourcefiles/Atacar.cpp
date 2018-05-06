@@ -47,7 +47,7 @@ Status Atacar::run(Enemigo *e)
             startClock(1);                                        // INICIAMOS EL RELOJ (O RESEATEAMOS) DE POS_COMBATE
             int time = relojPos.getElapsedTime().asSeconds();     // OBTENEMOS SU DURACION EN SEGUNDOS
 
-            if(time>3)
+            if(time>2)
             {
                 pos_combate = rand() % 3 + 1;
                 e->setPosCombate(pos_combate);
@@ -58,7 +58,7 @@ Status Atacar::run(Enemigo *e)
             startClock(3);
             int time2 = relojAtq.getElapsedTime().asSeconds();
             
-            if(time2>2)
+            if(time2>1.5)
             {   /*
                 if(pos_combate==1)
                 {
@@ -148,57 +148,57 @@ Status Atacar::run(Enemigo *e)
             }
         }
 
-        //cout<<"Fin : "<<fin->getPosition()->getPosX()<<endl;
-
         if(inicioBueno!=nullptr && fin!=nullptr)
         {  
             g=new Grafo();
             caminoCorto = g->pathfindDijkstra(inicioBueno, fin);
             delete g;
+
+            /* Nos acercamos al nodo Inicio del camino */
+            posNodoI = inicioBueno->getPosition();
+            float distNodoI = posNodoI->getPosX() - enemigoX;
+
+            if(llegadoInicio==false)        // Solo lo haremos si no habiamos llegado ya al nodo Inicio del camino
+            {
+                if (distNodoI<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
+                {
+                        movimientoDireccion(e,false);                                    
+                 }
+                 else{
+                        if(distNodoI>1.0f) // AVANZAMOS HACIA LA DERECHA
+                        {
+                            movimientoDireccion(e,true);                                    
+                        }
+                        else // Si hemos llegado al nodo Inicio
+                        {
+                            llegadoInicio = true; 
+                        }
+                    }
+            }
+
+
+            /* Realizamos el recorrido a lo largo del camino corto calculado */
+            if(llegadoFin==false && llegadoInicio==true && caminoCorto.size()!=0)
+            {
+                if(iC<caminoCorto.size())
+                { 
+                    checkComportamiento(e);       // Comprobamos que comportamiento tiene que ejecutar el enemigo
+                }
+
+                if(iC==caminoCorto.size())
+                {
+                   llegadoFin = true;
+                   iC = 0;
+                   reset();
+                }
+            }
         }
         else
         {
             cout<<"No se ha podido encontrar el camino mas corto al protagonista"<<endl;
         }
 
-        /* Nos acercamos al nodo Inicio del camino */
-        posNodoI = inicioBueno->getPosition();
-        float distNodoI = posNodoI->getPosX() - enemigoX;
-
-        if(llegadoInicio==false)        // Solo lo haremos si no habiamos llegado ya al nodo Inicio del camino
-        {
-            if (distNodoI<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
-            {
-                    movimientoDireccion(e,false);                                    
-             }
-             else{
-                    if(distNodoI>1.0f) // AVANZAMOS HACIA LA DERECHA
-                    {
-                        movimientoDireccion(e,true);                                    
-                    }
-                    else // Si hemos llegado al nodo Inicio
-                    {
-                        llegadoInicio = true; 
-                    }
-                }
-        }
-
-
-        /* Realizamos el recorrido a lo largo del camino corto calculado */
-        if(llegadoFin==false && llegadoInicio==true && caminoCorto.size()!=0)
-        {
-            if(iC<caminoCorto.size())
-            { 
-                checkComportamiento(e);       // Comprobamos que comportamiento tiene que ejecutar el enemigo
-            }
-
-            if(iC==caminoCorto.size())
-            {
-               llegadoFin = true;
-               iC = 0;
-               reset();
-            }
-        }
+        
     }
     return BH_SUCCESS;
     

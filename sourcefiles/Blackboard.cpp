@@ -70,9 +70,9 @@ void Blackboard::setAlarma(vector<Alarma*> a)
 	alarmas = a;
 }
 
-void Blackboard::setEnemB(EnemigoBasico *e)
+void Blackboard::setEnemB(vector<EnemigoBasico*> e)
 {
-	enemigosB.push_back(e);
+	enemigosB=e;
 }
 
 void Blackboard::setEnemBActual(EnemigoBasico *e)

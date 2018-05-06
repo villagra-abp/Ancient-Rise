@@ -46,84 +46,94 @@ Status BuscarAgua::run(Enemigo *e)
      /* Calculamos el camino mas corto entre el nodo Inicial (inicioBueno) y el nodo Final (fin) */
     if(caminoCorto.size()==0)           // Para calcular el camino solo 1 vez y no siempre
     {
+      if(inicioBueno!=nullptr && fin!=nullptr)
+      {
         g = new Grafo();
         caminoCorto = g->pathfindDijkstra(inicioBueno, fin);
         delete g;
+      }
+      else
+      {
+        cout<<"No se ha podido calcular el camino hasta la fuente"<<endl;
+      }
     }
 
-    /* Nos acercamos al nodo Inicio del camino */
-    posNodoI = inicioBueno->getPosition();
-    float distNodoI = posNodoI->getPosX() - enemigoX;
-
-    if(llegadoInicio==false)        // Solo lo haremos si no habiamos llegado ya al nodo Inicio del camino
+    if(inicioBueno!=nullptr && fin!=nullptr)
     {
-        if(distNodoI<-1.0f)
-         {
-                movimientoDireccion(e,false);                             
-         }
-         else{
-                if(distNodoI>1.0f) 
-                {
-                    movimientoDireccion(e,true);                                  
-                }
-                else // Si hemos llegado al nodo Inicio
-                {
-                    llegadoInicio = true;
-                }
-            }
-    }
+      /* Nos acercamos al nodo Inicio del camino */
+      posNodoI = inicioBueno->getPosition();
+      float distNodoI = posNodoI->getPosX() - enemigoX;
 
-    /* Realizamos el recorrido a lo largo del camino corto calculado */
-    if(llegadoFin==false && llegadoInicio==true && caminoCorto.size()!=0)
-    {
-        if(iC<caminoCorto.size())
-        {
-            checkComportamiento(e);       // Comprobamos que comportamiento tiene que ejecutar el enemigo
+      if(llegadoInicio==false)        // Solo lo haremos si no habiamos llegado ya al nodo Inicio del camino
+      {
+          if(distNodoI<-1.0f)
+           {
+                  movimientoDireccion(e,false);                             
+           }
+           else{
+                  if(distNodoI>1.0f) 
+                  {
+                      movimientoDireccion(e,true);                                  
+                  }
+                  else // Si hemos llegado al nodo Inicio
+                  {
+                      llegadoInicio = true;
+                  }
+              }
+      }
+
+      /* Realizamos el recorrido a lo largo del camino corto calculado */
+      if(llegadoFin==false && llegadoInicio==true && caminoCorto.size()!=0)
+      {
+          if(iC<caminoCorto.size())
+          {
+              checkComportamiento(e);       // Comprobamos que comportamiento tiene que ejecutar el enemigo
+          }
+
+          if(iC==caminoCorto.size())
+          {
+             llegadoFin = true;
+             iC = 0;
+          }
+      }
+
+      // Hemos llegado al ultimo nodo del camino calculado o hemos llegado al inicio y ademas no hay camino corto, puesto que ya estamos en el nodo mas cercano al objetivo
+      if((llegadoFin==true) || (llegadoInicio==true && caminoCorto.size()==0))
+      {
+          if (distanciaFuente<-3.0f) // AVANZAMOS HACIA LA IZQUIERDA
+           {
+              e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
+              e->setLastFacedDir(false);                                             
+           }
+           else{
+                  if(distanciaFuente>3.0f) // AVANZAMOS HACIA LA DERECHA
+                  {
+                    e->getBody()->SetLinearVelocity(e->getVelocidad2d());
+                    e->setLastFacedDir(true);                                    
+                  }
+                  else // Si hemos llegado
+                  {   
+                      e->setVelocidad(e->getVelNormal());             // Para que no gaste energia cuando llegue
+
+                        /* RELOJ BEBER AGUA */
+                      startClock();                                       // INICIAMOS EL RELOJ (O RESEATEAMOS)
+
+                      int time = reloj.getElapsedTime().asSeconds();      // OBTENEMOS SU DURACION EN SEGUNDOS
+
+                      f[pos]->setActivando(true);                         // ENEMIGO BEBIENDO
+
+                      if(time>4)     // BEBIENDO
+                      {
+                      //cout<<"BEBIENDO"<<endl;
+                        e->setSed(100.f);                               // RECUPERAMOS SED
+                        e->setVuelta(true);                             // Indicamos que estamos volviendo a la patrulla
+                        f[pos]->setActivando(false);
+                        contador  = 0;
+                        reset();
+                      }
+                  }
+              }
         }
-
-        if(iC==caminoCorto.size())
-        {
-           llegadoFin = true;
-           iC = 0;
-        }
-    }
-
-    // Hemos llegado al ultimo nodo del camino calculado o hemos llegado al inicio y ademas no hay camino corto, puesto que ya estamos en el nodo mas cercano al objetivo
-    if((llegadoFin==true) || (llegadoInicio==true && caminoCorto.size()==0))
-    {
-        if (distanciaFuente<-3.0f) // AVANZAMOS HACIA LA IZQUIERDA
-         {
-            e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
-            e->setLastFacedDir(false);                                             
-         }
-         else{
-                if(distanciaFuente>3.0f) // AVANZAMOS HACIA LA DERECHA
-                {
-                  e->getBody()->SetLinearVelocity(e->getVelocidad2d());
-                  e->setLastFacedDir(true);                                    
-                }
-                else // Si hemos llegado
-                {   
-                    e->setVelocidad(e->getVelNormal());             // Para que no gaste energia cuando llegue
-
-                      /* RELOJ BEBER AGUA */
-                    startClock();                                       // INICIAMOS EL RELOJ (O RESEATEAMOS)
-
-                    int time = reloj.getElapsedTime().asSeconds();      // OBTENEMOS SU DURACION EN SEGUNDOS
-
-                    f[pos]->setActivando(true);                         // ENEMIGO BEBIENDO
-
-                    if(time>4)     // BEBIENDO
-                    {
-                    //cout<<"BEBIENDO"<<endl;
-                      e->setSed(100.f);                               // RECUPERAMOS SED
-                      e->setVuelta(true);                             // Indicamos que estamos volviendo a la patrulla
-                      f[pos]->setActivando(false);
-                      contador  = 0;
-                      reset();
-                    }
-                }
-            }
     }
 
     return BH_SUCCESS;

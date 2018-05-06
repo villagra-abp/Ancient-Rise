@@ -67,7 +67,7 @@ Protagonista* Protagonista::getInstance()
 void Protagonista::update(Blackboard* b)
 {   
     timeAtq = relojAtq.getElapsedTime().asSeconds();
-    if( ataca == true && timeAtq>2)       // PROTA EN COMBATE Y ATACANDO
+    if( ataca == true && timeAtq>=0.5)       // PROTA EN COMBATE Y ATACANDO
     {   
         relojAtq.restart();
         enemB = b->getEnemB();
@@ -175,36 +175,11 @@ FUNCION PARA CONTROLAR EL ATAQUE DEL PROTA
 **/
 void Protagonista::ataque(EnemigoBasico* e)
 {
-    /*
-    b2Vec2 pos=Body->GetPosition();
 
-    if(ataca == true && cont_ataque<20){
-        energia-=0.5f;
-        if(ataque_position!=0){
-            Body->SetTransform(b2Vec2(pos.x,pos.y+(ataque_position+2)/3), 0.f);
-        }else
-            Body->SetTransform(b2Vec2(pos.x,pos.y-0.8f), 0.f);
-        if(direccion==1)
-        {
-            Body->ApplyForceToCenter(b2Vec2(100.f,0.f),true);
-            
-        }else if(direccion==0){
-            Body->ApplyForceToCenter(b2Vec2(-100.f,0.f),true);
-            
-        } 
-        
-        cont_ataque++;  
+    if(pos_combate != e->getPosCombate() || e->getCombate()!=true)
+    {
+        e->setSalud(-20.f);
     }
-    else if(cont_ataque>=20){
-        cont_ataque=0;
-        ataca=false;
-    }
-    */
-
-      if(pos_combate != e->getPosCombate() || e->getCombate()!=true)
-      {
-            e->setSalud(-20.f);
-      }
     
 }
 
@@ -213,30 +188,18 @@ FUNCION PARA CONTROLAR EL MOVIMIENTO DEL PROTA
 **/
 void Protagonista::movimiento(const glm::f32 Time)
 {
-    //bool flag;
-
     b2Vec2 velo=Body->GetLinearVelocity();
     if(direccion==0) // MOVIMIENTO HACIA LA IZQUIERDA
     {
-       /* flag = sonido->playSound(risa);
-        if(flag){
-            DSP* dsp = sonido->createDSP("echo");
-            omae->getCanal()->addDSP(dsp);
-            omae->getCanal()->setGrupoCanales(sonido->getGrupoVoces());
-        }*/
-
         if(sigilo==true)
         {
             velo.x=-10.f;
-            //Body->ApplyForceToCenter(b2Vec2(-35.f,0.f),true);
             Body->SetLinearVelocity(velo);
-            //protaPosition.X -= VELOCIDAD_MOVIMIENTO * Time*0.5;
         }else if(correr==true && energia>10.1 && velo.y>=-5 && velo.y<5)
         {
             setEnergia(-1.f,0.2f);
             Body->ApplyForceToCenter(b2Vec2(-3500.f,0.f),true);
-             //Body->SetLinearVelocity(velo);
-            //protaPosition.X -= VELOCIDAD_MOVIMIENTO * Time*3;
+
             if(velo.x<-80.f){
                 velo.x=-80.f; 
                 Body->SetLinearVelocity(velo);
@@ -246,20 +209,12 @@ void Protagonista::movimiento(const glm::f32 Time)
         }else
         {
             velo.x=-30.f;
-            //Body->ApplyForceToCenter(b2Vec2(-60.f,0.f),true);
             Body->SetLinearVelocity(velo);
-            //protaPosition.X -= VELOCIDAD_MOVIMIENTO * Time*1.5;
         }
 
     }
     else        //MOVIMIENTO HACIA LA DERECHA
     {
-       /* flag = sonido->playSound(nani);
-        if(flag){
-            DSP* dsp = sonido->createDSP("echo");
-            omae->getCanal()->addDSP(dsp);
-            omae->getCanal()->setGrupoCanales(sonido->getGrupoVoces());
-        }*/
          if(sigilo==true)
             {
                 velo.x=10.f;
@@ -293,7 +248,12 @@ void Protagonista::comprobarColision(EnemigoBasico *e)
     enemigoPosition=e->getPosition();
     int distanciaEnemigo = protaPosition->getPosX() - enemigoPosition->getPosX();
 
-    if(abs(distanciaEnemigo)<20)   // Distancia para poder atacar
+    float enemigoPosY = enemigoPosition->getPosY();
+
+      /* Posicion del prota en y */
+    float protaPosY=protaPosition->getPosY();
+
+    if(abs(distanciaEnemigo)<20 && protaPosY>enemigoPosY-10  && protaPosY<enemigoPosY+10 )   // Distancia para poder atacar
     {   
         ataque(e);
     }
@@ -334,7 +294,7 @@ void Protagonista::comprobarColision(Objeto *comida)
         {
             if(vida<VIDA_MAXIMA) // Solo lo recogemos si nos falta vida
             {
-                vida+=10;
+                vida+=20;
                 if(vida>VIDA_MAXIMA)
                 {
                     vida=VIDA_MAXIMA;
@@ -363,7 +323,7 @@ void Protagonista::comprobarColision(Bebida *bebida)
         {
             if(energia<ENERGIA_MAXIMA)
             {
-                energia+=10;
+                energia+=40;
                 if(energia>ENERGIA_MAXIMA)
                 {
                     energia=ENERGIA_MAXIMA;

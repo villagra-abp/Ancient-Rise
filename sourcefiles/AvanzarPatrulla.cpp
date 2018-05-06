@@ -71,70 +71,80 @@ Status AvanzarPatrulla::run(Enemigo *e)
         /* Calculamos el camino mas corto entre el nodo Inicial (inicioBueno) y el nodo Final que sera en la pos de la patrulla en la que nos quedamos */
         if(caminoCorto.size()==0)           // Para calcular el camino solo 1 vez y no siempre
         { 
+          if(inicioBueno!=nullptr && fin!=nullptr)
+          {
             g = new Grafo();
             caminoCorto = g->pathfindDijkstra(inicioBueno, fin);
             delete g;
+          }
+          else
+          {
+            cout<<"No se ha podido calcular el camino de vuelta a la patrulla"<<endl;
+          }
         }
 
-        /* Nos acercamos al nodo Inicio del camino */
-        posNodoI = inicioBueno->getPosition();
-        float distNodoI = posNodoI->getPosX() - enemigoX;
-
-        if(llegadoInicio==false)        // Solo lo haremos si no habiamos llegado ya al nodo Inicio del camino
+        if(inicioBueno!=nullptr && fin!=nullptr)
         {
-            if(distNodoI<-1.0f)
-             {
-               movimientoDireccion(e,false);                             
-             }
-             else{
-                    if(distNodoI>1.0f) 
-                    {
-                      movimientoDireccion(e,true);                                  
-                    }
-                    else // Si hemos llegado al nodo Inicio
-                    {
-                        llegadoInicio = true;
-                    }
-                }
-        }
+          /* Nos acercamos al nodo Inicio del camino */
+          posNodoI = inicioBueno->getPosition();
+          float distNodoI = posNodoI->getPosX() - enemigoX;
 
-        /* Realizamos el recorrido a lo largo del camino corto calculado */
-        if(llegadoFin==false && llegadoInicio==true && caminoCorto.size()!=0)
-        {
-            if(iC<caminoCorto.size())
-            {
-                checkComportamiento(e);       // Comprobamos que comportamiento tiene que ejecutar el enemigo
-            }
+          if(llegadoInicio==false)        // Solo lo haremos si no habiamos llegado ya al nodo Inicio del camino
+          {
+              if(distNodoI<-1.0f)
+               {
+                 movimientoDireccion(e,false);                             
+               }
+               else{
+                      if(distNodoI>1.0f) 
+                      {
+                        movimientoDireccion(e,true);                                  
+                      }
+                      else // Si hemos llegado al nodo Inicio
+                      {
+                          llegadoInicio = true;
+                      }
+                  }
+          }
 
-            if(iC==caminoCorto.size())
-            {
-               llegadoFin = true;
-               iC = 0;
+          /* Realizamos el recorrido a lo largo del camino corto calculado */
+          if(llegadoFin==false && llegadoInicio==true && caminoCorto.size()!=0)
+          {
+              if(iC<caminoCorto.size())
+              {
+                  checkComportamiento(e);       // Comprobamos que comportamiento tiene que ejecutar el enemigo
+              }
 
-               e->setVuelta(false);
-               reset(e);
-            }
-        }
+              if(iC==caminoCorto.size())
+              {
+                 llegadoFin = true;
+                 iC = 0;
 
-        if(caminoCorto.size()==0)       // Solo si no calculamos el camino corto por estar al lado
-        {
-            if (distanciaNodoX<-3.0f) // AVANZAMOS HACIA LA IZQUIERDA
-             {
-                  e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
-                  e->setLastFacedDir(false);                                             
-             }
-             else{
-                    if(distanciaNodoX>3.0f) // AVANZAMOS HACIA LA DERECHA
-                    {
-                      e->getBody()->SetLinearVelocity(e->getVelocidad2d());
-                      e->setLastFacedDir(true);                                    
-                    }
-                    else // Si hemos llegado
-                    {
-                        e->setVuelta(false);        // Indicamos que la vuelta ya ha terminado
-                        reset(e);
-                    }
-                }
+                 e->setVuelta(false);
+                 reset(e);
+              }
+          }
+
+          if(caminoCorto.size()==0)       // Solo si no calculamos el camino corto por estar al lado
+          {
+              if (distanciaNodoX<-3.0f) // AVANZAMOS HACIA LA IZQUIERDA
+               {
+                    e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
+                    e->setLastFacedDir(false);                                             
+               }
+               else{
+                      if(distanciaNodoX>3.0f) // AVANZAMOS HACIA LA DERECHA
+                      {
+                        e->getBody()->SetLinearVelocity(e->getVelocidad2d());
+                        e->setLastFacedDir(true);                                    
+                      }
+                      else // Si hemos llegado
+                      {
+                          e->setVuelta(false);        // Indicamos que la vuelta ya ha terminado
+                          reset(e);
+                      }
+                  }
+          }
         }
         
    }
