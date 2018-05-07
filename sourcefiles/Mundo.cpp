@@ -438,8 +438,36 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
     //cam->setTarget(camPosition);
     }
     if(estado==1){
-        cam->setPosicion(vec3(20,5000*posp,-20));
-        //cam->Rotar(vec3(0,1,0), 3.0f);
+        vec3 posCam=cam->getPosicion();
+        posCam.x=20;
+        posCam.z=-120;
+        posCam.y=5000;
+        //std::cout<<posCam.y<<endl;
+        
+        while(posCam.y<5000*posp)
+        {
+            while(posCam.y<5000*(posp))
+            {
+                //std::cout<<posCam.y<<endl;
+                //posCam.y=5000*posp;
+                posCam.y+=5*frameDeltaTime;
+                //posCam.z+=0.1*frameDeltaTime;
+                cam->setPosicion(posCam);
+                //cam->Rotar(vec3(0,1,0), 3.0f);
+            }
+            while(posCam.z<-20){
+                posCam.z+=0.01f*frameDeltaTime;
+                cam->setPosicion(posCam);
+            }
+                
+            //std::cout<<frameDeltaTime<<endl;
+            //posCam.y=5000*posp;
+            //posCam.y+=2*frameDeltaTime;
+            //posCam.z+=2*frameDeltaTime;
+            //cam->setPosicion(posCam);
+            //cam->Rotar(vec3(0,1,0), 3.0f);
+        }
+        
     }
     if(estado==0){
         cam->setPosicion(vec3(0,5000*posm,-20));
