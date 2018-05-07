@@ -441,7 +441,7 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
         vec3 posCam=cam->getPosicion();
         posCam.x=20;
         posCam.z=-120;
-        posCam.y=5000;
+        posCam.y=0;
         //std::cout<<posCam.y<<endl;
         
         while(posCam.y<5000*posp)
