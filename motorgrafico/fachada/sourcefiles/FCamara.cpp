@@ -85,7 +85,9 @@ TNodo* FCamara::getRotacion(){
 	return rotacion;
 }
 
-vec3 FCamara::getPosicion(){}
+vec3 FCamara::getPosicion(){
+	
+}
 
 
 void FCamara::Unir(FEntidad* nPadre){
