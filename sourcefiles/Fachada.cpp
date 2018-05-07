@@ -56,6 +56,8 @@ std::cout << "version:" << settings.majorVersion << "." << settings.minorVersion
 	/*creo una vista*/
     glewInit();
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+//  glCullFace(GL_FRONT);  
     glDepthMask(GL_TRUE);
     glDepthFunc(GL_LEQUAL);
     glDepthRange(0.1f, 100.0f);
