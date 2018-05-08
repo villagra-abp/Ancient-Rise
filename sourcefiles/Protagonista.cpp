@@ -5,22 +5,13 @@
 static Protagonista* instance = NULL;
 
 
-Protagonista::Protagonista():energy(nullptr), life(nullptr), Body(nullptr), rec(nullptr)
+Protagonista::Protagonista():energy(nullptr), life(nullptr), Body(nullptr), rec(nullptr), flecha0(nullptr), flecha1(nullptr), sonido(nullptr),
+protaPosition(nullptr), enemigoPosition(nullptr), comidaPosition(nullptr), trampaPosition(nullptr)
 {
     
     GameObject::setTipo(PROTA);
 
-    /**
-    Creamos un nodo que va ser movido con las teclas WSAD. Es una esfera que posicionamos
-    en (0,0,30) y le asignamos una texura. Como no tenemos luces dinamicas en esta escena
-    desabilitamos la luz en cada modelo (sino los modelos serian negros )
-    **/ 
-
-    //FObjeto* protaObjeto = fachada->addMalla(0, 0,30,"resources/personaje.obj");
     FObjeto* protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/Prueba/prueba");
-//    FObjeto* protaObjeto = fachada->addMalla(0, 0,30,"resources/cubo.obj");
-
-
     rec = protaObjeto;
     
     Posicion escala(2.f,2.f,2.f);
@@ -28,8 +19,6 @@ Protagonista::Protagonista():energy(nullptr), life(nullptr), Body(nullptr), rec(
 		
     fachada->rotObj(protaObjeto, 0, 1, 0, -90);
         
-    //energy=fachada->addMalla(-170,15,0,"resources/cajitaobj.obj");
-    //life=fachada->addMalla(-170,20,0,"resources/cajaColor.obj");
     flecha1=fachada->addMalla(-160,8,0,"resources/flecha.obj");
     flecha0=fachada->addMalla(-170,8,0,"resources/flecha.obj");
     Posicion escalar(0.f,0.f,.0f);
@@ -39,6 +28,15 @@ Protagonista::Protagonista():energy(nullptr), life(nullptr), Body(nullptr), rec(
     fachada->rotObj(flecha0, 1, 0, 0, -45);
     fachada->rotObj(flecha0, 0, 1, 0, -3);
 
+    /* Estadisticas del prota */
+    energia=ENERGIA_MAXIMA;
+    vida=VIDA_MAXIMA;
+    saltando=false;
+    sigilo=false;
+    correr=false;
+    estaEnSuelo=false;
+    estaCayendo=true;
+    direccion=1;
 
     combate = false;
     pos_combate = 2; 
@@ -52,15 +50,14 @@ Protagonista::Protagonista():energy(nullptr), life(nullptr), Body(nullptr), rec(
     
     protaPosition=fachada->getPosicion(rec);
     
-    
-
 }
 
 
 
 //Con esto hacemos que sea singleton. Solo se puede crear el motorgrafico llamando a getInstance. Esta devuelve el motor si ya estaba creado, y sino lo crea
 //Parametros: h-> Alto de la ventana, w-> Ancho de la ventana, fullscreen-> si será pantalla completa o no
-Protagonista* Protagonista::getInstance() {
+Protagonista* Protagonista::getInstance() 
+{
     if (instance == NULL) instance = new Protagonista();
     return (instance);
 }
@@ -69,12 +66,8 @@ Protagonista* Protagonista::getInstance() {
 /* Funcion para hacer el update del protagonista */
 void Protagonista::update(Blackboard* b)
 {   
-    //cout<<"X: "<<protaPosition->getPosX()<<endl;
-    //cout<<"Y: "<<protaPosition->getPosY()<<endl;
-    time = relojAtq.getElapsedTime().asSeconds();
-    
-    //cout<<vida<<endl;
-    if( ataca == true && time>2)       // PROTA EN COMBATE Y ATACANDO
+    timeAtq = relojAtq.getElapsedTime().asSeconds();
+    if( ataca == true && timeAtq>=0.5)       // PROTA EN COMBATE Y ATACANDO
     {   
         relojAtq.restart();
         enemB = b->getEnemB();
@@ -182,36 +175,11 @@ FUNCION PARA CONTROLAR EL ATAQUE DEL PROTA
 **/
 void Protagonista::ataque(EnemigoBasico* e)
 {
-    /*
-    b2Vec2 pos=Body->GetPosition();
 
-    if(ataca == true && cont_ataque<20){
-        energia-=0.5f;
-        if(ataque_position!=0){
-            Body->SetTransform(b2Vec2(pos.x,pos.y+(ataque_position+2)/3), 0.f);
-        }else
-            Body->SetTransform(b2Vec2(pos.x,pos.y-0.8f), 0.f);
-        if(direccion==1)
-        {
-            Body->ApplyForceToCenter(b2Vec2(100.f,0.f),true);
-            
-        }else if(direccion==0){
-            Body->ApplyForceToCenter(b2Vec2(-100.f,0.f),true);
-            
-        } 
-        
-        cont_ataque++;  
+    if(pos_combate != e->getPosCombate() || e->getCombate()!=true)
+    {
+        e->setSalud(-20.f);
     }
-    else if(cont_ataque>=20){
-        cont_ataque=0;
-        ataca=false;
-    }
-    */
-
-      if(pos_combate != e->getPosCombate())
-      {
-            e->setSalud(-20.f);
-      }
     
 }
 
@@ -220,59 +188,47 @@ FUNCION PARA CONTROLAR EL MOVIMIENTO DEL PROTA
 **/
 void Protagonista::movimiento(const glm::f32 Time)
 {
-    //bool flag;
-
     b2Vec2 velo=Body->GetLinearVelocity();
     if(direccion==0) // MOVIMIENTO HACIA LA IZQUIERDA
     {
-       /* flag = sonido->playSound(risa);
-        if(flag){
-            DSP* dsp = sonido->createDSP("echo");
-            omae->getCanal()->addDSP(dsp);
-            omae->getCanal()->setGrupoCanales(sonido->getGrupoVoces());
-        }*/
-
         if(sigilo==true)
         {
             velo.x=-10.f;
-            //Body->ApplyForceToCenter(b2Vec2(-35.f,0.f),true);
             Body->SetLinearVelocity(velo);
-            //protaPosition.X -= VELOCIDAD_MOVIMIENTO * Time*0.5;
-        }else if(correr==true && energia>10.1)
+        }else if(correr==true && energia>10.1 && velo.y>=-5 && velo.y<5)
         {
-            velo.x=-90.f;
-            Body->ApplyForceToCenter(b2Vec2(-5000.f,0.f),true);
-             //Body->SetLinearVelocity(velo);
-            //protaPosition.X -= VELOCIDAD_MOVIMIENTO * Time*3;
+            setEnergia(-1.f,0.2f);
+            Body->ApplyForceToCenter(b2Vec2(-3500.f,0.f),true);
 
+            if(velo.x<-80.f){
+                velo.x=-80.f; 
+                Body->SetLinearVelocity(velo);
+            }
             if(energia<10)
                 correr=false;
         }else
         {
             velo.x=-30.f;
-            //Body->ApplyForceToCenter(b2Vec2(-60.f,0.f),true);
             Body->SetLinearVelocity(velo);
-            //protaPosition.X -= VELOCIDAD_MOVIMIENTO * Time*1.5;
         }
 
     }
     else        //MOVIMIENTO HACIA LA DERECHA
     {
-       /* flag = sonido->playSound(nani);
-        if(flag){
-            DSP* dsp = sonido->createDSP("echo");
-            omae->getCanal()->addDSP(dsp);
-            omae->getCanal()->setGrupoCanales(sonido->getGrupoVoces());
-        }*/
          if(sigilo==true)
             {
                 velo.x=10.f;
                 //Body->ApplyForceToCenter(b2Vec2(35.f,0.f),true);
                Body->SetLinearVelocity(velo);
-            }else if(correr==true && energia>10.1){
-                velo.x=90.f;
-                Body->ApplyForceToCenter(b2Vec2(5000.f,0.f),true);
-                //Body->SetLinearVelocity(velo);
+            }else if(correr==true && energia>10.1&& velo.y>=-5 && velo.y<5){
+                setEnergia(-1.f,0.2f);
+                Body->ApplyForceToCenter(b2Vec2(3500.f,0.f),true);
+                if(velo.x>80.f){
+                    velo.x=80.f;  
+                    Body->SetLinearVelocity(velo);
+                    //std::cout<<"velocidad +90"<<endl;
+                }
+                
                 if(energia<10)
                     correr=false;
             }else{
@@ -292,7 +248,12 @@ void Protagonista::comprobarColision(EnemigoBasico *e)
     enemigoPosition=e->getPosition();
     int distanciaEnemigo = protaPosition->getPosX() - enemigoPosition->getPosX();
 
-    if(abs(distanciaEnemigo)<25)   // Distancia para poder atacar
+    float enemigoPosY = enemigoPosition->getPosY();
+
+      /* Posicion del prota en y */
+    float protaPosY=protaPosition->getPosY();
+
+    if(abs(distanciaEnemigo)<20 && protaPosY>enemigoPosY-10  && protaPosY<enemigoPosY+10 )   // Distancia para poder atacar
     {   
         ataque(e);
     }
@@ -319,86 +280,79 @@ FUNCION PARA COMPROBAR LAS COLISIONES CON COMIDA
 **/
 void Protagonista::comprobarColision(Objeto *comida)
 {
+    /* Posicion del prota */
     float protaPosX=protaPosition->getPosX();
     float protaPosY=protaPosition->getPosY();
     
-    comidaPosition=comida->getPosition();
-    float comidaPosX=comidaPosition->getPosX();
-    float comidaPosY=comidaPosition->getPosY();
+    /* Posicion de la comida */
+    float comidaPosX=comida->getPosition()->getPosX();
+    float comidaPosY=comida->getPosition()->getPosY();
     
-    
-    //std::cout<<protaPosX<<endl;
-    if((comidaPosX-(protaPosX+10))<-5 
-        && (comidaPosX-(protaPosX+10))>-15){
-        if(/*comida->getNode()->isVisible()&&*/ protaPosY<10)
+    if(protaPosY<comidaPosY+10 && protaPosY>comidaPosY-10)
+    {
+        if(protaPosX>comidaPosX-5 && protaPosX<comidaPosX+5)
         {
-            //std::cout<<comidaPosX<<endl;
-           vida+=10;
-            if(vida>100)
-                vida=100;
-            
-            comidaPosX+=500;
-        if(comidaPosX>2500)
-            comidaPosX=-1900;
-            //comida->getNode()->setPosition(comidaPosition);
+            if(vida<VIDA_MAXIMA) // Solo lo recogemos si nos falta vida
+            {
+                vida+=20;
+                if(vida>VIDA_MAXIMA)
+                {
+                    vida=VIDA_MAXIMA;
+                }
 
+                comida->setRecogido(true);
+            }
         }
-       
     }
-    //else
-        //comida->getNode()->setVisible(true);
     
 }
 
 void Protagonista::comprobarColision(Bebida *bebida)
 {
+ /* Posicion bebida */
+    float bebidaPosX=bebida->getPosition()->getPosX();
+    float bebidaPosY=bebida->getPosition()->getPosY();
+
+    /* Posicion prota*/
     float protaPosX=protaPosition->getPosX();
     float protaPosY=protaPosition->getPosY();
-    
-    bebidaPosition=bebida->getPosition();
-    float bebidaPosX=bebidaPosition->getPosX();
-    float bebidaPosY=bebidaPosition->getPosY();
-    
-    if((bebidaPosX-(protaPosX+10))<=-5 
-        && (bebidaPosX-(protaPosX+10))>-15){
-        if(/*bebida->getNode()->isVisible()&&*/ protaPosY<10)
-        {
-            
-           energia+=10;
-            if(energia>100)
-                energia=100;
 
-            //bebida->getNode()->setVisible(false);
-            
-            bebidaPosX+=400;
-        if(bebidaPosX>2200)
-            bebidaPosX=-1800;
-            //bebida->getNode()->setPosition(bebidaPosition);
+    if(protaPosY<bebidaPosY+10 && protaPosY>bebidaPosY-10)
+    {
+        if(protaPosX>bebidaPosX-5 && protaPosX<bebidaPosX+5)
+        {
+            if(energia<ENERGIA_MAXIMA)
+            {
+                energia+=40;
+                if(energia>ENERGIA_MAXIMA)
+                {
+                    energia=ENERGIA_MAXIMA;
+                }
+
+                bebida->setRecogido(true);
+            }
         }
-       
     }
-    //else
-        //bebida->getNode()->setVisible(true);
+
     
 }
 
 void Protagonista::comprobarColision(Trampa *trampa)
 {
+    /* Posicion del prota */
     float protaPosX=protaPosition->getPosX();
     float protaPosY=protaPosition->getPosY();
     
-    trampaPosition=trampa->getPosition();
-    float tramPosX=trampaPosition->getPosX();
-    float tramPosY=trampaPosition->getPosY();
-    
-    if((tramPosX-(protaPosX+10))<8 
-        && (tramPosX-(protaPosX+10))>-28
-        && protaPosY<10){
-        
-        std::cout<<tramPosX<<endl;
-           vida-=0.4f;
-           //protaPosition.X-=15; //+=15 animacion, rebote de la trampa 
-       
+    /* Posicion de la trampa */
+    float tramPosX=trampa->getPosition()->getPosX();
+    float tramPosY=trampa->getPosition()->getPosY();
+
+    if(protaPosY<tramPosY+10 && protaPosY>tramPosY-10)
+    {
+        if(protaPosX>tramPosX-5 && protaPosX<tramPosX+5)
+        {
+            vida-=0.4f;
+        }
     }
     
     
@@ -465,7 +419,6 @@ FUNCION PARA CAMBIAR LA POS DE COMBATE DEL PROTA
 void Protagonista::setPosCombate(int n)
 {
     pos_combate = n;
-    //cout<<pos_combate<<endl;
 }
 /**
 FUNCION PARA RECUPERAR LA VIDA DEL PROTA
@@ -491,7 +444,6 @@ void Protagonista::setEnergia(glm::f32 cantidad,const glm::f32 Time)
         energia+=cantidad* Time;
     if(energia<0){
         energia=0;
-        setVida(-5,Time);
     }else if(energia>100)
         energia=100;
 
@@ -526,7 +478,7 @@ void Protagonista::setSalto(bool s)
         }
         //cont_salto=1;
         //saltando=s;
-        setEnergia(1.1f,-15);
+        setEnergia(1.5f,-10);
     }
     saltando=s;
 }
@@ -570,18 +522,6 @@ void Protagonista::setDireccion(int d)
 
 void Protagonista::setAtaque(bool d)
 {
-
-    /*
-    ataca = d;
-    if(ataca == true)
-    {
-        if(cont_ataque==0 && energia>10)        // CONTADOR PARA LA ANIMACION DE ATAQUE
-        {
-            cont_ataque=1;
-        }
-    }
-    */
-
     ataca = d;
 
 }
@@ -645,6 +585,11 @@ bool Protagonista::getCorrer()
 int Protagonista::getPosCombate()
 {
     return pos_combate;
+}
+
+int Protagonista::getTiempoAtaque()
+{
+    return timeAtq;
 }
 
 

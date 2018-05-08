@@ -3,7 +3,7 @@
 Status Huir::run(Enemigo *e)
 {   
     e->setCombate(false);
-    e->setVelocidad(20.f);
+    checkVelocidad(e);
 
     Posicion* EnemigoPosition = e->getPosition(); 
     float enemigoX=EnemigoPosition->getPosX();
@@ -283,6 +283,21 @@ void Huir::calcularNodoFinal(NodoGrafo* n)
             }
         }
     }   
+
+}
+
+/* Funcion para cambiar la velocidad del enemigo en funcion de su energia */
+void Huir::checkVelocidad(Enemigo *e)
+{
+
+  if(e->getEnergia()>=0 && e->getRecargandoEnerg()==false)    // SI queda energia que gastar y no se esta recargando
+  {
+    e->setVelocidad(e->getVelRapida());
+  }
+  else // Sin energia reduccion de velocidad
+  {
+    e->setVelocidad(e->getVelNormal());
+  }
 
 }
 

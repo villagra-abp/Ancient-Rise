@@ -13,6 +13,7 @@ Enemigo::Enemigo(vector<Posicion*> pos, float xlength, float pendValue, const En
     GameObject::setTipo(ENEMY);
     Fachada* fachada=fachada->getInstance();
 	
+//    FBillboard* enemigoObjeto = fachada->addBillboard(pos[0]->getPosX(),pos[0]->getPosY(),pos[0]->getPosZ(), "resources/personaje.obj");
     FObjeto* enemigoObjeto = fachada->addMalla(pos[0]->getPosX(),pos[0]->getPosY(),pos[0]->getPosZ(), "resources/personaje.obj");
     enemigo = enemigoObjeto;
 
@@ -29,6 +30,7 @@ Enemigo::Enemigo(vector<Posicion*> pos, float xlength, float pendValue, const En
     dep4=fachada->addMalla(-175,15,0,"resources/manzana.obj");*/
 
     energy=fachada->addMalla(-170,15,0,"resources/cajitaobj.obj");
+//    energy=fachada->addBillboard(-170,15,0,"resources/cajitaobj.obj");
     life=fachada->addMalla(-170,20,0,"resources/cajaColor.obj");
     flecha1=fachada->addMalla(-160,8,0,"resources/flecha.obj");
     flecha0=fachada->addMalla(-170,8,0,"resources/flecha.obj");
@@ -74,6 +76,7 @@ Enemigo::Enemigo(vector<Posicion*> pos, float xlength, float pendValue, const En
     orden = 0;                                            // Ninguna orden recibida
     saltando = false;
     inv = true;
+    recargandoEnergia = false;
 
     /* Pathfinding */
     vuelta = false;
@@ -86,14 +89,32 @@ Enemigo::Enemigo(vector<Posicion*> pos, float xlength, float pendValue, const En
 /* Update para todos los enemigos*/
 void Enemigo::update(Posicion* Posprota)
 {   
-    if(salud<0)
-    {
+    //cout<<"Entro primera vez Update"<<endl;
+    if(salud<=0) // Enemigo Muerto
+    {   
+        //cout<<"Muerto"<<endl;
+        // Eleminamos el enemigo(parcialmente)
         fachada->destruirObjeto(enemigo);
+        enemigo = nullptr;
+
+        // Elminamos su hud
+        fachada->destruirObjeto(life);
+        life = nullptr;
+        fachada->destruirObjeto(energy);
+        energy = nullptr;
+        fachada->destruirObjeto(flecha0);
+        flecha0= nullptr;
+        fachada->destruirObjeto(flecha1);
+        flecha1 = nullptr;
+
+        //Eliminamos su body
+        Body->GetWorld()->DestroyBody(Body);
     }
 
     if(enemigo!=nullptr)  // Solo si existe el enemigo hacemos su update
     { 
-        hudEnemigos();
+        //cout<<"Entro"<<endl;
+        hud();
 
         actualizarSed();
         //COMPROBAMOS GAMEOBJECTS DENTRO DE LA VISTA
@@ -107,16 +128,15 @@ void Enemigo::update(Posicion* Posprota)
         }
 
         // COMPROBAMOS SI HEMOS VISTO AL PROTAGONISTA 
-        if(checkInSight(Posprota) && inv==false){              
-            visto = true;
-             //fachada->setMaterial(enemigo,"resources/activada.jpeg");  
+        if(checkInSight(Posprota) && inv==false)
+        {              
+            visto = true; 
              contador = 0;
             
         }else{
             if(recordarProta()==false)
             {
                 visto = false;
-                //fachada->setMaterial(enemigo,"resources/verde.jpg");
             }
         }
 
@@ -125,7 +145,7 @@ void Enemigo::update(Posicion* Posprota)
             
 
         /* COMBATE DISTANCIA */
-        if(tipo==2) // Enemigo tipo distancia
+        /*if(tipo==2) // Enemigo tipo distancia
         {
             if(disparo==true)  // Nuevo disparo, hay que crear un proyectil nuevo
             {   
@@ -149,6 +169,7 @@ void Enemigo::update(Posicion* Posprota)
             }
                 proyectil->update(this,board);
         }
+        */
         
     }
 
@@ -350,47 +371,54 @@ void Enemigo::changeLastFaceDir()
     }
 }
 /* FUncion para mostrar el hud de los enemigos */
-void Enemigo::hudEnemigos()
+void Enemigo::hud()
 {
     Posicion posicionHUD(EnemigoPosition->getPosX(), EnemigoPosition->getPosY(),0.f);
     posicionHUD.setPosX(posicionHUD.getPosX()+5);
-        if(pos_combate==2){
-            posicionHUD.setPosY(posicionHUD.getPosY()+5);
-        }
+
+    /* Posicion de las flechas del combate del enemigo */
+    if(pos_combate==2)
+    {
+        posicionHUD.setPosY(posicionHUD.getPosY()+5);
+    }
             
-        if(pos_combate==1){
-            posicionHUD.setPosY(posicionHUD.getPosY()+10);
-        }
+    if(pos_combate==1)
+    {
+        posicionHUD.setPosY(posicionHUD.getPosY()+10);
+    }
             
-        if(pos_combate==3){
-            posicionHUD.setPosY(posicionHUD.getPosY());
-        }
-        fachada->setPosicion(flecha1,&posicionHUD);
-        posicionHUD.setPosX(posicionHUD.getPosX()-10);
-        fachada->setPosicion(flecha0,&posicionHUD);
-        if(pos_combate==1){
-            posicionHUD.setPosY(posicionHUD.getPosY()-5);
-        }
+    if(pos_combate==3)
+    {
+        posicionHUD.setPosY(posicionHUD.getPosY());
+    }
+
+    fachada->setPosicion(flecha1,&posicionHUD);
+    posicionHUD.setPosX(posicionHUD.getPosX()-10);
+    fachada->setPosicion(flecha0,&posicionHUD);
+
+    if(pos_combate==1){
+        posicionHUD.setPosY(posicionHUD.getPosY()-5);
+    }
             
-        if(pos_combate==3){
-            posicionHUD.setPosY(posicionHUD.getPosY()+5);
-        }
+    if(pos_combate==3){
+        posicionHUD.setPosY(posicionHUD.getPosY()+5);
+    }
         
-        Posicion escalaFlechaCorta(0,0.f,0.f);
-        Posicion escalaFlechaLarga(0.1,.1f,0.1f);
-        Posicion escalaFlechaLarga2(0.2,.1f,0.1f);
+    Posicion escalaFlechaCorta(0,0.f,0.f);
+    Posicion escalaFlechaLarga(0.1,.1f,0.1f);
+    Posicion escalaFlechaLarga2(0.2,.1f,0.1f);
         
-        if(lastFacedDir==true &&combate){
-            fachada->setScala(flecha0,&escalaFlechaCorta);
-            if(!ataca){
-                fachada->setScala(flecha1,&escalaFlechaLarga);
-            }else
-                fachada->setScala(flecha1,&escalaFlechaLarga2);
-            
+    if(lastFacedDir==true &&combate){
+        fachada->setScala(flecha0,&escalaFlechaCorta);
+    if(!ataca){
+        fachada->setScala(flecha1,&escalaFlechaLarga);
+    }else
+        fachada->setScala(flecha1,&escalaFlechaLarga2);    
         }
-        if(lastFacedDir==false  &&combate){
-            fachada->setScala(flecha1,&escalaFlechaCorta);
-            if(!ataca){
+
+    if(lastFacedDir==false  &&combate){
+        fachada->setScala(flecha1,&escalaFlechaCorta);
+        if(!ataca){
                 fachada->setScala(flecha0,&escalaFlechaLarga);
             }else
                 fachada->setScala(flecha0,&escalaFlechaLarga2);
@@ -400,15 +428,21 @@ void Enemigo::hudEnemigos()
             fachada->setScala(flecha0,&escalaFlechaCorta);
             
         }
-        posicionHUD.setPosX(posicionHUD.getPosX()+5);
-        posicionHUD.setPosY(posicionHUD.getPosY()+7);
-        fachada->setPosicion(energy,&posicionHUD);
-        posicionHUD.setPosY(posicionHUD.getPosY()+3);
-        fachada->setPosicion(life,&posicionHUD);
-        Posicion escalaEnergy(energia/20,1.5f,0.01f);
-        Posicion escalaLife(salud/40,1.5f,0.01f);
-        fachada->setScala(energy,&escalaEnergy);
-        fachada->setScala(life,&escalaLife);
+
+    posicionHUD.setPosX(posicionHUD.getPosX()+5);
+    posicionHUD.setPosY(posicionHUD.getPosY()+7);
+    fachada->setPosicion(energy,&posicionHUD);
+    posicionHUD.setPosY(posicionHUD.getPosY()+3);
+    fachada->setPosicion(life,&posicionHUD);
+    Posicion escalaEnergy(energia/20,1.5f,0.01f);
+    Posicion escalaLife(salud/40,1.5f,0.01f);
+    fachada->setScala(energy,&escalaEnergy);
+    fachada->setScala(life,&escalaLife);
+}
+
+void Enemigo::hudCombate()
+{
+    
 }
 
 /**
@@ -419,12 +453,6 @@ A PARTIR DE AQUI VAN TODOS LOS GETS Y LOS SETS
 void* Enemigo::getNode()
 {
     return enemigo;
-}
-
-
-glm::f32 Enemigo::getVelocidad()
-{
-    return VELOCIDAD_ENEMIGO;
 }
 
 glm::f32 Enemigo::getSed()
@@ -533,6 +561,21 @@ bool Enemigo::getInterrumpido()
     return interrupcion;
 }
 
+glm::f32 Enemigo::getVelRapida()
+{
+    return VELOCIDAD_RAPIDA;
+}
+
+glm::f32 Enemigo::getEnergia()
+{
+    return energia;
+}
+
+bool Enemigo::getRecargandoEnerg()
+{
+    return recargandoEnergia;
+}
+
 
 void Enemigo::setSalud(glm::f32 s)
 {
@@ -558,7 +601,6 @@ void Enemigo::setPosition(Posicion* position)
 {
     fachada->setPosicion(enemigo,position);
     EnemigoPosition = position;
-    //std::cout<<position->getPosX()<<endl;
 }
 
 void Enemigo::setVelHambre(glm::f32 v)

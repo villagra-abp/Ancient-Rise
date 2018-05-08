@@ -5,11 +5,12 @@
 int main()
 {	
 	// Tamaño ventana 
-	int ancho = 1280;
-	int alto = 720;
+	int ancho = 1500;
+	int alto = 900;
 
-//	int ancho = 800;
-//	int alto = 600;
+	//int ancho = 800;
+	//int alto = 600;
+
 
     //Creo la fachada 
     Fachada* fachada = fachada->getInstance(ancho,alto,false);
@@ -63,7 +64,6 @@ int main()
 		       
 
 		            ventana->close();
-		            //device->closeDevice();
 
 		        break;
                case sf::Event::KeyPressed:
@@ -71,48 +71,19 @@ int main()
 		            inputKey = evento->key.code;
 		            //std::cout<<evento->key.code<<std::endl;		
 		            mundo->checkInput(inputKey);
-		            switch(inputKey){
-                        case 36: 		//escape
-                            if(mundo->getEstado()==0){
-                                mundo->CambioEstado(2);
-                            }
-                            else if(mundo->getEstado()==1){
-                                mundo->CambioEstado(2);
-                            }
-                            else if(mundo->getEstado()==2)
-                                mundo->CambioEstado(1);
-		            		break;
-		            	case 73: 		//arriba
-		            		//mundo->estado=0;
-		            		break;
-		            	case 74: 		//abajoo
-		            		//camara->Mover(vec3(0,0,1));
-		            		break;
-		            	
-		            }
+		            
 		            keyPressed = true;
 		        }   
                 break;
             }
 		}
 
-        //ventana->clear();
-        
-		//
 		//
 		// ACTUALIZAMOS EL MUNDO 
 		mundo->update();
 
     glViewport(0, 0, ancho,alto); 
     mundo->draw();
-    //ventana->pushGLStates();
-    //ventana->setView(view);
-	//ventana->setActive(false);
-    //ventana->draw(rectangle);
-    //ventana->popGLStates();
-    //ventana->setView(minimap);
-    //glViewport(0, 500, 800, 100); 
-    //mundo->draw();
     ventana->display();
 
 	}

@@ -2,7 +2,8 @@
 
 Status Atacar::run(Enemigo *e)
 {   
-    e->setVelocidad(20.f);
+    checkVelocidad(e);
+
     p = board->getProtagonista();
     protaX = p->getPosition()->getPosX();
     protaY = p->getPosition()->getPosY();
@@ -28,25 +29,27 @@ Status Atacar::run(Enemigo *e)
     /* Comprobamos la distancia a la que tiene que estar para atacar */
     if(abs(distanciaProta)<separacionAtaque && distProtaY<10 && distProtaY>-10)       //ATACANDO
     {
+        //cout<<"Atacando"<<endl;
+        e->setVelocidad(e->getVelNormal());             // Para que no gaste energia cuando llegue
         e->setVuelta(true);
-        reset();                     // Reseteamos los valores para el pathfinding
+        reset();                                        // Reseteamos los valores para el pathfinding
 
-        if(e->getOrden()==1)        // Ya hemos ejecutado la orden de atacarle mandado por el Elite, la eliminamos
+        if(e->getOrden()==1)                            // Ya hemos ejecutado la orden de atacarle mandado por el Elite, la eliminamos
         {
             e->setOrden(0);
         }
-        e->setCombate(true);    // COMBATIENDO
+        e->setCombate(true);                            // COMBATIENDO
 
 
-        if(e->getTipo()==1)  // Mele
+        if(e->getTipo()==1)                             // Mele
         {
-            int pos_combate = rand() % 3 + 1;
              /* RELOJ POS COMBATE */
             startClock(1);                                        // INICIAMOS EL RELOJ (O RESEATEAMOS) DE POS_COMBATE
             int time = relojPos.getElapsedTime().asSeconds();     // OBTENEMOS SU DURACION EN SEGUNDOS
 
-            if(time>3)
+            if(time>2)
             {
+                pos_combate = rand() % 3 + 1;
                 e->setPosCombate(pos_combate);
                 contPos = 0;
             }
@@ -54,9 +57,41 @@ Status Atacar::run(Enemigo *e)
             /* RELOJ ATAQUE MELE */
             startClock(3);
             int time2 = relojAtq.getElapsedTime().asSeconds();
-    
-            if(time2>1)
-            {
+            
+            if(time2>1.5)
+            {   /*
+                if(pos_combate==1)
+                {
+                    cout<<"Pos enemigo: Arriba"<<endl;
+                }
+                else
+                {
+                    if(pos_combate==2)
+                    {
+                        cout<<"Pos enemigo: Centro"<<endl;
+                    }
+                    else
+                    {
+                        cout<<"Pos enemigo: Abajo"<<endl;
+                    }
+                }
+               /* 
+                if(p->getPosCombate()==1)
+                {
+                    cout<<"Pos prota: Arriba"<<endl;
+                }
+                else
+                {
+                    if(p->getPosCombate()==2)
+                    {
+                        cout<<"Pos prota: Centro"<<endl;
+                    }
+                    else
+                    {
+                        cout<<"Pos prota: Abajo"<<endl;
+                    }
+                }
+                */
                 if(p->getCombate()!=true || p->getPosCombate()!=pos_combate)        // Si el prota no esta en modo combate o no esta en la pos_combate donde ataca el enemigo, le quita vida
                 {
                     p->quitarVida(10.f);
@@ -67,6 +102,7 @@ Status Atacar::run(Enemigo *e)
         }
         else // A Distancia
         {   
+            //cout<<"A distancia"<<endl;
             startClock(2);
             int time = relojRec.getElapsedTime().asSeconds();  // OBTENEMOS SU DURACION EN SEGUNDOS
 
@@ -83,6 +119,7 @@ Status Atacar::run(Enemigo *e)
     }
     else        // PERSIGUIENDO
     {
+        //cout<<"PERSIGUIENDO"<<endl;
         e->setVuelta(true);        // Para el recorrido de vuelta a la patrulla
         e->setCombate(false);
         contRec = 0;              // Para resetear el reloj de recargar proyectil y que tarde siempre lo mismo en recargar
@@ -111,57 +148,57 @@ Status Atacar::run(Enemigo *e)
             }
         }
 
-        //cout<<"Fin : "<<fin->getPosition()->getPosX()<<endl;
-
         if(inicioBueno!=nullptr && fin!=nullptr)
         {  
             g=new Grafo();
             caminoCorto = g->pathfindDijkstra(inicioBueno, fin);
             delete g;
+
+            /* Nos acercamos al nodo Inicio del camino */
+            posNodoI = inicioBueno->getPosition();
+            float distNodoI = posNodoI->getPosX() - enemigoX;
+
+            if(llegadoInicio==false)        // Solo lo haremos si no habiamos llegado ya al nodo Inicio del camino
+            {
+                if (distNodoI<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
+                {
+                        movimientoDireccion(e,false);                                    
+                 }
+                 else{
+                        if(distNodoI>1.0f) // AVANZAMOS HACIA LA DERECHA
+                        {
+                            movimientoDireccion(e,true);                                    
+                        }
+                        else // Si hemos llegado al nodo Inicio
+                        {
+                            llegadoInicio = true; 
+                        }
+                    }
+            }
+
+
+            /* Realizamos el recorrido a lo largo del camino corto calculado */
+            if(llegadoFin==false && llegadoInicio==true && caminoCorto.size()!=0)
+            {
+                if(iC<caminoCorto.size())
+                { 
+                    checkComportamiento(e);       // Comprobamos que comportamiento tiene que ejecutar el enemigo
+                }
+
+                if(iC==caminoCorto.size())
+                {
+                   llegadoFin = true;
+                   iC = 0;
+                   reset();
+                }
+            }
         }
         else
         {
             cout<<"No se ha podido encontrar el camino mas corto al protagonista"<<endl;
         }
 
-        /* Nos acercamos al nodo Inicio del camino */
-        posNodoI = inicioBueno->getPosition();
-        float distNodoI = posNodoI->getPosX() - enemigoX;
-
-        if(llegadoInicio==false)        // Solo lo haremos si no habiamos llegado ya al nodo Inicio del camino
-        {
-            if (distNodoI<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
-            {
-                    movimientoDireccion(e,false);                                    
-             }
-             else{
-                    if(distNodoI>1.0f) // AVANZAMOS HACIA LA DERECHA
-                    {
-                        movimientoDireccion(e,true);                                    
-                    }
-                    else // Si hemos llegado al nodo Inicio
-                    {
-                        llegadoInicio = true; 
-                    }
-                }
-        }
-
-
-        /* Realizamos el recorrido a lo largo del camino corto calculado */
-        if(llegadoFin==false && llegadoInicio==true && caminoCorto.size()!=0)
-        {
-            if(iC<caminoCorto.size())
-            { 
-                checkComportamiento(e);       // Comprobamos que comportamiento tiene que ejecutar el enemigo
-            }
-
-            if(iC==caminoCorto.size())
-            {
-               llegadoFin = true;
-               iC = 0;
-               reset();
-            }
-        }
+        
     }
     return BH_SUCCESS;
     
@@ -335,6 +372,7 @@ void Atacar::checkComportamiento(Enemigo *e)
     {
        case NORMAL:
        {
+        //cout<<"NORMAL"<<endl;
           if (distNodoF<-1.0f) 
           {
               movimientoDireccion(e,false);                                   
@@ -355,10 +393,11 @@ void Atacar::checkComportamiento(Enemigo *e)
 
        case SALTO:
        {
+        //cout<<"Salto"<<endl;
           if(distNodoFY>1.0f)
           {
             e->setSaltando(true);
-            e->getBody()->ApplyForceToCenter(b2Vec2(0.f,3000.f),true);
+            e->getBody()->ApplyForceToCenter(b2Vec2(0.f,350000.f),true);
           }
           else
          {
@@ -391,6 +430,7 @@ void Atacar::checkComportamiento(Enemigo *e)
 
        case BAJADA:
        {
+        //cout<<"BAJADA"<<endl;
           if (distNodoF<-3.0f) 
           {
             e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));
@@ -410,7 +450,7 @@ void Atacar::checkComportamiento(Enemigo *e)
 
               if(bajada == true)
               {
-                if(distNodoFY<-1.0f)
+                if(distNodoFY<-5.0f)
                 {
                   e->getBody()->ApplyForceToCenter(b2Vec2(0.f,-3000.f),true);
                 }
@@ -422,8 +462,60 @@ void Atacar::checkComportamiento(Enemigo *e)
         break;
        }
 
+       case SALTO_GRANDE:
+       {
+        //cout<<"SALTO GRANDE"<<endl;
+          if(distNodoFY>1.0f)
+          {
+            e->setSaltando(true);
+            e->getBody()->ApplyForceToCenter(b2Vec2(0.f,550000.f),true);
+          }
+          else
+         {
+            e->setSaltando(false);
+         }
+
+          if(e->getSaltando()!=true)
+          {
+            if(distNodoF<-1.0f) // AVANZAMOS HACIA LA IZQUIERDA
+            {
+              e->getBody()->SetLinearVelocity(-(e->getVelocidad2d()));               // Velocidad Normal
+              e->setLastFacedDir(false);                                    
+            }
+            else{
+                  if(distNodoF>1.0f) // AVANZAMOS HACIA LA DERECHA
+                  {
+
+                    e->getBody()->SetLinearVelocity(e->getVelocidad2d());
+                    e->setLastFacedDir(true);                                    
+                  }
+                  else // Si hemos llegado al nodo Fin
+                  {
+                    iC++;
+                  }
+                }
+          }
+          break;
+       }
+
     }
 }
+
+/* Funcion para cambiar la velocidad del enemigo en funcion de su energia */
+void Atacar::checkVelocidad(Enemigo *e)
+{
+
+  if(e->getEnergia()>=0 && e->getRecargandoEnerg()==false)    // SI queda energia que gastar y no se esta recargando
+  {
+    e->setVelocidad(e->getVelRapida());
+  }
+  else // Sin energia reduccion de velocidad
+  {
+    e->setVelocidad(e->getVelNormal());
+  }
+
+}
+
 
 void Atacar::reset()
 {

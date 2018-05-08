@@ -11,7 +11,7 @@ Status ComprobarVida::run(Enemigo *e)
         {
             if(e->getSalud()<30)              // Vida por debajo de 30
             {
-                return BH_SUCCESS;
+                return BH_FAILURE;
             }
             else
             {

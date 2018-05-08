@@ -27,5 +27,6 @@ newmtl 20___Default
 	Kd 0.5880 0.5880 0.5880
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
+	
 	map_Ka Menu/Opcion1_2.png
 	map_Kd Menu/Opcion1_2.png

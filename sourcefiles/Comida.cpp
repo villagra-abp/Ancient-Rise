@@ -5,7 +5,7 @@
 Comida::Comida(Posicion* pos):Objeto(pos)
 {
 	GameObject::setTipo(COMIDA);
-	Fachada* fachada=fachada->getInstance();
+	fachada=fachada->getInstance();
 	//objeto = fachada->addSphere(pos->getPosX(),pos->getPosY(),pos->getPosZ(),false);
 	objeto = fachada->addMalla(pos->getPosX(),pos->getPosY(),pos->getPosZ(), "resources/manzana.obj");
     //posicion = &pos;
@@ -21,6 +21,17 @@ Comida::Comida(Posicion* pos):Objeto(pos)
 		//objeto ->setMaterialTexture(0,driver->getTexture("resources/pinchos.jpeg"));
         //fachada->setMaterial(objeto,"resources/elon.jpeg");
 
+	}
+
+}
+
+void Comida::update()
+{
+	if(recogido==true) // Si hemos recogido la comida 
+	{
+		fachada->destruirObjeto(objeto);
+		//delete objeto;
+		objeto = nullptr;
 	}
 
 }

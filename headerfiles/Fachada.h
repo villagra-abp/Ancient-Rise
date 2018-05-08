@@ -39,13 +39,14 @@ public:
     sf::RenderWindow* getVentana();
     Posicion* getPosicion(void * nodo);
     Posicion* getScala(void * nodo);
-    
+    bool getBounding(){return bounding;}
     
     
     bool setScala(void * nodo,Posicion* scala);
     bool setPosicion(void * nodo,Posicion* pos);
     bool setMaterialFlag(void * nodo,bool b);
     bool setMaterial(void * nodo,std::string ruta);
+    void setBounding(bool flag);
     
 	void setNombreVentana(std::string text);
 	void setNombreVentana(wchar_t* text);
@@ -66,7 +67,8 @@ public:
 	
     FObjeto* addCube(int x,int y,int z,bool flag);
     FObjeto* addSphere(int x,int y,int z,bool flag);
-    FObjeto* addMalla(int x,int y,int z,string ruta);
+    FObjeto* addMalla(float x,float y,float z,string ruta);
+    FBillboard* addBillboard(float x,float y,float z,string ruta);
     FObjeto* addAnimacion(int x, int y, int z, string path);
     FCamara* addCamara(Posicion*);
     FLuz* addLuz(Posicion*);
@@ -98,7 +100,7 @@ private:
 
     sf::Clock reloj; 
         
-    
+    bool bounding;
 
 };
 

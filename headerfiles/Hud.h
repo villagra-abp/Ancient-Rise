@@ -5,12 +5,11 @@
 
 
 
-class Hud : public Objeto
+class Hud
 {
 
 	public:
 		Hud( Posicion* pos);
-		void* getNode();
         void update(float vida,float energia);
 
 	private:
@@ -18,6 +17,8 @@ class Hud : public Objeto
         void * hud2;
         void * hud3;
         void * hud4;
+        void * hud5;//marco vida
+        void * hud6;//marco energia
         
 };
 

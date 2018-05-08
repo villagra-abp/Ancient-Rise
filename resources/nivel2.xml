@@ -50,46 +50,46 @@
   <object id="31" x="65.3636" y="61.8182">
    <point/>
   </object>
-  <object id="32" x="78.9091" y="54.1818">
+  <object id="32" x="72.9091" y="54.1818">
    <point/>
   </object>
   <object id="33" x="135.182" y="54.1818">
    <point/>
   </object>
-  <object id="34" x="151.125" y="46.75">
+  <object id="34" x="146.125" y="46.75">
    <point/>
   </object>
-  <object id="36" x="174.625" y="46.875">
+  <object id="36" x="166.625" y="46.875">
    <point/>
   </object>
-  <object id="37" x="179.875" y="22.25">
+  <object id="37" x="175.875" y="22.25">
    <point/>
   </object>
-  <object id="38" x="221.375" y="22.125">
+  <object id="38" x="217.375" y="22.125">
    <point/>
   </object>
-  <object id="39" x="230.25" y="47.25">
+  <object id="39" x="226.25" y="47.25">
    <point/>
   </object>
-  <object id="40" x="293.273" y="47.0909">
+  <object id="40" x="292.273" y="47.0909">
    <point/>
   </object>
   <object id="41" x="300.747" y="63">
    <point/>
   </object>
-  <object id="42" x="363.364" y="63">
+  <object id="42" x="360.364" y="63">
    <point/>
   </object>
-  <object id="43" x="374.909" y="46">
+  <object id="43" x="372.909" y="46">
    <point/>
   </object>
-  <object id="44" x="453.25" y="46">
+  <object id="44" x="451.25" y="46">
    <point/>
   </object>
-  <object id="45" x="459.5" y="63">
+  <object id="45" x="460.5" y="63">
    <point/>
   </object>
-  <object id="46" x="517.125" y="63">
+  <object id="46" x="513.125" y="63">
    <point/>
   </object>
   <object id="47" x="523.75" y="38">
@@ -101,7 +101,7 @@
   <object id="53" x="574.364" y="63">
    <point/>
   </object>
-  <object id="54" x="635.625" y="63">
+  <object id="54" x="633.625" y="63">
    <point/>
   </object>
   <object id="55" x="644.125" y="38">
@@ -110,10 +110,10 @@
   <object id="56" x="693.625" y="38">
    <point/>
   </object>
-  <object id="57" x="700.25" y="63">
+  <object id="57" x="702.25" y="63">
    <point/>
   </object>
-  <object id="58" x="795.5" y="63">
+  <object id="58" x="792.5" y="63">
    <point/>
   </object>
  </objectgroup>
@@ -171,7 +171,7 @@
   <object id="106" name="3940" type="11" x="263" y="47.3333">
    <point/>
   </object>
-  <object id="107" name="4344" type="12" x="413.091" y="47.2747">
+  <object id="107" name="4344" type="12" x="413.091" y="47.2727">
    <point/>
   </object>
   <object id="108" name="4748" type="11" x="543.636" y="38.5455">
@@ -320,13 +320,13 @@
   <object id="104" name="5857" type="51" x="796" y="45.2747">
    <polyline points="0,0 -94.3636,0.363636"/>
   </object>
-  <object id="123" name="3132" type="74" x="66.125" y="39.75">
+  <object id="123" name="3132" type="72" x="66.125" y="39.75">
    <polyline points="0,0 10.75,-8"/>
   </object>
   <object id="124" name="3231" type="73" x="79.125" y="36.375">
    <polyline points="0,0 -9.875,8.375"/>
   </object>
-  <object id="125" name="3334" type="74" x="138.5" y="31.625">
+  <object id="125" name="3334" type="72" x="138.5" y="31.625">
    <polyline points="0,0 10.875,-7.375"/>
   </object>
   <object id="126" name="3433" type="73" x="151.5" y="28.625">
@@ -339,4 +339,29 @@
    <polyline points="0,0 -53.375,-0.375"/>
   </object>
  </objectgroup>
+ <objectgroup name="prota" visible="0" locked="1">
+  <object id="129" type="1" x="35" y="62.5455">
+   <point/>
+  </object>
+  <object id="130" type="2" x="768.091" y="62.4545">
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup name="trampa" visible="0" locked="1">
+  <object id="131" type="2" x="595.909" y="62.9091">
+   <point/>
+  </object>
+  <object id="132" type="1" x="540" y="39">
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup name="puerta" visible="0" locked="1">
+  <object id="133" type="2" x="786.438" y="63.25">
+   <point/>
+  </object>
+  <object id="134" type="1" x="746.727" y="63.0909">
+   <point/>
+  </object>
+ </objectgroup>
+
 </map>

@@ -222,66 +222,70 @@ glm::vec3 TNodo::getPosicion(){
 }
 
 
-void TNodo::draw(glm::mat4 view, glm::mat4 projection,TNodo* camara, vector<TNodo*> luces)
+void TNodo::draw(glm::mat4 view, glm::mat4 projection,TNodo* camara, vector<TNodo*> luces, bool bounding, TDatosEntidad* datos)
 {
-	vector<glm::vec4> colorPuntual;
-	glm::vec3 camaraPosicion;
-
-	vector<glm::vec3> posicionPuntual;
-	vector<vector<float>> atenuacionPuntual;
-
-	glm::vec3 directionDir, colorDir;
-
-	glm::vec3 positionFlash, directionFlash, colorFlash;
- 	vector<float> atenuacionFlash, corteFlash;
+	if(padre == nullptr){			//Solo damos valores nuevos a datos en el nodo escena.
+		vector<glm::vec4> colorPuntual;
+		glm::vec3 camaraPosicion;
 	
-	camaraPosicion = camara->getPosicion();
-	//Recorremos en busca de puntuales
-	for(int i = 0; i < luces.size(); i++){
-		if(dynamic_cast<TLuz*>(luces[i]->getEntidad())->getType() == 0){						//Extraemos datos de las luces puntuales
-			posicionPuntual.push_back(luces[i]->getPosicion());
-			colorPuntual.push_back(dynamic_cast<TLuz*>(luces[0]->getEntidad())->getColor());
-			atenuacionPuntual.push_back(dynamic_cast<TLuz*>(luces[0]->getEntidad())->getPuntualParametros());
+		vector<glm::vec3> posicionPuntual;
+		vector<vector<float>> atenuacionPuntual;
+	
+		glm::vec3 directionDir, colorDir;
+	
+		glm::vec3 positionFlash, directionFlash, colorFlash;
+	 	vector<float> atenuacionFlash, corteFlash;
 
-		}else if(dynamic_cast<TLuz*>(luces[i]->getEntidad())->getType() == 1){ 
-			directionFlash = dynamic_cast<TLuz*>(luces[i]->getEntidad())->getDireccion();
-			positionFlash = luces[i]->getPosicion();
-			colorFlash = dynamic_cast<TLuz*>(luces[i]->getEntidad())->getColor();
-			corteFlash = dynamic_cast<TLuz*>(luces[i]->getEntidad())->getCortes();
-			atenuacionFlash = dynamic_cast<TLuz*>(luces[i]->getEntidad())->getPuntualParametros();
-			
-		}else if(dynamic_cast<TLuz*>(luces[i]->getEntidad())->getType() == 2){					//Extraemos datos de las luces dirigidas
-			directionDir = dynamic_cast<TLuz*>(luces[i]->getEntidad())->getDireccion();
-			colorDir = dynamic_cast<TLuz*>(luces[i]->getEntidad())->getColor();
+		camaraPosicion = camara->getPosicion();
+		//Recorremos en busca de puntuales
+		for(int i = 0; i < luces.size(); i++){
+			if(dynamic_cast<TLuz*>(luces[i]->getEntidad())->getType() == 0){						//Extraemos datos de las luces puntuales
+				posicionPuntual.push_back(luces[i]->getPosicion());
+				colorPuntual.push_back(dynamic_cast<TLuz*>(luces[0]->getEntidad())->getColor());
+				atenuacionPuntual.push_back(dynamic_cast<TLuz*>(luces[0]->getEntidad())->getPuntualParametros());
+	
+			}else if(dynamic_cast<TLuz*>(luces[i]->getEntidad())->getType() == 1){ 
+				directionFlash = dynamic_cast<TLuz*>(luces[i]->getEntidad())->getDireccion();
+				positionFlash = luces[i]->getPosicion();
+				colorFlash = dynamic_cast<TLuz*>(luces[i]->getEntidad())->getColor();
+				corteFlash = dynamic_cast<TLuz*>(luces[i]->getEntidad())->getCortes();
+				atenuacionFlash = dynamic_cast<TLuz*>(luces[i]->getEntidad())->getPuntualParametros();
+				
+			}else if(dynamic_cast<TLuz*>(luces[i]->getEntidad())->getType() == 2){					//Extraemos datos de las luces dirigidas
+				directionDir = dynamic_cast<TLuz*>(luces[i]->getEntidad())->getDireccion();
+				colorDir = dynamic_cast<TLuz*>(luces[i]->getEntidad())->getColor();
+			}
 		}
-	}
-
-	TDatosEntidad datos;
-
-	datos.view = &view;
-	datos.projection = &projection;
-	datos.camaraPosicion = &camaraPosicion;
-
-	datos.colorPuntual = &colorPuntual;
-	datos.posicionPuntual = &posicionPuntual;
-	datos.atenuacionPuntual = &atenuacionPuntual;
 	
-	datos.colorDir = &colorDir;
-	datos.directionDir = &directionDir;
+	//	TDatosEntidad datos;
+		datos->view = view;
+		datos->projection = projection;
+		datos->camaraPosicion = camaraPosicion;
+	
+		datos->colorPuntual = colorPuntual;
+		datos->posicionPuntual = posicionPuntual;
+		datos->atenuacionPuntual = atenuacionPuntual;
+		
+		datos->colorDir = colorDir;
+		datos->directionDir = directionDir;
+	
+		datos->directionFlash = directionFlash;
+		datos->positionFlash = positionFlash;
+		datos->colorFlash = colorFlash;
+		datos->corteFlash = corteFlash;
+		datos->atenuacionFlash = atenuacionFlash;
+	
+		datos->bounding = bounding;
 
-	datos.directionFlash = &directionFlash;
-	datos.positionFlash = &positionFlash;
-	datos.colorFlash = &colorFlash;
-	datos.corteFlash = &corteFlash;
-	datos.atenuacionFlash = &atenuacionFlash;
+	}
 
 	if(entidad!=nullptr){
 		if(entidad->getTipo() != 4 /* 4 = sky*/)
-			entidad -> beginDraw(&datos);
+			entidad -> beginDraw(datos);
 	}
 	//para cada nodo hijo i
 	for(int i=0; i<hijos.size(); i++){
-		hijos[i]->draw(view, projection, camara, luces);
+		hijos[i]->draw(view, projection, camara, luces, bounding, datos);
 	}
 
 	if(entidad!=nullptr)

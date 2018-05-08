@@ -9,6 +9,8 @@
 #include "../../headerfiles/TCamara.h"
 #include "../../headerfiles/TSkybox.h"
 #include "../../headerfiles/TGestorRecursos.h"
+#include "../../headerfiles/TDatosEntidad.h"
+
 
 //#include "FObjeto.h"
 //#include "FCamara.h"
@@ -35,8 +37,9 @@ public:
 	*/
 	glm::mat4 generateMatrix(TNodo *nodo);
 	
-
 	void draw();
+	void drawBounding();
+	void drawSkybox();
 
 	//void registrarCamara(TNodo* cam);
 	void activarCamara(TNodo* cam);
@@ -70,6 +73,8 @@ private:
 	glm::mat4 mVista;			//ViewMatrix
 	glm::mat4 mProyeccion;		//ProyectionMatrix
 	vector<glm::vec4> pLuz;		//Vector Posicion Luz
+
+	TDatosEntidad* datos;
 
 } ;
 

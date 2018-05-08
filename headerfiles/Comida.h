@@ -11,6 +11,7 @@ class Comida : public Objeto
 	public:
 
 		Comida(Posicion* pos);
+		virtual void update() override;
 		void* getNode();
 
 	private:

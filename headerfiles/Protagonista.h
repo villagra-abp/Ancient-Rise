@@ -45,14 +45,13 @@ class Protagonista : public GameObject
          void setPosition(Posicion* v);
          glm::f32  getEnergia();
          glm::f32  getVida();
-
          bool getSigilo();
          bool getCorrer();
+         int getTiempoAtaque();
 
          void setSigilo();
          void setCorrer(bool c);
          void setDireccion(int d);
-
          void setAtaque(bool d);
          void setEnergia(glm::f32 cantidad, const glm::f32 Time);
          void setVida(glm::f32 cantidad, const glm::f32 Time);
@@ -79,28 +78,22 @@ class Protagonista : public GameObject
         void * life;
         void * flecha0;
         void * flecha1;
-        glm::f32 energia=100.f;
-        glm::f32 vida=100.f;
-        bool saltando=false;
-        bool sigilo=false;
-        bool correr=false;
-        bool estaEnSuelo=false;
-        bool estaCayendo=true;
-        int direccion=1;      // Para saber la direccion a la que esta mirando el prota (0 --> Izquierda, 1 --> Derecha)
-        float ataque_position=0;    //0--> abajo.  1--> centro,  2-->arriba
-        float defensa_position=0;    //0--> abajo.  1--> centro,  2-->arriba
-        int cont_ataque=0;
-        int cont_defensa=0;
-        int cont_salto=0;
-        int cont_recarga_enemigo=0;
-        const glm::f32 VELOCIDAD_MOVIMIENTO=90.f;
+        glm::f32 energia;
+        glm::f32 vida;
+        bool saltando;
+        bool sigilo;
+        bool correr;
+        bool estaEnSuelo;
+        bool estaCayendo;
+        int direccion;      // Para saber la direccion a la que esta mirando el prota (0 --> Izquierda, 1 --> Derecha)
+        glm::f32 VELOCIDAD_MOVIMIENTO=90.f;
+        glm::f32 ENERGIA_MAXIMA=100.f;
+        glm::f32 VIDA_MAXIMA=100.f;
 
         Posicion* protaPosition;
         Posicion* enemigoPosition;
         Posicion* comidaPosition;
-        Posicion* bebidaPosition;
         Posicion* trampaPosition;
-        Posicion* nodoPosition;
         
         
         /* BOX2D */
@@ -115,7 +108,7 @@ class Protagonista : public GameObject
         bool ataca=false;               // PROTA ATACANDO O NO
         vector<EnemigoBasico*> enemB;
         sf::Clock relojAtq;
-        int contAtq, time;
+        int contAtq, timeAtq;
         
         /* SONIDO */
         GestorSonido* sonido;

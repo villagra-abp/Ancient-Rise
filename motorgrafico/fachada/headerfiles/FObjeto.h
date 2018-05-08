@@ -30,10 +30,11 @@ class FObjeto : public FEntidad{
 		TNodo* getNodo() override;
 		TNodo* getTraslacion() override;
 		TNodo* getRotacion() override;
-		vec3 getPosicion();
+		vec3 getPosicion() override;
 
 	private:
 
+	protected:
 		bool active;
 		TNodo *padre;
 		TNodo *nodo, *rotacion, *traslacion;

@@ -12,5 +12,5 @@ newmtl 01___Default
 	Kd 0.5882 0.5882 0.5882
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka Barra_de_Vida.jpg
-	map_Kd Barra_de_Vida.jpg
+	map_Ka barravida.png
+	map_Kd barravida.png

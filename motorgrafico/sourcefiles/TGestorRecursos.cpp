@@ -172,8 +172,9 @@ TRecursoAnimacion* TGestorRecursos::cargarAnimacion(string path){
 TRecursoMalla* TGestorRecursos::cargarFichero(string path){
 	//string path = getPath(name);
 	TRecursoMalla *malla = new TRecursoMalla();
-
+	cout<<"Cargando modelo "<<path<<endl;
 	Assimp::Importer importer;
+	
 	const aiScene *scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
 
 	if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) 
@@ -192,12 +193,14 @@ TRecursoMalla* TGestorRecursos::cargarFichero(string path){
 
 void TGestorRecursos::processNode(aiNode *node, const aiScene *scene, TRecursoMalla* malla)
 {
+	
     // process all the node's meshes (if any)
     for(unsigned int i = 0; i < node->mNumMeshes; i++)
     {	
         aiMesh *mesh = scene->mMeshes[node->mMeshes[i]]; 
-        malla->addMesh(processMesh(mesh, scene));	
+        malla->addMesh(processMesh(mesh, scene, malla));	
     }
+//    cout<<malla->getMaxX()<<" "<<malla->getMaxY()<<" "<<malla->getMaxZ()<<" "<<malla->getMinX()<<" "<<malla->getMinY()<<" "<<malla->getMinZ()<<endl;
     // then do the same for each of its children
     for(unsigned int i = 0; i < node->mNumChildren; i++)
     {	
@@ -205,8 +208,9 @@ void TGestorRecursos::processNode(aiNode *node, const aiScene *scene, TRecursoMa
     }
 }  
 
-rMesh TGestorRecursos::processMesh(aiMesh *mesh, const aiScene *scene)
+rMesh TGestorRecursos::processMesh(aiMesh *mesh, const aiScene *scene, TRecursoMalla* malla)
 {
+	GLfloat max_x, min_x, max_y, min_y, max_z, min_z;
 
     vector<Vertex> vertices;
     vector<unsigned int> indices;
@@ -224,6 +228,34 @@ rMesh TGestorRecursos::processMesh(aiMesh *mesh, const aiScene *scene)
 		vector.y = mesh->mVertices[i].y;
 		vector.z = mesh->mVertices[i].z; 
 		vertex.Position = vector;
+
+		if(i == 0){
+			max_x = vector.x;
+			min_x = vector.x;
+			max_y = vector.y;
+			min_y = vector.y;
+			max_z = vector.z;
+			min_z = vector.z;
+		    if(isnan(malla->getMaxX())) malla->setMaxX(max_x);	
+		    if(isnan(malla->getMinX())) malla->setMinX(min_x);
+		
+		    if(isnan(malla->getMaxY())) malla->setMaxY(max_y);
+		    if(isnan(malla->getMinY())) malla->setMinY(min_y);
+		
+		    if(isnan(malla->getMaxZ())) malla->setMaxZ(max_z);
+		    if(isnan(malla->getMinZ())) malla->setMinZ(min_z);
+//		cout<<"Inicial : "<<malla->getMaxX()<<" "<<malla->getMaxY()<<" "<<malla->getMaxZ()<<" "<<malla->getMinX()<<" "<<malla->getMinY()<<" "<<malla->getMinZ()<<endl;
+
+		} else {
+			if(vector.x > max_x) max_x = vector.x;
+        	if(vector.x < min_x) min_x = vector.x;
+        	if(vector.y > max_y) max_y = vector.y;
+        	if(vector.y < min_y) min_y = vector.y;
+        	if(vector.z > max_z) max_z = vector.z;
+        	if(vector.z < min_z) min_z = vector.z;
+		}
+
+//		cout<<max_x<<" "<<min_x<<" "<<max_y<<" "<<min_y<<" "<<max_z<<" "<<min_z<<endl;
 		//Normales
 		vector.x = mesh->mNormals[i].x;
 		vector.y = mesh->mNormals[i].y;
@@ -243,6 +275,20 @@ rMesh TGestorRecursos::processMesh(aiMesh *mesh, const aiScene *scene)
 
         vertices.push_back(vertex);
     }
+
+    //Cambiamos los maximos y minimos del TRecursoMalla
+    if(malla->getMaxX() < max_x) malla->setMaxX(max_x);	
+    if(malla->getMinX() > min_x) malla->setMinX(min_x);
+
+    if(malla->getMaxY() < max_y) malla->setMaxY(max_y);
+    if(malla->getMinY() > min_y) malla->setMinY(min_y);
+
+    if(malla->getMaxZ() < max_z) malla->setMaxZ(max_z);
+    if(malla->getMinZ() > min_z) malla->setMinZ(min_z);
+
+//    cout<<"Final : "<<malla->getMaxX()<<" "<<malla->getMaxY()<<" "<<malla->getMaxZ()<<" "<<malla->getMinX()<<" "<<malla->getMinY()<<" "<<malla->getMinZ()<<endl;
+
+
     // process indices
     for(unsigned int i = 0; i < mesh->mNumFaces; i++)
 	{
