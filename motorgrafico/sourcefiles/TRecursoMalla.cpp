@@ -14,7 +14,9 @@ TRecursoMalla::TRecursoMalla(){
 void TRecursoMalla::draw(glm::mat4 mmodelo, TDatosEntidad *datos)
 {	
     for(unsigned int i = 0; i < meshes.size(); i++)
-        meshes[i].draw(mmodelo, datos);
+        {	
+        	meshes[i].draw(mmodelo, datos);
+        }
     if(datos->bounding == true)
 	    drawBoundingBox(mmodelo, datos);
 }  

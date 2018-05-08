@@ -11,6 +11,7 @@
 #include "../../headerfiles/TGestorRecursos.h"
 #include "../../headerfiles/TDatosEntidad.h"
 
+
 //#include "FObjeto.h"
 //#include "FCamara.h"
 #include "vec3.h"

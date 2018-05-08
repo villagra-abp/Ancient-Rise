@@ -224,9 +224,7 @@ glm::vec3 TNodo::getPosicion(){
 
 void TNodo::draw(glm::mat4 view, glm::mat4 projection,TNodo* camara, vector<TNodo*> luces, bool bounding, TDatosEntidad* datos)
 {
-
 	if(padre == nullptr){			//Solo damos valores nuevos a datos en el nodo escena.
-
 		vector<glm::vec4> colorPuntual;
 		glm::vec3 camaraPosicion;
 	
