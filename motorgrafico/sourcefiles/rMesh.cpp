@@ -67,7 +67,6 @@ void rMesh::draw(glm::mat4 mmodelo, TDatosEntidad *datos){
 		shader = shaderText;
 //	else
 //		shader = shaderNoText;
-
 	ambient = material->getAmbiente();
 	diffuse = material->getDifusa();
 	specular = material->getEspecular();
