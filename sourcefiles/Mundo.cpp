@@ -249,14 +249,17 @@ void Mundo::checkInput(int tecla){
 
         case 36: 		//escape
         {
-            if(estado==1 || estado==3){
-                if(opciones->getJuego()){
-                    CambioEstado(2);
-                }else
-                    CambioEstado(0);
+            if(estado==1){
+                CambioEstado(2);
             }
             else if(estado==2){
                 CambioEstado(1);
+            }
+            else if(estado==3){
+                if(opciones->getJuego()){
+                    CambioEstado(1);
+                }else
+                    CambioEstado(0);
             }
             
             break;
