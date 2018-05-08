@@ -1,7 +1,7 @@
 #include "../headerfiles/Mundo.h"
 
-Mundo::Mundo():prota(nullptr),c(nullptr),f(nullptr),a(nullptr),t(nullptr),bebida(nullptr),b(nullptr),enem1(nullptr),enemE1(nullptr), cam(nullptr),
-posA(nullptr), posF(nullptr), p1(nullptr), p0(nullptr)	//CONSTRUCTOR
+Mundo::Mundo():prota(nullptr),b(nullptr),enem1(nullptr),enemE1(nullptr), cam(nullptr),posA(nullptr), posF(nullptr), p1(nullptr),
+p0(nullptr), posC(nullptr), posB(nullptr), posT(nullptr)	//CONSTRUCTOR
 {
     Fachada* fachada=fachada->getInstance();
 
@@ -23,29 +23,12 @@ posA(nullptr), posF(nullptr), p1(nullptr), p0(nullptr)	//CONSTRUCTOR
 
     /* Lectura del XML para la logica del juego */
     cargarNivel();
-    //cout<<aristas.size()<<endl;
 
     /* Pasamos toda la info necesaria a la blackboard */
-    b->setComida(comidas);
     b->setProtagonista(prota);
+ 
+    b->setEnemB(enemB);  // Añadimos todos los enemigos basicos que existen a la blackboard
 
-    for(int i=0;i<enemB.size();i++)   // Añadimos todos los enemigos basicos que existen a la blackboard
-    {
-        b->setEnemB(enemB[i]);
-    }
-
-    /* CREAMOS OBJETOS */
-
-    	Posicion* posbebida= new Posicion(-300,0.34f,30.f);
-     	bebida = new Bebida(posbebida);
-        bebidas.push_back(bebida);
-     	addGameObject(bebida);
-
-    	Posicion* postrampa= new Posicion(520,0.34f,30.f);
-     	t = new Trampa(postrampa);
-        //trampas.push_back(t);
-     	addGameObject(t);
-    	 
     /** ESTABLECEMOS LA CAMARA
      Aqui indicamos la posicion de la camara en el espacio 3d. En este caso,
      esta mirando desde la posicion (0, 30, -40) a la (0, 5, 0) donde es
@@ -86,14 +69,17 @@ posA(nullptr), posF(nullptr), p1(nullptr), p0(nullptr)	//CONSTRUCTOR
     	lastFPS = -1;
 
         
-    Posicion* posmenu= new Posicion(.5f,-5000.f,.5f);
-    menu = new Menu(posmenu);
+    Posicion posmenu(.5f,-5000.f,.5f);
+    menu = new Menu(&posmenu);
 
-    Posicion* pospausa= new Posicion(-20.5f,-5000.f,.5f);
-    pausa = new Pausa(pospausa);
+    Posicion pospausa(-20.5f,-5000.f,.5f);
+    pausa = new Pausa(&pospausa);
         
-    Posicion* poshud= new Posicion(-40.5f,-5001.5f,.5f);
-    hud = new Hud(poshud);
+    Posicion poshud(-40.5f,-5001.5f,.5f);
+    hud = new Hud(&poshud);
+    
+    Posicion posOpc(-30.f,-5000.f,.5f);
+    opciones = new Opciones(&posOpc);
 
 }	
 
@@ -129,10 +115,37 @@ void Mundo::update()
     b->setTime(frameDeltaTime);
     b->setProta(protaPosition->getPosX());
 
-    /* ALARMA UPDATE*/
+    /* UPDATE DE LOS OBJETOS */
     for(size_t i=0; i<alarmas.size();i++)
     {
         alarmas[i]->update();
+    }
+
+    for(size_t i=0; i<bebidas.size();i++)
+    {
+        if(bebidas[i]->getNode()!=nullptr)
+        {
+            prota->comprobarColision(bebidas[i]);
+            bebidas[i]->update();
+        }
+    }
+
+    for(size_t i=0; i<comidas.size();i++)
+    {
+        if(comidas[i]->getNode()!=nullptr)
+        {
+            prota->comprobarColision(comidas[i]);
+            comidas[i]->update();
+        }
+    }
+
+    for(size_t i=0; i<trampas.size();i++)
+    {
+        if(trampas[i]->getNode()!=nullptr)
+        {
+            prota->comprobarColision(trampas[i]);
+            trampas[i]->update();
+        }
     }
 
     if(estado==2)
@@ -160,14 +173,6 @@ void Mundo::update()
     	    }
         }
 
-        /* DRAW SCENE */
-
-        //draw();
-
-        /* CONTROL DE FRAMES POR SEGUNDO */
-
-        //fpsControl();
-
         /*UPDATE DE SONIDO*/
         sonido->playSound(musicaBosque);
         sonido->update();
@@ -181,21 +186,6 @@ void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
 	Tiempo=Tiempo+frameDeltaTime;
     
 	energiaAnterior = prota->getEnergia();
-    
-    for(size_t i=0; i<comidas.size(); i++)
-    {
-	   prota->comprobarColision(comidas[i]);
-    }
-
-    for(size_t i=0; i<bebidas.size(); i++)
-    {
-       prota->comprobarColision(bebidas[i]);
-    }
-
-    for(size_t i=0; i<trampas.size(); i++)
-    {
-       prota->comprobarColision(trampas[i]);
-    } 
 
     prota->updateBody(world);
 
@@ -244,8 +234,11 @@ void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
 /* Funcion para controlar todas las entradas por teclado del jugador */
 
 void Mundo::checkInput(int tecla){
-    
-     //std::cout<<tecla<<endl;  
+    if (tecla!=-1)
+    {
+        //std::cout<<tecla<<endl;  
+    }
+     
     switch(tecla){
 
         case 10: // Tecla K Activar/Desactivar Combate
@@ -256,11 +249,16 @@ void Mundo::checkInput(int tecla){
 
         case 36: 		//escape
         {
-            if(estado==1){
-                CambioEstado(2);
+            if(estado==1 || estado==3){
+                if(opciones->getJuego()){
+                    CambioEstado(2);
+                }else
+                    CambioEstado(0);
             }
-            else if(estado==2)
+            else if(estado==2){
                 CambioEstado(1);
+            }
+            
             break;
         }
         case 58: 		//enter
@@ -271,10 +269,11 @@ void Mundo::checkInput(int tecla){
                 if(estm==3)
                 {
                     estado=2;
+                    opciones->setJuego(true);
                 }
                 if(estm==2)
                 {
-                    //estado=4;   //opciones
+                    estado=3;   //opciones
                 }
                 if(estm==1)
                 {
@@ -290,13 +289,35 @@ void Mundo::checkInput(int tecla){
                 }
                 if(estp==2)
                 {
-                    //estado=4;   //opciones
+                    estado=3;   //opciones
                 }
                 if(estp==1)
                 {
                     estado=0;
                 }
             }
+            break;
+        }
+        case 71: 		//izquierda
+        {
+            if(estado==4){
+                if(opciones->getEstado()==5)
+                    opciones->update(0,false,opciones->getShadow());
+                if(opciones->getEstado()==4)
+                    opciones->update(0,opciones->getSound(),false);
+            }
+            
+            break;
+        }
+        case 72: 		//derecha
+        {
+            if(estado==4){
+                if(opciones->getEstado()==5)
+                    opciones->update(0,true,opciones->getShadow());
+                if(opciones->getEstado()==4)
+                    opciones->update(0,opciones->getSound(),true);
+            }
+            
             break;
         }
         case 73: 		//arriba
@@ -307,6 +328,9 @@ void Mundo::checkInput(int tecla){
             if(estado==1){
                 pausa->update(1);
             }
+            if(estado==3){
+                opciones->update(1,opciones->getSound(),opciones->getShadow());
+            }
             break;
         }
         case 74: 		//abajoo
@@ -316,6 +340,9 @@ void Mundo::checkInput(int tecla){
             }
             if(estado==1){
                 pausa->update(-1);
+            }
+            if(estado==3){
+                opciones->update(-1,opciones->getSound(),opciones->getShadow());
             }
             break;
         }
@@ -329,10 +356,10 @@ void Mundo::checkInput(int tecla){
             break;
         }
 
-        case 15:
+        case 15:    // TECLA P - Realizar ataque
 
         {
-            if(prota->getCombate() && prota->getTiempoAtaque()>2)
+            if(prota->getCombate() && prota->getTiempoAtaque()>=0.5)
             {
                 prota->setAtaque(true);
             }
@@ -340,7 +367,7 @@ void Mundo::checkInput(int tecla){
         }
     }
 
-    if(prota->getCombate()==false || prota->getTiempoAtaque()<2)
+    if(prota->getCombate()==false || prota->getTiempoAtaque()<0.5)
     {
         prota->setAtaque(false);
     }
@@ -417,6 +444,9 @@ void Mundo::checkCombate()
 void Mundo::camUpdate(const glm::f32 frameDeltaTime){
     int posm=menu->getEstado();
     int posp=pausa->getEstado();
+    int posopc=opciones->getEstado();
+    Posicion* protaPosition = prota->getPosition();
+	vec3 posCam = cam->getPosicion();
     //prueba zoom camara
     /*
     if(prota->getCaida()){
@@ -436,29 +466,26 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
     }
     ////std::cout<<"Camz"<<CamZ<<endl;
     */
-    
-	Posicion* protaPosition = prota->getPosition();
-	//vec3 camPosition = cam->getPosicion();
-    if(estado==2){
+    if(estado==3){  ///Opciones
+        cam->setPosicion(vec3(30,5000*posopc,-20));
+    }
+    if(estado==2){  ///Juego
         if(pintaHud){
             cam->setPosicion(vec3(40,5000,-20));
         }
         else
     cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-25,-120)); // cambio 5O A ProtaPosition.Y
-    //camPosition=vec3(protaPosition->getPosX(),protaPosition->getPosY()+30,protaPosition->getPosZ());
-    //camPosition.y=protaPosition->getPosY()+30;
-    //Falta funcion para enfocar la camara
-    //cam->setTarget(camPosition);
+    
     }
-    if(estado==1){
+    if(estado==1){  ///Pausa
+        /*
         vec3 posCam=cam->getPosicion();
         posCam.x=20;
         posCam.z=-120;
-        posCam.y=5000;
+        posCam.y=0;
         //std::cout<<posCam.y<<endl;
         
-        while(posCam.y<5000*posp)
-        {
+      
             while(posCam.y<5000*(posp))
             {
                 //std::cout<<posCam.y<<endl;
@@ -472,17 +499,13 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
                 posCam.z+=0.01f*frameDeltaTime;
                 cam->setPosicion(posCam);
             }
-                
-            //std::cout<<frameDeltaTime<<endl;
-            //posCam.y=5000*posp;
-            //posCam.y+=2*frameDeltaTime;
-            //posCam.z+=2*frameDeltaTime;
-            //cam->setPosicion(posCam);
-            //cam->Rotar(vec3(0,1,0), 3.0f);
-        }
+            
+        */
+        cam->setPosicion(vec3(20,5000*posp,-20));
+         
         
     }
-    if(estado==0){
+    if(estado==0){  ///Menu
         cam->setPosicion(vec3(0,5000*posm,-20));
         //cam->Rotar(vec3(0,1,0), 3.0f);
     }
@@ -494,16 +517,10 @@ void Mundo::fpsControl(){
 
 	if (lastFPS != fps)
 	{
-		//core::stringw tmp(L"Movement Example - Irrlicht Engine [");
-		//tmp += driver->getName();
-		//tmp += L"] fps: ";
-		//tmp += fps;
-
-		//device->setWindowCaption(tmp.c_str());
 		lastFPS = fps;
 	}
 
-	this->timeWait();
+	timeWait();
 }
 
 void Mundo::timeWait(){
@@ -742,7 +759,7 @@ void Mundo::cargarNivel()
                         int nodoF = name%100;
 
                         NodoGrafo *nI, *nF;                        
-                        for(int i=0; i<nodos.size();i++)
+                        for(size_t i=0; i<nodos.size();i++)
                         {
                             if(nodos[i]->getNombre()==nodoI)
                             {
@@ -769,7 +786,7 @@ void Mundo::cargarNivel()
                         {   
                             case 1: // Enemigos Basicos
                             {
-                                enem1 = new EnemigoBasico( pos, 50.0, 0.9, a, this, b, world);
+                                enem1 = new EnemigoBasico( pos, 50.0, 1.2, a, this, b, world);
                                 enemB.push_back(enem1);
                                 addGameObject(enem1);
                                 break;
@@ -796,24 +813,27 @@ void Mundo::cargarNivel()
 
                     if(strcmp(grupo2->FirstAttribute()->Value(),"recolectables")==0)
                     {
-                        int t = tipo/10;    // Tipo de recolectable
-                        
+                        int t = tipo%10;    // Tipo de recolectable
 
                         switch (t)
                         {   
                             case 1: // Agua
                             {
-                               
+                                posB= new Posicion(xEn-190,-yEn+59,0.f);
+                                Bebida *bebida = new Bebida(posB);
+                                bebidas.push_back(bebida);
+                                addGameObject(bebida);
                                 break;
                             }
 
                             case 2: // Comida
                             {
+                                posC= new Posicion(xEn-190,-yEn+59,0.f);
+                                Comida *comida = new Comida(posC);
+                                comidas.push_back(comida);
+                                addGameObject(comida);
                                 break;
                             }
-
-                        
-
                         }
                     } 
 
@@ -844,14 +864,34 @@ void Mundo::cargarNivel()
                         b->setFuente(fuentes);
                     }  
 
+                    if(strcmp(grupo2->FirstAttribute()->Value(),"trampa")==0)
+                    {
+                        int t = tipo%10;    // Tipo de "trampa"
+
+                        switch (t)
+                        {   
+                            case 1: // Palanca
+                            {
+                                break;
+                            }
+
+                            case 2: // Trampa pinchos
+                            {
+                                posT= new Posicion(xEn-190,-yEn+59,0.f);
+                                Trampa *trampa = new Trampa(posT);
+                                trampas.push_back(trampa);
+                                addGameObject(trampa);
+                                break;
+                            }
+                        }
+                
+                    } 
+
                     if(strcmp(grupo2->FirstAttribute()->Value(),"nodos")==0)
                     {
                         NodoGrafo *nA = new NodoGrafo(idE,xEn-190, -yEn+60);           
                         nodos.push_back(nA);
                         addGameObject(nA);
-
-                        //cout<<"PosX "<<xEn<<endl;
-                        //cout<<"PosY "<<yEn<<endl;
 
                         b->setNodosGrafo(nodos);            // Pasamos los nodos a la blackboard
                     } 
@@ -868,7 +908,7 @@ void Mundo::cargarNivel()
                         int nodoF = name%100;               // Nodo FInal
                         
                         NodoGrafo *nI, *nF;                        
-                        for(int i=0; i<nodos.size();i++)
+                        for(size_t i=0; i<nodos.size();i++)
                         {
                             if(nodos[i]->getNombre()==nodoI)
                             {
@@ -963,6 +1003,9 @@ Mundo::~Mundo()	//DESTRUCTOR
 
     delete posA;
     delete posF;
+    delete posB;
+    delete posC;
+    delete posT;
     delete p0;
     delete p1;
     
