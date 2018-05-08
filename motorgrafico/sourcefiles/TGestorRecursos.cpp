@@ -122,7 +122,7 @@ TRecursoAnimacion* TGestorRecursos::cargarAnimacion(string path){
 	TRecursoMalla* malla;
 	ifstream fichero;
 	string aux, pathMallas;
-	int numFrames;
+	int numFrames, orden;
 	double duracion;
 
 	try{
@@ -137,9 +137,12 @@ TRecursoAnimacion* TGestorRecursos::cargarAnimacion(string path){
 					pathMallas = aux;
 					break;
 				case 1:
-					numFrames = stoi(aux);
+					orden = stoi(aux);
 					break;
 				case 2:
+					numFrames = stoi(aux);
+					break;
+				case 3:
 					duracion = stod(aux);
 					break;
 				default:
@@ -158,7 +161,7 @@ TRecursoAnimacion* TGestorRecursos::cargarAnimacion(string path){
 	animacion = new TRecursoAnimacion(duracion);
 
 	for(int i = 0; i < numFrames; i++){
-		aux = pathMallas + to_string(i) + ".obj";
+		aux = pathMallas + to_string(orden + i) + ".obj";
 //		cout<<aux<<endl;
 		malla = getRecursoMalla(aux);
 		animacion->addMalla(malla);
