@@ -5,6 +5,8 @@ p0(nullptr), posC(nullptr), posB(nullptr), posT(nullptr)	//CONSTRUCTOR
 {
     Fachada* fachada=fachada->getInstance();
 
+    nivel = 1;
+
     /*CREAMOS GESTOR DE SONIDO*/
     sonido = GestorSonido::getInstance();
     reverbCueva = sonido->create3DReverb();
@@ -15,8 +17,6 @@ p0(nullptr), posC(nullptr), posB(nullptr), posT(nullptr)	//CONSTRUCTOR
     /* CREAMOS PROTA */
     prota = prota->getInstance();
     addGameObject(prota);
-    //creo el suelo, el bounding box del prota
-    prota->CreateBox(world, -170.f, 0.f);
 
     /* CREAMOS LA BLACKBOARD */
     b=new Blackboard();
@@ -57,10 +57,6 @@ p0(nullptr), posC(nullptr), posB(nullptr), posT(nullptr)	//CONSTRUCTOR
         pathsSkybox.push_back("resources/skybox/skybox_4.tga");
         fachada->addSkybox(pathsSkybox);
 
-        
-    /* CREAMOS EL TERRENO Y COLISIONES DE CAMARA */
-
-    	terrainBuilder();
 
     /** TIME AND FRAMES
      Para poder hacer un movimiento independiente del framerate, tenemos que saber
@@ -77,18 +73,14 @@ p0(nullptr), posC(nullptr), posB(nullptr), posT(nullptr)	//CONSTRUCTOR
         
     Posicion* poshud= new Posicion(-40.5f,-5001.5f,.5f);
     hud = new Hud(poshud);
-
 }	
-
-void Mundo::terrainBuilder(){	//CONSTRUCTOR DEL TERRENOS Y COLISIONES DE CAMARA
-
-    fachada->drawTerreno();
-
-}
 
 void Mundo::update()
 {
-    
+    if(prota->getPosition()->getPosX()>360)
+    {
+        cambiarNivel();
+    }
 	//pasos de las fisicas en el mundo
 	world.Step(1/60.f, 8, 3);
 	//reinicio las fuerzas en el mundo
@@ -111,6 +103,7 @@ void Mundo::update()
 
     b->setTime(frameDeltaTime);
     b->setProta(protaPosition->getPosX());
+
 
     /* UPDATE DE LOS OBJETOS */
     for(size_t i=0; i<alarmas.size();i++)
@@ -147,19 +140,21 @@ void Mundo::update()
 
     if(estado==2)
     {
-
         //Comprueba las entradas del teclado
         checkInput(-1);
-
+cout<<"llego2"<<endl;
         /* UPDATE DE LOS ENEMIGOS */
         for(size_t i=0; i<enemB.size();i++)   		// Enemigos Basicos
         {
         	if(enemB[i]->getNode()!=nullptr) 	// Solo si existen hacemos su update
         	{
+                cout<<"llego2.5"<<endl;
     	       	enemB[i]->updateTiempo(frameDeltaTime);
     	     	enemB[i]->Update(prota->getPosition());
     	    }
         }
+
+        cout<<"llego3"<<endl;
 
         for(int i2=0; i2<enemE.size();i2++) 	// Enemigos Elites
         {
@@ -170,6 +165,7 @@ void Mundo::update()
     	    }
         }
 
+        cout<<"llego4"<<endl;
         /*UPDATE DE SONIDO*/
         sonido->playSound(musicaBosque);
         sonido->update();
@@ -506,9 +502,22 @@ void Mundo::cargarNivel()
 {
     TiXmlDocument doc;
 
-    if(doc.TiXmlDocument::LoadFile("resources/nivel2.xml",TIXML_ENCODING_UTF8 )) //TIXML_ENCODING_UTF8
-    { 
-      //std::cout <<"Leyendo bien"<<endl;    
+     switch(nivel){
+
+        case 1: 
+        {        
+           doc.TiXmlDocument::LoadFile("resources/nivel2.xml",TIXML_ENCODING_UTF8);
+           /* CREAMOS EL TERRENO Y COLISIONES DE CAMARA */
+           fachada->drawTerreno(1);
+           break;
+        }
+
+        case 2:
+        {
+            doc.TiXmlDocument::LoadFile("resources/nivel3.xml",TIXML_ENCODING_UTF8);
+            fachada->drawTerreno(2);
+           break;
+        }
     }
 
     //OBTENER ELEMENTO MAPA
@@ -778,6 +787,22 @@ void Mundo::cargarNivel()
                 
                     }  
 
+                     if(strcmp(grupo2->FirstAttribute()->Value(),"puerta")==0)
+                    {
+                
+                    }  
+
+                    if(strcmp(grupo2->FirstAttribute()->Value(),"prota")==0) // Posicion inicial del prota
+                    {
+                        int t = tipo%10;  
+
+                        if(t==1)
+                        {
+                            prota->CreateBox(world,xEn-190,-yEn+59); // Pos inicial del prota en cada nivel
+                        }
+                        
+                    } 
+
                     if(strcmp(grupo2->FirstAttribute()->Value(),"alarmas")==0)
                     {
                         posA= new Posicion(xEn-190,-yEn+59,0.f);
@@ -873,6 +898,76 @@ void Mundo::cargarNivel()
     }//mapa
 
 }    
+
+/* Funcion para hacer el cambio de nivel cuando se llegue al final */
+void Mundo::cambiarNivel()
+{
+    if(nivel<MAX_NIVEL) // No cambiar nivel si no hay mas
+    {
+        nivel = nivel +1;
+
+        fachada->destruirBodies();
+
+        b->borrarEnemB();
+
+    /* DELETE DEL GRAFO PROVISIONAL */
+    for(size_t cont3=0; cont3<nodos.size();cont3++)
+    {
+        delete nodos[cont3];
+    }
+    nodos.clear();
+
+    for(size_t cont4=0; cont4<aristas.size();cont4++)
+    {
+        delete aristas[cont4];
+    }
+    aristas.clear();
+
+    /* DELETE DE LOS OBJETOS DEL MAPA */
+    for (size_t cont=0; cont<alarmas.size();cont++)
+    {
+        delete alarmas[cont];
+    }
+    alarmas.clear();
+
+    for (size_t cont=0; cont<fuentes.size();cont++)
+    {
+        delete fuentes[cont];
+    }
+    fuentes.clear();
+
+    for (size_t cont=0; cont<comidas.size();cont++)
+    {
+        delete comidas[cont];
+    }
+    comidas.clear();
+
+    for (size_t cont=0; cont<bebidas.size();cont++)
+    {
+        delete bebidas[cont];
+    }
+    bebidas.clear();
+
+    for (size_t cont=0; cont<trampas.size();cont++)
+    {
+        delete trampas[cont];
+    }
+    trampas.clear();
+
+    delete posA;
+    delete posF;
+    delete posB;
+    delete posC;
+    delete posT;
+    delete p0;
+    delete p1;
+
+        cargarNivel(); // Volvemos a hacer la lectura del xml 
+        cout<<"llego1"<<endl;
+    }
+
+
+}
 
 
 Mundo::~Mundo()	//DESTRUCTOR

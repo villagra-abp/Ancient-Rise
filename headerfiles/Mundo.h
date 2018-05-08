@@ -48,6 +48,8 @@ class Mundo : public Entorno
         Mundo();
         virtual ~Mundo();
 
+        void cambiarNivel();
+
         //MANEJO DE GAMEOBJECTS
         void    addGameObject   (GameObject* o);
 
@@ -70,9 +72,6 @@ class Mundo : public Entorno
 
     protected:
     /* METHODS */
-
-    	//BUILDERS
-        void terrainBuilder();
 
         //UPDATERS
         void protaUpdate(const glm::f32 frameDeltaTime);
@@ -103,6 +102,9 @@ class Mundo : public Entorno
         vector<Comida*> comidas;
         vector<Bebida*> bebidas;
         vector<Trampa*> trampas;
+
+        int nivel;
+        const int MAX_NIVEL = 2;
 
     	//BLACKBOARD
     	Blackboard *b;

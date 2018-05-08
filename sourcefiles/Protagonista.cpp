@@ -99,9 +99,6 @@ void Protagonista::CreateBox(b2World& world, float X, float Y)
     FixtureDef.filter.groupIndex = GROUP_PLAYER;
     Body->CreateFixture(&FixtureDef);
     Body->SetUserData( rec );
-    //std::cout<<Body->GetMass()<<"\n";
-
-  
 }
 
 /**

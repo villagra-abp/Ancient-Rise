@@ -87,7 +87,6 @@ Enemigo::Enemigo(vector<Posicion*> pos, float xlength, float pendValue, const En
 /* Update para todos los enemigos*/
 void Enemigo::update(Posicion* Posprota)
 {   
-    //cout<<"Entro primera vez Update"<<endl;
     if(salud<=0) // Enemigo Muerto
     {   
         //cout<<"Muerto"<<endl;
@@ -113,10 +112,12 @@ void Enemigo::update(Posicion* Posprota)
     { 
         //cout<<"Entro"<<endl;
         hud();
-
+        cout<<"llego2.6"<<endl;
         actualizarSed();
         //COMPROBAMOS GAMEOBJECTS DENTRO DE LA VISTA
         vistos.clear();
+
+        cout<<"llego2.7"<<endl;
 
         for(int i = 0; i < ent->getSize(); i++){
             if(checkInSight(ent->getGameObject(i)->getPosition())){
@@ -125,6 +126,7 @@ void Enemigo::update(Posicion* Posprota)
             }
         }
 
+         cout<<"llego2.8"<<endl;
         // COMPROBAMOS SI HEMOS VISTO AL PROTAGONISTA 
         if(checkInSight(Posprota) && inv==false)
         {              
@@ -137,7 +139,6 @@ void Enemigo::update(Posicion* Posprota)
                 visto = false;
             }
         }
-
         
         /* COMBATE MELE */
             

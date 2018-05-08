@@ -100,7 +100,7 @@ class Protagonista : public GameObject
         b2Body* Body;
         b2BodyDef BodyDef;
         b2PolygonShape Shape;
-        short GROUP_PLAYER = -1; 
+        short GROUP_PLAYER = -2; 
 
        /* COMBATE */
         bool combate;                     // PARA SABER SI ESTA COMBATIENDO O NO

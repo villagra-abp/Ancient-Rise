@@ -25,7 +25,7 @@ EnemigoBasico::EnemigoBasico(vector<Posicion*> pos, float xlength, float pendVal
     
 
      /* Velocidad a la que bajan las estadisticas del enemigo */
-    setVelSed(-3.7);
+    setVelSed(-0.7);
 
 
     /* BOX2D */
@@ -44,9 +44,9 @@ void EnemigoBasico::Update(Posicion* prota)
     
     update(prota);                                     // Llamamos tambien al update de la clase general del enemigo y actualizamos los valores de sed - hambre del mismo
     
+    cout<<"llego3"<<endl;
     if(enemigo!=nullptr)
     {
-
       comprobarEnergia();
 
       comportamiento->update(this);                           // Empezamos a ejecutar el arbol de comportamiento del enemigo
