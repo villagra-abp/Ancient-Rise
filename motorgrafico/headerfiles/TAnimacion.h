@@ -33,6 +33,8 @@ private:
 
 	double getTime();
 	bool visible;
+	double framerate;
+	int fps;
 
 	TRecursoAnimacion* animacion;
 	TGestorRecursos* gestor;

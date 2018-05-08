@@ -5,6 +5,7 @@ TAnimacion::TAnimacion(){
 	time = 0;
 	now = steady_clock::now();
 	gestor = TGestorRecursos::getInstance();
+	framerate = 0;
 }
 
 void TAnimacion::cargarAnimacion(string path){
@@ -34,8 +35,20 @@ void TAnimacion::endDraw(){
 int TAnimacion::getFrame(){
 	int malla;
 	double auxTime;
-
-	time += getTime();
+	double aux = getTime();
+	
+	time += aux;
+//	
+//	framerate += aux;
+//	fps++;
+//
+//	if(framerate >= 1)
+//	{
+//		cout<<"FPS: "<<fps<<endl;
+//		fps = 0;
+//		framerate = 0;
+//	}
+//
 
 	while(time > duracion)					//Si se ha superado la duracion de la animacion se inicia desde 0
 		time -= duracion;
