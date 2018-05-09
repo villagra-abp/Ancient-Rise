@@ -28,5 +28,11 @@ Fuente::Fuente(Posicion* pos):Objeto(pos)
 
 void Fuente::update()
 {
-	
+	fachada->destruirObjeto(objeto);
 }
+
+Fuente::~Fuente()
+{
+	fachada->destruirObjeto(objeto);
+}
+

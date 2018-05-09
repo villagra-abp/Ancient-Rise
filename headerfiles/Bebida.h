@@ -11,6 +11,7 @@ class Bebida : public Objeto
 	public:
 		Bebida( Posicion* pos);
 		virtual void update() override;
+		virtual ~Bebida();
 		void* getNode();
 
 	private:

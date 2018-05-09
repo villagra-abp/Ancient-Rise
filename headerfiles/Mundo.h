@@ -124,7 +124,7 @@ class Mundo : public Entorno
     	//CAMARA
     	FCamara* cam;
 
-    	
+    	void* Terreno;
 
     	//TIME AND FRAMES
         int lastFPS;

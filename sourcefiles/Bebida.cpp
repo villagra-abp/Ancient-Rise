@@ -31,3 +31,8 @@ void* Bebida::getNode()
     return objeto;
 }
 
+Bebida::~Bebida()
+{
+	fachada->destruirObjeto(objeto);
+}
+

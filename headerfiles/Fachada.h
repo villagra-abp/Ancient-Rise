@@ -59,7 +59,7 @@ public:
 	void destruirObjeto(void* nodo);
 	void destruirBodies();
 
-    void drawTerreno(int nivel);
+    FObjeto* drawTerreno(int nivel);
     void addMenu(int t);
     void addFlecha(int pos);
 	

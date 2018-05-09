@@ -119,7 +119,10 @@ void Fachada::destruirObjeto(void* nodo)
 {
     FObjeto* node=(FObjeto*)nodo;
 
-    node->isActive(false);
+   // cout<<"entro"<<endl;
+   // node->isActive(false);
+
+    delete node;
 }
 
 
@@ -281,7 +284,7 @@ bool Fachada::setMaterial(void * nodo,std::string ruta){
     return true;
 }
 /* Funcion para dibujar los diferentes mapas del juego en funcion del nivel en el que estemos */
-void Fachada::drawTerreno(int nivel){
+FObjeto* Fachada::drawTerreno(int nivel){
     
 	FObjeto* suelo = new FObjeto();
 
@@ -307,6 +310,7 @@ void Fachada::drawTerreno(int nivel){
 	//suelo->Rotar(vec3(0,1,0), -3.f);
     suelo->Rotar(vec3(1,0,0), 1.57f);
 	
+    return suelo;
     
 }
 void Fachada::addMenu(int tipo){

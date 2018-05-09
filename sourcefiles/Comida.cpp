@@ -42,3 +42,8 @@ void* Comida::getNode()
     return objeto;
 }
 
+Comida::~Comida()
+{
+	fachada->destruirObjeto(objeto);
+}
+

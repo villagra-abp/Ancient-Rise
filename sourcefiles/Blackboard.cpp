@@ -10,6 +10,7 @@ Blackboard::Blackboard():enemBActual(nullptr), prota(nullptr)
 void Blackboard::borrarEnemB()
 {
 	for(int i = 0 ; i < enemigosB.size(); i++){
+		cout<<"entro"<<endl;
 		delete enemigosB[i];
 	}
 	enemigosB.clear();

@@ -24,10 +24,12 @@ p0(nullptr), posC(nullptr), posB(nullptr), posT(nullptr)	//CONSTRUCTOR
     /* Lectura del XML para la logica del juego */
     cargarNivel();
 
+    //cout<<"Tam enemigos Basicos: "<<enemB.size()<<endl;
+    //cout<<"Tam nodos : "<<nodos.size()<<endl;
+    //cout<<"Tam fuentes : "<<fuentes.size()<<endl;
+
     /* Pasamos toda la info necesaria a la blackboard */
     b->setProtagonista(prota);
- 
-    b->setEnemB(enemB);  // Añadimos todos los enemigos basicos que existen a la blackboard
 
     /** ESTABLECEMOS LA CAMARA
      Aqui indicamos la posicion de la camara en el espacio 3d. En este caso,
@@ -576,14 +578,14 @@ void Mundo::cargarNivel()
         {        
            doc.TiXmlDocument::LoadFile("resources/nivel2.xml",TIXML_ENCODING_UTF8);
            /* CREAMOS EL TERRENO Y COLISIONES DE CAMARA */
-           fachada->drawTerreno(1);
+           Terreno = fachada->drawTerreno(1);
            break;
         }
 
         case 2:
         {
             doc.TiXmlDocument::LoadFile("resources/nivel3.xml",TIXML_ENCODING_UTF8);
-            fachada->drawTerreno(2);
+            Terreno = fachada->drawTerreno(2);
            break;
         }
     }
@@ -821,6 +823,8 @@ void Mundo::cargarNivel()
                         }
 
                         pos.clear();    // Vaciamos el vector para que no de problemas para el siguiente
+
+                        b->setEnemB(enemB);
                         
                     }   
 
@@ -972,11 +976,15 @@ void Mundo::cambiarNivel()
 {
     if(nivel<MAX_NIVEL) // No cambiar nivel si no hay mas
     {
+
+        //cout<<"Tam GameObject "<<gos.size()<<endl;
         nivel = nivel +1;
 
         fachada->destruirBodies();
 
-        b->borrarEnemB();
+        fachada->destruirObjeto(Terreno);
+
+        //b->borrarEnemB();
 
     /* DELETE DEL GRAFO PROVISIONAL */
     for(size_t cont3=0; cont3<nodos.size();cont3++)
@@ -1022,6 +1030,19 @@ void Mundo::cambiarNivel()
     }
     trampas.clear();
 
+    for(size_t cont=0; cont<enemB.size();cont++)
+    {
+        
+        delete enemB[cont];
+    }
+    enemB.clear();
+
+    for(size_t cont2=0; cont2<enemE.size();cont2++)
+    {
+        delete enemE[cont2];
+    }
+    enemE.clear();
+
     delete posA;
     delete posF;
     delete posB;
@@ -1030,7 +1051,28 @@ void Mundo::cambiarNivel()
     delete p0;
     delete p1;
 
+    gos.clear();
+
+    b->setEnemB(enemB);
+    b->setAlarma(alarmas);
+    b->setFuente(fuentes);
+    b->setNodosGrafo(nodos);
+
+
+    //cout<<"Tam2 enemigos Basicos: "<<enemB.size()<<endl;
+    //cout<<"Tam2 nodos : "<<nodos.size()<<endl;
+    //cout<<"Tam2 fuentes : "<<fuentes.size()<<endl;
+
         cargarNivel(); // Volvemos a hacer la lectura del xml 
+
+       // cout<<"Tam3 enemigos Basicos: "<<enemB.size()<<endl;
+    //cout<<"Tam3 nodos : "<<nodos.size()<<endl;
+    //cout<<"Tam3 fuentes : "<<fuentes.size()<<endl;
+
+     //cout<<"TamB enemigos Basicos: "<<b->getEnemB().size()<<endl;
+    //cout<<"TamB nodos : "<<b->getNodosGrafo().size()<<endl;
+    //cout<<"TamB fuentes : "<<b->getFuente().size()<<endl;
+
         //cout<<"llego1"<<endl;
     }
 

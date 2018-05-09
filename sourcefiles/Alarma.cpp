@@ -65,5 +65,5 @@ void Alarma::startClock()
 
 Alarma::~Alarma()
 {
-
+	fachada->destruirObjeto(objeto);
 }

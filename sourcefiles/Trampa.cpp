@@ -14,7 +14,7 @@ Trampa::Trampa(Posicion* pos):Objeto(pos)
         
 		//driver = fachada->getDriver();
 		//objeto ->setPosition(core::vector3df(pos.getPosX(),pos.getPosY(),pos.getPosZ()));
-        Posicion escala(1.f,1.f,1.f);
+        Posicion escala(10.f,10.f,10.f);
 		fachada->setScala(objeto,&escala);
 		//objeto ->setMaterialFlag(video::EMF_LIGHTING, false);
 		//objeto ->setMaterialTexture(0,driver->getTexture("resources/pinchos.jpeg"));
@@ -32,5 +32,10 @@ void Trampa::update()
 void* Trampa::getNode()
 {
     return objeto;
+}
+
+Trampa::~Trampa()
+{
+	fachada->destruirObjeto(objeto);
 }
 

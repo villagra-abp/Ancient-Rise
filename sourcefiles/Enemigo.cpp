@@ -121,6 +121,7 @@ void Enemigo::update(Posicion* Posprota)
 
         //cout<<"llego2.7"<<endl;
 
+        //cout<<ent->getSize()<<endl;
         for(int i = 0; i < ent->getSize(); i++){
             if(checkInSight(ent->getGameObject(i)->getPosition())){
                 vistos.push_back(ent->getGameObject(i));
@@ -680,4 +681,13 @@ Enemigo::~Enemigo()
 {
     //dtor
      vistos.clear();
+
+     fachada->destruirObjeto(enemigo);
+     fachada->destruirObjeto(life);
+      fachada->destruirObjeto(energy);
+
+        fachada->destruirObjeto(flecha0);
+
+        fachada->destruirObjeto(flecha1);
+
 }
