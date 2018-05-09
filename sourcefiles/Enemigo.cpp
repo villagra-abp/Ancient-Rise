@@ -13,6 +13,7 @@ Enemigo::Enemigo(vector<Posicion*> pos, float xlength, float pendValue, const En
     GameObject::setTipo(ENEMY);
     Fachada* fachada=fachada->getInstance();
 	
+//    FBillboard* enemigoObjeto = fachada->addBillboard(pos[0]->getPosX(),pos[0]->getPosY(),pos[0]->getPosZ(), "resources/personaje.obj");
     FObjeto* enemigoObjeto = fachada->addMalla(pos[0]->getPosX(),pos[0]->getPosY(),pos[0]->getPosZ(), "resources/personaje.obj");
     enemigo = enemigoObjeto;
 
@@ -29,6 +30,7 @@ Enemigo::Enemigo(vector<Posicion*> pos, float xlength, float pendValue, const En
     dep4=fachada->addMalla(-175,15,0,"resources/manzana.obj");*/
 
     energy=fachada->addMalla(-170,15,0,"resources/cajitaobj.obj");
+//    energy=fachada->addBillboard(-170,15,0,"resources/cajitaobj.obj");
     life=fachada->addMalla(-170,20,0,"resources/cajaColor.obj");
     flecha1=fachada->addMalla(-160,8,0,"resources/flecha.obj");
     flecha0=fachada->addMalla(-170,8,0,"resources/flecha.obj");
@@ -112,12 +114,12 @@ void Enemigo::update(Posicion* Posprota)
     { 
         //cout<<"Entro"<<endl;
         hud();
-        cout<<"llego2.6"<<endl;
+        //cout<<"llego2.6"<<endl;
         actualizarSed();
         //COMPROBAMOS GAMEOBJECTS DENTRO DE LA VISTA
         vistos.clear();
 
-        cout<<"llego2.7"<<endl;
+        //cout<<"llego2.7"<<endl;
 
         for(int i = 0; i < ent->getSize(); i++){
             if(checkInSight(ent->getGameObject(i)->getPosition())){
@@ -126,7 +128,7 @@ void Enemigo::update(Posicion* Posprota)
             }
         }
 
-         cout<<"llego2.8"<<endl;
+         //cout<<"llego2.8"<<endl;
         // COMPROBAMOS SI HEMOS VISTO AL PROTAGONISTA 
         if(checkInSight(Posprota) && inv==false)
         {              

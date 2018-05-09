@@ -18,6 +18,7 @@
 #include "../headerfiles/Menu.h"
 #include "../headerfiles/Pausa.h"
 #include "../headerfiles/Hud.h"
+#include "../headerfiles/Opciones.h"
 #include <tinyxml.h>
 
 #include "../motorsonido/headerfiles/GestorSonido.h"
@@ -160,6 +161,7 @@ class Mundo : public Entorno
         Hud* hud;
         Menu* menu;
         Pausa* pausa;
+        Opciones* opciones;
     private:
 };
 

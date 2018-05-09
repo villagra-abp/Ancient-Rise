@@ -5,11 +5,11 @@
 int main()
 {	
 	// Tamaño ventana 
-	int ancho = 1500;
-	int alto = 900;
+//	int ancho = 1500;
+//	int alto = 900;
 
-	//int ancho = 800;
-	//int alto = 600;
+	int ancho = 800;
+	int alto = 600;
 
 
     //Creo la fachada 
@@ -87,7 +87,6 @@ int main()
     ventana->display();
 
 	}
-
     delete mundo;
 	delete fachada;
 

@@ -65,14 +65,18 @@ p0(nullptr), posC(nullptr), posB(nullptr), posT(nullptr)	//CONSTRUCTOR
     	lastFPS = -1;
 
         
-    Posicion* posmenu= new Posicion(.5f,-5000.f,.5f);
-    menu = new Menu(posmenu);
+    Posicion posmenu(.5f,-5000.f,.5f);
+    menu = new Menu(&posmenu);
 
-    Posicion* pospausa= new Posicion(-20.5f,-5000.f,.5f);
-    pausa = new Pausa(pospausa);
+    Posicion pospausa(-20.5f,-5000.f,.5f);
+    pausa = new Pausa(&pospausa);
         
-    Posicion* poshud= new Posicion(-40.5f,-5001.5f,.5f);
-    hud = new Hud(poshud);
+    Posicion poshud(-40.5f,-5001.5f,.5f);
+    hud = new Hud(&poshud);
+    
+    Posicion posOpc(-30.f,-5000.f,.5f);
+    opciones = new Opciones(&posOpc);
+
 }	
 
 void Mundo::update()
@@ -142,19 +146,19 @@ void Mundo::update()
     {
         //Comprueba las entradas del teclado
         checkInput(-1);
-cout<<"llego2"<<endl;
+//cout<<"llego2"<<endl;
         /* UPDATE DE LOS ENEMIGOS */
         for(size_t i=0; i<enemB.size();i++)   		// Enemigos Basicos
         {
         	if(enemB[i]->getNode()!=nullptr) 	// Solo si existen hacemos su update
         	{
-                cout<<"llego2.5"<<endl;
+                //cout<<"llego2.5"<<endl;
     	       	enemB[i]->updateTiempo(frameDeltaTime);
     	     	enemB[i]->Update(prota->getPosition());
     	    }
         }
 
-        cout<<"llego3"<<endl;
+        //cout<<"llego3"<<endl;
 
         for(int i2=0; i2<enemE.size();i2++) 	// Enemigos Elites
         {
@@ -165,7 +169,7 @@ cout<<"llego2"<<endl;
     	    }
         }
 
-        cout<<"llego4"<<endl;
+        //cout<<"llego4"<<endl;
         /*UPDATE DE SONIDO*/
         sonido->playSound(musicaBosque);
         sonido->update();
@@ -227,8 +231,11 @@ void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
 /* Funcion para controlar todas las entradas por teclado del jugador */
 
 void Mundo::checkInput(int tecla){
-    
-     //std::cout<<tecla<<endl;  
+    if (tecla!=-1)
+    {
+        //std::cout<<tecla<<endl;  
+    }
+     
     switch(tecla){
 
         case 10: // Tecla K Activar/Desactivar Combate
@@ -242,8 +249,16 @@ void Mundo::checkInput(int tecla){
             if(estado==1){
                 CambioEstado(2);
             }
-            else if(estado==2)
+            else if(estado==2){
                 CambioEstado(1);
+            }
+            else if(estado==3){
+                if(opciones->getJuego()){
+                    CambioEstado(1);
+                }else
+                    CambioEstado(0);
+            }
+            
             break;
         }
         case 58: 		//enter
@@ -254,10 +269,11 @@ void Mundo::checkInput(int tecla){
                 if(estm==3)
                 {
                     estado=2;
+                    opciones->setJuego(true);
                 }
                 if(estm==2)
                 {
-                    //estado=4;   //opciones
+                    estado=3;   //opciones
                 }
                 if(estm==1)
                 {
@@ -273,13 +289,35 @@ void Mundo::checkInput(int tecla){
                 }
                 if(estp==2)
                 {
-                    //estado=4;   //opciones
+                    estado=3;   //opciones
                 }
                 if(estp==1)
                 {
                     estado=0;
                 }
             }
+            break;
+        }
+        case 71: 		//izquierda
+        {
+            if(estado==4){
+                if(opciones->getEstado()==5)
+                    opciones->update(0,false,opciones->getShadow());
+                if(opciones->getEstado()==4)
+                    opciones->update(0,opciones->getSound(),false);
+            }
+            
+            break;
+        }
+        case 72: 		//derecha
+        {
+            if(estado==4){
+                if(opciones->getEstado()==5)
+                    opciones->update(0,true,opciones->getShadow());
+                if(opciones->getEstado()==4)
+                    opciones->update(0,opciones->getSound(),true);
+            }
+            
             break;
         }
         case 73: 		//arriba
@@ -290,6 +328,9 @@ void Mundo::checkInput(int tecla){
             if(estado==1){
                 pausa->update(1);
             }
+            if(estado==3){
+                opciones->update(1,opciones->getSound(),opciones->getShadow());
+            }
             break;
         }
         case 74: 		//abajoo
@@ -299,6 +340,9 @@ void Mundo::checkInput(int tecla){
             }
             if(estado==1){
                 pausa->update(-1);
+            }
+            if(estado==3){
+                opciones->update(-1,opciones->getSound(),opciones->getShadow());
             }
             break;
         }
@@ -400,6 +444,9 @@ void Mundo::checkCombate()
 void Mundo::camUpdate(const glm::f32 frameDeltaTime){
     int posm=menu->getEstado();
     int posp=pausa->getEstado();
+    int posopc=opciones->getEstado();
+    Posicion* protaPosition = prota->getPosition();
+	vec3 posCam = cam->getPosicion();
     //prueba zoom camara
     /*
     if(prota->getCaida()){
@@ -419,25 +466,46 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
     }
     ////std::cout<<"Camz"<<CamZ<<endl;
     */
-    
-	Posicion* protaPosition = prota->getPosition();
-	//vec3 camPosition = cam->getPosicion();
-    if(estado==2){
+    if(estado==3){  ///Opciones
+        cam->setPosicion(vec3(30,5000*posopc,-20));
+    }
+    if(estado==2){  ///Juego
         if(pintaHud){
             cam->setPosicion(vec3(40,5000,-20));
         }
         else
     cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-25,-120)); // cambio 5O A ProtaPosition.Y
-    //camPosition=vec3(protaPosition->getPosX(),protaPosition->getPosY()+30,protaPosition->getPosZ());
-    //camPosition.y=protaPosition->getPosY()+30;
-    //Falta funcion para enfocar la camara
-    //cam->setTarget(camPosition);
+    
     }
-    if(estado==1){
+    if(estado==1){  ///Pausa
+        /*
+        vec3 posCam=cam->getPosicion();
+        posCam.x=20;
+        posCam.z=-120;
+        posCam.y=0;
+        //std::cout<<posCam.y<<endl;
+        
+      
+            while(posCam.y<5000*(posp))
+            {
+                //std::cout<<posCam.y<<endl;
+                //posCam.y=5000*posp;
+                posCam.y+=5*frameDeltaTime;
+                //posCam.z+=0.1*frameDeltaTime;
+                cam->setPosicion(posCam);
+                //cam->Rotar(vec3(0,1,0), 3.0f);
+            }
+            while(posCam.z<-20){
+                posCam.z+=0.01f*frameDeltaTime;
+                cam->setPosicion(posCam);
+            }
+            
+        */
         cam->setPosicion(vec3(20,5000*posp,-20));
-        //cam->Rotar(vec3(0,1,0), 3.0f);
+         
+        
     }
-    if(estado==0){
+    if(estado==0){  ///Menu
         cam->setPosicion(vec3(0,5000*posm,-20));
         //cam->Rotar(vec3(0,1,0), 3.0f);
     }
@@ -963,7 +1031,7 @@ void Mundo::cambiarNivel()
     delete p1;
 
         cargarNivel(); // Volvemos a hacer la lectura del xml 
-        cout<<"llego1"<<endl;
+        //cout<<"llego1"<<endl;
     }
 
 

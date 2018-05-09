@@ -56,6 +56,8 @@ std::cout << "version:" << settings.majorVersion << "." << settings.minorVersion
 	/*creo una vista*/
     glewInit();
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+//  glCullFace(GL_FRONT);  
     glDepthMask(GL_TRUE);
     glDepthFunc(GL_LEQUAL);
     glDepthRange(0.1f, 100.0f);
@@ -197,6 +199,7 @@ FObjeto* Fachada::addSphere(int x,int y,int z,bool flag){
 FObjeto* Fachada::addMalla(float x,float y,float z,string ruta){
     
     FObjeto* malla = new FObjeto();
+//    FBillboard* malla = new FBillboard();
 	
     malla->setMalla(ruta);
     malla->Escalar(vec3(2,2,2));
@@ -205,6 +208,18 @@ FObjeto* Fachada::addMalla(float x,float y,float z,string ruta){
 	malla->setPosicion(vec3(x,y,z));
 	//malla->Rotar(vec3(0,1,0), -4.5f);
     
+    return malla;
+}
+
+FBillboard* Fachada::addBillboard(float x,float y,float z,string ruta){
+     FBillboard* malla = new FBillboard();
+    
+    malla->setMalla(ruta);
+    malla->Escalar(vec3(2,2,2));
+    
+
+    malla->setPosicion(vec3(x,y,z));
+
     return malla;
 }
 

@@ -44,7 +44,7 @@ void EnemigoBasico::Update(Posicion* prota)
     
     update(prota);                                     // Llamamos tambien al update de la clase general del enemigo y actualizamos los valores de sed - hambre del mismo
     
-    cout<<"llego3"<<endl;
+    //cout<<"llego3"<<endl;
     if(enemigo!=nullptr)
     {
       comprobarEnergia();

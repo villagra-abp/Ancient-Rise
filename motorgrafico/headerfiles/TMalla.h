@@ -7,6 +7,7 @@
 class TMalla: public TEntidad{
 public:
 	TMalla();
+	TMalla(bool billboard);
 	virtual ~TMalla();
 	void cargarMalla(string name);
 	void setMaterial(string name);
@@ -21,7 +22,7 @@ private:
 	TRecursoMaterial *material;
 	TRecursoMalla *mesh;
 	TGestorRecursos *gestor;
-	bool visible;
+	bool visible, billboard;
 
 } ;
 

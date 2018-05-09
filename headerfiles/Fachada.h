@@ -66,6 +66,7 @@ public:
     FObjeto* addCube(int x,int y,int z,bool flag);
     FObjeto* addSphere(int x,int y,int z,bool flag);
     FObjeto* addMalla(float x,float y,float z,string ruta);
+    FBillboard* addBillboard(float x,float y,float z,string ruta);
     FObjeto* addAnimacion(int x, int y, int z, string path);
     FCamara* addCamara(Posicion*);
     FLuz* addLuz(Posicion*);
