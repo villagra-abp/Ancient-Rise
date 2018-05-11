@@ -180,6 +180,11 @@ void Protagonista::ataque(EnemigoBasico* e)
     
 }
 
+b2Body* Protagonista::getBody(){
+    
+    return Body;
+}
+
 /**
 FUNCION PARA CONTROLAR EL MOVIMIENTO DEL PROTA
 **/
@@ -192,7 +197,7 @@ void Protagonista::movimiento(const glm::f32 Time)
         {
             velo.x=-10.f;
             Body->SetLinearVelocity(velo);
-        }else if(correr==true && energia>10.1 && velo.y>=-5 && velo.y<5)
+        }else if(correr==true && velo.y>=-4 && velo.y<4)
         {
             setEnergia(-1.f,0.2f);
             Body->ApplyForceToCenter(b2Vec2(-3500.f,0.f),true);
@@ -201,8 +206,7 @@ void Protagonista::movimiento(const glm::f32 Time)
                 velo.x=-80.f; 
                 Body->SetLinearVelocity(velo);
             }
-            if(energia<10)
-                correr=false;
+            
         }else
         {
             velo.x=-30.f;
@@ -217,7 +221,7 @@ void Protagonista::movimiento(const glm::f32 Time)
                 velo.x=10.f;
                 //Body->ApplyForceToCenter(b2Vec2(35.f,0.f),true);
                Body->SetLinearVelocity(velo);
-            }else if(correr==true && energia>10.1&& velo.y>=-5 && velo.y<5){
+            }else if(correr==true && velo.y>=-4 && velo.y<4){
                 setEnergia(-1.f,0.2f);
                 Body->ApplyForceToCenter(b2Vec2(3500.f,0.f),true);
                 if(velo.x>80.f){
@@ -226,8 +230,6 @@ void Protagonista::movimiento(const glm::f32 Time)
                     //std::cout<<"velocidad +90"<<endl;
                 }
                 
-                if(energia<10)
-                    correr=false;
             }else{
                 velo.x=30.f;
                 //Body->ApplyForceToCenter(b2Vec2(60.f,0.f),true);
@@ -508,7 +510,8 @@ void Protagonista::setCorrer(bool s)
 {
     if(energia>10){
         correr=s;
-    }
+    }else
+        correr=false;
     
 }
 
