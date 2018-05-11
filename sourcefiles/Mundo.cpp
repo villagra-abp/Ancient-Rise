@@ -449,6 +449,8 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
     int posopc=opciones->getEstado();
     Posicion* protaPosition = prota->getPosition();
 	vec3 posCam = cam->getPosicion();
+    b2Vec2 velo=prota->getBody()->GetLinearVelocity();
+    //cout<<velo.x<<endl;
     //prueba zoom camara
     
     if(estado==3){  ///Opciones
@@ -458,13 +460,16 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
         if(pintaHud){
             cam->setPosicion(vec3(40,5000,-20));
         }
-        else if(prota->getCorrer()){
-            cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-25,-120)); 
+        else if(velo.x>60){
+            for(float i=-115;i>-120;i-=frameDeltaTime*0.001f){
+                cam->setPosicion(vec3(-protaPosition->getPosX()-5,-protaPosition->getPosY()-25,i)); 
+            }
+            //cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-25,-120)); 
         }
         else{
             cam->Rotar(vec3(0,1,0), -0.25);
             for(float i=-120;i<-115;i+=frameDeltaTime*0.001f){
-                cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-25,i)); 
+                cam->setPosicion(vec3(-protaPosition->getPosX()-5,-protaPosition->getPosY()-25,i)); 
             }
             cam->Rotar(vec3(0,1,0), 0.25f);
         }
