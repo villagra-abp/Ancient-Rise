@@ -66,7 +66,7 @@ class Protagonista : public GameObject
          void checkPosCombate();
          void quitarVida(glm::f32 cantidad);
 
-
+         b2Body* getBody();
 
 
     private:
