@@ -450,24 +450,7 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
     Posicion* protaPosition = prota->getPosition();
 	vec3 posCam = cam->getPosicion();
     //prueba zoom camara
-    /*
-    if(prota->getCaida()){
-       while(CamZ>-200){
-            CamZ-=0.00001f;
-            ////std::cout<<"con zoom"<<endl;
-        }
-    }
-    if(prota->getSalto()){
-        while(CamZ<-100){
-            CamZ+=0.00001f;
-            ////std::cout<<"con zoom"<<endl;
-        }
-        
-        zoom=false;
-        //CamZ=-200;
-    }
-    ////std::cout<<"Camz"<<CamZ<<endl;
-    */
+    
     if(estado==3){  ///Opciones
         cam->setPosicion(vec3(30,5000*posopc,-20));
     }
@@ -475,8 +458,18 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
         if(pintaHud){
             cam->setPosicion(vec3(40,5000,-20));
         }
-        else
-    cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-25,-120)); // cambio 5O A ProtaPosition.Y
+        else if(prota->getCorrer()){
+            cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-25,-120)); 
+        }
+        else{
+            cam->Rotar(vec3(0,1,0), -0.25);
+            for(float i=-120;i<-115;i+=frameDeltaTime*0.001f){
+                cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-25,i)); 
+            }
+            cam->Rotar(vec3(0,1,0), 0.25f);
+        }
+            
+    
     
     }
     if(estado==1){  ///Pausa
