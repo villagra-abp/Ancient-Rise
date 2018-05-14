@@ -596,12 +596,8 @@ int Protagonista::getTiempoAtaque()
 
 Protagonista::~Protagonista()
 {
-    //dtor
-    //std::cout<<"peta peta"<<endl;
-    rec = nullptr;
-    energy = nullptr;
-    life = nullptr;  
-    
-    //delete energyPosition;
-    //delete lifePosition;
+ 
+    fachada->destruirObjeto(rec);
+    fachada->destruirObjeto(flecha0);
+    fachada->destruirObjeto(flecha1);
 }

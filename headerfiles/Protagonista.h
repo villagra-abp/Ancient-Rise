@@ -15,6 +15,8 @@
 class Protagonista : public GameObject
 {
     public:
+
+        Protagonista();
         static Protagonista* getInstance();
         virtual ~Protagonista();
 
@@ -70,8 +72,7 @@ class Protagonista : public GameObject
 
 
     private:
-        
-        Protagonista();
+    
         
         void * rec;
         void * energy;

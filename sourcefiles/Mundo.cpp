@@ -15,7 +15,7 @@ p0(nullptr), posC(nullptr), posB(nullptr), posT(nullptr), salidaNivel(nullptr)	/
     musicaBosque = sonido->createMusic(sonido->SOUND_MUSIC_BOSQUE);
 
     /* CREAMOS PROTA */
-    prota = prota->getInstance();
+    prota = new Protagonista();
     addGameObject(prota);
 
     /* CREAMOS LA BLACKBOARD */
@@ -83,6 +83,11 @@ p0(nullptr), posC(nullptr), posB(nullptr), posT(nullptr), salidaNivel(nullptr)	/
 
 void Mundo::update()
 {
+    if(prota->checkVida()==false) // Prota muerto
+    {
+        cambiarNivel();
+    }
+
     controlCambioNivel();  // Para comprobar si hay que cambiar de nivel o no
 
 	//pasos de las fisicas en el mundo
@@ -186,14 +191,9 @@ void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
 
     prota->updateBody(world);
 
-    if(!prota->checkVida())
-		fachada->cerrar();
-
 	if(Tiempo>0.3f) 	// HACEMOS QUE LO QUE HAYA DENTRO SE HAGA MENOS VECES POR SEGUNDO
     {
         glm::f32 energia=prota->getEnergia();
-
-        //checkCombate(); 							// Comprobamos si hemos pulsado la tecla de combate (K)
         
          if(sf::Keyboard::isKeyPressed(sf::Keyboard::J))
         {   
@@ -698,7 +698,8 @@ void Mundo::cargarNivel()
                 }//atributos
                             
                 i3++;
-                fachada->CreateGround(world, (int)x, (int)y,(int)ancho, (int)altura);
+                 fachada->CreateGround(world, (int)x, (int)y,(int)ancho, (int)altura);
+            
                 obje=obje->NextSiblingElement("object");//pasamos a la siguiente caja
 
                              
@@ -997,105 +998,121 @@ void Mundo::controlCambioNivel()
 /* Funcion para hacer el cambio de nivel cuando se llegue al final */
 void Mundo::cambiarNivel()
 {
-    if(nivel<MAX_NIVEL) // No cambiar nivel si no hay mas o no queremos cambiar de nivel
+    if(nivel<MAX_NIVEL || prota->checkVida()==false) // No cambiar nivel si no hay mas o no queremos cambiar de nivel. SOlo reset si prota muerto
     {
-        //cout<<"Tam GameObject "<<gos.size()<<endl;
-        nivel = nivel +1;
+        //cout<<"entro"<<endl;
+        if(nivel<MAX_NIVEL && prota->checkVida())  // Solo si el jugador esta vivo cuando entramos aqui es cuando queremos cambair de nivel
+        {
+            nivel = nivel +1;
+        }
 
         fachada->destruirBodies();
 
         fachada->destruirObjeto(Terreno);
+        
 
         //b->borrarEnemB();
 
-    /* DELETE DEL GRAFO PROVISIONAL */
-    for(size_t cont3=0; cont3<nodos.size();cont3++)
-    {
-        delete nodos[cont3];
-    }
-    nodos.clear();
+        /* DELETE DEL GRAFO PROVISIONAL */
+        for(size_t cont3=0; cont3<nodos.size();cont3++)
+        {
+            delete nodos[cont3];
+        }
+        nodos.clear();
 
-    for(size_t cont4=0; cont4<aristas.size();cont4++)
-    {
-        delete aristas[cont4];
-    }
-    aristas.clear();
+        for(size_t cont4=0; cont4<aristas.size();cont4++)
+        {
+            delete aristas[cont4];
+        }
+        aristas.clear();
 
-    /* DELETE DE LOS OBJETOS DEL MAPA */
-    for (size_t cont=0; cont<alarmas.size();cont++)
-    {
-        delete alarmas[cont];
-    }
-    alarmas.clear();
+        /* DELETE DE LOS OBJETOS DEL MAPA */
+        for (size_t cont=0; cont<alarmas.size();cont++)
+        {
+            delete alarmas[cont];
+        }
+        alarmas.clear();
 
-    for (size_t cont=0; cont<fuentes.size();cont++)
-    {
-        delete fuentes[cont];
-    }
-    fuentes.clear();
+        for (size_t cont=0; cont<fuentes.size();cont++)
+        {
+            delete fuentes[cont];
+        }
+        fuentes.clear();
 
-    for (size_t cont=0; cont<comidas.size();cont++)
-    {
-        delete comidas[cont];
-    }
-    comidas.clear();
+        for (size_t cont=0; cont<comidas.size();cont++)
+        {
+            delete comidas[cont];
+        }
+        comidas.clear();
 
-    for (size_t cont=0; cont<bebidas.size();cont++)
-    {
-        delete bebidas[cont];
-    }
-    bebidas.clear();
+        for (size_t cont=0; cont<bebidas.size();cont++)
+        {
+            delete bebidas[cont];
+        }
+        bebidas.clear();
 
-    for (size_t cont=0; cont<trampas.size();cont++)
-    {
-        delete trampas[cont];
-    }
-    trampas.clear();
+        for (size_t cont=0; cont<trampas.size();cont++)
+        {
+            delete trampas[cont];
+        }
+        trampas.clear();
 
-    for(size_t cont=0; cont<enemB.size();cont++)
-    {
-        
-        delete enemB[cont];
-    }
-    enemB.clear();
+        for(size_t cont=0; cont<enemB.size();cont++)
+        {
+            
+            delete enemB[cont];
+        }
+        enemB.clear();
 
-    for(size_t cont2=0; cont2<enemE.size();cont2++)
-    {
-        delete enemE[cont2];
-    }
-    enemE.clear();
+        for(size_t cont2=0; cont2<enemE.size();cont2++)
+        {
+            delete enemE[cont2];
+        }
+        enemE.clear();
 
-    delete posA;
-    delete posF;
-    delete posB;
-    delete posC;
-    delete posT;
-    delete p0;
-    delete p1;
+        delete posA;
+        delete posF;
+        delete posB;
+        delete posC;
+        delete posT;
+        delete p0;
+        delete p1;
 
-    gos.clear();
+        gos.clear();
 
-    b->setEnemB(enemB);
-    b->setAlarma(alarmas);
-    b->setFuente(fuentes);
-    b->setNodosGrafo(nodos);
+        if(prota->checkVida()==false) // SI prota muerto lo volvemos a crear 
+        {
+            delete prota;
+
+            prota = new Protagonista();
+        }
+
+        b->setEnemB(enemB);
+        b->setAlarma(alarmas);
+        b->setFuente(fuentes);
+        b->setNodosGrafo(nodos);
 
 
-    //cout<<"TamDespuesBorrado enemigos Basicos: "<<enemB.size()<<endl;
-    //cout<<"TamDespuesBorrado nodos : "<<nodos.size()<<endl;
-    //cout<<"TamDespuesBorrado fuentes : "<<fuentes.size()<<endl;
+        //cout<<"TamDespuesBorrado enemigos Basicos: "<<enemB.size()<<endl;
+        //cout<<"TamDespuesBorrado nodos : "<<nodos.size()<<endl;
+        //cout<<"TamDespuesBorrado fuentes : "<<fuentes.size()<<endl;
 
         cargarNivel(); // Volvemos a hacer la lectura del xml para cargar toda la logica del nuevo nivel
 
-        //cout<<"TamSegundoNivel enemigos Basicos: "<<enemB.size()<<endl;
-    //cout<<"TamSegundoNivel nodos : "<<nodos.size()<<endl;
-    //cout<<"TamSegundoNivel fuentes : "<<fuentes.size()<<endl;
+        if(prota->checkVida()==false)
+        {
+            b->setProtagonista(prota);
+        }
 
-     //cout<<"TamBlack enemigos Basicos: "<<b->getEnemB().size()<<endl;
-    //cout<<"TamBlack nodos : "<<b->getNodosGrafo().size()<<endl;
-    //cout<<"TamBlack fuentes : "<<b->getFuente().size()<<endl;
+            //cout<<"TamSegundoNivel enemigos Basicos: "<<enemB.size()<<endl;
+        //cout<<"TamSegundoNivel nodos : "<<nodos.size()<<endl;
+        //cout<<"TamSegundoNivel fuentes : "<<fuentes.size()<<endl;
 
-        //cout<<"llego1"<<endl;
+         //cout<<"TamBlack enemigos Basicos: "<<b->getEnemB().size()<<endl;
+        //cout<<"TamBlack nodos : "<<b->getNodosGrafo().size()<<endl;
+        //cout<<"TamBlack fuentes : "<<b->getFuente().size()<<endl;
+
+            //cout<<"llego1"<<endl;
     }
 
 

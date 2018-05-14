@@ -436,6 +436,7 @@ void Fachada::CreateGround(b2World& world, float X, float Y,float largo,float al
 
 void Fachada::destruirBodies()
 {
+    //cout<<"PETA AQUI"<<endl;
     for(size_t i=0; i<bodies.size();i++)
     {
         bodies[i]->GetWorld()->DestroyBody(bodies[i]);
