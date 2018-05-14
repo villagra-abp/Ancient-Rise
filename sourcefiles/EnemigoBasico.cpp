@@ -47,7 +47,7 @@ void EnemigoBasico::Update(Posicion* prota)
     //cout<<"llego3"<<endl;
     if(enemigo!=nullptr)
     {
-      comprobarEnergia();
+      comprobarEnergia();                                     // Ajustar su barra de energia en funcion de lo que este haciendo
 
       comportamiento->update(this);                           // Empezamos a ejecutar el arbol de comportamiento del enemigo
 

@@ -1,11 +1,11 @@
 #include "../headerfiles/Mundo.h"
 
 Mundo::Mundo():prota(nullptr),b(nullptr),enem1(nullptr),enemE1(nullptr), cam(nullptr),posA(nullptr), posF(nullptr), p1(nullptr),
-p0(nullptr), posC(nullptr), posB(nullptr), posT(nullptr)	//CONSTRUCTOR
+p0(nullptr), posC(nullptr), posB(nullptr), posT(nullptr), salidaNivel(nullptr)	//CONSTRUCTOR
 {
     Fachada* fachada=fachada->getInstance();
 
-    nivel = 1;
+    nivel = 1; 
 
     /*CREAMOS GESTOR DE SONIDO*/
     sonido = GestorSonido::getInstance();
@@ -36,35 +36,35 @@ p0(nullptr), posC(nullptr), posB(nullptr), posT(nullptr)	//CONSTRUCTOR
      esta mirando desde la posicion (0, 30, -40) a la (0, 5, 0) donde es
      aproximadamente donde esta el objeto.
     **/
-        Posicion* camaraPos = new Posicion(prota->getPosition()->getPosX(),50,-140);
+    Posicion* camaraPos = new Posicion(prota->getPosition()->getPosX(),50,-140);
         
-    	cam = fachada->addCamara(camaraPos);
+    cam = fachada->addCamara(camaraPos);
     	//device->getCursorControl()->setVisible(true);
 
      /* AÑADIMOS UNA LUZ */   
-        Posicion* luzPos=camaraPos;
-        fachada->addLuz(luzPos);
-        Posicion* dir = new Posicion(0,-1,-1);
-        fachada->addLuzDireccional(dir);
-        Posicion* d = new Posicion(0,1,0);
-        Posicion* origen = new Posicion(0,65,0);
-        fachada->addLuzDirigida(origen,d);
+    Posicion* luzPos=camaraPos;
+    fachada->addLuz(luzPos);
+    Posicion* dir = new Posicion(0,-1,-1);
+    fachada->addLuzDireccional(dir);
+    Posicion* d = new Posicion(0,1,0);
+    Posicion* origen = new Posicion(0,65,0);
+    fachada->addLuzDirigida(origen,d);
 
-        vector<string> pathsSkybox;
-        pathsSkybox.push_back("resources/skybox/skybox_1.tga");
-        pathsSkybox.push_back("resources/skybox/skybox_3.tga");
-        pathsSkybox.push_back("resources/skybox/skybox_up.tga");
-        pathsSkybox.push_back("resources/skybox/skybox_down.tga");
-        pathsSkybox.push_back("resources/skybox/skybox_2.tga");
-        pathsSkybox.push_back("resources/skybox/skybox_4.tga");
-        fachada->addSkybox(pathsSkybox);
+    vector<string> pathsSkybox;
+    pathsSkybox.push_back("resources/skybox/skybox_1.tga");
+    pathsSkybox.push_back("resources/skybox/skybox_3.tga");
+    pathsSkybox.push_back("resources/skybox/skybox_up.tga");
+    pathsSkybox.push_back("resources/skybox/skybox_down.tga");
+    pathsSkybox.push_back("resources/skybox/skybox_2.tga");
+    pathsSkybox.push_back("resources/skybox/skybox_4.tga");
+    fachada->addSkybox(pathsSkybox);
 
 
     /** TIME AND FRAMES
      Para poder hacer un movimiento independiente del framerate, tenemos que saber
      cuanto ha pasado desde el ultimo frame
     **/
-    	lastFPS = -1;
+    lastFPS = -1;
 
         
     Posicion posmenu(.5f,-5000.f,.5f);
@@ -83,10 +83,8 @@ p0(nullptr), posC(nullptr), posB(nullptr), posT(nullptr)	//CONSTRUCTOR
 
 void Mundo::update()
 {
-    if(prota->getPosition()->getPosX()>360)
-    {
-        cambiarNivel();
-    }
+    controlCambioNivel();  // Para comprobar si hay que cambiar de nivel o no
+
 	//pasos de las fisicas en el mundo
 	world.Step(1/60.f, 8, 3);
 	//reinicio las fuerzas en el mundo
@@ -859,6 +857,22 @@ void Mundo::cargarNivel()
 
                      if(strcmp(grupo2->FirstAttribute()->Value(),"puerta")==0)
                     {
+                        int t = tipo%10;  
+
+                        switch (t)
+                        {   
+                            case 1: // Palanca para abrir puerta
+                            {
+                               
+                                break;
+                            }
+
+                            case 2: // Puerta para salir del nivel
+                            {
+                                salidaNivel = new Posicion(xEn-190,-yEn+59,0.f);
+                                break;
+                            }
+                        }
                 
                     }  
 
@@ -969,12 +983,22 @@ void Mundo::cargarNivel()
 
 }    
 
+void Mundo::controlCambioNivel()
+{
+    if(prota->getPosition()->getPosX()>=salidaNivel->getPosX())
+    {
+        if(prota->getPosition()->getPosY()<salidaNivel->getPosY()+10 && prota->getPosition()->getPosY()>salidaNivel->getPosY()-10)
+        {
+            cambiarNivel();
+        }
+    }
+}
+
 /* Funcion para hacer el cambio de nivel cuando se llegue al final */
 void Mundo::cambiarNivel()
 {
-    if(nivel<MAX_NIVEL) // No cambiar nivel si no hay mas
+    if(nivel<MAX_NIVEL) // No cambiar nivel si no hay mas o no queremos cambiar de nivel
     {
-
         //cout<<"Tam GameObject "<<gos.size()<<endl;
         nivel = nivel +1;
 
@@ -1057,19 +1081,19 @@ void Mundo::cambiarNivel()
     b->setNodosGrafo(nodos);
 
 
-    //cout<<"Tam2 enemigos Basicos: "<<enemB.size()<<endl;
-    //cout<<"Tam2 nodos : "<<nodos.size()<<endl;
-    //cout<<"Tam2 fuentes : "<<fuentes.size()<<endl;
+    //cout<<"TamDespuesBorrado enemigos Basicos: "<<enemB.size()<<endl;
+    //cout<<"TamDespuesBorrado nodos : "<<nodos.size()<<endl;
+    //cout<<"TamDespuesBorrado fuentes : "<<fuentes.size()<<endl;
 
-        cargarNivel(); // Volvemos a hacer la lectura del xml 
+        cargarNivel(); // Volvemos a hacer la lectura del xml para cargar toda la logica del nuevo nivel
 
-       // cout<<"Tam3 enemigos Basicos: "<<enemB.size()<<endl;
-    //cout<<"Tam3 nodos : "<<nodos.size()<<endl;
-    //cout<<"Tam3 fuentes : "<<fuentes.size()<<endl;
+        //cout<<"TamSegundoNivel enemigos Basicos: "<<enemB.size()<<endl;
+    //cout<<"TamSegundoNivel nodos : "<<nodos.size()<<endl;
+    //cout<<"TamSegundoNivel fuentes : "<<fuentes.size()<<endl;
 
-     //cout<<"TamB enemigos Basicos: "<<b->getEnemB().size()<<endl;
-    //cout<<"TamB nodos : "<<b->getNodosGrafo().size()<<endl;
-    //cout<<"TamB fuentes : "<<b->getFuente().size()<<endl;
+     //cout<<"TamBlack enemigos Basicos: "<<b->getEnemB().size()<<endl;
+    //cout<<"TamBlack nodos : "<<b->getNodosGrafo().size()<<endl;
+    //cout<<"TamBlack fuentes : "<<b->getFuente().size()<<endl;
 
         //cout<<"llego1"<<endl;
     }
@@ -1147,6 +1171,6 @@ Mundo::~Mundo()	//DESTRUCTOR
     delete posT;
     delete p0;
     delete p1;
-    
+    delete salidaNivel;
     
 }

@@ -68,6 +68,7 @@ class Mundo : public Entorno
         void CambioEstado(int n);
         int getEstado();
         void cargarNivel();
+        void controlCambioNivel();
         
         
 
@@ -104,8 +105,10 @@ class Mundo : public Entorno
         vector<Bebida*> bebidas;
         vector<Trampa*> trampas;
 
-        int nivel;
-        const int MAX_NIVEL = 2;
+        // Datos gestion del nivel
+        int nivel;                     // Nivel en el que nos encontramos
+        const int MAX_NIVEL=2;          // Maximo numero de niveles en el juego
+        Posicion* salidaNivel;
 
     	//BLACKBOARD
     	Blackboard *b;
