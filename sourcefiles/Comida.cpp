@@ -23,6 +23,7 @@ void Comida::update()
 	if(recogido==true) // Si hemos recogido la comida 
 	{
 		fachada->destruirObjeto(objeto);
+		objeto = nullptr;
 	}
 
 }
