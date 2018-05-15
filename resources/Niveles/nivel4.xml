@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.2" orientation="orthogonal" renderorder="right-down" width="100" height="30" tilewidth="8" tileheight="8" infinite="0" nextobjectid="525">
+<map version="1.0" tiledversion="1.1.2" orientation="orthogonal" renderorder="right-down" width="100" height="30" tilewidth="8" tileheight="8" infinite="0" nextobjectid="526">
  <tileset firstgid="1" source="suelo.tsx"/>
- <layer name="Capa de Patrones 1" width="100" height="30" locked="1">
+ <layer name="Capa de Patrones 1" width="100" height="30" visible="0" locked="1">
   <data encoding="csv">
 125,125,89,90,91,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,125,
 81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,165,114,115,116,117,165,165,165,89,90,91,165,165,165,165,165,165,165,165,165,165,165,165,165,165,165,165,165,165,165,165,165,125,125,125,125,125,86,87,88,89,90,91,125,125,125,125,125,125,125,125,125,125,125,125,165,165,165,165,165,165,165,165,165,165,165,165,165,165,165,165,165,165,165,165,165,165,165,165,86,87,88,89,90,91,
@@ -35,7 +35,7 @@
 138,215,215,215,215,215,216,216,219,218,218,219,215,215,216,18,215,215,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,18,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,215,215,215,215,215,19,19,19,19,19,19,19,18,19,19,19,19,19,19,19,19,19,19,98,98,98,98,138,139,139,139,140,141,139,179,139,139,139,139,179,139,139,494,495,496,450,451,138,140
 </data>
  </layer>
- <objectgroup name="suelo" locked="1">
+ <objectgroup name="suelo">
   <object id="433" x="0.1875" y="56" width="87.875" height="8"/>
   <object id="435" x="88.0625" y="63.9063" width="111.966" height="8"/>
   <object id="436" x="192.017" y="104" width="152" height="8"/>
@@ -72,7 +72,7 @@
   <object id="467" x="663.899" y="191.818" width="40.5651" height="8"/>
   <object id="468" x="663.899" y="200" width="40.5651" height="8"/>
   <object id="469" x="624.263" y="216.364" width="40.5651" height="8"/>
-  <object id="470" x="95.9854" y="224.059" width="528.159" height="8"/>
+  <object id="470" x="383.713" y="224.059" width="240.432" height="8"/>
   <object id="471" x="80.0114" y="183.986" width="511.981" height="8"/>
   <object id="472" x="112.065" y="152.072" width="247.935" height="8"/>
   <object id="473" x="359.934" y="160" width="32.216" height="8"/>
@@ -126,7 +126,7 @@
   <object id="521" x="192.267" y="128.5" width="32.216" height="8"/>
   <object id="522" x="192.142" y="136.75" width="32.216" height="8"/>
   <object id="523" x="192.142" y="144.625" width="32.216" height="8"/>
-  <object id="524" x="552.131" y="80.017" width="32.216" height="8"/>
+  <object id="525" x="95.8749" y="224.409" width="240.432" height="8"/>
  </objectgroup>
  <objectgroup name="nodos" visible="0" locked="1">
   <object id="22" x="11.125" y="63.375">
@@ -408,7 +408,7 @@
    <point/>
   </object>
  </objectgroup>
-<objectgroup name="trampa" visible="0" locked="1">
+ <objectgroup name="trampa" visible="0" locked="1">
   <object id="131" type="2" x="595.909" y="62.9091">
    <point/>
   </object>
@@ -416,7 +416,7 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup name="puerta">
+ <objectgroup name="puerta" visible="0">
   <object id="133" type="2" x="786.438" y="63.25">
    <point/>
   </object>
