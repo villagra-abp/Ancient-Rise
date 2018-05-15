@@ -292,19 +292,19 @@ FObjeto* Fachada::drawTerreno(int nivel){
 
         case 1: 
         {        
-           suelo->setMalla("resources/nivel2.obj");
+           suelo->setMalla("resources/Niveles/nivel2.obj");
            break;
         }
 
         case 2:
         {
-           suelo->setMalla("resources/nivel3.obj");
+           suelo->setMalla("resources/Niveles/nivel3.obj");
            break;
         }
     }
 	
     //suelo = addCube(-220,-9,0, false);
-    suelo->Escalar(vec3(0.8,0.8,2.));
+    suelo->Escalar(vec3(0.8,0.8,2.5));
 	
 	suelo->Mover(vec3(-103,-7,-35));
 	//suelo->Rotar(vec3(0,1,0), -3.f);

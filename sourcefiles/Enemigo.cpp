@@ -13,7 +13,7 @@ Enemigo::Enemigo(vector<Posicion*> pos, float xlength, float pendValue, const En
     GameObject::setTipo(ENEMY);
     Fachada* fachada=fachada->getInstance();
 
-    FObjeto* enemigoObjeto = fachada->addMalla(pos[0]->getPosX(),pos[0]->getPosY(),pos[0]->getPosZ(), "resources/personaje.obj");
+    FObjeto* enemigoObjeto = fachada->addMalla(pos[0]->getPosX(),pos[0]->getPosY(),pos[0]->getPosZ(), "resources/Protagonista/personaje.obj");
     enemigo = enemigoObjeto;
 
     if (enemigo) /** SI HEMOS CREADO EL CUBO **/
@@ -28,9 +28,9 @@ Enemigo::Enemigo(vector<Posicion*> pos, float xlength, float pendValue, const En
     dep3=fachada->addMalla(-175,15,0,"resources/manzana.obj");
     dep4=fachada->addMalla(-175,15,0,"resources/manzana.obj");*/
 
-    energy=fachada->addMalla(-170,15,0,"resources/cajitaobj.obj");
+    energy=fachada->addMalla(-170,15,0,"resources/Hud/cajitaobj.obj");
 //    energy=fachada->addBillboard(-170,15,0,"resources/cajitaobj.obj");
-    life=fachada->addMalla(-170,20,0,"resources/cajaColor.obj");
+    life=fachada->addMalla(-170,20,0,"resources/Hud/cajaColor.obj");
     flecha1=fachada->addMalla(-160,8,0,"resources/flecha.obj");
     flecha0=fachada->addMalla(-170,8,0,"resources/flecha.obj");
     Posicion escalar(0.f,0.f,.0f);

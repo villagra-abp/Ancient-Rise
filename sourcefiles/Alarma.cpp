@@ -5,7 +5,7 @@ Alarma::Alarma(Posicion* pos):Objeto(pos)
 {
 	GameObject::setTipo(ALARMA);
     Fachada* fachada=fachada->getInstance();
-	objeto = fachada->addMalla(pos->getPosX(),pos->getPosY(),pos->getPosZ(),"resources/alarma.obj");
+	objeto = fachada->addMalla(pos->getPosX(),pos->getPosY(),pos->getPosZ(),"resources/Alarma/Campana2.obj");
 
 	if (objeto)
 	{

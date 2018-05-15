@@ -394,6 +394,7 @@ void Mundo::checkInput(int tecla){
     		if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)||sf::Joystick::isButtonPressed(0, 5))
     		{
 		  prota->setCorrer(true);
+          prota->setEnergia(-2.f,0.2f);
       		  
     		}else
 		  prota->setCorrer(false);
@@ -563,7 +564,7 @@ void Mundo::cargarNivel()
 
         case 1: 
         {        
-           doc.TiXmlDocument::LoadFile("resources/nivel2.xml",TIXML_ENCODING_UTF8);
+           doc.TiXmlDocument::LoadFile("resources/Niveles/nivel2.xml",TIXML_ENCODING_UTF8);
            /* CREAMOS EL TERRENO Y COLISIONES DE CAMARA */
            Terreno = fachada->drawTerreno(1);
            break;
@@ -571,7 +572,7 @@ void Mundo::cargarNivel()
 
         case 2:
         {
-            doc.TiXmlDocument::LoadFile("resources/nivel3.xml",TIXML_ENCODING_UTF8);
+            doc.TiXmlDocument::LoadFile("resources/Niveles/nivel3.xml",TIXML_ENCODING_UTF8);
             Terreno = fachada->drawTerreno(2);
            break;
         }

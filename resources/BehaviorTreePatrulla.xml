@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<BehaviorTree>
-  <Root>
-   <Selector>
-    <condicion name="DetectarProta">
-    </condicion>
-   </Selector>
-  </Root>
-</BehaviorTree>

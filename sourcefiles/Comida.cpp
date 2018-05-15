@@ -7,7 +7,7 @@ Comida::Comida(Posicion* pos):Objeto(pos)
 	GameObject::setTipo(COMIDA);
 	fachada=fachada->getInstance();
 
-	objeto = fachada->addMalla(pos->getPosX(),pos->getPosY(),pos->getPosZ(), "resources/manzana.obj");
+	objeto = fachada->addMalla(pos->getPosX(),pos->getPosY(),pos->getPosZ(), "resources/Comida/manzana.obj");
 
 	if (objeto)
 	{

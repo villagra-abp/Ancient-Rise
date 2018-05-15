@@ -5,7 +5,7 @@ Bebida::Bebida(Posicion* pos):Objeto(pos)
 	GameObject::setTipo(BEBIDA);
 
 	fachada=fachada->getInstance();
-    objeto = fachada->addMalla(pos->getPosX(),pos->getPosY(),pos->getPosZ(), "resources/Pocion.obj");
+    objeto = fachada->addMalla(pos->getPosX(),pos->getPosY(),pos->getPosZ(), "resources/Bebida/Pocion.obj");
 
 	if (objeto)
 	{
