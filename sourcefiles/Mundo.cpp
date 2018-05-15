@@ -450,8 +450,11 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
         if(pintaHud){
             cam->setPosicion(vec3(40,5000,-20));
         }
-        else if(velo.x>60){
-            for(float i=-115;i>-120;i-=frameDeltaTime*0.001f){
+        else if(velo.x>30||velo.x<-30){
+            if(velo.x>30){
+               velo.x=-(velo.x);   
+            }
+            for(float i=-115;i>(-113+(velo.x/10));i-=frameDeltaTime*0.001f){
                 cam->setPosicion(vec3(-protaPosition->getPosX()-5,-protaPosition->getPosY()-25,i)); 
             }
             //cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-25,-120)); 
