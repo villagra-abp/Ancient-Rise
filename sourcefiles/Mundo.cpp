@@ -564,7 +564,7 @@ void Mundo::cargarNivel()
 
         case 1: 
         {        
-           doc.TiXmlDocument::LoadFile("resources/Niveles/nivel2.xml",TIXML_ENCODING_UTF8);
+           doc.TiXmlDocument::LoadFile("resources/Niveles/nivel3.xml",TIXML_ENCODING_UTF8);
            /* CREAMOS EL TERRENO Y COLISIONES DE CAMARA */
            Terreno = fachada->drawTerreno(1);
            break;
@@ -572,7 +572,7 @@ void Mundo::cargarNivel()
 
         case 2:
         {
-            doc.TiXmlDocument::LoadFile("resources/Niveles/nivel3.xml",TIXML_ENCODING_UTF8);
+            doc.TiXmlDocument::LoadFile("resources/Niveles/nivel4.xml",TIXML_ENCODING_UTF8);
             Terreno = fachada->drawTerreno(2);
            break;
         }
