@@ -302,8 +302,8 @@ FObjeto* Fachada::drawTerreno(int nivel){
         case 2:
         {
            suelo->setMalla("resources/Niveles/nivel4.obj");
-           suelo->Escalar(vec3(0.733,0.75,1.5));
-           suelo->Mover(vec3(-107,-3,-25));
+           suelo->Escalar(vec3(0.733,0.755,1.5));
+           suelo->Mover(vec3(-107,0,-40));
            break;
         }
     }
