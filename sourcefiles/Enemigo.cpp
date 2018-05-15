@@ -12,8 +12,7 @@ Enemigo::Enemigo(vector<Posicion*> pos, float xlength, float pendValue, const En
 {
     GameObject::setTipo(ENEMY);
     Fachada* fachada=fachada->getInstance();
-	
-//    FBillboard* enemigoObjeto = fachada->addBillboard(pos[0]->getPosX(),pos[0]->getPosY(),pos[0]->getPosZ(), "resources/personaje.obj");
+
     FObjeto* enemigoObjeto = fachada->addMalla(pos[0]->getPosX(),pos[0]->getPosY(),pos[0]->getPosZ(), "resources/personaje.obj");
     enemigo = enemigoObjeto;
 

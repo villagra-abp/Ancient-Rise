@@ -151,19 +151,16 @@ void Mundo::update()
     {
         //Comprueba las entradas del teclado
         checkInput(-1);
-//cout<<"llego2"<<endl;
+
         /* UPDATE DE LOS ENEMIGOS */
         for(size_t i=0; i<enemB.size();i++)   		// Enemigos Basicos
         {
         	if(enemB[i]->getNode()!=nullptr) 	// Solo si existen hacemos su update
         	{
-                //cout<<"llego2.5"<<endl;
     	       	enemB[i]->updateTiempo(frameDeltaTime);
     	     	enemB[i]->Update(prota->getPosition());
     	    }
         }
-
-        //cout<<"llego3"<<endl;
 
         for(int i2=0; i2<enemE.size();i2++) 	// Enemigos Elites
         {
@@ -173,8 +170,6 @@ void Mundo::update()
     	     	enemE[i2]->Update(prota->getPosition());
     	    }
         }
-
-        //cout<<"llego4"<<endl;
         /*UPDATE DE SONIDO*/
         sonido->playSound(musicaBosque);
         sonido->update();
@@ -419,10 +414,6 @@ void Mundo::checkInput(int tecla){
     }
     else
         prota->setPosCombate(2);
-   // if(sf::Keyboard::isKeyPressed(sf::Keyboard::P)){
-   //     
-   // }
-	       
 }
 /* Funcion para activar/desactivar el combate y atacar */
 void Mundo::checkCombate()
@@ -1000,7 +991,6 @@ void Mundo::cambiarNivel()
 {
     if(nivel<MAX_NIVEL || prota->checkVida()==false) // No cambiar nivel si no hay mas o no queremos cambiar de nivel. SOlo reset si prota muerto
     {
-        //cout<<"entro"<<endl;
         if(nivel<MAX_NIVEL && prota->checkVida())  // Solo si el jugador esta vivo cuando entramos aqui es cuando queremos cambair de nivel
         {
             nivel = nivel +1;

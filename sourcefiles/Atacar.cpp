@@ -19,7 +19,7 @@ Status Atacar::run(Enemigo *e)
     // Comprobamos el tipo de arma que utiliza
     if(e->getTipo()==1)     // Cuerpo a cuerpo, cerca
     {
-        separacionAtaque = 20;
+        separacionAtaque = 10;
     }
     else  // A distancia, ataque desde mas lejos
     {
@@ -59,39 +59,7 @@ Status Atacar::run(Enemigo *e)
             int time2 = relojAtq.getElapsedTime().asSeconds();
             
             if(time2>1.5)
-            {   /*
-                if(pos_combate==1)
-                {
-                    cout<<"Pos enemigo: Arriba"<<endl;
-                }
-                else
-                {
-                    if(pos_combate==2)
-                    {
-                        cout<<"Pos enemigo: Centro"<<endl;
-                    }
-                    else
-                    {
-                        cout<<"Pos enemigo: Abajo"<<endl;
-                    }
-                }
-               /* 
-                if(p->getPosCombate()==1)
-                {
-                    cout<<"Pos prota: Arriba"<<endl;
-                }
-                else
-                {
-                    if(p->getPosCombate()==2)
-                    {
-                        cout<<"Pos prota: Centro"<<endl;
-                    }
-                    else
-                    {
-                        cout<<"Pos prota: Abajo"<<endl;
-                    }
-                }
-                */
+            {  
                 if(p->getCombate()!=true || p->getPosCombate()!=pos_combate)        // Si el prota no esta en modo combate o no esta en la pos_combate donde ataca el enemigo, le quita vida
                 {
                     p->quitarVida(10.f);
