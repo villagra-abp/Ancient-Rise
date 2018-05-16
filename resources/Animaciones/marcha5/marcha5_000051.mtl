@@ -1,4 +1,4 @@
-# Blender MTL File: 'animationreadyTEXT.blend'
+# Blender MTL File: 'marcha5.blend'
 # Material Count: 3
 
 newmtl Material
@@ -10,7 +10,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd D:\DATOS\Downloads\git\abprv\uvs\animationreadyTEXTbasicDONE.png
+map_Kd ../../uvs/animationreadyTEXTbasicDONE.png
 
 newmtl Material.001
 Ns 76.470588
@@ -21,7 +21,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd D:\DATOS\Downloads\git\abprv\uvs\bota1CON.png
+map_Kd ../../uvs/bota1CON.png
 
 newmtl None
 Ns 0
@@ -30,4 +30,4 @@ Kd 0.8 0.8 0.8
 Ks 0.8 0.8 0.8
 d 1
 illum 2
-map_Kd D:\DATOS\Downloads\git\abprv\uvs\bota2CON.png
+map_Kd ../../uvs/bota2CON.png

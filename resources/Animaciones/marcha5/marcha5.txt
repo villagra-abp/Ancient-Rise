@@ -1,4 +1,4 @@
-resources/Animaciones/marchares1/marcha5_0000
+resources/Animaciones/marcha5/marcha5_0000
 33
 27
 0.9
