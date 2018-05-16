@@ -32,7 +32,8 @@ Fachada::~Fachada(){
 }
 
 //Constructor. Solo accesible desde getInstance
-Fachada::Fachada(int h, int w, bool fullscreen){
+Fachada::Fachada(int h, int w, bool fullscreen): prota(nullptr)
+{
 	
 	sf::ContextSettings settings;
     settings.depthBits = 24;
@@ -83,6 +84,14 @@ std::cout << "version:" << settings.majorVersion << "." << settings.minorVersion
     //device = createDeviceEx(Parameters);
 	
 }
+
+FObjeto* Fachada::crearProta()
+{
+    prota = new FObjeto();
+
+    return prota;
+}
+
 sf::RenderWindow* Fachada::getVentana(){
   return ventana;
 
@@ -223,7 +232,7 @@ FBillboard* Fachada::addBillboard(float x,float y,float z,string ruta){
     return malla;
 }
 
-FObjeto* Fachada::addAnimacion(int x, int y, int z, string path){
+FObjeto* Fachada::addAnimacionNueva(int x, int y, int z, string path){
 
     FObjeto* objeto = new FObjeto();
     
@@ -234,6 +243,18 @@ FObjeto* Fachada::addAnimacion(int x, int y, int z, string path){
     
     return objeto;
 }
+
+FObjeto* Fachada::addAnimacion(int x, int y, int z, string path, FObjeto* objeto){
+
+    objeto->setAnimacion(path);
+    objeto->Escalar(vec3(2,2,2));
+    
+    objeto->setPosicion(vec3(x,y,z));
+    
+    return objeto;
+}
+
+
 
 void Fachada::rotObj(void* nodo, float x, float y, float z, float angulo){
     FObjeto* o=(FObjeto*)nodo;

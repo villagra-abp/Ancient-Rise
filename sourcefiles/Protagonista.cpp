@@ -11,9 +11,10 @@ protaPosition(nullptr), enemigoPosition(nullptr), comidaPosition(nullptr), tramp
     
     GameObject::setTipo(PROTA);
 
-    protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/Prueba/prueba");
-    rec = protaObjeto;
+    protaObjeto = fachada->crearProta();
 
+    protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/Prueba/prueba", protaObjeto);
+    rec = protaObjeto;
     
     Posicion escala(2.f,2.f,2.f);
     fachada->setScala((void*)protaObjeto,&escala);
@@ -67,6 +68,7 @@ Protagonista* Protagonista::getInstance()
 /* Funcion para hacer el update del protagonista */
 void Protagonista::update(Blackboard* b)
 {   
+
     timeAtq = relojAtq.getElapsedTime().asSeconds();
     if( ataca == true && timeAtq>=0.5)       // PROTA EN COMBATE Y ATACANDO
     {   
@@ -229,8 +231,9 @@ void Protagonista::movimiento(const glm::f32 Time)
                 
             }
             else{
-                //fachada->destruirObjeto(rec);
-                protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/marcha5/marcha5.txt");
+                
+                protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/marcha5/marcha5.txt", protaObjeto);
+                fachada->rotObj(protaObjeto, 0, 1, 0, -90);
                 rec = protaObjeto;
                 velo.x=30.f;
                 //Body->ApplyForceToCenter(b2Vec2(60.f,0.f),true);

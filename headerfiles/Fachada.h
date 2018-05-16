@@ -67,7 +67,9 @@ public:
     FObjeto* addSphere(int x,int y,int z,bool flag);
     FObjeto* addMalla(float x,float y,float z,string ruta);
     FBillboard* addBillboard(float x,float y,float z,string ruta);
-    FObjeto* addAnimacion(int x, int y, int z, string path);
+    FObjeto* addAnimacionNueva(int x, int y, int z, string path);
+    FObjeto* addAnimacion(int x, int y, int z, string path, FObjeto* objeto);
+    FObjeto* crearProta();
     FCamara* addCamara(Posicion*);
     FLuz* addLuz(Posicion*);
     FLuz* addLuzDireccional(Posicion* p);
@@ -83,7 +85,7 @@ private:
 	Fachada(int h, int w, bool fullscreen);
 	
     
-    
+    FObjeto* prota;
     sf::RenderWindow* ventana;
 
     TNodo* Escena;
@@ -92,9 +94,9 @@ private:
     TMotorTAG* motorgrafico = TMotorTAG::getInstance();
     
     /* BOX2D */
-        b2BodyDef BodyDef;
-        b2PolygonShape Shape;
-        vector <b2Body*> bodies;
+    b2BodyDef BodyDef;
+    b2PolygonShape Shape;
+    vector <b2Body*> bodies;
 
     sf::Clock reloj; 
         
