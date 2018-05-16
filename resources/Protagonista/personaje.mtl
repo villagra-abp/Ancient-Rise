@@ -1,10 +1,10 @@
-# Blender MTL File: 'None'
+# Blender MTL File: 'personaje.blend'
 # Material Count: 1
 
-newmtl Material.007
-Ns 92.156863
-Ka 0.537037 0.537037 0.537037
-Kd 0.220256 0.150920 0.044691
+newmtl Material.001
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.392381 0.267321 0.138410
 Ks 0.178571 0.178571 0.178571
 Ke 0.000000 0.000000 0.000000
 Ni 1.000000
