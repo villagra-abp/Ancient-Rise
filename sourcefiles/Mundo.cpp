@@ -560,6 +560,7 @@ void Mundo::cargarNivel()
 {
     TiXmlDocument doc;
 
+
      switch(nivel){
 
         case 1: 
