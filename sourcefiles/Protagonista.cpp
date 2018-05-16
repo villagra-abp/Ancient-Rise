@@ -110,10 +110,6 @@ void Protagonista::updateBody(b2World& world)
     protaPosition->setPosX(Body->GetPosition().x);
     protaPosition->setPosY(Body->GetPosition().y);
     
-    //FObjeto* objeto=(FObjeto*)rec;
-    //vec3 position=vec3(Body->GetPosition().x,Body->GetPosition().y,0);
-    //cout<<position.x<<" "<<position.y<<" "<<position.z<<endl;
-    //objeto->setPosicion(position);
     fachada->setPosicion(rec,protaPosition);
     
     
