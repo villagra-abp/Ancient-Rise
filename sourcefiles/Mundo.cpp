@@ -1,7 +1,7 @@
 #include "../headerfiles/Mundo.h"
 
 Mundo::Mundo():prota(nullptr),b(nullptr),enem1(nullptr),enemE1(nullptr), cam(nullptr),posA(nullptr), posF(nullptr), p1(nullptr),
-p0(nullptr), posC(nullptr), posB(nullptr), posT(nullptr), salidaNivel(nullptr)	//CONSTRUCTOR
+p0(nullptr), posC(nullptr), posB(nullptr), posT(nullptr), salidaNivel(nullptr) //posP(nullptr)	//CONSTRUCTOR
 {
     Fachada* fachada=fachada->getInstance();
 
@@ -856,7 +856,10 @@ void Mundo::cargarNivel()
                         {   
                             case 1: // Palanca para abrir puerta
                             {
-                               
+                               /* posP = new Posicion(xEn-190,-yEn+59,0.f);
+                                Palanca* pal = new Palanca(posP);
+                                palancas.push_back(pal);
+                                addGameObject(pal);*/
                                 break;
                             }
 
@@ -1001,8 +1004,6 @@ void Mundo::cambiarNivel()
 
         fachada->destruirObjeto(Terreno);
         
-
-        //b->borrarEnemB();
 
         /* DELETE DEL GRAFO PROVISIONAL */
         for(size_t cont3=0; cont3<nodos.size();cont3++)
@@ -1172,11 +1173,14 @@ Mundo::~Mundo()	//DESTRUCTOR
     }
     trampas.clear();
 
+   
+
     delete posA;
     delete posF;
     delete posB;
     delete posC;
     delete posT;
+    //delete posP;
     delete p0;
     delete p1;
     delete salidaNivel;

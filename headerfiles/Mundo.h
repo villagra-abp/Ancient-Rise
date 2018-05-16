@@ -7,6 +7,7 @@
 #include "../headerfiles/EnemigoAvanzado.h"
 #include "../headerfiles/EnemigoElite.h"
 #include "../headerfiles/Comida.h"
+#include "../headerfiles/Palanca.h"
 #include "../headerfiles/Fuente.h"
 #include "../headerfiles/Alarma.h"
 #include "../headerfiles/Trampa.h"
@@ -96,7 +97,7 @@ class Mundo : public Entorno
         Posicion *p0, *p1;
 
         // POsiciones Objetos
-        Posicion* posA, *posF, *posB, *posC, *posT;
+        Posicion* posA, *posF, *posB, *posC, *posT; //*posP;
 
     	// Vectores de objetos
         vector<Alarma*> alarmas;
@@ -104,6 +105,7 @@ class Mundo : public Entorno
         vector<Comida*> comidas;
         vector<Bebida*> bebidas;
         vector<Trampa*> trampas;
+        //vector<Palanca*> palancas;
 
         // Datos gestion del nivel
         int nivel;                     // Nivel en el que nos encontramos
