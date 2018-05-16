@@ -12,6 +12,7 @@ class Comida : public Objeto
 
 		Comida(Posicion* pos);
 		virtual void update() override;
+		virtual ~Comida();
 		void* getNode();
 
 	private:

@@ -7,6 +7,7 @@
 #include "../headerfiles/EnemigoAvanzado.h"
 #include "../headerfiles/EnemigoElite.h"
 #include "../headerfiles/Comida.h"
+#include "../headerfiles/Palanca.h"
 #include "../headerfiles/Fuente.h"
 #include "../headerfiles/Alarma.h"
 #include "../headerfiles/Trampa.h"
@@ -49,6 +50,8 @@ class Mundo : public Entorno
         Mundo();
         virtual ~Mundo();
 
+        void cambiarNivel();
+
         //MANEJO DE GAMEOBJECTS
         void    addGameObject   (GameObject* o);
 
@@ -66,14 +69,12 @@ class Mundo : public Entorno
         void CambioEstado(int n);
         int getEstado();
         void cargarNivel();
+        void controlCambioNivel();
         
         
 
     protected:
     /* METHODS */
-
-    	//BUILDERS
-        void terrainBuilder();
 
         //UPDATERS
         void protaUpdate(const glm::f32 frameDeltaTime);
@@ -96,7 +97,7 @@ class Mundo : public Entorno
         Posicion *p0, *p1;
 
         // POsiciones Objetos
-        Posicion* posA, *posF, *posB, *posC, *posT;
+        Posicion* posA, *posF, *posB, *posC, *posT; //*posP;
 
     	// Vectores de objetos
         vector<Alarma*> alarmas;
@@ -104,6 +105,12 @@ class Mundo : public Entorno
         vector<Comida*> comidas;
         vector<Bebida*> bebidas;
         vector<Trampa*> trampas;
+        //vector<Palanca*> palancas;
+
+        // Datos gestion del nivel
+        int nivel;                     // Nivel en el que nos encontramos
+        const int MAX_NIVEL=2;          // Maximo numero de niveles en el juego
+        Posicion* salidaNivel;
 
     	//BLACKBOARD
     	Blackboard *b;
@@ -122,7 +129,7 @@ class Mundo : public Entorno
     	//CAMARA
     	FCamara* cam;
 
-    	
+    	void* Terreno;
 
     	//TIME AND FRAMES
         int lastFPS;

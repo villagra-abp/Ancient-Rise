@@ -18,6 +18,7 @@ class Blackboard
 		
 
 		Blackboard();
+		void borrarEnemB();
 		
 		void setProta(float pX);
 		void setTime(const glm::f32 T);

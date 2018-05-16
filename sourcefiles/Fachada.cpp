@@ -119,7 +119,7 @@ void Fachada::destruirObjeto(void* nodo)
 {
     FObjeto* node=(FObjeto*)nodo;
 
-    node->isActive(false);
+    delete node;
 }
 
 
@@ -230,9 +230,7 @@ FObjeto* Fachada::addAnimacion(int x, int y, int z, string path){
     objeto->setAnimacion(path);
     objeto->Escalar(vec3(2,2,2));
     
-
     objeto->setPosicion(vec3(x,y,z));
-    //prota->Rotar(vec3(0,1,0), -4.5f);
     
     return objeto;
 }
@@ -280,126 +278,40 @@ bool Fachada::setMaterial(void * nodo,std::string ruta){
     //node->setMaterialTexture(0,driver->getTexture(ruta));
     return true;
 }
-//Dibuja la escena
-void Fachada::drawEscena(){
-	
- /*
-    //PRUEBAS MOTOR GRAFICO
-    TNodo *AEscena = new TNodo();
-    Escena = AEscena;
-    TNodo *RotarLuz = new TNodo();
-    TNodo *RotarCam = new TNodo();
-    TNodo *RotarCoche = new TNodo();
-    Escena->addHijoBack(RotarLuz);
-    Escena->addHijoBack(RotarCam);
-    Escena->addHijoBack(RotarCoche);
-    TNodo *TraslaLuz = new TNodo();
-    TNodo *TraslaCam = new TNodo();
-    TNodo *TraslaCoche = new TNodo();
-    RotarLuz->addHijoBack(TraslaLuz);
-    RotarCam->addHijoBack(TraslaCam);
-    RotarCoche->addHijoBack(TraslaCoche);
-
-    TTransf *TransfRotaLuz = new TTransf();
-    TransfRotaLuz->rotar(1.2, 0, 0, 42.0);
-	TTransf *TransfRotaCam = new TTransf();
-	TransfRotaCam->rotar(1.2, 0, 0, 94.0);
-	TTransf *TransfRotaCoche = new TTransf();
-	TransfRotaCoche->rotar(1.2, 0, 0, 57.0);
-
-	TTransf *TransfTraslaLuz = new TTransf();
-    TransfTraslaLuz->trasladar(20.0, 0, 0);
-    TTransf *TransfTraslaCam = new TTransf();
-    TransfTraslaCam->trasladar(12.0, 0, 0);
-    TTransf *TransfTraslaCoche = new TTransf();
-    TransfTraslaCoche->trasladar(52.0, 0, 0);
-
-	RotarLuz->setEntidad(TransfRotaLuz);
-	RotarCam->setEntidad(TransfRotaCam);
-	RotarCoche->setEntidad(TransfRotaCoche);
-
-	TraslaLuz->setEntidad(TransfTraslaLuz);
-	TraslaCam->setEntidad(TransfTraslaCam);
-	TraslaCoche->setEntidad(TransfTraslaCoche);
-
-
-	TLuz *EntLuz = new TLuz();
-	TCamara *EntCam = new TCamara();
-	TMalla *MallaChasis = new TMalla();
-
-    MallaChasis->cargarMalla("caja");
-	
-	TNodo *NLuz = new TNodo();
-	NLuz->setEntidad(EntLuz);
-	TNodo *NCam = new TNodo();
-	NCam->setEntidad(EntCam);
-	TNodo *NChasis = new TNodo();
-	NChasis->setEntidad(MallaChasis);
-
-	TraslaLuz->addHijoBack(NLuz);
-    TraslaCam->addHijoBack(NCam);
-    TraslaCoche->addHijoBack(NChasis);
-
-
-    //Escena->draw();
-    
-    */
-}
-/*
-void Fachada::drawDrawEscena(){
-    Escena->draw();
-}
-*/
-void Fachada::drawTerreno(){
-/*
-	scene::ITerrainSceneNode* terrain = smgr->addTerrainSceneNode(
-
-        "resources/terrain-heightmap.bmp",
-
-        0,                  					// parent node
-
-        -1,                 					// node id
-
-        core::vector3df(-5000, -177, -250),		// position
-
-        core::vector3df(0.f, 0.f, 0.f),     	// rotation
-
-        core::vector3df(40.f, 4.4f, 40.f),  	// scale
-
-        video::SColor ( 255, 255, 255, 255 ),   // vertexColor
-
-        5,                 						// maxLOD
-
-        scene::ETPS_17,             			// patchSize
-
-        4                   					// smoothFactor
-
-        );
-
-    //LE APLICAMOS TEXTURA AL TERRENO
-
-    terrain->setMaterialFlag(video::EMF_LIGHTING, false);
-    terrain->setMaterialTexture(0, driver->getTexture("resources/terrain-texture.jpg"));
-
-    //LE APLICAMOS RELIEVE
-
-    terrain->setMaterialTexture(1, driver->getTexture("resources/detailmap3.jpg"));
-	terrain->setMaterialType(video::EMT_DETAIL_MAP);
-    terrain->scaleTexture(1.0f, 20.0f);
-*/
+/* Funcion para dibujar los diferentes mapas del juego en funcion del nivel en el que estemos */
+FObjeto* Fachada::drawTerreno(int nivel){
     
 	FObjeto* suelo = new FObjeto();
+
+    switch(nivel){
+
+        case 1: 
+        {    
+           suelo->setMalla("resources/Niveles/nivel2.obj");
+           suelo->Escalar(vec3(0.8,0.8,2.5));
+           suelo->Mover(vec3(-103,-7,-35));
+           
+           break;
+        }
+
+        case 2:
+        {
+           suelo->setMalla("resources/Niveles/nivel3.obj");
+           suelo->Escalar(vec3(0.733,0.755,1.5));
+           suelo->Mover(vec3(-107,0,-40));
+           break;
+        }
+    }
 	
-    //suelo->setMalla("resources/escenario.obj");
-    suelo->setMalla("resources/nivel3.obj");
+
     //suelo = addCube(-220,-9,0, false);
-    suelo->Escalar(vec3(0.8,0.8,2.));
+    
 	
-	suelo->Mover(vec3(-103,-7,-35));
+	
 	//suelo->Rotar(vec3(0,1,0), -3.f);
     suelo->Rotar(vec3(1,0,0), 1.57f);
 	
-    //std::cout<<"crea suelo"<<endl;
+    return suelo;
     
 }
 void Fachada::addMenu(int tipo){
@@ -519,4 +431,18 @@ void Fachada::CreateGround(b2World& world, float X, float Y,float largo,float al
     FixtureDef.shape = &Shape;
     Ground->CreateFixture(&FixtureDef);
 
+    bodies.push_back(Ground);   // Metemos todos los bodies en un vector para poder borrarlos despues
+    //cout<<bodies.size()<<endl;
+}
+
+void Fachada::destruirBodies()
+{
+    for(size_t i=0; i<bodies.size();i++)
+    {
+        if(bodies[i]!=nullptr)
+        {
+            bodies[i]->GetWorld()->DestroyBody(bodies[i]);
+        }
+    }
+    bodies.clear();
 }

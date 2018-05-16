@@ -8,7 +8,7 @@ Fuente::Fuente(Posicion* pos):Objeto(pos)
 {
 	GameObject::setTipo(FUENTE);
 	fachada=fachada->getInstance();
-	FObjeto* obObeto = fachada->addMalla(pos->getPosX()-10,pos->getPosY(),pos->getPosZ(),"resources/Pozo.obj");
+	FObjeto* obObeto = fachada->addMalla(pos->getPosX(),pos->getPosY()+3,pos->getPosZ(),"resources/Pozo/Pozo.obj");
     objeto = obObeto;
     //posicion = &pos;
     //std::cout<<pos->getPosX()<<endl;
@@ -28,5 +28,11 @@ Fuente::Fuente(Posicion* pos):Objeto(pos)
 
 void Fuente::update()
 {
-	
+	fachada->destruirObjeto(objeto);
 }
+
+Fuente::~Fuente()
+{
+	fachada->destruirObjeto(objeto);
+}
+

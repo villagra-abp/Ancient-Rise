@@ -6,13 +6,14 @@ static Protagonista* instance = NULL;
 
 
 Protagonista::Protagonista():energy(nullptr), life(nullptr), Body(nullptr), rec(nullptr), flecha0(nullptr), flecha1(nullptr), sonido(nullptr),
-protaPosition(nullptr), enemigoPosition(nullptr), comidaPosition(nullptr), trampaPosition(nullptr)
+protaPosition(nullptr), enemigoPosition(nullptr), comidaPosition(nullptr), trampaPosition(nullptr), protaObjeto(nullptr)
 {
     
     GameObject::setTipo(PROTA);
 
-    FObjeto* protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/Prueba/prueba");
+    protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/Prueba/prueba");
     rec = protaObjeto;
+
     
     Posicion escala(2.f,2.f,2.f);
     fachada->setScala((void*)protaObjeto,&escala);
@@ -99,9 +100,6 @@ void Protagonista::CreateBox(b2World& world, float X, float Y)
     FixtureDef.filter.groupIndex = GROUP_PLAYER;
     Body->CreateFixture(&FixtureDef);
     Body->SetUserData( rec );
-    //std::cout<<Body->GetMass()<<"\n";
-
-  
 }
 
 /**
@@ -113,10 +111,6 @@ void Protagonista::updateBody(b2World& world)
     protaPosition->setPosX(Body->GetPosition().x);
     protaPosition->setPosY(Body->GetPosition().y);
     
-    //FObjeto* objeto=(FObjeto*)rec;
-    //vec3 position=vec3(Body->GetPosition().x,Body->GetPosition().y,0);
-    //cout<<position.x<<" "<<position.y<<" "<<position.z<<endl;
-    //objeto->setPosicion(position);
     fachada->setPosicion(rec,protaPosition);
     
     
@@ -183,6 +177,11 @@ void Protagonista::ataque(EnemigoBasico* e)
     
 }
 
+b2Body* Protagonista::getBody(){
+    
+    return Body;
+}
+
 /**
 FUNCION PARA CONTROLAR EL MOVIMIENTO DEL PROTA
 **/
@@ -195,7 +194,7 @@ void Protagonista::movimiento(const glm::f32 Time)
         {
             velo.x=-10.f;
             Body->SetLinearVelocity(velo);
-        }else if(correr==true && energia>10.1 && velo.y>=-5 && velo.y<5)
+        }else if(correr==true && velo.y>=-4 && velo.y<4)
         {
             setEnergia(-1.f,0.2f);
             Body->ApplyForceToCenter(b2Vec2(-3500.f,0.f),true);
@@ -204,8 +203,7 @@ void Protagonista::movimiento(const glm::f32 Time)
                 velo.x=-80.f; 
                 Body->SetLinearVelocity(velo);
             }
-            if(energia<10)
-                correr=false;
+            
         }else
         {
             velo.x=-30.f;
@@ -220,7 +218,7 @@ void Protagonista::movimiento(const glm::f32 Time)
                 velo.x=10.f;
                 //Body->ApplyForceToCenter(b2Vec2(35.f,0.f),true);
                Body->SetLinearVelocity(velo);
-            }else if(correr==true && energia>10.1&& velo.y>=-5 && velo.y<5){
+            }else if(correr==true && velo.y>=-4 && velo.y<4){
                 setEnergia(-1.f,0.2f);
                 Body->ApplyForceToCenter(b2Vec2(3500.f,0.f),true);
                 if(velo.x>80.f){
@@ -229,9 +227,11 @@ void Protagonista::movimiento(const glm::f32 Time)
                     //std::cout<<"velocidad +90"<<endl;
                 }
                 
-                if(energia<10)
-                    correr=false;
-            }else{
+            }
+            else{
+                //fachada->destruirObjeto(rec);
+                protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/marcha5/marcha5.txt");
+                rec = protaObjeto;
                 velo.x=30.f;
                 //Body->ApplyForceToCenter(b2Vec2(60.f,0.f),true);
                 Body->SetLinearVelocity(velo);
@@ -511,7 +511,8 @@ void Protagonista::setCorrer(bool s)
 {
     if(energia>10){
         correr=s;
-    }
+    }else
+        correr=false;
     
 }
 
@@ -596,12 +597,8 @@ int Protagonista::getTiempoAtaque()
 
 Protagonista::~Protagonista()
 {
-    //dtor
-    //std::cout<<"peta peta"<<endl;
-    rec = nullptr;
-    energy = nullptr;
-    life = nullptr;  
-    
-    //delete energyPosition;
-    //delete lifePosition;
+ 
+    fachada->destruirObjeto(rec);
+    fachada->destruirObjeto(flecha0);
+    fachada->destruirObjeto(flecha1);
 }

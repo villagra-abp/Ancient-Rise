@@ -57,11 +57,9 @@ public:
 	void suspension();
 	void cerrar();
 	void destruirObjeto(void* nodo);
-	
-	void drawEscena();
-	//void drawDrawEscena();
-	//void drawGUI();
-    void drawTerreno();
+	void destruirBodies();
+
+    FObjeto* drawTerreno(int nivel);
     void addMenu(int t);
     void addFlecha(int pos);
 	
@@ -94,9 +92,9 @@ private:
     TMotorTAG* motorgrafico = TMotorTAG::getInstance();
     
     /* BOX2D */
-        b2Body* Body;
         b2BodyDef BodyDef;
         b2PolygonShape Shape;
+        vector <b2Body*> bodies;
 
     sf::Clock reloj; 
         

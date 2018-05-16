@@ -7,6 +7,15 @@ Blackboard::Blackboard():enemBActual(nullptr), prota(nullptr)
 
 }
 
+void Blackboard::borrarEnemB()
+{
+	for(int i = 0 ; i < enemigosB.size(); i++){
+		cout<<"entro"<<endl;
+		delete enemigosB[i];
+	}
+	enemigosB.clear();
+}
+
 
 glm::f32 Blackboard::getTime()
 {
@@ -88,15 +97,6 @@ void Blackboard::setProtagonista(Protagonista* p)
 void Blackboard::setNodosGrafo(vector<NodoGrafo*> n)
 {
 	nodos = n;
-
-	/*for(int i=0; i<nodos.size();i++)
-    {
-        cout<<"Nodo "<<nodos[i]->getNombre();
-        cout<<" en X: "<<nodos[i]->getPosition()->getPosX();
-        cout<<" y en Y: "<<nodos[i]->getPosition()->getPosY()<<endl;
-    }
-    cout<<"SIGUIENTE"<<endl;
-    */
 }
 
 

@@ -1,0 +1,4 @@
+resources/Animaciones/marcha5/marcha5_0000
+33
+27
+0.9

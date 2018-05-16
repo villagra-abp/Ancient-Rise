@@ -5,13 +5,10 @@ Menu::Menu(Posicion* pos)
 	
 	Fachada* fachada=fachada->getInstance();
 
-<<<<<<< HEAD
-    menu = fachada->addMalla(pos->getPosX()+1,pos->getPosY()+1,pos->getPosZ(), "resources/Menu/Carajo.obj");
-=======
-    menu = fachada->addMalla(pos->getPosX()+1,pos->getPosY()*3,pos->getPosZ(), "resources/Menu/Menu1.obj");
-    menu2 = fachada->addMalla(pos->getPosX()+1,pos->getPosY()*2,pos->getPosZ(), "resources/Menu/Menu2.obj");
-    menu3 = fachada->addMalla(pos->getPosX()+1,pos->getPosY(),pos->getPosZ(), "resources/Menu/Menu3.obj");
->>>>>>> 312120c3665f7bb0626e7015d4b5fd3ad6a496fb
+
+    menu = fachada->addMalla(pos->getPosX()-1,pos->getPosY()*3,pos->getPosZ(), "resources/Menu/Menu1.obj");
+    menu2 = fachada->addMalla(pos->getPosX()-1,pos->getPosY()*2,pos->getPosZ(), "resources/Menu/Menu2.obj");
+    menu3 = fachada->addMalla(pos->getPosX()-1,pos->getPosY(),pos->getPosZ(), "resources/Menu/Menu3.obj");
     
     
 	if (menu)

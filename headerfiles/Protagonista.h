@@ -15,6 +15,8 @@
 class Protagonista : public GameObject
 {
     public:
+
+        Protagonista();
         static Protagonista* getInstance();
         virtual ~Protagonista();
 
@@ -66,13 +68,12 @@ class Protagonista : public GameObject
          void checkPosCombate();
          void quitarVida(glm::f32 cantidad);
 
-
+         b2Body* getBody();
 
 
     private:
-        
-        Protagonista();
-        
+    
+        FObjeto* protaObjeto;
         void * rec;
         void * energy;
         void * life;
@@ -100,7 +101,7 @@ class Protagonista : public GameObject
         b2Body* Body;
         b2BodyDef BodyDef;
         b2PolygonShape Shape;
-        short GROUP_PLAYER = -1; 
+        short GROUP_PLAYER = -2; 
 
        /* COMBATE */
         bool combate;                     // PARA SABER SI ESTA COMBATIENDO O NO

@@ -1,9 +1,11 @@
 #include "../headerfiles/Mundo.h"
 
 Mundo::Mundo():prota(nullptr),b(nullptr),enem1(nullptr),enemE1(nullptr), cam(nullptr),posA(nullptr), posF(nullptr), p1(nullptr),
-p0(nullptr), posC(nullptr), posB(nullptr), posT(nullptr)	//CONSTRUCTOR
+p0(nullptr), posC(nullptr), posB(nullptr), posT(nullptr), salidaNivel(nullptr) //posP(nullptr)	//CONSTRUCTOR
 {
     Fachada* fachada=fachada->getInstance();
+
+    nivel = 1; 
 
     /*CREAMOS GESTOR DE SONIDO*/
     sonido = GestorSonido::getInstance();
@@ -13,10 +15,8 @@ p0(nullptr), posC(nullptr), posB(nullptr), posT(nullptr)	//CONSTRUCTOR
     musicaBosque = sonido->createMusic(sonido->SOUND_MUSIC_BOSQUE);
 
     /* CREAMOS PROTA */
-    prota = prota->getInstance();
+    prota = new Protagonista();
     addGameObject(prota);
-    //creo el suelo, el bounding box del prota
-    prota->CreateBox(world, -170.f, 0.f);
 
     /* CREAMOS LA BLACKBOARD */
     b=new Blackboard();
@@ -24,49 +24,47 @@ p0(nullptr), posC(nullptr), posB(nullptr), posT(nullptr)	//CONSTRUCTOR
     /* Lectura del XML para la logica del juego */
     cargarNivel();
 
+    //cout<<"Tam enemigos Basicos: "<<enemB.size()<<endl;
+    //cout<<"Tam nodos : "<<nodos.size()<<endl;
+    //cout<<"Tam fuentes : "<<fuentes.size()<<endl;
+
     /* Pasamos toda la info necesaria a la blackboard */
     b->setProtagonista(prota);
- 
-    b->setEnemB(enemB);  // Añadimos todos los enemigos basicos que existen a la blackboard
 
     /** ESTABLECEMOS LA CAMARA
      Aqui indicamos la posicion de la camara en el espacio 3d. En este caso,
      esta mirando desde la posicion (0, 30, -40) a la (0, 5, 0) donde es
      aproximadamente donde esta el objeto.
     **/
-        Posicion* camaraPos = new Posicion(prota->getPosition()->getPosX(),50,-140);
+    Posicion* camaraPos = new Posicion(prota->getPosition()->getPosX(),50,-140);
         
-    	cam = fachada->addCamara(camaraPos);
+    cam = fachada->addCamara(camaraPos);
     	//device->getCursorControl()->setVisible(true);
 
      /* AÑADIMOS UNA LUZ */   
-        Posicion* luzPos=camaraPos;
-        fachada->addLuz(luzPos);
-        Posicion* dir = new Posicion(0,-1,-1);
-        fachada->addLuzDireccional(dir);
-        Posicion* d = new Posicion(0,1,0);
-        Posicion* origen = new Posicion(0,65,0);
-        fachada->addLuzDirigida(origen,d);
+    Posicion* luzPos=camaraPos;
+    fachada->addLuz(luzPos);
+    Posicion* dir = new Posicion(0,-1,-1);
+    fachada->addLuzDireccional(dir);
+    Posicion* d = new Posicion(0,1,0);
+    Posicion* origen = new Posicion(0,65,0);
+    fachada->addLuzDirigida(origen,d);
 
-        vector<string> pathsSkybox;
-        pathsSkybox.push_back("resources/skybox/skybox_1.tga");
-        pathsSkybox.push_back("resources/skybox/skybox_3.tga");
-        pathsSkybox.push_back("resources/skybox/skybox_up.tga");
-        pathsSkybox.push_back("resources/skybox/skybox_down.tga");
-        pathsSkybox.push_back("resources/skybox/skybox_2.tga");
-        pathsSkybox.push_back("resources/skybox/skybox_4.tga");
-        fachada->addSkybox(pathsSkybox);
+    vector<string> pathsSkybox;
+    pathsSkybox.push_back("resources/skybox/skybox_1.tga");
+    pathsSkybox.push_back("resources/skybox/skybox_3.tga");
+    pathsSkybox.push_back("resources/skybox/skybox_up.tga");
+    pathsSkybox.push_back("resources/skybox/skybox_down.tga");
+    pathsSkybox.push_back("resources/skybox/skybox_2.tga");
+    pathsSkybox.push_back("resources/skybox/skybox_4.tga");
+    fachada->addSkybox(pathsSkybox);
 
-        
-    /* CREAMOS EL TERRENO Y COLISIONES DE CAMARA */
-
-    	terrainBuilder();
 
     /** TIME AND FRAMES
      Para poder hacer un movimiento independiente del framerate, tenemos que saber
      cuanto ha pasado desde el ultimo frame
     **/
-    	lastFPS = -1;
+    lastFPS = -1;
 
         
     Posicion posmenu(.5f,-5000.f,.5f);
@@ -83,15 +81,15 @@ p0(nullptr), posC(nullptr), posB(nullptr), posT(nullptr)	//CONSTRUCTOR
 
 }	
 
-void Mundo::terrainBuilder(){	//CONSTRUCTOR DEL TERRENOS Y COLISIONES DE CAMARA
-
-    fachada->drawTerreno();
-
-}
-
 void Mundo::update()
 {
-    
+    if(prota->checkVida()==false) // Prota muerto
+    {
+        cambiarNivel();
+    }
+
+    controlCambioNivel();  // Para comprobar si hay que cambiar de nivel o no
+
 	//pasos de las fisicas en el mundo
 	world.Step(1/60.f, 8, 3);
 	//reinicio las fuerzas en el mundo
@@ -114,6 +112,7 @@ void Mundo::update()
 
     b->setTime(frameDeltaTime);
     b->setProta(protaPosition->getPosX());
+
 
     /* UPDATE DE LOS OBJETOS */
     for(size_t i=0; i<alarmas.size();i++)
@@ -150,7 +149,6 @@ void Mundo::update()
 
     if(estado==2)
     {
-
         //Comprueba las entradas del teclado
         checkInput(-1);
 
@@ -172,7 +170,6 @@ void Mundo::update()
     	     	enemE[i2]->Update(prota->getPosition());
     	    }
         }
-
         /*UPDATE DE SONIDO*/
         sonido->playSound(musicaBosque);
         sonido->update();
@@ -189,14 +186,9 @@ void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
 
     prota->updateBody(world);
 
-    if(!prota->checkVida())
-		fachada->cerrar();
-
 	if(Tiempo>0.3f) 	// HACEMOS QUE LO QUE HAYA DENTRO SE HAGA MENOS VECES POR SEGUNDO
     {
         glm::f32 energia=prota->getEnergia();
-
-        //checkCombate(); 							// Comprobamos si hemos pulsado la tecla de combate (K)
         
          if(sf::Keyboard::isKeyPressed(sf::Keyboard::J))
         {   
@@ -402,6 +394,7 @@ void Mundo::checkInput(int tecla){
     		if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)||sf::Joystick::isButtonPressed(0, 5))
     		{
 		  prota->setCorrer(true);
+          prota->setEnergia(-2.f,0.2f);
       		  
     		}else
 		  prota->setCorrer(false);
@@ -422,10 +415,6 @@ void Mundo::checkInput(int tecla){
     }
     else
         prota->setPosCombate(2);
-   // if(sf::Keyboard::isKeyPressed(sf::Keyboard::P)){
-   //     
-   // }
-	       
 }
 /* Funcion para activar/desactivar el combate y atacar */
 void Mundo::checkCombate()
@@ -450,25 +439,10 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
     int posopc=opciones->getEstado();
     Posicion* protaPosition = prota->getPosition();
 	vec3 posCam = cam->getPosicion();
+    b2Vec2 velo=prota->getBody()->GetLinearVelocity();
+    //cout<<velo.x<<endl;
     //prueba zoom camara
-    /*
-    if(prota->getCaida()){
-       while(CamZ>-200){
-            CamZ-=0.00001f;
-            ////std::cout<<"con zoom"<<endl;
-        }
-    }
-    if(prota->getSalto()){
-        while(CamZ<-100){
-            CamZ+=0.00001f;
-            ////std::cout<<"con zoom"<<endl;
-        }
-        
-        zoom=false;
-        //CamZ=-200;
-    }
-    ////std::cout<<"Camz"<<CamZ<<endl;
-    */
+    
     if(estado==3){  ///Opciones
         cam->setPosicion(vec3(30,5000*posopc,-20));
     }
@@ -476,8 +450,21 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
         if(pintaHud){
             cam->setPosicion(vec3(40,5000,-20));
         }
-        else
-    cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-25,-120)); // cambio 5O A ProtaPosition.Y
+        else if(velo.x>60){
+            for(float i=-115;i>-120;i-=frameDeltaTime*0.001f){
+                cam->setPosicion(vec3(-protaPosition->getPosX()-5,-protaPosition->getPosY()-25,i)); 
+            }
+            //cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-25,-120)); 
+        }
+        else{
+            cam->Rotar(vec3(0,1,0), -0.25);
+            for(float i=-120;i<-115;i+=frameDeltaTime*0.001f){
+                cam->setPosicion(vec3(-protaPosition->getPosX()-5,-protaPosition->getPosY()-25,i)); 
+            }
+            cam->Rotar(vec3(0,1,0), 0.25f);
+        }
+            
+    
     
     }
     if(estado==1){  ///Pausa
@@ -573,9 +560,23 @@ void Mundo::cargarNivel()
 {
     TiXmlDocument doc;
 
-    if(doc.TiXmlDocument::LoadFile("resources/nivel3.xml",TIXML_ENCODING_UTF8 )) //TIXML_ENCODING_UTF8
-    { 
-      //std::cout <<"Leyendo bien"<<endl;    
+
+     switch(nivel){
+
+        case 1: 
+        {        
+           doc.TiXmlDocument::LoadFile("resources/Niveles/nivel2.xml",TIXML_ENCODING_UTF8);
+           /* CREAMOS EL TERRENO Y COLISIONES DE CAMARA */
+           Terreno = fachada->drawTerreno(1);
+           break;
+        }
+
+        case 2:
+        {
+            doc.TiXmlDocument::LoadFile("resources/Niveles/nivel3.xml",TIXML_ENCODING_UTF8);
+            Terreno = fachada->drawTerreno(2);
+           break;
+        }
     }
 
     //OBTENER ELEMENTO MAPA
@@ -690,7 +691,8 @@ void Mundo::cargarNivel()
                 }//atributos
                             
                 i3++;
-                fachada->CreateGround(world, (int)x, (int)y,(int)ancho, (int)altura);
+                 fachada->CreateGround(world, (int)x, (int)y,(int)ancho, (int)altura);
+            
                 obje=obje->NextSiblingElement("object");//pasamos a la siguiente caja
 
                              
@@ -811,6 +813,8 @@ void Mundo::cargarNivel()
                         }
 
                         pos.clear();    // Vaciamos el vector para que no de problemas para el siguiente
+
+                        b->setEnemB(enemB);
                         
                     }   
 
@@ -844,6 +848,41 @@ void Mundo::cargarNivel()
                     {
                 
                     }  
+
+                     if(strcmp(grupo2->FirstAttribute()->Value(),"puerta")==0)
+                    {
+                        int t = tipo%10;  
+
+                        switch (t)
+                        {   
+                            case 1: // Palanca para abrir puerta
+                            {
+                               /* posP = new Posicion(xEn-190,-yEn+59,0.f);
+                                Palanca* pal = new Palanca(posP);
+                                palancas.push_back(pal);
+                                addGameObject(pal);*/
+                                break;
+                            }
+
+                            case 2: // Puerta para salir del nivel
+                            {
+                                salidaNivel = new Posicion(xEn-190,-yEn+59,0.f);
+                                break;
+                            }
+                        }
+                
+                    }  
+
+                    if(strcmp(grupo2->FirstAttribute()->Value(),"prota")==0) // Posicion inicial del prota
+                    {
+                        int t = tipo%10;  
+
+                        if(t==1)
+                        {
+                            prota->CreateBox(world,xEn-190,-yEn+59); // Pos inicial del prota en cada nivel
+                        }
+                        
+                    } 
 
                     if(strcmp(grupo2->FirstAttribute()->Value(),"alarmas")==0)
                     {
@@ -941,6 +980,137 @@ void Mundo::cargarNivel()
 
 }    
 
+void Mundo::controlCambioNivel()
+{
+    if(prota->getPosition()->getPosX()>=salidaNivel->getPosX())
+    {
+        if(prota->getPosition()->getPosY()<salidaNivel->getPosY()+10 && prota->getPosition()->getPosY()>salidaNivel->getPosY()-10)
+        {
+            cambiarNivel();
+        }
+    }
+}
+
+/* Funcion para hacer el cambio de nivel cuando se llegue al final */
+void Mundo::cambiarNivel()
+{
+    if(nivel<MAX_NIVEL || prota->checkVida()==false) // No cambiar nivel si no hay mas o no queremos cambiar de nivel. SOlo reset si prota muerto
+    {
+        if(nivel<MAX_NIVEL && prota->checkVida())  // Solo si el jugador esta vivo cuando entramos aqui es cuando queremos cambair de nivel
+        {
+            nivel = nivel +1;
+        }
+
+        fachada->destruirBodies();
+
+        fachada->destruirObjeto(Terreno);
+        
+
+        /* DELETE DEL GRAFO PROVISIONAL */
+        for(size_t cont3=0; cont3<nodos.size();cont3++)
+        {
+            delete nodos[cont3];
+        }
+        nodos.clear();
+
+        for(size_t cont4=0; cont4<aristas.size();cont4++)
+        {
+            delete aristas[cont4];
+        }
+        aristas.clear();
+
+        /* DELETE DE LOS OBJETOS DEL MAPA */
+        for (size_t cont=0; cont<alarmas.size();cont++)
+        {
+            delete alarmas[cont];
+        }
+        alarmas.clear();
+
+        for (size_t cont=0; cont<fuentes.size();cont++)
+        {
+            delete fuentes[cont];
+        }
+        fuentes.clear();
+
+        for (size_t cont=0; cont<comidas.size();cont++)
+        {
+            delete comidas[cont];
+        }
+        comidas.clear();
+
+        for (size_t cont=0; cont<bebidas.size();cont++)
+        {
+            delete bebidas[cont];
+        }
+        bebidas.clear();
+
+        for (size_t cont=0; cont<trampas.size();cont++)
+        {
+            delete trampas[cont];
+        }
+        trampas.clear();
+
+        for(size_t cont=0; cont<enemB.size();cont++)
+        {
+            
+            delete enemB[cont];
+        }
+        enemB.clear();
+
+        for(size_t cont2=0; cont2<enemE.size();cont2++)
+        {
+            delete enemE[cont2];
+        }
+        enemE.clear();
+
+        delete posA;
+        delete posF;
+        delete posB;
+        delete posC;
+        delete posT;
+        delete p0;
+        delete p1;
+
+        gos.clear();
+
+        if(prota->checkVida()==false) // SI prota muerto lo volvemos a crear 
+        {
+            delete prota;
+
+            prota = new Protagonista();
+        }
+
+        b->setEnemB(enemB);
+        b->setAlarma(alarmas);
+        b->setFuente(fuentes);
+        b->setNodosGrafo(nodos);
+
+
+        //cout<<"TamDespuesBorrado enemigos Basicos: "<<enemB.size()<<endl;
+        //cout<<"TamDespuesBorrado nodos : "<<nodos.size()<<endl;
+        //cout<<"TamDespuesBorrado fuentes : "<<fuentes.size()<<endl;
+
+        cargarNivel(); // Volvemos a hacer la lectura del xml para cargar toda la logica del nuevo nivel
+
+        if(prota->checkVida()==false)
+        {
+            b->setProtagonista(prota);
+        }
+
+            //cout<<"TamSegundoNivel enemigos Basicos: "<<enemB.size()<<endl;
+        //cout<<"TamSegundoNivel nodos : "<<nodos.size()<<endl;
+        //cout<<"TamSegundoNivel fuentes : "<<fuentes.size()<<endl;
+
+         //cout<<"TamBlack enemigos Basicos: "<<b->getEnemB().size()<<endl;
+        //cout<<"TamBlack nodos : "<<b->getNodosGrafo().size()<<endl;
+        //cout<<"TamBlack fuentes : "<<b->getFuente().size()<<endl;
+
+            //cout<<"llego1"<<endl;
+    }
+
+
+}
+
 
 Mundo::~Mundo()	//DESTRUCTOR
 {
@@ -1004,13 +1174,16 @@ Mundo::~Mundo()	//DESTRUCTOR
     }
     trampas.clear();
 
+   
+
     delete posA;
     delete posF;
     delete posB;
     delete posC;
     delete posT;
+    //delete posP;
     delete p0;
     delete p1;
-    
+    delete salidaNivel;
     
 }
