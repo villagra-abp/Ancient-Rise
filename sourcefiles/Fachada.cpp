@@ -119,9 +119,6 @@ void Fachada::destruirObjeto(void* nodo)
 {
     FObjeto* node=(FObjeto*)nodo;
 
-   // cout<<"entro"<<endl;
-   // node->isActive(false);
-
     delete node;
 }
 

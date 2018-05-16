@@ -73,7 +73,7 @@ class Protagonista : public GameObject
 
     private:
     
-        
+        FObjeto* protaObjeto;
         void * rec;
         void * energy;
         void * life;

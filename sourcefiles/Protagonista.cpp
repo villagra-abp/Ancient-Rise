@@ -6,13 +6,14 @@ static Protagonista* instance = NULL;
 
 
 Protagonista::Protagonista():energy(nullptr), life(nullptr), Body(nullptr), rec(nullptr), flecha0(nullptr), flecha1(nullptr), sonido(nullptr),
-protaPosition(nullptr), enemigoPosition(nullptr), comidaPosition(nullptr), trampaPosition(nullptr)
+protaPosition(nullptr), enemigoPosition(nullptr), comidaPosition(nullptr), trampaPosition(nullptr), protaObjeto(nullptr)
 {
     
     GameObject::setTipo(PROTA);
 
-    FObjeto* protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/Prueba/prueba");
+    protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/Prueba/prueba");
     rec = protaObjeto;
+
     
     Posicion escala(2.f,2.f,2.f);
     fachada->setScala((void*)protaObjeto,&escala);
@@ -226,7 +227,11 @@ void Protagonista::movimiento(const glm::f32 Time)
                     //std::cout<<"velocidad +90"<<endl;
                 }
                 
-            }else{
+            }
+            else{
+                //fachada->destruirObjeto(rec);
+                protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/marcha5/marcha5.txt");
+                rec = protaObjeto;
                 velo.x=30.f;
                 //Body->ApplyForceToCenter(b2Vec2(60.f,0.f),true);
                 Body->SetLinearVelocity(velo);
