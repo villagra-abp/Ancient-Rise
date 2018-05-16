@@ -1,0 +1,11 @@
+30.1 FPS
+Inicio: 33
+Final: 59
+
+BASE FRAME: 
+
+50 FPS
+Inicio: 66
+Final: 117
+
+BASE FRAME: 220
