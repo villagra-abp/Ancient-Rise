@@ -1,7 +1,7 @@
 #include "../headerfiles/Mundo.h"
 
 Mundo::Mundo():prota(nullptr),b(nullptr),enem1(nullptr),enemE1(nullptr), cam(nullptr),posA(nullptr), posF(nullptr), p1(nullptr),
-p0(nullptr), posC(nullptr), posB(nullptr), posT(nullptr), salidaNivel(nullptr)	//CONSTRUCTOR
+p0(nullptr), posC(nullptr), posB(nullptr), posT(nullptr), salidaNivel(nullptr) //posP(nullptr)	//CONSTRUCTOR
 {
     Fachada* fachada=fachada->getInstance();
 
@@ -450,11 +450,8 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
         if(pintaHud){
             cam->setPosicion(vec3(40,5000,-20));
         }
-        else if(velo.x>30||velo.x<-30){
-            if(velo.x>30){
-               velo.x=-(velo.x);   
-            }
-            for(float i=-115;i>(-113+(velo.x/10));i-=frameDeltaTime*0.001f){
+        else if(velo.x>60){
+            for(float i=-115;i>-120;i-=frameDeltaTime*0.001f){
                 cam->setPosicion(vec3(-protaPosition->getPosX()-5,-protaPosition->getPosY()-25,i)); 
             }
             //cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-25,-120)); 
@@ -567,7 +564,7 @@ void Mundo::cargarNivel()
 
         case 1: 
         {        
-           doc.TiXmlDocument::LoadFile("resources/Niveles/nivel3.xml",TIXML_ENCODING_UTF8);
+           doc.TiXmlDocument::LoadFile("resources/Niveles/nivel2.xml",TIXML_ENCODING_UTF8);
            /* CREAMOS EL TERRENO Y COLISIONES DE CAMARA */
            Terreno = fachada->drawTerreno(1);
            break;
@@ -575,7 +572,7 @@ void Mundo::cargarNivel()
 
         case 2:
         {
-            doc.TiXmlDocument::LoadFile("resources/Niveles/nivel4.xml",TIXML_ENCODING_UTF8);
+            doc.TiXmlDocument::LoadFile("resources/Niveles/nivel3.xml",TIXML_ENCODING_UTF8);
             Terreno = fachada->drawTerreno(2);
            break;
         }
@@ -859,7 +856,10 @@ void Mundo::cargarNivel()
                         {   
                             case 1: // Palanca para abrir puerta
                             {
-                               
+                               /* posP = new Posicion(xEn-190,-yEn+59,0.f);
+                                Palanca* pal = new Palanca(posP);
+                                palancas.push_back(pal);
+                                addGameObject(pal);*/
                                 break;
                             }
 
@@ -1004,8 +1004,6 @@ void Mundo::cambiarNivel()
 
         fachada->destruirObjeto(Terreno);
         
-
-        //b->borrarEnemB();
 
         /* DELETE DEL GRAFO PROVISIONAL */
         for(size_t cont3=0; cont3<nodos.size();cont3++)
@@ -1175,11 +1173,14 @@ Mundo::~Mundo()	//DESTRUCTOR
     }
     trampas.clear();
 
+   
+
     delete posA;
     delete posF;
     delete posB;
     delete posC;
     delete posT;
+    //delete posP;
     delete p0;
     delete p1;
     delete salidaNivel;

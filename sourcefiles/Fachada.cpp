@@ -119,9 +119,6 @@ void Fachada::destruirObjeto(void* nodo)
 {
     FObjeto* node=(FObjeto*)nodo;
 
-   // cout<<"entro"<<endl;
-   // node->isActive(false);
-
     delete node;
 }
 
@@ -233,9 +230,7 @@ FObjeto* Fachada::addAnimacion(int x, int y, int z, string path){
     objeto->setAnimacion(path);
     objeto->Escalar(vec3(2,2,2));
     
-
     objeto->setPosicion(vec3(x,y,z));
-    //prota->Rotar(vec3(0,1,0), -4.5f);
     
     return objeto;
 }
@@ -292,7 +287,7 @@ FObjeto* Fachada::drawTerreno(int nivel){
 
         case 1: 
         {    
-           suelo->setMalla("resources/Niveles/nivel3.obj");
+           suelo->setMalla("resources/Niveles/nivel2.obj");
            suelo->Escalar(vec3(0.8,0.8,2.5));
            suelo->Mover(vec3(-103,-7,-35));
            
@@ -301,7 +296,7 @@ FObjeto* Fachada::drawTerreno(int nivel){
 
         case 2:
         {
-           suelo->setMalla("resources/Niveles/nivel4.obj");
+           suelo->setMalla("resources/Niveles/nivel3.obj");
            suelo->Escalar(vec3(0.733,0.755,1.5));
            suelo->Mover(vec3(-107,0,-40));
            break;
