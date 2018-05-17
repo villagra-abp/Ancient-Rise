@@ -5,19 +5,42 @@ FObjeto::FObjeto(){
 	padre = TMotorTAG::getInstance()->getEscena();
 	//TNodo* nodo, rotacion, traslacion;
 
+//	nodo = new TNodo();
+//	rotacion = new TNodo();
+//	traslacion = new TNodo();
+//
+//	padre->addHijoBack(rotacion);
+//	rotacion->addHijoBack(traslacion);
+//	traslacion->addHijoBack(nodo);
+//
+//	TTransf* rot = new TTransf();
+//	TTransf* tras = new TTransf();
+//	TMalla* mesh = new TMalla();
+//
+//
+//	rotacion->setEntidad(rot);
+//	traslacion->setEntidad(tras);
+//	nodo->setEntidad(mesh);
+
 	nodo = new TNodo();
+	escalado = new TNodo();
 	rotacion = new TNodo();
 	traslacion = new TNodo();
 
+//	padre->addHijoBack(escalado);
+//	escalado->addHijoBack(rotacion);
+//	rotacion->addHijoBack(traslacion);
 	padre->addHijoBack(rotacion);
-	rotacion->addHijoBack(traslacion);
+	rotacion->addHijoBack(escalado);
+	escalado->addHijoBack(traslacion);
 	traslacion->addHijoBack(nodo);
 
+	TTransf* esc = new TTransf();
 	TTransf* rot = new TTransf();
 	TTransf* tras = new TTransf();
 	TMalla* mesh = new TMalla();
 
-
+	escalado->setEntidad(esc);
 	rotacion->setEntidad(rot);
 	traslacion->setEntidad(tras);
 	nodo->setEntidad(mesh);
@@ -37,8 +60,8 @@ void FObjeto::Rotar(vec3 rot, float ang){
 	dynamic_cast<TTransf*>(rotacion->getEntidad())->rotar(rot.x, rot.y, rot.z, ang);
 }
 
-void FObjeto::Escalar(vec3 escalado){
-	dynamic_cast<TTransf*>(rotacion->getEntidad())->escalar(escalado.x, escalado.y, escalado.z);
+void FObjeto::Escalar(vec3 esc){
+	dynamic_cast<TTransf*>(escalado->getEntidad())->escalar(esc.x, esc.y, esc.z);
 }
 
 //Mueve el objeto teniendo en cuenta la posicion previa

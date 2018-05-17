@@ -37,7 +37,7 @@ class FObjeto : public FEntidad{
 	protected:
 		bool active;
 		TNodo *padre;
-		TNodo *nodo, *rotacion, *traslacion;
+		TNodo *nodo, *rotacion, *traslacion, *escalado;
 
 
 
