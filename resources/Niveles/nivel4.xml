@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.2" orientation="orthogonal" renderorder="right-down" width="100" height="30" tilewidth="8" tileheight="8" infinite="0" nextobjectid="528">
+<map version="1.0" tiledversion="1.1.2" orientation="orthogonal" renderorder="right-down" width="100" height="30" tilewidth="8" tileheight="8" infinite="0" nextobjectid="538">
  <tileset firstgid="1" source="suelo.tsx"/>
  <layer name="Capa de Patrones 1" width="100" height="30" visible="0" locked="1">
   <data encoding="csv">
@@ -39,8 +39,8 @@
   <object id="433" x="0.1875" y="56" width="87.875" height="8"/>
   <object id="435" x="88.0625" y="63.9063" width="111.966" height="8"/>
   <object id="436" x="192.017" y="104" width="152" height="8"/>
-  <object id="437" x="224.142" y="80" width="32.216" height="8"/>
-  <object id="438" x="295.788" y="79.9792" width="32.216" height="8"/>
+  <object id="437" x="224.392" y="72.25" width="32.216" height="8"/>
+  <object id="438" x="295.788" y="71.9792" width="32.216" height="8"/>
   <object id="439" x="-24.358" y="47.625" width="32.216" height="8"/>
   <object id="440" x="-24.483" y="39.25" width="32.216" height="8"/>
   <object id="441" x="-24.483" y="31.25" width="32.216" height="8"/>
@@ -72,7 +72,7 @@
   <object id="467" x="663.899" y="191.818" width="40.5651" height="8"/>
   <object id="468" x="663.899" y="200" width="40.5651" height="8"/>
   <object id="469" x="624.263" y="216.364" width="40.5651" height="8"/>
-  <object id="471" x="88.1932" y="183.986" width="271.799" height="8"/>
+  <object id="471" x="95.5682" y="183.986" width="264.424" height="8"/>
   <object id="472" x="112.065" y="152.072" width="247.935" height="8"/>
   <object id="473" x="359.934" y="160" width="32.216" height="8"/>
   <object id="474" x="360.017" y="168" width="32.216" height="8"/>
@@ -99,14 +99,14 @@
   <object id="495" x="735.437" y="78.1818" width="32.216" height="8"/>
   <object id="496" x="735.528" y="70.0909" width="32.216" height="8"/>
   <object id="497" x="735.517" y="61.875" width="32.216" height="8"/>
-  <object id="498" x="88.642" y="232.125" width="278.841" height="8"/>
+  <object id="498" x="88.642" y="232.125" width="287.341" height="8"/>
   <object id="499" x="31.892" y="231.875" width="32.216" height="8"/>
   <object id="500" x="0.142" y="223.875" width="63.966" height="8"/>
   <object id="501" x="-24.233" y="215.625" width="32.216" height="8"/>
   <object id="502" x="-24.2955" y="207.5" width="32.216" height="8"/>
   <object id="503" x="-24.233" y="199.5" width="32.216" height="8"/>
-  <object id="504" x="-0.108" y="191.813" width="40.341" height="8"/>
-  <object id="505" x="-24.2898" y="183.636" width="32.216" height="8"/>
+  <object id="504" x="-0.108" y="183.995" width="48.1535" height="8"/>
+  <object id="505" x="-24.2898" y="191.818" width="32.216" height="8"/>
   <object id="506" x="-24.108" y="175.75" width="32.216" height="8"/>
   <object id="507" x="-24.108" y="167.875" width="32.216" height="8"/>
   <object id="508" x="-24.108" y="159.875" width="32.216" height="8"/>
@@ -125,8 +125,18 @@
   <object id="521" x="192.267" y="128.5" width="32.216" height="8"/>
   <object id="522" x="192.142" y="136.75" width="32.216" height="8"/>
   <object id="523" x="192.142" y="144.625" width="32.216" height="8"/>
-  <object id="526" x="392.398" y="231.955" width="231.932" height="8"/>
+  <object id="526" x="600.065" y="231.955" width="24.2653" height="8"/>
   <object id="527" x="624.445" y="224.182" width="40.5651" height="8"/>
+  <object id="528" x="224.256" y="80.3636" width="32.216" height="8"/>
+  <object id="529" x="224.074" y="88.1818" width="32.216" height="8"/>
+  <object id="530" x="224.256" y="95.8182" width="32.216" height="8"/>
+  <object id="531" x="295.801" y="80.2727" width="32.216" height="8"/>
+  <object id="532" x="295.619" y="88.0909" width="32.216" height="8"/>
+  <object id="533" x="295.801" y="95.7273" width="32.216" height="8"/>
+  <object id="534" x="551.776" y="232.091" width="24.2653" height="8"/>
+  <object id="535" x="503.742" y="232" width="24.2653" height="8"/>
+  <object id="536" x="455.742" y="232.125" width="24.2653" height="8"/>
+  <object id="537" x="407.776" y="232" width="24.2653" height="8"/>
  </objectgroup>
  <objectgroup name="nodos" visible="0" locked="1">
   <object id="22" x="11.125" y="63.375">
