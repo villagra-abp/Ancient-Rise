@@ -448,52 +448,39 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
     }
     if(estado==2){  ///Juego
         if(pintaHud){
+            cam->setRotacion(vec3(0,1,0), 0.f);
             cam->setPosicion(vec3(40,5000,-20));
         }
-        else if(velo.x>60){
+        else 
+        {
+            if(prota->getDireccion()==0){
+                cam->setRotacion(vec3(0,1,0), -0.05f);
+            }
+            else
+            {
+                cam->setRotacion(vec3(0,1,0), 0.10f);
+            }
+            
+            if(velo.x>60){
             for(float i=-115;i>-120;i-=frameDeltaTime*0.001f){
-                cam->setPosicion(vec3(-protaPosition->getPosX()-5,-protaPosition->getPosY()-25,i)); 
+                cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-25,i)); 
             }
             //cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-25,-120)); 
-        }
-        else{
-            cam->Rotar(vec3(0,1,0), -0.25);
-            for(float i=-120;i<-115;i+=frameDeltaTime*0.001f){
-                cam->setPosicion(vec3(-protaPosition->getPosX()-5,-protaPosition->getPosY()-25,i)); 
             }
-            cam->Rotar(vec3(0,1,0), 0.25f);
-        }
-            
+            else{
+                //cam->Rotar(vec3(0,1,0), -0.25);
+                for(float i=-120;i<-115;i+=frameDeltaTime*0.001f){
+                    cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-25,i)); 
+                }
+            }
+        }    
     
     
     }
     if(estado==1){  ///Pausa
-        /*
-        vec3 posCam=cam->getPosicion();
-        posCam.x=20;
-        posCam.z=-120;
-        posCam.y=0;
-        //std::cout<<posCam.y<<endl;
-        
-      
-            while(posCam.y<5000*(posp))
-            {
-                //std::cout<<posCam.y<<endl;
-                //posCam.y=5000*posp;
-                posCam.y+=5*frameDeltaTime;
-                //posCam.z+=0.1*frameDeltaTime;
-                cam->setPosicion(posCam);
-                //cam->Rotar(vec3(0,1,0), 3.0f);
-            }
-            while(posCam.z<-20){
-                posCam.z+=0.01f*frameDeltaTime;
-                cam->setPosicion(posCam);
-            }
-            
-        */
+       
         cam->setPosicion(vec3(20,5000*posp,-20));
          
-        
     }
     if(estado==0){  ///Menu
         cam->setPosicion(vec3(0,5000*posm,-20));
@@ -575,6 +562,12 @@ void Mundo::cargarNivel()
         {
             doc.TiXmlDocument::LoadFile("resources/Niveles/nivel3.xml",TIXML_ENCODING_UTF8);
             Terreno = fachada->drawTerreno(2);
+           break;
+        }
+        case3 :
+        {
+            doc.TiXmlDocument::LoadFile("resources/Niveles/nivel4.xml",TIXML_ENCODING_UTF8);
+            Terreno = fachada->drawTerreno(3);
            break;
         }
     }
