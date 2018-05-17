@@ -593,6 +593,10 @@ int Protagonista::getPosCombate()
 {
     return pos_combate;
 }
+int Protagonista::getDireccion()
+{
+    return direccion;
+}
 
 int Protagonista::getTiempoAtaque()
 {

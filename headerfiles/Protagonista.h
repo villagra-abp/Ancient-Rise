@@ -50,7 +50,7 @@ class Protagonista : public GameObject
          bool getSigilo();
          bool getCorrer();
          int getTiempoAtaque();
-
+         int getDireccion();
          void setSigilo();
          void setCorrer(bool c);
          void setDireccion(int d);
