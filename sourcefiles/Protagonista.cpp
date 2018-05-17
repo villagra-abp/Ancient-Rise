@@ -13,7 +13,7 @@ protaPosition(nullptr), enemigoPosition(nullptr), comidaPosition(nullptr), tramp
 
     protaObjeto = fachada->crearProta();
 
-    protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/Prueba/prueba", protaObjeto);
+    protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/Prueba/prueba", protaObjeto, 1);
     rec = protaObjeto;
     
     Posicion escala(2.f,2.f,2.f);
@@ -51,6 +51,10 @@ protaPosition(nullptr), enemigoPosition(nullptr), comidaPosition(nullptr), tramp
     risa = sonido->create3DSound(sonido->SOUND_BOSS3_RISA);
     
     protaPosition=fachada->getPosicion(rec);
+
+    /* Animaciones */
+
+    cambioAnimacion = false;
     
 }
 
@@ -231,13 +235,12 @@ void Protagonista::movimiento(const glm::f32 Time)
                 
             }
             else{
-                
-                protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/marcha5/marcha5.txt", protaObjeto);
-                fachada->rotObj(protaObjeto, 0, 1, 0, -90);
-                rec = protaObjeto;
-                velo.x=30.f;
-                //Body->ApplyForceToCenter(b2Vec2(60.f,0.f),true);
-                Body->SetLinearVelocity(velo);
+                    protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/marcha5/marcha5.txt", protaObjeto, 2);
+                    rec = protaObjeto;
+                    fachada->setRotObj(protaObjeto, 0, 1, 0, -90);
+                    velo.x=30.f;
+                    //Body->ApplyForceToCenter(b2Vec2(60.f,0.f),true);
+                    Body->SetLinearVelocity(velo);
             }
                 
     }  

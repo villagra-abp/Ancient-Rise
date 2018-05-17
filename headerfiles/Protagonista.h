@@ -95,6 +95,10 @@ class Protagonista : public GameObject
         Posicion* enemigoPosition;
         Posicion* comidaPosition;
         Posicion* trampaPosition;
+
+        /* Animaciones */
+
+        bool cambioAnimacion;
         
         
         /* BOX2D */

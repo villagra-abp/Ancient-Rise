@@ -26,7 +26,7 @@ using namespace std;
 
 class GameObject {
 public:
-	enum Tipo { PROTA, ENEMY, COMIDA, FUENTE, BEBIDA, ALARMA, TRAMPA, PROYECTIL, NODOGRAFO, PALANCA };
+	enum Tipo { PROTA, ENEMY, COMIDA, FUENTE, BEBIDA, ALARMA, TRAMPA, PROYECTIL, NODOGRAFO, PALANCA, PUERTA };
 
  	//virtual void update() = 0;
    

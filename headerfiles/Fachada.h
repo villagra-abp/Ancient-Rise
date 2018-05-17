@@ -67,8 +67,7 @@ public:
     FObjeto* addSphere(int x,int y,int z,bool flag);
     FObjeto* addMalla(float x,float y,float z,string ruta);
     FBillboard* addBillboard(float x,float y,float z,string ruta);
-    FObjeto* addAnimacionNueva(int x, int y, int z, string path);
-    FObjeto* addAnimacion(int x, int y, int z, string path, FObjeto* objeto);
+    FObjeto* addAnimacion(int x, int y, int z, string path, FObjeto* objeto, int num);
     FObjeto* crearProta();
     FCamara* addCamara(Posicion*);
     FLuz* addLuz(Posicion*);
@@ -77,6 +76,7 @@ public:
     FSkybox* addSkybox(vector<string> paths);
 
     void rotObj(void* o, float x, float y, float z, float angulo);
+    void setRotObj(void* o, float x, float y, float z, float angulo);
     void movObj(void* o, float x, float y, float z);
     
     void CreateGround(b2World& world, float X, float Y,float largo, float ancho);
@@ -101,6 +101,9 @@ private:
     sf::Clock reloj; 
         
     bool bounding;
+
+    /* Animaciones */
+    int num_animacion;  // Indica que animacion se esta realizando
 
 };
 

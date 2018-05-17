@@ -32,7 +32,7 @@ Fachada::~Fachada(){
 }
 
 //Constructor. Solo accesible desde getInstance
-Fachada::Fachada(int h, int w, bool fullscreen): prota(nullptr)
+Fachada::Fachada(int h, int w, bool fullscreen): prota(nullptr), num_animacion(0)
 {
 	
 	sf::ContextSettings settings;
@@ -232,33 +232,37 @@ FBillboard* Fachada::addBillboard(float x,float y,float z,string ruta){
     return malla;
 }
 
-FObjeto* Fachada::addAnimacionNueva(int x, int y, int z, string path){
+/* Funcion para anyadir una nueva animacion en el caso de que no la hayamos cargado ya */
+FObjeto* Fachada::addAnimacion(int x, int y, int z, string path, FObjeto* objeto, int num)
+{
+    if(num!=num_animacion) // Si la animacion que habiamos cargado antes es la misma no la volvemos a cargar
+    {
+        objeto->setAnimacion(path);
+        objeto->Escalar(vec3(2,2,2));
+        
+        objeto->setPosicion(vec3(x,y,z));
 
-    FObjeto* objeto = new FObjeto();
-    
-    objeto->setAnimacion(path);
-    objeto->Escalar(vec3(2,2,2));
-    
-    objeto->setPosicion(vec3(x,y,z));
+        num_animacion = num;
+
+       /* if(num_animacion==2)
+        {
+            rotObj(objeto, 0, 1, 0, -90);
+        }*/
+    }
     
     return objeto;
 }
 
-FObjeto* Fachada::addAnimacion(int x, int y, int z, string path, FObjeto* objeto){
 
-    objeto->setAnimacion(path);
-    objeto->Escalar(vec3(2,2,2));
-    
-    objeto->setPosicion(vec3(x,y,z));
-    
-    return objeto;
-}
-
-
-
+/* Rotacion de objeto relativa */
 void Fachada::rotObj(void* nodo, float x, float y, float z, float angulo){
     FObjeto* o=(FObjeto*)nodo;
     o->Rotar(vec3(x,y,z), angulo);
+}
+/* Rotacion de objeto absoluta */
+void Fachada::setRotObj(void* nodo, float x, float y, float z, float angulo){
+    FObjeto* o=(FObjeto*)nodo;
+    o->setRotacion(vec3(x,y,z), angulo);
 }
 
 void Fachada::movObj(void* nodo, float x, float y, float z){

@@ -20,18 +20,10 @@ EnemigoBasico::EnemigoBasico(vector<Posicion*> pos, float xlength, float pendVal
 
 
     /* CREAMOS EL ARBOL DE COMPORTAMIENTO DE EL ENEMIGO BASICO PASANDOLE LA BLACKBOARD */
-
     comportamiento = new BehaviorTree(1, b);              
     
-
      /* Velocidad a la que bajan las estadisticas del enemigo */
     setVelSed(-0.7);
-
-
-    /* BOX2D */
-  /*  nodoPosition = patrulla[0]->getPosition();
-    CreateBox(world, nodoPosition->getPosX()*30, nodoPosition->getPosY()*30);
-*/
 
     CreateBox(world, patrulla[0]->getPosX(), patrulla[0]->getPosY());
     velocidad2d = Body->GetLinearVelocity();

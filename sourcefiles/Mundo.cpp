@@ -1,7 +1,7 @@
 #include "../headerfiles/Mundo.h"
 
 Mundo::Mundo():prota(nullptr),b(nullptr),enem1(nullptr),enemE1(nullptr), cam(nullptr),posA(nullptr), posF(nullptr), p1(nullptr),
-p0(nullptr), posC(nullptr), posB(nullptr), posT(nullptr), salidaNivel(nullptr) //posP(nullptr)	//CONSTRUCTOR
+p0(nullptr), posC(nullptr), posB(nullptr), posT(nullptr), salidaNivel(nullptr), posP(nullptr)	//CONSTRUCTOR
 {
     Fachada* fachada=fachada->getInstance();
 
@@ -857,16 +857,19 @@ void Mundo::cargarNivel()
                         {   
                             case 1: // Palanca para abrir puerta
                             {
-                               /* posP = new Posicion(xEn-190,-yEn+59,0.f);
+                                posP = new Posicion(xEn-190,-yEn+59,0.f);
                                 Palanca* pal = new Palanca(posP);
                                 palancas.push_back(pal);
-                                addGameObject(pal);*/
+                                addGameObject(pal);
                                 break;
                             }
 
                             case 2: // Puerta para salir del nivel
                             {
                                 salidaNivel = new Posicion(xEn-190,-yEn+59,0.f);
+                                Puerta *p = new Puerta(salidaNivel);
+                                puertas.push_back(p);
+                                addGameObject(p);
                                 break;
                             }
                         }
@@ -1063,11 +1066,24 @@ void Mundo::cambiarNivel()
         }
         enemE.clear();
 
+        for (size_t cont=0; cont<palancas.size();cont++)
+        {
+            delete palancas[cont];
+        }
+        palancas.clear();
+
+        for (size_t cont=0; cont<puertas.size();cont++)
+        {
+            delete puertas[cont];
+        }
+        puertas.clear();
+
         delete posA;
         delete posF;
         delete posB;
         delete posC;
         delete posT;
+        delete posP;
         delete p0;
         delete p1;
 
@@ -1085,27 +1101,12 @@ void Mundo::cambiarNivel()
         b->setFuente(fuentes);
         b->setNodosGrafo(nodos);
 
-
-        //cout<<"TamDespuesBorrado enemigos Basicos: "<<enemB.size()<<endl;
-        //cout<<"TamDespuesBorrado nodos : "<<nodos.size()<<endl;
-        //cout<<"TamDespuesBorrado fuentes : "<<fuentes.size()<<endl;
-
         cargarNivel(); // Volvemos a hacer la lectura del xml para cargar toda la logica del nuevo nivel
 
         if(prota->checkVida()==false)
         {
             b->setProtagonista(prota);
         }
-
-            //cout<<"TamSegundoNivel enemigos Basicos: "<<enemB.size()<<endl;
-        //cout<<"TamSegundoNivel nodos : "<<nodos.size()<<endl;
-        //cout<<"TamSegundoNivel fuentes : "<<fuentes.size()<<endl;
-
-         //cout<<"TamBlack enemigos Basicos: "<<b->getEnemB().size()<<endl;
-        //cout<<"TamBlack nodos : "<<b->getNodosGrafo().size()<<endl;
-        //cout<<"TamBlack fuentes : "<<b->getFuente().size()<<endl;
-
-            //cout<<"llego1"<<endl;
     }
 
 
@@ -1174,6 +1175,18 @@ Mundo::~Mundo()	//DESTRUCTOR
     }
     trampas.clear();
 
+    for (size_t cont=0; cont<palancas.size();cont++)
+    {
+        delete palancas[cont];
+    }
+    palancas.clear();
+
+    for (size_t cont=0; cont<puertas.size();cont++)
+    {
+        delete puertas[cont];
+    }
+    puertas.clear();
+
    
 
     delete posA;
@@ -1181,7 +1194,7 @@ Mundo::~Mundo()	//DESTRUCTOR
     delete posB;
     delete posC;
     delete posT;
-    //delete posP;
+    delete posP;
     delete p0;
     delete p1;
     delete salidaNivel;
