@@ -1,5 +1,5 @@
 # 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
-# File Created: 14.05.2018 14:16:26
+# File Created: 15.05.2018 16:20:54
 
 newmtl Cuerda
 	Ns 10.0000
@@ -17,6 +17,51 @@ newmtl Cuerda
 	map_Ks Pozo/Cuerda_Metallic.png
 	map_bump Pozo/Cuerda_Roughness.png
 	bump Pozo/Cuerda_Roughness.png
+
+newmtl Asa
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0078 0.0078 0.0078
+	Kd 0.0078 0.0078 0.0078
+	Ks 0.0180 0.0180 0.0180
+	Ke 0.0000 0.0000 0.0000
+	map_Ka Pozo/Asa_Base_Color.png
+	map_Kd Pozo/Asa_Base_Color.png
+	map_Ks Pozo/Asa_Metallic.png
+
+newmtl Madera
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.1137 0.0275 0.0275
+	Kd 0.1137 0.0275 0.0275
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka Pozo/Madera_Base_Color.png
+	map_Kd Pozo/Madera_Base_Color.png
+	map_Ks Pozo/Madera_Metallic.png
+
+newmtl Metal
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0090 0.0090 0.0090
+	Ke 0.0000 0.0000 0.0000
+	map_Ka Pozo/Asa_Base_Color.png
+	map_Kd Pozo/Asa_Base_Color.png
+	map_Ks Pozo/Metal_Metallic.png
 
 newmtl Piedra
 	Ns 10.0000
