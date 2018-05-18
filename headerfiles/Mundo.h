@@ -69,8 +69,10 @@ class Mundo : public Entorno
         
         void CambioEstado(int n);
         int getEstado();
-        void cargarNivel();
+        void cargarLogicaNivel();
         void controlCambioNivel();
+        void cargaNivel();
+        void controlProta();
         
         
 
@@ -113,6 +115,7 @@ class Mundo : public Entorno
         int nivel;                     // Nivel en el que nos encontramos
         const int MAX_NIVEL=2;          // Maximo numero de niveles en el juego
         Posicion* salidaNivel;
+        bool primeraVez;                // Controla la primera vez que se entra al nivel para la carga
 
     	//BLACKBOARD
     	Blackboard *b;

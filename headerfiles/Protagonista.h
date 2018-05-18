@@ -20,7 +20,8 @@ class Protagonista : public GameObject
         static Protagonista* getInstance();
         virtual ~Protagonista();
 
-         void* getNode();
+         FObjeto* getNode();
+         void setNode(FObjeto* node);
 
          void salto(const glm::f32 Time);
          void ataque(EnemigoBasico* e);

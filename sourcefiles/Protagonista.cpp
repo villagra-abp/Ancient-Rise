@@ -548,6 +548,11 @@ void Protagonista::setCombate()
     //std::cout<<combate<<endl;
 }
 
+void Protagonista::setNode(FObjeto* node)
+{
+    protaObjeto = node;
+}
+
 void Protagonista::quitarVida(glm::f32 cantidad)
 {
     vida -=cantidad; 
@@ -556,9 +561,9 @@ void Protagonista::quitarVida(glm::f32 cantidad)
 /**
 DEVUELVE EL NODO QUE HEMOS CREADO
 **/
-void* Protagonista::getNode()
+FObjeto* Protagonista::getNode()
 {
-    return rec;
+    return protaObjeto;
 }
 
 bool Protagonista::getCombate()
