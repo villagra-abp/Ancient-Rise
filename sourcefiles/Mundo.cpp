@@ -593,7 +593,7 @@ void Mundo::cargarLogicaNivel()
             Terreno = fachada->drawTerreno(2);
            break;
         }
-        case3 :
+        case 3:
         {
             doc.TiXmlDocument::LoadFile("resources/Niveles/nivel4.xml",TIXML_ENCODING_UTF8);
             Terreno = fachada->drawTerreno(3);
@@ -1020,9 +1020,9 @@ void Mundo::controlCambioNivel()
 /* Funcion para hacer el cambio de nivel cuando sea correspondiente */
 void Mundo::cambiarNivel()
 {
-    if(nivel<MAX_NIVEL || prota->checkVida()==false) // No cambiar nivel si no hay mas o no queremos cambiar de nivel. SOlo reset si prota muerto
+    if(nivel<4 || prota->checkVida()==false) // No cambiar nivel si no hay mas o no queremos cambiar de nivel. SOlo reset si prota muerto
     {
-        if(nivel<MAX_NIVEL && prota->checkVida())  // Solo si el jugador esta vivo cuando entramos aqui es cuando queremos cambair de nivel
+        if(nivel<4 && prota->checkVida())  // Solo si el jugador esta vivo cuando entramos aqui es cuando queremos cambair de nivel
         {
             nivel = nivel +1;
         }
