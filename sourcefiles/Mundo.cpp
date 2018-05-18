@@ -465,23 +465,41 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
         else 
         {
             if(prota->getDireccion()==0){
-                cam->setRotacion(vec3(0,1,0), -0.05f);
+                cam->setRotacion(vec3(0,1,0), -0.10f);
             }
             else
             {
-                cam->setRotacion(vec3(0,1,0), 0.10f);
+                cam->setRotacion(vec3(0,1,0), 0.15f);
             }
             
-            if(velo.x>60){
-            for(float i=-115;i>-120;i-=frameDeltaTime*0.001f){
-                cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-25,i)); 
+            if(velo.x>30||velo.x<-30){
+                if(velo.x>30)
+                {
+                    velo.x=-velo.x;
+                }
+            for(float i=-115;i>(-112+(velo.x/5));i-=frameDeltaTime*0.001f){
+                if(prota->getDireccion()==0){
+                    cam->setPosicion(vec3(-protaPosition->getPosX()-15,-protaPosition->getPosY()-25,i)); 
+                }
+                else
+                {
+                    cam->setPosicion(vec3(-protaPosition->getPosX()+15,-protaPosition->getPosY()-25,i)); 
+                }
+                //cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-25,i)); 
             }
             //cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-25,-120)); 
             }
             else{
-                //cam->Rotar(vec3(0,1,0), -0.25);
+                
                 for(float i=-120;i<-115;i+=frameDeltaTime*0.001f){
-                    cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-25,i)); 
+                    if(prota->getDireccion()==0){
+                        cam->setPosicion(vec3(-protaPosition->getPosX()-15,-protaPosition->getPosY()-25,i)); 
+                    }
+                    else
+                    {
+                        cam->setPosicion(vec3(-protaPosition->getPosX()+15,-protaPosition->getPosY()-25,i)); 
+                    }
+                    //cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-25,i)); 
                 }
             }
         }    
