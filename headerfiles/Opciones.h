@@ -1,9 +1,8 @@
 #ifndef OPCIONES_H
 #define OPCIONES_H
 
-#include "../headerfiles/Objeto.h"
-
-
+#include "../headerfiles/Posicion.h"
+#include "../headerfiles/Fachada.h"
 
 class Opciones
 {

@@ -87,6 +87,12 @@ void Protagonista::update(Blackboard* b)
             }
         }
     }
+
+    if(direccion==2)
+    {
+        protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/Prueba/prueba", protaObjeto, 1);
+        rec = protaObjeto;
+    }
 }
 
 /**
@@ -212,38 +218,43 @@ void Protagonista::movimiento(const glm::f32 Time)
             
         }else
         {
+            protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/marcha5/marcha5.txt", protaObjeto, 2);
+            rec = protaObjeto;
+            fachada->setRotObj(protaObjeto, 0, 1, 0, +90);
             velo.x=-30.f;
             Body->SetLinearVelocity(velo);
         }
 
     }
-    else        //MOVIMIENTO HACIA LA DERECHA
+    else       
     {
-         if(sigilo==true)
-            {
-                velo.x=10.f;
-                //Body->ApplyForceToCenter(b2Vec2(35.f,0.f),true);
-               Body->SetLinearVelocity(velo);
-            }else if(correr==true && velo.y>=-4 && velo.y<4){
-                setEnergia(-1.f,0.2f);
-                Body->ApplyForceToCenter(b2Vec2(3500.f,0.f),true);
-                if(velo.x>80.f){
-                    velo.x=80.f;  
-                    Body->SetLinearVelocity(velo);
-                    //std::cout<<"velocidad +90"<<endl;
+        if(direccion==1) //MOVIMIENTO HACIA LA DERECHA
+        {
+             if(sigilo==true)
+                {
+                    velo.x=10.f;
+                    //Body->ApplyForceToCenter(b2Vec2(35.f,0.f),true);
+                   Body->SetLinearVelocity(velo);
+                }else if(correr==true && velo.y>=-4 && velo.y<4){
+                    setEnergia(-1.f,0.2f);
+                    Body->ApplyForceToCenter(b2Vec2(3500.f,0.f),true);
+                    if(velo.x>80.f){
+                        velo.x=80.f;  
+                        Body->SetLinearVelocity(velo);
+                        //std::cout<<"velocidad +90"<<endl;
+                    }
+                    
                 }
-                
-            }
-            else{
-                    protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/marcha5/marcha5.txt", protaObjeto, 2);
-                    rec = protaObjeto;
-                    fachada->setRotObj(protaObjeto, 0, 1, 0, -90);
-                    velo.x=30.f;
-                    //Body->ApplyForceToCenter(b2Vec2(60.f,0.f),true);
-                    Body->SetLinearVelocity(velo);
-            }
-                
-    }  
+                else{
+                        protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/marcha5/marcha5.txt", protaObjeto, 2);
+                        rec = protaObjeto;
+                        fachada->setRotObj(protaObjeto, 0, 1, 0, -90);
+                        velo.x=30.f;
+                        //Body->ApplyForceToCenter(b2Vec2(60.f,0.f),true);
+                        Body->SetLinearVelocity(velo);
+                }
+        }
+    }
 
 }
 /**

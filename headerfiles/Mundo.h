@@ -21,20 +21,10 @@
 #include "../headerfiles/Pausa.h"
 #include "../headerfiles/Hud.h"
 #include "../headerfiles/Opciones.h"
+#include "../headerfiles/PantallaCarga.h"
 #include <tinyxml.h>
 
 #include "../motorsonido/headerfiles/GestorSonido.h"
-
-/*
-Estos son los 5 sub namespace del motor de Irrlicht
-
-1º irr::core--> En este podemos encontrar las clases basicas como vectores, planos, arrays, listas y demas
-2º irr::gui--> Contiene clases utiles para la facil creacion de una interfaz grafica de usuario
-3º irr::io-->  Proporciona interfaces para la entrada/salida. Lectura y escritura de ficheros, acceso a ficheros zip, ficheros xml..
-4º irr::scene--> Se encuentra toda la gestion de la escena
-5º irr::video--> Contiene clases para acceder al driver del video. Todo el rendererizado 3d o 2d se realiza aqui
-*/
-
 
 
 class Mundo : public Entorno
@@ -158,9 +148,6 @@ class Mundo : public Entorno
 
         //MANJEO DE GAME OBJECTS
         GameObjects gos;
-
-        //PRUEBAS MOTOR GRAFICO
-        vector<TNodo*> nodosGL;
         
         //VARIABLES JOYSTICK
         float JoyY;
@@ -168,11 +155,13 @@ class Mundo : public Entorno
 
         Fachada* fachada=fachada->getInstance();
         
+        /* Interfaz grafica */
         Hud* hud;
         Menu* menu;
         Pausa* pausa;
         Opciones* opciones;
-    private:
+        PantallaCarga* carga;
+
 };
 
 #endif // MUNDO_H

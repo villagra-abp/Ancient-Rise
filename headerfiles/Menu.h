@@ -1,9 +1,8 @@
 #ifndef MENU_H
 #define MENU_H
 
-#include "../headerfiles/Objeto.h"
-
-
+#include "../headerfiles/Posicion.h"
+#include "../headerfiles/Fachada.h"
 
 class Menu
 {

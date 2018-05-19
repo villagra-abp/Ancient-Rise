@@ -1,6 +1,6 @@
 #include "../headerfiles/Hud.h"
 
-Hud::Hud(Posicion* pos)
+Hud::Hud(Posicion* pos): hud1(nullptr), hud2(nullptr), hud3(nullptr), hud4(nullptr), hud5(nullptr), hud6(nullptr)
 {
 	
 	Fachada* fachada=fachada->getInstance();

@@ -1,7 +1,8 @@
 #include "../headerfiles/Mundo.h"
 
 Mundo::Mundo():prota(nullptr),b(nullptr),enem1(nullptr),enemE1(nullptr), cam(nullptr),posA(nullptr), posF(nullptr), p1(nullptr),
-p0(nullptr), posC(nullptr), posB(nullptr), posT(nullptr), salidaNivel(nullptr), posP(nullptr)	//CONSTRUCTOR
+p0(nullptr), posC(nullptr), posB(nullptr), posT(nullptr), salidaNivel(nullptr), posP(nullptr), menu(nullptr), pausa(nullptr),
+hud(nullptr), opciones(nullptr), carga(nullptr)	//CONSTRUCTOR
 {
     Fachada* fachada=fachada->getInstance();
 
@@ -57,24 +58,20 @@ p0(nullptr), posC(nullptr), posB(nullptr), posT(nullptr), salidaNivel(nullptr), 
      cuanto ha pasado desde el ultimo frame
     **/
     lastFPS = -1;
-
-        
+      
     Posicion posmenu(.5f,-5000.f,.5f);
     menu = new Menu(&posmenu);
 
     Posicion pospausa(-20.5f,-5000.f,.5f);
     pausa = new Pausa(&pospausa);
         
-    Posicion poshud(-40.5f,-5001.5f,.5f);
-    hud = new Hud(&poshud);
-    
     Posicion posOpc(-30.f,-5000.f,.5f);
     opciones = new Opciones(&posOpc);
 }	
 
 void Mundo::update()
 {
-    if(opciones->getJuego() && primeraVez==true)  // Nos encontramos dentro del nivel ya y es la primera vez que entramos
+    if(opciones->getJuego() && primeraVez==true)  // Hemos dado a ejecutar el juego ya y es la primera vez que entramos
     {
         cargaNivel(); // Carga del nivel 
     }
@@ -339,7 +336,7 @@ void Mundo::checkInput(int tecla){
             break;
         }
 
-        case 14:                        //O    -   Cambiamos el modo de visualizacion de bounding boxes
+        case 14:      //O    -   Cambiamos el modo de visualizacion de bounding boxes
         {
             if(fachada->getBounding())
                 fachada->setBounding(false);
@@ -359,7 +356,7 @@ void Mundo::checkInput(int tecla){
             }
             break;
         }
-    }
+    } // END SWITCH
 
     if(estado==2)  // Solo si estamos dentro del juego
     {
@@ -373,7 +370,7 @@ void Mundo::controlProta()
 
     if(prota->getCombate()==false || prota->getTiempoAtaque()<0.5)
     {
-            prota->setAtaque(false);
+        prota->setAtaque(false);
     }
             
     if(sf::Joystick::isConnected(0)){
@@ -396,22 +393,31 @@ void Mundo::controlProta()
         }else
         prota->setCorrer(false);
     }
-
-    else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)||JoyX>=50){//D
-
-        prota->setDireccion(1);
-        prota->movimiento(0.1f);
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)||sf::Joystick::isButtonPressed(0, 5))
+    else 
+    {
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)||JoyX>=50) //D
         {
-            prota->setCorrer(true);
-            prota->setEnergia(-2.f,0.2f);
-                  
-        }else
-            prota->setCorrer(false);
-        }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)||sf::Joystick::isButtonPressed(0, 0)){
-                prota->setSalto(true);
+
+            prota->setDireccion(1);
+            prota->movimiento(0.1f);
+
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)||sf::Joystick::isButtonPressed(0, 5))
+            {
+                prota->setCorrer(true);
+                prota->setEnergia(-2.f,0.2f);
+                      
             }else
+                prota->setCorrer(false);
+        }
+        else // REPOSO
+        {
+            prota->setDireccion(2);
+        }
+    }
+
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)||sf::Joystick::isButtonPressed(0, 0)){
+                prota->setSalto(true);
+        }else
             prota->setSalto(false);
             
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)||JoyY>=50)//W
@@ -451,70 +457,87 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
     Posicion* protaPosition = prota->getPosition();
 	vec3 posCam = cam->getPosicion();
     b2Vec2 velo=prota->getBody()->GetLinearVelocity();
-    //cout<<velo.x<<endl;
-    //prueba zoom camara
-    
-    if(estado==3){  ///Opciones
-        cam->setPosicion(vec3(30,5000*posopc,-20));
-    }
-    if(estado==2){  ///Juego
-        if(pintaHud){
-            cam->setRotacion(vec3(0,1,0), 0.f);
-            cam->setPosicion(vec3(40,5000,-20));
-        }
-        else 
+   
+   switch(estado)  // La camara se mueve en funcion en que estado del juego estemos
+   {
+        case 0:  // MENU PRINCIPAL
         {
-            if(prota->getDireccion()==0){
-                cam->setRotacion(vec3(0,1,0), -0.10f);
-            }
-            else
+            cam->setPosicion(vec3(0,5000*posm,-20));
+            break;
+        }
+
+        case 1: // PAUSA
+        {
+            cam->setPosicion(vec3(20,5000*posp,-20));
+            break;
+        }
+
+        case 2: // JUGANDO
+        {
+            if(pintaHud)
             {
-                cam->setRotacion(vec3(0,1,0), 0.15f);
+                cam->setRotacion(vec3(0,1,0), 0.f);
+                cam->setPosicion(vec3(40,5000,-20));
             }
-            
-            if(velo.x>30||velo.x<-30){
-                if(velo.x>30)
-                {
-                    velo.x=-velo.x;
-                }
-            for(float i=-115;i>(-112+(velo.x/5));i-=frameDeltaTime*0.001f){
+            else 
+            {
                 if(prota->getDireccion()==0){
-                    cam->setPosicion(vec3(-protaPosition->getPosX()-15,-protaPosition->getPosY()-25,i)); 
+                    cam->setRotacion(vec3(0,1,0), -0.10f);
                 }
                 else
                 {
-                    cam->setPosicion(vec3(-protaPosition->getPosX()+15,-protaPosition->getPosY()-25,i)); 
+                    cam->setRotacion(vec3(0,1,0), 0.15f);
                 }
-                //cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-25,i)); 
-            }
-            //cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-25,-120)); 
-            }
-            else{
-                
-                for(float i=-120;i<-115;i+=frameDeltaTime*0.001f){
-                    if(prota->getDireccion()==0){
-                        cam->setPosicion(vec3(-protaPosition->getPosX()-15,-protaPosition->getPosY()-25,i)); 
-                    }
-                    else
+            
+                if(velo.x>30||velo.x<-30)
+                {
+                    if(velo.x>30)
                     {
-                        cam->setPosicion(vec3(-protaPosition->getPosX()+15,-protaPosition->getPosY()-25,i)); 
+                    velo.x=-velo.x;
                     }
-                    //cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-25,i)); 
+                    for(float i=-115;i>(-112+(velo.x/5));i-=frameDeltaTime*0.001f)
+                    {
+                        if(prota->getDireccion()==0)
+                        {
+                            cam->setPosicion(vec3(-protaPosition->getPosX()-15,-protaPosition->getPosY()-25,i)); 
+                        }
+                        else
+                        {
+                            cam->setPosicion(vec3(-protaPosition->getPosX()+15,-protaPosition->getPosY()-25,i)); 
+                        }
+                    }
                 }
-            }
-        }    
+                else{
+                    
+                        for(float i=-120;i<-115;i+=frameDeltaTime*0.001f)
+                        {
+                            if(prota->getDireccion()==0){
+                                cam->setPosicion(vec3(-protaPosition->getPosX()-15,-protaPosition->getPosY()-25,i)); 
+                            }
+                            else
+                            {
+                                cam->setPosicion(vec3(-protaPosition->getPosX()+15,-protaPosition->getPosY()-25,i)); 
+                            }
+                            //cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-25,i)); 
+                        }
+                    }
+            }  
+            break;
+        }
+
+        case 3: // OPCIONES
+        {
+            cam->setPosicion(vec3(30,5000*posopc,-20));
+            break;
+        }
+
+        case 4: // PANTALLA DE CARGA
+        {
+            break;
+        }
+
+   } // END SWITCH
     
-    
-    }
-    if(estado==1){  ///Pausa
-       
-        cam->setPosicion(vec3(20,5000*posp,-20));
-         
-    }
-    if(estado==0){  ///Menu
-        cam->setPosicion(vec3(0,5000*posm,-20));
-        //cam->Rotar(vec3(0,1,0), 3.0f);
-    }
 }
 
 void Mundo::fpsControl(){
@@ -1141,6 +1164,12 @@ void Mundo::cargaNivel()
      /* Lectura del XML para la logica del juego */
     //cargarLogicaNivel();
 
+    cout<<"CARGANDO....."<<endl;
+
+    /* Creacion del HUD */
+    Posicion poshud(-40.5f,-5001.5f,.5f);
+    hud = new Hud(&poshud);
+
     /* Carga de sonidos */
     reverbCueva = sonido->create3DReverb();
     reverbCueva->setAtributos3D(0.0f,0.0f,0.0f, 10.0f, 2000.0f);
@@ -1241,5 +1270,11 @@ Mundo::~Mundo()	//DESTRUCTOR
     delete p0;
     delete p1;
     delete salidaNivel;
+
+    delete menu;
+    delete pausa;
+    delete opciones;
+    delete hud;
+    delete carga;
     
 }

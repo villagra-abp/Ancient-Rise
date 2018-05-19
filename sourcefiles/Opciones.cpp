@@ -1,6 +1,6 @@
 #include "../headerfiles/Opciones.h"
 
-Opciones::Opciones(Posicion* pos)
+Opciones::Opciones(Posicion* pos): opcion1(nullptr), opcion2(nullptr)
 {
 	
 	Fachada* fachada=fachada->getInstance();

@@ -1,9 +1,8 @@
 #ifndef HUD_H
 #define HUD_H
 
-#include "../headerfiles/Objeto.h"
-
-
+#include "../headerfiles/Posicion.h"
+#include "../headerfiles/Fachada.h"
 
 class Hud
 {

@@ -87,7 +87,7 @@ class Protagonista : public GameObject
         bool correr;
         bool estaEnSuelo;
         bool estaCayendo;
-        int direccion;      // Para saber la direccion a la que esta mirando el prota (0 --> Izquierda, 1 --> Derecha)
+        int direccion;      // Para saber la direccion a la que esta mirando el prota (0 --> Izquierda, 1 --> Derecha, 2--> Reposo)
         glm::f32 VELOCIDAD_MOVIMIENTO=90.f;
         glm::f32 ENERGIA_MAXIMA=100.f;
         glm::f32 VIDA_MAXIMA=100.f;
