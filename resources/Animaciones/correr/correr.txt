@@ -1,4 +1,4 @@
-resources/Animaciones/correr/correr_0000
+resources/Animaciones/correr/correr_000
 126
-170
+45
 1.485
