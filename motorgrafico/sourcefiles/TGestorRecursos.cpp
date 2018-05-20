@@ -122,7 +122,7 @@ TRecursoAnimacion* TGestorRecursos::cargarAnimacion(string path){
 	TRecursoMalla* malla;
 	ifstream fichero;
 	string aux, pathMallas;
-	int numFrames;
+	int numFrames, origen;
 	double duracion;
 
 	try{
@@ -137,9 +137,12 @@ TRecursoAnimacion* TGestorRecursos::cargarAnimacion(string path){
 					pathMallas = aux;
 					break;
 				case 1:
-					numFrames = stoi(aux);
+					origen = stoi(aux);
 					break;
 				case 2:
+					numFrames = stoi(aux);
+					break;
+				case 3:
 					duracion = stod(aux);
 					break;
 				default:
@@ -158,7 +161,7 @@ TRecursoAnimacion* TGestorRecursos::cargarAnimacion(string path){
 	animacion = new TRecursoAnimacion(duracion);
 
 	for(int i = 0; i < numFrames; i++){
-		aux = pathMallas + to_string(i) + ".obj";
+		aux = pathMallas + to_string(i + origen) + ".obj";
 //		cout<<aux<<endl;
 		malla = getRecursoMalla(aux);
 		animacion->addMalla(malla);
@@ -174,7 +177,7 @@ TRecursoMalla* TGestorRecursos::cargarFichero(string path){
 	TRecursoMalla *malla = new TRecursoMalla();
 
 	Assimp::Importer importer;
-	const aiScene *scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
+	const aiScene *scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
 
 	if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) 
     {
@@ -274,10 +277,13 @@ rMesh TGestorRecursos::processMesh(aiMesh *mesh, const aiScene *scene, TRecursoM
 		}
 //		cout<<max_x<<" "<<min_x<<" "<<max_y<<" "<<min_y<<" "<<max_z<<" "<<min_z<<endl;
 		//Normales
-		vector.x = mesh->mNormals[i].x;
-		vector.y = mesh->mNormals[i].y;
-		vector.z = mesh->mNormals[i].z;
-		vertex.Normal = vector;  
+		if(mesh->HasNormals()){
+			vector.x = mesh->mNormals[i].x;
+			vector.y = mesh->mNormals[i].y;
+			vector.z = mesh->mNormals[i].z;
+			vertex.Normal = vector;  
+		}
+		
 		//Texturas
 		if(mesh->mTextureCoords[0]) // does the mesh contain texture coordinates?
 		{

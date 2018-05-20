@@ -7,26 +7,39 @@ TRecursoTextura::TRecursoTextura(string path, string type){
 	path = "resources/" + path;
 	const char* c = path.c_str();
 	unsigned char *data= pijo->stbpijo_load_image(c, &width, &height, &nrChannels);
+//	cout<<data<<endl;
 
 	setupText(data);
 }
 
 
 void TRecursoTextura::setupText(unsigned char* data){
+	if(data){
 	glGenTextures(1,&id);
 
-	glBindTexture(GL_TEXTURE_2D, id);
+	
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	
 
-	if(data){
+	GLenum formato;
+	
 	//Hay que usar RGBA luego
 		//cout<<width<<" "<<height<<endl;
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		if(nrChannels == 1)
+			formato = GL_RED;
+		else if(nrChannels == 3)
+			formato = GL_RGB;
+		else if(nrChannels == 4)
+			formato = GL_RGBA;
+
+		glBindTexture(GL_TEXTURE_2D, id);
+		glTexImage2D(GL_TEXTURE_2D, 0, formato, width, height, 0, formato, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	} else {
 		cout<<"Fallo en la carga de textura "<<nombre<<endl;
 	}
