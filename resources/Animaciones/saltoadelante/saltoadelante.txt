@@ -1,4 +1,4 @@
-resources/Animaciones/saltoadelante/saltoadelante_0000
+resources/Animaciones/saltoadelante/saltoadelante_000
 92
-156
+65
 2.145
