@@ -75,7 +75,10 @@ hud(nullptr), opciones(nullptr), carga(nullptr)	//CONSTRUCTOR
 void Mundo::update()
 {
     if(estado==4)  // Estado de pantalla de carga
-    {
+    {   
+        float frameDeltaTime = fachada->getTime(); // Time in seconds
+        camUpdate(frameDeltaTime);
+        draw();
         if(cargado==false)
         {
             cargaNivel(); // Carga del nivel 
@@ -1189,7 +1192,8 @@ void Mundo::cargaNivel()
 
     /* Carga de todas las animaciones */
     prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/marcha5/marcha5.txt", prota->getNode(), 2));
-    
+    prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/saltoadelante/saltoadelante.txt", prota->getNode(),3));
+    prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/correr/correr.txt", prota->getNode(),4));
     prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/Prueba/prueba", prota->getNode(), 1));
 
 
