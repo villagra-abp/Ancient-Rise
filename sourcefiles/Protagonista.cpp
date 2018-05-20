@@ -13,7 +13,7 @@ protaPosition(nullptr), enemigoPosition(nullptr), comidaPosition(nullptr), tramp
 
     protaObjeto = fachada->crearProta();
 
-    protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/Prueba/prueba", protaObjeto, 1);
+    protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/marcha5/marcha5.txt", protaObjeto, 1);
     rec = protaObjeto;
     
     Posicion escala(2.f,2.f,2.f);
