@@ -1178,7 +1178,7 @@ void Mundo::cargaNivel()
 
     /* Carga de todas las animaciones */
     prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/marcha5/marcha5.txt", prota->getNode(), 2));
-    prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/Prueba/prueba", prota->getNode(), 1));
+    prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/Prueba/prueba0", prota->getNode(), 1));
 
 
     primeraVez = false;
