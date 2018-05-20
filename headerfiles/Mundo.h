@@ -105,7 +105,7 @@ class Mundo : public Entorno
         int nivel;                     // Nivel en el que nos encontramos
         const int MAX_NIVEL=2;          // Maximo numero de niveles en el juego
         Posicion* salidaNivel;
-        bool primeraVez;                // Controla la primera vez que se entra al nivel para la carga
+        bool cargado;
 
     	//BLACKBOARD
     	Blackboard *b;
@@ -161,6 +161,7 @@ class Mundo : public Entorno
         Pausa* pausa;
         Opciones* opciones;
         PantallaCarga* carga;
+        sf::Clock reloj;                    // Reloj para controlar el tiempo que tarda en cargar el nivel
 
 };
 

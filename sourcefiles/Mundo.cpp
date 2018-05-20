@@ -8,7 +8,7 @@ hud(nullptr), opciones(nullptr), carga(nullptr)	//CONSTRUCTOR
 
     nivel = 1; 
 
-    primeraVez = true;
+    cargado = false;
 
     /*CREAMOS GESTOR DE SONIDO*/
     sonido = GestorSonido::getInstance();
@@ -67,13 +67,26 @@ hud(nullptr), opciones(nullptr), carga(nullptr)	//CONSTRUCTOR
         
     Posicion posOpc(-30.f,-5000.f,.5f);
     opciones = new Opciones(&posOpc);
+
+    Posicion posCarga(-40.f,-5000.f,.5f);
+    carga = new PantallaCarga(&posCarga);
 }	
 
 void Mundo::update()
 {
-    if(opciones->getJuego() && primeraVez==true)  // Hemos dado a ejecutar el juego ya y es la primera vez que entramos
+    if(estado==4)  // Estado de pantalla de carga
     {
-        cargaNivel(); // Carga del nivel 
+        if(cargado==false)
+        {
+            cargaNivel(); // Carga del nivel 
+        }
+
+        int time = reloj.getElapsedTime().asSeconds();
+
+        if(time>2)         // DURACION PANTALLA CARGA
+        {
+            estado = 2;
+        }
     }
 
     if(estado==2) // Jugando 
@@ -196,11 +209,6 @@ void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
             
     }
 
-    if(prota->getCombate()==false)
-    {
-    	//prota->checkSigilo(prota);  						// Comprobamos si hemos pulsado la tecla de sigilo (C)
-    }
-
     /* Velocidad Barra de Energia */
     energiaActual = prota->getEnergia();
     energiaDelta = energiaActual - energiaAnterior;
@@ -257,8 +265,8 @@ void Mundo::checkInput(int tecla){
                 int estm=menu->getEstado();
                 if(estm==3)
                 {
-                    estado=2;
-                    opciones->setJuego(true);
+                    estado=4;
+                    //opciones->setJuego(true);
                 }
                 if(estm==2)
                 {
@@ -533,6 +541,7 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
 
         case 4: // PANTALLA DE CARGA
         {
+            cam->setPosicion(vec3(59,5000*posopc,-23));
             break;
         }
 
@@ -1166,6 +1175,8 @@ void Mundo::cargaNivel()
 
     cout<<"CARGANDO....."<<endl;
 
+    reloj.restart();
+
     /* Creacion del HUD */
     Posicion poshud(-40.5f,-5001.5f,.5f);
     hud = new Hud(&poshud);
@@ -1178,10 +1189,11 @@ void Mundo::cargaNivel()
 
     /* Carga de todas las animaciones */
     prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/marcha5/marcha5.txt", prota->getNode(), 2));
-    prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/Prueba/prueba0", prota->getNode(), 1));
+    
+    prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/Prueba/prueba", prota->getNode(), 1));
 
 
-    primeraVez = false;
+    cargado = true;
 }
 
 
