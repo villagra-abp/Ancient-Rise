@@ -84,6 +84,8 @@ class Mundo : public Entorno
 
     	//PROTAGONISTA
     	Protagonista*  prota;
+        Posicion* protaPosition;
+        b2Vec2 velo;
     	
     	//POSICIONES ENEMIGOS
     	patrulla pos;	//Vector de posiciones para los enemigos
@@ -106,6 +108,7 @@ class Mundo : public Entorno
         const int MAX_NIVEL=2;          // Maximo numero de niveles en el juego
         Posicion* salidaNivel;
         bool cargado;
+        bool loading = false;
 
     	//BLACKBOARD
     	Blackboard *b;

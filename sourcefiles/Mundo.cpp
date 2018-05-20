@@ -2,7 +2,7 @@
 
 Mundo::Mundo():prota(nullptr),b(nullptr),enem1(nullptr),enemE1(nullptr), cam(nullptr),posA(nullptr), posF(nullptr), p1(nullptr),
 p0(nullptr), posC(nullptr), posB(nullptr), posT(nullptr), salidaNivel(nullptr), posP(nullptr), menu(nullptr), pausa(nullptr),
-hud(nullptr), opciones(nullptr), carga(nullptr)	//CONSTRUCTOR
+hud(nullptr), opciones(nullptr), carga(nullptr), protaPosition(nullptr)	//CONSTRUCTOR
 {
     Fachada* fachada=fachada->getInstance();
 
@@ -13,25 +13,15 @@ hud(nullptr), opciones(nullptr), carga(nullptr)	//CONSTRUCTOR
     /*CREAMOS GESTOR DE SONIDO*/
     sonido = GestorSonido::getInstance();
 
-    /* CREAMOS PROTA */
-    prota = new Protagonista();
-    addGameObject(prota);
-
     /* CREAMOS LA BLACKBOARD */
     b=new Blackboard();
-
-     /* Lectura del XML para la logica del juego */
-    cargarLogicaNivel();
-
-    /* Pasamos toda la info necesaria a la blackboard */
-    b->setProtagonista(prota);
 
     /** ESTABLECEMOS LA CAMARA
      Aqui indicamos la posicion de la camara en el espacio 3d. En este caso,
      esta mirando desde la posicion (0, 30, -40) a la (0, 5, 0) donde es
      aproximadamente donde esta el objeto.
     **/
-    Posicion* camaraPos = new Posicion(prota->getPosition()->getPosX(),50,-140);
+    Posicion* camaraPos = new Posicion(-100,50,-140);
         
     cam = fachada->addCamara(camaraPos);
 
@@ -79,17 +69,15 @@ void Mundo::update()
         float frameDeltaTime = fachada->getTime(); // Time in seconds
         camUpdate(frameDeltaTime);
         draw();
-        if(cargado==false)
+        if(cargado==false && loading==true)
         {
             cargaNivel(); // Carga del nivel 
-        }
 
-        int time = reloj.getElapsedTime().asSeconds();
-
-        if(time>2)         // DURACION PANTALLA CARGA
-        {
             estado = 2;
         }
+
+        loading = true;
+
     }
 
     if(estado==2) // Jugando 
@@ -465,9 +453,13 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
     int posm=menu->getEstado();
     int posp=pausa->getEstado();
     int posopc=opciones->getEstado();
-    Posicion* protaPosition = prota->getPosition();
-	vec3 posCam = cam->getPosicion();
-    b2Vec2 velo=prota->getBody()->GetLinearVelocity();
+    if(estado==2)
+    {
+        protaPosition = prota->getPosition();
+        velo=prota->getBody()->GetLinearVelocity();
+    }
+
+    vec3 posCam = cam->getPosicion();
    
    switch(estado)  // La camara se mueve en funcion en que estado del juego estemos
    {
@@ -611,7 +603,7 @@ void Mundo::cargarLogicaNivel()
 {
     TiXmlDocument doc;
 
-
+cout<<"entro2"<<endl;
      switch(nivel){
 
         case 1: 
@@ -635,7 +627,6 @@ void Mundo::cargarLogicaNivel()
            break;
         }
     }
-
     //OBTENER ELEMENTO MAPA
     TiXmlElement* map = doc.FirstChildElement("map");
 
@@ -1179,6 +1170,17 @@ void Mundo::cargaNivel()
     cout<<"CARGANDO....."<<endl;
 
     reloj.restart();
+
+    /* CREAMOS PROTA */
+    prota = new Protagonista();
+    addGameObject(prota);
+
+    /* Lectura del XML para la logica del juego */
+    cargarLogicaNivel();
+
+    /* Pasamos toda la info necesaria a la blackboard */
+    b->setProtagonista(prota);
+
 
     /* Creacion del HUD */
     Posicion poshud(-40.5f,-5001.5f,.5f);

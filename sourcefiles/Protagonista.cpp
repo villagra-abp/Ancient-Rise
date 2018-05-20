@@ -8,7 +8,7 @@ static Protagonista* instance = NULL;
 Protagonista::Protagonista():energy(nullptr), life(nullptr), Body(nullptr), rec(nullptr), flecha0(nullptr), flecha1(nullptr), sonido(nullptr),
 protaPosition(nullptr), enemigoPosition(nullptr), comidaPosition(nullptr), trampaPosition(nullptr), protaObjeto(nullptr)
 {
-    
+    cout<<"entro"<<endl;
     GameObject::setTipo(PROTA);
 
     protaObjeto = fachada->crearProta();
