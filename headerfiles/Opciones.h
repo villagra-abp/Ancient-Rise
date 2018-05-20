@@ -23,7 +23,8 @@ class Opciones
         bool sound=true;
         bool shadow=true;
         bool juego=false;
-        
+        Posicion* posicion;
+        Fachada* fachada;
 };
 
 #endif // OPCIONES_H

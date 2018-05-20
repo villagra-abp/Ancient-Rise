@@ -220,6 +220,21 @@ FObjeto* Fachada::addMalla(float x,float y,float z,string ruta){
     return malla;
 }
 
+void Fachada::setMalla(void* nodo,string ruta){
+    
+    FObjeto* malla = (FObjeto*)nodo;
+    malla->setMalla(ruta);
+    
+}
+void Fachada::setVolumen(float nivel){
+    GestorSonido* sonido = GestorSonido::getInstance();
+    GrupoCanales* canales=sonido->getMasterGroup();
+    
+    canales->setVolumen(nivel);
+    
+    //std::cout<<canales->getVolumen()<<endl;
+}
+
 FBillboard* Fachada::addBillboard(float x,float y,float z,string ruta){
      FBillboard* malla = new FBillboard();
     

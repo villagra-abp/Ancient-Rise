@@ -289,22 +289,22 @@ void Mundo::checkInput(int tecla){
         }
         case 71: 		//izquierda
         {
-            if(estado==4){
+            if(estado==3){
                 if(opciones->getEstado()==5)
-                    opciones->update(0,false,opciones->getShadow());
+                    opciones->update(0,true,opciones->getShadow());
                 if(opciones->getEstado()==4)
-                    opciones->update(0,opciones->getSound(),false);
+                    opciones->update(0,opciones->getSound(),true);
             }
             
             break;
         }
         case 72: 		//derecha
         {
-            if(estado==4){
+            if(estado==3){
                 if(opciones->getEstado()==5)
-                    opciones->update(0,true,opciones->getShadow());
+                    opciones->update(0,false,opciones->getShadow());
                 if(opciones->getEstado()==4)
-                    opciones->update(0,opciones->getSound(),true);
+                    opciones->update(0,opciones->getSound(),false);
             }
             
             break;

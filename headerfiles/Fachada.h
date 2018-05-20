@@ -17,6 +17,7 @@
 #include <glm/vec3.hpp>
 
 #include "../motorgrafico/fachada/headerfiles/Fachada.h"
+#include "../motorsonido/headerfiles/GestorSonido.h"
 #include <iostream>
 
 
@@ -62,7 +63,10 @@ public:
     FObjeto* drawTerreno(int nivel);
     void addMenu(int t);
     void addFlecha(int pos);
-	
+    
+    
+	void setMalla(void* malla,string ruta);
+    void setVolumen(float nivel);
     FObjeto* addCube(int x,int y,int z,bool flag);
     FObjeto* addSphere(int x,int y,int z,bool flag);
     FObjeto* addMalla(float x,float y,float z,string ruta);
