@@ -536,7 +536,7 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
 
         case 4: // PANTALLA DE CARGA
         {
-            cam->setPosicion(vec3(59,5000*posopc,-23));
+            cam->setPosicion(vec3(58,5000*posopc,-23));
             break;
         }
 
@@ -603,7 +603,6 @@ void Mundo::cargarLogicaNivel()
 {
     TiXmlDocument doc;
 
-cout<<"entro2"<<endl;
      switch(nivel){
 
         case 1: 
