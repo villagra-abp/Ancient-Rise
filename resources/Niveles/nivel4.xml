@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.2" orientation="orthogonal" renderorder="right-down" width="100" height="30" tilewidth="8" tileheight="8" infinite="0" nextobjectid="703">
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="100" height="30" tilewidth="8" tileheight="8" infinite="0" nextobjectid="709">
  <tileset firstgid="1" source="suelo.tsx"/>
  <layer name="Capa de Patrones 1" width="100" height="30" visible="0" locked="1">
   <data encoding="csv">
@@ -139,7 +139,7 @@
   <object id="537" x="397.003" y="232" width="30.8903" height="8"/>
   <object id="701" x="103.322" y="188.5" width="256.606" height="8"/>
  </objectgroup>
- <objectgroup name="nodos" visible="0" locked="1">
+ <objectgroup name="nodos">
   <object id="22" x="15.375" y="54.125">
    <point/>
   </object>
@@ -397,7 +397,7 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup name="aristas" visible="0" locked="1">
+ <objectgroup name="aristas">
   <object id="591" name="2223" type="51" x="16.3636" y="31.8182">
    <polyline points="0,0 65.4545,-0.545455"/>
   </object>
@@ -703,6 +703,18 @@
   </object>
   <object id="700" name="6162" type="74" x="401.091" y="214.909">
    <polyline points="0,0 -30.3636,-1.27273"/>
+  </object>
+  <object id="705" name="6766" type="74" x="69.25" y="200">
+   <polyline points="0,0 31.25,8.75"/>
+  </object>
+  <object id="706" name="6667" type="74" x="101" y="214.25">
+   <polyline points="0,0 -34,-8"/>
+  </object>
+  <object id="707" name="6971" type="74" x="59.25" y="160">
+   <polyline points="0,0 41.5,0.75"/>
+  </object>
+  <object id="708" name="7169" type="74" x="102" y="166">
+   <polyline points="0,0 -45,-0.75"/>
   </object>
  </objectgroup>
  <objectgroup name="prota" visible="0" locked="1">
