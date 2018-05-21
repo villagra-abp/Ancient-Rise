@@ -105,7 +105,7 @@ class Mundo : public Entorno
 
         // Datos gestion del nivel
         int nivel;                     // Nivel en el que nos encontramos
-        const int MAX_NIVEL=2;          // Maximo numero de niveles en el juego
+        const int MAX_NIVEL=3;          // Maximo numero de niveles en el juego
         Posicion* salidaNivel;
         bool cargado;
         bool loading = false;
