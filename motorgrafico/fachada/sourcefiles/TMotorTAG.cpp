@@ -26,7 +26,6 @@ void TMotorTAG::draw(){
 	escena->draw(getCamaraMat(), getCamaraProj(), camara, getLuces(), false, datos);
 	//DIbujamos el skybox
 	drawSkybox();
-
 }
 
 void TMotorTAG::drawBounding(){

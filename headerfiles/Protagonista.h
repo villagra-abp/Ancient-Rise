@@ -26,8 +26,6 @@ class Protagonista : public GameObject
          void salto(const glm::f32 Time);
          void ataque(EnemigoBasico* e);
          void movimiento(const glm::f32 Time);
-         void recuperarEnergia(const glm::f32 Time);
-         void recuperarVida(const glm::f32 Time);
          
          void comprobarColision(EnemigoBasico *e);
          void comprobarColision(Enemigo *e);
@@ -58,6 +56,8 @@ class Protagonista : public GameObject
          void setAtaque(bool d);
          void setEnergia(glm::f32 cantidad, const glm::f32 Time);
          void setVida(glm::f32 cantidad, const glm::f32 Time);
+         void setLife(glm::f32 cantidad);
+         void setEnergy(glm::f32 cantidad);
          void updateBody(b2World& world);
          bool checkVida();
 

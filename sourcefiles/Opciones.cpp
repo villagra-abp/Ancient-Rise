@@ -9,12 +9,12 @@ Opciones::Opciones(Posicion* pos): opcion1(nullptr), opcion2(nullptr)
     opcion2 = fachada->addMalla(posicion->getPosX()+1.5,posicion->getPosY()*4,posicion->getPosZ(), "resources/Opciones/Opcion2.obj");
    
 
-        Posicion escala(.1f,.12f,0.1f);
-		fachada->setScala(opcion1,&escala);
-        fachada->setRotObj(opcion1,1,0,0, 1.5f);
+    Posicion escala(.1f,.12f,0.1f);
+	fachada->setScala(opcion1,&escala);
+    fachada->setRotObj(opcion1,1,0,0, 1.5f);
 
-		fachada->setScala(opcion2,&escala);
-        fachada->setRotObj(opcion2,1,0,0, 1.5f);
+	fachada->setScala(opcion2,&escala);
+    fachada->setRotObj(opcion2,1,0,0, 1.5f);
         
 	
 

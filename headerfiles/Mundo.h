@@ -63,6 +63,8 @@ class Mundo : public Entorno
         void controlCambioNivel();
         void cargaNivel();
         void controlProta();
+        void muerteProta();
+        void borradoNivel();
         
         
 
@@ -164,7 +166,6 @@ class Mundo : public Entorno
         Pausa* pausa;
         Opciones* opciones;
         PantallaCarga* carga;
-        sf::Clock reloj;                    // Reloj para controlar el tiempo que tarda en cargar el nivel
 
 };
 

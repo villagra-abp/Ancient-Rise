@@ -66,9 +66,6 @@ void Mundo::update()
 {
     if(estado==4)  // Estado de pantalla de carga
     {   
-        float frameDeltaTime = fachada->getTime(); // Time in seconds
-        camUpdate(frameDeltaTime);
-        draw();
         if(cargado==false && loading==true)
         {
             cargaNivel(); // Carga del nivel 
@@ -94,7 +91,6 @@ void Mundo::update()
     	//reinicio las fuerzas en el mundo
     	world.ClearForces();
 
-
     	/* Creamos el framedeltatime */
     	float frameDeltaTime = fachada->getTime(); // Time in seconds
 
@@ -102,7 +98,6 @@ void Mundo::update()
 
     	/* PROTA UPDATE */
         protaUpdate(frameDeltaTime);
-            
         /*HUD UPDATE*/
         hud->update(prota->getVida(),prota->getEnergia());
         
@@ -111,7 +106,6 @@ void Mundo::update()
 
         b->setTime(frameDeltaTime);
         b->setProta(protaPosition->getPosX());
-
 
         /* UPDATE DE LOS OBJETOS */
         for(size_t i=0; i<alarmas.size();i++)
@@ -145,7 +139,6 @@ void Mundo::update()
                 trampas[i]->update();
             }
         }
-
         //Comprueba las entradas del teclado
         checkInput(-1);
 
@@ -167,7 +160,6 @@ void Mundo::update()
         	   enemE[i2]->Update(prota->getPosition());
         	}
         }
-
         /*UPDATE DE SONIDO*/
         sonido->playSound(musicaBosque);
         sonido->update();
@@ -536,7 +528,7 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
 
         case 4: // PANTALLA DE CARGA
         {
-            cam->setPosicion(vec3(58,5000*posopc,-23));
+            cam->setPosicion(vec3(58.5,5000*posopc,-23));
             break;
         }
 
@@ -1040,6 +1032,19 @@ void Mundo::controlCambioNivel()
             cambiarNivel();
         }
     }
+
+}
+
+/* Funcion para resetear el nivel cuando el prota muera */
+void Mundo::muerteProta()
+{
+    /* Borramos y creamos de nuevo al prota al principio del nivel */
+    delete prota;
+    prota = new Protagonista();
+
+
+
+
 }
 
 /* Funcion para hacer el cambio de nivel cuando sea correspondiente */
@@ -1052,96 +1057,17 @@ void Mundo::cambiarNivel()
             nivel = nivel +1;
         }
 
-        fachada->destruirBodies();
-
-        fachada->destruirObjeto(Terreno);
         
-
-        /* DELETE DEL GRAFO PROVISIONAL */
-        for(size_t cont3=0; cont3<nodos.size();cont3++)
-        {
-            delete nodos[cont3];
-        }
-        nodos.clear();
-
-        for(size_t cont4=0; cont4<aristas.size();cont4++)
-        {
-            delete aristas[cont4];
-        }
-        aristas.clear();
-
-        /* DELETE DE LOS OBJETOS DEL MAPA */
-        for (size_t cont=0; cont<alarmas.size();cont++)
-        {
-            delete alarmas[cont];
-        }
-        alarmas.clear();
-
-        for (size_t cont=0; cont<fuentes.size();cont++)
-        {
-            delete fuentes[cont];
-        }
-        fuentes.clear();
-
-        for (size_t cont=0; cont<comidas.size();cont++)
-        {
-            delete comidas[cont];
-        }
-        comidas.clear();
-
-        for (size_t cont=0; cont<bebidas.size();cont++)
-        {
-            delete bebidas[cont];
-        }
-        bebidas.clear();
-
-        for (size_t cont=0; cont<trampas.size();cont++)
-        {
-            delete trampas[cont];
-        }
-        trampas.clear();
-
-        for(size_t cont=0; cont<enemB.size();cont++)
-        {
-            
-            delete enemB[cont];
-        }
-        enemB.clear();
-
-        for(size_t cont2=0; cont2<enemE.size();cont2++)
-        {
-            delete enemE[cont2];
-        }
-        enemE.clear();
-
-        for (size_t cont=0; cont<palancas.size();cont++)
-        {
-            delete palancas[cont];
-        }
-        palancas.clear();
-
-        for (size_t cont=0; cont<puertas.size();cont++)
-        {
-            delete puertas[cont];
-        }
-        puertas.clear();
-
-        delete posA;
-        delete posF;
-        delete posB;
-        delete posC;
-        delete posT;
-        delete posP;
-        delete p0;
-        delete p1;
-
-        gos.clear();
+        borradoNivel();     // Para borrar todo lo que hay en el nivel
 
         if(prota->checkVida()==false) // SI prota muerto lo volvemos a crear 
         {
-            delete prota;
+            //delete prota;
 
-            prota = new Protagonista();
+            //prota = new Protagonista();
+
+            prota->setEnergy(100);
+            prota->setLife(100);
         }
 
         b->setEnemB(enemB);
@@ -1156,20 +1082,11 @@ void Mundo::cambiarNivel()
             b->setProtagonista(prota);
         }
     }
-
-
 }
+
 /* Funcion para hacer toda la carga que falte y sea necesaria para el nivel en el que nos encontremos */
 void Mundo::cargaNivel()
 {
-
-     /* Lectura del XML para la logica del juego */
-    //cargarLogicaNivel();
-
-    cout<<"CARGANDO....."<<endl;
-
-    reloj.restart();
-
     /* CREAMOS PROTA */
     prota = new Protagonista();
     addGameObject(prota);
@@ -1179,7 +1096,6 @@ void Mundo::cargaNivel()
 
     /* Pasamos toda la info necesaria a la blackboard */
     b->setProtagonista(prota);
-
 
     /* Creacion del HUD */
     Posicion poshud(-40.5f,-5001.5f,.5f);
@@ -1199,6 +1115,94 @@ void Mundo::cargaNivel()
 
 
     cargado = true;
+}
+
+void Mundo::borradoNivel()
+{
+    fachada->destruirBodies();              // Se destruyen todos los bodies del nivel en el que estabamos
+
+    fachada->destruirObjeto(Terreno);       // Se borra todo el terreno
+        
+
+    /* DELETE DEL GRAFO PROVISIONAL */
+    for(size_t cont3=0; cont3<nodos.size();cont3++)
+    {
+        delete nodos[cont3];
+    }
+    nodos.clear();
+
+    for(size_t cont4=0; cont4<aristas.size();cont4++)
+    {
+        delete aristas[cont4];
+    }
+    aristas.clear();
+
+    /* DELETE DE LOS OBJETOS DEL MAPA */
+    for (size_t cont=0; cont<alarmas.size();cont++)
+    {
+        delete alarmas[cont];
+    }
+    alarmas.clear();
+
+    for (size_t cont=0; cont<fuentes.size();cont++)
+    {
+        delete fuentes[cont];
+    }
+    fuentes.clear();
+
+    for (size_t cont=0; cont<comidas.size();cont++)
+    {
+        delete comidas[cont];
+    }
+    comidas.clear();
+
+    for (size_t cont=0; cont<bebidas.size();cont++)
+    {
+        delete bebidas[cont];
+    }
+    bebidas.clear();
+
+    for (size_t cont=0; cont<trampas.size();cont++)
+    {
+        delete trampas[cont];
+    }
+    trampas.clear();
+
+    for(size_t cont=0; cont<enemB.size();cont++)
+    {
+            
+        delete enemB[cont];
+    }
+    enemB.clear();
+
+    for(size_t cont2=0; cont2<enemE.size();cont2++)
+    {
+        delete enemE[cont2];
+    }
+    enemE.clear();
+
+    for (size_t cont=0; cont<palancas.size();cont++)
+    {
+        delete palancas[cont];
+    }
+    palancas.clear();
+
+    for (size_t cont=0; cont<puertas.size();cont++)
+    {
+        delete puertas[cont];
+    }
+    puertas.clear();
+
+    delete posA;
+    delete posF;
+    delete posB;
+    delete posC;
+    delete posT;
+    delete posP;
+    delete p0;
+    delete p1;
+
+    gos.clear();
 }
 
 

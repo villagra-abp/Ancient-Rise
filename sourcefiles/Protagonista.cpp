@@ -8,7 +8,6 @@ static Protagonista* instance = NULL;
 Protagonista::Protagonista():energy(nullptr), life(nullptr), Body(nullptr), rec(nullptr), flecha0(nullptr), flecha1(nullptr), sonido(nullptr),
 protaPosition(nullptr), enemigoPosition(nullptr), comidaPosition(nullptr), trampaPosition(nullptr), protaObjeto(nullptr)
 {
-    cout<<"entro"<<endl;
     GameObject::setTipo(PROTA);
 
     protaObjeto = fachada->crearProta();
@@ -451,6 +450,16 @@ void Protagonista::setVida(glm::f32 cantidad,const glm::f32 Time)
         vida=100;
     }
 
+}
+
+void Protagonista::setLife(glm::f32 cantidad)
+{
+    vida = cantidad;
+}
+
+void Protagonista::setEnergy(glm::f32 cantidad)
+{
+    energia = cantidad;
 }
 /**
 METODO PARA GESTIONAR LA ENERGIA
