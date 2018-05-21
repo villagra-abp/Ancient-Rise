@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.2" orientation="orthogonal" renderorder="right-down" width="100" height="30" tilewidth="8" tileheight="8" infinite="0" nextobjectid="702">
+<map version="1.0" tiledversion="1.1.2" orientation="orthogonal" renderorder="right-down" width="100" height="30" tilewidth="8" tileheight="8" infinite="0" nextobjectid="703">
  <tileset firstgid="1" source="suelo.tsx"/>
  <layer name="Capa de Patrones 1" width="100" height="30" visible="0" locked="1">
   <data encoding="csv">
@@ -35,7 +35,7 @@
 138,215,215,215,215,215,216,216,219,218,218,219,215,215,216,18,215,215,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,18,19,19,19,19,19,19,19,19,19,19,19,19,19,19,19,215,215,215,215,215,19,19,19,19,19,19,19,18,19,19,19,19,19,19,19,19,19,19,98,98,98,98,138,139,139,139,140,141,139,179,139,139,139,139,179,139,139,494,495,496,450,451,138,140
 </data>
  </layer>
- <objectgroup name="suelo" locked="1">
+ <objectgroup name="suelo">
   <object id="433" x="0.1875" y="56" width="87.875" height="8"/>
   <object id="435" x="88.0625" y="63.9063" width="111.966" height="8"/>
   <object id="436" x="192.017" y="104" width="152" height="8"/>
@@ -105,7 +105,7 @@
   <object id="501" x="-20.9603" y="215.625" width="32.216" height="8"/>
   <object id="502" x="-21.0228" y="207.5" width="32.216" height="8"/>
   <object id="503" x="-20.9603" y="199.5" width="32.216" height="8"/>
-  <object id="504" x="10.8011" y="183.995" width="49.7217" height="8"/>
+  <object id="504" x="10.8011" y="183.995" width="48.5967" height="8"/>
   <object id="505" x="-21.0171" y="191.818" width="32.216" height="8"/>
   <object id="506" x="-21.4091" y="176.375" width="32.216" height="8"/>
   <object id="507" x="-21.4091" y="168.5" width="32.216" height="8"/>
@@ -137,7 +137,7 @@
   <object id="535" x="499.287" y="232" width="26.6744" height="8"/>
   <object id="536" x="449.197" y="232.125" width="26.1971" height="8"/>
   <object id="537" x="397.003" y="232" width="30.8903" height="8"/>
-  <object id="701" x="92.072" y="187.25" width="267.856" height="8"/>
+  <object id="701" x="103.322" y="188.5" width="256.606" height="8"/>
  </objectgroup>
  <objectgroup name="nodos" visible="0" locked="1">
   <object id="22" x="15.375" y="54.125">
@@ -319,7 +319,7 @@
   <object id="575" x="180.364" y="231.818">
    <point/>
   </object>
-  <object id="576" x="285.125" y="183.75">
+  <object id="702" x="136.182" y="185.818">
    <point/>
   </object>
  </objectgroup>
@@ -359,9 +359,6 @@
    <point/>
   </object>
   <object id="580" type="1" x="516.5" y="230">
-   <point/>
-  </object>
-  <object id="581" type="1" x="316" y="183">
    <point/>
   </object>
   <object id="582" type="2" x="172" y="232.333">
@@ -730,11 +727,11 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup name="puerta" visible="0" locked="1">
-  <object id="133" type="2" x="185.521" y="183.458">
+ <objectgroup name="puerta" visible="0">
+  <object id="133" type="2" x="185.521" y="184.833">
    <point/>
   </object>
-  <object id="134" type="1" x="168.227" y="151.716">
+  <object id="134" type="1" x="168.227" y="151.841">
    <point/>
   </object>
  </objectgroup>
