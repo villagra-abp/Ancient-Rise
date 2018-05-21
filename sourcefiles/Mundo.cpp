@@ -67,12 +67,30 @@ void Mundo::update()
     if(estado==4)  // Estado de pantalla de carga
     {   
         carga->update();
-        
-        if(cargado==false && loading==true)
-        {
-            cargaNivel(); // Carga del nivel 
 
-            estado = 2;
+        switch(carga->getPantallaCarga())
+        {
+            case 1:
+            {
+                if(cargado==false && loading==true)
+                {
+                    cargaNivel(); // Carga del nivel 
+                    estado = 2;
+                    loading = false;
+                }
+                break;
+            }
+
+            case 2:
+            {
+                
+                break;
+            }
+
+            case 3:
+            {
+                break;
+            }
         }
 
         loading = true;
@@ -530,7 +548,25 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
 
         case 4: // PANTALLA DE CARGA
         {
-            cam->setPosicion(vec3(58.7,5000*posopc,-23.5));
+            switch(carga->getPantallaCarga())
+            {
+                case 1:
+                {
+                    cam->setPosicion(vec3(58.7,5000*posopc,-23.5));
+                    break;
+                }
+
+                case 2:
+                {
+                    break;
+                }
+
+                case 3:
+                {
+                    break;
+                }
+            }
+
             break;
         }
 

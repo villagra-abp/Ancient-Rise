@@ -33,6 +33,11 @@ void PantallaCarga::setPantallaCarga(int p)
 {
 	pantallaCarga = p;
 }
+
+int PantallaCarga::getPantallaCarga()
+{
+	return pantallaCarga;
+}
 void PantallaCarga::update()
 {
 	switch(pantallaCarga)

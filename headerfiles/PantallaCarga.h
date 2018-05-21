@@ -12,6 +12,7 @@ class PantallaCarga
         void update();
         int getEstado();
         void setPantallaCarga(int p);
+        int getPantallaCarga();
 
 	private:
 
