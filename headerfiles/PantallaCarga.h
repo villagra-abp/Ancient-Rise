@@ -9,13 +9,15 @@ class PantallaCarga
 
 	public:
 		PantallaCarga( Posicion* pos);
-        void update(int n);
+        void update();
         int getEstado();
+        void setPantallaCarga(int p);
 
 	private:
 
-		void* cargaLevel1;
-		int estado;
+		void* cargaLevel1, *cargaLevel2, *cargaLevel3;
+		int estado, pantallaCarga;
+		Fachada* fachada;
       
 };
 

@@ -66,6 +66,8 @@ void Mundo::update()
 {
     if(estado==4)  // Estado de pantalla de carga
     {   
+        carga->update();
+        
         if(cargado==false && loading==true)
         {
             cargaNivel(); // Carga del nivel 
@@ -528,7 +530,7 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
 
         case 4: // PANTALLA DE CARGA
         {
-            cam->setPosicion(vec3(58.5,5000*posopc,-23));
+            cam->setPosicion(vec3(58.7,5000*posopc,-23.5));
             break;
         }
 
@@ -1029,7 +1031,8 @@ void Mundo::controlCambioNivel()
     {
         if(prota->getPosition()->getPosY()<salidaNivel->getPosY()+10 && prota->getPosition()->getPosY()>salidaNivel->getPosY()-10)
         {
-            cambiarNivel();
+            estado = 4;
+            //cambiarNivel();
         }
     }
 
@@ -1093,7 +1096,7 @@ void Mundo::cargaNivel()
     prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/marcha5/marcha5.txt", prota->getNode(), 2));
     prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/saltoadelante/saltoadelante.txt", prota->getNode(),3));
     prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/correr/correr.txt", prota->getNode(),4));
-   // prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/saltocarrera/saltocarrera.txt", prota->getNode(),5));
+  // prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/saltocarrera/saltocarrera.txt", prota->getNode(),5));
     //prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/salto/salto.txt", prota->getNode(),6));
     prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/Prueba/prueba", prota->getNode(), 1));
 

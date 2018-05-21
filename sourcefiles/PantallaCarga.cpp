@@ -1,11 +1,13 @@
 #include "../headerfiles/PantallaCarga.h"
 
-PantallaCarga::PantallaCarga(Posicion* pos): cargaLevel1(nullptr)
+PantallaCarga::PantallaCarga(Posicion* pos): cargaLevel1(nullptr), cargaLevel2(nullptr), cargaLevel3(nullptr), fachada(nullptr)
 {
 	
-	Fachada* fachada=fachada->getInstance();
+	fachada=fachada->getInstance();
 
     cargaLevel1 = fachada->addMalla(pos->getPosX()*1.5,pos->getPosY()*5,pos->getPosZ(), "resources/PantallaCarga/level1.obj");
+    cargaLevel2 = fachada->addMalla(pos->getPosX()*1.5,pos->getPosY()*5,pos->getPosZ(), "resources/PantallaCarga/level2.obj");
+    cargaLevel3 = fachada->addMalla(pos->getPosX()*1.5,pos->getPosY()*5,pos->getPosZ(), "resources/PantallaCarga/level3.obj");
  
     
     
@@ -18,6 +20,7 @@ PantallaCarga::PantallaCarga(Posicion* pos): cargaLevel1(nullptr)
 	}
 
     estado = 4;
+    pantallaCarga = 1;
 
 }
 
@@ -25,8 +28,35 @@ int PantallaCarga::getEstado()
 {
     return estado;
 }
-void PantallaCarga::update(int n)
+
+void PantallaCarga::setPantallaCarga(int p)
 {
+	pantallaCarga = p;
+}
+void PantallaCarga::update()
+{
+	switch(pantallaCarga)
+	{
+
+		case 1: // Pantallo Carga level 1
+		{
+			fachada->setMalla(cargaLevel1, "resources/PantallaCarga/level1.obj");
+			break;
+		}
+
+		case 2: // Pantallo Carga level 2
+		{
+			fachada->setMalla(cargaLevel2, "resources/PantallaCarga/level2.obj");
+			break;
+		}
+
+		case 3: // Pantallo Carga level 3
+		{
+			fachada->setMalla(cargaLevel3, "resources/PantallaCarga/level3.obj");
+			break;
+		}
+
+	}
   
 }
 
