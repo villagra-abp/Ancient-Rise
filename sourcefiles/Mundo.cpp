@@ -81,7 +81,7 @@ void Mundo::update()
     {
         if(prota->checkVida()==false) // Prota muerto hay que reiniciar el nivel
         {
-            cambiarNivel();
+            muerteProta();
         }
 
         controlCambioNivel();  // Para comprobar si hay que cambiar de nivel o no
@@ -1038,12 +1038,15 @@ void Mundo::controlCambioNivel()
 /* Funcion para resetear el nivel cuando el prota muera */
 void Mundo::muerteProta()
 {
-    /* Borramos y creamos de nuevo al prota al principio del nivel */
-    delete prota;
-    prota = new Protagonista();
+    /* REseteamos la vida y energia del prota y lo ponemos al principio del nivel en el que se encuentre */
+    prota->setEnergy(100);
+    prota->setLife(100);
 
+    borradoNivel();     // Para borrar todo lo que hay en el nivel
 
+    cargarLogicaNivel(); // Volvemos a hacer la lectura del xml para cargar toda la logica del nuevo nivel
 
+    b->setProtagonista(prota);
 
 }
 
@@ -1052,35 +1055,14 @@ void Mundo::cambiarNivel()
 {
     if(nivel<MAX_NIVEL || prota->checkVida()==false) // No cambiar nivel si no hay mas o no queremos cambiar de nivel. SOlo reset si prota muerto
     {
-        if(nivel<MAX_NIVEL && prota->checkVida())  // Solo si el jugador esta vivo cuando entramos aqui es cuando queremos cambair de nivel
+        if(nivel<MAX_NIVEL)  // Comprobamos que hay un nivel mas al que pasar
         {
             nivel = nivel +1;
         }
-
         
         borradoNivel();     // Para borrar todo lo que hay en el nivel
 
-        if(prota->checkVida()==false) // SI prota muerto lo volvemos a crear 
-        {
-            //delete prota;
-
-            //prota = new Protagonista();
-
-            prota->setEnergy(100);
-            prota->setLife(100);
-        }
-
-        b->setEnemB(enemB);
-        b->setAlarma(alarmas);
-        b->setFuente(fuentes);
-        b->setNodosGrafo(nodos);
-
         cargarLogicaNivel(); // Volvemos a hacer la lectura del xml para cargar toda la logica del nuevo nivel
-
-        if(prota->checkVida()==false)
-        {
-            b->setProtagonista(prota);
-        }
     }
 }
 
@@ -1111,6 +1093,8 @@ void Mundo::cargaNivel()
     prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/marcha5/marcha5.txt", prota->getNode(), 2));
     prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/saltoadelante/saltoadelante.txt", prota->getNode(),3));
     prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/correr/correr.txt", prota->getNode(),4));
+   // prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/saltocarrera/saltocarrera.txt", prota->getNode(),5));
+    //prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/salto/salto.txt", prota->getNode(),6));
     prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/Prueba/prueba", prota->getNode(), 1));
 
 
@@ -1203,6 +1187,12 @@ void Mundo::borradoNivel()
     delete p1;
 
     gos.clear();
+
+
+    b->setEnemB(enemB);
+    b->setAlarma(alarmas);
+    b->setFuente(fuentes);
+    b->setNodosGrafo(nodos);
 }
 
 
