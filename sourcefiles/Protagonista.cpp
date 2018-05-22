@@ -12,7 +12,7 @@ protaPosition(nullptr), enemigoPosition(nullptr), comidaPosition(nullptr), tramp
 
     protaObjeto = fachada->crearProta();
 
-    protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/marcha5/marcha5.txt", protaObjeto, 1);
+    protaObjeto = fachada->addAnimacion(0, 0,1000, "resources/Animaciones/marcha5/marcha5.txt", protaObjeto, 1);
     rec = protaObjeto;
     
     Posicion escala(2.f,2.f,2.f);
@@ -91,26 +91,21 @@ void Protagonista::update(Blackboard* b)
     if(direccion==2)
     {
         /* Animacion de estar quieto */
-        protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/Prueba/prueba", protaObjeto, 1);
+        protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/Prueba/prueba", protaObjeto, 1);
         rec = protaObjeto;
     }
 
     if(saltando==true)
     {
-        if(tipoSalto==1)
+        b2Vec2 velocidad=Body->GetLinearVelocity();
+
+        protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/saltoadelante/saltoadelante.txt", protaObjeto,8);
+        rec = protaObjeto;
+        fachada->setRotObj(protaObjeto, 0, 1, 0, -90); 
+
+        if(velocidad.y<0)
         {
-            protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/salto/salto.txt", protaObjeto,6);
-            rec = protaObjeto;
-            fachada->setRotObj(protaObjeto, 0, 1, 0, -90);
-        }
-        else
-        {
-            if(tipoSalto==2)
-            {
-                protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/saltocarrera/saltocarrera.txt", protaObjeto,8);
-                rec = protaObjeto;
-                fachada->setRotObj(protaObjeto, 0, 1, 0, -90);
-            }
+            saltando = false;
         }
     }
 }
@@ -232,7 +227,7 @@ void Protagonista::movimiento(const glm::f32 Time)
             Body->ApplyForceToCenter(b2Vec2(-3500.f,0.f),true);
 
             /* Animacion de correr */
-            protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/correr/correr.txt", protaObjeto, 4);
+            protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/correr/correr.txt", protaObjeto, 4);
             rec = protaObjeto;
             fachada->setRotObj(protaObjeto, 0, 1, 0, +90);
 
@@ -240,7 +235,7 @@ void Protagonista::movimiento(const glm::f32 Time)
         }else // Andar
         {
             /* Animacion de andar */
-            protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/marcha5/marcha5.txt", protaObjeto, 2);
+            protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/marcha5/marcha5.txt", protaObjeto, 2);
             rec = protaObjeto;
             fachada->setRotObj(protaObjeto, 0, 1, 0, +90);
             velo.x=-25.f;
@@ -262,7 +257,7 @@ void Protagonista::movimiento(const glm::f32 Time)
                     Body->ApplyForceToCenter(b2Vec2(3500.f,0.f),true);
 
                     /* Animacion de correr */
-                    protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/correr/correr.txt", protaObjeto, 4);
+                    protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/correr/correr.txt", protaObjeto, 4);
                     rec = protaObjeto;
                     fachada->setRotObj(protaObjeto, 0, 1, 0, -90);
 
@@ -270,7 +265,7 @@ void Protagonista::movimiento(const glm::f32 Time)
                     
                 }
                 else{
-                        protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/marcha5/marcha5.txt", protaObjeto, 2);
+                        protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/marcha5/marcha5.txt", protaObjeto, 2);
                         rec = protaObjeto;
                         fachada->setRotObj(protaObjeto, 0, 1, 0, -90);
                         velo.x=25.f;
@@ -517,16 +512,11 @@ void Protagonista::setSalto(bool s)
         }
         if(correr && energia>20)
         {   
-            tipoSalto = 2;
             Body->ApplyForceToCenter(b2Vec2(0.f,10000000.f),true);
-        }else if(energia<20)
-        {
-            tipoSalto = 3;
-            Body->ApplyForceToCenter(b2Vec2(0.f,350000.f),true);
         }
         else
         {
-            tipoSalto = 1;
+            if(energia>20)
             Body->ApplyForceToCenter(b2Vec2(0.f,6000000.f),true);  
           
         }

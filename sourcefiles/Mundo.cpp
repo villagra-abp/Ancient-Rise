@@ -455,10 +455,6 @@ void Mundo::controlProta()
     {
         prota->setSalto(true);
     }
-    else
-    {
-        prota->setSalto(false);
-    }
             
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)||JoyY>=50)//W
     {
@@ -1176,12 +1172,12 @@ void Mundo::cargaNivel()
             musicaBosque = sonido->createMusic(sonido->SOUND_MUSIC_BOSQUE);
 
             /* Carga de todas las animaciones */
-            prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/marcha5/marcha5.txt", prota->getNode(), 2));
-            prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/saltoadelante/saltoadelante.txt", prota->getNode(),3));
-            prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/correr/correr.txt", prota->getNode(),4));
-            prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/saltocarrera/saltocarrera.txt", prota->getNode(),5));
-            prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/salto/salto.txt", prota->getNode(),6));
-            prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/Prueba/prueba", prota->getNode(), 1));
+            prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/marcha5/marcha5.txt", prota->getNode(), 2));
+            prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/saltoadelante/saltoadelante.txt", prota->getNode(),3));
+            prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/correr/correr.txt", prota->getNode(),4));
+            prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/saltocarrera/saltocarrera.txt", prota->getNode(),5));
+            prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/salto/salto.txt", prota->getNode(),6));
+            prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/Prueba/prueba", prota->getNode(), 1));
 
             break;
         }
