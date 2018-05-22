@@ -1,0 +1,4 @@
+resources/Animaciones/reposo1/reposo1_000
+227
+100
+4.8
