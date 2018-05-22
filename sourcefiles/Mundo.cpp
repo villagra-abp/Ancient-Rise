@@ -1298,5 +1298,6 @@ Mundo::~Mundo()	//DESTRUCTOR
     delete opciones;
     delete hud;
     delete carga;
+    delete sonido;
     
 }

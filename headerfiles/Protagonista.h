@@ -118,10 +118,6 @@ class Protagonista : public GameObject
         
         /* SONIDO */
         GestorSonido* sonido;
-        Sonido* nani;
-        Sonido* omae;
-        Sonido* grito;
-        Sonido* risa;
         vector<Sonido*> ataqueS;
         vector<Sonido*> dolor;
         vector<Sonido*> muerte;

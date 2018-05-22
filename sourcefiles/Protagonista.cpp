@@ -45,10 +45,7 @@ protaPosition(nullptr), enemigoPosition(nullptr), comidaPosition(nullptr), tramp
 
     //SONIDOS
     sonido = GestorSonido::getInstance();
-    nani = sonido->create2DSound(sonido->SOUND_BOSS3_NANI);
-    omae = sonido->create2DSound(sonido->SOUND_BOSS3_OMAE);
-//    grito = sonido->create2DSound(sonido->SOUND_BOSS3_GRITO1);
-//    risa = sonido->create3DSound(sonido->SOUND_BOSS3_RISA);
+
     Sonido* aux;
     //Ataque
     aux = sonido->create2DSound(sonido->SOUND_PROTA_ATAQUE1);
@@ -70,11 +67,15 @@ protaPosition(nullptr), enemigoPosition(nullptr), comidaPosition(nullptr), tramp
     aux = sonido->create2DSound(sonido->SOUND_PROTA_MUERTE2);
     muerte.push_back(aux);
     //Otros
-    comer = sonido->create2DSound(sonido->SOUND_PROTA_COMER); 
-    beber = sonido->create2DSound(sonido->SOUND_PROTA_BEBER); 
+    comer = sonido->create2DSound(sonido->SOUND_PROTA_COMER);
+    beber = sonido->create2DSound(sonido->SOUND_PROTA_BEBER);
     pasos = sonido->create2DSound(sonido->SOUND_PROTA_PASOS);
     corte = sonido->create2DSound(sonido->SOUND_AMBIENT_CORTECARNE);
     protaPosition=fachada->getPosicion(rec);
+
+
+//    pasos->getCanal()->setGrupoCanales(sonido->getGrupoAmbiente());
+
 
     /* Animaciones */
 
@@ -208,7 +209,8 @@ void Protagonista::ataque(EnemigoBasico* e)
     sonido->playRandomSound(ataqueS);
     if(pos_combate != e->getPosCombate() || e->getCombate()!=true)
     {
-        sonido->playSound(corte);
+        bool flag = sonido->playSound(corte);
+        if(flag) corte->getCanal()->setGrupoCanales(sonido->getGrupoAmbiente());
         e->setSalud(-20.f);
     }
     
@@ -248,6 +250,8 @@ void Protagonista::movimiento(const glm::f32 Time)
             fachada->setRotObj(protaObjeto, 0, 1, 0, +90);
             velo.x=-30.f;
             Body->SetLinearVelocity(velo);
+            bool flag = sonido->playSound(pasos);
+            if(flag) pasos->getCanal()->setGrupoCanales(sonido->getGrupoAmbiente());
         }
 
     }
@@ -343,7 +347,8 @@ void Protagonista::comprobarColision(Objeto *comida)
                 }
 
                 comida->setRecogido(true);
-                sonido->playSound(comer);
+                bool flag = sonido->playSound(comer);
+                if(flag) comer->getCanal()->setGrupoCanales(sonido->getGrupoAmbiente());
             }
         }
     }
@@ -373,7 +378,8 @@ void Protagonista::comprobarColision(Bebida *bebida)
                 }
 
                 bebida->setRecogido(true);
-                sonido->playSound(beber);
+                bool flag = sonido->playSound(beber);
+                if(flag) beber->getCanal()->setGrupoCanales(sonido->getGrupoAmbiente());
             }
         }
     }
@@ -395,7 +401,7 @@ void Protagonista::comprobarColision(Trampa *trampa)
     {
         if(protaPosX>tramPosX-5 && protaPosX<tramPosX+5)
         {
-            vida-=0.4f;
+            quitarVida(0.4f);
         }
     }
     
@@ -497,24 +503,18 @@ METODO PARA GESTIONAR EL SALTO
 **/
 void Protagonista::setSalto(bool s)
 {
-    bool flag;
-    //sonido->playSound(risa);
+    int aux = -1;
     b2Vec2 velocidad=Body->GetLinearVelocity();
     //std::cout<<velocidad.y<<"\n";
     if(velocidad.y>=-5 && velocidad.y<5 && s && !saltando && !sigilo){
-        flag = sonido->playSound(omae);
-        if(flag){
-            DSP* dsp = sonido->createDSP("echo");
-            omae->getCanal()->addDSP(dsp);
-            omae->getCanal()->setGrupoCanales(sonido->getGrupoVoces());
-        }
+        aux = sonido->playRandomSound(ataqueS);  
+        if(aux != -1)
+            ataqueS[aux]->getCanal()->setGrupoCanales(sonido->getGrupoVoces());
         if(correr && energia>20)
         {   
             Body->ApplyForceToCenter(b2Vec2(0.f,10000000.f),true);
         }else if(energia<20)
         {
-           /* sonido->playSound(grito);
-            grito->getCanal()->setGrupoCanales(sonido->getGrupoVoces());*/
             Body->ApplyForceToCenter(b2Vec2(0.f,350000.f),true);
         }
         else{
@@ -594,6 +594,10 @@ void Protagonista::setNode(FObjeto* node)
 void Protagonista::quitarVida(glm::f32 cantidad)
 {
     vida -=cantidad; 
+    int aux = sonido->playRandomSound(dolor);
+    if(aux != -1)
+            dolor[aux]->getCanal()->setGrupoCanales(sonido->getGrupoVoces());
+
 }
 
 /**

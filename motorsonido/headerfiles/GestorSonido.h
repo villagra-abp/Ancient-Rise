@@ -33,7 +33,7 @@ class GestorSonido{
 		DSP*	createDSP(const char* tipo);
 		Sonido* createMusic(const char* name);
 		bool playSound(Sonido* sonido);
-		bool playRandomSound(vector<Sonido*> lista);
+		int playRandomSound(vector<Sonido*> lista);
 		void update();
 
 
