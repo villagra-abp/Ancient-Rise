@@ -9,7 +9,8 @@ static Fachada* instance = NULL;
 //Parametros: h-> Alto de la ventana, w-> Ancho de la ventana, fullscreen-> si será pantalla completa o no
 Fachada* Fachada::getInstance(int h, int w, bool fullscreen) 
 {
-    if (instance == NULL) instance = new Fachada(h, w, fullscreen);
+    if (instance == NULL) 
+        instance = new Fachada(h, w, fullscreen);
     return (instance);
 }
 
@@ -260,7 +261,14 @@ FObjeto* Fachada::addAnimacion(int x, int y, int z, string path, FObjeto* objeto
     
     return objeto;
 }
-
+void Fachada::activarPalanca(bool b){
+    
+    activaPalanca=b;
+}
+bool Fachada::getPalancaActiva(){
+    
+    return activaPalanca;
+}
 
 /* Rotacion de objeto relativa */
 void Fachada::rotObj(void* nodo, float x, float y, float z, float angulo){

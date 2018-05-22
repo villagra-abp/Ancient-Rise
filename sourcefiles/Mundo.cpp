@@ -175,7 +175,15 @@ void Mundo::update()
                 bebidas[i]->update();
             }
         }
-
+        for(size_t i=0; i<palancas.size();i++)
+        {
+            if(palancas[i]->getNode()!=nullptr)
+            {
+                //cout<<palancas.size()<<endl;
+                prota->comprobarColision(palancas[i]);
+                palancas[i]->update();
+            }
+        }
         for(size_t i=0; i<comidas.size();i++)
         {
             if(comidas[i]->getNode()!=nullptr)
@@ -309,6 +317,7 @@ void Mundo::checkInput(int tecla){
                     fachada->cerrar();
                 }
                 
+                
             }
             if(estado==1){
                 int estp=pausa->getEstado();
@@ -330,11 +339,23 @@ void Mundo::checkInput(int tecla){
                 if(estp==2)
                 {
                     muerteProta();;   //reinicia nivel
-		    estado=2;
+
+                    estado=2;
+
                 }
                 if(estp==1)
                 {
                     fachada->cerrar();
+                }
+            }
+            if(estado==2)
+            {
+                if(fachada->getPalancaActiva()==true)
+                {
+                    //cout<<abrirPuerta<<endl;
+                    abrirPuerta=true;
+                    //fachada->setMalla(palancas[0]->getNode(),"resources/Palanca/Palanca1.obj");
+                    //delete palancas[0];
                 }
             }
             break;
@@ -1106,10 +1127,11 @@ void Mundo::cargarLogicaNivel()
 /* FUncion para controlar cuando cambiar de nivel */
 void Mundo::controlCambioNivel()
 {
-    if(prota->getPosition()->getPosX()>=salidaNivel->getPosX())
+    if(prota->getPosition()->getPosX()>=salidaNivel->getPosX()&&abrirPuerta)
     {
         if(prota->getPosition()->getPosY()<salidaNivel->getPosY()+10 && prota->getPosition()->getPosY()>salidaNivel->getPosY()-10)
         {
+            abrirPuerta=false;
             //cout<<"entroControl"<<endl;
 
             //estado = 4;
