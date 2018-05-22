@@ -54,6 +54,7 @@ GestorSonido* GestorSonido::getInstance(){
 
 GestorSonido::~GestorSonido(){
 	system->release();
+	syslow->release();
 }
 
 GrupoCanales* GestorSonido::createGrupoCanales(){
@@ -202,6 +203,24 @@ bool GestorSonido::playSound(Sonido* sonido){
 		}
 	return flag;
 //	}
+}
+
+int GestorSonido::playRandomSound(vector<Sonido*> lista){
+	int resultado = -1;
+	bool sonando = false;
+
+	for(int i = 0; i < lista.size() && sonando == false; i++){
+		if(lista[i]->getCanal() != NULL)
+			result = lista[i]->getCanal()->getCanal()->isPlaying(&sonando);
+	}
+
+	if(!sonando){
+		int v1 = rand() % lista.size();
+		sonando = playSound(lista[v1]);
+		if(sonando) resultado = v1;
+	}
+
+	return resultado;
 }
 
 void GestorSonido::update(){

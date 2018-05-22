@@ -211,7 +211,7 @@ void Mundo::update()
         	}
         }
         /*UPDATE DE SONIDO*/
-        sonido->playSound(musicaBosque);
+        sonido->playSound(musicaNivel1);
         sonido->update();
         sonido->setListener(prota->getPosition()->getPosX(), prota->getPosition()->getPosY(), prota->getPosition()->getPosZ());
     }
@@ -1173,7 +1173,7 @@ void Mundo::cargaNivel()
             reverbCueva = sonido->create3DReverb();
             reverbCueva->setAtributos3D(0.0f,0.0f,0.0f, 10.0f, 2000.0f);
             reverbCueva->setTipo(sonido->REVERB_CUEVA);
-            musicaBosque = sonido->createMusic(sonido->SOUND_MUSIC_BOSQUE);
+            musicaNivel1 = sonido->createMusic(sonido->SOUND_MUSIC_NIVEL1);
 
             /* Carga de todas las animaciones */
             prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/marcha5/marcha5.txt", prota->getNode(), 2));
@@ -1291,11 +1291,6 @@ void Mundo::borradoNivel()
 
     gos.clear();
 
-
-    b->setEnemB(enemB);
-    b->setAlarma(alarmas);
-    b->setFuente(fuentes);
-    b->setNodosGrafo(nodos);
 }
 
 
@@ -1390,5 +1385,6 @@ Mundo::~Mundo()	//DESTRUCTOR
     delete opciones;
     delete hud;
     delete carga;
+    delete sonido;
     
 }
