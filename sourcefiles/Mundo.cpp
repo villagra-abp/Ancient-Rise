@@ -299,7 +299,7 @@ void Mundo::checkInput(int tecla){
                 if(estm==3)
                 {
                     estado=4;
-                    //opciones->setJuego(true);
+                    opciones->setJuego(true);
                 }
                 if(estm==2)
                 {
@@ -521,11 +521,12 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
         {
             if(pintaHud)
             {
-                cam->setRotacion(vec3(0,1,0), 0.f);
+                //cam->setRotacion(vec3(0,1,0), 0.f);
                 cam->setPosicion(vec3(40,5000,-20));
             }
             else 
             {
+                /*
                 if(prota->getDireccion()==0){
                     cam->setRotacion(vec3(0,1,0), -0.10f);
                 }
@@ -533,7 +534,7 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
                 {
                     cam->setRotacion(vec3(0,1,0), 0.15f);
                 }
-            
+                */
                 if(velo.x>30||velo.x<-30)
                 {
                     if(velo.x>30)
@@ -542,28 +543,16 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
                     }
                     for(float i=-115;i>(-112+(velo.x/5));i-=frameDeltaTime*0.001f)
                     {
-                        if(prota->getDireccion()==0)
-                        {
-                            cam->setPosicion(vec3(-protaPosition->getPosX()-15,-protaPosition->getPosY()-25,i)); 
-                        }
-                        else
-                        {
-                            cam->setPosicion(vec3(-protaPosition->getPosX()+15,-protaPosition->getPosY()-25,i)); 
-                        }
+                        
+                            cam->setPosicion(vec3(-protaPosition->getPosX()-5,-protaPosition->getPosY()-25,i)); 
+                        
                     }
                 }
                 else{
                     
                         for(float i=-120;i<-115;i+=frameDeltaTime*0.001f)
                         {
-                            if(prota->getDireccion()==0){
-                                cam->setPosicion(vec3(-protaPosition->getPosX()-15,-protaPosition->getPosY()-25,i)); 
-                            }
-                            else
-                            {
-                                cam->setPosicion(vec3(-protaPosition->getPosX()+15,-protaPosition->getPosY()-25,i)); 
-                            }
-                            //cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-25,i)); 
+                            cam->setPosicion(vec3(-protaPosition->getPosX()-5,-protaPosition->getPosY()-25,i)); 
                         }
                     }
             }  
@@ -935,7 +924,7 @@ void Mundo::cargarLogicaNivel()
                         {   
                             case 1: // Agua
                             {
-                                posB= new Posicion(xEn-190,-yEn+59,0.f);
+                                posB= new Posicion(xEn-190,-yEn+57,0.f);
                                 Bebida *bebida = new Bebida(posB);
                                 bebidas.push_back(bebida);
                                 addGameObject(bebida);
@@ -944,7 +933,7 @@ void Mundo::cargarLogicaNivel()
 
                             case 2: // Comida
                             {
-                                posC= new Posicion(xEn-190,-yEn+59,0.f);
+                                posC= new Posicion(xEn-190,-yEn+57,0.f);
                                 Comida *comida = new Comida(posC);
                                 comidas.push_back(comida);
                                 addGameObject(comida);
@@ -966,7 +955,7 @@ void Mundo::cargarLogicaNivel()
                         {   
                             case 1: // Palanca para abrir puerta
                             {
-                                posP = new Posicion(xEn-190,-yEn+59,0.f);
+                                posP = new Posicion(xEn-190,-yEn+57,0.f);
                                 Palanca* pal = new Palanca(posP);
                                 palancas.push_back(pal);
                                 addGameObject(pal);
@@ -975,7 +964,7 @@ void Mundo::cargarLogicaNivel()
 
                             case 2: // Puerta para salir del nivel
                             {
-                                salidaNivel = new Posicion(xEn-190,-yEn+59,0.f);
+                                salidaNivel = new Posicion(xEn-190,-yEn+58,0.f);
                                 Puerta *p = new Puerta(salidaNivel);
                                 puertas.push_back(p);
                                 addGameObject(p);
@@ -998,7 +987,7 @@ void Mundo::cargarLogicaNivel()
 
                     if(strcmp(grupo2->FirstAttribute()->Value(),"alarmas")==0)
                     {
-                        posA= new Posicion(xEn-190,-yEn+59,0.f);
+                        posA= new Posicion(xEn-190,-yEn+57,0.f);
 
                         Alarma* alarm = new Alarma( posA);
                         alarmas.push_back(alarm);
@@ -1009,7 +998,7 @@ void Mundo::cargarLogicaNivel()
 
                     if(strcmp(grupo2->FirstAttribute()->Value(),"fuentes")==0)
                     {
-                        posF= new Posicion(xEn-190,-yEn+59,0.f);
+                        posF= new Posicion(xEn-190,-yEn+57,0.f);
 
                         Fuente* fuente = new Fuente(posF);
                         fuentes.push_back(fuente);
@@ -1031,7 +1020,7 @@ void Mundo::cargarLogicaNivel()
 
                             case 2: // Trampa pinchos
                             {
-                                posT= new Posicion(xEn-190,-yEn+59,0.f);
+                                posT= new Posicion(xEn-190,-yEn+57,0.f);
                                 Trampa *trampa = new Trampa(posT);
                                 trampas.push_back(trampa);
                                 addGameObject(trampa);
