@@ -7,6 +7,7 @@ hud(nullptr), opciones(nullptr), carga(nullptr), protaPosition(nullptr)	//CONSTR
     Fachada* fachada=fachada->getInstance();
 
     nivel = 1; 
+    nivelAnterior = 0 ;
 
     cargado = false;
 
@@ -66,45 +67,74 @@ void Mundo::update()
 {
     if(estado==4)  // Estado de pantalla de carga
     {   
-        carga->update();
-
-        switch(carga->getPantallaCarga())
+        //cout<<"NIvel :"<<nivel<<endl;
+        //cout<<"Pantalla "<<carga->getPantallaCarga()<<endl;
+        if(cont==0 && loading==false) // Reset del reloj de carga
         {
-            case 1:
-            {
-                if(cargado==false && loading==true)
-                {
-                    cargaNivel(); // Carga del nivel 
-                    estado = 2;
-                    loading = false;
-                }
-                break;
-            }
-
-            case 2:
-            {
-                
-                break;
-            }
-
-            case 3:
-            {
-                break;
-            }
+            //cout<<"entro"<<endl;
+            relojCarga.restart();
+            cont = 1;
         }
 
-        loading = true;
+        carga->update();
+
+        if(cargado==false && loading==true)
+        {
+            //cout<<"Cargando "<<endl;
+            cargaNivel(); // Carga del nivel 
+            estado = 2;
+            cargado = false;
+        }
+
+        /* Comprobamos que pantalla de carga es */
+        if(carga->getPantallaCarga()==1)
+        {
+            if(loading==true)
+            {
+                loading = false;
+            }
+            else
+            {
+                loading = true;
+            }
+
+            cont = 0;
+        }
+        else
+        {
+            if(carga->getPantallaCarga()==2 || carga->getPantallaCarga()==3)
+            {
+                int time = relojCarga.getElapsedTime().asSeconds();      // OBTENEMOS SU DURACION EN SEGUNDOS
+               // cout<<time<<endl;
+                if(time>2)
+                {
+                    //cout<<"entroTIme"<<endl;
+                    if(loading==true)
+                    {
+                        loading = false;
+                    }
+                    else
+                    {
+                        loading = true;
+                    }
+                    cont = 0;
+                }
+            }
+        }
 
     }
 
     if(estado==2) // Jugando 
     {
+        //cout<<nivel<<endl;
         if(prota->checkVida()==false) // Prota muerto hay que reiniciar el nivel
         {
             muerteProta();
         }
 
+      
         controlCambioNivel();  // Para comprobar si hay que cambiar de nivel o no
+
 
     	//pasos de las fisicas en el mundo
     	world.Step(1/60.f, 8, 3);
@@ -558,11 +588,13 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
 
                 case 2:
                 {
+                    cam->setPosicion(vec3(58.7,5000*posopc,-29));
                     break;
                 }
 
                 case 3:
                 {
+                    cam->setPosicion(vec3(58.7,5000*posopc,-29));
                     break;
                 }
             }
@@ -1067,8 +1099,32 @@ void Mundo::controlCambioNivel()
     {
         if(prota->getPosition()->getPosY()<salidaNivel->getPosY()+10 && prota->getPosition()->getPosY()>salidaNivel->getPosY()-10)
         {
-            estado = 4;
-            //cambiarNivel();
+            //cout<<"entroControl"<<endl;
+
+            //estado = 4;
+
+           /* if(nivel==1)
+            {
+                carga->setPantallaCarga(2); // Tiene que ser el del siguiente nivel, no en el que estamos
+            }
+            else
+            {
+                if(nivel==2)
+                {
+                    carga->setPantallaCarga(3);
+                }
+                else
+                {
+                    //carga->setPantallaCarga(3);
+                }
+            } */
+
+            if(nivel<MAX_NIVEL)  // Comprobamos que hay un nivel mas al que pasar
+            {
+                nivel = nivel +1;
+            }
+
+            cambiarNivel();
         }
     }
 
@@ -1092,49 +1148,69 @@ void Mundo::muerteProta()
 /* Funcion para hacer el cambio de nivel cuando sea correspondiente */
 void Mundo::cambiarNivel()
 {
-    if(nivel<MAX_NIVEL || prota->checkVida()==false) // No cambiar nivel si no hay mas o no queremos cambiar de nivel. SOlo reset si prota muerto
+    //cout<<"entroCoño"<<endl;
+    if(nivel<MAX_NIVEL) // No cambiar nivel si no hay mas o no queremos cambiar de nivel. SOlo reset si prota muerto
     {
-        if(nivel<MAX_NIVEL)  // Comprobamos que hay un nivel mas al que pasar
-        {
-            nivel = nivel +1;
-        }
-        
+        //cout<<"entro"<<endl;
         borradoNivel();     // Para borrar todo lo que hay en el nivel
 
         cargarLogicaNivel(); // Volvemos a hacer la lectura del xml para cargar toda la logica del nuevo nivel
+
+        cargado = true;
     }
 }
 
 /* Funcion para hacer toda la carga que falte y sea necesaria para el nivel en el que nos encontremos */
 void Mundo::cargaNivel()
 {
-    /* CREAMOS PROTA */
-    prota = new Protagonista();
-    addGameObject(prota);
+    switch(nivel)
+    {
+        case 1:
+        {
+            /* CREAMOS PROTA */
+            prota = new Protagonista();
+            addGameObject(prota);
 
-    /* Lectura del XML para la logica del juego */
-    cargarLogicaNivel();
+            /* Lectura del XML para la logica del juego */
+            cargarLogicaNivel();
 
-    /* Pasamos toda la info necesaria a la blackboard */
-    b->setProtagonista(prota);
+            /* Pasamos toda la info necesaria a la blackboard */
+            b->setProtagonista(prota);
 
-    /* Creacion del HUD */
-    Posicion poshud(-40.5f,-5001.5f,.5f);
-    hud = new Hud(&poshud);
+            /* Creacion del HUD */
+            Posicion poshud(-40.5f,-5001.5f,.5f);
+            hud = new Hud(&poshud);
 
-    /* Carga de sonidos */
-    reverbCueva = sonido->create3DReverb();
-    reverbCueva->setAtributos3D(0.0f,0.0f,0.0f, 10.0f, 2000.0f);
-    reverbCueva->setTipo(sonido->REVERB_CUEVA);
-    musicaBosque = sonido->createMusic(sonido->SOUND_MUSIC_BOSQUE);
+            /* Carga de sonidos */
+            reverbCueva = sonido->create3DReverb();
+            reverbCueva->setAtributos3D(0.0f,0.0f,0.0f, 10.0f, 2000.0f);
+            reverbCueva->setTipo(sonido->REVERB_CUEVA);
+            musicaBosque = sonido->createMusic(sonido->SOUND_MUSIC_BOSQUE);
 
-    /* Carga de todas las animaciones */
-    prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/marcha5/marcha5.txt", prota->getNode(), 2));
-    prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/saltoadelante/saltoadelante.txt", prota->getNode(),3));
-    prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/correr/correr.txt", prota->getNode(),4));
-  // prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/saltocarrera/saltocarrera.txt", prota->getNode(),5));
-    //prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/salto/salto.txt", prota->getNode(),6));
-    prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/Prueba/prueba", prota->getNode(), 1));
+            /* Carga de todas las animaciones */
+            prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/marcha5/marcha5.txt", prota->getNode(), 2));
+            prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/saltoadelante/saltoadelante.txt", prota->getNode(),3));
+            prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/correr/correr.txt", prota->getNode(),4));
+            prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/saltocarrera/saltocarrera.txt", prota->getNode(),5));
+            prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/salto/salto.txt", prota->getNode(),6));
+            prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/Prueba/prueba", prota->getNode(), 1));
+
+            break;
+        }
+
+        case 2: 
+        {   
+            cambiarNivel();
+            break;
+        }
+
+        case 3:
+        {
+            cambiarNivel();
+            break;
+        }
+    }
+
 
 
     cargado = true;

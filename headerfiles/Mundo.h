@@ -107,10 +107,12 @@ class Mundo : public Entorno
 
         // Datos gestion del nivel
         int nivel;                     // Nivel en el que nos encontramos
-        const int MAX_NIVEL=3;          // Maximo numero de niveles en el juego
+        int nivelAnterior;
+        const int MAX_NIVEL=4;          // Maximo numero de niveles en el juego
         Posicion* salidaNivel;
         bool cargado;
         bool loading = false;
+        bool pasarLevel3 = false;
 
     	//BLACKBOARD
     	Blackboard *b;
@@ -166,6 +168,8 @@ class Mundo : public Entorno
         Pausa* pausa;
         Opciones* opciones;
         PantallaCarga* carga;
+        sf::Clock relojCarga;
+        int cont = 0;
 
 };
 

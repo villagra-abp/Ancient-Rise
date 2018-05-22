@@ -19,6 +19,21 @@ PantallaCarga::PantallaCarga(Posicion* pos): cargaLevel1(nullptr), cargaLevel2(n
         
 	}
 
+	if (cargaLevel2)
+	{
+        Posicion escala(0.13f,.24f,0.1f);
+		fachada->setScala(cargaLevel2,&escala);
+        fachada->rotObj(cargaLevel2,1,0,0, 1.5f);
+	}
+
+	if (cargaLevel3)
+	{
+        Posicion escala(0.13f,.24f,0.1f);
+		fachada->setScala(cargaLevel3,&escala);
+        fachada->rotObj(cargaLevel3,1,0,0, 1.5f);
+        
+	}
+
     estado = 4;
     pantallaCarga = 1;
 
