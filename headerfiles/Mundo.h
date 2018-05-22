@@ -103,7 +103,6 @@ class Mundo : public Entorno
         vector<Bebida*> bebidas;
         vector<Trampa*> trampas;
         vector<Palanca*> palancas;
-        vector<Puerta*> puertas;
 
         // Datos gestion del nivel
         int nivel;                     // Nivel en el que nos encontramos

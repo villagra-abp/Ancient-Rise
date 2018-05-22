@@ -353,9 +353,9 @@ void Protagonista::comprobarColision(Objeto *comida)
     float comidaPosX=comida->getPosition()->getPosX();
     float comidaPosY=comida->getPosition()->getPosY();
     
-    if(protaPosY<comidaPosY+10 && protaPosY>comidaPosY-10)
+    if(protaPosY<comidaPosY+12 && protaPosY>comidaPosY-12)
     {
-        if(protaPosX>comidaPosX-5 && protaPosX<comidaPosX+5)
+        if(protaPosX>comidaPosX-3 && protaPosX<comidaPosX+3)
         {
             if(vida<VIDA_MAXIMA) // Solo lo recogemos si nos falta vida
             {
@@ -384,9 +384,9 @@ void Protagonista::comprobarColision(Bebida *bebida)
     float protaPosX=protaPosition->getPosX();
     float protaPosY=protaPosition->getPosY();
 
-    if(protaPosY<bebidaPosY+15 && protaPosY>bebidaPosY-15)
+    if(protaPosY<bebidaPosY+12 && protaPosY>bebidaPosY-12)
     {
-        if(protaPosX>bebidaPosX-5 && protaPosX<bebidaPosX+5)
+        if(protaPosX>bebidaPosX-3 && protaPosX<bebidaPosX+3)
         {
             if(energia<ENERGIA_MAXIMA)
             {

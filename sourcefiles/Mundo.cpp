@@ -960,9 +960,9 @@ void Mundo::cargarLogicaNivel()
                             case 2: // Puerta para salir del nivel
                             {
                                 salidaNivel = new Posicion(xEn-190,-yEn+58,0.f);
-                                Puerta *p = new Puerta(salidaNivel);
+                                /*Puerta *p = new Puerta(salidaNivel);
                                 puertas.push_back(p);
-                                addGameObject(p);
+                                addGameObject(p);*/
                                 break;
                             }
                         }
@@ -1269,12 +1269,6 @@ void Mundo::borradoNivel()
     }
     palancas.clear();
 
-    for (size_t cont=0; cont<puertas.size();cont++)
-    {
-        delete puertas[cont];
-    }
-    puertas.clear();
-
     delete posA;
     delete posF;
     delete posB;
@@ -1356,12 +1350,6 @@ Mundo::~Mundo()	//DESTRUCTOR
         delete palancas[cont];
     }
     palancas.clear();
-
-    for (size_t cont=0; cont<puertas.size();cont++)
-    {
-        delete puertas[cont];
-    }
-    puertas.clear();
 
    
 

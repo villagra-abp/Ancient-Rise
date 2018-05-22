@@ -254,8 +254,6 @@ FObjeto* Fachada::addAnimacion(int x, int y, int z, string path, FObjeto* objeto
     {
         objeto->setAnimacion(path);
         objeto->Escalar(vec3(2,2,2));
-        
-        objeto->setPosicion(vec3(x,y,z));
 
         num_animacion = num;
 
