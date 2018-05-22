@@ -48,6 +48,8 @@ public:
     bool setMaterialFlag(void * nodo,bool b);
     bool setMaterial(void * nodo,std::string ruta);
     void setBounding(bool flag);
+    void activarPalanca(bool b);
+    bool getPalancaActiva();
     
 	void setNombreVentana(std::string text);
 	void setNombreVentana(wchar_t* text);
@@ -105,6 +107,7 @@ private:
     sf::Clock reloj; 
         
     bool bounding;
+    bool activaPalanca=false;
 
     /* Animaciones */
     int num_animacion;  // Indica que animacion se esta realizando

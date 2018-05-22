@@ -84,6 +84,7 @@ class Mundo : public Entorno
         int estado=0;
         int PosFlecha=3;
         bool pintaHud=false;
+        bool abrirPuerta=false;
 
     	//PROTAGONISTA
     	Protagonista*  prota;
