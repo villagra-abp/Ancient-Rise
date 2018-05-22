@@ -22,6 +22,7 @@
 #include "../headerfiles/Hud.h"
 #include "../headerfiles/Opciones.h"
 #include "../headerfiles/PantallaCarga.h"
+#include "../headerfiles/Muerte.h"
 #include <tinyxml.h>
 
 #include "../motorsonido/headerfiles/GestorSonido.h"
@@ -103,6 +104,7 @@ class Mundo : public Entorno
         vector<Bebida*> bebidas;
         vector<Trampa*> trampas;
         vector<Palanca*> palancas;
+        vector<Puerta*> puertas;
 
         // Datos gestion del nivel
         int nivel;                     // Nivel en el que nos encontramos
@@ -164,6 +166,7 @@ class Mundo : public Entorno
         Pausa* pausa;
         Opciones* opciones;
         PantallaCarga* carga;
+        Muerte* muerte;
         sf::Clock relojCarga;
         int cont = 0;
 
