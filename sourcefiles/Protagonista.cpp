@@ -43,13 +43,37 @@ protaPosition(nullptr), enemigoPosition(nullptr), comidaPosition(nullptr), tramp
     combate = false;
     pos_combate = 2; 
 
+    //SONIDOS
     sonido = GestorSonido::getInstance();
-
     nani = sonido->create2DSound(sonido->SOUND_BOSS3_NANI);
     omae = sonido->create2DSound(sonido->SOUND_BOSS3_OMAE);
-    grito = sonido->create2DSound(sonido->SOUND_BOSS3_GRITO1);
-    risa = sonido->create3DSound(sonido->SOUND_BOSS3_RISA);
-    
+//    grito = sonido->create2DSound(sonido->SOUND_BOSS3_GRITO1);
+//    risa = sonido->create3DSound(sonido->SOUND_BOSS3_RISA);
+    Sonido* aux;
+    //Ataque
+    aux = sonido->create2DSound(sonido->SOUND_PROTA_ATAQUE1);
+    ataqueS.push_back(aux);
+    aux = sonido->create2DSound(sonido->SOUND_PROTA_ATAQUE2);
+    ataqueS.push_back(aux);
+    aux = sonido->create2DSound(sonido->SOUND_PROTA_ATAQUE3);
+    ataqueS.push_back(aux);
+    //Dolor
+    aux = sonido->create2DSound(sonido->SOUND_PROTA_DOLOR1);
+    dolor.push_back(aux);
+    aux = sonido->create2DSound(sonido->SOUND_PROTA_DOLOR2);
+    dolor.push_back(aux);
+    aux = sonido->create2DSound(sonido->SOUND_PROTA_DOLOR3);
+    dolor.push_back(aux);
+    //Muerte
+    aux = sonido->create2DSound(sonido->SOUND_PROTA_MUERTE1);
+    muerte.push_back(aux);
+    aux = sonido->create2DSound(sonido->SOUND_PROTA_MUERTE2);
+    muerte.push_back(aux);
+    //Otros
+    comer = sonido->create2DSound(sonido->SOUND_PROTA_COMER); 
+    beber = sonido->create2DSound(sonido->SOUND_PROTA_BEBER); 
+    pasos = sonido->create2DSound(sonido->SOUND_PROTA_PASOS);
+    corte = sonido->create2DSound(sonido->SOUND_AMBIENT_CORTECARNE);
     protaPosition=fachada->getPosicion(rec);
 
     /* Animaciones */
@@ -181,9 +205,10 @@ FUNCION PARA CONTROLAR EL ATAQUE DEL PROTA
 **/
 void Protagonista::ataque(EnemigoBasico* e)
 {
-
+    sonido->playRandomSound(ataqueS);
     if(pos_combate != e->getPosCombate() || e->getCombate()!=true)
     {
+        sonido->playSound(corte);
         e->setSalud(-20.f);
     }
     
@@ -318,6 +343,7 @@ void Protagonista::comprobarColision(Objeto *comida)
                 }
 
                 comida->setRecogido(true);
+                sonido->playSound(comer);
             }
         }
     }
@@ -347,6 +373,7 @@ void Protagonista::comprobarColision(Bebida *bebida)
                 }
 
                 bebida->setRecogido(true);
+                sonido->playSound(beber);
             }
         }
     }

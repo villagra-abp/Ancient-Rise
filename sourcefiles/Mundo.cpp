@@ -169,7 +169,7 @@ void Mundo::update()
         }
 
         /*UPDATE DE SONIDO*/
-        sonido->playSound(musicaBosque);
+        sonido->playSound(musicaNivel1);
         sonido->update();
         sonido->setListener(prota->getPosition()->getPosX(), prota->getPosition()->getPosY(), prota->getPosition()->getPosZ());
     }
@@ -1172,26 +1172,30 @@ void Mundo::cargaNivel()
     reloj.restart();
 
     /* CREAMOS PROTA */
+    cout<<"ok"<<endl;
     prota = new Protagonista();
     addGameObject(prota);
 
     /* Lectura del XML para la logica del juego */
+    cout<<"nooo"<<endl;
     cargarLogicaNivel();
-
+    cout<<"mno"<<endl;
     /* Pasamos toda la info necesaria a la blackboard */
     b->setProtagonista(prota);
 
-
+    cout<<"k"<<endl;
     /* Creacion del HUD */
     Posicion poshud(-40.5f,-5001.5f,.5f);
     hud = new Hud(&poshud);
 
     /* Carga de sonidos */
+    cout<<"nosense"<<endl;
     reverbCueva = sonido->create3DReverb();
     reverbCueva->setAtributos3D(0.0f,0.0f,0.0f, 10.0f, 2000.0f);
     reverbCueva->setTipo(sonido->REVERB_CUEVA);
-    musicaBosque = sonido->createMusic(sonido->SOUND_MUSIC_BOSQUE);
-
+    cout<<"why"<<endl;
+    musicaNivel1 = sonido->createMusic(sonido->SOUND_MUSIC_NIVEL1);
+    cout<<"mmm"<<endl;
     /* Carga de todas las animaciones */
     prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/marcha5/marcha5.txt", prota->getNode(), 2));
     prota->setNode(fachada->addAnimacion(0, 0, 30, "resources/Animaciones/saltoadelante/saltoadelante.txt", prota->getNode(),3));

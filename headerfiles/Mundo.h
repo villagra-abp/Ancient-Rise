@@ -147,7 +147,7 @@ class Mundo : public Entorno
         //SONIDO
         GestorSonido* sonido;
         Reverb* reverbCueva;
-        Sonido* musicaBosque;
+        Sonido* musicaNivel1;
 
         //MANJEO DE GAME OBJECTS
         GameObjects gos;

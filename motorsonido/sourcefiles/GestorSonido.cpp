@@ -204,6 +204,23 @@ bool GestorSonido::playSound(Sonido* sonido){
 //	}
 }
 
+bool GestorSonido::playRandomSound(vector<Sonido*> lista){
+	bool resultado = false;
+	bool sonando = false;
+
+	for(int i = 0; i < lista.size() && sonando == false; i++){
+		if(lista[i]->getCanal() != NULL)
+			result = lista[i]->getCanal()->getCanal()->isPlaying(&sonando);
+	}
+
+	if(!sonando){
+		int v1 = rand() % lista.size();
+		resultado = playSound(lista[v1]);
+	}
+
+	return resultado;
+}
+
 void GestorSonido::update(){
 	system->update();
 }
