@@ -1,9 +1,8 @@
 #ifndef PAUSA_H
 #define PAUSA_H
 
-#include "../headerfiles/Objeto.h"
-
-
+#include "../headerfiles/Posicion.h"
+#include "../headerfiles/Fachada.h"
 
 class Pausa
 {

@@ -1,47 +1,32 @@
 #include "../headerfiles/Mundo.h"
 
 Mundo::Mundo():prota(nullptr),b(nullptr),enem1(nullptr),enemE1(nullptr), cam(nullptr),posA(nullptr), posF(nullptr), p1(nullptr),
-p0(nullptr), posC(nullptr), posB(nullptr), posT(nullptr), salidaNivel(nullptr), posP(nullptr)	//CONSTRUCTOR
+p0(nullptr), posC(nullptr), posB(nullptr), posT(nullptr), salidaNivel(nullptr), posP(nullptr), menu(nullptr), pausa(nullptr),
+hud(nullptr), opciones(nullptr), carga(nullptr), protaPosition(nullptr)	//CONSTRUCTOR
 {
     Fachada* fachada=fachada->getInstance();
 
     nivel = 1; 
+    nivelAnterior = 0 ;
+
+    cargado = false;
 
     /*CREAMOS GESTOR DE SONIDO*/
     sonido = GestorSonido::getInstance();
-    reverbCueva = sonido->create3DReverb();
-    reverbCueva->setAtributos3D(0.0f,0.0f,0.0f, 10.0f, 2000.0f);
-    reverbCueva->setTipo(sonido->REVERB_CUEVA);
-    musicaBosque = sonido->createMusic(sonido->SOUND_MUSIC_BOSQUE);
-
-    /* CREAMOS PROTA */
-    prota = new Protagonista();
-    addGameObject(prota);
 
     /* CREAMOS LA BLACKBOARD */
     b=new Blackboard();
-
-    /* Lectura del XML para la logica del juego */
-    cargarNivel();
-
-    //cout<<"Tam enemigos Basicos: "<<enemB.size()<<endl;
-    //cout<<"Tam nodos : "<<nodos.size()<<endl;
-    //cout<<"Tam fuentes : "<<fuentes.size()<<endl;
-
-    /* Pasamos toda la info necesaria a la blackboard */
-    b->setProtagonista(prota);
 
     /** ESTABLECEMOS LA CAMARA
      Aqui indicamos la posicion de la camara en el espacio 3d. En este caso,
      esta mirando desde la posicion (0, 30, -40) a la (0, 5, 0) donde es
      aproximadamente donde esta el objeto.
     **/
-    Posicion* camaraPos = new Posicion(prota->getPosition()->getPosX(),50,-140);
+    Posicion* camaraPos = new Posicion(-100,50,-140);
         
     cam = fachada->addCamara(camaraPos);
-    	//device->getCursorControl()->setVisible(true);
 
-     /* AÑADIMOS UNA LUZ */   
+    /* AÑADIMOS UNA LUZ */   
     Posicion* luzPos=camaraPos;
     fachada->addLuz(luzPos);
     Posicion* dir = new Posicion(0,-1,-1);
@@ -59,121 +44,176 @@ p0(nullptr), posC(nullptr), posB(nullptr), posT(nullptr), salidaNivel(nullptr), 
     pathsSkybox.push_back("resources/skybox/skybox_4.tga");
     fachada->addSkybox(pathsSkybox);
 
-
     /** TIME AND FRAMES
      Para poder hacer un movimiento independiente del framerate, tenemos que saber
      cuanto ha pasado desde el ultimo frame
     **/
     lastFPS = -1;
-
-        
+      
     Posicion posmenu(.5f,-5000.f,.5f);
     menu = new Menu(&posmenu);
 
     Posicion pospausa(-20.5f,-5000.f,.5f);
     pausa = new Pausa(&pospausa);
         
-    Posicion poshud(-40.5f,-5001.5f,.5f);
-    hud = new Hud(&poshud);
-    
     Posicion posOpc(-30.f,-5000.f,.5f);
     opciones = new Opciones(&posOpc);
 
+    Posicion posCarga(-40.f,-5000.f,.5f);
+    carga = new PantallaCarga(&posCarga);
 }	
 
 void Mundo::update()
 {
-    if(prota->checkVida()==false) // Prota muerto
-    {
-        cambiarNivel();
+    if(estado==4)  // Estado de pantalla de carga
+    {   
+        //cout<<"NIvel :"<<nivel<<endl;
+        //cout<<"Pantalla "<<carga->getPantallaCarga()<<endl;
+        if(cont==0 && loading==false) // Reset del reloj de carga
+        {
+            //cout<<"entro"<<endl;
+            relojCarga.restart();
+            cont = 1;
+        }
+
+        carga->update();
+
+        if(cargado==false && loading==true)
+        {
+            //cout<<"Cargando "<<endl;
+            cargaNivel(); // Carga del nivel 
+            estado = 2;
+            cargado = false;
+        }
+
+        /* Comprobamos que pantalla de carga es */
+        if(carga->getPantallaCarga()==1)
+        {
+            if(loading==true)
+            {
+                loading = false;
+            }
+            else
+            {
+                loading = true;
+            }
+
+            cont = 0;
+        }
+        else
+        {
+            if(carga->getPantallaCarga()==2 || carga->getPantallaCarga()==3)
+            {
+                int time = relojCarga.getElapsedTime().asSeconds();      // OBTENEMOS SU DURACION EN SEGUNDOS
+               // cout<<time<<endl;
+                if(time>2)
+                {
+                    //cout<<"entroTIme"<<endl;
+                    if(loading==true)
+                    {
+                        loading = false;
+                    }
+                    else
+                    {
+                        loading = true;
+                    }
+                    cont = 0;
+                }
+            }
+        }
+
     }
 
-    controlCambioNivel();  // Para comprobar si hay que cambiar de nivel o no
+    if(estado==2) // Jugando 
+    {
+        //cout<<nivel<<endl;
+        if(prota->checkVida()==false) // Prota muerto hay que reiniciar el nivel
+        {
+            muerteProta();
+        }
 
-	//pasos de las fisicas en el mundo
-	world.Step(1/60.f, 8, 3);
-	//reinicio las fuerzas en el mundo
-	world.ClearForces();
+      
+        controlCambioNivel();  // Para comprobar si hay que cambiar de nivel o no
 
 
-	/* Creamos el framedeltatime */
-	float frameDeltaTime = fachada->getTime(); // Time in seconds
+    	//pasos de las fisicas en el mundo
+    	world.Step(1/60.f, 8, 3);
+    	//reinicio las fuerzas en el mundo
+    	world.ClearForces();
 
-	Posicion* protaPosition = prota->getPosition();
+    	/* Creamos el framedeltatime */
+    	float frameDeltaTime = fachada->getTime(); // Time in seconds
 
-	/* PROTA UPDATE */
-    protaUpdate(frameDeltaTime);
+    	Posicion* protaPosition = prota->getPosition();
+
+    	/* PROTA UPDATE */
+        protaUpdate(frameDeltaTime);
+        /*HUD UPDATE*/
+        hud->update(prota->getVida(),prota->getEnergia());
         
-    /*HUD UPDATE*/
-    hud->update(prota->getVida(),prota->getEnergia());
-    
-	/* CAM UPDATE*/
-    camUpdate(frameDeltaTime);
+    	/* CAM UPDATE*/
+        camUpdate(frameDeltaTime);
 
-    b->setTime(frameDeltaTime);
-    b->setProta(protaPosition->getPosX());
+        b->setTime(frameDeltaTime);
+        b->setProta(protaPosition->getPosX());
 
-
-    /* UPDATE DE LOS OBJETOS */
-    for(size_t i=0; i<alarmas.size();i++)
-    {
-        alarmas[i]->update();
-    }
-
-    for(size_t i=0; i<bebidas.size();i++)
-    {
-        if(bebidas[i]->getNode()!=nullptr)
+        /* UPDATE DE LOS OBJETOS */
+        for(size_t i=0; i<alarmas.size();i++)
         {
-            prota->comprobarColision(bebidas[i]);
-            bebidas[i]->update();
+            alarmas[i]->update();
         }
-    }
 
-    for(size_t i=0; i<comidas.size();i++)
-    {
-        if(comidas[i]->getNode()!=nullptr)
+        for(size_t i=0; i<bebidas.size();i++)
         {
-            prota->comprobarColision(comidas[i]);
-            comidas[i]->update();
+            if(bebidas[i]->getNode()!=nullptr)
+            {
+                prota->comprobarColision(bebidas[i]);
+                bebidas[i]->update();
+            }
         }
-    }
 
-    for(size_t i=0; i<trampas.size();i++)
-    {
-        if(trampas[i]->getNode()!=nullptr)
+        for(size_t i=0; i<comidas.size();i++)
         {
-            prota->comprobarColision(trampas[i]);
-            trampas[i]->update();
+            if(comidas[i]->getNode()!=nullptr)
+            {
+                prota->comprobarColision(comidas[i]);
+                comidas[i]->update();
+            }
         }
-    }
 
-    if(estado==2)
-    {
+        for(size_t i=0; i<trampas.size();i++)
+        {
+            if(trampas[i]->getNode()!=nullptr)
+            {
+                prota->comprobarColision(trampas[i]);
+                trampas[i]->update();
+            }
+        }
         //Comprueba las entradas del teclado
         checkInput(-1);
 
         /* UPDATE DE LOS ENEMIGOS */
         for(size_t i=0; i<enemB.size();i++)   		// Enemigos Basicos
         {
-        	if(enemB[i]->getNode()!=nullptr) 	// Solo si existen hacemos su update
-        	{
-    	       	enemB[i]->updateTiempo(frameDeltaTime);
-    	     	enemB[i]->Update(prota->getPosition());
-    	    }
+            if(enemB[i]->getNode()!=nullptr) 	// Solo si existen hacemos su update
+            {
+        	   enemB[i]->updateTiempo(frameDeltaTime);
+        	   enemB[i]->Update(prota->getPosition());
+        	}
         }
 
         for(int i2=0; i2<enemE.size();i2++) 	// Enemigos Elites
         {
-        	if(enemE[i2]->getNode()!=nullptr)
-        	{
-    	    	enemE[i2]->updateTiempo(frameDeltaTime);
-    	     	enemE[i2]->Update(prota->getPosition());
-    	    }
+            if(enemE[i2]->getNode()!=nullptr)
+            {
+        	    enemE[i2]->updateTiempo(frameDeltaTime);
+        	   enemE[i2]->Update(prota->getPosition());
+        	}
         }
         /*UPDATE DE SONIDO*/
-        sonido->playSound(musicaBosque);
+        sonido->playSound(musicaNivel1);
         sonido->update();
-    	sonido->setListener(prota->getPosition()->getPosX(), prota->getPosition()->getPosY(), prota->getPosition()->getPosZ());
+        sonido->setListener(prota->getPosition()->getPosX(), prota->getPosition()->getPosY(), prota->getPosition()->getPosZ());
     }
 
 }
@@ -181,8 +221,6 @@ void Mundo::update()
 void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
 {
 	Tiempo=Tiempo+frameDeltaTime;
-    
-	energiaAnterior = prota->getEnergia();
 
     prota->updateBody(world);
 
@@ -202,23 +240,15 @@ void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
             
     }
 
-    if(prota->getCombate()==false)
-    {
-    	//prota->checkSigilo(prota);  						// Comprobamos si hemos pulsado la tecla de sigilo (C)
-    }
-
     /* Velocidad Barra de Energia */
-    energiaActual = prota->getEnergia();
-    energiaDelta = energiaActual - energiaAnterior;
-
-    if(energiaDelta < 0){
+    if(prota->getCorrer() || prota->getSalto()){
     	relojDescanso.restart();
     }
 
     tiempoTrans = relojDescanso.getElapsedTime().asSeconds();
-    
-    if(tiempoTrans > 0.8f)	
-    	prota->setEnergia(5,frameDeltaTime);  //CAMBIO 5 a 15
+    //cout<<tiempoTrans<<endl;
+    if(tiempoTrans > 2.f)	
+    	prota->setEnergia(15,frameDeltaTime);  //CAMBIO 5 a 15
     else
     	prota->setEnergia(2, frameDeltaTime);
 
@@ -263,7 +293,7 @@ void Mundo::checkInput(int tecla){
                 int estm=menu->getEstado();
                 if(estm==3)
                 {
-                    estado=2;
+                    estado=4;
                     opciones->setJuego(true);
                 }
                 if(estm==2)
@@ -295,22 +325,22 @@ void Mundo::checkInput(int tecla){
         }
         case 71: 		//izquierda
         {
-            if(estado==4){
+            if(estado==3){
                 if(opciones->getEstado()==5)
-                    opciones->update(0,false,opciones->getShadow());
+                    opciones->update(0,true,opciones->getShadow());
                 if(opciones->getEstado()==4)
-                    opciones->update(0,opciones->getSound(),false);
+                    opciones->update(0,opciones->getSound(),true);
             }
             
             break;
         }
         case 72: 		//derecha
         {
-            if(estado==4){
+            if(estado==3){
                 if(opciones->getEstado()==5)
-                    opciones->update(0,true,opciones->getShadow());
+                    opciones->update(0,false,opciones->getShadow());
                 if(opciones->getEstado()==4)
-                    opciones->update(0,opciones->getSound(),true);
+                    opciones->update(0,opciones->getSound(),false);
             }
             
             break;
@@ -342,7 +372,7 @@ void Mundo::checkInput(int tecla){
             break;
         }
 
-        case 14:                        //O    -   Cambiamos el modo de visualizacion de bounding boxes
+        case 14:      //O    -   Cambiamos el modo de visualizacion de bounding boxes
         {
             if(fachada->getBounding())
                 fachada->setBounding(false);
@@ -352,62 +382,84 @@ void Mundo::checkInput(int tecla){
         }
 
         case 15:    // TECLA P - Realizar ataque
-
         {
-            if(prota->getCombate() && prota->getTiempoAtaque()>=0.5)
+            if(estado==2)
             {
-                prota->setAtaque(true);
+                if(prota->getCombate() && prota->getTiempoAtaque()>=0.5)
+                {
+                    prota->setAtaque(true);
+                }
             }
             break;
         }
-    }
+    } // END SWITCH
+
+    if(estado==2)  // Solo si estamos dentro del juego
+    {
+        controlProta();
+    }   
+}
+
+/* Funcion para controlar las teclas que permiten al jugador mover al protagonista */
+void Mundo::controlProta()
+{
 
     if(prota->getCombate()==false || prota->getTiempoAtaque()<0.5)
     {
         prota->setAtaque(false);
     }
-        
-	if(sf::Joystick::isConnected(0)){
-		JoyY=sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
-		JoyX=sf::Joystick::getAxisPosition(0, sf::Joystick::X);
-		////std::cout<<JoyX<<"\n";
-	}
-        /* movimiento hacia los lados y control de la velocidad en funcion de
-        las variables de correr, sigilo y vitalidad */
+            
+    if(sf::Joystick::isConnected(0)){
+        JoyY=sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
+        JoyX=sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+            ////std::cout<<JoyX<<"\n";
+    }
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)||JoyX<=-50)//A
+    /* movimiento hacia los lados y control de la velocidad en funcion de
+    las variables de correr, sigilo y vitalidad */
+
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)||JoyX<=-50)//A
+    {
+        prota->setDireccion(0);
+        prota->movimiento(0.1f);
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)||sf::Joystick::isButtonPressed(0, 5))
         {
-            prota->setDireccion(0);
-            prota->movimiento(0.1f);
-    		if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)||sf::Joystick::isButtonPressed(0, 5))
-    		{
-                prota->setCorrer(true);
-      		    prota->setEnergia(-2.f,0.2f);
-    		}else
-		  prota->setCorrer(false);
-        }
-
-        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)||JoyX>=50){//D
+            prota->setCorrer(true);
+            prota->setEnergia(-1.5f,0.2f);
+        }else
+        prota->setCorrer(false);
+    }
+    else 
+    {
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)||JoyX>=50) //D
+        {
 
             prota->setDireccion(1);
             prota->movimiento(0.1f);
-    		if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)||sf::Joystick::isButtonPressed(0, 5))
-    		{
-		  prota->setCorrer(true);
-          prota->setEnergia(-2.f,0.2f);
-      		  
-    		}else
-		  prota->setCorrer(false);
+
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)||sf::Joystick::isButtonPressed(0, 5))
+            {
+                prota->setCorrer(true);
+                prota->setEnergia(-1.5f,0.2f);
+                      
+            }else
+                prota->setCorrer(false);
         }
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)||sf::Joystick::isButtonPressed(0, 0)){
-        	prota->setSalto(true);
-    	}else
-		prota->setSalto(false);
-        
+        else // REPOSO
+        {
+            prota->setDireccion(2);
+        }
+    }
+
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)||sf::Joystick::isButtonPressed(0, 0))
+    {
+        prota->setSalto(true);
+    }
+            
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)||JoyY>=50)//W
     {
         prota->setPosCombate(1);
-        
+            
     }
     else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)||JoyY<=-50)
     {
@@ -415,6 +467,7 @@ void Mundo::checkInput(int tecla){
     }
     else
         prota->setPosCombate(2);
+
 }
 /* Funcion para activar/desactivar el combate y atacar */
 void Mundo::checkCombate()
@@ -437,68 +490,104 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
     int posm=menu->getEstado();
     int posp=pausa->getEstado();
     int posopc=opciones->getEstado();
-    Posicion* protaPosition = prota->getPosition();
-	vec3 posCam = cam->getPosicion();
-    b2Vec2 velo=prota->getBody()->GetLinearVelocity();
-    //cout<<velo.x<<endl;
-    //prueba zoom camara
-    
-    if(estado==3){  ///Opciones
-        cam->setPosicion(vec3(30,5000*posopc,-20));
+    if(estado==2)
+    {
+        protaPosition = prota->getPosition();
+        velo=prota->getBody()->GetLinearVelocity();
     }
-    if(estado==2){  ///Juego
-        if(pintaHud){
-            cam->setPosicion(vec3(40,5000,-20));
+
+    vec3 posCam = cam->getPosicion();
+   
+   switch(estado)  // La camara se mueve en funcion en que estado del juego estemos
+   {
+        case 0:  // MENU PRINCIPAL
+        {
+            cam->setPosicion(vec3(0,5000*posm,-20));
+            break;
         }
-        else if(velo.x>60){
-            for(float i=-115;i>-120;i-=frameDeltaTime*0.001f){
-                cam->setPosicion(vec3(-protaPosition->getPosX()-5,-protaPosition->getPosY()-25,i)); 
-            }
-            //cam->setPosicion(vec3(-protaPosition->getPosX(),-protaPosition->getPosY()-25,-120)); 
+
+        case 1: // PAUSA
+        {
+            cam->setPosicion(vec3(20,5000*posp,-20));
+            break;
         }
-        else{
-            cam->Rotar(vec3(0,1,0), -0.25);
-            for(float i=-120;i<-115;i+=frameDeltaTime*0.001f){
-                cam->setPosicion(vec3(-protaPosition->getPosX()-5,-protaPosition->getPosY()-25,i)); 
-            }
-            cam->Rotar(vec3(0,1,0), 0.25f);
-        }
-            
-    
-    
-    }
-    if(estado==1){  ///Pausa
-        /*
-        vec3 posCam=cam->getPosicion();
-        posCam.x=20;
-        posCam.z=-120;
-        posCam.y=0;
-        //std::cout<<posCam.y<<endl;
-        
-      
-            while(posCam.y<5000*(posp))
+
+        case 2: // JUGANDO
+        {
+            if(pintaHud)
             {
-                //std::cout<<posCam.y<<endl;
-                //posCam.y=5000*posp;
-                posCam.y+=5*frameDeltaTime;
-                //posCam.z+=0.1*frameDeltaTime;
-                cam->setPosicion(posCam);
-                //cam->Rotar(vec3(0,1,0), 3.0f);
+                //cam->setRotacion(vec3(0,1,0), 0.f);
+                cam->setPosicion(vec3(40,5000,-20));
             }
-            while(posCam.z<-20){
-                posCam.z+=0.01f*frameDeltaTime;
-                cam->setPosicion(posCam);
+            else 
+            {
+                /*
+                if(prota->getDireccion()==0){
+                    cam->setRotacion(vec3(0,1,0), -0.10f);
+                }
+                else
+                {
+                    cam->setRotacion(vec3(0,1,0), 0.15f);
+                }
+                */
+                if(velo.x>30||velo.x<-30)
+                {
+                    if(velo.x>30)
+                    {
+                    velo.x=-velo.x;
+                    }
+                    for(float i=-115;i>(-112+(velo.x/5));i-=frameDeltaTime*0.001f)
+                    {
+                        
+                            cam->setPosicion(vec3(-protaPosition->getPosX()-5,-protaPosition->getPosY()-25,i)); 
+                        
+                    }
+                }
+                else{
+                    
+                        for(float i=-120;i<-115;i+=frameDeltaTime*0.001f)
+                        {
+                            cam->setPosicion(vec3(-protaPosition->getPosX()-5,-protaPosition->getPosY()-25,i)); 
+                        }
+                    }
+            }  
+            break;
+        }
+
+        case 3: // OPCIONES
+        {
+            cam->setPosicion(vec3(30,5000*posopc,-20));
+            break;
+        }
+
+        case 4: // PANTALLA DE CARGA
+        {
+            switch(carga->getPantallaCarga())
+            {
+                case 1:
+                {
+                    cam->setPosicion(vec3(58.7,5000*posopc,-23.5));
+                    break;
+                }
+
+                case 2:
+                {
+                    cam->setPosicion(vec3(58.7,5000*posopc,-29));
+                    break;
+                }
+
+                case 3:
+                {
+                    cam->setPosicion(vec3(58.7,5000*posopc,-29));
+                    break;
+                }
             }
-            
-        */
-        cam->setPosicion(vec3(20,5000*posp,-20));
-         
-        
-    }
-    if(estado==0){  ///Menu
-        cam->setPosicion(vec3(0,5000*posm,-20));
-        //cam->Rotar(vec3(0,1,0), 3.0f);
-    }
+
+            break;
+        }
+
+   } // END SWITCH
+    
 }
 
 void Mundo::fpsControl(){
@@ -556,10 +645,9 @@ int Mundo::getEstado(){
 
 
 /* Funcion para hacer la lectura de la logica de los niveles a partir de un xml */ 
-void Mundo::cargarNivel()
+void Mundo::cargarLogicaNivel()
 {
     TiXmlDocument doc;
-
 
      switch(nivel){
 
@@ -577,8 +665,13 @@ void Mundo::cargarNivel()
             Terreno = fachada->drawTerreno(2);
            break;
         }
+        case 3:
+        {
+            doc.TiXmlDocument::LoadFile("resources/Niveles/nivel4.xml",TIXML_ENCODING_UTF8);
+            Terreno = fachada->drawTerreno(3);
+           break;
+        }
     }
-
     //OBTENER ELEMENTO MAPA
     TiXmlElement* map = doc.FirstChildElement("map");
 
@@ -826,7 +919,7 @@ void Mundo::cargarNivel()
                         {   
                             case 1: // Agua
                             {
-                                posB= new Posicion(xEn-190,-yEn+59,0.f);
+                                posB= new Posicion(xEn-190,-yEn+57,-5.f);
                                 Bebida *bebida = new Bebida(posB);
                                 bebidas.push_back(bebida);
                                 addGameObject(bebida);
@@ -835,7 +928,7 @@ void Mundo::cargarNivel()
 
                             case 2: // Comida
                             {
-                                posC= new Posicion(xEn-190,-yEn+59,0.f);
+                                posC= new Posicion(xEn-190,-yEn+57,-5.f);
                                 Comida *comida = new Comida(posC);
                                 comidas.push_back(comida);
                                 addGameObject(comida);
@@ -857,7 +950,7 @@ void Mundo::cargarNivel()
                         {   
                             case 1: // Palanca para abrir puerta
                             {
-                                posP = new Posicion(xEn-190,-yEn+59,0.f);
+                                posP = new Posicion(xEn-190,-yEn+57,0.f);
                                 Palanca* pal = new Palanca(posP);
                                 palancas.push_back(pal);
                                 addGameObject(pal);
@@ -866,7 +959,7 @@ void Mundo::cargarNivel()
 
                             case 2: // Puerta para salir del nivel
                             {
-                                salidaNivel = new Posicion(xEn-190,-yEn+59,0.f);
+                                salidaNivel = new Posicion(xEn-190,-yEn+58,0.f);
                                 Puerta *p = new Puerta(salidaNivel);
                                 puertas.push_back(p);
                                 addGameObject(p);
@@ -889,7 +982,7 @@ void Mundo::cargarNivel()
 
                     if(strcmp(grupo2->FirstAttribute()->Value(),"alarmas")==0)
                     {
-                        posA= new Posicion(xEn-190,-yEn+59,0.f);
+                        posA= new Posicion(xEn-190,-yEn+57,-15.f);
 
                         Alarma* alarm = new Alarma( posA);
                         alarmas.push_back(alarm);
@@ -900,7 +993,7 @@ void Mundo::cargarNivel()
 
                     if(strcmp(grupo2->FirstAttribute()->Value(),"fuentes")==0)
                     {
-                        posF= new Posicion(xEn-190,-yEn+59,0.f);
+                        posF= new Posicion(xEn-190,-yEn+57,-10.f);
 
                         Fuente* fuente = new Fuente(posF);
                         fuentes.push_back(fuente);
@@ -922,7 +1015,7 @@ void Mundo::cargarNivel()
 
                             case 2: // Trampa pinchos
                             {
-                                posT= new Posicion(xEn-190,-yEn+59,0.f);
+                                posT= new Posicion(xEn-190,-yEn+57,0.f);
                                 Trampa *trampa = new Trampa(posT);
                                 trampas.push_back(trampa);
                                 addGameObject(trampa);
@@ -983,132 +1076,215 @@ void Mundo::cargarNivel()
 
 }    
 
+/* FUncion para controlar cuando cambiar de nivel */
 void Mundo::controlCambioNivel()
 {
     if(prota->getPosition()->getPosX()>=salidaNivel->getPosX())
     {
         if(prota->getPosition()->getPosY()<salidaNivel->getPosY()+10 && prota->getPosition()->getPosY()>salidaNivel->getPosY()-10)
         {
+            //cout<<"entroControl"<<endl;
+
+            //estado = 4;
+
+           /* if(nivel==1)
+            {
+                carga->setPantallaCarga(2); // Tiene que ser el del siguiente nivel, no en el que estamos
+            }
+            else
+            {
+                if(nivel==2)
+                {
+                    carga->setPantallaCarga(3);
+                }
+                else
+                {
+                    //carga->setPantallaCarga(3);
+                }
+            } */
+
+            if(nivel<MAX_NIVEL)  // Comprobamos que hay un nivel mas al que pasar
+            {
+                nivel = nivel +1;
+            }
+
             cambiarNivel();
         }
     }
+
 }
 
-/* Funcion para hacer el cambio de nivel cuando se llegue al final */
+/* Funcion para resetear el nivel cuando el prota muera */
+void Mundo::muerteProta()
+{
+    /* REseteamos la vida y energia del prota y lo ponemos al principio del nivel en el que se encuentre */
+    prota->setEnergy(100);
+    prota->setLife(100);
+
+    borradoNivel();     // Para borrar todo lo que hay en el nivel
+
+    cargarLogicaNivel(); // Volvemos a hacer la lectura del xml para cargar toda la logica del nuevo nivel
+
+    b->setProtagonista(prota);
+
+}
+
+/* Funcion para hacer el cambio de nivel cuando sea correspondiente */
 void Mundo::cambiarNivel()
 {
-    if(nivel<MAX_NIVEL || prota->checkVida()==false) // No cambiar nivel si no hay mas o no queremos cambiar de nivel. SOlo reset si prota muerto
+    //cout<<"entroCoño"<<endl;
+    if(nivel<MAX_NIVEL) // No cambiar nivel si no hay mas o no queremos cambiar de nivel. SOlo reset si prota muerto
     {
-        if(nivel<MAX_NIVEL && prota->checkVida())  // Solo si el jugador esta vivo cuando entramos aqui es cuando queremos cambair de nivel
+        //cout<<"entro"<<endl;
+        borradoNivel();     // Para borrar todo lo que hay en el nivel
+
+        cargarLogicaNivel(); // Volvemos a hacer la lectura del xml para cargar toda la logica del nuevo nivel
+
+        cargado = true;
+    }
+}
+
+/* Funcion para hacer toda la carga que falte y sea necesaria para el nivel en el que nos encontremos */
+void Mundo::cargaNivel()
+{
+    switch(nivel)
+    {
+        case 1:
         {
-            nivel = nivel +1;
-        }
-
-        fachada->destruirBodies();
-
-        fachada->destruirObjeto(Terreno);
-        
-
-        /* DELETE DEL GRAFO PROVISIONAL */
-        for(size_t cont3=0; cont3<nodos.size();cont3++)
-        {
-            delete nodos[cont3];
-        }
-        nodos.clear();
-
-        for(size_t cont4=0; cont4<aristas.size();cont4++)
-        {
-            delete aristas[cont4];
-        }
-        aristas.clear();
-
-        /* DELETE DE LOS OBJETOS DEL MAPA */
-        for (size_t cont=0; cont<alarmas.size();cont++)
-        {
-            delete alarmas[cont];
-        }
-        alarmas.clear();
-
-        for (size_t cont=0; cont<fuentes.size();cont++)
-        {
-            delete fuentes[cont];
-        }
-        fuentes.clear();
-
-        for (size_t cont=0; cont<comidas.size();cont++)
-        {
-            delete comidas[cont];
-        }
-        comidas.clear();
-
-        for (size_t cont=0; cont<bebidas.size();cont++)
-        {
-            delete bebidas[cont];
-        }
-        bebidas.clear();
-
-        for (size_t cont=0; cont<trampas.size();cont++)
-        {
-            delete trampas[cont];
-        }
-        trampas.clear();
-
-        for(size_t cont=0; cont<enemB.size();cont++)
-        {
-            
-            delete enemB[cont];
-        }
-        enemB.clear();
-
-        for(size_t cont2=0; cont2<enemE.size();cont2++)
-        {
-            delete enemE[cont2];
-        }
-        enemE.clear();
-
-        for (size_t cont=0; cont<palancas.size();cont++)
-        {
-            delete palancas[cont];
-        }
-        palancas.clear();
-
-        for (size_t cont=0; cont<puertas.size();cont++)
-        {
-            delete puertas[cont];
-        }
-        puertas.clear();
-
-        delete posA;
-        delete posF;
-        delete posB;
-        delete posC;
-        delete posT;
-        delete posP;
-        delete p0;
-        delete p1;
-
-        gos.clear();
-
-        if(prota->checkVida()==false) // SI prota muerto lo volvemos a crear 
-        {
-            delete prota;
-
+            /* CREAMOS PROTA */
             prota = new Protagonista();
+            addGameObject(prota);
+
+            /* Lectura del XML para la logica del juego */
+            cargarLogicaNivel();
+
+            /* Pasamos toda la info necesaria a la blackboard */
+            b->setProtagonista(prota);
+
+            /* Creacion del HUD */
+            Posicion poshud(-40.5f,-5001.5f,.5f);
+            hud = new Hud(&poshud);
+
+            /* Carga de sonidos */
+            reverbCueva = sonido->create3DReverb();
+            reverbCueva->setAtributos3D(0.0f,0.0f,0.0f, 10.0f, 2000.0f);
+            reverbCueva->setTipo(sonido->REVERB_CUEVA);
+            musicaNivel1 = sonido->createMusic(sonido->SOUND_MUSIC_NIVEL1);
+
+            /* Carga de todas las animaciones */
+            prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/marcha5/marcha5.txt", prota->getNode(), 2));
+            prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/saltoadelante/saltoadelante.txt", prota->getNode(),3));
+            prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/correr/correr.txt", prota->getNode(),4));
+            prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/saltocarrera/saltocarrera.txt", prota->getNode(),5));
+            prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/reposo1/reposo1.txt", prota->getNode(),7));
+
+            break;
         }
 
-        b->setEnemB(enemB);
-        b->setAlarma(alarmas);
-        b->setFuente(fuentes);
-        b->setNodosGrafo(nodos);
+        case 2: 
+        {   
+            cambiarNivel();
+            break;
+        }
 
-        cargarNivel(); // Volvemos a hacer la lectura del xml para cargar toda la logica del nuevo nivel
-
-        if(prota->checkVida()==false)
+        case 3:
         {
-            b->setProtagonista(prota);
+            cambiarNivel();
+            break;
         }
     }
 
+
+
+    cargado = true;
+}
+
+void Mundo::borradoNivel()
+{
+    fachada->destruirBodies();              // Se destruyen todos los bodies del nivel en el que estabamos
+
+    fachada->destruirObjeto(Terreno);       // Se borra todo el terreno
+        
+
+    /* DELETE DEL GRAFO PROVISIONAL */
+    for(size_t cont3=0; cont3<nodos.size();cont3++)
+    {
+        delete nodos[cont3];
+    }
+    nodos.clear();
+
+    for(size_t cont4=0; cont4<aristas.size();cont4++)
+    {
+        delete aristas[cont4];
+    }
+    aristas.clear();
+
+    /* DELETE DE LOS OBJETOS DEL MAPA */
+    for (size_t cont=0; cont<alarmas.size();cont++)
+    {
+        delete alarmas[cont];
+    }
+    alarmas.clear();
+
+    for (size_t cont=0; cont<fuentes.size();cont++)
+    {
+        delete fuentes[cont];
+    }
+    fuentes.clear();
+
+    for (size_t cont=0; cont<comidas.size();cont++)
+    {
+        delete comidas[cont];
+    }
+    comidas.clear();
+
+    for (size_t cont=0; cont<bebidas.size();cont++)
+    {
+        delete bebidas[cont];
+    }
+    bebidas.clear();
+
+    for (size_t cont=0; cont<trampas.size();cont++)
+    {
+        delete trampas[cont];
+    }
+    trampas.clear();
+
+    for(size_t cont=0; cont<enemB.size();cont++)
+    {
+            
+        delete enemB[cont];
+    }
+    enemB.clear();
+
+    for(size_t cont2=0; cont2<enemE.size();cont2++)
+    {
+        delete enemE[cont2];
+    }
+    enemE.clear();
+
+    for (size_t cont=0; cont<palancas.size();cont++)
+    {
+        delete palancas[cont];
+    }
+    palancas.clear();
+
+    for (size_t cont=0; cont<puertas.size();cont++)
+    {
+        delete puertas[cont];
+    }
+    puertas.clear();
+
+    delete posA;
+    delete posF;
+    delete posB;
+    delete posC;
+    delete posT;
+    delete posP;
+    delete p0;
+    delete p1;
+
+    gos.clear();
 
 }
 
@@ -1198,5 +1374,12 @@ Mundo::~Mundo()	//DESTRUCTOR
     delete p0;
     delete p1;
     delete salidaNivel;
+
+    delete menu;
+    delete pausa;
+    delete opciones;
+    delete hud;
+    delete carga;
+    delete sonido;
     
 }

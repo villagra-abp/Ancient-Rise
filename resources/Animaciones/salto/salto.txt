@@ -1,0 +1,4 @@
+resources/Animaciones/salto/salto_000
+76
+78
+1.27

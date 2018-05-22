@@ -15,7 +15,7 @@ Fuente::Fuente(Posicion* pos):Objeto(pos)
 	if (objeto)
 	{
         
-        Posicion escala(0.2f,0.2f,0.2f);
+        Posicion escala(0.2f,0.4f,0.2f);
 		fachada->setScala(objeto,&escala);
 		fachada->rotObj(obObeto, 0, 1, 0, 90);
 		fachada->movObj(obObeto, 0, -2, 0);

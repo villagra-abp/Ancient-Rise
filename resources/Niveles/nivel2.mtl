@@ -1,7 +1,21 @@
 # 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
-# File Created: 18.04.2018 17:25:36
+# File Created: 22.05.2018 16:15:52
 
-newmtl 02___Default
+newmtl 08___Default
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka Niveles/Texturas/rock_cave_0030_01_preview.jpg
+	map_Kd Niveles/Texturas/rock_cave_0030_01_preview.jpg
+
+newmtl 07___Default
 	Ns 10.0000
 	Ni 1.5000
 	d 1.0000
@@ -12,8 +26,108 @@ newmtl 02___Default
 	Kd 0.5882 0.5882 0.5882
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka pared2.jpg
-	map_Kd pared2.jpg
+	map_Ka Niveles/Texturas/wood-3156545_1920.jpg
+	map_Kd Niveles/Texturas/wood-3156545_1920.jpg
+
+newmtl Trunk
+	Ns 25.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.1000 0.1000 0.1000
+	Kd 0.6706 0.5451 0.3490
+	Ks 0.0450 0.0450 0.0450
+	Ke 0.0000 0.0000 0.0000
+
+newmtl Frond0
+	Ns 25.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.1000 0.1000 0.1000
+	Kd 0.6706 0.5451 0.3490
+	Ks 0.0450 0.0450 0.0450
+	Ke 0.0000 0.0000 0.0000
+
+newmtl Frond1
+	Ns 25.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.1000 0.1000 0.1000
+	Kd 0.0000 0.3882 0.0000
+	Ks 0.0450 0.0450 0.0450
+	Ke 0.0000 0.0000 0.0000
+
+newmtl ExpiredFrond0
+	Ns 25.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.1000 0.1000 0.1000
+	Kd 0.4118 0.2235 0.0196
+	Ks 0.0450 0.0450 0.0450
+	Ke 0.0000 0.0000 0.0000
+
+newmtl ExpiredFrond1
+	Ns 25.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.1000 0.1000 0.1000
+	Kd 0.4118 0.2235 0.0196
+	Ks 0.0450 0.0450 0.0450
+	Ke 0.0000 0.0000 0.0000
+
+newmtl 13___Default
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka Niveles/Texturas/rock_cave_0026_01_preview.jpg
+	map_Kd Niveles/Texturas/rock_cave_0026_01_preview.jpg
+
+newmtl 21___Default
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0000 0.0000 0.0000
+	Kd 0.0000 0.0000 0.0000
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+
+newmtl 03___Default
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka Niveles/Texturas/stone-707172_1920.jpg
+	map_Kd Niveles/Texturas/stone-707172_1920.jpg
 
 newmtl 01___Default
 	Ns 10.0000
@@ -22,7 +136,7 @@ newmtl 01___Default
 	Tr 0.0000
 	Tf 1.0000 1.0000 1.0000 
 	illum 2
-	Ka 0.0784 0.0863 0.1059
-	Kd 0.0784 0.0863 0.1059
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000

@@ -10,7 +10,7 @@ Palanca::Palanca(Posicion* pos):Objeto(pos)
 	objeto = fachada->addMalla(pos->getPosX(),pos->getPosY(),pos->getPosZ(), "resources/Palanca/Palanca1.obj");
 	if (objeto)
 	{
-        Posicion escala(0.3f,0.3f,0.3f);
+        Posicion escala(0.2f,0.3f,0.3f);
         fachada->rotObj(objeto, 0, 1, 0, -90);
 		fachada->setScala(objeto,&escala);
 

@@ -1,0 +1,4 @@
+resources/Animaciones/saltocarrera/saltocarrera_000
+55
+68
+2.27 

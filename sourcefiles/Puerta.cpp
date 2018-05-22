@@ -10,7 +10,7 @@ Puerta::Puerta(Posicion* pos):Objeto(pos)
 	objeto = fachada->addMalla(pos->getPosX(),pos->getPosY(),pos->getPosZ(), "resources/Puerta/puerta.obj");
 	if (objeto)
 	{
-        Posicion escala(1.f,1.f,1.f);
+        Posicion escala(0.5f,1.f,1.f);
 		fachada->setScala(objeto,&escala);
 
 	}

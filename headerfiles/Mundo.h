@@ -21,20 +21,10 @@
 #include "../headerfiles/Pausa.h"
 #include "../headerfiles/Hud.h"
 #include "../headerfiles/Opciones.h"
+#include "../headerfiles/PantallaCarga.h"
 #include <tinyxml.h>
 
 #include "../motorsonido/headerfiles/GestorSonido.h"
-
-/*
-Estos son los 5 sub namespace del motor de Irrlicht
-
-1º irr::core--> En este podemos encontrar las clases basicas como vectores, planos, arrays, listas y demas
-2º irr::gui--> Contiene clases utiles para la facil creacion de una interfaz grafica de usuario
-3º irr::io-->  Proporciona interfaces para la entrada/salida. Lectura y escritura de ficheros, acceso a ficheros zip, ficheros xml..
-4º irr::scene--> Se encuentra toda la gestion de la escena
-5º irr::video--> Contiene clases para acceder al driver del video. Todo el rendererizado 3d o 2d se realiza aqui
-*/
-
 
 
 class Mundo : public Entorno
@@ -69,8 +59,12 @@ class Mundo : public Entorno
         
         void CambioEstado(int n);
         int getEstado();
-        void cargarNivel();
+        void cargarLogicaNivel();
         void controlCambioNivel();
+        void cargaNivel();
+        void controlProta();
+        void muerteProta();
+        void borradoNivel();
         
         
 
@@ -92,6 +86,8 @@ class Mundo : public Entorno
 
     	//PROTAGONISTA
     	Protagonista*  prota;
+        Posicion* protaPosition;
+        b2Vec2 velo;
     	
     	//POSICIONES ENEMIGOS
     	patrulla pos;	//Vector de posiciones para los enemigos
@@ -111,8 +107,12 @@ class Mundo : public Entorno
 
         // Datos gestion del nivel
         int nivel;                     // Nivel en el que nos encontramos
-        const int MAX_NIVEL=2;          // Maximo numero de niveles en el juego
+        int nivelAnterior;
+        const int MAX_NIVEL=4;          // Maximo numero de niveles en el juego
         Posicion* salidaNivel;
+        bool cargado;
+        bool loading = false;
+        bool pasarLevel3 = false;
 
     	//BLACKBOARD
     	Blackboard *b;
@@ -142,22 +142,16 @@ class Mundo : public Entorno
     	b2World world=b2World(gravedad);
 
         //VARIABLES RECUPERACION ENERGIA PROTAGONISTA
-        float energiaAnterior;
-        float energiaActual;
-        float energiaDelta;
         sf::Clock relojDescanso;
         float tiempoTrans;
 
         //SONIDO
         GestorSonido* sonido;
         Reverb* reverbCueva;
-        Sonido* musicaBosque;
+        Sonido* musicaNivel1;
 
         //MANJEO DE GAME OBJECTS
         GameObjects gos;
-
-        //PRUEBAS MOTOR GRAFICO
-        vector<TNodo*> nodosGL;
         
         //VARIABLES JOYSTICK
         float JoyY;
@@ -165,11 +159,15 @@ class Mundo : public Entorno
 
         Fachada* fachada=fachada->getInstance();
         
+        /* Interfaz grafica */
         Hud* hud;
         Menu* menu;
         Pausa* pausa;
         Opciones* opciones;
-    private:
+        PantallaCarga* carga;
+        sf::Clock relojCarga;
+        int cont = 0;
+
 };
 
 #endif // MUNDO_H

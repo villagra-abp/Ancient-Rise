@@ -9,7 +9,7 @@ Alarma::Alarma(Posicion* pos):Objeto(pos)
 
 	if (objeto)
 	{
-        Posicion escala(0.3f,0.3f,0.3f);
+        Posicion escala(0.3f,0.42f,0.3f);
 		fachada->setScala(objeto,&escala);
 	}
 

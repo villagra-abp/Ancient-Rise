@@ -1,6 +1,6 @@
 #include "../headerfiles/Menu.h"
 
-Menu::Menu(Posicion* pos)
+Menu::Menu(Posicion* pos): menu(nullptr), menu2(nullptr), menu3(nullptr)
 {
 	
 	Fachada* fachada=fachada->getInstance();

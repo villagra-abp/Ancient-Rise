@@ -1,0 +1,4 @@
+resources/Animaciones/correr/correr_000
+126
+45
+0.9

@@ -8,12 +8,11 @@ static Protagonista* instance = NULL;
 Protagonista::Protagonista():energy(nullptr), life(nullptr), Body(nullptr), rec(nullptr), flecha0(nullptr), flecha1(nullptr), sonido(nullptr),
 protaPosition(nullptr), enemigoPosition(nullptr), comidaPosition(nullptr), trampaPosition(nullptr), protaObjeto(nullptr)
 {
-    
     GameObject::setTipo(PROTA);
 
     protaObjeto = fachada->crearProta();
 
-    protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/Prueba/prueba", protaObjeto, 1);
+    protaObjeto = fachada->addAnimacion(0, 0,1000, "resources/Animaciones/reposo1/reposo1.txt", protaObjeto, 1);
     rec = protaObjeto;
     
     Posicion escala(2.f,2.f,2.f);
@@ -43,18 +42,44 @@ protaPosition(nullptr), enemigoPosition(nullptr), comidaPosition(nullptr), tramp
     combate = false;
     pos_combate = 2; 
 
+    //SONIDOS
     sonido = GestorSonido::getInstance();
 
-    nani = sonido->create2DSound(sonido->SOUND_BOSS3_NANI);
-    omae = sonido->create2DSound(sonido->SOUND_BOSS3_OMAE);
-    grito = sonido->create2DSound(sonido->SOUND_BOSS3_GRITO1);
-    risa = sonido->create3DSound(sonido->SOUND_BOSS3_RISA);
-    
+    Sonido* aux;
+    //Ataque
+    aux = sonido->create2DSound(sonido->SOUND_PROTA_ATAQUE1);
+    ataqueS.push_back(aux);
+    aux = sonido->create2DSound(sonido->SOUND_PROTA_ATAQUE2);
+    ataqueS.push_back(aux);
+    aux = sonido->create2DSound(sonido->SOUND_PROTA_ATAQUE3);
+    ataqueS.push_back(aux);
+    //Dolor
+    aux = sonido->create2DSound(sonido->SOUND_PROTA_DOLOR1);
+    dolor.push_back(aux);
+    aux = sonido->create2DSound(sonido->SOUND_PROTA_DOLOR2);
+    dolor.push_back(aux);
+    aux = sonido->create2DSound(sonido->SOUND_PROTA_DOLOR3);
+    dolor.push_back(aux);
+    //Muerte
+    aux = sonido->create2DSound(sonido->SOUND_PROTA_MUERTE1);
+    muerte.push_back(aux);
+    aux = sonido->create2DSound(sonido->SOUND_PROTA_MUERTE2);
+    muerte.push_back(aux);
+    //Otros
+    comer = sonido->create2DSound(sonido->SOUND_PROTA_COMER);
+    beber = sonido->create2DSound(sonido->SOUND_PROTA_BEBER);
+    pasos = sonido->create2DSound(sonido->SOUND_PROTA_PASOS);
+    corte = sonido->create2DSound(sonido->SOUND_AMBIENT_CORTECARNE);
     protaPosition=fachada->getPosicion(rec);
 
-    /* Animaciones */
 
+//    pasos->getCanal()->setGrupoCanales(sonido->getGrupoAmbiente());
+
+
+    /* Animaciones */
     cambioAnimacion = false;
+    tipoSalto = 1;
+    resetRelojSalto = 0;
     
 }
 
@@ -85,6 +110,27 @@ void Protagonista::update(Blackboard* b)
             {
                 comprobarColision(enemB[i]);
             }
+        }
+    }
+
+    if(direccion==2)
+    {
+        /* Animacion de estar quieto */
+        protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/reposo1/reposo1.txt", protaObjeto, 1);
+        rec = protaObjeto;
+    }
+
+    if(saltando==true && energia>20)
+    {
+        b2Vec2 velocidad=Body->GetLinearVelocity();
+
+        protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/saltoadelante/saltoadelante.txt", protaObjeto,8);
+        rec = protaObjeto;
+        fachada->setRotObj(protaObjeto, 0, 1, 0, -90); 
+
+        if(velocidad.y<0)
+        {
+            saltando = false;
         }
     }
 }
@@ -175,9 +221,11 @@ FUNCION PARA CONTROLAR EL ATAQUE DEL PROTA
 **/
 void Protagonista::ataque(EnemigoBasico* e)
 {
-
+    sonido->playRandomSound(ataqueS);
     if(pos_combate != e->getPosCombate() || e->getCombate()!=true)
     {
+        bool flag = sonido->playSound(corte);
+        if(flag) corte->getCanal()->setGrupoCanales(sonido->getGrupoAmbiente());
         e->setSalud(-20.f);
     }
     
@@ -196,54 +244,65 @@ void Protagonista::movimiento(const glm::f32 Time)
     b2Vec2 velo=Body->GetLinearVelocity();
     if(direccion==0) // MOVIMIENTO HACIA LA IZQUIERDA
     {
-        if(sigilo==true)
+        if(sigilo==true) // Sigilo
         {
             velo.x=-10.f;
             Body->SetLinearVelocity(velo);
-        }else if(correr==true && velo.y>=-4 && velo.y<4)
+        }else if(correr==true && velo.y>=-4 && velo.y<4) // Corriendo
         {
-            setEnergia(-1.f,0.2f);
+            setEnergia(-0.3f,0.1f);
             Body->ApplyForceToCenter(b2Vec2(-3500.f,0.f),true);
 
-            if(velo.x<-80.f){
-                velo.x=-80.f; 
-                Body->SetLinearVelocity(velo);
-            }
+            /* Animacion de correr */
+            protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/correr/correr.txt", protaObjeto, 4);
+            rec = protaObjeto;
+            fachada->setRotObj(protaObjeto, 0, 1, 0, +90);
+
             
-        }else
+        }else // Andar
         {
-            velo.x=-30.f;
+            /* Animacion de andar */
+            protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/marcha5/marcha5.txt", protaObjeto, 2);
+            rec = protaObjeto;
+            fachada->setRotObj(protaObjeto, 0, 1, 0, +90);
+            velo.x=-25.f;
             Body->SetLinearVelocity(velo);
+            bool flag = sonido->playSound(pasos);
+            if(flag) pasos->getCanal()->setGrupoCanales(sonido->getGrupoAmbiente());
         }
 
     }
-    else        //MOVIMIENTO HACIA LA DERECHA
+    else       
     {
-         if(sigilo==true)
-            {
-                velo.x=10.f;
-                //Body->ApplyForceToCenter(b2Vec2(35.f,0.f),true);
-               Body->SetLinearVelocity(velo);
-            }else if(correr==true && velo.y>=-4 && velo.y<4){
-                setEnergia(-1.f,0.2f);
-                Body->ApplyForceToCenter(b2Vec2(3500.f,0.f),true);
-                if(velo.x>80.f){
-                    velo.x=80.f;  
-                    Body->SetLinearVelocity(velo);
-                    //std::cout<<"velocidad +90"<<endl;
-                }
-                
-            }
-            else{
-                    protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/marcha5/marcha5.txt", protaObjeto, 2);
+        if(direccion==1) //MOVIMIENTO HACIA LA DERECHA
+        {
+             if(sigilo==true)
+                {
+                    velo.x=10.f;
+                    //Body->ApplyForceToCenter(b2Vec2(35.f,0.f),true);
+                   Body->SetLinearVelocity(velo);
+                }else if(correr==true && velo.y>=-4 && velo.y<4){
+                    setEnergia(-0.3f,0.1f);
+                    Body->ApplyForceToCenter(b2Vec2(3500.f,0.f),true);
+
+                    /* Animacion de correr */
+                    protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/correr/correr.txt", protaObjeto, 4);
                     rec = protaObjeto;
                     fachada->setRotObj(protaObjeto, 0, 1, 0, -90);
-                    velo.x=30.f;
-                    //Body->ApplyForceToCenter(b2Vec2(60.f,0.f),true);
-                    Body->SetLinearVelocity(velo);
-            }
-                
-    }  
+
+                    
+                    
+                }
+                else{
+                        protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/marcha5/marcha5.txt", protaObjeto, 2);
+                        rec = protaObjeto;
+                        fachada->setRotObj(protaObjeto, 0, 1, 0, -90);
+                        velo.x=25.f;
+                        //Body->ApplyForceToCenter(b2Vec2(60.f,0.f),true);
+                        Body->SetLinearVelocity(velo);
+                }
+        }
+    }
 
 }
 /**
@@ -307,6 +366,8 @@ void Protagonista::comprobarColision(Objeto *comida)
                 }
 
                 comida->setRecogido(true);
+                bool flag = sonido->playSound(comer);
+                if(flag) comer->getCanal()->setGrupoCanales(sonido->getGrupoAmbiente());
             }
         }
     }
@@ -323,7 +384,7 @@ void Protagonista::comprobarColision(Bebida *bebida)
     float protaPosX=protaPosition->getPosX();
     float protaPosY=protaPosition->getPosY();
 
-    if(protaPosY<bebidaPosY+10 && protaPosY>bebidaPosY-10)
+    if(protaPosY<bebidaPosY+15 && protaPosY>bebidaPosY-15)
     {
         if(protaPosX>bebidaPosX-5 && protaPosX<bebidaPosX+5)
         {
@@ -336,6 +397,8 @@ void Protagonista::comprobarColision(Bebida *bebida)
                 }
 
                 bebida->setRecogido(true);
+                bool flag = sonido->playSound(beber);
+                if(flag) beber->getCanal()->setGrupoCanales(sonido->getGrupoAmbiente());
             }
         }
     }
@@ -357,7 +420,7 @@ void Protagonista::comprobarColision(Trampa *trampa)
     {
         if(protaPosX>tramPosX-5 && protaPosX<tramPosX+5)
         {
-            vida-=0.4f;
+            quitarVida(0.4f);
         }
     }
     
@@ -441,6 +504,16 @@ void Protagonista::setVida(glm::f32 cantidad,const glm::f32 Time)
     }
 
 }
+
+void Protagonista::setLife(glm::f32 cantidad)
+{
+    vida = cantidad;
+}
+
+void Protagonista::setEnergy(glm::f32 cantidad)
+{
+    energia = cantidad;
+}
 /**
 METODO PARA GESTIONAR LA ENERGIA
 **/
@@ -459,31 +532,26 @@ METODO PARA GESTIONAR EL SALTO
 **/
 void Protagonista::setSalto(bool s)
 {
-    bool flag;
-    //sonido->playSound(risa);
+    int aux = -1;
     b2Vec2 velocidad=Body->GetLinearVelocity();
-    //std::cout<<velocidad.y<<"\n";
+
     if(velocidad.y>=-5 && velocidad.y<5 && s && !saltando && !sigilo){
-        flag = sonido->playSound(omae);
-        if(flag){
-            DSP* dsp = sonido->createDSP("echo");
-            omae->getCanal()->addDSP(dsp);
-            omae->getCanal()->setGrupoCanales(sonido->getGrupoVoces());
-        }
+        aux = sonido->playRandomSound(ataqueS);  
+        if(aux != -1)
+            ataqueS[aux]->getCanal()->setGrupoCanales(sonido->getGrupoVoces());
         if(correr && energia>20)
         {   
             Body->ApplyForceToCenter(b2Vec2(0.f,10000000.f),true);
         }else if(energia<20)
         {
-           /* sonido->playSound(grito);
-            grito->getCanal()->setGrupoCanales(sonido->getGrupoVoces());*/
-            Body->ApplyForceToCenter(b2Vec2(0.f,350000.f),true);
+            Body->ApplyForceToCenter(b2Vec2(0.f,35000.f),true);
         }
-        else{
-            Body->ApplyForceToCenter(b2Vec2(0.f,6000000.f),true);    
+        else
+        {
+            Body->ApplyForceToCenter(b2Vec2(0.f,6000000.f),true);  
+          
         }
-        //cont_salto=1;
-        //saltando=s;
+
         setEnergia(1.5f,-10);
     }
     saltando=s;
@@ -548,17 +616,26 @@ void Protagonista::setCombate()
     //std::cout<<combate<<endl;
 }
 
+void Protagonista::setNode(FObjeto* node)
+{
+    protaObjeto = node;
+}
+
 void Protagonista::quitarVida(glm::f32 cantidad)
 {
     vida -=cantidad; 
+    int aux = sonido->playRandomSound(dolor);
+    if(aux != -1)
+            dolor[aux]->getCanal()->setGrupoCanales(sonido->getGrupoVoces());
+
 }
 
 /**
 DEVUELVE EL NODO QUE HEMOS CREADO
 **/
-void* Protagonista::getNode()
+FObjeto* Protagonista::getNode()
 {
-    return rec;
+    return protaObjeto;
 }
 
 bool Protagonista::getCombate()
@@ -589,9 +666,18 @@ bool Protagonista::getCorrer()
     return correr;
 }
 
+bool Protagonista::getSalto()
+{
+    return saltando;
+}
+
 int Protagonista::getPosCombate()
 {
     return pos_combate;
+}
+int Protagonista::getDireccion()
+{
+    return direccion;
 }
 
 int Protagonista::getTiempoAtaque()

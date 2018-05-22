@@ -161,7 +161,15 @@ TRecursoAnimacion* TGestorRecursos::cargarAnimacion(string path){
 	animacion = new TRecursoAnimacion(duracion);
 
 	for(int i = 0; i < numFrames; i++){
-		aux = pathMallas + to_string(orden + i) + ".obj";
+		if(orden+i>=100){
+			aux = pathMallas + to_string(orden + i) + ".obj";
+		}else if(orden+i>=10){
+			aux = pathMallas + '0' + to_string(orden + i) + ".obj";
+		}
+		else{
+			aux = pathMallas + "00" + to_string(orden + i) + ".obj";
+		}
+		
 //		cout<<aux<<endl;
 		malla = getRecursoMalla(aux);
 		animacion->addMalla(malla);

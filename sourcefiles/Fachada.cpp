@@ -220,6 +220,21 @@ FObjeto* Fachada::addMalla(float x,float y,float z,string ruta){
     return malla;
 }
 
+void Fachada::setMalla(void* nodo,string ruta){
+    
+    FObjeto* malla = (FObjeto*)nodo;
+    malla->setMalla(ruta);
+    
+}
+void Fachada::setVolumen(float nivel){
+    GestorSonido* sonido = GestorSonido::getInstance();
+    GrupoCanales* canales=sonido->getMasterGroup();
+    
+    canales->setVolumen(nivel);
+    
+    //std::cout<<canales->getVolumen()<<endl;
+}
+
 FBillboard* Fachada::addBillboard(float x,float y,float z,string ruta){
      FBillboard* malla = new FBillboard();
     
@@ -314,7 +329,7 @@ FObjeto* Fachada::drawTerreno(int nivel){
         {    
            suelo->setMalla("resources/Niveles/nivel2.obj");
            suelo->Escalar(vec3(0.8,0.8,2.5));
-           suelo->Mover(vec3(-103,-7,-35));
+           suelo->Mover(vec3(-103,-7,-50));
            
            break;
         }
@@ -322,8 +337,15 @@ FObjeto* Fachada::drawTerreno(int nivel){
         case 2:
         {
            suelo->setMalla("resources/Niveles/nivel3.obj");
-           suelo->Escalar(vec3(0.733,0.755,1.5));
-           suelo->Mover(vec3(-107,0,-40));
+           suelo->Escalar(vec3(0.8,0.8,2.5));
+           suelo->Mover(vec3(-103,-7,-50));
+           break;
+        }
+        case 3:
+        {
+           suelo->setMalla("resources/Niveles/nivel4.obj");
+           suelo->Escalar(vec3(0.737,0.755,1.5));
+           suelo->Mover(vec3(-107,0,-55));
            break;
         }
     }

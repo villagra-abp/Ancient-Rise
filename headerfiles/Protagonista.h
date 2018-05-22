@@ -20,13 +20,12 @@ class Protagonista : public GameObject
         static Protagonista* getInstance();
         virtual ~Protagonista();
 
-         void* getNode();
+         FObjeto* getNode();
+         void setNode(FObjeto* node);
 
          void salto(const glm::f32 Time);
          void ataque(EnemigoBasico* e);
          void movimiento(const glm::f32 Time);
-         void recuperarEnergia(const glm::f32 Time);
-         void recuperarVida(const glm::f32 Time);
          
          void comprobarColision(EnemigoBasico *e);
          void comprobarColision(Enemigo *e);
@@ -50,13 +49,16 @@ class Protagonista : public GameObject
          bool getSigilo();
          bool getCorrer();
          int getTiempoAtaque();
-
+         int getDireccion();
+         bool getSalto();
          void setSigilo();
          void setCorrer(bool c);
          void setDireccion(int d);
          void setAtaque(bool d);
          void setEnergia(glm::f32 cantidad, const glm::f32 Time);
          void setVida(glm::f32 cantidad, const glm::f32 Time);
+         void setLife(glm::f32 cantidad);
+         void setEnergy(glm::f32 cantidad);
          void updateBody(b2World& world);
          bool checkVida();
 
@@ -86,7 +88,7 @@ class Protagonista : public GameObject
         bool correr;
         bool estaEnSuelo;
         bool estaCayendo;
-        int direccion;      // Para saber la direccion a la que esta mirando el prota (0 --> Izquierda, 1 --> Derecha)
+        int direccion;      // Para saber la direccion a la que esta mirando el prota (0 --> Izquierda, 1 --> Derecha, 2--> Reposo)
         glm::f32 VELOCIDAD_MOVIMIENTO=90.f;
         glm::f32 ENERGIA_MAXIMA=100.f;
         glm::f32 VIDA_MAXIMA=100.f;
@@ -97,8 +99,10 @@ class Protagonista : public GameObject
         Posicion* trampaPosition;
 
         /* Animaciones */
-
         bool cambioAnimacion;
+        int tipoSalto;              // 1 -> Normal, 2 -> Salto corriendo y 3 -> salto adelante
+        sf::Clock tiempoSalto;
+        int resetRelojSalto;
         
         
         /* BOX2D */
@@ -117,10 +121,10 @@ class Protagonista : public GameObject
         
         /* SONIDO */
         GestorSonido* sonido;
-        Sonido* nani;
-        Sonido* omae;
-        Sonido* grito;
-        Sonido* risa;
+        vector<Sonido*> ataqueS;
+        vector<Sonido*> dolor;
+        vector<Sonido*> muerte;
+        Sonido *comer, *beber, *pasos, *corte;
         
         Fachada* fachada=fachada->getInstance();
 

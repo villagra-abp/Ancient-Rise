@@ -5,11 +5,11 @@
 int main()
 {	
 	// Tamaño ventana 
-	int ancho = 1500;
-	int alto = 900;
+//	int ancho = 1500;
+//	int alto = 900;
 
-	//int ancho = 800;
-	//int alto = 600;
+	int ancho = 800;
+	int alto = 600;
 
 
     //Creo la fachada 
@@ -25,11 +25,6 @@ int main()
 	/* CREAMOS MUNDO DEL JUEGO */
 	Mundo* mundo = new Mundo();
     //TMotorTAG* motorgrafico = TMotorTAG::getInstance();
-	
-    sf::RectangleShape rectangle;
-    rectangle.setPosition(400.f,300.f);
-    rectangle.setSize(sf::Vector2f(300,300));
-    rectangle.setFillColor(sf::Color(255, 255, 255));
     
     sf::View fixed = ventana->getView(); // The 'fixed' view will never change
 
@@ -40,7 +35,6 @@ int main()
     minimap.setViewport(sf::FloatRect(1.f-static_cast<float>(minimap.getSize().x)/ventana->getSize().x-0.02f, 1.f-static_cast<float>(minimap.getSize().y)/ventana->getSize().y-0.02f, static_cast<float>(minimap.getSize().x)/ventana->getSize().x, static_cast<float>(minimap.getSize().y)/ventana->getSize().y));
     minimap.zoom(4.f);
 
-   
 	/* BUCLE PRINCIPAL DEL JUEGO */
 	while(ventana->isOpen())
 	{
@@ -51,7 +45,6 @@ int main()
         glClearColor(0.0f,0.2f,0.5f,0.0f);
 		glClearDepth(1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        
 
 		//Evento
 		sf::Event* evento = new sf::Event; 
@@ -87,6 +80,7 @@ int main()
     ventana->display();
 
 	}
+
     delete mundo;
 	delete fachada;
 

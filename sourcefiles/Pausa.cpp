@@ -1,6 +1,6 @@
 #include "../headerfiles/Pausa.h"
 
-Pausa::Pausa(Posicion* pos)
+Pausa::Pausa(Posicion* pos): pausa(nullptr), pausa2(nullptr), pausa3(nullptr)
 {
 	
 	Fachada* fachada=fachada->getInstance();
