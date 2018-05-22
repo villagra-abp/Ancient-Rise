@@ -52,8 +52,8 @@ protaPosition(nullptr), enemigoPosition(nullptr), comidaPosition(nullptr), tramp
     protaPosition=fachada->getPosicion(rec);
 
     /* Animaciones */
-
     cambioAnimacion = false;
+    tipoSalto = 1;
     
 }
 
@@ -89,8 +89,29 @@ void Protagonista::update(Blackboard* b)
 
     if(direccion==2)
     {
+        /* Animacion de estar quieto */
         protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/Prueba/prueba", protaObjeto, 1);
         rec = protaObjeto;
+    }
+
+    if(saltando==true)
+    {
+        if(tipoSalto==1)
+        {
+            protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/salto/salto.txt", protaObjeto,6);
+            rec = protaObjeto;
+            fachada->setRotObj(protaObjeto, 0, 1, 0, -90);
+        }
+        else
+        {
+            if(tipoSalto==2)
+            {
+                cout<<"entro"<<endl;
+                protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/saltocarrera/saltocarrera.txt", protaObjeto,8);
+                rec = protaObjeto;
+                fachada->setRotObj(protaObjeto, 0, 1, 0, -90);
+            }
+        }
     }
 }
 
@@ -207,8 +228,13 @@ void Protagonista::movimiento(const glm::f32 Time)
             Body->SetLinearVelocity(velo);
         }else if(correr==true && velo.y>=-4 && velo.y<4)
         {
-            setEnergia(-1.f,0.2f);
+            setEnergia(-0.3f,0.1f);
             Body->ApplyForceToCenter(b2Vec2(-3500.f,0.f),true);
+
+            /* Animacion de correr */
+            protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/correr/correr.txt", protaObjeto, 4);
+            rec = protaObjeto;
+            fachada->setRotObj(protaObjeto, 0, 1, 0, +90);
 
             if(velo.x<-80.f){
                 velo.x=-80.f; 
@@ -217,6 +243,7 @@ void Protagonista::movimiento(const glm::f32 Time)
             
         }else
         {
+            /* Animacion de andar */
             protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/marcha5/marcha5.txt", protaObjeto, 2);
             rec = protaObjeto;
             fachada->setRotObj(protaObjeto, 0, 1, 0, +90);
@@ -235,8 +262,14 @@ void Protagonista::movimiento(const glm::f32 Time)
                     //Body->ApplyForceToCenter(b2Vec2(35.f,0.f),true);
                    Body->SetLinearVelocity(velo);
                 }else if(correr==true && velo.y>=-4 && velo.y<4){
-                    setEnergia(-1.f,0.2f);
+                    setEnergia(-0.3f,0.1f);
                     Body->ApplyForceToCenter(b2Vec2(3500.f,0.f),true);
+
+                    /* Animacion de correr */
+                    protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/correr/correr.txt", protaObjeto, 4);
+                    rec = protaObjeto;
+                    fachada->setRotObj(protaObjeto, 0, 1, 0, -90);
+
                     if(velo.x>80.f){
                         velo.x=80.f;  
                         Body->SetLinearVelocity(velo);
@@ -480,9 +513,9 @@ METODO PARA GESTIONAR EL SALTO
 void Protagonista::setSalto(bool s)
 {
     bool flag;
-    //sonido->playSound(risa);
+
     b2Vec2 velocidad=Body->GetLinearVelocity();
-    //std::cout<<velocidad.y<<"\n";
+
     if(velocidad.y>=-5 && velocidad.y<5 && s && !saltando && !sigilo){
         flag = sonido->playSound(omae);
         if(flag){
@@ -492,18 +525,19 @@ void Protagonista::setSalto(bool s)
         }
         if(correr && energia>20)
         {   
+            tipoSalto = 2;
             Body->ApplyForceToCenter(b2Vec2(0.f,10000000.f),true);
         }else if(energia<20)
         {
-           /* sonido->playSound(grito);
-            grito->getCanal()->setGrupoCanales(sonido->getGrupoVoces());*/
+            tipoSalto = 3;
             Body->ApplyForceToCenter(b2Vec2(0.f,350000.f),true);
         }
-        else{
+        else
+        {
+            tipoSalto = 1;
             Body->ApplyForceToCenter(b2Vec2(0.f,6000000.f),true);    
         }
-        //cont_salto=1;
-        //saltando=s;
+
         setEnergia(1.5f,-10);
     }
     saltando=s;
@@ -612,6 +646,11 @@ bool Protagonista::getSigilo()
 bool Protagonista::getCorrer()
 {
     return correr;
+}
+
+bool Protagonista::getSalto()
+{
+    return saltando;
 }
 
 int Protagonista::getPosCombate()

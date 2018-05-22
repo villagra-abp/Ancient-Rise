@@ -142,9 +142,6 @@ class Mundo : public Entorno
     	b2World world=b2World(gravedad);
 
         //VARIABLES RECUPERACION ENERGIA PROTAGONISTA
-        float energiaAnterior;
-        float energiaActual;
-        float energiaDelta;
         sf::Clock relojDescanso;
         float tiempoTrans;
 

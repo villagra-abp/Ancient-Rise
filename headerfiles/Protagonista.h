@@ -50,6 +50,7 @@ class Protagonista : public GameObject
          bool getCorrer();
          int getTiempoAtaque();
          int getDireccion();
+         bool getSalto();
          void setSigilo();
          void setCorrer(bool c);
          void setDireccion(int d);
@@ -98,8 +99,8 @@ class Protagonista : public GameObject
         Posicion* trampaPosition;
 
         /* Animaciones */
-
         bool cambioAnimacion;
+        int tipoSalto;              // 1 -> Normal, 2 -> Salto corriendo y 3 -> salto adelante
         
         
         /* BOX2D */

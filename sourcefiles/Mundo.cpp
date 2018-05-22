@@ -221,8 +221,6 @@ void Mundo::update()
 void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
 {
 	Tiempo=Tiempo+frameDeltaTime;
-    
-	energiaAnterior = prota->getEnergia();
 
     prota->updateBody(world);
 
@@ -243,17 +241,14 @@ void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
     }
 
     /* Velocidad Barra de Energia */
-    energiaActual = prota->getEnergia();
-    energiaDelta = energiaActual - energiaAnterior;
-
-    if(energiaDelta < 0){
+    if(prota->getCorrer() || prota->getSalto()){
     	relojDescanso.restart();
     }
 
     tiempoTrans = relojDescanso.getElapsedTime().asSeconds();
-    
-    if(tiempoTrans > 0.8f)	
-    	prota->setEnergia(5,frameDeltaTime);  //CAMBIO 5 a 15
+    //cout<<tiempoTrans<<endl;
+    if(tiempoTrans > 2.f)	
+    	prota->setEnergia(15,frameDeltaTime);  //CAMBIO 5 a 15
     else
     	prota->setEnergia(2, frameDeltaTime);
 
