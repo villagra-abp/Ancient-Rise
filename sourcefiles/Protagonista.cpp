@@ -79,7 +79,6 @@ protaPosition(nullptr), enemigoPosition(nullptr), comidaPosition(nullptr), tramp
     /* Animaciones */
     cambioAnimacion = false;
     tipoSalto = 1;
-    resetRelojSalto = 0;
     
 }
 
@@ -130,7 +129,17 @@ void Protagonista::update(Blackboard* b)
 
         if(velocidad.y<0)
         {
-            saltando = false;
+
+            if(contador==0)
+            {
+                tiempoSalto.restart();
+                contador = contador +1;
+            }
+
+            int time = tiempoSalto.getElapsedTime().asSeconds();  // OBTENEMOS SU DURACION EN SEGUNDOS
+
+              saltando = false;
+        
         }
     }
 }
@@ -262,9 +271,12 @@ void Protagonista::movimiento(const glm::f32 Time)
         }else // Andar
         {
             /* Animacion de andar */
-            protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/marcha5/marcha5.txt", protaObjeto, 2);
-            rec = protaObjeto;
-            fachada->setRotObj(protaObjeto, 0, 1, 0, +90);
+            if(saltando==false)
+            {
+                protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/marcha5/marcha5.txt", protaObjeto, 2);
+                rec = protaObjeto;
+                fachada->setRotObj(protaObjeto, 0, 1, 0, +90);
+            }
             velo.x=-25.f;
             Body->SetLinearVelocity(velo);
             bool flag = sonido->playSound(pasos);
@@ -294,9 +306,13 @@ void Protagonista::movimiento(const glm::f32 Time)
                     
                 }
                 else{
+                    if(saltando==false)
+                    {
                         protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/marcha5/marcha5.txt", protaObjeto, 2);
                         rec = protaObjeto;
                         fachada->setRotObj(protaObjeto, 0, 1, 0, -90);
+                    }
+
                         velo.x=25.f;
                         //Body->ApplyForceToCenter(b2Vec2(60.f,0.f),true);
                         Body->SetLinearVelocity(velo);

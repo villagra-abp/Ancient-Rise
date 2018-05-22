@@ -256,11 +256,6 @@ FObjeto* Fachada::addAnimacion(int x, int y, int z, string path, FObjeto* objeto
         objeto->Escalar(vec3(2,2,2));
 
         num_animacion = num;
-
-       /* if(num_animacion==2)
-        {
-            rotObj(objeto, 0, 1, 0, -90);
-        }*/
     }
     
     return objeto;
