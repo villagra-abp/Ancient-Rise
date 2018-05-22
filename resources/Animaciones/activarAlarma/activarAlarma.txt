@@ -1,0 +1,4 @@
+resources/Animaciones/activarAlarma/activarAlarma_000
+62
+179
+5.9
