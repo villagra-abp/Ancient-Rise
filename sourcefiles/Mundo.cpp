@@ -1177,7 +1177,7 @@ void Mundo::cargaNivel()
             prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/correr/correr.txt", prota->getNode(),4));
             prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/saltocarrera/saltocarrera.txt", prota->getNode(),5));
             prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/salto/salto.txt", prota->getNode(),6));
-            prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/Prueba/prueba", prota->getNode(), 1));
+            prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/reposo1/reposo1.txt", prota->getNode(),6));
 
             break;
         }

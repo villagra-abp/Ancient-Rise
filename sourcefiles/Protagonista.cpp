@@ -12,7 +12,7 @@ protaPosition(nullptr), enemigoPosition(nullptr), comidaPosition(nullptr), tramp
 
     protaObjeto = fachada->crearProta();
 
-    protaObjeto = fachada->addAnimacion(0, 0,1000, "resources/Animaciones/marcha5/marcha5.txt", protaObjeto, 1);
+    protaObjeto = fachada->addAnimacion(0, 0,1000, "resources/Animaciones/reposo1/reposo1.txt", protaObjeto, 1);
     rec = protaObjeto;
     
     Posicion escala(2.f,2.f,2.f);
@@ -91,11 +91,11 @@ void Protagonista::update(Blackboard* b)
     if(direccion==2)
     {
         /* Animacion de estar quieto */
-        protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/Prueba/prueba", protaObjeto, 1);
+        protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/reposo1/reposo1.txt", protaObjeto, 1);
         rec = protaObjeto;
     }
 
-    if(saltando==true)
+    if(saltando==true && energia>20)
     {
         b2Vec2 velocidad=Body->GetLinearVelocity();
 
@@ -353,7 +353,7 @@ void Protagonista::comprobarColision(Bebida *bebida)
     float protaPosX=protaPosition->getPosX();
     float protaPosY=protaPosition->getPosY();
 
-    if(protaPosY<bebidaPosY+10 && protaPosY>bebidaPosY-10)
+    if(protaPosY<bebidaPosY+15 && protaPosY>bebidaPosY-15)
     {
         if(protaPosX>bebidaPosX-5 && protaPosX<bebidaPosX+5)
         {
@@ -513,10 +513,12 @@ void Protagonista::setSalto(bool s)
         if(correr && energia>20)
         {   
             Body->ApplyForceToCenter(b2Vec2(0.f,10000000.f),true);
+        }else if(energia<20)
+        {
+            Body->ApplyForceToCenter(b2Vec2(0.f,35000.f),true);
         }
         else
         {
-            if(energia>20)
             Body->ApplyForceToCenter(b2Vec2(0.f,6000000.f),true);  
           
         }
