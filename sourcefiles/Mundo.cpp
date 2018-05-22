@@ -339,7 +339,9 @@ void Mundo::checkInput(int tecla){
                 if(estp==2)
                 {
                     muerteProta();;   //reinicia nivel
+
                     estado=2;
+
                 }
                 if(estp==1)
                 {
