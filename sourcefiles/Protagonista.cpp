@@ -54,6 +54,7 @@ protaPosition(nullptr), enemigoPosition(nullptr), comidaPosition(nullptr), tramp
     /* Animaciones */
     cambioAnimacion = false;
     tipoSalto = 1;
+    resetRelojSalto = 0;
     
 }
 
@@ -106,7 +107,6 @@ void Protagonista::update(Blackboard* b)
         {
             if(tipoSalto==2)
             {
-                cout<<"entro"<<endl;
                 protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/saltocarrera/saltocarrera.txt", protaObjeto,8);
                 rec = protaObjeto;
                 fachada->setRotObj(protaObjeto, 0, 1, 0, -90);
@@ -222,11 +222,11 @@ void Protagonista::movimiento(const glm::f32 Time)
     b2Vec2 velo=Body->GetLinearVelocity();
     if(direccion==0) // MOVIMIENTO HACIA LA IZQUIERDA
     {
-        if(sigilo==true)
+        if(sigilo==true) // Sigilo
         {
             velo.x=-10.f;
             Body->SetLinearVelocity(velo);
-        }else if(correr==true && velo.y>=-4 && velo.y<4)
+        }else if(correr==true && velo.y>=-4 && velo.y<4) // Corriendo
         {
             setEnergia(-0.3f,0.1f);
             Body->ApplyForceToCenter(b2Vec2(-3500.f,0.f),true);
@@ -236,18 +236,14 @@ void Protagonista::movimiento(const glm::f32 Time)
             rec = protaObjeto;
             fachada->setRotObj(protaObjeto, 0, 1, 0, +90);
 
-            if(velo.x<-80.f){
-                velo.x=-80.f; 
-                Body->SetLinearVelocity(velo);
-            }
             
-        }else
+        }else // Andar
         {
             /* Animacion de andar */
             protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/marcha5/marcha5.txt", protaObjeto, 2);
             rec = protaObjeto;
             fachada->setRotObj(protaObjeto, 0, 1, 0, +90);
-            velo.x=-30.f;
+            velo.x=-25.f;
             Body->SetLinearVelocity(velo);
         }
 
@@ -270,18 +266,14 @@ void Protagonista::movimiento(const glm::f32 Time)
                     rec = protaObjeto;
                     fachada->setRotObj(protaObjeto, 0, 1, 0, -90);
 
-                    if(velo.x>80.f){
-                        velo.x=80.f;  
-                        Body->SetLinearVelocity(velo);
-                        //std::cout<<"velocidad +90"<<endl;
-                    }
+                    
                     
                 }
                 else{
                         protaObjeto = fachada->addAnimacion(0, 0, 30, "resources/Animaciones/marcha5/marcha5.txt", protaObjeto, 2);
                         rec = protaObjeto;
                         fachada->setRotObj(protaObjeto, 0, 1, 0, -90);
-                        velo.x=30.f;
+                        velo.x=25.f;
                         //Body->ApplyForceToCenter(b2Vec2(60.f,0.f),true);
                         Body->SetLinearVelocity(velo);
                 }
@@ -535,7 +527,8 @@ void Protagonista::setSalto(bool s)
         else
         {
             tipoSalto = 1;
-            Body->ApplyForceToCenter(b2Vec2(0.f,6000000.f),true);    
+            Body->ApplyForceToCenter(b2Vec2(0.f,6000000.f),true);  
+          
         }
 
         setEnergia(1.5f,-10);

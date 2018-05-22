@@ -9,7 +9,7 @@ Bebida::Bebida(Posicion* pos):Objeto(pos)
 
 	if (objeto)
 	{
-        Posicion escala(1.0f,1.0f,0.5f);
+        Posicion escala(0.9f,1.7f,0.5f);
 		fachada->setScala(objeto,&escala);
 	}
 

@@ -101,6 +101,8 @@ class Protagonista : public GameObject
         /* Animaciones */
         bool cambioAnimacion;
         int tipoSalto;              // 1 -> Normal, 2 -> Salto corriendo y 3 -> salto adelante
+        sf::Clock tiempoSalto;
+        int resetRelojSalto;
         
         
         /* BOX2D */

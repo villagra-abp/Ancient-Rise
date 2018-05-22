@@ -425,7 +425,7 @@ void Mundo::controlProta()
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)||sf::Joystick::isButtonPressed(0, 5))
         {
             prota->setCorrer(true);
-            prota->setEnergia(-2.f,0.2f);
+            prota->setEnergia(-1.5f,0.2f);
         }else
         prota->setCorrer(false);
     }
@@ -440,7 +440,7 @@ void Mundo::controlProta()
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)||sf::Joystick::isButtonPressed(0, 5))
             {
                 prota->setCorrer(true);
-                prota->setEnergia(-2.f,0.2f);
+                prota->setEnergia(-1.5f,0.2f);
                       
             }else
                 prota->setCorrer(false);
@@ -451,10 +451,14 @@ void Mundo::controlProta()
         }
     }
 
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)||sf::Joystick::isButtonPressed(0, 0)){
-                prota->setSalto(true);
-        }else
-            prota->setSalto(false);
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)||sf::Joystick::isButtonPressed(0, 0))
+    {
+        prota->setSalto(true);
+    }
+    else
+    {
+        prota->setSalto(false);
+    }
             
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)||JoyY>=50)//W
     {
@@ -919,7 +923,7 @@ void Mundo::cargarLogicaNivel()
                         {   
                             case 1: // Agua
                             {
-                                posB= new Posicion(xEn-190,-yEn+57,0.f);
+                                posB= new Posicion(xEn-190,-yEn+57,-5.f);
                                 Bebida *bebida = new Bebida(posB);
                                 bebidas.push_back(bebida);
                                 addGameObject(bebida);
@@ -928,7 +932,7 @@ void Mundo::cargarLogicaNivel()
 
                             case 2: // Comida
                             {
-                                posC= new Posicion(xEn-190,-yEn+57,0.f);
+                                posC= new Posicion(xEn-190,-yEn+57,-5.f);
                                 Comida *comida = new Comida(posC);
                                 comidas.push_back(comida);
                                 addGameObject(comida);
@@ -982,7 +986,7 @@ void Mundo::cargarLogicaNivel()
 
                     if(strcmp(grupo2->FirstAttribute()->Value(),"alarmas")==0)
                     {
-                        posA= new Posicion(xEn-190,-yEn+57,0.f);
+                        posA= new Posicion(xEn-190,-yEn+57,-15.f);
 
                         Alarma* alarm = new Alarma( posA);
                         alarmas.push_back(alarm);
@@ -993,7 +997,7 @@ void Mundo::cargarLogicaNivel()
 
                     if(strcmp(grupo2->FirstAttribute()->Value(),"fuentes")==0)
                     {
-                        posF= new Posicion(xEn-190,-yEn+57,0.f);
+                        posF= new Posicion(xEn-190,-yEn+57,-10.f);
 
                         Fuente* fuente = new Fuente(posF);
                         fuentes.push_back(fuente);

@@ -11,7 +11,7 @@ Comida::Comida(Posicion* pos):Objeto(pos)
 
 	if (objeto)
 	{
-        Posicion escala(1.25f,1.25f,1.25f);
+        Posicion escala(1.5f,1.7f,1.25f);
 		fachada->setScala(objeto,&escala);
 
 	}
