@@ -100,6 +100,7 @@ void Protagonista::update(Blackboard* b)
     timeAtq = relojAtq.getElapsedTime().asSeconds();
     if( ataca == true && timeAtq>=0.5)       // PROTA EN COMBATE Y ATACANDO
     {   
+        /* Animaciones de ataque */
         if(pos_combate==1)
         {
             protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/ataquearriba/ataquearriba.txt", protaObjeto);
@@ -108,7 +109,7 @@ void Protagonista::update(Blackboard* b)
         {
             if(pos_combate==2)
             {
-
+                protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/ataquemedio/ataquemedio.txt", protaObjeto);
             }
             else
             {
