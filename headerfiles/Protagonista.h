@@ -125,7 +125,6 @@ class Protagonista : public GameObject
         GestorSonido* sonido;
         vector<Sonido*> ataqueS;
         vector<Sonido*> dolor;
-        vector<Sonido*> muerte;
         Sonido *comer, *beber, *pasos, *corte;
         
         Fachada* fachada=fachada->getInstance();

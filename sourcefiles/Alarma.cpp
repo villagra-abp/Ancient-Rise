@@ -1,5 +1,7 @@
 #include "../headerfiles/Alarma.h"
 
+static GestorSonido* sonido = nullptr;
+static Sonido* alarmaSound = nullptr;
 
 Alarma::Alarma(Posicion* pos):Objeto(pos)
 {
@@ -16,8 +18,8 @@ Alarma::Alarma(Posicion* pos):Objeto(pos)
 	contador = 0;
 
 	//GESTION SONIDO
-   	sonido = GestorSonido::getInstance();
-   	alarmaSound = sonido->create2DSound(sonido->SOUND_TRAP_ALARM);
+   	if(sonido == nullptr) sonido = GestorSonido::getInstance();
+   	if(alarmaSound == nullptr) alarmaSound = sonido->create2DSound(sonido->SOUND_TRAP_ALARM);
 }
 
 

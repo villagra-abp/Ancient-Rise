@@ -17,6 +17,10 @@ void Canal::addDSP(DSP* dsp){
 	//GestorErrores::getInstance()->errcheck(result);
 }
 
+bool Canal::stop(){
+	canal->stop();
+}
+
 FMOD::Channel* Canal::getCanal(){
 	return canal;
 }

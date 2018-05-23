@@ -27,13 +27,13 @@ hud(nullptr), opciones(nullptr), carga(nullptr), protaPosition(nullptr)	//CONSTR
     cam = fachada->addCamara(camaraPos);
 
     /* AÑADIMOS UNA LUZ */   
-    Posicion* luzPos=camaraPos;
-    fachada->addLuz(luzPos);
+//    Posicion* luzPos=camaraPos;
+//    fachada->addLuz(luzPos);
     Posicion* dir = new Posicion(0,-1,-1);
     fachada->addLuzDireccional(dir);
-    Posicion* d = new Posicion(0,1,0);
-    Posicion* origen = new Posicion(0,65,0);
-    fachada->addLuzDirigida(origen,d);
+//    Posicion* d = new Posicion(0,1,0);
+//    Posicion* origen = new Posicion(0,65,0);
+//    fachada->addLuzDirigida(origen,d);
 
     vector<string> pathsSkybox;
     pathsSkybox.push_back("resources/skybox/skybox_1.tga");
@@ -64,6 +64,10 @@ hud(nullptr), opciones(nullptr), carga(nullptr), protaPosition(nullptr)	//CONSTR
     
     Posicion posMuerte(50.f,-5000.f,.5f);
     muerte = new Muerte(&posMuerte);
+
+    musicaNivel = sonido->createMusic(sonido->SOUND_MUSIC_MENU);
+
+
 }	
 
 void Mundo::update()
@@ -132,6 +136,8 @@ void Mundo::update()
         //cout<<nivel<<endl;
         if(prota->checkVida()==false) // Prota muerto hay que reiniciar el nivel
         {
+            int aux = sonido->playRandomSound(muerteProtaS);
+            if(aux != -1) muerteProtaS[aux]->getCanal()->setGrupoCanales(sonido->getGrupoAmbiente());
             estado=5;   //pantalla de muerte
             //muerteProta();
         }
@@ -223,9 +229,12 @@ void Mundo::update()
         	}
         }
         /*UPDATE DE SONIDO*/
-        sonido->playSound(musicaNivel1);
+        sonido->playSound(musicaNivel);
         sonido->update();
         sonido->setListener(prota->getPosition()->getPosX(), prota->getPosition()->getPosY(), prota->getPosition()->getPosZ());
+    } else {
+        sonido->playSound(musicaNivel);
+        sonido->update();
     }
 
 }
@@ -1129,7 +1138,7 @@ void Mundo::controlCambioNivel()
 {
     if(prota->getPosition()->getPosX()>=salidaNivel->getPosX()&&abrirPuerta)
     {
-        if(prota->getPosition()->getPosY()<salidaNivel->getPosY()+10 && prota->getPosition()->getPosY()>salidaNivel->getPosY()-10)
+        if(prota->getPosition()->getPosY()<salidaNivel->getPosY()+10 && prota->getPosition()->getPosY()>salidaNivel->getPosY()-10 && musicaParada)
         {
             abrirPuerta=false;
             //cout<<"entroControl"<<endl;
@@ -1156,8 +1165,24 @@ void Mundo::controlCambioNivel()
             {
                 nivel = nivel +1;
             }
-
+            musicaParada = false;
             //cambiarNivel();
+        } 
+        else if(prota->getPosition()->getPosY()<salidaNivel->getPosY()+10 && prota->getPosition()->getPosY()>salidaNivel->getPosY()-10 && !musicaParada)
+        {
+            musicaNivel->getCanal()->stop();
+            switch(nivel){
+                case 1:
+                    musicaNivel = sonido->createMusic(sonido->SOUND_MUSIC_NIVEL2);
+                    break;
+                case 2:
+                    musicaNivel = sonido->createMusic(sonido->SOUND_MUSIC_NIVEL3);
+                    break;
+                default:
+                    musicaNivel = sonido->createMusic(sonido->SOUND_MUSIC_NIVEL1);
+                    break;
+            }
+            musicaParada = true;
         }
     }
 
@@ -1186,7 +1211,6 @@ void Mundo::cambiarNivel()
     {
         //cout<<"entro"<<endl;
         borradoNivel();     // Para borrar todo lo que hay en el nivel
-
         cargarLogicaNivel(); // Volvemos a hacer la lectura del xml para cargar toda la logica del nuevo nivel
 
         cargado = true;
@@ -1214,12 +1238,6 @@ void Mundo::cargaNivel()
             Posicion poshud(-40.5f,-5001.5f,.5f);
             hud = new Hud(&poshud);
 
-            /* Carga de sonidos */
-            reverbCueva = sonido->create3DReverb();
-            reverbCueva->setAtributos3D(0.0f,0.0f,0.0f, 10.0f, 2000.0f);
-            reverbCueva->setTipo(sonido->REVERB_CUEVA);
-            musicaNivel1 = sonido->createMusic(sonido->SOUND_MUSIC_NIVEL1);
-
             /* Carga de todas las animaciones */
             prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/marcha5/marcha5.txt", prota->getNode(), 2));
             prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/saltoadelante/saltoadelante.txt", prota->getNode(),3));
@@ -1227,6 +1245,17 @@ void Mundo::cargaNivel()
             prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/saltocarrera/saltocarrera.txt", prota->getNode(),5));
             prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/reposo1/reposo1.txt", prota->getNode(),7));
 
+            /* Carga de sonidos */
+            reverbCueva = sonido->create3DReverb();
+            reverbCueva->setAtributos3D(0.0f,0.0f,0.0f, 10.0f, 2000.0f);
+            reverbCueva->setTipo(sonido->REVERB_CUEVA);
+            musicaNivel->getCanal()->stop();
+            musicaNivel = sonido->createMusic(sonido->SOUND_MUSIC_NIVEL1);
+            Sonido* aux;
+            aux = sonido->create2DSound(sonido->SOUND_PROTA_MUERTE1);
+            muerteProtaS.push_back(aux);
+            aux = sonido->create2DSound(sonido->SOUND_PROTA_MUERTE2);
+            muerteProtaS.push_back(aux);
             break;
         }
 
