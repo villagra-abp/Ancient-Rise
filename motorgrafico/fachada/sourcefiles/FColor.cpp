@@ -15,6 +15,11 @@ ROSA		= FColor(0.73f,	0.56f,	0.56f);
 VIOLETA		= FColor(0.31f,	0.18f,	0.31f);
 ESCARLATA	= FColor(0.55f,	0.09f,	0.09f);
 */
+
+
+//Original
+
+
 FColor::FColor(){
 	color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 }

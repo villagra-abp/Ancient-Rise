@@ -1,5 +1,11 @@
 #include "../headerfiles/rMesh.h"
 
+
+/*
+Clase para la gestion de mallas. Original. Se aprendio sobre mallas y assimp en https://learnopengl.com/Model-Loading/Assimp
+Datos extra en la funcion final.
+*/
+
 Shader *rMesh::shaderText = nullptr;
 Shader *rMesh::shaderNoText = nullptr;
 TRecursoTextura *rMesh::estandar = nullptr;
@@ -22,7 +28,7 @@ rMesh::rMesh(vector<Vertex> vert, vector<unsigned int> ind, vector<TRecursoTextu
 
 
 
-
+//Inspirado en el tutorial mencionado en el comentario superior
 void rMesh::setupMesh(){
 
 	glGenBuffers(1,&VBO);
@@ -56,6 +62,9 @@ void rMesh::setupMesh(){
 	glBindVertexArray(0);
 	
 }
+
+//Por los requerimientos particulares de nuestro juego no necesitamos mas que una luz direccional, de ahi que esten comentadas partes para pasar al 
+//shader datos de luces extra. En la entrega de hasta el 31 de mayo se incluirá un terreno de pruebas que muestre las posibilidades de las luces.
 
 void rMesh::draw(glm::mat4 mmodelo, TDatosEntidad *datos){
 	//glm::mat4 view, glm::mat4 projection, vector<glm::vec4> color, vector<glm::vec3> luzPosicion, glm::vec3 camaraPosicion

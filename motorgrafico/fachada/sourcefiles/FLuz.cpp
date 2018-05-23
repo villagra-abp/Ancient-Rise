@@ -1,5 +1,6 @@
 #include "../headerfiles/FLuz.h"
 
+//ORiginal
 
 FLuz::FLuz(): direccion(0,0,0){																//Luz puntual
 	TLuz* luz = new TLuz();

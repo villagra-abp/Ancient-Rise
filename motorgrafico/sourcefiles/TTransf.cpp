@@ -1,5 +1,7 @@
 #include "../headerfiles/TTransf.h"
 
+//Clase para contener las matrices de transformacion. Original.
+
 TTransf::TTransf(){
 	//Por defecto asignamos matriz identidad a la transformacion
 	matriz = glm::mat4(1.0f); 

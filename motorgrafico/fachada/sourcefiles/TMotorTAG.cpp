@@ -2,6 +2,8 @@
 
 static TMotorTAG* fachadaMotor = nullptr;
 
+//Clase principal de la fachada, centro de la gestion del arbol.
+
 TMotorTAG* TMotorTAG::getInstance(){
 	if(fachadaMotor == nullptr){
 		fachadaMotor = new TMotorTAG();

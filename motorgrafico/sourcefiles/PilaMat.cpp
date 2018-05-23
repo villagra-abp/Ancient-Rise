@@ -1,5 +1,7 @@
 #include "../headerfiles/PilaMat.h"
 
+//Clase para gestionar la pila de matrices
+
 PilaMat::PilaMat(){
 
 	// Matriz identidad como matriz acutal, sera la primera

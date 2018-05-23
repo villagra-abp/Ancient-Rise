@@ -1,5 +1,7 @@
 #include "../headerfiles/TRecursoMalla.h"
 
+//Funcion para la gestion de las mallas y sus datos. Original salvo la ultima funcion. Mas detalles en ella.
+
 Shader *TRecursoMalla::boundingShader= nullptr;
 TRecursoMalla::TRecursoMalla(){
 	if(boundingShader == nullptr) boundingShader = new Shader("motorgrafico/shaders/vertex.vs", "motorgrafico/shaders/bounding.fs");
@@ -40,6 +42,8 @@ string TRecursoMalla::getNombre(){
 string TRecursoMalla::getDirectorio(){
 	return directory;
 }
+
+//Altamente inspirado en el codigo de https://en.wikibooks.org/wiki/OpenGL_Programming/Bounding_box  con modificaciones para adaptarlo al proyecto
 
 void TRecursoMalla::drawBoundingBox(glm::mat4 mmodelo, TDatosEntidad *datos){
 	  // Cube 1x1x1, centered on origin

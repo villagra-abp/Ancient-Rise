@@ -1,5 +1,7 @@
 #include "../headerfiles/TAnimacion.h"
 
+//Clase para la gestion de animaciones. Original.
+
 TAnimacion::TAnimacion(){
 	visible = true;
 	time = 0;

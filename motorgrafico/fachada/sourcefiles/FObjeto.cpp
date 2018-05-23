@@ -1,5 +1,6 @@
 #include "../headerfiles/FObjeto.h"
 
+//Original
 
 FObjeto::FObjeto(){
 	padre = TMotorTAG::getInstance()->getEscena();

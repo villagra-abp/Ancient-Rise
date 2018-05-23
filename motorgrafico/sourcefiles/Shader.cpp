@@ -1,5 +1,10 @@
 #include "../headerfiles/Shader.h"
 
+/*
+Funcion para gestionar shaders desde ficheros. Codigo obtenido de https://learnopengl.com sin modificaciones remarcables mas alla de 
+anyadir  algunas funciones extra para pasar parametros al shader. 
+*/
+
 Shader::Shader(const char* vertexPath, const char* fragmentPath)
 {
     // 1. retrieve the vertex/fragment source code from filePath

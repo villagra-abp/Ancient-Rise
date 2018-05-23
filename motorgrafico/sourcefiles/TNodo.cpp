@@ -1,5 +1,7 @@
 #include "../headerfiles/TNodo.h"
 
+//Clase para la gestion de nodos y estructura de arbol. Original.
+
 TNodo::TNodo():entidad(nullptr),padre(nullptr)
 {
 	encontrado = false;

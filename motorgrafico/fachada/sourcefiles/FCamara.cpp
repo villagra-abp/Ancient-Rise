@@ -1,5 +1,6 @@
 #include "../headerfiles/FCamara.h"
 
+//Original
 
 FCamara::FCamara(){
 	padre = TMotorTAG::getInstance()->getEscena();

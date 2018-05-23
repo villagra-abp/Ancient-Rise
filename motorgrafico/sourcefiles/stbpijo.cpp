@@ -1,5 +1,6 @@
 #include "../headerfiles/stbpijo.h"
 
+//Clase de patron façade para utilizar sin problemas la libreria stb_image
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>

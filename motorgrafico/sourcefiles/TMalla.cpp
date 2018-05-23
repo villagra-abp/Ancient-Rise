@@ -1,5 +1,7 @@
 #include "../headerfiles/TMalla.h"
 
+//Clase para la gestion de las mallas y su dibujado. Original.
+
 TMalla::TMalla(){
 	gestor = TGestorRecursos::getInstance();
 	visible = true;

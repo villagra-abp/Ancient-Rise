@@ -1,5 +1,6 @@
 #include "../headerfiles/TRecursoAnimacion.h"
 
+//Clase para la gestion de las animaciones. Original.
 
 TRecursoAnimacion::TRecursoAnimacion(double d){
 	duracion = d;
