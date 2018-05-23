@@ -54,7 +54,7 @@ enemigoObjeto(nullptr)
     memoria = false;
     orden = 0;                                            // Ninguna orden recibida
     saltando = false;
-    inv = true;
+    inv = false;
     recargandoEnergia = false;
 
     /* Pathfinding */
