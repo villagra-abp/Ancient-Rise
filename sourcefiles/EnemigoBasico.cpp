@@ -23,7 +23,7 @@ EnemigoBasico::EnemigoBasico(vector<Posicion*> pos, float xlength, float pendVal
     comportamiento = new BehaviorTree(1, b);              
     
      /* Velocidad a la que bajan las estadisticas del enemigo */
-    setVelSed(-0.7);
+    setVelSed(-0.4);
 
     CreateBox(world, patrulla[0]->getPosX(), patrulla[0]->getPosY());
     velocidad2d = Body->GetLinearVelocity();

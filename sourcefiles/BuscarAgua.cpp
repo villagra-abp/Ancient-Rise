@@ -54,7 +54,7 @@ Status BuscarAgua::run(Enemigo *e)
       }
       else
       {
-        cout<<"No se ha podido calcular el camino hasta la fuente"<<endl;
+        //cout<<"No se ha podido calcular el camino hasta la fuente"<<endl;
       }
     }
 
@@ -113,7 +113,7 @@ Status BuscarAgua::run(Enemigo *e)
                   }
                   else // Si hemos llegado
                   {   
-                      e->setVelocidad(e->getVelNormal());             // Para que no gaste energia cuando llegue
+                      e->setVelocidad(e->getVelNormal()-10);             // Para que no gaste energia cuando llegue
 
                         /* RELOJ BEBER AGUA */
                       startClock();                                       // INICIAMOS EL RELOJ (O RESEATEAMOS)
@@ -169,7 +169,7 @@ void BuscarAgua::buscarNodoInicial(Enemigo *e, float posX)
 
     if(inicio1==nullptr && inicio2==nullptr)
     {
-        cout<<"Error. El enemigo no ha visto ningun nodo de Inicio"<<endl;
+        //cout<<"Error. El enemigo no ha visto ningun nodo de Inicio"<<endl;
     }
 
     if(inicio1!=nullptr && inicio2!=nullptr)            // Si encontramos nodos en ambas direcciones, comparamos para ver quien es el que esta mas cerca
