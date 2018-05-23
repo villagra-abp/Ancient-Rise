@@ -61,10 +61,7 @@ protaPosition(nullptr), enemigoPosition(nullptr), comidaPosition(nullptr), tramp
     aux = sonido->create2DSound(sonido->SOUND_PROTA_DOLOR3);
     dolor.push_back(aux);
     //Muerte
-    aux = sonido->create2DSound(sonido->SOUND_PROTA_MUERTE1);
-    muerte.push_back(aux);
-    aux = sonido->create2DSound(sonido->SOUND_PROTA_MUERTE2);
-    muerte.push_back(aux);
+   
     //Otros
     comer = sonido->create2DSound(sonido->SOUND_PROTA_COMER);
     beber = sonido->create2DSound(sonido->SOUND_PROTA_BEBER);
@@ -278,8 +275,8 @@ void Protagonista::movimiento(const glm::f32 Time)
             }
             velo.x=-25.f;
             Body->SetLinearVelocity(velo);
-            bool flag = sonido->playSound(pasos);
-            if(flag) pasos->getCanal()->setGrupoCanales(sonido->getGrupoAmbiente());
+        //    bool flag = sonido->playSound(pasos);
+        //    if(flag) pasos->getCanal()->setGrupoCanales(sonido->getGrupoAmbiente());
         }
 
     }

@@ -48,6 +48,7 @@ public:
     bool setMaterialFlag(void * nodo,bool b);
     bool setMaterial(void * nodo,std::string ruta);
     void setBounding(bool flag);
+    bool setSkybox(FSkybox* skybox);
     void activarPalanca(bool b);
     bool getPalancaActiva();
     

@@ -1,7 +1,7 @@
 # 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
-# File Created: 15.05.2018 17:41:38
+# File Created: 23.05.2018 14:33:02
 
-newmtl Base
+newmtl Material__12
 	Ns 10.0000
 	Ni 1.5000
 	d 1.0000
@@ -10,23 +10,7 @@ newmtl Base
 	illum 2
 	Ka 0.5880 0.5880 0.5880
 	Kd 0.5880 0.5880 0.5880
-	Ks 0.0270 0.0270 0.0270
+	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
 	map_Ka Pinchos/Base_Base_Color.png
 	map_Kd Pinchos/Base_Base_Color.png
-	map_Ks Pinchos/Base_Metallic.png
-
-newmtl Puas
-	Ns 10.0000
-	Ni 1.5000
-	d 1.0000
-	Tr 0.0000
-	Tf 1.0000 1.0000 1.0000 
-	illum 2
-	Ka 0.5880 0.5880 0.5880
-	Kd 0.2431 0.0706 0.8745
-	Ks 0.0540 0.0540 0.0540
-	Ke 0.0000 0.0000 0.0000
-	map_Ka Pinchos/Puas_Base_Color.png
-	map_Kd Pinchos/Puas_Base_Color.png
-	map_Ks Pinchos/Puas_Metallic.png

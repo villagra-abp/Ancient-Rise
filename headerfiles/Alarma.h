@@ -24,8 +24,8 @@ class Alarma : public Objeto
 
 
 	    /* SONIDO */
-        GestorSonido* sonido;
-        Sonido* alarmaSound;
+//        static GestorSonido* sonido;
+//        static Sonido* alarmaSound;
 };
 
 #endif

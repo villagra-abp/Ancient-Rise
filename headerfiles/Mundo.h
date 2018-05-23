@@ -113,6 +113,7 @@ class Mundo : public Entorno
         const int MAX_NIVEL=4;          // Maximo numero de niveles en el juego
         Posicion* salidaNivel;
         bool cargado;
+        bool musicaParada = false;              //Booleano para asegurarnos de que la musica se para antes de cambiar a la pantalla de carga
         bool loading = false;
         bool pasarLevel3 = false;
 
@@ -150,7 +151,8 @@ class Mundo : public Entorno
         //SONIDO
         GestorSonido* sonido;
         Reverb* reverbCueva;
-        Sonido* musicaNivel1;
+        Sonido* musicaNivel;
+        vector<Sonido*> muerteProtaS;
 
         //MANJEO DE GAME OBJECTS
         GameObjects gos;

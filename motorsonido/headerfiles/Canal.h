@@ -19,6 +19,7 @@ public:
 	~Canal();
 
 	void addDSP(DSP* dsp);
+	bool stop();
 
 	FMOD::Channel* getCanal();
 

@@ -1,0 +1,4 @@
+resources/Animaciones/marchaE/marchaE_000
+33
+27
+1.1

@@ -1,5 +1,5 @@
 # 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
-# File Created: 22.05.2018 16:04:05
+# File Created: 23.05.2018 14:02:09
 
 newmtl 02___Default
 	Ns 10.0000
@@ -43,34 +43,6 @@ newmtl 07___Default
 	map_Ka Niveles/Texturas/stone-707172_1920.jpg
 	map_Kd Niveles/Texturas/stone-707172_1920.jpg
 
-newmtl 09___Default
-	Ns 10.0000
-	Ni 1.5000
-	d 1.0000
-	Tr 0.0000
-	Tf 1.0000 1.0000 1.0000 
-	illum 2
-	Ka 0.5882 0.5882 0.5882
-	Kd 0.5882 0.5882 0.5882
-	Ks 0.0000 0.0000 0.0000
-	Ke 0.0000 0.0000 0.0000
-	map_Ka Niveles/Texturas/images (5).jpg
-	map_Kd Niveles/Texturas/images (5).jpg
-
-newmtl 01___Default
-	Ns 10.0000
-	Ni 1.5000
-	d 1.0000
-	Tr 0.0000
-	Tf 1.0000 1.0000 1.0000 
-	illum 2
-	Ka 0.5880 0.5880 0.5880
-	Kd 0.5880 0.5880 0.5880
-	Ks 0.0000 0.0000 0.0000
-	Ke 0.0000 0.0000 0.0000
-	map_Ka Niveles/Texturas/wood-3167302_1920.jpg
-	map_Kd Niveles/Texturas/wood-3167302_1920.jpg
-
 newmtl 08___Default
 	Ns 10.0000
 	Ni 1.5000
@@ -96,8 +68,8 @@ newmtl Material__0
 	Kd 0.5880 0.5880 0.5880
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka Niveles/Texturas/images (5).jpg
-	map_Kd Niveles/Texturas/images (5).jpg
+	map_Ka Niveles/Texturas/167154-049-31F5C82B.jpg
+	map_Kd Niveles/Texturas/167154-049-31F5C82B.jpg
 
 newmtl 13___Default
 	Ns 10.0000
@@ -120,12 +92,12 @@ newmtl 20___Default
 	Tr 0.0000
 	Tf 1.0000 1.0000 1.0000 
 	illum 2
-	Ka 0.5882 0.5882 0.5882
-	Kd 0.5882 0.5882 0.5882
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka Niveles/Texturas/Ish-tar_Gate_detail.jpg
-	map_Kd Niveles/Texturas/Ish-tar_Gate_detail.jpg
+	map_Ka Niveles/Texturas/images (2).jpg
+	map_Kd Niveles/Texturas/images (2).jpg
 
 newmtl 14___Default
 	Ns 10.0000
@@ -154,3 +126,31 @@ newmtl 21___Default
 	Ke 0.0000 0.0000 0.0000
 	map_Ka Niveles/Texturas/images.jpg
 	map_Kd Niveles/Texturas/images.jpg
+
+newmtl 19___Default
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka Niveles/Texturas/water_texture__by_heavensinyoureyes-d75vg6r.jpg
+	map_Kd Niveles/Texturas/water_texture__by_heavensinyoureyes-d75vg6r.jpg
+
+newmtl 01___Default
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.5880 0.5880 0.5880
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka Niveles/Texturas/wood-3156545_1920.jpg
+	map_Kd Niveles/Texturas/wood-3156545_1920.jpg

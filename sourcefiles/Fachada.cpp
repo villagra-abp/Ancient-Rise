@@ -161,6 +161,11 @@ void Fachada::setNombreVentana(wchar_t* text){
 void Fachada::setBounding(bool flag){
     bounding = flag;
 }
+
+bool Fachada::setSkybox(FSkybox* skybox){
+    motorgrafico->registrarSkybox(skybox->getNodo());
+}
+
 FObjeto* Fachada::addCube(int x,int y,int z,bool flag){
     /*
     scene::ISceneNode * rec=smgr->addCubeSceneNode();
