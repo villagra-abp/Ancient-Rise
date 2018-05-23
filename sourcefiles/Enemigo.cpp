@@ -111,8 +111,7 @@ void Enemigo::update(Posicion* Posprota)
         {
             if(combate==true) // Combatiendo
             {
-                //enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/movercombate/movercombate.txt", enemigoObjeto);
-                enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/marchaE/marchaE.txt", enemigoObjeto);
+                enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/movercombateE/movercombateE.txt", enemigoObjeto);
             }
             else
             {
@@ -141,8 +140,7 @@ void Enemigo::update(Posicion* Posprota)
         {
             if(combate==true) // Combatiendo
             {
-                //enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/movercombate/movercombate.txt", enemigoObjeto);
-                enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/marchaE/marchaE.txt", enemigoObjeto);
+                enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/movercombateE/movercombateE.txt", enemigoObjeto);
             }
             else
             {
