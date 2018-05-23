@@ -217,7 +217,11 @@ void Mundo::update()
             {
         	   enemB[i]->updateTiempo(frameDeltaTime);
         	   enemB[i]->Update(prota->getPosition());
-        	}
+		    if(nivel==3)
+		       {
+			 enemB[i]->setInvisible();  
+		       }
+            }
         }
 
         for(int i2=0; i2<enemE.size();i2++) 	// Enemigos Elites
@@ -249,13 +253,6 @@ void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
     {
         glm::f32 energia=prota->getEnergia();
         
-         if(sf::Keyboard::isKeyPressed(sf::Keyboard::J))
-        {   
-            for(int i=0; i<enemB.size();i++)
-            {
-                enemB[i]->setInvisible();
-            }
-        }
         prota->update(b);
         Tiempo=0;
             
@@ -361,10 +358,9 @@ void Mundo::checkInput(int tecla){
             {
                 if(fachada->getPalancaActiva()==true)
                 {
-                    //cout<<abrirPuerta<<endl;
                     abrirPuerta=true;
-                    //fachada->setMalla(palancas[0]->getNode(),"resources/Palanca/Palanca1.obj");
-                    //delete palancas[0];
+                    fachada->setMalla(palancas[0]->getNode(),"resources/Palanca/Palanca1.obj");
+                    
                 }
             }
             break;
@@ -505,7 +501,10 @@ void Mundo::controlProta()
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)||sf::Joystick::isButtonPressed(0, 0))
     {
-        prota->setSalto(true);
+        if(prota->getCombate()==false)
+        {
+            prota->setSalto(true);
+        }
     }
             
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)||JoyY>=50)//W
@@ -570,6 +569,15 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
             {
                 //cam->setRotacion(vec3(0,1,0), 0.f);
                 cam->setPosicion(vec3(40,5000,-20));
+            }
+	    else if(prota->getCombate())
+            {
+                for(float i=-115;i<-105;i+=frameDeltaTime*0.001f)
+                    {
+                        
+                        cam->setPosicion(vec3(-protaPosition->getPosX()-5,-protaPosition->getPosY()-25,i)); 
+                        
+                    } 
             }
             else 
             {
@@ -941,7 +949,7 @@ void Mundo::cargarLogicaNivel()
                         {   
                             case 1: // Enemigos Basicos
                             {
-                                enem1 = new EnemigoBasico( pos, 50.0, 1.2, a, this, b, world);
+                                enem1 = new EnemigoBasico( pos, 70.0, 1.2, a, this, b, world);
                                 enemB.push_back(enem1);
                                 addGameObject(enem1);
                                 break;
@@ -1251,8 +1259,13 @@ void Mundo::cargaNivel()
             for(size_t i=0; i<enemB.size();i++)
             {
                 enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/marchaE/marchaE.txt", enemB[i]->getFObjeto()));
-               // enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/saltoadelanteE/saltoadelanteE.txt", enemB[i]->getFObjeto()));
                 enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/correrE/correrE.txt", enemB[i]->getFObjeto()));
+                enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/movercombate/movercombate.txt", enemB[i]->getFObjeto()));
+                enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/ataquearriba/ataquearriba.txt", enemB[i]->getFObjeto()));
+                enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/ataquebajo/ataquebajo.txt", enemB[i]->getFObjeto()));
+                enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/ataquemedio/ataquemedio.txt", enemB[i]->getFObjeto()));
+                enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/reposocombate/reposocombate.txt", enemB[i]->getFObjeto()));
+                enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/reposoE/reposoE.txt", enemB[i]->getFObjeto()));
             }
 
 

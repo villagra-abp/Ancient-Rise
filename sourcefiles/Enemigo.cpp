@@ -23,14 +23,7 @@ enemigoObjeto(nullptr)
         EnemigoPosition = pos;
 	}
 
-    /* Para ver visualmente la vision de los enemigos */
-   /* dep1=fachada->addMalla(-170,15,0,"resources/manzana.obj");
-    dep2=fachada->addMalla(-175,15,0,"resources/manzana.obj");
-    dep3=fachada->addMalla(-175,15,0,"resources/manzana.obj");
-    dep4=fachada->addMalla(-175,15,0,"resources/manzana.obj");*/
-
     energy=fachada->addMalla(-170,15,0,"resources/Hud/cajitaobj.obj");
-//    energy=fachada->addBillboard(-170,15,0,"resources/cajitaobj.obj");
     life=fachada->addMalla(-170,25,0,"resources/Hud/cajaColor.obj");
     flecha1=fachada->addMalla(-160,8,0,"resources/flecha.obj");
     flecha0=fachada->addMalla(-170,8,0,"resources/flecha.obj");
@@ -61,7 +54,7 @@ enemigoObjeto(nullptr)
     memoria = false;
     orden = 0;                                            // Ninguna orden recibida
     saltando = false;
-    inv = true;
+    inv = false;
     recargandoEnergia = false;
 
     /* Pathfinding */
@@ -76,7 +69,7 @@ enemigoObjeto(nullptr)
 /* Update para todos los enemigos*/
 void Enemigo::update(Posicion* Posprota)
 {   
-    if(salud<=0) // Enemigo Muerto
+    if(salud<=0||Body->GetPosition().y<-180) // Enemigo Muerto
     {   
         //cout<<"Muerto"<<endl;
         // Eleminamos el enemigo(parcialmente)
@@ -100,16 +93,12 @@ void Enemigo::update(Posicion* Posprota)
 
     if(enemigo!=nullptr)  // Solo si existe el enemigo hacemos su update
     { 
-        //cout<<"Entro"<<endl;
         hud();
-        //cout<<"llego2.6"<<endl;
+
         actualizarSed();
         //COMPROBAMOS GAMEOBJECTS DENTRO DE LA VISTA
         vistos.clear();
 
-        //cout<<"llego2.7"<<endl;
-
-        //cout<<ent->getSize()<<endl;
         for(int i = 0; i < ent->getSize(); i++){
             if(checkInSight(ent->getGameObject(i)->getPosition())){
                 vistos.push_back(ent->getGameObject(i));
@@ -118,30 +107,60 @@ void Enemigo::update(Posicion* Posprota)
         }
 
         /* Animaciones */
-        if(lastFacedDir==true) 
+        if(lastFacedDir==true)  // Derecha
         {
-            if(velocidad2d.x <=VELOCIDAD_NORMAL)
+            if(combate==true) // Combatiendo
             {
+                //enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/movercombate/movercombate.txt", enemigoObjeto);
                 enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/marchaE/marchaE.txt", enemigoObjeto);
             }
             else
             {
-                enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/correrE/correrE.txt", enemigoObjeto);
+                if(velocidad2d.x == VELOCIDAD_NORMAL)  // Andar 
+                {
+                    enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/marchaE/marchaE.txt", enemigoObjeto);
+                }
+                else // Correr
+                {
+                    if(velocidad2d.x >VELOCIDAD_NORMAL)
+                    {
+                        enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/correrE/correrE.txt", enemigoObjeto);
+                    }
+                    else
+                    {
+                        enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/reposoE/reposoE.txt", enemigoObjeto);
+                    }
+                }
             }
 
             enemigo = enemigoObjeto;
             fachada->setRotObj(enemigoObjeto, 0, 1, 0, -90);
 
         }
-        else
+        else  // Izquierda
         {
-            if(velocidad2d.x <=VELOCIDAD_NORMAL)
+            if(combate==true) // Combatiendo
             {
+                //enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/movercombate/movercombate.txt", enemigoObjeto);
                 enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/marchaE/marchaE.txt", enemigoObjeto);
             }
             else
             {
-                enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/correrE/correrE.txt", enemigoObjeto);
+                if(velocidad2d.x == VELOCIDAD_NORMAL)
+                {
+                    enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/marchaE/marchaE.txt", enemigoObjeto);
+                }
+                else
+                {
+                    if(velocidad2d.x > VELOCIDAD_NORMAL)
+                    {
+                        enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/correrE/correrE.txt", enemigoObjeto);
+                    }
+                    else
+                    {
+                        enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/reposoE/reposoE.txt", enemigoObjeto);
+                    }
+                }
             }
 
             enemigo = enemigoObjeto;
@@ -691,10 +710,7 @@ void Enemigo::setInvisible()
     {
         inv = true;
     }
-    else
-    {
-        inv = false;
-    }
+    
 }
 
 void Enemigo::setVuelta(bool v)

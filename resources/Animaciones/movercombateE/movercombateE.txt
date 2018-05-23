@@ -1,0 +1,4 @@
+resources/Animaciones/movercombateE/movercombateE_000
+154
+45
+1.49

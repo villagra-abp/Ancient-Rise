@@ -1,0 +1,4 @@
+resources/Animaciones/ataquebajo/ataquebajo_000
+103
+128
+3.6

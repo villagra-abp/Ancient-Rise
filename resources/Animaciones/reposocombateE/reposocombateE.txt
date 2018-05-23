@@ -1,0 +1,4 @@
+resources/Animaciones/reposocombateE/reposocombateE_000
+93
+9
+0.8

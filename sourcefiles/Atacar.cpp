@@ -19,7 +19,7 @@ Status Atacar::run(Enemigo *e)
     // Comprobamos el tipo de arma que utiliza
     if(e->getTipo()==1)     // Cuerpo a cuerpo, cerca
     {
-        separacionAtaque = 10;
+        separacionAtaque = 13;
     }
     else  // A distancia, ataque desde mas lejos
     {
@@ -30,7 +30,7 @@ Status Atacar::run(Enemigo *e)
     if(abs(distanciaProta)<separacionAtaque && distProtaY<10 && distProtaY>-10)       //ATACANDO
     {
         //cout<<"Atacando"<<endl;
-        e->setVelocidad(e->getVelNormal());             // Para que no gaste energia cuando llegue
+        e->setVelocidad(e->getVelNormal()-10);             // Para que no gaste energia cuando llegue
         e->setVuelta(true);
         reset();                                        // Reseteamos los valores para el pathfinding
 
@@ -163,7 +163,7 @@ Status Atacar::run(Enemigo *e)
         }
         else
         {
-            cout<<"No se ha podido encontrar el camino mas corto al protagonista"<<endl;
+            //cout<<"No se ha podido encontrar el camino mas corto al protagonista"<<endl;
         }
 
         
@@ -192,7 +192,7 @@ void Atacar::buscarNodoInicial(Enemigo *e, float posX)
 
     if(inicio1==nullptr && inicio2==nullptr)
     {
-        cout<<"Error. El enemigo no ha visto ningun nodo de Inicio"<<endl;
+        //cout<<"Error. El enemigo no ha visto ningun nodo de Inicio"<<endl;
     }
 
     if(inicio1!=nullptr && inicio2!=nullptr)            // Si encontramos nodos en ambas direcciones, comparamos para ver quien es el que esta mas cerca
