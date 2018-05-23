@@ -356,7 +356,7 @@
   </object>
  </objectgroup>
  <objectgroup name="puerta" visible="0" locked="1">
-  <object id="133" type="2" x="786.438" y="63.25">
+  <object id="133" type="2" x="780.438" y="63.25">
    <point/>
   </object>
   <object id="134" type="1" x="746.727" y="63.0909">

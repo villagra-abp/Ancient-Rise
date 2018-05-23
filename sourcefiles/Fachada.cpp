@@ -256,12 +256,19 @@ FBillboard* Fachada::addBillboard(float x,float y,float z,string ruta){
 /* Funcion para anyadir una nueva animacion en el caso de que no la hayamos cargado ya */
 FObjeto* Fachada::addAnimacion(int x, int y, int z, string path, FObjeto* objeto)
 {
-    
     objeto->setAnimacion(path);
+//    objeto->reiniciarAnimacion();
     objeto->Escalar(vec3(2,2,2));
     
     return objeto;
 }
+
+FObjeto* Fachada::resetAnimacion(FObjeto* objeto){
+    objeto->reiniciarAnimacion();
+
+    return objeto;
+}
+
 void Fachada::activarPalanca(bool b){
     
     activaPalanca=b;

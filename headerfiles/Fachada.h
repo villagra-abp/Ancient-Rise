@@ -75,6 +75,7 @@ public:
     FObjeto* addMalla(float x,float y,float z,string ruta);
     FBillboard* addBillboard(float x,float y,float z,string ruta);
     FObjeto* addAnimacion(int x, int y, int z, string path, FObjeto* objeto);
+    FObjeto* resetAnimacion(FObjeto* objeto);
     FObjeto* crearProta();
     FCamara* addCamara(Posicion*);
     FLuz* addLuz(Posicion*);
