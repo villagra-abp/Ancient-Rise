@@ -77,21 +77,21 @@ void rMesh::draw(glm::mat4 mmodelo, TDatosEntidad *datos){
 	glm::vec3 camaraPosicion = datos->camaraPosicion;
 
 	//Datos luces puntuales
-	vector<glm::vec4> colorPuntual = datos->colorPuntual;
-	vector<glm::vec3> posicionPuntual = datos->posicionPuntual;
-	vector<vector<float>> atenuacionPuntual = datos->atenuacionPuntual;
+//	vector<glm::vec4> colorPuntual = datos->colorPuntual;
+//	vector<glm::vec3> posicionPuntual = datos->posicionPuntual;
+//	vector<vector<float>> atenuacionPuntual = datos->atenuacionPuntual;
 
 	//Datos luz dirigida
 	glm::vec3 colorDir = datos->colorDir;
 	glm::vec3 directionDir = datos->directionDir;
 	//cout<<luzPosicion.x<<" "<<luzPosicion.y<<" "<<luzPosicion.z<<endl;
 
-	glm::vec3 positionFlash = datos->positionFlash;
- 	glm::vec3 directionFlash = datos->directionFlash;
- 	glm::vec3 colorFlash = datos->colorFlash;
+//	glm::vec3 positionFlash = datos->positionFlash;
+// 	glm::vec3 directionFlash = datos->directionFlash;
+// 	glm::vec3 colorFlash = datos->colorFlash;
 
- 	vector<float> cortes = datos->corteFlash;
- 	vector<float> atenuacionFlash = datos->atenuacionFlash;
+// 	vector<float> cortes = datos->corteFlash;
+// 	vector<float> atenuacionFlash = datos->atenuacionFlash;
 
 	shader->use();
 	//glm::mat4 projection = glm::mat4(1);
@@ -114,10 +114,10 @@ void rMesh::draw(glm::mat4 mmodelo, TDatosEntidad *datos){
 
 	//declarando lucecitas
 	//Puntuales
-	shader->setFloat("pointLights[0].linear", atenuacionPuntual[0][0]);
-	shader->setFloat("pointLights[0].quadratic", atenuacionPuntual[0][1]);
-	shader->setVec3("pointLights[0].position", posicionPuntual[0]);
-	shader->setVec3("pointLights[0].color", colorPuntual[0]);
+//	shader->setFloat("pointLights[0].linear", atenuacionPuntual[0][0]);
+//	shader->setFloat("pointLights[0].quadratic", atenuacionPuntual[0][1]);
+//	shader->setVec3("pointLights[0].position", posicionPuntual[0]);
+//	shader->setVec3("pointLights[0].color", colorPuntual[0]);
 
 //	cout<<"Posicion puntual 1: "<<posicionPuntual[0].x<<" "<<posicionPuntual[0].y<<" "<<posicionPuntual[0].z<<endl;
 //	cout<<"Color puntual 1: "<<colorPuntual[0].x<<" "<<colorPuntual[0].y<<" "<<colorPuntual[0].z<<endl;
@@ -133,13 +133,13 @@ void rMesh::draw(glm::mat4 mmodelo, TDatosEntidad *datos){
 //	shader->setVec3("pointLights[2].color", color[2]);
 
 	//Dirigidas
-	shader->setFloat("flashLight.linear", atenuacionFlash[0]);
-	shader->setFloat("flashLight.quadratic", atenuacionFlash[1]);
-	shader->setVec3("flashLight.position", positionFlash);
-	shader->setVec3("flashLight.direction", directionFlash);
-	shader->setVec3("flashLight.color", colorFlash);
-	shader->setFloat("flashLight.cutOff", cortes[0]);
-	shader->setFloat("flashLight.extCutOff",cortes[1]);
+//	shader->setFloat("flashLight.linear", atenuacionFlash[0]);
+//	shader->setFloat("flashLight.quadratic", atenuacionFlash[1]);
+//	shader->setVec3("flashLight.position", positionFlash);
+//	shader->setVec3("flashLight.direction", directionFlash);
+//	shader->setVec3("flashLight.color", colorFlash);
+//	shader->setFloat("flashLight.cutOff", cortes[0]);
+//	shader->setFloat("flashLight.extCutOff",cortes[1]);
 
 	//Direccionales
 
