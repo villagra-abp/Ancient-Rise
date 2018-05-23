@@ -1,5 +1,5 @@
 # 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
-# File Created: 22.05.2018 16:04:35
+# File Created: 22.05.2018 19:47:01
 
 newmtl 13___Default
 	Ns 10.0000
@@ -41,7 +41,7 @@ newmtl 14___Default
 	map_Ka Niveles/Texturas/rock_cave_0032_01_preview.jpg
 	map_Kd Niveles/Texturas/rock_cave_0032_01_preview.jpg
 
-newmtl 19___Default
+newmtl 15___Default
 	Ns 10.0000
 	Ni 1.5000
 	d 1.0000
@@ -52,5 +52,5 @@ newmtl 19___Default
 	Kd 0.5882 0.5882 0.5882
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka Niveles/Texturas/cave_interior_background_by_sketcheth-d3kpvx8.jpg
-	map_Kd Niveles/Texturas/cave_interior_background_by_sketcheth-d3kpvx8.jpg
+	map_Ka Niveles/Texturas/Dark_cave.png
+	map_Kd Niveles/Texturas/Dark_cave.png

@@ -1,5 +1,5 @@
 # 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
-# File Created: 15.05.2018 16:13:15
+# File Created: 21.05.2018 18:57:00
 
 newmtl Base
 	Ns 10.0000
@@ -43,7 +43,7 @@ newmtl cuerda
 	map_Ka Palanca/Cuerda_Base_Color.png
 	map_Kd Palanca/Cuerda_Base_Color.png
 
-newmtl Puas
+newmtl Material__11
 	Ns 10.0000
 	Ni 1.5000
 	d 1.0000
@@ -51,9 +51,8 @@ newmtl Puas
 	Tf 1.0000 1.0000 1.0000 
 	illum 2
 	Ka 0.5880 0.5880 0.5880
-	Kd 0.2431 0.0706 0.8745
-	Ks 0.0540 0.0540 0.0540
+	Kd 0.5880 0.5880 0.5880
+	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka Palanca/Puas_Base_Color.png
-	map_Kd Palanca/Puas_Base_Color.png
-	map_Ks Palanca/Puas_Metallic.png
+	map_Ka Palanca/photos_2015_09_18_fst_733v0jvtcy3.jpg
+	map_Kd Palanca/photos_2015_09_18_fst_733v0jvtcy3.jpg
