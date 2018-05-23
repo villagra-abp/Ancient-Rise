@@ -1,0 +1,4 @@
+resources/Animaciones/ataquearriba/ataquearriba_000
+103
+128
+4.22
