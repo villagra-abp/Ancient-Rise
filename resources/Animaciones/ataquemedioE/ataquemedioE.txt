@@ -1,0 +1,4 @@
+resources/Animaciones/ataquemedioE/ataquemedioE_000
+107
+89
+2.93
