@@ -114,8 +114,6 @@ vector<Arista*> Grafo::pathfindDijkstra(NodoGrafo *inicio, NodoGrafo *fin)
 	// Hemos llegado hasta aqui si hemos encontrado el ndoo Final del camino o si ya no hay mas nodos que buscar
 	if(current->getNombre()!=fin->getNombre())
 	{	
-		//cout<<current->getNombre()<<endl;
-		//cout<<fin->getNombre()<<endl;
 		cout<<"No hemos encontrado el nodo final"<<endl;
 	}
 	else
