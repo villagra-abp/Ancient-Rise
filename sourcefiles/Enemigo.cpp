@@ -8,12 +8,13 @@
  CONSTRUCTOR DE ENEMIGO
  Parametros : Objetos Irrlicht, vector con posiciones de la patrulla
 */
-Enemigo::Enemigo(vector<Posicion*> pos, float xlength, float pendValue, const Entorno* e, Blackboard *b) : enemigo(nullptr), ent(e), board(nullptr), proyectil(nullptr), alActivar(nullptr)
+Enemigo::Enemigo(vector<Posicion*> pos, float xlength, float pendValue, const Entorno* e, Blackboard *b) : enemigo(nullptr), ent(e), board(nullptr), proyectil(nullptr), alActivar(nullptr),
+enemigoObjeto(nullptr)
 {
     GameObject::setTipo(ENEMY);
     Fachada* fachada=fachada->getInstance();
 
-    FObjeto* enemigoObjeto = fachada->addMalla(pos[0]->getPosX(),pos[0]->getPosY(),pos[0]->getPosZ(), "resources/Protagonista/personaje.obj");
+    enemigoObjeto = fachada->addMalla(pos[0]->getPosX(),pos[0]->getPosY(),pos[0]->getPosZ(), "resources/Protagonista/personaje.obj");
     enemigo = enemigoObjeto;
 
     if (enemigo) /** SI HEMOS CREADO EL CUBO **/
@@ -126,6 +127,37 @@ void Enemigo::update(Posicion* Posprota)
                 vistos.push_back(ent->getGameObject(i));
                 
             }
+        }
+
+        /* Animaciones */
+        if(lastFacedDir==true) 
+        {
+            if(velocidad2d.x <=VELOCIDAD_NORMAL)
+            {
+                enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/marchaE/marchaE.txt", enemigoObjeto);
+            }
+            else
+            {
+                enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/correrE/correrE.txt", enemigoObjeto);
+            }
+
+            enemigo = enemigoObjeto;
+            fachada->setRotObj(enemigoObjeto, 0, 1, 0, -90);
+
+        }
+        else
+        {
+            if(velocidad2d.x <=VELOCIDAD_NORMAL)
+            {
+                enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/marchaE/marchaE.txt", enemigoObjeto);
+            }
+            else
+            {
+                enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/correrE/correrE.txt", enemigoObjeto);
+            }
+
+            enemigo = enemigoObjeto;
+            fachada->setRotObj(enemigoObjeto, 0, 1, 0, +90);
         }
 
          //cout<<"llego2.8"<<endl;
@@ -456,6 +488,11 @@ void* Enemigo::getNode()
     return enemigo;
 }
 
+FObjeto* Enemigo::getFObjeto()
+{
+    return enemigoObjeto;
+}
+
 glm::f32 Enemigo::getSed()
 {
     return sed;
@@ -673,6 +710,11 @@ void Enemigo::setVuelta(bool v)
 void Enemigo::setInterrumpido(bool i)
 {
     interrupcion = i;
+}
+
+void Enemigo::setNode(FObjeto* node)
+{
+    enemigoObjeto = node;
 }
 
 

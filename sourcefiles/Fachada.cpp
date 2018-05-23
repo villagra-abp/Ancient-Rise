@@ -33,7 +33,7 @@ Fachada::~Fachada(){
 }
 
 //Constructor. Solo accesible desde getInstance
-Fachada::Fachada(int h, int w, bool fullscreen): prota(nullptr), num_animacion(0)
+Fachada::Fachada(int h, int w, bool fullscreen): prota(nullptr)
 {
 	
 	sf::ContextSettings settings;
@@ -254,15 +254,11 @@ FBillboard* Fachada::addBillboard(float x,float y,float z,string ruta){
 }
 
 /* Funcion para anyadir una nueva animacion en el caso de que no la hayamos cargado ya */
-FObjeto* Fachada::addAnimacion(int x, int y, int z, string path, FObjeto* objeto, int num)
+FObjeto* Fachada::addAnimacion(int x, int y, int z, string path, FObjeto* objeto)
 {
-    if(num!=num_animacion) // Si la animacion que habiamos cargado antes es la misma no la volvemos a cargar
-    {
-        objeto->setAnimacion(path);
-        objeto->Escalar(vec3(2,2,2));
-
-        num_animacion = num;
-    }
+    
+    objeto->setAnimacion(path);
+    objeto->Escalar(vec3(2,2,2));
     
     return objeto;
 }

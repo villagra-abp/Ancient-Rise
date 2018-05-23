@@ -1238,12 +1238,19 @@ void Mundo::cargaNivel()
             Posicion poshud(-40.5f,-5001.5f,.5f);
             hud = new Hud(&poshud);
 
-            /* Carga de todas las animaciones */
-            prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/marcha5/marcha5.txt", prota->getNode(), 2));
-            prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/saltoadelante/saltoadelante.txt", prota->getNode(),3));
-            prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/correr/correr.txt", prota->getNode(),4));
-            prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/saltocarrera/saltocarrera.txt", prota->getNode(),5));
-            prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/reposo1/reposo1.txt", prota->getNode(),7));
+            /* Carga de todas las animaciones del prota */
+            prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/marcha5/marcha5.txt", prota->getNode()));
+            prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/saltoadelante/saltoadelante.txt", prota->getNode()));
+            prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/correr/correr.txt", prota->getNode()));
+            prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/reposo1/reposo1.txt", prota->getNode()));
+
+            /* Carga de todas las animaciones de los enemigos */
+            for(size_t i=0; i<enemB.size();i++)
+            {
+                enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/marchaE/marchaE.txt", enemB[i]->getFObjeto()));
+                enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/correrE/correrE.txt", enemB[i]->getFObjeto()));
+            }
+
 
             /* Carga de sonidos */
             reverbCueva = sonido->create3DReverb();

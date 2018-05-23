@@ -46,6 +46,7 @@ class Enemigo : public GameObject
         int getTipo();
         int getClaseEnemigo();
         void* getNode();
+        FObjeto* getFObjeto();
         bool getAvistadoProta();
         vector <Posicion*> getPosicion();
         float getXRange();
@@ -85,6 +86,7 @@ class Enemigo : public GameObject
         void setInvisible();
         void setVuelta(bool v);
         void setInterrumpido(bool i);
+        void setNode(FObjeto* node);
 
         /* COMBATE */   
         void setCombate(bool b);
@@ -102,6 +104,7 @@ class Enemigo : public GameObject
         void * life;
         void * flecha0;
         void * flecha1;
+        FObjeto* enemigoObjeto;
         //void *dep1, *dep2, *dep3, *dep4;          // Para poder ver visualmente el rango de vision de los enemigos
         
         Posicion* EnemigoPosition;                  // VECTOR 3D CON LA POSICION DEL ENEMIGO 

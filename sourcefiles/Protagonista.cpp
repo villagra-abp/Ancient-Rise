@@ -12,7 +12,7 @@ protaPosition(nullptr), enemigoPosition(nullptr), comidaPosition(nullptr), tramp
 
     protaObjeto = fachada->crearProta();
 
-    protaObjeto = fachada->addAnimacion(0, 0,1000, "resources/Animaciones/reposo1/reposo1.txt", protaObjeto, 1);
+    protaObjeto = fachada->addAnimacion(0, 0,1000, "resources/Animaciones/reposo1/reposo1.txt", protaObjeto);
     rec = protaObjeto;
     
     Posicion escala(2.f,2.f,2.f);
@@ -112,7 +112,7 @@ void Protagonista::update(Blackboard* b)
     if(direccion==2)
     {
         /* Animacion de estar quieto */
-        protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/reposo1/reposo1.txt", protaObjeto, 1);
+        protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/reposo1/reposo1.txt", protaObjeto);
         rec = protaObjeto;
     }
 
@@ -120,9 +120,16 @@ void Protagonista::update(Blackboard* b)
     {
         b2Vec2 velocidad=Body->GetLinearVelocity();
 
-        protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/saltoadelante/saltoadelante.txt", protaObjeto,8);
+        protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/saltoadelante/saltoadelante.txt", protaObjeto);
         rec = protaObjeto;
-        fachada->setRotObj(protaObjeto, 0, 1, 0, -90); 
+        if(direccion==0)
+        {
+            fachada->setRotObj(protaObjeto, 0, 1, 0, +90); 
+        }
+        else
+        {
+            fachada->setRotObj(protaObjeto, 0, 1, 0, -90); 
+        }
 
         if(velocidad.y<0)
         {
@@ -259,7 +266,7 @@ void Protagonista::movimiento(const glm::f32 Time)
             Body->ApplyForceToCenter(b2Vec2(-3500.f,0.f),true);
 
             /* Animacion de correr */
-            protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/correr/correr.txt", protaObjeto, 4);
+            protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/correr/correr.txt", protaObjeto);
             rec = protaObjeto;
             fachada->setRotObj(protaObjeto, 0, 1, 0, +90);
 
@@ -269,7 +276,7 @@ void Protagonista::movimiento(const glm::f32 Time)
             /* Animacion de andar */
             if(saltando==false)
             {
-                protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/marcha5/marcha5.txt", protaObjeto, 2);
+                protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/marcha5/marcha5.txt", protaObjeto);
                 rec = protaObjeto;
                 fachada->setRotObj(protaObjeto, 0, 1, 0, +90);
             }
@@ -294,7 +301,7 @@ void Protagonista::movimiento(const glm::f32 Time)
                     Body->ApplyForceToCenter(b2Vec2(3500.f,0.f),true);
 
                     /* Animacion de correr */
-                    protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/correr/correr.txt", protaObjeto, 4);
+                    protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/correr/correr.txt", protaObjeto);
                     rec = protaObjeto;
                     fachada->setRotObj(protaObjeto, 0, 1, 0, -90);
 
@@ -304,7 +311,7 @@ void Protagonista::movimiento(const glm::f32 Time)
                 else{
                     if(saltando==false)
                     {
-                        protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/marcha5/marcha5.txt", protaObjeto, 2);
+                        protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/marcha5/marcha5.txt", protaObjeto);
                         rec = protaObjeto;
                         fachada->setRotObj(protaObjeto, 0, 1, 0, -90);
                     }

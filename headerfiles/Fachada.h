@@ -74,7 +74,7 @@ public:
     FObjeto* addSphere(int x,int y,int z,bool flag);
     FObjeto* addMalla(float x,float y,float z,string ruta);
     FBillboard* addBillboard(float x,float y,float z,string ruta);
-    FObjeto* addAnimacion(int x, int y, int z, string path, FObjeto* objeto, int num);
+    FObjeto* addAnimacion(int x, int y, int z, string path, FObjeto* objeto);
     FObjeto* crearProta();
     FCamara* addCamara(Posicion*);
     FLuz* addLuz(Posicion*);
@@ -109,9 +109,6 @@ private:
         
     bool bounding;
     bool activaPalanca=false;
-
-    /* Animaciones */
-    int num_animacion;  // Indica que animacion se esta realizando
 
 };
 

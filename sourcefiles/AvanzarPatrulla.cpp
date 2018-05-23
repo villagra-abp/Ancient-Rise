@@ -273,8 +273,8 @@ void AvanzarPatrulla::movimientoDireccion(Enemigo *e, bool d)
     else  // Derecha
     {
         e->getBody()->SetLinearVelocity(e->getVelocidad2d());
-        e->getBody()->ApplyForceToCenter(b2Vec2(300.f,0.f),true);          
-
+        e->getBody()->ApplyForceToCenter(b2Vec2(300.f,0.f),true);        
+        
         e->setLastFacedDir(d);   
     }
 }
