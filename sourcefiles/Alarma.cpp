@@ -19,7 +19,7 @@ Alarma::Alarma(Posicion* pos):Objeto(pos)
 
 	//GESTION SONIDO
    	if(sonido == nullptr) sonido = GestorSonido::getInstance();
-   	if(alarmaSound == nullptr) alarmaSound = sonido->create2DSound(sonido->SOUND_TRAP_ALARM);
+   	if(alarmaSound == nullptr) alarmaSound = sonido->create3DSound(sonido->SOUND_TRAP_ALARM);
 }
 
 

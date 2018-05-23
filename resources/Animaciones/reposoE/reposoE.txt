@@ -1,0 +1,4 @@
+resources/Animaciones/reposoE/reposoE_000
+227
+100
+4.8

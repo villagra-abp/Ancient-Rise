@@ -174,7 +174,7 @@
   <object id="107" name="4344" type="11" x="413.091" y="47.2727">
    <point/>
   </object>
-  <object id="108" name="4748" type="11" x="543.636" y="38.5455">
+  <object id="108" name="4653" type="11" x="543.636" y="63.0909">
    <point/>
   </object>
   <object id="109" name="5354" type="11" x="615.636" y="63.0909">
@@ -348,7 +348,7 @@
   </object>
  </objectgroup>
  <objectgroup name="trampa" visible="0" locked="1">
-  <object id="131" type="2" x="595.909" y="62.9091">
+  <object id="131" type="2" x="585.909" y="62.9091">
    <point/>
   </object>
   <object id="132" type="1" x="540" y="39">
