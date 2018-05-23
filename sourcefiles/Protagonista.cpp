@@ -76,9 +76,6 @@ protaPosition(nullptr), enemigoPosition(nullptr), comidaPosition(nullptr), tramp
     protaPosition=fachada->getPosicion(rec);
 
 
-//    pasos->getCanal()->setGrupoCanales(sonido->getGrupoAmbiente());
-
-
     /* Animaciones */
     cambioAnimacion = false;
     tipoSalto = 1;
@@ -103,6 +100,12 @@ void Protagonista::update(Blackboard* b)
     timeAtq = relojAtq.getElapsedTime().asSeconds();
     if( ataca == true && timeAtq>=0.5)       // PROTA EN COMBATE Y ATACANDO
     {   
+        if(pos_combate==1)
+        {
+            protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/ataquearriba/ataquearriba.txt", protaObjeto);
+            rec = protaObjeto;
+        }
+
         relojAtq.restart();
         enemB = b->getEnemB();
 
@@ -115,7 +118,7 @@ void Protagonista::update(Blackboard* b)
         }
     }
 
-    if(direccion==2)
+    if(direccion==2) // Sin movimiento
     {
         if(combate == false)
         {
@@ -125,7 +128,12 @@ void Protagonista::update(Blackboard* b)
         }
         else
         {
-
+            if(ataca==false)
+            {
+                /* Animacion de estar quieto */
+                protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/reposo1/reposo1.txt", protaObjeto);
+                rec = protaObjeto;
+            }
         }
     }
 
@@ -202,7 +210,8 @@ void Protagonista::updateBody(b2World& world)
         protaPosition->setPosY(protaPosition->getPosY()+5);
     }
         
-    if(pos_combate==1){
+    if(pos_combate==1)
+    {
         protaPosition->setPosY(protaPosition->getPosY()+10);
     }
         
@@ -275,6 +284,7 @@ FUNCION PARA CONTROLAR EL MOVIMIENTO DEL PROTA
 void Protagonista::movimiento(const glm::f32 Time)
 {
     b2Vec2 velo=Body->GetLinearVelocity();
+
     if(direccion==0) // MOVIMIENTO HACIA LA IZQUIERDA
     {
         if(sigilo==true) // Sigilo
@@ -300,14 +310,15 @@ void Protagonista::movimiento(const glm::f32 Time)
                 if(combate==false)
                 {
                     protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/marcha5/marcha5.txt", protaObjeto);
+                    velo.x=-25.f;
                 }
                 else
                 {
                     protaObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/movercombate/movercombate.txt", protaObjeto);
+                    velo.x=-10.f;
                 }
             }
 
-            velo.x=-25.f;
             Body->SetLinearVelocity(velo);
             rec = protaObjeto;
             fachada->setRotObj(protaObjeto, 0, 1, 0, +90);
@@ -340,14 +351,15 @@ void Protagonista::movimiento(const glm::f32 Time)
                             if(combate==false)
                             {
                                 protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/marcha5/marcha5.txt", protaObjeto);
+                                velo.x=25.f;
                             }
                             else
                             {
                                 protaObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/movercombate/movercombate.txt", protaObjeto);
+                                velo.x=10.f;
                             }
                         }
 
-                        velo.x=25.f;
                         Body->SetLinearVelocity(velo);
                         rec = protaObjeto;
                         fachada->setRotObj(protaObjeto, 0, 1, 0, -90);
@@ -514,8 +526,6 @@ void Protagonista::checkPosCombate()
     if(pos_combate == 1)    // ARRIBA
     {
         protaPosition->setPosY(protaPosition->getPosY()+5);
-        //fachada->setPosicion(flecha1,protaPosition);
-        //fachada->setPosicion(flecha0,protaPosition);
         protaPosition->setPosY(protaPosition->getPosY()-5);
     }
     else
@@ -523,18 +533,14 @@ void Protagonista::checkPosCombate()
         if(pos_combate == 3) // ABAJO
         {
             protaPosition->setPosY(protaPosition->getPosY()-5);
-            //fachada->setPosicion(flecha1,protaPosition);
-            //fachada->setPosicion(flecha0,protaPosition);
             protaPosition->setPosY(protaPosition->getPosY()+5);
         }
         else        // CENTRO
         {
             protaPosition->setPosY(protaPosition->getPosY());
-            //fachada->setPosicion(flecha1,protaPosition);
-            //fachada->setPosicion(flecha0,protaPosition);
         }
     }
-  //std::cout<<pos_combate<<endl;
+
 }
 
 /**
