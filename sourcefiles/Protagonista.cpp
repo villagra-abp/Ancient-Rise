@@ -103,9 +103,21 @@ void Protagonista::update(Blackboard* b)
         if(pos_combate==1)
         {
             protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/ataquearriba/ataquearriba.txt", protaObjeto);
-            rec = protaObjeto;
+        }
+        else
+        {
+            if(pos_combate==2)
+            {
+
+            }
+            else
+            {
+                protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/ataquebajo/ataquebajo.txt", protaObjeto);
+            }
         }
 
+
+        rec = protaObjeto;
         relojAtq.restart();
         enemB = b->getEnemB();
 
