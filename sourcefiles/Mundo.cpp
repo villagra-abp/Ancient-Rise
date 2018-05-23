@@ -249,13 +249,6 @@ void Mundo::protaUpdate(const glm::f32 frameDeltaTime)
     {
         glm::f32 energia=prota->getEnergia();
         
-         if(sf::Keyboard::isKeyPressed(sf::Keyboard::J))
-        {   
-            for(int i=0; i<enemB.size();i++)
-            {
-                enemB[i]->setInvisible();
-            }
-        }
         prota->update(b);
         Tiempo=0;
             
@@ -361,10 +354,9 @@ void Mundo::checkInput(int tecla){
             {
                 if(fachada->getPalancaActiva()==true)
                 {
-                    //cout<<abrirPuerta<<endl;
                     abrirPuerta=true;
-                    //fachada->setMalla(palancas[0]->getNode(),"resources/Palanca/Palanca1.obj");
-                    //delete palancas[0];
+                    fachada->setMalla(palancas[0]->getNode(),"resources/Palanca/Palanca1.obj");
+                    
                 }
             }
             break;
