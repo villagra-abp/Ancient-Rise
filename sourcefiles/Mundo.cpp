@@ -976,7 +976,7 @@ void Mundo::cargarLogicaNivel()
                         {   
                             case 1: // Agua
                             {
-                                posB= new Posicion(xEn-190,-yEn+57,-5.f);
+                                posB= new Posicion(xEn-190,-yEn+58,-5.f);
                                 Bebida *bebida = new Bebida(posB);
                                 bebidas.push_back(bebida);
                                 addGameObject(bebida);
@@ -985,7 +985,7 @@ void Mundo::cargarLogicaNivel()
 
                             case 2: // Comida
                             {
-                                posC= new Posicion(xEn-190,-yEn+57,-5.f);
+                                posC= new Posicion(xEn-190,-yEn+59,-5.f);
                                 Comida *comida = new Comida(posC);
                                 comidas.push_back(comida);
                                 addGameObject(comida);
@@ -1016,7 +1016,10 @@ void Mundo::cargarLogicaNivel()
 
                             case 2: // Puerta para salir del nivel
                             {
-                                salidaNivel = new Posicion(xEn-190,-yEn+58,0.f);
+                                if(nivel==3){
+                                    salidaNivel = new Posicion(xEn-190,-yEn+58,0.f);
+                                }else
+                                    salidaNivel = new Posicion(xEn-190,-yEn+58,1000.f);
                                 Puerta *p = new Puerta(salidaNivel);
                                 puertas.push_back(p);
                                 addGameObject(p);
