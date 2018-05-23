@@ -109,7 +109,7 @@ void Mundo::update()
             {
                 int time = relojCarga.getElapsedTime().asSeconds();      // OBTENEMOS SU DURACION EN SEGUNDOS
                // cout<<time<<endl;
-                if(time>2)
+                if(time>3)
                 {
                     //cout<<"entroTIme"<<endl;
                     if(loading==true)
@@ -615,13 +615,13 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
 
                 case 2:
                 {
-                    cam->setPosicion(vec3(58.7,5000*posopc,-29));
+                    cam->setPosicion(vec3(59.2,(5000*posopc)+2,-31));
                     break;
                 }
 
                 case 3:
                 {
-                    cam->setPosicion(vec3(58.7,5000*posopc,-29));
+                    cam->setPosicion(vec3(59.5,(5000*posopc)+1.5,-27));
                     break;
                 }
             }
@@ -1134,9 +1134,9 @@ void Mundo::controlCambioNivel()
             abrirPuerta=false;
             //cout<<"entroControl"<<endl;
 
-            //estado = 4;
+            estado = 4;
 
-           /* if(nivel==1)
+            if(nivel==1)
             {
                 carga->setPantallaCarga(2); // Tiene que ser el del siguiente nivel, no en el que estamos
             }
@@ -1150,14 +1150,14 @@ void Mundo::controlCambioNivel()
                 {
                     //carga->setPantallaCarga(3);
                 }
-            } */
+            } 
 
             if(nivel<MAX_NIVEL)  // Comprobamos que hay un nivel mas al que pasar
             {
                 nivel = nivel +1;
             }
 
-            cambiarNivel();
+            //cambiarNivel();
         }
     }
 

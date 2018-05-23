@@ -19,6 +19,8 @@ class PantallaCarga
 		void* cargaLevel1, *cargaLevel2, *cargaLevel3;
 		int estado, pantallaCarga;
 		Fachada* fachada;
+		Posicion* p;
+		bool cargadoLvl2, cargadoLvl3;
       
 };
 
