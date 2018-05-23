@@ -21,6 +21,7 @@ class FObjeto : public FEntidad{
 		void isActive(bool flag) override;
 
 		void Unir(FEntidad* padre) override;
+		void reiniciarAnimacion();
 
 		void setMalla(string path);
 		void setAnimacion(string path);
@@ -39,6 +40,10 @@ class FObjeto : public FEntidad{
 		TNodo *padre;
 		TNodo *nodo, *rotacion, *traslacion, *escalado;
 
+		TMalla* malla;
+		TAnimacion* animacion;
+
+		bool esAnimacion;
 
 
 

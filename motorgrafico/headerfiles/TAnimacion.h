@@ -20,6 +20,8 @@ public:
 	tEnt getTipo() override{ return anim;}
 	int getFrame();
 
+	double returnTime(){ return time;}
+
 	void setTime(double tiempo);
 	void setTimeZero();
 

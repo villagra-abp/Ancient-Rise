@@ -49,6 +49,7 @@ FObjeto::FObjeto(){
 
 
 	active = true;
+	esAnimacion = false;
 }
 
 FObjeto::~FObjeto(){
@@ -92,6 +93,15 @@ void FObjeto::Unir(FEntidad* nPadre){
 	padre = nPadre->getNodo();
 }
 
+void FObjeto::reiniciarAnimacion(){
+	if(esAnimacion){
+//		TAnimacion* anim = dynamic_cast<TAnimacion*>(nodo->getEntidad());
+//		cout<<anim->returnTime()<<" ";
+		dynamic_cast<TAnimacion*>(nodo->getEntidad())->setTimeZero();
+//		cout<<anim->returnTime()<<endl;
+	}
+}
+
 bool FObjeto::getActive(){
 	return active;
 }
@@ -118,6 +128,7 @@ void FObjeto::setMalla(string path){
 	TMalla* mesh = new TMalla();
 	nodo->setEntidad(mesh);
 	dynamic_cast<TMalla*>(nodo->getEntidad())->cargarMalla(path);
+	esAnimacion = false;
 
 }
 
@@ -133,5 +144,7 @@ void FObjeto::setAnimacion(string path){
 	nodo->setEntidad(mesh);
 	dynamic_cast<TAnimacion*>(nodo->getEntidad())->cargarAnimacion(path);
 
+
+	esAnimacion = true;
 }
 

@@ -21,7 +21,7 @@ void TAnimacion::beginDraw(TDatosEntidad *datos){
 	if(visible){
 		int frame = getFrame();
 //		cout<<frame<<endl;
-
+//		cout<<time<<endl;
 		animacion->draw(mmodelo, datos, frame); // (...) //Dibujado del recurso de malla OpenGL
 	}
 
@@ -38,9 +38,9 @@ int TAnimacion::getFrame(){
 	int malla;
 	double auxTime;
 	double aux = getTime();
-	
+
 	time += aux;
-//	
+	
 //	framerate += aux;
 //	fps++;
 //
@@ -51,7 +51,6 @@ int TAnimacion::getFrame(){
 //		framerate = 0;
 //	}
 //
-
 	while(time > duracion)					//Si se ha superado la duracion de la animacion se inicia desde 0
 		time -= duracion;
 	
@@ -86,5 +85,6 @@ void TAnimacion::setTime(double tiempo){
 
 void TAnimacion::setTimeZero(){
 	time = 0;
+	getTime();
 }
 
