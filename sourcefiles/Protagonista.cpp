@@ -60,7 +60,13 @@ protaPosition(nullptr), enemigoPosition(nullptr), comidaPosition(nullptr), tramp
     dolor.push_back(aux);
     aux = sonido->create2DSound(sonido->SOUND_PROTA_DOLOR3);
     dolor.push_back(aux);
-    //Muerte
+    //DolorEnemigo
+    aux = sonido->create2DSound(sonido->SOUND_ENEM_DOLOR1);
+    dolorEnem.push_back(aux);
+    aux = sonido->create2DSound(sonido->SOUND_ENEM_DOLOR2);
+    dolorEnem.push_back(aux);
+    aux = sonido->create2DSound(sonido->SOUND_ENEM_DOLOR3);
+    dolorEnem.push_back(aux);
    
     //Otros
     comer = sonido->create2DSound(sonido->SOUND_PROTA_COMER);
@@ -231,6 +237,8 @@ void Protagonista::ataque(EnemigoBasico* e)
     {
         bool flag = sonido->playSound(corte);
         if(flag) corte->getCanal()->setGrupoCanales(sonido->getGrupoAmbiente());
+        int aux = sonido->playRandomSound(dolorEnem);
+        if(aux != -1) dolorEnem[aux]->getCanal()->setGrupoCanales(sonido->getGrupoVoces());
         e->setSalud(-20.f);
     }
     
