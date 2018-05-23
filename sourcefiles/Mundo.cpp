@@ -936,7 +936,7 @@ void Mundo::cargarLogicaNivel()
                         {   
                             case 1: // Enemigos Basicos
                             {
-                                enem1 = new EnemigoBasico( pos, 50.0, 1.2, a, this, b, world);
+                                enem1 = new EnemigoBasico( pos, 70.0, 1.2, a, this, b, world);
                                 enemB.push_back(enem1);
                                 addGameObject(enem1);
                                 break;

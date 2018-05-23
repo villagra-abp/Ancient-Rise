@@ -54,7 +54,7 @@ enemigoObjeto(nullptr)
     memoria = false;
     orden = 0;                                            // Ninguna orden recibida
     saltando = false;
-    inv = true;
+    inv = false;
     recargandoEnergia = false;
 
     /* Pathfinding */
@@ -69,7 +69,7 @@ enemigoObjeto(nullptr)
 /* Update para todos los enemigos*/
 void Enemigo::update(Posicion* Posprota)
 {   
-    if(salud<=0) // Enemigo Muerto
+    if(salud<=0||Body->GetPosition().y<-180) // Enemigo Muerto
     {   
         //cout<<"Muerto"<<endl;
         // Eleminamos el enemigo(parcialmente)
