@@ -1,5 +1,7 @@
 #version 330 core
 
+//Shader inspirado en los muchos tutoriales de www.learnopengl.com , código original.
+
 #define AMBIENT 0.1
 #define PI 3.1415926535897
 

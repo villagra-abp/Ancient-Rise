@@ -2,7 +2,7 @@
 
 Shader *TRecursoSkybox::shader = nullptr;
 
-
+//Clase para la gestion de skyboxes, se uso el tutoria de https://learnopengl.com/Advanced-OpenGL/Cubemaps
 
 TRecursoSkybox::TRecursoSkybox(vector<string> paths){
 	if(shader == nullptr)

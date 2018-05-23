@@ -1,5 +1,6 @@
 #include "../headerfiles/TRecursoTextura.h"
 
+//Clase para la gestion de texturas. Original. Se aprendió sobre texturas en https://learnopengl.com/Getting-started/Textures
 
 TRecursoTextura::TRecursoTextura(string path, string type){
 	nombre = path;

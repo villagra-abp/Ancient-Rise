@@ -1,5 +1,7 @@
 #include "../headerfiles/TLuz.h"
 
+//Clase para la gestion de los datos de los distintos tipos de luces. Original.
+
 TLuz::TLuz(){
 	//intensidad = 1;
 	color = glm::vec4(1,1,1,1);

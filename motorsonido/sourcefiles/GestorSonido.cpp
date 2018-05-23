@@ -62,7 +62,7 @@ GrupoCanales* GestorSonido::createGrupoCanales(){
 	result = syslow->createChannelGroup(NULL,&grupete);
 	GestorErrores::getInstance()->errcheck(result);
 
-	std::cout<<"Creado grupo de canales."<<endl;
+//	std::cout<<"Creado grupo de canales."<<endl;
 
 	GrupoCanales* grupo = new GrupoCanales(grupete);
 
@@ -73,7 +73,7 @@ GrupoCanales* GestorSonido::createGrupoCanales(const char* name){
 	result = syslow->createChannelGroup(name,&grupete);
 	GestorErrores::getInstance()->errcheck(result);
 
-	std::cout<<"Creado grupo de canales "<<name<<"."<<endl;
+//	std::cout<<"Creado grupo de canales "<<name<<"."<<endl;
 
 	GrupoCanales* grupo = new GrupoCanales(grupete);
 
@@ -84,7 +84,7 @@ Sonido* GestorSonido::create2DSound(const char* name){
 	result = syslow->createSound(name, /*FMOD_NONBLOCKING|*/FMOD_DEFAULT,0,&sound);
 
 	GestorErrores::getInstance()->errcheck(result);
-	std::cout<<"Cargado sonido "<<name<<std::endl;
+//	std::cout<<"Cargado sonido "<<name<<std::endl;
 
 	Sonido* sonido = new Sonido(sound);
 
@@ -96,7 +96,7 @@ Sonido* GestorSonido::create3DSound(const char* name){
 
 	result = syslow->createSound(name, FMOD_3D/*|FMOD_NONBLOCKING*/,0,&sound);
 	GestorErrores::getInstance()->errcheck(result);
-	std::cout<<"Cargado sonido "<<name<<std::endl;
+//	std::cout<<"Cargado sonido "<<name<<std::endl;
 
 	Sonido* sonido = new Sonido(sound);
 
@@ -138,7 +138,7 @@ Sonido* GestorSonido::createMusic(const char* name){
 	result = syslow->createSound(name, FMOD_CREATESTREAM,0,&sound);
 
 	GestorErrores::getInstance()->errcheck(result);
-	std::cout<<"Cargado sonido "<<name<<" como stream "<<std::endl;
+//	std::cout<<"Cargado sonido "<<name<<" como stream "<<std::endl;
 
 	Sonido* sonido = new Sonido(sound);
 

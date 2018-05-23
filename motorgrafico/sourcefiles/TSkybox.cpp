@@ -1,5 +1,6 @@
 #include "../headerfiles/TSkybox.h"
 
+//Clase para la gestion del nodo que contendra la skybox. Original.
 
 TSkybox::TSkybox(){}
 

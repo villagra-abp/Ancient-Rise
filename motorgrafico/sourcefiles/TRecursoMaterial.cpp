@@ -1,6 +1,8 @@
 #include "../headerfiles/TRecursoMaterial.h"
 
 
+//Clase para la gestion de materiales y sus datos. Original.
+
 TRecursoMaterial::TRecursoMaterial(){
 
 }

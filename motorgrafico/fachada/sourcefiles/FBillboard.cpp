@@ -1,6 +1,6 @@
 #include "../headerfiles/FBillboard.h"
 
-
+//Original
 	
 FBillboard::FBillboard(){
 	padre = TMotorTAG::getInstance()->getEscena();

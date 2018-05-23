@@ -9,6 +9,8 @@
 
 using namespace std;
 
+//Struct para enviar los datos de renderizado de forma mas comoda y escalable
+
 struct TDatosEntidad{
 	
 	glm::mat4 view, projection;

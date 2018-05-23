@@ -1,5 +1,7 @@
 #include "../headerfiles/FSkybox.h"
 
+//Original
+
 FSkybox::FSkybox(){
 	padre = TMotorTAG::getInstance()->getEscena();
 	//TNodo* nodo, rotacion, traslacion;

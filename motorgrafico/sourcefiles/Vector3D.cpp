@@ -1,6 +1,6 @@
 #include "../headerfiles/Vector3D.h"
 
-
+//Clase para contener vectores 3D. Original.
 
 
 Vector3D::Vector3D(){
