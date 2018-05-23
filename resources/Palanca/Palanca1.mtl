@@ -40,8 +40,8 @@ newmtl cuerda
 	Kd 0.7569 0.8941 0.0000
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka Palanca/Cuerda_Base_Color.png
-	map_Kd Palanca/Cuerda_Base_Color.png
+	map_Ka Palanca/cuerda_Base_Color.png
+	map_Kd Palanca/cuerda_Base_Color.png
 
 newmtl Material__11
 	Ns 10.0000
