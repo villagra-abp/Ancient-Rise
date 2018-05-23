@@ -31,7 +31,7 @@ enemigoObjeto(nullptr)
 
     energy=fachada->addMalla(-170,15,0,"resources/Hud/cajitaobj.obj");
 //    energy=fachada->addBillboard(-170,15,0,"resources/cajitaobj.obj");
-    life=fachada->addMalla(-170,20,0,"resources/Hud/cajaColor.obj");
+    life=fachada->addMalla(-170,25,0,"resources/Hud/cajaColor.obj");
     flecha1=fachada->addMalla(-160,8,0,"resources/flecha.obj");
     flecha0=fachada->addMalla(-170,8,0,"resources/flecha.obj");
     Posicion escalar(0.f,0.f,.0f);
@@ -51,21 +51,7 @@ enemigoObjeto(nullptr)
     direccVistoUlt = false;
 
     patrulla = pos;
-    /*
-    nodos = board->getNodosGrafo();              // Obtenemos todos los nodos del grafo
-    /* COMPROBAMOS QUE LAS POSICIONES DE PATRULLA COINCIDEN CON LOS NODOS DEL GRAFO */
- /*   for(int i=0; i<pos.size();i++)
-    {
-        for(int i2=0;i2<nodos.size();i2++)
-        {
-            nodoPosition = nodos[i2]->getPosition();
-            if(pos[i]->getPosX()==nodoPosition->getPosX() && pos[i]->getPosY()==nodoPosition->getPosY())
-            {
-                patrulla.push_back(nodos[i2]);          // Metemos los nodos para poder hacer la patrulla
-            }
 
-        }
-    }
 
     /* Valores por defecto para los parametros para el combate del enemigo */
     combate = false;
@@ -464,8 +450,15 @@ void Enemigo::hud()
             
         }
 
-    posicionHUD.setPosX(posicionHUD.getPosX()+5);
-    posicionHUD.setPosY(posicionHUD.getPosY()+7);
+    if(lastFacedDir==true)
+    {    
+        posicionHUD.setPosX(posicionHUD.getPosX()+6);
+    }
+    else
+    {
+        posicionHUD.setPosX(posicionHUD.getPosX()+4);
+    }
+    posicionHUD.setPosY(posicionHUD.getPosY()+10);
     fachada->setPosicion(energy,&posicionHUD);
     posicionHUD.setPosY(posicionHUD.getPosY()+3);
     fachada->setPosicion(life,&posicionHUD);

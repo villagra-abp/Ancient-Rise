@@ -122,12 +122,14 @@ void Protagonista::update(Blackboard* b)
         rec = protaObjeto;
     }
 
-    if(saltando==true && energia>20)
+    if(saltando==true)
     {
         b2Vec2 velocidad=Body->GetLinearVelocity();
 
         protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/saltoadelante/saltoadelante.txt", protaObjeto);
         rec = protaObjeto;
+
+        /* Rotamos en funcion de adonde mire */
         if(direccion==0)
         {
             fachada->setRotObj(protaObjeto, 0, 1, 0, +90); 
@@ -148,7 +150,6 @@ void Protagonista::update(Blackboard* b)
             int time = tiempoSalto.getElapsedTime().asSeconds();  // OBTENEMOS SU DURACION EN SEGUNDOS
 
               saltando = false;
-        
         }
     }
 }
