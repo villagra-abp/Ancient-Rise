@@ -1244,6 +1244,11 @@ void Mundo::cargaNivel()
             prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/marcha5/marcha5.txt", prota->getNode()));
             prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/saltoadelante/saltoadelante.txt", prota->getNode()));
             prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/correr/correr.txt", prota->getNode()));
+            prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/movercombate/movercombate.txt", prota->getNode()));
+            prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/ataquearriba/ataquearriba.txt", prota->getNode()));
+            prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/ataquebajo/ataquebajo.txt", prota->getNode()));
+            prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/ataquemedio/ataquemedio.txt", prota->getNode()));
+            prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/reposocombate/reposocombate.txt", prota->getNode()));
             prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/reposo1/reposo1.txt", prota->getNode()));
 
             /* Carga de todas las animaciones de los enemigos */
@@ -1251,11 +1256,6 @@ void Mundo::cargaNivel()
             {
                 enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/marchaE/marchaE.txt", enemB[i]->getFObjeto()));
                 enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/correrE/correrE.txt", enemB[i]->getFObjeto()));
-                enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/movercombate/movercombate.txt", enemB[i]->getFObjeto()));
-                enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/ataquearriba/ataquearriba.txt", enemB[i]->getFObjeto()));
-                enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/ataquebajo/ataquebajo.txt", enemB[i]->getFObjeto()));
-                enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/ataquemedio/ataquemedio.txt", enemB[i]->getFObjeto()));
-                enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/reposocombate/reposocombate.txt", enemB[i]->getFObjeto()));
                 enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/reposoE/reposoE.txt", enemB[i]->getFObjeto()));
             }
 
