@@ -129,7 +129,6 @@ void Protagonista::update(Blackboard* b)
 
         if(velocidad.y<0)
         {
-
             if(contador==0)
             {
                 tiempoSalto.restart();
