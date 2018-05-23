@@ -69,7 +69,7 @@ enemigoObjeto(nullptr)
 /* Update para todos los enemigos*/
 void Enemigo::update(Posicion* Posprota)
 {   
-    if(salud<=0) // Enemigo Muerto
+    if(salud<=0||Body->GetPosition().y<-180) // Enemigo Muerto
     {   
         //cout<<"Muerto"<<endl;
         // Eleminamos el enemigo(parcialmente)
