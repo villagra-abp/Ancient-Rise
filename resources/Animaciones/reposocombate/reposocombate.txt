@@ -1,4 +1,4 @@
 resources/Animaciones/reposocombate/reposocombate_000
 93
 9
-0.6
+0.8

@@ -323,13 +323,22 @@ void Protagonista::movimiento(const glm::f32 Time)
                 if(combate==false)
                 {
                     protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/marcha5/marcha5.txt", protaObjeto);
-                    velo.x=-25.f;
+                   // velo.x=-25.f;
                 }
                 else
                 {
                     protaObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/movercombate/movercombate.txt", protaObjeto);
-                    velo.x=-10.f;
+                    //velo.x=-10.f;
                 }
+            }
+
+             if(combate==true)
+            {
+                velo.x = -10.f;
+            }
+            else
+            {
+                velo.x = -25.f;
             }
 
             Body->SetLinearVelocity(velo);
@@ -364,15 +373,22 @@ void Protagonista::movimiento(const glm::f32 Time)
                             if(combate==false)
                             {
                                 protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/marcha5/marcha5.txt", protaObjeto);
-                                velo.x=25.f;
                             }
                             else
                             {
                                 protaObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/movercombate/movercombate.txt", protaObjeto);
-                                velo.x=10.f;
                             }
                         }
 
+                        if(combate==true)
+                        {
+                            velo.x = 10.f;
+                        }
+                        else
+                        {
+                            velo.x = 25.f;
+                        }
+                        
                         Body->SetLinearVelocity(velo);
                         rec = protaObjeto;
                         fachada->setRotObj(protaObjeto, 0, 1, 0, -90);
