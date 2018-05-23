@@ -7,6 +7,8 @@
 #include "../headerfiles/Entorno.h"
 #include "../headerfiles/Fachada.h"
 #include "../headerfiles/NodoGrafo.h"
+#include "../motorsonido/headerfiles/GestorSonido.h"
+
 
 
 #define SCALE 30.0f
@@ -168,7 +170,8 @@ class Enemigo : public GameObject
          /* ENTORNO, GAMEOBJECTS */
         const Entorno *ent;
         int orden;                                  // Para saber si ha recibido una orden o no el enemigo basico (1--> Ataque, 2 --> Activar Alarma, 3->Explorar, 4->IrALarma)
-        
+
+
 
         Fachada* fachada=fachada->getInstance();
 

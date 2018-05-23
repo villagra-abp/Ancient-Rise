@@ -84,6 +84,7 @@ enemigoObjeto(nullptr)
 
     /* Establecemos su velocidad de movimiento estandar la cual no consume energia */
     velocidad2d.x = VELOCIDAD_NORMAL;
+
 }
 
 /* Update para todos los enemigos*/
@@ -93,6 +94,7 @@ void Enemigo::update(Posicion* Posprota)
     {   
         //cout<<"Muerto"<<endl;
         // Eleminamos el enemigo(parcialmente)
+
         fachada->destruirObjeto(enemigo);
         enemigo = nullptr;
 
@@ -108,7 +110,7 @@ void Enemigo::update(Posicion* Posprota)
 
         //Eliminamos su body
         Body->GetWorld()->DestroyBody(Body);
-    }
+    } 
 
     if(enemigo!=nullptr)  // Solo si existe el enemigo hacemos su update
     { 
