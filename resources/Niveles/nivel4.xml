@@ -333,7 +333,7 @@
   <object id="578" x="284" y="231.875">
    <point/>
   </object>
-  <object id="579" x="156.364" y="151.636">
+  <object id="579" x="156.364" y="152.636">
    <point/>
   </object>
  </objectgroup>
@@ -732,10 +732,10 @@
   <object id="132" type="1" x="433.5" y="63">
    <point/>
   </object>
-  <object id="589" type="2" x="272.25" y="103.5">
+  <object id="589" type="2" x="272.25" y="102.5">
    <point/>
   </object>
-  <object id="590" type="2" x="211.75" y="103.75">
+  <object id="590" type="2" x="211.75" y="102.5">
    <point/>
   </object>
  </objectgroup>
@@ -743,7 +743,7 @@
   <object id="133" type="2" x="185.521" y="184.833">
    <point/>
   </object>
-  <object id="134" type="1" x="168.227" y="151.841">
+  <object id="134" type="1" x="168.227" y="152.841">
    <point/>
   </object>
  </objectgroup>
