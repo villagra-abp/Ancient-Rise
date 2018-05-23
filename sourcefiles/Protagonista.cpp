@@ -143,8 +143,8 @@ void Protagonista::update(Blackboard* b)
         {
             if(ataca==false)
             {
-                /* Animacion de estar quieto */
-                protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/reposo1/reposo1.txt", protaObjeto);
+                /* Animacion de estar quieto en combate*/
+                protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/reposocombate/reposocombate.txt", protaObjeto);
                 rec = protaObjeto;
             }
         }

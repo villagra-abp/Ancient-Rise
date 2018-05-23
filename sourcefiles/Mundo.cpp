@@ -1251,6 +1251,7 @@ void Mundo::cargaNivel()
                 enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/ataquearriba/ataquearriba.txt", enemB[i]->getFObjeto()));
                 enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/ataquebajo/ataquebajo.txt", enemB[i]->getFObjeto()));
                 enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/ataquemedio/ataquemedio.txt", enemB[i]->getFObjeto()));
+                enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/reposocombate/reposocombate.txt", enemB[i]->getFObjeto()));
                 enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/reposoE/reposoE.txt", enemB[i]->getFObjeto()));
             }
 
