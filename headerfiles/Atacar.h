@@ -55,6 +55,8 @@ class Atacar : public Task
 	    Comportamiento tipo;
 	    bool bajada;
 		bool primera;
+
+		Fachada* fachada=fachada->getInstance();
 };
 
 #endif // ATACAR_H
