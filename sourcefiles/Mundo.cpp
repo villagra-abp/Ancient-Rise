@@ -61,6 +61,9 @@ hud(nullptr), opciones(nullptr), carga(nullptr), protaPosition(nullptr)	//CONSTR
 
     Posicion posCarga(-40.f,-5000.f,.5f);
     carga = new PantallaCarga(&posCarga);
+    
+    Posicion posMuerte(50.f,-5000.f,.5f);
+    muerte = new Muerte(&posMuerte);
 }	
 
 void Mundo::update()
@@ -129,7 +132,8 @@ void Mundo::update()
         //cout<<nivel<<endl;
         if(prota->checkVida()==false) // Prota muerto hay que reiniciar el nivel
         {
-            muerteProta();
+            estado=5;   //pantalla de muerte
+            //muerteProta();
         }
 
       
@@ -171,7 +175,15 @@ void Mundo::update()
                 bebidas[i]->update();
             }
         }
-
+        for(size_t i=0; i<palancas.size();i++)
+        {
+            if(palancas[i]->getNode()!=nullptr)
+            {
+                //cout<<palancas.size()<<endl;
+                prota->comprobarColision(palancas[i]);
+                palancas[i]->update();
+            }
+        }
         for(size_t i=0; i<comidas.size();i++)
         {
             if(comidas[i]->getNode()!=nullptr)
@@ -305,6 +317,7 @@ void Mundo::checkInput(int tecla){
                     fachada->cerrar();
                 }
                 
+                
             }
             if(estado==1){
                 int estp=pausa->getEstado();
@@ -319,6 +332,30 @@ void Mundo::checkInput(int tecla){
                 if(estp==1)
                 {
                     estado=0;
+                }
+            }
+            if(estado==5){
+                int estp=muerte->getEstado();
+                if(estp==2)
+                {
+                    muerteProta();;   //reinicia nivel
+
+                    estado=2;
+
+                }
+                if(estp==1)
+                {
+                    fachada->cerrar();
+                }
+            }
+            if(estado==2)
+            {
+                if(fachada->getPalancaActiva()==true)
+                {
+                    //cout<<abrirPuerta<<endl;
+                    abrirPuerta=true;
+                    //fachada->setMalla(palancas[0]->getNode(),"resources/Palanca/Palanca1.obj");
+                    //delete palancas[0];
                 }
             }
             break;
@@ -356,6 +393,9 @@ void Mundo::checkInput(int tecla){
             if(estado==3){
                 opciones->update(1,opciones->getSound(),opciones->getShadow());
             }
+            if(estado==5){
+                muerte->update(1);
+            }
             break;
         }
         case 74: 		//abajoo
@@ -368,6 +408,9 @@ void Mundo::checkInput(int tecla){
             }
             if(estado==3){
                 opciones->update(-1,opciones->getSound(),opciones->getShadow());
+            }
+            if(estado==5){
+                muerte->update(-1);
             }
             break;
         }
@@ -585,6 +628,11 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
 
             break;
         }
+        case 5: // MUERTE
+        {
+            cam->setPosicion(vec3(-50,5000,-20));
+            break;
+        }
 
    } // END SWITCH
     
@@ -653,16 +701,16 @@ void Mundo::cargarLogicaNivel()
 
         case 1: 
         {        
-           doc.TiXmlDocument::LoadFile("resources/Niveles/nivel2.xml",TIXML_ENCODING_UTF8);
+           doc.TiXmlDocument::LoadFile("resources/Niveles/nivel3.xml",TIXML_ENCODING_UTF8);
            /* CREAMOS EL TERRENO Y COLISIONES DE CAMARA */
-           Terreno = fachada->drawTerreno(1);
+           Terreno = fachada->drawTerreno(2);
            break;
         }
 
         case 2:
         {
-            doc.TiXmlDocument::LoadFile("resources/Niveles/nivel3.xml",TIXML_ENCODING_UTF8);
-            Terreno = fachada->drawTerreno(2);
+            doc.TiXmlDocument::LoadFile("resources/Niveles/nivel2.xml",TIXML_ENCODING_UTF8);
+            Terreno = fachada->drawTerreno(1);
            break;
         }
         case 3:
@@ -960,9 +1008,9 @@ void Mundo::cargarLogicaNivel()
                             case 2: // Puerta para salir del nivel
                             {
                                 salidaNivel = new Posicion(xEn-190,-yEn+58,0.f);
-                                /*Puerta *p = new Puerta(salidaNivel);
+                                Puerta *p = new Puerta(salidaNivel);
                                 puertas.push_back(p);
-                                addGameObject(p);*/
+                                addGameObject(p);
                                 break;
                             }
                         }
@@ -1079,10 +1127,11 @@ void Mundo::cargarLogicaNivel()
 /* FUncion para controlar cuando cambiar de nivel */
 void Mundo::controlCambioNivel()
 {
-    if(prota->getPosition()->getPosX()>=salidaNivel->getPosX())
+    if(prota->getPosition()->getPosX()>=salidaNivel->getPosX()&&abrirPuerta)
     {
         if(prota->getPosition()->getPosY()<salidaNivel->getPosY()+10 && prota->getPosition()->getPosY()>salidaNivel->getPosY()-10)
         {
+            abrirPuerta=false;
             //cout<<"entroControl"<<endl;
 
             //estado = 4;
@@ -1269,6 +1318,12 @@ void Mundo::borradoNivel()
     }
     palancas.clear();
 
+    for (size_t cont=0; cont<puertas.size();cont++)
+    {
+        delete puertas[cont];
+    }
+    puertas.clear();
+
     delete posA;
     delete posF;
     delete posB;
@@ -1350,6 +1405,12 @@ Mundo::~Mundo()	//DESTRUCTOR
         delete palancas[cont];
     }
     palancas.clear();
+
+    for (size_t cont=0; cont<puertas.size();cont++)
+    {
+        delete puertas[cont];
+    }
+    puertas.clear();
 
    
 

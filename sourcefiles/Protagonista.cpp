@@ -431,15 +431,42 @@ void Protagonista::comprobarColision(Trampa *trampa)
     float tramPosX=trampa->getPosition()->getPosX();
     float tramPosY=trampa->getPosition()->getPosY();
 
-    if(protaPosY<tramPosY+10 && protaPosY>tramPosY-10)
+    if(protaPosY<tramPosY+11 && protaPosY>tramPosY-11)
     {
-        if(protaPosX>tramPosX-5 && protaPosX<tramPosX+5)
+        if(protaPosX>tramPosX-7 && protaPosX<tramPosX+4)
         {
             quitarVida(0.4f);
         }
     }
     
     
+}
+void Protagonista::comprobarColision(Palanca *palanca)
+{
+    
+    /* Posicion del prota */
+    float protaPosX=protaPosition->getPosX();
+    float protaPosY=protaPosition->getPosY();
+    
+    /* Posicion de la palanca*/
+    float palPosX=palanca->getPosition()->getPosX();
+    float palPosY=palanca->getPosition()->getPosY();
+
+    if(protaPosY<palPosY+11 && protaPosY>palPosY-11)
+    {
+        if(protaPosX>palPosX-7 && protaPosX<palPosX+9)
+        {
+            
+            fachada->activarPalanca(true);
+        }
+        else
+        {
+            fachada->activarPalanca(false);
+            
+        }
+    }
+     //cout<<fachada->getPalancaActiva()<<endl;
+   
 }
 /*
 FUNCION PARA COMPROBAR LA POSICION DE COMBATE DEL PROTA Y CAMBIAR LA POS EN Y 

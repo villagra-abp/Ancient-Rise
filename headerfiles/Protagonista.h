@@ -7,6 +7,7 @@
 #include "../headerfiles/Comida.h"
 #include "../headerfiles/Bebida.h"
 #include "../headerfiles/Trampa.h"
+#include "../headerfiles/Palanca.h"
 #include "../headerfiles/GameObject.h"
 #include "../headerfiles/Fachada.h"
 #include "../motorsonido/headerfiles/GestorSonido.h"
@@ -32,6 +33,7 @@ class Protagonista : public GameObject
          void comprobarColision(Objeto *comida);
          void comprobarColision(Bebida *bebida);
          void comprobarColision(Trampa *trampa);
+         void comprobarColision(Palanca *palanca);
          void gravedad(const glm::f32 Time);
          void CreateGround(b2World& world, float X, float Y,int largo);
          void CreateBox(b2World& world, float X, float Y);
