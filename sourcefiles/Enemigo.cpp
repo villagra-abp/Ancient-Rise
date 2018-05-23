@@ -107,21 +107,29 @@ void Enemigo::update(Posicion* Posprota)
         }
 
         /* Animaciones */
-        if(lastFacedDir==true) 
+        if(lastFacedDir==true)  // Derecha
         {
-            if(velocidad2d.x == VELOCIDAD_NORMAL)  // Andar 
+            if(combate==true) // Combatiendo
             {
+                //enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/movercombate/movercombate.txt", enemigoObjeto);
                 enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/marchaE/marchaE.txt", enemigoObjeto);
             }
-            else // Correr
+            else
             {
-                if(velocidad2d.x >VELOCIDAD_NORMAL)
+                if(velocidad2d.x == VELOCIDAD_NORMAL)  // Andar 
                 {
-                    enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/correrE/correrE.txt", enemigoObjeto);
+                    enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/marchaE/marchaE.txt", enemigoObjeto);
                 }
-                else
+                else // Correr
                 {
-                    enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/reposoE/reposoE.txt", enemigoObjeto);
+                    if(velocidad2d.x >VELOCIDAD_NORMAL)
+                    {
+                        enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/correrE/correrE.txt", enemigoObjeto);
+                    }
+                    else
+                    {
+                        enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/reposoE/reposoE.txt", enemigoObjeto);
+                    }
                 }
             }
 
@@ -129,21 +137,29 @@ void Enemigo::update(Posicion* Posprota)
             fachada->setRotObj(enemigoObjeto, 0, 1, 0, -90);
 
         }
-        else
+        else  // Izquierda
         {
-            if(velocidad2d.x == VELOCIDAD_NORMAL)
+            if(combate==true) // Combatiendo
             {
+                //enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/movercombate/movercombate.txt", enemigoObjeto);
                 enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/marchaE/marchaE.txt", enemigoObjeto);
             }
             else
             {
-                if(velocidad2d.x > VELOCIDAD_NORMAL)
+                if(velocidad2d.x == VELOCIDAD_NORMAL)
                 {
-                    enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/correrE/correrE.txt", enemigoObjeto);
+                    enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/marchaE/marchaE.txt", enemigoObjeto);
                 }
                 else
                 {
-                    enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/reposoE/reposoE.txt", enemigoObjeto);
+                    if(velocidad2d.x > VELOCIDAD_NORMAL)
+                    {
+                        enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/correrE/correrE.txt", enemigoObjeto);
+                    }
+                    else
+                    {
+                        enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/reposoE/reposoE.txt", enemigoObjeto);
+                    }
                 }
             }
 

@@ -505,7 +505,10 @@ void Mundo::controlProta()
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)||sf::Joystick::isButtonPressed(0, 0))
     {
-        prota->setSalto(true);
+        if(prota->getCombate()==false)
+        {
+            prota->setSalto(true);
+        }
     }
             
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)||JoyY>=50)//W
@@ -1253,6 +1256,7 @@ void Mundo::cargaNivel()
                 enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/marchaE/marchaE.txt", enemB[i]->getFObjeto()));
                 enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/saltoadelanteE/saltoadelanteE.txt", enemB[i]->getFObjeto()));
                 enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/correrE/correrE.txt", enemB[i]->getFObjeto()));
+                enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/movercombate/movercombate.txt", enemB[i]->getFObjeto()));
                 enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/reposoE/reposoE.txt", enemB[i]->getFObjeto()));
             }
 
