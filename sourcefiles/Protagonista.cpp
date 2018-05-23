@@ -218,7 +218,7 @@ void Protagonista::updateBody(b2World& world)
     fachada->setPosicion(rec,protaPosition);
     
     
-    protaPosition->setPosX(protaPosition->getPosX()+8);
+    protaPosition->setPosX(protaPosition->getPosX()+7);
     if(pos_combate==2){
         protaPosition->setPosY(protaPosition->getPosY()+5);
     }
@@ -232,7 +232,7 @@ void Protagonista::updateBody(b2World& world)
         protaPosition->setPosY(protaPosition->getPosY());
     }
     fachada->setPosicion(flecha1,protaPosition);
-    protaPosition->setPosX(protaPosition->getPosX()-16);
+    protaPosition->setPosX(protaPosition->getPosX()-14);
     fachada->setPosicion(flecha0,protaPosition);
     if(pos_combate==1){
         protaPosition->setPosY(protaPosition->getPosY()-5);
