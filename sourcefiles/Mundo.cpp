@@ -570,6 +570,15 @@ void Mundo::camUpdate(const glm::f32 frameDeltaTime){
                 //cam->setRotacion(vec3(0,1,0), 0.f);
                 cam->setPosicion(vec3(40,5000,-20));
             }
+	    else if(prota->getCombate())
+            {
+                for(float i=-115;i<-105;i+=frameDeltaTime*0.001f)
+                    {
+                        
+                        cam->setPosicion(vec3(-protaPosition->getPosX()-5,-protaPosition->getPosY()-25,i)); 
+                        
+                    } 
+            }
             else 
             {
                 /*
