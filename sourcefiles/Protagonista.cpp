@@ -178,7 +178,11 @@ FUNCION PARA actualizar el cuerpo
 **/
 void Protagonista::updateBody(b2World& world)
 {
-    
+    if(Body->GetPosition().y<-185){
+        //cout<<Body->GetPosition().y<<endl;
+        quitarVida(100);
+    }
+	
     protaPosition->setPosX(Body->GetPosition().x);
     protaPosition->setPosY(Body->GetPosition().y);
     
