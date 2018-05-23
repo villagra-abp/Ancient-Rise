@@ -694,10 +694,7 @@ void Enemigo::setInvisible()
     {
         inv = true;
     }
-    else
-    {
-        inv = false;
-    }
+    
 }
 
 void Enemigo::setVuelta(bool v)
