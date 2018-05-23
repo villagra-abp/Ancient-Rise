@@ -217,7 +217,11 @@ void Mundo::update()
             {
         	   enemB[i]->updateTiempo(frameDeltaTime);
         	   enemB[i]->Update(prota->getPosition());
-        	}
+		    if(nivel==3)
+		       {
+			 enemB[i]->setInvisible();  
+		       }
+            }
         }
 
         for(int i2=0; i2<enemE.size();i2++) 	// Enemigos Elites
