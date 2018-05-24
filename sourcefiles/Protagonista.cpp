@@ -109,7 +109,7 @@ void Protagonista::update(Blackboard* b)
         {
             if(pos_combate==2)
             {
-                protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/ataquemedio/ataquemedio.txt", protaObjeto);
+                protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/ataquearriba/ataquearriba.txt", protaObjeto);
             }
             else
             {

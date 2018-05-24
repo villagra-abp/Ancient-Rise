@@ -113,7 +113,7 @@ void Mundo::update()
             {
                 int time = relojCarga.getElapsedTime().asSeconds();      // OBTENEMOS SU DURACION EN SEGUNDOS
                // cout<<time<<endl;
-                if(time>3)
+                if(time>4)
                 {
                     //cout<<"entroTIme"<<endl;
                     if(loading==true)
@@ -1256,7 +1256,7 @@ void Mundo::cargaNivel()
             prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/movercombate/movercombate.txt", prota->getNode()));
             prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/ataquearriba/ataquearriba.txt", prota->getNode()));
             prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/ataquebajo/ataquebajo.txt", prota->getNode()));
-            prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/ataquemedio/ataquemedio.txt", prota->getNode()));
+            //prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/ataquemedio/ataquemedio.txt", prota->getNode()));
             prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/reposocombate/reposocombate.txt", prota->getNode()));
             prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/reposo1/reposo1.txt", prota->getNode()));
 
@@ -1265,7 +1265,6 @@ void Mundo::cargaNivel()
             {
                 enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/marchaE/marchaE.txt", enemB[i]->getFObjeto()));
                 enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/correrE/correrE.txt", enemB[i]->getFObjeto()));
-                enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/reposoE/reposoE.txt", enemB[i]->getFObjeto()));
                 enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/movercombateE/movercombateE.txt", enemB[i]->getFObjeto()));
                 enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/reposoE/reposoE.txt", enemB[i]->getFObjeto()));
             }

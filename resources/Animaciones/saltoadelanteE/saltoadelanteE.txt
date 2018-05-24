@@ -1,4 +1,0 @@
-resources/Animaciones/saltoadelanteE/saltoadelanteE_000
-92
-33
-1.27

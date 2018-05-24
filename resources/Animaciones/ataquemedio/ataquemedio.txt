@@ -1,4 +1,0 @@
-resources/Animaciones/ataquemedio/ataquemedio_000
-107
-89
-2.93
