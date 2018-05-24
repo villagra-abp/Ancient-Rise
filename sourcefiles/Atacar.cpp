@@ -19,7 +19,7 @@ Status Atacar::run(Enemigo *e)
     // Comprobamos el tipo de arma que utiliza
     if(e->getTipo()==1)     // Cuerpo a cuerpo, cerca
     {
-        separacionAtaque = 13;
+        separacionAtaque = 20;
     }
     else  // A distancia, ataque desde mas lejos
     {
