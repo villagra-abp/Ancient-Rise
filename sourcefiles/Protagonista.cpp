@@ -113,7 +113,7 @@ void Protagonista::update(Blackboard* b)
             }
             else
             {
-                protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/ataquebajo/ataquebajo.txt", protaObjeto);
+                protaObjeto = fachada->addAnimacion(0, 0, 1000, "resources/Animaciones/ataquearriba/ataquearriba.txt", protaObjeto);
             }
         }
 

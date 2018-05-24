@@ -1255,8 +1255,6 @@ void Mundo::cargaNivel()
             prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/correr/correr.txt", prota->getNode()));
             prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/movercombate/movercombate.txt", prota->getNode()));
             prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/ataquearriba/ataquearriba.txt", prota->getNode()));
-            prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/ataquebajo/ataquebajo.txt", prota->getNode()));
-            //prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/ataquemedio/ataquemedio.txt", prota->getNode()));
             prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/reposocombate/reposocombate.txt", prota->getNode()));
             prota->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/reposo1/reposo1.txt", prota->getNode()));
 
@@ -1264,7 +1262,6 @@ void Mundo::cargaNivel()
             for(size_t i=0; i<enemB.size();i++)
             {
                 enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/marchaE/marchaE.txt", enemB[i]->getFObjeto()));
-                enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/correrE/correrE.txt", enemB[i]->getFObjeto()));
                 enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/movercombateE/movercombateE.txt", enemB[i]->getFObjeto()));
                 enemB[i]->setNode(fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/reposoE/reposoE.txt", enemB[i]->getFObjeto()));
             }

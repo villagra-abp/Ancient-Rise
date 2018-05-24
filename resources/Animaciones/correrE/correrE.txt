@@ -1,4 +1,0 @@
-resources/Animaciones/correrE/correrE_000
-83
-36
-1.1

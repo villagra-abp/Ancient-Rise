@@ -123,7 +123,7 @@ void Enemigo::update(Posicion* Posprota)
                 {
                     if(velocidad2d.x >VELOCIDAD_NORMAL)
                     {
-                        enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/correrE/correrE.txt", enemigoObjeto);
+                        enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/marchaE/marchaE.txt", enemigoObjeto);
                     }
                     else
                     {
@@ -152,7 +152,7 @@ void Enemigo::update(Posicion* Posprota)
                 {
                     if(velocidad2d.x > VELOCIDAD_NORMAL)
                     {
-                        enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/correrE/correrE.txt", enemigoObjeto);
+                        enemigoObjeto = fachada->addAnimacion(0, 0, 10000, "resources/Animaciones/marchaE/marchaE.txt", enemigoObjeto);
                     }
                     else
                     {
